@@ -12,19 +12,16 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
-
 
 /**
  * This class holds the constants used by the Population service.
  *
  * @author tom
  */
-
 public class PopulationServiceConstants {
 
     /**
@@ -33,22 +30,24 @@ public class PopulationServiceConstants {
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "population";
     public static final String REF_OBJECT_URI_POPULATION = NAMESPACE + "/" + PopulationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_POPULATION_RULE = NAMESPACE + "/" + PopulationRuleInfo.class.getSimpleName();
-
     /**
      * Population types
      */
     public static final String POPULATION_TYPE_KEY = "kuali.population.type.population";
-
     /**
      * PopulationRule types
      */
     public static final String POPULATION_RULE_TYPE_KEY = "kuali.population.type.population.rule";
-
     /**
      * States for Populations
      */
     public static final String POPULATION_LIFECYCLE_KEY = "kuali.population.population.lifecycle";
-
+    public static final String POPULATION_ACTIVE_STATE_KEY = "kuali.population.population.state.active";
+    public static final String POPULATION_INACTIVE_STATE_KEY = "kuali.population.population.state.inactive";
+    public static final String[] POPULATION_LIFECYCLE_KEYS = {
+        POPULATION_ACTIVE_STATE_KEY,
+        POPULATION_INACTIVE_STATE_KEY
+    };
     /**
      * States for Population Rule
      */
@@ -59,9 +58,9 @@ public class PopulationServiceConstants {
         POPULATION_RULE_ACTIVE_STATE_KEY,
         POPULATION_RULE_INACTIVE_STATE_KEY
     };
-    
     /**
      * known population keys
      */
     public static final String SUMMER_ONLY_STUDENTS_POPULATION_KEY = "kuali.population.summer.only.student";
+    public static final String EVERYONE_POPULATION_KEY = "kuali.population.everyone";
 }

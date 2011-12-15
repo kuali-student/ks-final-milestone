@@ -1,5 +1,7 @@
 package org.kuali.student.r2.core.population.service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -21,288 +23,274 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.population.dto.PopulationInfo;
 import org.kuali.student.r2.core.population.dto.PopulationRuleInfo;
 
-import javax.jws.WebParam;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 
 public class PopulationServiceMockImpl implements PopulationService {
 
-    private static Map<String, PopulationInfo> populations;
-    private static Map<String, Set<String>> caches;
+    private Map<String, PopulationInfo> populations = new HashMap<String, PopulationInfo>();
+    private Map<String, PopulationRuleInfo> populationRules = new HashMap<String, PopulationRuleInfo>();
+    private Map<String, String> populationToRule = new HashMap<String, String>();
 
-    public PopulationServiceMockImpl() {
-        initialize();
+    private MetaInfo newMeta(ContextInfo context) {
+        MetaInfo meta = new MetaInfo();
+        meta.setCreateId(context.getPrincipalId());
+        meta.setCreateTime(new Date());
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(meta.getCreateTime());
+        meta.setVersionInd("0");
+        return meta;
     }
 
-    private void initialize() {
-        try {
-            populations = new HashMap<String, PopulationInfo>();
-            caches = new HashMap<String, Set<String>>();
+    private StatusInfo newStatus() {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+        return status;
+    }
 
-            final String ALL_STUDENTS = "allStudents";
-            final String SUMMER_ONLY_STUDENTS = "summerOnlyStudents";
+    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
+        MetaInfo meta = new MetaInfo(old);
+        meta.setUpdateId(context.getPrincipalId());
+        meta.setUpdateTime(new Date());
+        meta.setVersionInd((Integer.parseInt(meta.getVersionInd()) + 1) + "");
+        return meta;
+    }
 
-            PopulationInfo allStudentsPopulation = new PopulationInfo();
-            allStudentsPopulation.setKey(ALL_STUDENTS);
-            createPopulation(allStudentsPopulation, new ContextInfo());
+    @Override
+    public StatusInfo applyPopulationRuleToPopulation(String populationRuleId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        this.populationToRule.put(populationKey, populationRuleId);
+        return newStatus();
 
-            PopulationInfo summerOnlyStudentsPopulation = new PopulationInfo();
-            summerOnlyStudentsPopulation.setKey(SUMMER_ONLY_STUDENTS);
-            createPopulation(summerOnlyStudentsPopulation, new ContextInfo());
+    }
 
-            caches.get(SUMMER_ONLY_STUDENTS).add("2155");
-
-            caches.get(ALL_STUDENTS).addAll(caches.get(SUMMER_ONLY_STUDENTS));
-            caches.get(ALL_STUDENTS).add("2005");
-            caches.get(ALL_STUDENTS).add("2016");
-            caches.get(ALL_STUDENTS).add("2132");
-            caches.get(ALL_STUDENTS).add("2166");
-            caches.get(ALL_STUDENTS).add("2272");
-            caches.get(ALL_STUDENTS).add("2374");
-            caches.get(ALL_STUDENTS).add("2397");
-            caches.get(ALL_STUDENTS).add("2406");
-
-        } catch (Exception e) {
-            e.printStackTrace();
+    @Override
+    public PopulationInfo createPopulation(PopulationInfo populationInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (populations.containsKey(populationInfo.getKey())) {
+            throw new AlreadyExistsException(populationInfo.getKey());
         }
+        PopulationInfo copy = new PopulationInfo(populationInfo);
+        copy.setMeta(newMeta(contextInfo));
+        populations.put(copy.getKey(), copy);
+        return new PopulationInfo(copy);
     }
 
     @Override
-    public Boolean isMember(@WebParam(name = "personId") String personId, @WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == personId || 0 == personId.length()) {
-            throw new MissingParameterException("personId");
+    public PopulationRuleInfo createPopulationRule(PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        PopulationRuleInfo copy = new PopulationRuleInfo(populationRuleInfo);
+        copy.setId(populationRules.size() + "");
+        copy.setMeta(newMeta(contextInfo));
+        populationRules.put(copy.getId(), copy);
+        return new PopulationRuleInfo(copy);
+    }
+
+    @Override
+    public StatusInfo deletePopulation(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.populations.remove(populationKey) == null) {
+            throw new DoesNotExistException(populationKey);
         }
-        if (null == populationKey || 0 == populationKey.length()) {
-            throw new MissingParameterException("populationKey");
+        return newStatus();
+    }
+
+    @Override
+    public StatusInfo deletePopulationRule(String populationRuleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (this.populationRules.remove(populationRuleId) == null) {
+            throw new DoesNotExistException(populationRuleId);
         }
+        return newStatus();
+    }
 
-        Set<String> cache = caches.get(populationKey);
-        if (null == cache) {
-            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
+    @Override
+    public List<String> getMembers(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        PopulationRuleInfo rule = this.getPopulationRuleForPopulation(populationKey, contextInfo);
+        return new ArrayList(rule.getPersonIds());
+    }
+
+    @Override
+    public PopulationInfo getPopulation(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        PopulationInfo info = this.populations.get(populationKey);
+        if (info == null) {
+            throw new DoesNotExistException(populationKey);
         }
-        return cache.contains(personId);
+        return new PopulationInfo(info);
     }
 
     @Override
-    public List<String> getMembers(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == populationKey || 0 == populationKey.length()) {
-            throw new MissingParameterException("populationKey");
+    public List<String> getPopulationKeysByType(String populationTypeId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public PopulationRuleInfo getPopulationRule(String populationRuleId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        PopulationRuleInfo info = this.populationRules.get(populationRuleId);
+        if (info == null) {
+            throw new DoesNotExistException(populationRuleId);
         }
+        return new PopulationRuleInfo(info);
+    }
 
-        Set<String> cache = caches.get(populationKey);
-        if (null == cache) {
-            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
+    @Override
+    public PopulationRuleInfo getPopulationRuleForPopulation(String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String ruleId = this.populationToRule.get(populationKey);
+        if (ruleId == null) {
+            throw new DoesNotExistException (populationKey);
         }
-        return new ArrayList<String>(cache);
+        PopulationRuleInfo rule = this.getPopulationRule(ruleId, contextInfo);
+        return rule;
     }
 
     @Override
-    public PopulationInfo getPopulation(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == populationKey || 0 == populationKey.length()) {
-            throw new MissingParameterException("populationKey");
+    public List<String> getPopulationRuleIdsByType(String populationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<PopulationRuleInfo> getPopulationRulesByIds(List<String> populationRuleIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<PopulationInfo> getPopulationsByIds(List<String> populationKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<PopulationInfo> getPopulationsForPopulationRule(String populationRuleId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Boolean isMember(String personId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (populationKey.equals(PopulationServiceConstants.EVERYONE_POPULATION_KEY)) {
+            return true;
         }
-
-        PopulationInfo population = populations.get(populationKey);
-        if (null == population) {
-            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
+        PopulationRuleInfo rule = this.getPopulationRuleForPopulation(populationKey, contextInfo);
+        if (rule.getPersonIds().contains(personId)) {
+            return true;
         }
-        return population;
+        // TODO: implement other logic
+        return false;
     }
 
     @Override
-    public List<PopulationInfo> getPopulationsByIds(@WebParam(name = "populationKeys") List<String> populationKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (0 == populationKeys.size()) {
-            throw new MissingParameterException("populationKeys");
+    public StatusInfo removePopulationRuleFromPopulation(String populationRuleId, String populationKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        this.populationToRule.remove(populationKey);
+        return newStatus ();
+    }
+
+    @Override
+    public List<String> searchForPopulationKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<String> searchForPopulationRuleIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<PopulationRuleInfo> searchForPopulationRules(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public List<PopulationInfo> searchForPopulations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public PopulationInfo updatePopulation(String populationKey, PopulationInfo populationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        PopulationInfo copy = new PopulationInfo(populationInfo);
+        PopulationInfo old = this.getPopulation(populationKey, contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.populations.put(populationInfo.getKey(), copy);
+        return new PopulationInfo(copy);
+    }
 
-        List<PopulationInfo> result = new ArrayList<PopulationInfo>();
-        for (String populationKey : populationKeys) {
-            PopulationInfo population = populations.get(populationKey);
-            if (null == population) {
-                throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
-            }
-            result.add(population);
+    @Override
+    public PopulationRuleInfo updatePopulationRule(String populationRuleId, PopulationRuleInfo populationRuleInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        PopulationRuleInfo copy = new PopulationRuleInfo(populationRuleInfo);
+        PopulationRuleInfo old = this.getPopulationRule(populationRuleId, contextInfo);
+        if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
+            throw new VersionMismatchException(old.getMeta().getVersionInd());
         }
-        return result;
+        copy.setMeta(updateMeta(copy.getMeta(), contextInfo));
+        this.populationRules.put(populationRuleInfo.getId(), copy);
+        return new PopulationRuleInfo(copy);
     }
 
     @Override
-    public List<String> getPopulationKeysByType(@WebParam(name = "populationTypeId") String populationTypeId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<ValidationResultInfo> validatePopulation(String validationTypeId, PopulationInfo populationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<PopulationInfo> getPopulationsForPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<ValidationResultInfo> validatePopulationRule(String validationTypeKey, PopulationRuleInfo populationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> searchForPopulationKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<PopulationInfo> searchForPopulations(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<ValidationResultInfo> validatePopulation(@WebParam(name = "validationTypeId") String validationTypeId, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public PopulationInfo createPopulation(@WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        PopulationInfo population = populations.get(populationInfo.getKey());
-        if (null != population) {
-            throw new AlreadyExistsException("populationKey '" + populationInfo.getKey() + "' already exists");
-        }
-        populations.put(populationInfo.getKey(), populationInfo);
-        caches.put(populationInfo.getKey(), new HashSet<String>());
-        return populationInfo;
+    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public PopulationInfo updatePopulation(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "populationInfo") PopulationInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public StatusInfo deletePopulation(@WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (null == populationKey || 0 == populationKey.length()) {
-            throw new MissingParameterException("populationKey");
-        }
-
-        PopulationInfo population = populations.get(populationKey);
-        if (null == population) {
-            throw new DoesNotExistException("populationKey '" + populationKey + "' not found");
-        }
-        populations.remove(populationKey);
-        caches.remove(populationKey);
-        return new StatusInfo();
+    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public PopulationRuleInfo getPopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<PopulationRuleInfo> getPopulationRulesByIds(@WebParam(name = "populationRuleIds") List<String> populationRuleIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> getPopulationRuleIdsByType(@WebParam(name = "populationTypeKey") String populationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public PopulationRuleInfo getPopulationRuleForPopulation(@WebParam(name = "populationid") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<String> searchForPopulationRuleIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
+    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<PopulationRuleInfo> searchForPopulationRules(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<ValidationResultInfo> validatePopulationRule(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "populationRuleInfo") PopulationRuleInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationInfo") PopulationRuleInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public PopulationRuleInfo updatePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationInfo") PopulationRuleInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public StatusInfo deletePopulationRule(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public StatusInfo applyPopulationRuleToPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public StatusInfo removePopulationRuleFromPopulation(@WebParam(name = "populationRuleId") String populationRuleId, @WebParam(name = "populationKey") String populationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey, @WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public StateInfo getNextHappyState(@WebParam(name = "processKey") String processKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectURI") String relatedRefObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented.");
+    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

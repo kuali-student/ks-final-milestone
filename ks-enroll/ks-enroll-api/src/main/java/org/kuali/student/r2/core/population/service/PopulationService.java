@@ -439,7 +439,7 @@ public interface PopulationService
     /** 
      * Creates a new PopulationRule.
      *
-     * @param populationInfo the details of PopulationRule to be created
+     * @param populationRuleInfo the details of PopulationRule to be created
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
@@ -457,7 +457,7 @@ public interface PopulationService
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationInfo") PopulationRuleInfo populationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public PopulationRuleInfo createPopulationRule(@WebParam(name = "populationRuleInfo") PopulationRuleInfo populationRuleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing PopulationRule.
