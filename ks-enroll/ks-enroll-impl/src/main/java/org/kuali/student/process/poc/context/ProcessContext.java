@@ -1,4 +1,4 @@
-package org.kuali.student.process.poc;
+package org.kuali.student.process.poc.context;
 
 public class ProcessContext {
 

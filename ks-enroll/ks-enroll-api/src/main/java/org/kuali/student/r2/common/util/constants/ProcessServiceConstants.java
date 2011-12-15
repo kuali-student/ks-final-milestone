@@ -1,15 +1,11 @@
 /**
- * Copyright 2011 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Copyright 2011 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
+ * agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 package org.kuali.student.r2.common.util.constants;
@@ -19,11 +15,9 @@ import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 
-
-
 /**
  * This class holds the constants used by the Process service.
- *
+ * 
  * @author tom
  */
 public class ProcessServiceConstants {
@@ -52,24 +46,25 @@ public class ProcessServiceConstants {
      * Instruction types
      */
     public static final String INSTRUCTION_TYPE_KEY = "kuali.process.type.instruction";
+    public static final String INSTRUCTION_TYPE_MILESTONE = "kuali.process.type.instruction.milestone";
+    public static final String INSTRUCTION_TYPE_HOLD = "kuali.process.type.instruction.hold";
+    public static final String INSTRUCTION_TYPE_KRMS_AGENDA = "kuali.process.type.instruction.krms.agenda";
     /**
      * States for Process Categories
      */
     public static final String PROCESS_CATEGORY_LIFECYCLE_KEY = "kuali.process.process.category.lifecycle";
 
-    
     /***
      * Process Category Types
      */
-            
+
     public static final String PROCESS_CATEGORY_STUDENT_ELIGIBILITY = "IS_STUDENT_ELIGIBLE_FOR_REGISTRATION";
-    
 
     /**
      * Dummy Process Owner Organization
      */
     public static final String PROCESS_OWNING_ORG_GRAD_SCHOOL = "GRAD_SCHOOL_ORG";
-    
+
     /**
      * States for Processes
      */
@@ -77,11 +72,7 @@ public class ProcessServiceConstants {
     public static final String PROCESS_ENABLED_STATE_KEY = "kuali.process.process.state.enabled";
     public static final String PROCESS_DISABLED_STATE_KEY = "kuali.process.process.state.disabled";
     public static final String PROCESS_INACTIVE_STATE_KEY = "kuali.process.process.state.inactive";
-    public static final String[] PROCESS_LIFECYCLE_KEYS = {
-        PROCESS_ENABLED_STATE_KEY,
-        PROCESS_DISABLED_STATE_KEY,
-        PROCESS_INACTIVE_STATE_KEY
-    };
+    public static final String[] PROCESS_LIFECYCLE_KEYS = {PROCESS_ENABLED_STATE_KEY, PROCESS_DISABLED_STATE_KEY, PROCESS_INACTIVE_STATE_KEY};
     /**
      * States for Checks
      */
@@ -89,21 +80,15 @@ public class ProcessServiceConstants {
     public static final String PROCESS_CHECK_STATE_ENABLED = "kuali.process.check.state.enabled";
     public static final String PROCESS_CHECK_STATE_DISABLED = "kuali.process.check.state.disabled";
     public static final String PROCESS_CHECK_STATE_INACTIVE = "kuali.process.check.state.inactive";
-    public static final String[] CHECK_LIFECYCLE_KEYS = {
-        PROCESS_CHECK_STATE_ENABLED,
-        PROCESS_CHECK_STATE_DISABLED,
-        PROCESS_CHECK_STATE_INACTIVE
-    };
+    public static final String[] CHECK_LIFECYCLE_KEYS = {PROCESS_CHECK_STATE_ENABLED, PROCESS_CHECK_STATE_DISABLED, PROCESS_CHECK_STATE_INACTIVE};
     /**
      * States for Instructions
      */
     public static final String INSTRUCTION_LIFECYCLE_KEY = "kuali.process.instruction.lifecycle";
     public static final String INSTRUCTION_ENABLED_STATE_KEY = "kuali.process.instruction.state.enabled";
     public static final String INSTRUCTION_DISABLED_STATE_KEY = "kuali.process.instruction.state.disabled";
-    public static final String[] INSTRUCTION_LIFECYCLE_KEYS = {
-        INSTRUCTION_ENABLED_STATE_KEY,
-        INSTRUCTION_DISABLED_STATE_KEY
-    };
+
+    public static final String[] INSTRUCTION_LIFECYCLE_KEYS = {INSTRUCTION_ENABLED_STATE_KEY, INSTRUCTION_DISABLED_STATE_KEY};
     /**
      * known process keys
      */
