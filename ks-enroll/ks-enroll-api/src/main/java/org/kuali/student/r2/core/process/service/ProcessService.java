@@ -879,7 +879,7 @@ public interface ProcessService
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read-only
      */
-    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkKey") String checkKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkKey") String checkKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /** 
      * Updates an existing Instruction.

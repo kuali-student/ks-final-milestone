@@ -89,7 +89,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public InstructionInfo createInstruction(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public InstructionInfo createInstruction(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         InstructionInfo copy = new InstructionInfo(instructionInfo);
         copy.setId(instructions.size() + "");
         copy.setMeta(newMeta(contextInfo));

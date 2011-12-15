@@ -13,6 +13,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
+import org.kuali.student.r2.core.process.dao.InstructionDao;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
@@ -25,6 +26,7 @@ import java.util.List;
 public class ProcessServiceValidationDecorator extends ProcessServiceDecorator implements HoldsValidator{
 
     private DataDictionaryValidator validator;
+    private InstructionDao instructionDao;
 
     @Override
     public DataDictionaryValidator getValidator() {
@@ -244,7 +246,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
     }
 
     @Override
-    public InstructionInfo createInstruction(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public InstructionInfo createInstruction(String processKey, String checkKey, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == processKey) {
             throw new MissingParameterException("processKey");
         }
@@ -264,8 +266,6 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         if (null != instructionInfo.getMeta()) {
             throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
         }
-
-        // TODO check for existing
 
         _instructionFullValidation(processKey, checkKey, instructionInfo, contextInfo);
         return getNextDecorator().createInstruction(processKey, checkKey, instructionInfo, contextInfo);

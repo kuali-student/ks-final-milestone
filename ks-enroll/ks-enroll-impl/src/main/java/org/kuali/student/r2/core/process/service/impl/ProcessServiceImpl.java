@@ -18,16 +18,33 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.process.dao.InstructionDao;
+import org.kuali.student.r2.core.process.dao.InstructionTypeDao;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
+import org.kuali.student.r2.core.process.model.InstructionEntity;
 import org.kuali.student.r2.core.process.service.ProcessService;
 
 import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class ProcessServiceImpl implements ProcessService {
+
+    private StateService stateService;
+    private InstructionDao instructionDao;
+    private InstructionTypeDao instructionTypeDao;
+
+
     @Override
     public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
@@ -200,7 +217,14 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<InstructionInfo> getInstructionsByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        List<InstructionInfo> instructionInfos = new ArrayList<InstructionInfo>();
+        List<InstructionEntity> instructionEntities = instructionDao.getByProcess(processKey);
+        if (null != instructionEntities) {
+            for (InstructionEntity instructionEntity : instructionEntities) {
+                instructionInfos.add(instructionEntity.toDto());
+            }
+        }
+        return instructionInfos;
     }
 
     @Override
@@ -229,8 +253,12 @@ public class ProcessServiceImpl implements ProcessService {
     }
 
     @Override
-    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkKey") String checkKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+    public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkKey") String checkKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        InstructionEntity instruction = new InstructionEntity(instructionInfo);
+        instruction.setInstructionState(findState(ProcessServiceConstants.PROCESS_LIFECYCLE_KEY, instructionInfo.getStateKey(), contextInfo));
+        instruction.setInstructionType(instructionTypeDao.find(instructionInfo.getTypeKey()));
+        instructionDao.persist(instruction);
+        return instruction.toDto();
     }
 
     @Override
@@ -245,7 +273,26 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public List<InstructionInfo> getInstructionsForEvaluation(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        List<InstructionInfo> instructions = getInstructionsByProcess(processKey, contextInfo);
+        for (InstructionInfo instruction : instructions) {
+            if (!ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY.equals(instruction.getStateKey())) {
+                // remove non-active
+                instructions.remove(instruction);
+            } else if (!isInstructionCurrent(instruction, contextInfo)) {
+                // remove non-current
+                instructions.remove(instruction);
+            }
+        }
+
+        // order instructions
+        Collections.sort(instructions, new Comparator<InstructionInfo>() {
+            @Override
+            public int compare(InstructionInfo instruction1, InstructionInfo instruction2) {
+                return instruction1.getPosition().compareTo(instruction2.getPosition());
+            }
+        });
+
+        return instructions;
     }
 
     @Override
@@ -270,12 +317,14 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
+        return stateInfo;
     }
 
     @Override
     public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
+        List<StateInfo> stateInfos = stateService.getStatesByProcess(processKey, context);
+        return stateInfos;
     }
 
     @Override
@@ -307,4 +356,31 @@ public class ProcessServiceImpl implements ProcessService {
     public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
+
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+        try {
+			StateInfo state = getState(processKey, stateKey, context);
+			if(null == state){
+                throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+            }
+            return new StateEntity(state);
+		} catch (DoesNotExistException e) {
+			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+		}
+    }
+
+    private boolean isInstructionCurrent(InstructionInfo instruction, ContextInfo contextInfo) {
+        boolean result = false;
+        Date effectiveDate = instruction.getEffectiveDate();
+        Date expirationDate = instruction.getExpirationDate();
+        Date currentDate = Calendar.getInstance().getTime(); // TODO incorporate context
+
+        if (!effectiveDate.after(currentDate) && !expirationDate.before(currentDate)) {
+            result = true;
+        }
+
+        return result;
+    }
+
+
 }
