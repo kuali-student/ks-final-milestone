@@ -74,25 +74,35 @@ public class ProcessServiceConstants {
      * States for Processes
      */
     public static final String PROCESS_LIFECYCLE_KEY = "kuali.process.process.lifecycle";
-    public static final String PROCESS_ENABLED_STATE_KEY = "kuali.process.instruction.state.active";
-    public static final String PROCESS_DISABLED_STATE_KEY = "kuali.process.instruction.state.inactive";
+    public static final String PROCESS_ENABLED_STATE_KEY = "kuali.process.process.state.enabled";
+    public static final String PROCESS_DISABLED_STATE_KEY = "kuali.process.process.state.disabled";
+    public static final String PROCESS_INACTIVE_STATE_KEY = "kuali.process.process.state.inactive";
     public static final String[] PROCESS_LIFECYCLE_KEYS = {
         PROCESS_ENABLED_STATE_KEY,
-        PROCESS_DISABLED_STATE_KEY
+        PROCESS_DISABLED_STATE_KEY,
+        PROCESS_INACTIVE_STATE_KEY
     };
     /**
      * States for Checks
      */
     public static final String CHECK_LIFECYCLE_KEY = "kuali.process.check.lifecycle";
+    public static final String PROCESS_CHECK_STATE_ENABLED = "kuali.process.check.state.enabled";
+    public static final String PROCESS_CHECK_STATE_DISABLED = "kuali.process.check.state.disabled";
+    public static final String PROCESS_CHECK_STATE_INACTIVE = "kuali.process.check.state.inactive";
+    public static final String[] CHECK_LIFECYCLE_KEYS = {
+        PROCESS_CHECK_STATE_ENABLED,
+        PROCESS_CHECK_STATE_DISABLED,
+        PROCESS_CHECK_STATE_INACTIVE
+    };
     /**
      * States for Instructions
      */
     public static final String INSTRUCTION_LIFECYCLE_KEY = "kuali.process.instruction.lifecycle";
-    public static final String INSTRUCTION_ACTIVE_STATE_KEY = "kuali.process.instruction.state.active";
-    public static final String INSTRUCTION_INACTIVE_STATE_KEY = "kuali.process.instruction.state.inactive";
+    public static final String INSTRUCTION_ENABLED_STATE_KEY = "kuali.process.instruction.state.enabled";
+    public static final String INSTRUCTION_DISABLED_STATE_KEY = "kuali.process.instruction.state.disabled";
     public static final String[] INSTRUCTION_LIFECYCLE_KEYS = {
-        INSTRUCTION_ACTIVE_STATE_KEY,
-        INSTRUCTION_INACTIVE_STATE_KEY
+        INSTRUCTION_ENABLED_STATE_KEY,
+        INSTRUCTION_DISABLED_STATE_KEY
     };
     /**
      * known process keys

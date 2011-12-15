@@ -5,6 +5,8 @@
 package org.kuali.student.r2.core.process.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -226,13 +228,33 @@ public class ProcessServiceMockImpl implements ProcessService {
     public List<InstructionInfo> getInstructionsForEvaluation(String processKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<InstructionInfo> list = new ArrayList<InstructionInfo>();
         for (InstructionInfo info : this.getInstructionsByProcess(processKey, contextInfo)) {
-            if (info.getStateKey().equals(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY)) {
+            if (info.getStateKey().equals(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY)) {
                 list.add(info);
             }
         }
+        Collections.sort(list, new PositionComparator ());
         return list;
     }
 
+    private static class PositionComparator implements Comparator {
+
+        @Override
+        public int compare(Object o1, Object o2) {
+            InstructionInfo info1 = (InstructionInfo) o1;
+            
+            InstructionInfo info2 = (InstructionInfo) o2;
+            Integer i1 = info1.getPosition();
+            if (i1 == null) {
+                i1 = 0;
+            }
+            Integer i2 = info2.getPosition();
+            if (i2 == null) {
+                i2 = 0;
+            }
+            return i1.compareTo(i2);
+        }   
+    }
+    
     @Override
     public ProcessInfo getProcess(String processKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ProcessInfo info = this.processes.get(processKey);

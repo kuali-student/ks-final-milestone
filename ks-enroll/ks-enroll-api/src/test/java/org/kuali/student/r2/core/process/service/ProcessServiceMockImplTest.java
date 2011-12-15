@@ -143,7 +143,7 @@ public class ProcessServiceMockImplTest {
         System.out.println("createInstruction");
         InstructionInfo instructionInfo = new InstructionInfo();
         instructionInfo.setTypeKey(ProcessServiceConstants.INSTRUCTION_TYPE_KEY);
-        instructionInfo.setStateKey(ProcessServiceConstants.INSTRUCTION_ACTIVE_STATE_KEY);
+        instructionInfo.setStateKey(ProcessServiceConstants.INSTRUCTION_ENABLED_STATE_KEY);
 //        instructionInfo.setCheckKey(ProcessServiceConstants.);
         ContextInfo context = getContext();
         Date before = new Date();
