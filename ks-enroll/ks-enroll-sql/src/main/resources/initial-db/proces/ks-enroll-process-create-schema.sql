@@ -69,6 +69,26 @@ CREATE TABLE KSEN_PROCESS_ATTR
 )
 /
 
+-----------------------------------------------------------------------------
+-- KSEN_PROCESS_TYPE_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_PROCESS_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_PROCESS_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_PROCESS_TYPE_ATTR
+(
+        ID VARCHAR2(255),
+        ATTR_NAME VARCHAR2(255),
+        ATTR_VALUE VARCHAR2(2000),
+        OWNER VARCHAR2(255),
+        OBJ_ID VARCHAR2(36),
+        VER_NBR NUMBER(19)
+)
+/
 
 -----------------------------------------------------------------------------
 -- KSEN_PROCESS_RICH_TEXT
@@ -218,6 +238,27 @@ CREATE TABLE KSEN_INSTR
 /
 
 -----------------------------------------------------------------------------
+-- KSEN_INSTR_ATTR
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_INSTR_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_INSTR_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_INSTR_ATTR
+(
+    ID VARCHAR2(255),
+    ATTR_NAME VARCHAR2(255),
+    ATTR_VALUE VARCHAR2(2000),
+    OWNER VARCHAR2(255),
+    OBJ_ID VARCHAR2(36),
+    VER_NBR NUMBER(19)
+)
+/
+
+-----------------------------------------------------------------------------
 -- KSEN_INSTR_TYPE
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
@@ -241,16 +282,16 @@ CREATE TABLE KSEN_INSTR_TYPE
 /
 
 -----------------------------------------------------------------------------
--- KSEN_INSTR_ATTR
+-- KSEN_INSTR_TYPE_ATTR
 -----------------------------------------------------------------------------
 DECLARE temp NUMBER;
 BEGIN
-  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_INSTR_ATTR';
-	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_INSTR_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_INSTR_TYPE_ATTR';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_INSTR_TYPE_ATTR CASCADE CONSTRAINTS PURGE'; END IF;
 END;
 /
 
-CREATE TABLE KSEN_INSTR_ATTR
+CREATE TABLE KSEN_INSTR_TYPE_ATTR
 (
     ID VARCHAR2(255),
     ATTR_NAME VARCHAR2(255),
@@ -292,5 +333,26 @@ CREATE TABLE KSEN_INSTR_ATPTYPE_RELTN
 (
 	INSTR_ID VARCHAR2(255),
 	ATP_TYPE_ID VARCHAR2(255)
+)
+/
+
+
+-----------------------------------------------------------------------------
+-- KSEN_INSTR_MESSAGE
+-----------------------------------------------------------------------------
+DECLARE temp NUMBER;
+BEGIN
+  SELECT COUNT(*) INTO temp FROM user_tables WHERE table_name = 'KSEN_INSTR_MESSAGE';
+	IF temp > 0 THEN EXECUTE IMMEDIATE 'DROP TABLE KSEN_INSTR_MESSAGE CASCADE CONSTRAINTS PURGE'; END IF;
+END;
+/
+
+CREATE TABLE KSEN_INSTR_MESSAGE
+(    
+    ID VARCHAR2(255),
+    OBJ_ID VARCHAR2(36),
+    VER_NBR NUMBER(19,0),
+    FORMATTED VARCHAR2(2000),
+    PLAIN VARCHAR2(2000)
 )
 /

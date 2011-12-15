@@ -45,6 +45,16 @@ ALTER TABLE "KSEN_PROCESS_ATTR" ADD PRIMARY KEY ("ID") ENABLE
 /
 
 --------------------------------------------------------
+--  Constraints for Table KSEN_PROCESS_TYPE_ATTR
+--------------------------------------------------------
+
+ALTER TABLE "KSEN_PROCESS_TYPE_ATTR" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_PROCESS_TYPE_ATTR" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
 --  Constraints for Table KSEN_CHECK
 --------------------------------------------------------
 
@@ -127,6 +137,16 @@ ALTER TABLE "KSEN_INSTR_TYPE" ADD PRIMARY KEY ("TYPE_KEY") ENABLE
 /
 
 --------------------------------------------------------
+--  Constraints for Table KSEN_INSTR_TYPE_ATTR
+--------------------------------------------------------
+
+ALTER TABLE "KSEN_INSTR_TYPE_ATTR" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_INSTR_TYPE_ATTR" ADD PRIMARY KEY ("ID") ENABLE
+/
+
+--------------------------------------------------------
 --  Constraints for Table KSEN_INSTR_PRSN_RELTN
 --------------------------------------------------------
 
@@ -144,4 +164,14 @@ ALTER TABLE "KSEN_INSTR_ATPTYPE_RELTN" MODIFY ("INSTR_ID" NOT NULL ENABLE)
 /
 
 ALTER TABLE "KSEN_INSTR_ATPTYPE_RELTN" MODIFY ("ATP_TYPE_ID" NOT NULL ENABLE)
+/
+
+--------------------------------------------------------
+--  Constraints for Table KSEN_INSTR_MESSAGE
+--------------------------------------------------------
+
+ALTER TABLE "KSEN_INSTR_MESSAGE" MODIFY ("ID" NOT NULL ENABLE)
+/
+
+ALTER TABLE "KSEN_INSTR_MESSAGE" ADD PRIMARY KEY ("ID") ENABLE
 /

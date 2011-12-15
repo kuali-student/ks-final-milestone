@@ -45,6 +45,14 @@
         <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.HoldTypeAttributeEntity</class>
         <class>org.kuali.student.enrollment.class1.hold.model.IssueRestrictionRelationEntity</class>
+
+        <class>org.kuali.student.r2.core.process.model.InstructionEntity</class>
+        <class>org.kuali.student.r2.core.process.model.InstructionAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.InstructionMessageEntity</class>
+        <class>org.kuali.student.r2.core.process.model.InstructionTypeAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.InstructionTypeEntity</class>
+
+
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
         <properties>
