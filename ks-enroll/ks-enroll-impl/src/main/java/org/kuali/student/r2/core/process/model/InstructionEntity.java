@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@Entity
+@Table(name = "KSEN_INSTR")
 public class InstructionEntity extends MetaEntity implements AttributeOwner<InstructionAttributeEntity> {
 
     @Temporal(TemporalType.TIMESTAMP)
