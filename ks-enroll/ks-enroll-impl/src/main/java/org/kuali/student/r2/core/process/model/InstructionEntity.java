@@ -10,7 +10,6 @@ import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
-import org.kuali.student.r2.core.process.model1.CheckEntity;
 
 import javax.persistence.*;
 import java.util.ArrayList;
