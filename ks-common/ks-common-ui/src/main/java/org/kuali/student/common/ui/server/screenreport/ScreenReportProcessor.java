@@ -21,8 +21,4 @@ public interface ScreenReportProcessor {
 
     public byte[] createDoc(List<ExportElement> source, String template, String reportTitle);
 
-    public byte[] createText(List<ExportElement> source, String template, String reportTitle);
-    
-    public byte[] createRtf(List<ExportElement> source, String template, String reportTitle);
-
 }

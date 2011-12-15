@@ -116,28 +116,12 @@ public class TestScreenReport {
         subElement2.setFieldValue("Second subvalue");
         subElement2.setFieldValue2("Second subvalue");
         subElements.add(subElement2);
-        
-        List<ExportElement> subsubElements = new ArrayList<ExportElement>();
-        ExportElement subsubElement1 = new ExportElement();
-        subsubElement1.setSectionName("Subsection");
-        subsubElement1.setFieldLabel("First sublabel");
-        subsubElement1.setFieldValue("First subvalue");
-        subsubElement1.setFieldValue2("First subvalue O");
-        subsubElements.add(subsubElement1);
-        
-        ExportElement subelement3 = new ExportElement();
-        subelement3.setSectionName("Subsection");
-        subelement3.setFieldLabel("Subsubset label");
-        subelement3.setSubset(subsubElements);
-        subElements.add(subelement3);
 
         ExportElement element4 = new ExportElement();
         element4.setSectionName("Section 1");
         element4.setFieldLabel("Subset label");
         element4.setSubset(subElements);
         dataList.add(element4);
-        
-        dataList.add(new ExportElement());
         
         ExportElement element5 = new ExportElement();
         element5.setSectionName("Section 2");
@@ -163,120 +147,39 @@ public class TestScreenReport {
 
         byte[] bytes = processor.createPdf(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataMap.pdf");
+        printToFile(bytes, "c:\\dataMap.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataMap.doc");
+        printToFile(bytes, "c:\\dataMap.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataMap, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataMap.xls");
+        printToFile(bytes, "c:\\dataMap.xls");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createPdf(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.pdf");
+        printToFile(bytes, "c:\\dataList.pdf");
         Assert.assertTrue(bytes.length > 0);
         
         bytes = processor.createPdf(dataList, "proposal.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList2.pdf");
+        printToFile(bytes, "c:\\dataList2.pdf");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createDoc(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.doc");
+        printToFile(bytes, "c:\\dataList.doc");
         Assert.assertTrue(bytes.length > 0);
 
         bytes = processor.createXls(dataList, "base.template", "Course Information");
         Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.xls");
-        Assert.assertTrue(bytes.length > 0);
-        
-        bytes = processor.createText(dataList, "base.template", "Course Information");
-        Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.txt");
-        Assert.assertTrue(bytes.length > 0);
-        
-        bytes = processor.createRtf(dataList, "base.template", "Course Information");
-        Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/dataList.rtf");
+        printToFile(bytes, "c:\\dataList.xls");
         Assert.assertTrue(bytes.length > 0);
 
-    }
-    
-    @Test
-    public void testAnalysisReport() {
-
-        ScreenReportProcessor processor = new JasperScreenReportProcessorImpl();
-        
-        List<ExportElement> list = new ArrayList<ExportElement>();
-        ExportElement element0 = new ExportElement();
-        element0.setFieldValue("Analysis");
-        list.add(element0);
-        
-        ExportElement element1 = new ExportElement();
-        element1.setFieldValue("Analysis 1");
-        list.add(element1);
-        
-        ExportElement element2 = new ExportElement();
-        list.add(element2);
-        
-        
-        ExportElement element3 = new ExportElement();
-        element3.setFieldValue("Analysis 2");
-        
-        List<ExportElement> sublist = new ArrayList<ExportElement>();
-        
-        ExportElement element3a = new ExportElement();
-        
-        List<ExportElement> sublista = new ArrayList<ExportElement>();
-        
-        ExportElement element3b = new ExportElement();
-                
-        List<ExportElement> sublistb = new ArrayList<ExportElement>();
-        
-        ExportElement subelement1 = new ExportElement();
-        subelement1.setFieldValue("Sub Analysis 1");
-        sublistb.add(subelement1);
-        
-        ExportElement subelement2 = new ExportElement();
-        subelement2.setFieldValue("Sub Analysis 2");
-        sublistb.add(subelement2);
-        
-        element3b.setSubset(sublistb);
-        sublista.add(element3b);
-        
-        element3a.setSubset(sublista);
-        sublist.add(element3a);
-        
-        element3.setSubset(sublist);
-        list.add(element3);
-        
-        ExportElement element4 = new ExportElement();
-        element4.setFieldValue("");
-        list.add(element4);
-        
-        ExportElement element5 = new ExportElement();
-        element5.setFieldValue("Analysis 3");
-        list.add(element5);
-        
-        byte[] bytes = processor.createPdf(list, "analysis.template", "Dependency Analysis");
-        Assert.assertNotNull(bytes);
-        printToFile(bytes, "ks-common-ui/target/analysis.pdf");
-        Assert.assertTrue(bytes.length > 0);
-
-    }
-    
-    private void removeEmptyElements(ExportElement parent, List<ExportElement> elements){
-        for (ExportElement element : elements){
-            if (element.isDataEmpty() && element.getSubset() != null && element.getSubset().size() == 1){
-                
-            }
-        }
     }
 
     private void printToFile(byte[] bytes, String fileName) {

@@ -8,11 +8,10 @@ public interface DataBeanMapper {
 	/**
 	 * Takes a DTO Bean and converts it to a Data map structure.
 	 * 
-	 * @param value The DTO Bean to convert to data map
-	 * @param metadata Metadata describing the dto bean
+	 * @param value
 	 * @return the converted bean object
 	 */
-	public Data convertFromBean(Object value, Metadata metadata) throws Exception;
+	public Data convertFromBean(Object value) throws Exception;
 
 	/**
 	 * Takes a data map and converts it to the corresponding DTO Bean

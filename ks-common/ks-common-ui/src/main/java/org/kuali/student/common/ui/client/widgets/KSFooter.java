@@ -9,7 +9,7 @@ public class KSFooter  extends Composite{
    KSLabel firstLinePanel = new KSLabel();
    HTMLPanel secondLinePanel;
    public KSFooter(){
-        firstLinePanel.setText("Copyright 2005-2011 The Kuali Foundation.  All Rights Reserved.");
+       firstLinePanel.setText("Copyright 2005-2010 The Kuali Foundation.  All Rights Reserved.");
        secondLinePanel = new HTMLPanel("Portions of Kuali are copyrighted by other parties as described in the " +
     		   "<a href='#/HOME/ACKNOWLEDGEMENTS'>Acknowledgements</a> screen.");
        contentPanel.add(firstLinePanel);

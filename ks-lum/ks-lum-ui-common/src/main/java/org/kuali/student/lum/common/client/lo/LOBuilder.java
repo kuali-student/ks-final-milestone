@@ -268,14 +268,13 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
 			for (String strValue : loDescription) {
 
 				boolean foundEmptyBox = false;
-				
-				for(int i=0;i<ix;i++)
-				{
-					if (existingLOs.get(i).getUserObject().getLOText().trim()
+				while (ix > 0) {
+					ix--;
+					if (existingLOs.get(ix).getUserObject().getLOText().trim()
 							.length() == 0) {
-						existingLOs.get(i).getUserObject().setLOText(strValue);
+						existingLOs.get(ix).getUserObject().setLOText(strValue);
 						foundEmptyBox = true;
-						i=ix;
+						break;
 					}
 				}
 
@@ -320,12 +319,12 @@ public class LOBuilder extends VerticalSection implements HasValue<List<OutlineN
     }
 
     @Override
-    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearErrors) {
+    public ErrorLevel processValidationResults(FieldDescriptor fd, List<ValidationResultInfo> results, boolean clearAllValidation) {
 
         ErrorLevel status = ErrorLevel.OK;
         
         for (Section section : getSections()) {
-            ErrorLevel level = section.processValidationResults(results, clearErrors);
+            ErrorLevel level = section.processValidationResults(results, clearAllValidation);
             if (level.getLevel() > status.getLevel()) {
                 status = level;
             }

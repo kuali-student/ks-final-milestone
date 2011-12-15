@@ -507,11 +507,8 @@ public class MetadataFormatter {
 		if (searchType.startsWith("person.")) {
 			return "Person";
 		}
-		if (searchType.startsWith("proposal.")) {
+  if (searchType.startsWith("proposal.")) {
 			return "Proposal";
-		}
-		if (searchType.startsWith("subjectCode.")) {
-			return "SC";
 		}
 		throw new IllegalArgumentException("Unknown type of search: "
 				+ searchType);

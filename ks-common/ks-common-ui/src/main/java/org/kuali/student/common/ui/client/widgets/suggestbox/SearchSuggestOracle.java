@@ -131,16 +131,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     
     @Override
     public void requestSuggestions(Request request, Callback callback) {
-        // Check if the request query is smaller than the minimum size allowed
-        String query = request.getQuery().trim();
-        int minQuerySize = 0;
-        
-        //[KSCOR-225] LO's currently use the depricated constructor that does not pass in the 
-        // lookupMetaData so we need to do a null check until that is fixed
-        if (lookupMetaData != null && lookupMetaData.getMinQuerySize() != null){
-            minQuerySize = lookupMetaData.getMinQuerySize().intValue();
-        }
-        if ((currentCallback == null) && (query.length() >= minQuerySize)){
+        if (currentCallback == null) {
           final int x = ((Widget)this.textWidget).getAbsoluteLeft() + ((Widget)this.textWidget).getOffsetWidth();
   		  final int y = ((Widget)this.textWidget).getAbsoluteTop() + ((Widget)this.textWidget).getOffsetHeight();
   		  loading.setPopupPositionAndShow(new PositionCallback(){

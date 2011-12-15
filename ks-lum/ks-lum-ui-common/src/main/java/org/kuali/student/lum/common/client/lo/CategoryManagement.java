@@ -316,13 +316,13 @@ public class CategoryManagement extends Composite {
 
         List<ResultRow> bufferList = new ArrayList<ResultRow>();
         if(subjectCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.subject"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("subject"));
         }
         if(skillCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.skillarea"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("skill"));
         }
         if(accreditationCheckBox.getValue() == true){
-            bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.accreditation"));
+            bufferList.addAll(categoryManagementTable.getRowsByType("accreditation"));
         }
         categoryManagementTable.redraw(bufferList);
 
@@ -468,7 +468,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
                     boolean error = false;
-                    layout.clearValidationErrors();
+                    layout.clearValidation();
                     if(nameTextBox.getText().isEmpty()){
                     	layout.addValidationErrorMessage("Category", "Required");
                     	error = true;
@@ -575,7 +575,7 @@ public class CategoryManagement extends Composite {
                 public void onClick(ClickEvent event) {
                     LoCategoryInfo cate = getCategory();
                     boolean error = false;
-                    layout.clearValidationErrors();
+                    layout.clearValidation();
                     if(nameTextBox.getText().isEmpty()){
                     	layout.addValidationErrorMessage("Category", "Required");
                     	error = true;

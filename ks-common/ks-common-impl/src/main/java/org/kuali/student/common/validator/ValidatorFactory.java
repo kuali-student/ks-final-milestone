@@ -17,43 +17,35 @@ import org.apache.log4j.Logger;
 
 public class ValidatorFactory {
 	private static final Logger LOG = Logger.getLogger(ValidatorFactory.class);
-	private volatile Map<String,Validator> customValidators = null; 
-	private DefaultValidatorImpl defaultValidator = new DefaultValidatorImpl();
+	private Map<String,Validator> customValidators = null; 
+	private DefaultValidatorImpl defaultValidator;
 	
 	private List<Validator> validatorList = new ArrayList<Validator>();
 	
 	public ValidatorFactory(){
-		defaultValidator.setValidatorFactory(this);
 	}
 	
-	/**
-	 * Updated to fix double check lock not working
-	 * @return
-	 */
-	public Map<String,Validator> getCustomValidators(){
-		Map<String,Validator> result = customValidators;
-	    if(result == null) {
-	    	synchronized (this) {
-	    		result = customValidators;
-	    		if(result == null){
-	    	        result = new HashMap<String, Validator>();
-	    	        for(Validator validator: validatorList){
-	    	            String validatorName = validator.getClass().getName();
-	    	            result.put(validatorName, validator);
-	    	        }
-	    			customValidators = result;
-	    		}
-			}
+	public synchronized void initializeMap(){
+	    
+	    if(null == customValidators) {
+	        customValidators = new HashMap<String, Validator>();
+	        for(Validator validator: validatorList){
+	            String validatorName = validator.getClass().getName();
+	            customValidators.put(validatorName, validator);
+	        }
+	        
 	    }
-	    return result;
 	}
 	
 	
 	public Validator getValidator(String customValidator) {
 	
 		LOG.info("Retrieving validatior:" + customValidator);
+	    if(null == customValidators) {
+	        initializeMap();
+	    }
 	    
-	    Validator v = getCustomValidators().get(customValidator); 
+	    Validator v = customValidators.get(customValidator); 
 	    
 	    if(v != null && v instanceof BaseAbstractValidator) {
 	        BaseAbstractValidator bv = (BaseAbstractValidator)v;
@@ -65,6 +57,11 @@ public class ValidatorFactory {
 	}
 	
 	public Validator getValidator(){
+		if(defaultValidator==null){
+		    defaultValidator = new DefaultValidatorImpl();
+		}
+		
+		defaultValidator.setValidatorFactory(this);
 		return defaultValidator;
 	}
 	
@@ -74,8 +71,11 @@ public class ValidatorFactory {
 
 	public void setDefaultValidator(DefaultValidatorImpl defaultValidator) {
 		this.defaultValidator = defaultValidator;
-		this.defaultValidator.setValidatorFactory(this);
 	}
+
+    public List<Validator> getValidatorList() {
+        return validatorList;
+    }
 
     public void setValidatorList(List<Validator> validatorList) {
         this.validatorList = validatorList;

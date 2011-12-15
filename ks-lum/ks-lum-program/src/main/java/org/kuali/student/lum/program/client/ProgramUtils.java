@@ -70,7 +70,26 @@ public class ProgramUtils {
         return newSpecializationData;
     }
 
+    public static void setStatus(DataModel dataModel, String status) {
+        QueryPath statePath = new QueryPath();
+        statePath.add(new Data.StringKey(ProgramConstants.STATE));
+        dataModel.set(statePath, status);
+        setStatus((Data) dataModel.get(ProgramConstants.VARIATIONS), status);
+    }
 
+    public static void setPreviousStatus(DataModel dataModel, String status) {
+        QueryPath statePath = QueryPath.parse(ProgramConstants.PREV_STATE);
+        dataModel.set(statePath, status);
+    }
+
+    private static void setStatus(Data inputData, String status) {
+        if (inputData != null) {
+            for (Data.Property property : inputData) {
+                Data data = property.getValue();
+                data.set(new Data.StringKey(ProgramConstants.STATE), status);
+            }
+        }
+    }
 
     public static void retrofitValidationResults(List<ValidationResultInfo> validationResults) {
         for (ValidationResultInfo validationResult : validationResults) {
@@ -87,14 +106,7 @@ public class ProgramUtils {
         for (ValidationResultInfo validationResult : validationResults) {
             String element = validationResult.getElement();
             if (element.contains(ProgramConstants.VARIATIONS)) {
-            	String fdPath = element;
-            	if (element.matches(".*/[0-9]+")){
-            		//If path ends in number then strip it off, it is for an individual item in a list element
-            		fdPath = element.substring(0,element.lastIndexOf("/"));
-            	}
-            	FieldDescriptor fd = Application.getApplicationContext().getPathToFieldMapping(null, fdPath);
-            	            	
-            	//If field descriptor found, display error on the field, otherwise display a generic error message.
+            	FieldDescriptor fd = Application.getApplicationContext().getPathToFieldMapping(null, element);
             	if(fd!=null){
             		fd.getFieldElement().processValidationResult(validationResult);
             	}else{
@@ -138,28 +150,12 @@ public class ProgramUtils {
     }
 
     public static void unregisterUnusedHandlers(HandlerManager eventBus) {
-		HashMap<GwtEvent.Type, EventHandler> eventsMap = ProgramRegistry.getSpecializationHandlers();
-		if (eventsMap != null) {
-			for (Map.Entry<GwtEvent.Type, EventHandler> typeEventHandlerEntry : eventsMap.entrySet()) {
-				try {
-					eventBus.removeHandler(typeEventHandlerEntry.getKey(),typeEventHandlerEntry.getValue());
-				} catch(Exception e) {
-					//FIXME: Unregistering of handlers should be better handled
-				}
-				finally{return;}
-			}
-		}
-    }
-    
-    /**
-     * 
-     * This method will grab the proposal ID from the data model.
-     * 
-     * @param programModel XML data model
-     * @return
-     */
-    public static String getProposalId(DataModel programModel) {
-        return programModel.get(ProgramConstants.PROPOSAL_ID);
+        HashMap<GwtEvent.Type, EventHandler> eventsMap = ProgramRegistry.getSpecializationHandlers();
+        if (eventsMap != null) {
+            for (Map.Entry<GwtEvent.Type, EventHandler> typeEventHandlerEntry : eventsMap.entrySet()) {
+                eventBus.removeHandler(typeEventHandlerEntry.getKey(), typeEventHandlerEntry.getValue());
+            }
+        }
     }
 
     public static String getProgramId(DataModel programModel) {

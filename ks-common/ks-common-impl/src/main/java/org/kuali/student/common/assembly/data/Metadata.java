@@ -76,9 +76,21 @@ public class Metadata implements Serializable {
      */
     public Metadata(Metadata toClone) {
         this.additionalLookups = toClone.additionalLookups;
+        this.constraints = toClone.constraints;
+        this.dataType = toClone.dataType;
+        this.defaultValue = toClone.defaultValue;
+        this.defaultValuePath = toClone.defaultValuePath;
+        this.lookupContextPath = toClone.lookupContextPath;
+/*        if(toClone.lookupMetadata != null) {
+            this.lookupMetadata = new LookupMetadata(toClone.lookupMetadata);
+        }*/
+        this.initialLookup = toClone.initialLookup;
+        this.onChangeRefreshMetadata = toClone.onChangeRefreshMetadata;
+        this.name = toClone.name;
+        this.writeAccess = toClone.writeAccess;
         this.canEdit = toClone.canEdit;
+        this.canView = toClone.canView; 
         this.canUnmask = toClone.canUnmask;
-        this.canView = toClone.canView;
         if(toClone.childProperties != null) {
             this.childProperties = new HashMap<String, Metadata>();
             for(Map.Entry<String, Metadata> childProperty : toClone.childProperties.entrySet()) {
@@ -86,19 +98,6 @@ public class Metadata implements Serializable {
             }
             
         }
-        this.constraints = toClone.constraints;
-        this.dataType = toClone.dataType;
-        this.defaultValue = toClone.defaultValue;
-        this.defaultValuePath = toClone.defaultValuePath;
-        this.dynamic = toClone.dynamic;
-        this.initialLookup = toClone.initialLookup;
-        this.labelKey = toClone.labelKey;
-        this.lookupContextPath = toClone.lookupContextPath;
-        this.maskFormatter = toClone.maskFormatter;
-        this.name = toClone.name;
-        this.onChangeRefreshMetadata = toClone.onChangeRefreshMetadata;
-        this.partialMaskFormatter = toClone.partialMaskFormatter;
-        this.writeAccess = toClone.writeAccess;
     }
     
     @Override

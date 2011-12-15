@@ -96,8 +96,9 @@ public class SearchResultsTable extends Composite{
 	//FIXME do we really need to recreate the table for every refresh?
     public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
     	
-    	//creating a new table because stale data was corrupting new searches
-    	table = new Table();
+    	if(table == null){
+    		table = new Table();
+    	}
     	table.removeAllRows();
         this.resultIdColumnKey = resultIdKey;
         
@@ -212,7 +213,7 @@ public class SearchResultsTable extends Composite{
 	                	table.getScrollPanel().add(noResultsPanel);
                 	}
                 }
-//                tableModel.selectFirstRow();
+                tableModel.selectFirstRow();
                 tableModel.fireTableDataChanged();
                 table.displayLoading(false);
             }

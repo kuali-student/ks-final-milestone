@@ -59,8 +59,8 @@ public class ProgramRequirementsDataModel {
     }
 
     //find out whether we need to reset rules based on whether we have a new program ID or not
-    public void setupRules(Controller parentController, String modelId, final Callback<Boolean> onReadyCallback) {
-        parentController.requestModel(modelId, new ModelRequestCallback() {
+    public void setupRules(Controller parentController, final Callback<Boolean> onReadyCallback) {
+        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
 
             @Override
             public void onRequestFail(Throwable cause) {
@@ -93,9 +93,9 @@ public class ProgramRequirementsDataModel {
     }
 
     //retrieve rules based on IDs stored in this program
-    public void retrieveProgramRequirements(Controller parentController, String modelId, final Callback<Boolean> onReadyCallback) {
+    public void retrieveProgramRequirements(Controller parentController, final Callback<Boolean> onReadyCallback) {
         
-        setupRules(parentController, modelId, new Callback<Boolean>() {
+        setupRules(parentController, new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 Data program = ((DataModel)model).getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
@@ -299,6 +299,35 @@ public class ProgramRequirementsDataModel {
         callback.exec(new ArrayList(storedRules.values()));  //update display widgets
     }
 
+    public static void stripStatementIds(StatementTreeViewInfo tree) {
+        List<StatementTreeViewInfo> statements = tree.getStatements();
+        List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
+
+        if ((tree.getId() != null) && (tree.getId().indexOf(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID) >= 0)) {
+            tree.setId(null);
+        }
+        tree.setState("Active");
+
+        if ((statements != null) && (statements.size() > 0)) {
+            // retrieve all statements
+            for (StatementTreeViewInfo statement : statements) {
+                stripStatementIds(statement); // inside set the children of this statementTreeViewInfo
+            }
+        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
+            // retrieve all req. component LEAFS
+            for (ReqComponentInfo reqComponent : reqComponentInfos) {
+                if ((reqComponent.getId() != null) && (reqComponent.getId().indexOf(ProgramRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0)) {
+                    reqComponent.setId(null);
+                }
+
+                for (ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
+                    field.setId(null);
+                }
+
+                reqComponent.setState("Active");
+            }
+        }
+    }
 
     public List<ProgramRequirementInfo> getProgReqInfo(String stmtTypeId) {
         List<ProgramRequirementInfo> rules = new ArrayList<ProgramRequirementInfo>();

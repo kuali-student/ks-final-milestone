@@ -1,38 +1,23 @@
 package org.kuali.student.lum.program.client.widgets;
 
-import java.util.List;
-
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.*;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.common.ui.client.event.ActionEvent;
-import org.kuali.student.common.ui.client.event.SaveActionEvent;
-import org.kuali.student.common.ui.client.mvc.ActionCompleteCallback;
-import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramStatus;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.StateChangeEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -149,20 +134,9 @@ public class SummaryActionPanel extends Composite {
         KSButton activate = new KSButton(ProgramProperties.get().button_activate(), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 activateSection.updateModel(dataModel);
-                dataModel.validate(new Callback<List<ValidationResultInfo>>(){
-					@Override
-					public void exec(List<ValidationResultInfo> results) {
-						// Process the results on the additional fields view
-                        if (ErrorLevel.OK.equals(activateSection.processValidationResults(results))) {
-                            // Call activate once the data is valid
-    						processButtonClick(ProgramStatus.ACTIVE);
-    		                activateDialog.hide();
-                        } else {
-                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
-                        }
-
-					}
-                });
+                ProgramUtils.setPreviousStatus(dataModel, ProgramStatus.SUPERSEDED.getValue());
+                processButtonClick(ProgramStatus.ACTIVE);
+                activateDialog.hide();
             }
         });
         activateDialog.addButton(activate);

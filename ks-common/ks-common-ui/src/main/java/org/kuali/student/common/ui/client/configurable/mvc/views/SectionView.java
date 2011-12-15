@@ -80,18 +80,17 @@ public abstract class SectionView extends BaseSection implements View {
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        super.clearValidationErrors();
-        
+        super.clearValidation();
         if (getController() != null) {
             getController().requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
                 @Override
-                public void onRequestFail(Throwable cause) {	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
-                    Window.alert("Failed to get model: "  + modelId + " for SectionView " + getName());
+                public void onRequestFail(Throwable cause) {
+                    Window.alert("Failed to get model: " + getName());
                     onReadyCallback.exec(false);
                 }
 
-                @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+                @Override
                 public void onModelReady(DataModel m) {
                     model = m;
                     updateWidgetData(m);
@@ -105,7 +104,7 @@ public abstract class SectionView extends BaseSection implements View {
         for (Section section : sections) {
             if (section instanceof SectionView) {
                 ((SectionView) section).beforeShow(new Callback<Boolean>() {
-                    @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+                    @Override
                     public void exec(Boolean result) {
                     }
                 });
@@ -266,10 +265,4 @@ public abstract class SectionView extends BaseSection implements View {
     public boolean isExportButtonActive() {
         return false;
     }
-
-	@Override
-	public void showExport(boolean show) {
-		// TODO Auto-generated method stub
-		
-	}
 }

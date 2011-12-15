@@ -177,9 +177,6 @@ public class PagingScrollTableBuilder<RowType extends Idable> {
         pagingScrollTable.setEmptyTableWidget(new HTML("There is no data to display"));
 
         pagingScrollTable.getDataTable().setSelectionPolicy(selectionPolicy);
-        
-        pagingScrollTable.getHeaderTable().setWidth("100%");
-        pagingScrollTable.getDataTable().setWidth("100%");
 
         return this.pagingScrollTable;
     }

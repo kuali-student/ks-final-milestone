@@ -27,7 +27,8 @@ public class TimeAmountInfo implements Serializable {
 	@XmlElement
 	private String atpDurationTypeKey; 
 	@XmlElement
-	private Integer timeQuantity; 
+	private Integer timeQuantity;
+	
 	public String getAtpDurationTypeKey(){
 		return atpDurationTypeKey;
 	}

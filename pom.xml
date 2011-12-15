@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
   Copyright 2009 The Kuali Foundation Licensed under the Educational Community
   License, Version 2.0 (the "License"); you may not use this file except in
@@ -10,7 +9,8 @@
   express or implied. See the License for the specific language governing
   permissions and limitations under the License.
 -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.kuali</groupId>
@@ -19,9 +19,13 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.2-m1-perf-SNAPSHOT</version>
+  <version>1.3.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
+  <description>
+    Kuali Student is a modular, open source, standards-based next generation student system that offers a flexible, scalable,
+    cost-effective system that can be configured to meet the business requirements of any higher education institution
+  </description>
   <url>http://${kuali.site.hostname}/student/${project.version}/</url>
   <repositories>
     <repository>
@@ -53,6 +57,7 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
         <module>ks-web</module>
       </modules>
     </profile>
@@ -64,10 +69,8 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
-      <properties>
-        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
-      </properties>
     </profile>
     <profile>
       <id>skip-all-wars</id>
@@ -77,6 +80,7 @@
         <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
     </profile>
     <profile>
@@ -90,22 +94,16 @@
       <modules>
         <module>ks-core</module>
         <module>ks-lum</module>
+        <module>ks-enroll</module>
       </modules>
-      <properties>
-        <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
-      </properties>
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.2-perf</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.2-perf</developerConnection>
-    <url>https://test.kuali.org/svn/student/branches/ks-1.2-perf</url>
+    <connection>scm:svn:https://test.kuali.org/svn/student/trunk</connection>
+    <developerConnection>scm:svn:https://test.kuali.org/svn/student/trunk</developerConnection>
+    <url>https://test.kuali.org/svn/student/trunk</url>
   </scm>
   <properties>
-    <!-- Remove this property as soon as the devs are comfortable with Maven 3
--->
-    <kuali.site.plugin.version>2.0.1</kuali.site.plugin.version>
-
     <kuali.clover.exclude.pattern.1>org/kuali/**/ui/**/client/**/*.java</kuali.clover.exclude.pattern.1>
     <kuali.clover.exclude.pattern.2>org/kuali/**/ui/client/**/*.java</kuali.clover.exclude.pattern.2>
     <kuali.clover.exclude.pattern.3>org/kuali/**/client/**/*.java</kuali.clover.exclude.pattern.3>
@@ -122,31 +120,33 @@
     <!-- artifact versions -->
     <aspectj.version>1.5.4</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
-    <cxf.version>2.2.9</cxf.version>
+    <cxf.version>2.3.3</cxf.version>
     <!-- For some reason the 2.2.9 javadocs for CXF weren't published -->
-    <ks.cxf.javadoc.version>2.2.8</ks.cxf.javadoc.version>
+    <ks.cxf.javadoc.version>2.3.3</ks.cxf.javadoc.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
-    <gwt.version>2.0.4</gwt.version>
     <ehcache.version>2.4.6</ehcache.version>
+    <gwt.version>2.0.4</gwt.version>
+    <hibernate.version>3.6.7.Final</hibernate.version>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
-    <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.3.2</kuali.rice.version>
+    <junit.version>4.6</junit.version>
+    <kuali.rice.version>2.0.0-b1</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
-    <spring.version>2.5.6</spring.version>
-    <spring.security.version>2.0.4</spring.security.version>
-    <spring.security.javadoc.version>2.0.x</spring.security.javadoc.version>
+    <spring.version>3.1.0.RC2</spring.version>
+    <spring.security.version>3.0.7.RELEASE</spring.security.version>
+    <spring.security.javadoc.version>3.0.7.RELEASE</spring.security.javadoc.version>
     <velocity.version>1.6.4</velocity.version>
     <velocity.tools.version>2.0</velocity.tools.version>
     <xalan.version>2.7.1</xalan.version>
     <xercesImpl.version>2.9.1</xercesImpl.version>
     <oracle.ojdbc.version>10.2.0.3.0</oracle.ojdbc.version>
-    <mysql.connector.version>5.1.13</mysql.connector.version>
+    <mysql.connector.version>5.1.17</mysql.connector.version>
     <backport-util-concurrent.version>3.1</backport-util-concurrent.version>
+    <jsr107cache.version>1.0</jsr107cache.version>
     <net.sf.jasperreports.version>4.0.1</net.sf.jasperreports.version>
     <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
     <org.apache.poi.version>3.6</org.apache.poi.version>
@@ -154,16 +154,28 @@
     
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
-    <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
+    <tomcat.plugin.version>1.1</tomcat.plugin.version>
+   <!--  <jetty.plugin.version>8.0.0.M2</jetty.plugin.version> -->
+
+   <!-- added by bonnie -->
+    <jetty.plugin.version>7.3.1.v20110307</jetty.plugin.version>
+    <jotm.version>2.1.9</jotm.version>
+    <jsp-2.1-glassfish.version>2.1.v20100127</jsp-2.1-glassfish.version>
+    <jsp-api.version>2.1</jsp-api.version>
+    <jsr311-api.version>1.1.1</jsr311-api.version>
+    <jstl.version>1.2</jstl.version>
+    <jta.version>1.1</jta.version>
+    <jdom.version>1.1</jdom.version>
+   <!-- end -->
 
     <!-- build properties -->
     <ks.gwt.compile.phase>process-classes</ks.gwt.compile.phase>
     <ks.gwt.compile.draftCompile>false</ks.gwt.compile.draftCompile>
     <ks.gwt.compile.soyc>false</ks.gwt.compile.soyc>
     <ks.gwt.compile.style>OBF</ks.gwt.compile.style>
-    <ks.gwt.compile.force>false</ks.gwt.compile.force>
     <ks.java2ws.phase>none</ks.java2ws.phase>
-    <kuali.attach.sources.phase>verify</kuali.attach.sources.phase>
+    <ks.contractdoc.phase>site</ks.contractdoc.phase>
+    <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>    
   </properties>
   <build>
     <pluginManagement>
@@ -211,12 +223,24 @@
             <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
           </configuration>
         </plugin>
+        
+        <!--  added by bonnie -->
+        <plugin>
+          <groupId>org.mortbay.jetty</groupId>
+          <artifactId>jetty-maven-plugin</artifactId>
+          <version>${jetty.plugin.version}</version>
+          <configuration>
+            <server>${project.artifactId}</server>
+            <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
+          </configuration>
+        </plugin>
+		<!--  ends-->
 
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-war-plugin</artifactId>
           <configuration>
-            <webappDirectory>${project.build.directory}/${project.artifactId}-webapp</webappDirectory>
+            <warDirectory>${project.build.directory}/${project.artifactId}-webapp</warDirectory>
           </configuration>
         </plugin>
 
@@ -233,16 +257,25 @@
             <style>${ks.gwt.compile.style}</style>
             <soyc>${ks.gwt.compile.soyc}</soyc>
             <draftCompile>${ks.gwt.compile.draftCompile}</draftCompile>
-            <force>${ks.gwt.compile.force}</force>
           </configuration>
         </plugin>
+
       </plugins>
     </pluginManagement>
     <plugins>
       <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>generate-clover-info</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
-        <version>2.1.2</version>
         <executions>
           <execution>
             <id>attach-sources</id>
@@ -292,11 +325,6 @@
         <scope>provided</scope>
       </dependency>
       <dependency>
-        <groupId>javax.persistence</groupId>
-        <artifactId>persistence-api</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
         <groupId>javax.transaction</groupId>
         <artifactId>jta</artifactId>
         <version>1.1</version>
@@ -318,16 +346,48 @@
       </dependency>
 
       <!-- Hibernate -->
-      <dependency>
+     <dependency>
         <groupId>org.hibernate</groupId>
-        <artifactId>hibernate-annotations</artifactId>
-        <version>3.4.0.GA</version>
+        <artifactId>hibernate-core</artifactId>
+        <version>${hibernate.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>antlr</groupId>
+            <artifactId>antlr</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
+
       <dependency>
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-entitymanager</artifactId>
-        <version>3.4.0.GA</version>
+        <version>${hibernate.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>javassist</groupId>
+            <artifactId>javassist</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
+
+      <dependency>
+        <groupId>org.hibernate.javax.persistence</groupId>
+        <artifactId>hibernate-jpa-2.0-api</artifactId>
+        <version>1.0.1.Final</version>
+      </dependency>
+
 
       <!-- Hibernate Transitive Dependencies -->
       <dependency>
@@ -338,7 +398,7 @@
       <dependency>
         <groupId>commons-collections</groupId>
         <artifactId>commons-collections</artifactId>
-        <version>3.2</version>
+        <version>3.2.1</version>
       </dependency>
       <dependency>
         <groupId>antlr</groupId>
@@ -355,6 +415,11 @@
       <dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-aspects</artifactId>
+        <version>${spring.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-expression</artifactId>
         <version>${spring.version}</version>
       </dependency>
       <dependency>
@@ -406,6 +471,10 @@
           <exclusion>
             <groupId>org.springframework</groupId>
             <artifactId>spring-support</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-expression</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
@@ -690,12 +759,12 @@
       <dependency>
         <groupId>org.apache.ws.security</groupId>
         <artifactId>wss4j</artifactId>
-        <version>1.5.8</version>
+        <version>1.5.10</version>
       </dependency>
       <dependency>
         <groupId>org.apache.santuario</groupId>
         <artifactId>xmlsec</artifactId>
-        <version>1.4.2</version>
+        <version>1.4.4</version>
       </dependency>
 
 
@@ -741,12 +810,12 @@
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.6.0</version>
+        <version>1.6.2</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
-        <version>1.6.0</version>
+        <version>1.6.2</version>
       </dependency>
       <dependency>
         <groupId>log4j</groupId>
@@ -778,7 +847,7 @@
       <dependency>
         <groupId>commons-lang</groupId>
         <artifactId>commons-lang</artifactId>
-        <version>2.3</version>
+        <version>2.6</version>
       </dependency>
 
       <!-- Pom dependencies for impl specific jars -->
@@ -864,7 +933,7 @@
       </dependency>
       <dependency>
         <groupId>org.kuali.rice</groupId>
-        <artifactId>rice-api</artifactId>
+        <artifactId>rice-kim-api</artifactId>
         <version>${kuali.rice.version}</version>
       </dependency>
       <dependency>
@@ -936,6 +1005,10 @@
             <groupId>org.apache.geronimo.specs</groupId>
             <artifactId>geronimo-javamail_1.4_spec</artifactId>
           </exclusion>
+          <exclusion>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-jpa_3.0_spec</artifactId>
+          </exclusion>
           <!--
             These dependencies conflict with gwt-dev for running hosted mode via eclipse
             launch file.
@@ -956,34 +1029,18 @@
             <groupId>org.eclipse.jdt</groupId>
             <artifactId>core</artifactId>
           </exclusion>
-          
-		  <!-- JOTM - uncomment out to switch to Bitronix -->        
-	      <!-- 
-	      <exclusion>                                 
-	        <groupId>xapool</groupId>                 
-	        <artifactId>xapool</artifactId>           
-	      </exclusion>                                
-	      <exclusion>                                 
-	        <groupId>jotm</groupId>                   
-	        <artifactId>jotm</artifactId>             
-	      </exclusion>
-	       -->
-	       
+	      
 	      <!-- itext -->
           <exclusion>
             <groupId>itext</groupId>
             <artifactId>itext</artifactId>
-          </exclusion>
-          <exclusion>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
           </exclusion>
         </exclusions>
       </dependency>
       <dependency>
         <groupId>commons-beanutils</groupId>
         <artifactId>commons-beanutils</artifactId>
-        <version>1.7.0</version>
+        <version>1.8.3</version>
       </dependency>
       <dependency>
         <groupId>xalan</groupId>
@@ -1000,17 +1057,18 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.connector.version}</version>
       </dependency>
-      <dependency>
-        <groupId>net.sf.ehcache</groupId>
-        <artifactId>ehcache-core</artifactId>
-        <version>${ehcache.version}</version>
-      </dependency>
+      <!-- Caching dependencies -->
       <dependency>
         <groupId>backport-util-concurrent</groupId>
         <artifactId>backport-util-concurrent</artifactId>
         <version>${backport-util-concurrent.version}</version>
       </dependency>
-
+      <dependency>
+        <groupId>net.sf.jsr107cache</groupId>
+        <artifactId>jsr107cache</artifactId>
+        <version>${jsr107cache.version}</version>
+      </dependency>
+    
       <!-- Jasper Report dependencies -->
       <dependency>
         <groupId>net.sf.jasperreports</groupId>

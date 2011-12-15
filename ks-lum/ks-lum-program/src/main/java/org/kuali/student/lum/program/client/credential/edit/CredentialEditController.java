@@ -3,17 +3,15 @@ package org.kuali.student.lum.program.client.credential.edit;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -24,6 +22,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.credential.CredentialController;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
@@ -49,6 +48,8 @@ public class CredentialEditController extends CredentialController {
 
     private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
     private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+
+    private ProgramStatus previousState;
 
     /**
      * Constructor.
@@ -148,7 +149,9 @@ public class CredentialEditController extends CredentialController {
                                     }
                                 }
                             };
-                            updateState(event.getProgramStatus().getValue(), callback);
+                            previousState = ProgramStatus.of(programModel);
+                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
+                            saveData(callback);
                         } else {
                             KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
@@ -199,39 +202,28 @@ public class CredentialEditController extends CredentialController {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                //Clear warning states on field and any warnings stored in ApplicationContext;
-                clearAllWarnings();
-                Application.getApplicationContext().clearValidationWarnings();
-                
-                List<ValidationResultInfo> validationResults = result.getValidationResults();
-                Application.getApplicationContext().addValidationWarnings(validationResults);
-
-                if (ValidatorClientUtils.hasErrors(validationResults)) {
+                if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
+                    if (previousState != null) {
+                        ProgramUtils.setStatus(programModel, previousState.getValue());
+                    }
                     isValid(result.getValidationResults(), false, true);
                     StringBuilder msg = new StringBuilder();
                     for (ValidationResultInfo vri : result.getValidationResults()) {
-                    	if(!msg.toString().contains(vri.getMessage()))
-                    		msg.append(vri.getMessage() + " ");
+                        msg.append(vri.getMessage());
                     }
-                    if (msg.length() > 0)
-                    	KSNotifier.add(new KSNotification(msg.toString(), false, true, 5000));
                     okCallback.exec(false);
                 } else {
-                    refreshModelAndView(result);
+                    previousState = null;
+                    programModel.setRoot(result.getValue());
+                    setHeaderTitle();
+                    setStatus();
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
                     if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
                         showView(getCurrentViewEnum());
                     }
                     HistoryManager.logHistoryChange();
-
-                    if (ValidatorClientUtils.hasWarnings(validationResults)){
-	    				isValid(result.getValidationResults(), false, true);	    				
-    					KSNotifier.show("Saved with Warnings");
-    				} else {
-                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
-    				}  				
-
+                    KSNotifier.show(ProgramProperties.get().common_successfulSave());
                     okCallback.exec(true);
                 }
             }
@@ -296,32 +288,4 @@ public class CredentialEditController extends CredentialController {
             }
         }
     }
-    
-	@Override
-	public void beforeShow(final Callback<Boolean> onReadyCallback) {
-		if(!initialized){
-			Application.getApplicationContext().clearCrossConstraintMap(null);
-			Application.getApplicationContext().clearPathToFieldMapping(null);
-		}
-		//Clear the parent path again
-		Application.getApplicationContext().setParentPath("");
-		super.beforeShow(onReadyCallback);
-	}
-	
-	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
-	//This gets called twice which is not optimal
-	@Override
-	public <V extends Enum<?>> void showView(V viewType,
-			final Callback<Boolean> onReadyCallback) {
-		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
-			public void exec(Boolean result) {
-				onReadyCallback.exec(result);
-		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
-		        	crossConstraint.reprocessWithUpdatedConstraints();
-		        }
-		        showWarnings();	
-			}
-        };
-		super.showView(viewType, updateCrossConstraintsCallback);
-	}
 }

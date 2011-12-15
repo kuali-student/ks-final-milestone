@@ -7,7 +7,6 @@
 	<parameter name="SubReport" class="net.sf.jasperreports.engine.JasperReport"/>
 	<field name="originalValue" class="java.lang.String"/>
 	<field name="proposalValue" class="java.lang.String"/>
-	<field name="empty" class="java.lang.Boolean"/>
 	<title>
 		<band height="30">
 			<textField isBlankWhenNull="true" bookmarkLevel="1">
@@ -19,7 +18,7 @@
 					<rightPen lineWidth="1.0" lineColor="#CBCBCB"/>
 				</box>
 				<textElement textAlignment="Left">
-					<font fontName="DejaVu Sans" size="22"/>
+					<font fontName="Arial" size="22"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$P{ReportTitle}]]></textFieldExpression>
 				<anchorNameExpression><![CDATA["Title"]]></anchorNameExpression>
@@ -33,8 +32,8 @@
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement verticalAlignment="Middle" markup="html">
-					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{originalValue}]]></textFieldExpression>
 			</textField>
@@ -53,15 +52,13 @@
 				<box leftPadding="0" rightPadding="0">
 					<rightPen lineWidth="0.0" lineColor="#CBCBCB"/>
 				</box>
-				<textElement verticalAlignment="Middle" markup="html">
-					<font fontName="DejaVu Sans" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial" size="9" isBold="true" pdfFontName="Helvetica-Bold"/>
 				</textElement>
 				<textFieldExpression class="java.lang.String"><![CDATA[$F{proposalValue}]]></textFieldExpression>
 			</textField>
 			<line>
-				<reportElement x="123" y="25" width="392" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF">
-					<printWhenExpression><![CDATA[!$F{empty}]]></printWhenExpression>
-				</reportElement>
+				<reportElement x="123" y="25" width="392" height="1" forecolor="#CBCBCB" backcolor="#FFFFFF"/>
 				<graphicElement>
 					<pen lineWidth="0.5" lineStyle="Solid"/>
 				</graphicElement>

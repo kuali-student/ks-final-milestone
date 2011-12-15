@@ -133,7 +133,7 @@
                  <c:set var="keyValue" value="principalId" />
                  <c:if test='${member.memberTypeCode == "G"}'>
                    <c:set var="inquiryClass" value="org.kuali.rice.kim.bo.Group" />
-                   <c:set var="keyValue" value="groupId" />
+                   <c:set var="keyValue" value="id" />
                  </c:if>
 	             <tr>
 					<th class="infoline" valign="top">

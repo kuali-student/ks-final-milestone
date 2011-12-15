@@ -18,12 +18,14 @@ package org.kuali.student.core.personsearch.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.kuali.rice.kim.bo.Person;
-import org.kuali.rice.kim.bo.entity.KimPrincipal;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
-import org.kuali.rice.kim.bo.entity.dto.KimEntityEntityTypeDefaultInfo;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.identity.Person;
+import org.kuali.rice.kim.api.identity.entity.EntityDefault;
+import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
+import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfoDefault;
 
 /**
  * Utility methods for dealing with Person searches
@@ -34,15 +36,19 @@ import org.kuali.rice.kim.service.IdentityManagementService;
 public class PersonSearch {
 
     @SuppressWarnings("unchecked")
-    protected List<Person> findPeopleInternal(IdentityManagementService identityService, Map<String, String> criteria, boolean unbounded) {
+    protected List<Person> findPeopleInternal(IdentityService identityService, Map<String, String> criteria, boolean unbounded) {
 
         List<Person> people = new ArrayList<Person>();
 
-        List<? extends KimEntityDefaultInfo> entities = identityService.lookupEntityDefaultInfo(criteria, unbounded);
+        // TODO: map the old call parameters into the criteria parametsrs
+//        identityService.lookupEntityDefault(criteria, unbounded);
+        QueryByCriteria queryByCriteria = null;
+        EntityDefaultQueryResults results = identityService.findEntityDefaults(queryByCriteria);
+        List<EntityDefault> entities = results.getResults();
         if (entities != null) {
-            for (KimEntityDefaultInfo e : entities) {
+            for (EntityDefault e : entities) {
                 // get to get all principals for the entity as well
-                for (KimPrincipal p : e.getPrincipals()) {
+                for (Principal p : e.getPrincipals()) {
                     Person person = convertEntityToPerson(e, p);
                     if (person != null) {
                         people.add(person);
@@ -57,10 +63,10 @@ public class PersonSearch {
         return people;
     }
 
-    protected Person convertEntityToPerson(KimEntityDefaultInfo entity, KimPrincipal principal) {
+    protected Person convertEntityToPerson(EntityDefault entity, Principal principal) {
         try {
             // get the EntityEntityType for the EntityType corresponding to a Person
-           KimEntityEntityTypeDefaultInfo entType = entity.getEntityType(PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
+            EntityTypeContactInfoDefault entType = entity.getEntityType(PersonSearchServiceImpl.PERSON_ENTITY_TYPE);
             // if no "person" entity type present for the given principal, skip to the next type in the list
             if (entType == null) {
                 return null;

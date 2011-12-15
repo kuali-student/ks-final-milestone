@@ -6,8 +6,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
-
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MustOccurConstraint {
     @XmlElement
@@ -18,8 +16,6 @@ public class MustOccurConstraint {
 	private Integer min;
 	@XmlElement
 	private Integer max;
-	@XmlElement
-	private ErrorLevel errorLevel = ErrorLevel.ERROR;
 
 	public List<RequiredConstraint> getRequiredFields() {
 		return requiredFields;
@@ -52,12 +48,4 @@ public class MustOccurConstraint {
 	public void setMax(Integer max) {
 		this.max = max;
 	}
-
-	public ErrorLevel getErrorLevel() {
-		return errorLevel;
-	}
-
-	public void setErrorLevel(ErrorLevel errorLevel) {
-		this.errorLevel = errorLevel;
-	}	
 }

@@ -40,8 +40,6 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 import org.apache.log4j.Logger;
 
-import edu.emory.mathcs.backport.java.util.Collections;
-
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
 
@@ -80,6 +78,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     public DataSaveResult saveData(Data data) throws OperationFailedException {
         try{
             return getDataService().saveData(data);
+        }catch (DataValidationErrorException dvee){
+            return new DataSaveResult(dvee.getValidationResults(), null);
         } catch (Exception e) {
             LOG.error("Could not save data ", e);
             throw new OperationFailedException("Failed to save data");
@@ -215,25 +215,13 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                             }
                         }
                         
+
                         CluInformation cluInformation = new CluInformation();
                         if (cluInfo.getOfficialIdentifier() != null) {
                             cluInformation.setCode(cluInfo.getOfficialIdentifier().getCode());
                             cluInformation.setTitle(cluInfo.getOfficialIdentifier().getShortName());
                             cluInformation.setCredits(credits);
                         }
-                        
-                        cluInformation.setType(cluInfo.getType());
-                        //If the clu type is variation, get the parent clu id. 
-                        if ("kuali.lu.type.Variation".equals(cluInfo.getType())){
-                            List<String> clus = luService.getCluIdsByRelation(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram");
-                            if (clus == null || clus.size() == 0){ 
-                                throw new RuntimeException("Statement Dependency clu found, but no parent Program exists"); 
-                            } else if(clus.size()>1){ 
-                                throw new RuntimeException("Statement Dependency clu can only have one parent Program relation"); 
-                            }
-                            cluInformation.setParentCluId(clus.get(0));
-                        }
-                        
                         cluInformation.setVerIndependentId(cluInfo.getId());
                         result.add(cluInformation);
                     }
@@ -292,8 +280,6 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             result.setMembershipQueryInfo(membershipQueryInfo);
             result.setClusInRange(clusInRange);
         }
-        if(result.getClus()!=null)
-        	Collections.sort(result.getClus());
         return result;
     }
 	

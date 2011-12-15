@@ -1,10 +1,25 @@
 package org.kuali.student.core.assembly.transform;
 
-import java.io.StringWriter;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.Map.Entry;
+import org.apache.log4j.Logger;
+import org.kuali.rice.kew.api.action.DocumentActionParameters;
+import org.kuali.rice.kew.api.action.DocumentActionResult;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentContentUpdate;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kew.api.document.DocumentUpdate;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.StringKey;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.assembly.transform.*;
+import org.kuali.student.common.util.MessageUtils;
+import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.service.ProposalService;
+import org.w3c.dom.DOMImplementation;
+import org.w3c.dom.Element;
+import org.w3c.dom.Text;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -12,34 +27,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.webservice.DocumentResponse;
-import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
-import org.kuali.rice.kew.webservice.StandardResponse;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.common.assembly.transform.AbstractDataFilter;
-import org.kuali.student.common.assembly.transform.DataBeanMapper;
-import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
-import org.kuali.student.common.assembly.transform.DocumentTypeConfiguration;
-import org.kuali.student.common.assembly.transform.FilterException;
-import org.kuali.student.common.assembly.transform.MetadataFilter;
-import org.kuali.student.common.assembly.transform.TransformFilter;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
-import org.w3c.dom.DOMImplementation;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Text;
+import java.io.StringWriter;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * This filter is used to add and process proposal info to data object.
@@ -54,7 +45,6 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	public static final String WORKFLOW_DOC_ID		= "ProposalWorkflowFilter.DocumentId";
     public static final String WORKFLOW_DOC_TYPE	= "ProposalWorkflowFilter.DocumentType";
     public static final String WORKFLOW_USER		= "ProposalWorkflowFilter.WorkflowUser";
-    public static final String PROPOSAL_ATTRIBUTES  = "ProposalWorkflowFilter.ProposalAttributes";
         
 	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
@@ -62,8 +52,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     final Logger LOG = Logger.getLogger(ProposalWorkflowFilter.class);
     
     //Services used by this filter
-    private WorkflowUtility workflowUtilityService;
-	private SimpleDocumentActionsWebService simpleDocService;
+    private WorkflowDocumentService workflowDocumentService;
+	private WorkflowDocumentActionsService workflowDocumentActionsService;
 	private ProposalService proposalService;
 	private MetadataServiceImpl metadataService;
 	private final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
@@ -71,7 +61,6 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	private Metadata proposalMetadata = null;
 	private String proposalReferenceType;
 	private String defaultDocType;
-	private String proposalObjectType;
 	
 	List<DocumentTypeConfiguration> docTypeConfigs;
 
@@ -85,12 +74,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		//Get the proposal data portion from the data
 		Data proposalData = data.query("proposal");
 		data.remove(new StringKey("proposal"));
-		
-		ProposalInfo proposalInfo = null;
-		if (proposalData != null){
-		       proposalInfo = (ProposalInfo)mapper.convertFromData(proposalData, ProposalInfo.class, getProposalMetadata());	        
-		}
-		
+		ProposalInfo proposalInfo = (ProposalInfo)mapper.convertFromData(proposalData, ProposalInfo.class, getProposalMetadata());
+				
 		//Create new proposalInfo if no proposal data sent from client
 		if (proposalInfo == null) {
 			proposalInfo = new ProposalInfo();			
@@ -133,20 +118,10 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 				proposalInfo.getProposalReference().add(referenceId);
 				
                 // TODO: this needs to be defined as a constant where all references will resolve
-                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())||
-              		"kuali.proposal.type.course.modify.admin".equals(proposalInfo.getType())) {
+                if ("kuali.proposal.type.course.modify".equals(proposalInfo.getType())) {
                     proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
                 }
-                // TODO: this needs to be defined as a constant where all references will resolve
-                if ("kuali.proposal.type.majorDiscipline.modify".equals(proposalInfo.getType())) {
-                    proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
-                }
-                
-                Map<String,String> proposalAttributes = (Map<String, String>) properties.get(ProposalWorkflowFilter.PROPOSAL_ATTRIBUTES);
-                if(proposalAttributes!=null){
-                	proposalInfo.getAttributes().putAll(proposalAttributes);
-                }
-                
+
 				proposalInfo.setState("Saved");
 								
 				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
@@ -163,7 +138,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		}	
 		
 		//Tack on proposal data to data returned to UI client
-		Data proposalData = mapper.convertFromBean(proposalInfo, getProposalMetadata());
+		Data proposalData = mapper.convertFromBean(proposalInfo);
 		data.set("proposal", proposalData);		
 	}
 
@@ -174,16 +149,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	@Override
 	public void applyMetadataFilter(String dtoName, Metadata metadata,
 			Map<String, Object> filterProperties) {	
-		String workflowNode = (String)filterProperties.get(DtoConstants.DTO_WORKFLOW_NODE);
-		String nextState = (String)filterProperties.get(DtoConstants.DTO_NEXT_STATE);
-		String documentTypeName = (String)filterProperties.get(WORKFLOW_DOC_TYPE);
-		Metadata proposalMetadata;
-		if (workflowNode == null || workflowNode.isEmpty()){
-			proposalMetadata = metadataService.getMetadata(getProposalObjectType(), null, "SAVED", nextState, documentTypeName);
-		} else {
-			proposalMetadata = metadataService.getMetadataByWorkflowNode(getProposalObjectType(), workflowNode, documentTypeName);
-		}
-		
+		Metadata proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName(), "SAVED");
+				
 		Map<String, Metadata> properties = metadata.getProperties();
 		properties.put("proposal", proposalMetadata);		
 	}
@@ -194,7 +161,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	 * the workflow document for the object. 
 	 */
 	public ProposalInfo updateWorkflow(ProposalInfo proposalInfo, Data data, Map<String, Object> properties) throws Exception {
-        if(simpleDocService==null){
+        if(workflowDocumentActionsService==null){
         	throw new Exception("Workflow Service is unavailable");
         }
 		
@@ -218,26 +185,26 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         String docTitle = proposalInfo.getName(); 
         
         //Get the workflow document or create one if workflow document doesn't exist
-        DocumentDetailDTO docDetail;
+        DocumentDetail docDetail;
         if (workflowId != null){
-        	docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+        	docDetail = workflowDocumentService.getDocumentDetail(workflowId);
         } else  {
             LOG.info("Creating Workflow Document.");
-                        
-            DocumentResponse docResponse = simpleDocService.create(username, appId, docType, docTitle);
-            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
-            }
+            DocumentUpdate.Builder builder = DocumentUpdate.Builder.create();
+            builder.setTitle(docTitle);
+            builder.setApplicationDocumentId(appId);
+            DocumentUpdate docHeader = builder.build();
+
+            // TODO: RICE-R2.0 UPGRADE we can now supply the proposal status to the document here and we should be
+            //          This will allow implementors to define workflow based on proposal state
+            org.kuali.rice.kew.api.document.Document docResponse = workflowDocumentActionsService.create(docType, username, docHeader, null);
             
-            workflowId = docResponse.getDocId();
+            workflowId = docResponse.getDocumentId();
             proposalInfo.setWorkflowId(workflowId);
-            
-            //Set the node attribute on the proposal to preroute as an initial value
-            proposalInfo.getAttributes().put("workflowNode", "PreRoute");
             
             //Lookup the workflow document detail to see if create was successful
 			try {
-				docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+				docDetail = workflowDocumentService.getDocumentDetail(workflowId);
 			} catch (Exception e) {
             	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
 			}			
@@ -245,26 +212,27 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 
         //Generate the document content xml
         String docContent = getDocumentContent(data, docTypeConfig);
-        
+
+        DocumentActionParameters.Builder dapBuilder = DocumentActionParameters.Builder.create(docDetail.getDocument().getDocumentId(), username);
+        DocumentUpdate.Builder duBuilder = DocumentUpdate.Builder.create();
+        duBuilder.setApplicationDocumentId(appId);
+        duBuilder.setTitle(docTitle);
+        dapBuilder.setDocumentUpdate(duBuilder.build());
+        DocumentContentUpdate.Builder dcuBuilder = DocumentContentUpdate.Builder.create();
+        dcuBuilder.setApplicationContent(docContent);
+        dapBuilder.setDocumentContentUpdate(dcuBuilder.build());
+        DocumentActionParameters docActionParams = dapBuilder.build();
+
         //Save
-        StandardResponse stdResp;
-        if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
-        	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
+        DocumentActionResult stdResp;
+        if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus())) ||
+        	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus())) ) {
         	//if the route status is initial, then save initial
-        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent, "");
+            stdResp = workflowDocumentActionsService.save(docActionParams);
         } else {
         	//Otherwise just update the doc content
-        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent);
+        	stdResp = workflowDocumentActionsService.saveDocumentData(docActionParams);
         }
-
-        //Check if there were errors saving
-        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        	if(stdResp==null){
-        		throw new RuntimeException("Error found updating document");
-        	}else{
-        		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
-        	}
-    	}
         
         return proposalInfo;
 	}
@@ -301,23 +269,23 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 			DOMImplementation impl = builder.getDOMImplementation();
 			
 			//Create the document content
-			Document docContent = null;
+			org.w3c.dom.Document docContent = null;
 			docContent = impl.createDocument(null, null, null);
 			Element root = docContent.createElement(DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME);
 			docContent.appendChild(root);
-			for (Entry<String,String> entry:docFieldMap.entrySet()){
+			for (java.util.Map.Entry<String,String> entry:docFieldMap.entrySet()){
 				Element element = docContent.createElement(entry.getKey());
 				String value = (String)data.query(entry.getValue());
 				if (value != null){
-					Text node = docContent.createTextNode(value);					
+					Text node = docContent.createTextNode(value);
 					element.appendChild(node);
 					root.appendChild(element);
 				}
 			}
-			
+
 			//Convert document content to string
 			DOMSource domSource = new DOMSource(docContent);
-	        TransformerFactory tf = TransformerFactory.newInstance();
+            TransformerFactory tf = TransformerFactory.newInstance();
 	        Transformer transformer = tf.newTransformer();
 	        StringWriter sw = new StringWriter();
 	        StreamResult sr = new StreamResult(sw);
@@ -343,7 +311,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	 */
 	private Metadata getProposalMetadata(){
 		if (proposalMetadata == null){
-			proposalMetadata = metadataService.getMetadata(getProposalObjectType());
+			proposalMetadata = metadataService.getMetadata(ProposalInfo.class.getName());
 		}
 		
 		return proposalMetadata;
@@ -397,37 +365,21 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	}
 	
 
-	/** 
-	 * @return the dictionary definition to use when getting metadata.
-	 */
-	public String getProposalObjectType() {
-		if (proposalObjectType == null){
-			return ProposalInfo.class.getName();
-		}
-		return proposalObjectType;
-	}
-
-
-	public void setProposalObjectType(String proposalDefinition) {
-		this.proposalObjectType = proposalDefinition;
-	}
-
-
 	/**
 	 * Used to set the workflow utility service required by this filter
 	 * 
-	 * @param workflowUtilityService
+	 * @param workflowDocumentService
 	 */
-	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
-		this.workflowUtilityService = workflowUtilityService;
+	public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+		this.workflowDocumentService = workflowDocumentService;
 	}
 	
 	/**
 	 * Used to set the simple doc service required by this filter
 	 * @param simpleDocService
 	 */
-	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
-		this.simpleDocService = simpleDocService;
+	public void setSimpleDocService(WorkflowDocumentActionsService simpleDocService) {
+		this.workflowDocumentActionsService = simpleDocService;
 	}
 
 	public void setProposalService(ProposalService proposalService) {
