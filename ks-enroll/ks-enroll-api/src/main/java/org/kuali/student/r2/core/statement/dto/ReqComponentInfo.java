@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.dto;
+package org.kuali.student.r2.core.statement.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
