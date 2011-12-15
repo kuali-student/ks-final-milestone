@@ -1097,20 +1097,38 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return variations;
 	}
 	
-	private List<CourseCrossListingInfo> assembleCrossListings(List<CluIdentifierInfo> cluIdents) {
+    private List<CourseCrossListingInfo> assembleCrossListings(List<CluIdentifierInfo> cluIdents)
+            throws AssemblyException {
 		List<CourseCrossListingInfo> crossListings = new ArrayList<CourseCrossListingInfo>();
 		if (cluIdents != null) {
 			for (CluIdentifierInfo cluIdent : cluIdents) {
 				if (cluIdent.getType() != null && 
 						cluIdent.getType().equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
 					CourseCrossListingInfo crosslisting = new CourseCrossListingInfo();
-					crosslisting.setId(cluIdent.getId());
-					crosslisting.setCode(cluIdent.getCode());
-					crosslisting.setAttributes(cluIdent.getAttributes());
-					crosslisting.setType(cluIdent.getType());
-					crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
-					crosslisting.setSubjectArea(cluIdent.getDivision());
-					crosslisting.setDepartment(cluIdent.getOrgId());
+
+                    if (cluIdent.getAttributes().containsKey("courseId")) {
+                        try {
+                            CluInfo cluInfo = luService.getClu(cluIdent.getAttributes().get("courseId"));
+                            crosslisting.setId(cluInfo.getId());
+                            crosslisting.setCode(cluInfo.getOfficialIdentifier().getCode());
+                            crosslisting.setAttributes(cluIdent.getAttributes());
+                            crosslisting.setType(cluInfo.getType());
+                            crosslisting.setCourseNumberSuffix(cluInfo.getOfficialIdentifier().getSuffixCode());
+                            crosslisting.setSubjectArea(cluInfo.getOfficialIdentifier().getDivision());
+                            crosslisting.setDepartment(cluIdent.getOrgId());
+                        } catch (Exception e) {
+                            throw new AssemblyException("Error getting related clus", e);
+                        }
+                    } else {
+                        crosslisting.setId(cluIdent.getId());
+                        crosslisting.setCode(cluIdent.getCode());
+                        crosslisting.setAttributes(cluIdent.getAttributes());
+                        crosslisting.setType(cluIdent.getType());
+                        crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
+                        crosslisting.setSubjectArea(cluIdent.getDivision());
+                        crosslisting.setDepartment(cluIdent.getOrgId());
+                    }
+
 					crossListings.add(crosslisting);
 				}
 			}
