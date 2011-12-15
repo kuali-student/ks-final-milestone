@@ -321,7 +321,7 @@
 	<!--  added by bonnie -->	
 	<servlet-mapping>
       <servlet-name>ks</servlet-name>
-      <url-pattern>/spring/*</url-pattern>
+      <url-pattern>/kr-krad/*</url-pattern>
     </servlet-mapping> 	
     
 

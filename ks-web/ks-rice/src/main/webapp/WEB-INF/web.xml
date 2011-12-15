@@ -104,7 +104,7 @@
     <filter-mapping>
         <filter-name>UserLoginFilter</filter-name>
         <servlet-name>krad</servlet-name>
-    </filter-mapping> 
+    </filter-mapping>
     
     <!-- for KCB Spring Web MVC pages -->
     <filter-mapping>
@@ -321,7 +321,7 @@
 	<!--  added by bonnie -->	
 	<servlet-mapping>
       <servlet-name>krad</servlet-name>
-      <url-pattern>/spring/*</url-pattern>
+      <url-pattern>/kr-krad/*</url-pattern>
     </servlet-mapping> 	
     
 
