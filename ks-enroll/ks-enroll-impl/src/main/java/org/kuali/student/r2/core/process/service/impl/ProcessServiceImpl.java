@@ -369,18 +369,25 @@ public class ProcessServiceImpl implements ProcessService {
 		}
     }
 
-    private boolean isInstructionCurrent(InstructionInfo instruction, ContextInfo contextInfo) {
+    private boolean isInstructionCurrent(InstructionInfo instruction, ContextInfo contextInfo) throws InvalidParameterException {
         boolean result = false;
         Date effectiveDate = instruction.getEffectiveDate();
         Date expirationDate = instruction.getExpirationDate();
         Date currentDate = Calendar.getInstance().getTime(); // TODO incorporate context
 
-        if (!effectiveDate.after(currentDate) && !expirationDate.before(currentDate)) {
-            result = true;
+        if (null == effectiveDate) { // TODO move to validation decorator?
+            throw new InvalidParameterException("Instruction does not have an effective date.");
+        }
+
+        if (!effectiveDate.after(currentDate)) {
+            if (null == expirationDate) {
+                result = true;
+            } else if (!expirationDate.before(currentDate)) {
+                result = true;
+            }
         }
 
         return result;
     }
-
 
 }
