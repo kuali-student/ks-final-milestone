@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import org.kuali.rice.core.config.Config;
 import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.bo.role.dto.KimRoleInfo;
 import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.rice.kim.service.RoleService;
 import org.kuali.student.common.rice.StudentIdentityConstants;
@@ -29,6 +30,7 @@ import org.springframework.security.userdetails.UserDetails;
 import org.springframework.security.userdetails.UserDetailsService;
 import org.springframework.security.userdetails.UsernameNotFoundException;
 import org.springframework.security.util.AuthorityUtils;
+import org.springframework.util.StringUtils;
 
 
 /**
@@ -85,31 +87,35 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
     	
     	String springRoles = "";
     	
+    	// KS Administrator
     	ArrayList<String> adminRoleIdList = new ArrayList<String>();
-        String adminRoleId = roleService.getRoleByName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_ADMIN_ROLE_NAME).getRoleId();
-        adminRoleIdList.add(adminRoleId);
-        
+     	KimRoleInfo adminRole = roleService.getRoleByName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_ADMIN_ROLE_NAME);
+    	if(adminRole != null) {
+    		adminRoleIdList.add(adminRole.getRoleId());
+    	}
+
+    	// KS User
         ArrayList<String> ksUserRoleIdList = new ArrayList<String>();
-        String ksUserRoleId = roleService.getRoleByName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_USER_ROLE_NAME).getRoleId();
-        ksUserRoleIdList.add(ksUserRoleId);
+        KimRoleInfo ksUserRole = roleService.getRoleByName(StudentIdentityConstants.KS_NAMESPACE_CD, StudentIdentityConstants.KSCM_USER_ROLE_NAME);
+        if(ksUserRole != null) {
+        	ksUserRoleIdList.add(ksUserRole.getRoleId());
+        }            
         
+        ArrayList<String> ksSpringRolesList = new ArrayList<String>();
+       
         if(roleService.principalHasRole(principalId, adminRoleIdList, null)){
-        	springRoles += "ROLE_KS_ADMIN";
+        	ksSpringRolesList.add("ROLE_KS_ADMIN");
         }
         if(roleService.principalHasRole(principalId, ksUserRoleIdList, null)){
-        	if(!"".equals(springRoles)){
-        		springRoles += ", ";
-        	}        	
-        	springRoles += "ROLE_KS_USER";        	
-        }        
+        	ksSpringRolesList.add("ROLE_KS_USER");
+        }  
+         
         // Enable backdoor login. The LUMMain.jsp has will actually display the login. 
         if (enableBackdoorLogin()) {
-        	if(!"".equals(springRoles)){
-        		springRoles += ", ";
-        	}
-        	springRoles += "ROLE_KS_BACKDOOR";
+        	ksSpringRolesList.add("ROLE_KS_BACKDOOR");
         }
         
+        springRoles = StringUtils.collectionToCommaDelimitedString(ksSpringRolesList);
         return AuthorityUtils.commaSeparatedStringToAuthorityArray(springRoles);                
         
     }
