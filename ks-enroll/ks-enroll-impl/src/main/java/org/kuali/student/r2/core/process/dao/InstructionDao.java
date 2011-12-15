@@ -1,7 +1,7 @@
 package org.kuali.student.r2.core.process.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.r2.core.process.model1.InstructionEntity;
+import org.kuali.student.r2.core.process.model.InstructionEntity;
 
 import java.util.List;
 
