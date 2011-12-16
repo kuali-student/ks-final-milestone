@@ -19,4 +19,10 @@ public class ProcessPocConstants {
     public static final String PERSON_ID_JOHNNY_MANNING_2374 = "2374";
     public static final String PERSON_ID_EDDIE_PITTMAN_2406 = "2406";
     public static final String PERSON_ID_TRACY_BURTON_2132 = "2132";
+    
+    public static final String SPRING_2011_TERM_KEY = "kuali.atp.SP2011";    
+    public static final String SUMMER_2011_TERM_KEY = "kuali.atp.SU2011";        
+    public static final String FALL_2011_TERM_KEY = "kuali.atp.FA2011";
+    public static final String SPRING_2012_TERM_KEY = "kuali.atp.SP2012";       
+
 }
