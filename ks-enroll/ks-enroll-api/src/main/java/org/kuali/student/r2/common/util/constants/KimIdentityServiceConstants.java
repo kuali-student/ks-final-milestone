@@ -15,6 +15,8 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.rice.kim.api.identity.CodedAttribute;
+
 /**
  * Constants used by for Rice's Kim Identity Service
  *
@@ -40,6 +42,7 @@ public class KimIdentityServiceConstants {
     public static final String PRIMARY_NAME_TYPE_KEY = "PRM";
     public static final String PREFERRED_NAME_TYPE_KEY = "PRFR";
     public static final String OTHER_NAME_TYPE_KEY = "OTH";
+    public static final CodedAttribute.Builder PREFERRED_NAME_CODED_ATTRIBUTE = CodedAttribute.Builder.create(PREFERRED_NAME_TYPE_KEY);
     /**
      * External Identifier Type Keys
      */
