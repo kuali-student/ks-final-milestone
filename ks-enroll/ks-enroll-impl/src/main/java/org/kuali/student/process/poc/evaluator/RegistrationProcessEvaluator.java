@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
@@ -87,7 +88,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
 
         Collections.sort(instructionsList, new InstructionComparator());
 
-        List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
+        List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
 
         for (InstructionInfo instruction : instructionsList) {
 
@@ -98,11 +99,11 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
 
                 if (instruction.getTypeKey().equals(ProcessServiceConstants.INSTRUCTION_TYPE_MILESTONE)) {
 
-                    validationResults.addAll(milestoneCheckEvaluator.evaluate(MilestoneCheckContext.createMilestoneCheckContext(processContext.getTermKey(), null), context));
+                    validationResults.add(milestoneCheckEvaluator.evaluate(MilestoneCheckContext.createMilestoneCheckContext(processContext.getTermKey(), null, null), context));
 
                 } else if (instruction.getTypeKey().equals(ProcessServiceConstants.INSTRUCTION_TYPE_HOLD)) {
 
-                    validationResults.addAll(holdCheckEValuator.evaluate(HoldCheckContext.createHoldContext(processContext.getTermKey(), null), context));
+                    validationResults.add(holdCheckEValuator.evaluate(HoldCheckContext.createHoldContext(processContext.getTermKey(), null), context));
 
                 }
             } else {

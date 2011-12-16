@@ -6,30 +6,29 @@ public class MilestoneCheckContext extends CheckContext {
 
     private String milestoneTypeKey;
 
-    public static MilestoneCheckContext createMilestoneCheckContext(String atpKey, String milestoneTypeKey) {
-        return new MilestoneCheckContext(atpKey, milestoneTypeKey);
+    private String milestoneCheckType;
+
+    public static MilestoneCheckContext createMilestoneCheckContext(String atpKey, String milestoneTypeKey, String milestoneCheckType) {
+        return new MilestoneCheckContext(atpKey, milestoneTypeKey, milestoneCheckType);
     }
 
-    private MilestoneCheckContext(String atpKey, String milestoneTypeKey) {
-      
+    private MilestoneCheckContext(String atpKey, String milestoneTypeKey, String milestoneCheckType) {
+
         this.atpKey = atpKey;
         this.milestoneTypeKey = milestoneTypeKey;
+        this.milestoneCheckType = milestoneCheckType;
     }
 
     public String getAtpKey() {
         return atpKey;
     }
 
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
-    }
-
     public String getMilestoneTypeKey() {
         return milestoneTypeKey;
     }
 
-    public void setMilestoneTypeKey(String milestoneTypeKey) {
-        this.milestoneTypeKey = milestoneTypeKey;
+    public String getMilestoneCheckType() {
+        return milestoneCheckType;
     }
 
 }

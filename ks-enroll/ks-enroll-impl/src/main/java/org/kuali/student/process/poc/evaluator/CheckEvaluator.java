@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 
 public interface CheckEvaluator<P extends CheckContext, C extends Context> {
 
-    public List<? extends ValidationResult> evaluate(P checkContext, C context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public ValidationResult evaluate(P checkContext, C context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException;;
 
 }
