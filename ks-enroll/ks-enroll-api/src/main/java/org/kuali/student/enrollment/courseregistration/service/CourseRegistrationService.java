@@ -62,7 +62,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * 
      * @param studentId Identifier of the student
      * @param context
-     * @return
+     * @return list of errors, warnings or informational messages
      * @throws DoesNotExistException If student id does not exist student id not
      *             found
      * @throws InvalidParameterException Invalid student id in the input
@@ -70,7 +70,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException Unable to complete request
      * @throws PermissionDeniedException
      */
-    public Boolean checkStudentEligibility(@WebParam(name = "studentId") String studentId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public  List<ValidationResultInfo> checkStudentEligibility(@WebParam(name = "studentId") String studentId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -84,7 +84,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param studentId Identifier of the student
      * @param termKey The unique key for the term
      * @param context
-     * @return
+     * @return list of errors, warnings or informational messages
      * @throws InvalidParameterException Invalid student id or term key
      * @throws MissingParameterException Student id or term key missing in the
      *             input
