@@ -148,4 +148,28 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="instructionDao" class="org.kuali.student.r2.core.process.dao.InstructionDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="checkTypeDao" class="org.kuali.student.r2.core.process.dao.CheckTypeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="instructionTypeDao" class="org.kuali.student.r2.core.process.dao.InstructionTypeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
+    <bean id="processTypeDao" class="org.kuali.student.r2.core.process.dao.ProcessTypeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
 </beans>

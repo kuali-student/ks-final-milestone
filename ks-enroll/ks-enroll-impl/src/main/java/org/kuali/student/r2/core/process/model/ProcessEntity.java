@@ -22,6 +22,7 @@ import org.kuali.student.r2.core.process.infc.Process;
 @Entity
 @Table(name = "KSEN_PROCESS")
 public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessAttributeEntity>{
+
     @Column(name = "NAME")
     private String name;
 
@@ -29,62 +30,70 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
     @JoinColumn(name = "RT_DESCR_ID")
     private ProcessRichTextEntity descr;
 
-	//PROCESS_STATE_ID
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "STATE_ID")
-	private StateEntity processStateID;
+	private StateEntity processState;
 
-	//PROCESS_TYPE_ID
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "PROCESS_TYPE_ID")
-	private ProcessTypeEntity processTypeID;
+	@JoinColumn(name = "TYPE_ID")
+	private ProcessTypeEntity processType;
 
-	//OWNER_ORG_ID
+	@Column(name = "OWNER_ORG_ID")
 	private String ownerOrgID;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)
     private List<ProcessAttributeEntity> attributes;
 
-	@Override
-	public void setAttributes(List<ProcessAttributeEntity> attributes) {
-		this.attributes = attributes;
-	}
+    public ProcessEntity(){
+
+    }
 
 	public ProcessEntity(Process process){
 	    super(process);
-        try {
-	        this.setId(process.getKey());
-	        this.setName(process.getName());
-	        if(process.getDescr() != null) {
-	            this.setDescr(new ProcessRichTextEntity(process.getDescr()));
-			}
 
-	        this.setAttributes(new ArrayList<ProcessAttributeEntity>());
-	        if (null != process.getAttributes()) {
-	            for (Attribute att : process.getAttributes()) {
-	            	ProcessAttributeEntity attEntity = new ProcessAttributeEntity(att);
-	                this.getAttributes().add(attEntity);
-	            }
-	        }
-        } catch (Exception e){
-            e.printStackTrace();
+        this.setId(process.getKey());
+        this.setName(process.getName());
+
+        if(process.getDescr() != null) {
+            this.setDescr(new ProcessRichTextEntity(process.getDescr()));
         }
+
+        this.setOwnerOrgID(process.getOwnerOrgId());
+
+        this.setAttributes(new ArrayList<ProcessAttributeEntity>());
+        if (null != process.getAttributes()) {
+            for (Attribute att : process.getAttributes()) {
+                ProcessAttributeEntity attEntity = new ProcessAttributeEntity(att);
+                this.getAttributes().add(attEntity);
+            }
+        }
+
 	}
 
     /**
      * @return Process Information DTO
      */
     public ProcessInfo toDto(){
+
 	    ProcessInfo obj = new ProcessInfo();
-    	obj.setKey(getId());
+
+        obj.setKey(getId());
     	obj.setName(name);
-        if (processTypeID != null)
-            obj.setTypeKey(processTypeID.getId());
-        if (processStateID != null)
-            obj.setStateKey(processStateID.getId());
+        obj.setOwnerOrgId(getOwnerOrgID());
+
+        if (processType != null){
+            obj.setTypeKey(processType.getId());
+        }
+
+        if (processState != null){
+            obj.setStateKey(processState.getId());
+        }
+
         obj.setMeta(super.toDTO());
-        if (descr != null)
+
+        if (descr != null){
             obj.setDescr(descr.toDto());
+        }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (ProcessAttributeEntity att : getAttributes()) {
@@ -96,12 +105,6 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
         return obj;
 	}
 
-	//ID
-	//OBJ_ID
-
-	//VER_NBR
-	private int versionNumber;
-
 	// NAME
 	public String getName() { return name; }
 	public void setName(String name) { this.name = name; }
@@ -111,19 +114,19 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
 	public void setDescr(ProcessRichTextEntity descr) { this.descr = descr; }
 
 	//PROCESS_STATE_ID
-	public StateEntity getProcessStateID() {
-        return processStateID;
+	public StateEntity getProcessState() {
+        return processState;
     }
-	public void setProcessStateID(StateEntity processStateID) {
-        this.processStateID = processStateID;
+	public void setProcessState(StateEntity processState) {
+        this.processState = processState;
     }
 
 	//PROCESS_TYPE_ID
-	public ProcessTypeEntity getProcessTypeID() {
-        return processTypeID;
+	public ProcessTypeEntity getProcessType() {
+        return processType;
     }
-	public void setProcessTypeID(ProcessTypeEntity processTypeID) {
-        this.processTypeID = processTypeID;
+	public void setProcessType(ProcessTypeEntity processType) {
+        this.processType = processType;
     }
 
 	//OWNER_ORG_ID
@@ -133,5 +136,10 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
 	@Override
 	public List<ProcessAttributeEntity> getAttributes() {
 		 return attributes;
+	}
+
+    @Override
+	public void setAttributes(List<ProcessAttributeEntity> attributes) {
+		this.attributes = attributes;
 	}
 }

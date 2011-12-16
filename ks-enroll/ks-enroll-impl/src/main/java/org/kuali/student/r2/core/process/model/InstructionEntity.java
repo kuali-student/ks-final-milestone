@@ -40,9 +40,9 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @JoinColumn(name = "PROCESS_ID")
     private ProcessEntity process;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "CHECK_ID")
-//    private CheckEntity check;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "CHECK_ID")
+    private CheckEntity check;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "MESSAGE")
@@ -128,9 +128,9 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
             dto.setProcessKey(getProcess().getId());
         }
 
-//        if (getCheck() != null){
-//            dto.setCheckKey(getCheck().getId());
-//        }
+        if (getCheck() != null){
+            dto.setCheckKey(getCheck().getId());
+        }
 
         if (getInstructionType() != null){
             dto.setTypeKey(getInstructionType().getId());
@@ -207,13 +207,13 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.process = process;
     }
 
-//    public CheckEntity getCheck() {
-//        return check;
-//    }
-//
-//    public void setCheck(CheckEntity check) {
-//        this.check = check;
-//    }
+    public CheckEntity getCheck() {
+        return check;
+    }
+
+    public void setCheck(CheckEntity check) {
+        this.check = check;
+    }
 
     public InstructionMessageEntity getMessage() {
         return message;

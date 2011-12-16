@@ -51,7 +51,16 @@
         <class>org.kuali.student.r2.core.process.model.InstructionMessageEntity</class>
         <class>org.kuali.student.r2.core.process.model.InstructionTypeAttributeEntity</class>
         <class>org.kuali.student.r2.core.process.model.InstructionTypeEntity</class>
-
+        <class>org.kuali.student.r2.core.process.model.ProcessEntity</class>
+        <class>org.kuali.student.r2.core.process.model.ProcessAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.ProcessRichTextEntity</class>
+        <class>org.kuali.student.r2.core.process.model.ProcessTypeAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.ProcessTypeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
+        <class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.CheckRichTextEntity</class>
+        <class>org.kuali.student.r2.core.process.model.CheckTypeAttributeEntity</class>
+        <class>org.kuali.student.r2.core.process.model.CheckTypeEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

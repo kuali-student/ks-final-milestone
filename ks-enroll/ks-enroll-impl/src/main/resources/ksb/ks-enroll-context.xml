@@ -400,4 +400,15 @@
 
   <bean id="activityTransformer" class="org.kuali.student.enrollment.class2.courseoffering.service.transformer.ActivityOfferingTransformer" />
 
+  <bean id="processService" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl">
+      <property name="processDao" ref="processDao" />
+      <property name="checkDao" ref="checkDao" />
+      <property name="instructionDao" ref="instructionDao" />
+      <property name="stateService" ref="stateService" />
+      <property name="processTypeDao" ref="processTypeDao" />
+      <property name="checkTypeDao" ref="checkTypeDao" />
+      <property name="instructionTypeDao" ref="instructionTypeDao" />
+      <property name="issueDao"  ref="issueDao"/>
+  </bean>
+
 </beans>

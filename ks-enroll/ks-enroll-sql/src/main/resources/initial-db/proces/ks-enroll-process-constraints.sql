@@ -91,6 +91,16 @@ ALTER TABLE "KSEN_CHECK_RICH_TEXT" ADD PRIMARY KEY ("ID") ENABLE
 /
 
 --------------------------------------------------------
+--  Constraints for Table KSEN_CHECK_TYPE_ATTR
+--------------------------------------------------------
+
+  ALTER TABLE "KSEN_CHECK_TYPE_ATTR" MODIFY ("TYPE_KEY" NOT NULL ENABLE)
+/
+
+  ALTER TABLE "KSEN_CHECK_TYPE_ATTR" ADD PRIMARY KEY ("TYPE_KEY") ENABLE
+/
+
+--------------------------------------------------------
 --  Constraints for Table KSEN_CHECK_ATTR
 --------------------------------------------------------
 
