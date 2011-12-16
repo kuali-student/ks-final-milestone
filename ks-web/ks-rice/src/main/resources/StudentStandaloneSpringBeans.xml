@@ -64,7 +64,7 @@
 		<property name="remotedServiceRegistry" ref="rice.ksb.serviceBus" />
 		<property name="serviceDefinition">
 			<bean parent="kimSoapService" p:service-ref="kimIdentityService"
-				p:localServiceName="IdentityServiceSOAP">
+				p:localServiceName="IdentityService">
 				<property name="busSecurity" value="${ks.core.bus.security}" />
 				<property name="jaxWsService" value="true" />
 			</bean>
