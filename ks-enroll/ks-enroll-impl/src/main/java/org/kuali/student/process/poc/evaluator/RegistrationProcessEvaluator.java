@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.population.service.PopulationService;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 
@@ -104,11 +105,12 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
 
             if (exemptions.isEmpty ()) {
 
-                if (instruction.getTypeKey().equals(ProcessServiceConstants.INSTRUCTION_TYPE_MILESTONE)) {
+                CheckInfo check = processService.getCheck(instruction.getCheckKey(), context);
+                if (check.getTypeKey().equals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY)) {
 
                     validationResults.add(milestoneCheckEvaluator.evaluate(MilestoneCheckContext.createMilestoneCheckContext(processContext.getTermKey(), null, null), context));
 
-                } else if (instruction.getTypeKey().equals(ProcessServiceConstants.INSTRUCTION_TYPE_HOLD)) {
+                } else if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
 
                     validationResults.add(holdCheckEvaluator.evaluate(HoldCheckContext.createHoldContext(processContext.getTermKey(), null), context));
 
