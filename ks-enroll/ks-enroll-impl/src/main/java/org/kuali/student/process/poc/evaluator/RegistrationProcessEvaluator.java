@@ -1,15 +1,8 @@
 package org.kuali.student.process.poc.evaluator;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.SortedSet;
-import java.util.TreeSet;
 
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -42,7 +35,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
     PopulationService populationService;
     ExemptionService exemptionService;
     MilestoneCheckEvaluator milestoneCheckEvaluator;
-    HoldCheckEvaluator holdCheckEValuator;
+    HoldCheckEvaluator holdCheckEvaluator;
 
     public void setAcalService(AcademicCalendarService acalService) {
         this.acalService = acalService;
@@ -56,6 +49,20 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
         this.populationService = populationService;
     }
 
+    public void setExemptionService(ExemptionService exemptionService) {
+        this.exemptionService = exemptionService;
+    }
+
+    public void setHoldCheckEvaluator(HoldCheckEvaluator holdCheckEvaluator) {
+        this.holdCheckEvaluator = holdCheckEvaluator;
+    }
+
+    public void setMilestoneCheckEvaluator(MilestoneCheckEvaluator milestoneCheckEvaluator) {
+        this.milestoneCheckEvaluator = milestoneCheckEvaluator;
+    }
+
+    
+    
     @Override
     public List<ValidationResultInfo> evaluate(CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -95,7 +102,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
             List<ExemptionInfo> exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(null, processContext.getProcessKey(), instruction.getCheckKey(),
                     processContext.getStudentId(), context);
 
-            if (exemptions.size() == 0) {
+            if (exemptions.isEmpty ()) {
 
                 if (instruction.getTypeKey().equals(ProcessServiceConstants.INSTRUCTION_TYPE_MILESTONE)) {
 
@@ -103,7 +110,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
 
                 } else if (instruction.getTypeKey().equals(ProcessServiceConstants.INSTRUCTION_TYPE_HOLD)) {
 
-                    validationResults.add(holdCheckEValuator.evaluate(HoldCheckContext.createHoldContext(processContext.getTermKey(), null), context));
+                    validationResults.add(holdCheckEvaluator.evaluate(HoldCheckContext.createHoldContext(processContext.getTermKey(), null), context));
 
                 }
             } else {

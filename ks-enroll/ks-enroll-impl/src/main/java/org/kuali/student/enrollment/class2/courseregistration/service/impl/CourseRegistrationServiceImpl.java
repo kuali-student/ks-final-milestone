@@ -332,20 +332,20 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     }
 
     @Override
-    public Boolean checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public  List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        String matchingProcessKey = null;
-        List<ProcessInfo> studentElgibilityProcesses = processService.getProcessesForProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_STUDENT_ELIGIBILITY, context);
-
-        for (ProcessInfo processInfo : studentElgibilityProcesses) {
-            if (processInfo.getOwnerOrgId().equals(ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL)) {
-                matchingProcessKey = processInfo.getKey();
-                break;
-            }
-        }
+//        String matchingProcessKey = null;
+//        List<ProcessInfo> studentElgibilityProcesses = processService.getProcessesForProcessCategory(ProcessServiceConstants.PROCESS_CATEGORY_STUDENT_ELIGIBILITY, context);
+//
+//        for (ProcessInfo processInfo : studentElgibilityProcesses) {
+//            if (processInfo.getOwnerOrgId().equals(ProcessServiceConstants.PROCESS_OWNING_ORG_GRAD_SCHOOL)) {
+//                matchingProcessKey = processInfo.getKey();
+//                break;
+//            }
+//        }
    
-        return true;
+        return null;
     }
 
     @Override

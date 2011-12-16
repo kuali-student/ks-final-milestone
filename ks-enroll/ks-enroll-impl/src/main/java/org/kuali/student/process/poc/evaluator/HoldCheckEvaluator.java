@@ -22,6 +22,16 @@ public class HoldCheckEvaluator implements CheckEvaluator<HoldCheckContext, Cont
 
     AtpService atpService;
 
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
+    public void setHoldService(HoldService holdService) {
+        this.holdService = holdService;
+    }
+
+    
+    
     @Override
     public ValidationResult evaluate(HoldCheckContext checkContext, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException,
             OperationFailedException {

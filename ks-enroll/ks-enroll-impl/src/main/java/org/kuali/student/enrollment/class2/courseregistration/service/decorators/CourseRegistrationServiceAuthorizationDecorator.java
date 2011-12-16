@@ -253,7 +253,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 	}
 
 	@Override
-	public Boolean checkStudentEligibility(String studentId, ContextInfo context)
+	public  List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
