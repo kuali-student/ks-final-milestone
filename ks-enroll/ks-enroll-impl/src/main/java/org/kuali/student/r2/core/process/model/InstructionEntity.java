@@ -60,9 +60,10 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "IS_EXEMPTABLE")
     private boolean exemptable;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinTable(name = "KSEN_INSTR_PRSN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "PERSON_ID"))
-    private List<PersonImpl> appliedPopulation;
+    @Transient // TODO make population entity
+//    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+//    @JoinTable(name = "KSEN_INSTR_PRSN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "PERSON_ID"))
+    private List<String> appliedPopulation;
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinTable(name = "KSEN_INSTR_PRSN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
@@ -137,12 +138,12 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         }
 
         List<String> appliedPopulation = new ArrayList<String>();
-        if (getAppliedPopulation() != null){
-            for (PersonImpl person : getAppliedPopulation()) {
-                appliedPopulation.add(person.getEntityId());
-            }
-        }
-        dto.setAppliedPopulationKeys(appliedPopulation);
+//        if (getAppliedPopulation() != null){
+//            for (PersonImpl person : getAppliedPopulation()) {
+//                appliedPopulation.add(person.getEntityId());
+//            }
+//        }
+//        dto.setAppliedPopulationKeys(appliedPopulation);
 
         List<String> appliedAtpTypeKeys = new ArrayList<String>();
         if (getAppliedAtpTypes() != null){
@@ -255,11 +256,11 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.exemptable = exemptable;
     }
 
-    public List<PersonImpl> getAppliedPopulation() {
+    public List<String> getAppliedPopulation() {
         return appliedPopulation;
     }
 
-    public void setAppliedPopulation(List<PersonImpl> appliedPopulation) {
+    public void setAppliedPopulation(List<String> appliedPopulation) {
         this.appliedPopulation = appliedPopulation;
     }
 
