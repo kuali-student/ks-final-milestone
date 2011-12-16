@@ -28,14 +28,78 @@ import java.util.*;
 
 public class ProcessServiceImpl implements ProcessService {
 
-    private ProcessDao processDao;
     private CheckDao checkDao;
-    private InstructionDao instructionDao;
-    private StateService stateService;
-    private ProcessTypeDao processTypeDao;
     private CheckTypeDao checkTypeDao;
+    private InstructionDao instructionDao;
+    private ProcessDao processDao;
+    private ProcessTypeDao processTypeDao;
     private InstructionTypeDao instructionTypeDao;
     private IssueDao issueDao;
+    private StateService stateService;
+
+    public CheckDao getCheckDao() {
+        return checkDao;
+    }
+
+    public void setCheckDao(CheckDao checkDao) {
+        this.checkDao = checkDao;
+    }
+
+    public CheckTypeDao getCheckTypeDao() {
+        return checkTypeDao;
+    }
+
+    public void setCheckTypeDao(CheckTypeDao checkTypeDao) {
+        this.checkTypeDao = checkTypeDao;
+    }
+
+    public InstructionDao getInstructionDao() {
+        return instructionDao;
+    }
+
+    public void setInstructionDao(InstructionDao instructionDao) {
+        this.instructionDao = instructionDao;
+    }
+
+    public InstructionTypeDao getInstructionTypeDao() {
+        return instructionTypeDao;
+    }
+
+    public void setInstructionTypeDao(InstructionTypeDao instructionTypeDao) {
+        this.instructionTypeDao = instructionTypeDao;
+    }
+
+    public IssueDao getIssueDao() {
+        return issueDao;
+    }
+
+    public void setIssueDao(IssueDao issueDao) {
+        this.issueDao = issueDao;
+    }
+
+    public ProcessDao getProcessDao() {
+        return processDao;
+    }
+
+    public void setProcessDao(ProcessDao processDao) {
+        this.processDao = processDao;
+    }
+
+    public ProcessTypeDao getProcessTypeDao() {
+        return processTypeDao;
+    }
+
+    public void setProcessTypeDao(ProcessTypeDao processTypeDao) {
+        this.processTypeDao = processTypeDao;
+    }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
+    }
 
     @Override
     public ProcessCategoryInfo getProcessCategory(@WebParam(name = "processCategoryId") String processCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
