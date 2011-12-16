@@ -33,38 +33,40 @@ public class ProcessServiceConstants {
     /**
      * ProcessCategory types
      */
-    public static final String PROCESS_CATEGORY_TYPE_KEY = "kuali.process.type.process.category";
+    public static final String PROCESS_CATEGORY_TYPE_KEY_CATEGORY = "kuali.process.category.type";
     /**
      * Process types
      */
-    public static final String PROCESS_TYPE_KEY = "kuali.process.type.process";
+    public static final String PROCESS_TYPE_KEY = "kuali.process.process.type";
     /**
      * Check types
      */
-    public static final String CHECK_TYPE_KEY = "kuali.process.type.check";
+    public static final String HOLD_CHECK_TYPE_KEY = "kuali.process.check.type.hold";
+    public static final String START_DATE_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.startdate";
+    public static final String DEADLINE_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.deadline";
+    public static final String TIME_PERIOD_CHECK_TYPE_KEY = "kuali.process.check.type.milestone.period";
+    public static final String PROCESS_CHECK_TYPE_KEY = "kuali.process.check.type.process";
+    public static final String DIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.direct";
+    public static final String INDIRECT_RULE_CHECK_TYPE_KEY = "kuali.process.check.type.rule.indirect";
+    public static final String EQUAL_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.equals";
+    public static final String MAXIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.max";
+    public static final String MINIMUM_VALUE_CHECK_TYPE_KEY = "kuali.process.check.type.value.min";
     /**
      * Instruction types
      */
-    public static final String INSTRUCTION_TYPE_KEY = "kuali.process.type.instruction";
-    public static final String INSTRUCTION_TYPE_MILESTONE = "kuali.process.type.instruction.milestone";
-    public static final String INSTRUCTION_TYPE_HOLD = "kuali.process.type.instruction.hold";
-    public static final String INSTRUCTION_TYPE_KRMS_AGENDA = "kuali.process.type.instruction.krms.agenda";
+    public static final String INSTRUCTION_TYPE_KEY = "kuali.process.instruction.type ";
     /**
      * States for Process Categories
      */
     public static final String PROCESS_CATEGORY_LIFECYCLE_KEY = "kuali.process.process.category.lifecycle";
-
     /***
      * Process Category Types
      */
-
     public static final String PROCESS_CATEGORY_STUDENT_ELIGIBILITY = "IS_STUDENT_ELIGIBLE_FOR_REGISTRATION";
-
     /**
      * Dummy Process Owner Organization
      */
     public static final String PROCESS_OWNING_ORG_GRAD_SCHOOL = "GRAD_SCHOOL_ORG";
-
     /**
      * States for Processes
      */
@@ -87,7 +89,6 @@ public class ProcessServiceConstants {
     public static final String INSTRUCTION_LIFECYCLE_KEY = "kuali.process.instruction.lifecycle";
     public static final String INSTRUCTION_ENABLED_STATE_KEY = "kuali.process.instruction.state.enabled";
     public static final String INSTRUCTION_DISABLED_STATE_KEY = "kuali.process.instruction.state.disabled";
-
     public static final String[] INSTRUCTION_LIFECYCLE_KEYS = {INSTRUCTION_ENABLED_STATE_KEY, INSTRUCTION_DISABLED_STATE_KEY};
     /**
      * known process keys
