@@ -20,7 +20,7 @@ import static org.junit.Assert.assertNotNull;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 public class TestProcessServiceImpl {
 
-//    @Resource(name="atpServiceAuthDecorator")
+    @Resource(name="processServiceAuthDecorator")
     public ProcessService processService;
 
     public ContextInfo callContext = ContextInfo.newInstance();
@@ -34,7 +34,7 @@ public class TestProcessServiceImpl {
 
     @Test
     public void testAtpServiceValidationSetup() {
-//        assertNotNull(processService);
+        assertNotNull(processService);
     }
 
 }

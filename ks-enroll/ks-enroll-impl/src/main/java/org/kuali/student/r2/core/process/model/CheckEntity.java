@@ -64,7 +64,7 @@ X    UPDATETIME TIMESTAMP (6),
 	private IssueEntity IssueType;
 
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "MILESTONE_ID")
+	@JoinColumn(name = "MILESTONE_TYPE_ID")
 	private MilestoneEntity milestoneType;
 
     /* TODO

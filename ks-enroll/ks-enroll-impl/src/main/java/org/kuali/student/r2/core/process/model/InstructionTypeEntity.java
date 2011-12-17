@@ -6,7 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KSEN_ATP_TYPE")
+@Table(name = "KSEN_INSTR_TYPE")
 public class InstructionTypeEntity extends TypeEntity<InstructionTypeAttributeEntity> {
 
 }

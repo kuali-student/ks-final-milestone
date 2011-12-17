@@ -373,7 +373,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
 
         if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
-            checkEntity.setIssue(issueDao.find(checkInfo.getIssueKey()));
+            checkEntity.setIssueType(issueDao.find(checkInfo.getIssueKey())); // TODO needs IssueType, not Issue?
         }
 
 
@@ -410,7 +410,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
 
         if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
-            toUpdate.setIssue(issueDao.find(checkInfo.getIssueKey()));
+            toUpdate.setIssueType(issueDao.find(checkInfo.getIssueKey())); // TODO needs IssueType, not Issue?
         }
 
         checkDao.merge(toUpdate);

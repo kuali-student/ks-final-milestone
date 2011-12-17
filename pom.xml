@@ -136,7 +136,7 @@
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
-    <spring.version>3.1.0.RC1</spring.version>
+    <spring.version>3.1.0.RC2</spring.version>
     <spring.security.version>3.0.7.RELEASE</spring.security.version>
     <spring.security.javadoc.version>3.0.7.RELEASE</spring.security.javadoc.version>
     <velocity.version>1.6.4</velocity.version>
