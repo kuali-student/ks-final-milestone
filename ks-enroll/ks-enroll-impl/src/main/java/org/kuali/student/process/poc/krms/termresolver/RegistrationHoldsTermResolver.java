@@ -23,7 +23,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 
@@ -68,7 +67,7 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<HoldInfo
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.emptySet();
+        return Collections.singleton(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY);
     }
 
     @Override
@@ -81,12 +80,13 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<HoldInfo
     public List<HoldInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
         String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
+        String issueKey = parameters.get(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY);
 
         List<HoldInfo> studentHolds;
 
-        // get all the active holds for the student
+        // get all the active holds for the student and the given issue
         try {
-            studentHolds = holdService.getActiveHoldsByPerson(studentId, context);
+            studentHolds = holdService.getActiveHoldsByIssueAndPerson(issueKey, studentId, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {
@@ -97,17 +97,6 @@ public class RegistrationHoldsTermResolver implements TermResolver<List<HoldInfo
             throw new TermResolutionException(e.getMessage(), this, parameters);
         }
 
-        List<HoldInfo> registrationHolds = new ArrayList<HoldInfo>();
-
-        // filter out the holds that are a registration restriction
-        for(HoldInfo hold : studentHolds) {
-
-            // TODO figure out how to determine if a hold is a registration hold
-            if(false) {
-                registrationHolds.add(hold);
-            }
-        }
-
-        return registrationHolds;  //To change body of implemented methods use File | Settings | File Templates.
+        return studentHolds;
     }
 }

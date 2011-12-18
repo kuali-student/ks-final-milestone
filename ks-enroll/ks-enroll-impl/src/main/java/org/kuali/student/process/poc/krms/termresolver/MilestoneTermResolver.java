@@ -18,7 +18,6 @@ package org.kuali.student.process.poc.krms.termresolver;
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -29,6 +28,7 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,7 +37,7 @@ import java.util.Set;
  *
  * @author alubbers
  */
-public class MilestoneTermResolver implements TermResolver<MilestoneInfo> {
+public class MilestoneTermResolver implements TermResolver<List<MilestoneInfo>> {
 
     private AtpService atpService;
 
@@ -48,12 +48,12 @@ public class MilestoneTermResolver implements TermResolver<MilestoneInfo> {
 
     @Override
     public String getOutput() {
-        return RulesExecutionConstants.MILESTONE_TERM_NAME;
+        return RulesExecutionConstants.MILESTONES_BY_TYPE_TERM_NAME;
     }
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(RulesExecutionConstants.MILESTONE_ID_TERM_PROPERTY_NAME);
+        return Collections.singleton(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
     }
 
     @Override
@@ -63,14 +63,15 @@ public class MilestoneTermResolver implements TermResolver<MilestoneInfo> {
     }
 
     @Override
-    public MilestoneInfo resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
+    public List<MilestoneInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
-        String milestoneId = parameters.get(RulesExecutionConstants.MILESTONE_ID_TERM_PROPERTY_NAME);
+        String milestoneType = parameters.get(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
 
-        MilestoneInfo result = null;
+        List<MilestoneInfo> result = null;
         try {
-            result = atpService.getMilestone(milestoneId, context);
+            List<String> ids = atpService.getMilestoneIdsByType(milestoneType, context);
+            result = atpService.getMilestonesByIds(ids, context);
         } catch (DoesNotExistException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (InvalidParameterException e) {

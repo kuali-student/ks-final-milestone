@@ -26,6 +26,7 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 /**
  * This proposition evaluates a check of a particular date against the dates of a given Milestone.
@@ -43,21 +44,21 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
 
     private final DateComparisonType comparisonType;
 
-    private final String milestoneId;
+    private final String milestoneType;
 
     private final Boolean inclusive;
 
-    public MilestoneDateComparisonProposition(String comparisonDateTermKey, DateComparisonType comparisonType, String milestoneId) {
+    public MilestoneDateComparisonProposition(String comparisonDateTermKey, DateComparisonType comparisonType, String milestoneType) {
         this.comparisonDateTerm = new Term(comparisonDateTermKey);
         this.comparisonType = comparisonType;
-        this.milestoneId = milestoneId;
+        this.milestoneType = milestoneType;
         this.inclusive = false;
     }
 
-    public MilestoneDateComparisonProposition(String comparisonDateTermKey, DateComparisonType comparisonType, String milestoneId, Boolean inclusive) {
+    public MilestoneDateComparisonProposition(String comparisonDateTermKey, DateComparisonType comparisonType, String milestoneType, Boolean inclusive) {
         this.comparisonDateTerm = new Term(comparisonDateTermKey);
         this.comparisonType = comparisonType;
-        this.milestoneId = milestoneId;
+        this.milestoneType = milestoneType;
         this.inclusive = inclusive;
     }
 
@@ -69,8 +70,8 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
         return comparisonType;
     }
 
-    public String getMilestoneId() {
-        return milestoneId;
+    public String getMilestoneType() {
+        return milestoneType;
     }
 
     public Boolean getInclusive() {
@@ -80,41 +81,47 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        Term milestoneTerm = new Term(RulesExecutionConstants.MILESTONE_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.MILESTONE_ID_TERM_PROPERTY_NAME, milestoneId));
+        Term milestonesTerm = new Term(RulesExecutionConstants.MILESTONES_BY_TYPE_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY, milestoneType));
 
-        MilestoneInfo milestone = environment.resolveTerm(milestoneTerm, this);
+        List<MilestoneInfo> milestones = environment.resolveTerm(milestonesTerm, this);
 
         Date comparisonDate = environment.resolveTerm(comparisonDateTerm, this);
 
-        boolean evaluation = false;
-        switch (comparisonType) {
-            case BEFORE: {
-                evaluation = comparisonDate.before(milestone.getStartDate());
-                if(inclusive && !evaluation) {
-                    evaluation = comparisonDate.equals(milestone.getStartDate());
+        boolean dateCompareResult = true;
+        for(MilestoneInfo milestone : milestones) {
+            switch (comparisonType) {
+                case BEFORE: {
+                    dateCompareResult = comparisonDate.before(milestone.getStartDate());
+                    if(inclusive && !dateCompareResult) {
+                        dateCompareResult = comparisonDate.equals(milestone.getStartDate());
+                    }
+                    break;
                 }
-                break;
-            }
-            case AFTER: {
-                evaluation = comparisonDate.after(milestone.getEndDate());
-                if(inclusive && !evaluation) {
-                    evaluation = comparisonDate.equals(milestone.getEndDate());
+                case AFTER: {
+                    dateCompareResult = comparisonDate.after(milestone.getEndDate());
+                    if(inclusive && !dateCompareResult) {
+                        dateCompareResult = comparisonDate.equals(milestone.getEndDate());
+                    }
+                    break;
                 }
-                break;
-            }
-            case BETWEEN: {
-                evaluation = comparisonDate.after(milestone.getStartDate()) && comparisonDate.before(milestone.getEndDate());
-                if(inclusive && !evaluation) {
-                    evaluation = comparisonDate.equals(milestone.getStartDate()) || comparisonDate.equals(milestone.getEndDate());
+                case BETWEEN: {
+                    dateCompareResult = comparisonDate.after(milestone.getStartDate()) && comparisonDate.before(milestone.getEndDate());
+                    if(inclusive && !dateCompareResult) {
+                        dateCompareResult = comparisonDate.equals(milestone.getStartDate()) || comparisonDate.equals(milestone.getEndDate());
+                    }
+                    break;
                 }
-                break;
+                default: {
+                    throw new RuntimeException("Invalid comparisonType when evaluating a MilestoneDateComparisonProposition: " + comparisonType);
+                }
             }
-            default: {
-                throw new RuntimeException("Invalid comparisonType when evaluating a MilestoneDateComparisonProposition: " + comparisonType);
+
+            if(dateCompareResult) {
+                break;
             }
         }
 
-        PropositionResult result = new PropositionResult(evaluation);
+        PropositionResult result = new PropositionResult(dateCompareResult);
 
         environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
 

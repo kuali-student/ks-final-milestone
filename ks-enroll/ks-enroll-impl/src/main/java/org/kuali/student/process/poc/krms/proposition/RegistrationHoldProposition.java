@@ -17,6 +17,7 @@ package org.kuali.student.process.poc.krms.proposition;
 
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
+import org.kuali.rice.krms.api.engine.Term;
 import org.kuali.rice.krms.framework.engine.PropositionResult;
 import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
@@ -34,21 +35,18 @@ import java.util.List;
  */
 public class RegistrationHoldProposition extends AbstractLeafProposition implements WarningProposition {
 
-    private final List<String> warningOnlyHoldTypes;
+    private final String issueKey;
 
-    public RegistrationHoldProposition(List<String> warningOnlyHoldTypes) {
-        if(warningOnlyHoldTypes == null) {
-            this.warningOnlyHoldTypes = Collections.emptyList();
-        }
-        else {
-            this.warningOnlyHoldTypes = Collections.unmodifiableList(warningOnlyHoldTypes);
-        }
+    public RegistrationHoldProposition(String issueKey) {
+        this.issueKey = issueKey;
     }
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        List<HoldInfo> studentRegistrationHolds = environment.resolveTerm(RulesExecutionConstants.studentRegistrationHoldsTerm, this);
+
+        Term studentRegistrationHoldsTerm = new Term(RulesExecutionConstants.STUDENT_REGISTRATION_HOLDS_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.ISSUE_KEY_TERM_PROPERTY, issueKey));
+        List<HoldInfo> studentRegistrationHolds = environment.resolveTerm(studentRegistrationHoldsTerm, this);
 
         PropositionResult result = null;
 
@@ -59,11 +57,9 @@ public class RegistrationHoldProposition extends AbstractLeafProposition impleme
             List<HoldInfo> blockingHolds = new ArrayList<HoldInfo>();
             List<HoldInfo> warningHolds = new ArrayList<HoldInfo>();
 
-            // TODO determine if warning holds will be determined by a set of types or the "isWarning" property of a Hold
-
             // Split the found holds into warning and blocking holds
             for(HoldInfo hold : studentRegistrationHolds) {
-                if(warningOnlyHoldTypes.contains(hold.getTypeKey())) {
+                if(hold.getIsWarning()) {
                     warningHolds.add(hold);
                 }
                 else {

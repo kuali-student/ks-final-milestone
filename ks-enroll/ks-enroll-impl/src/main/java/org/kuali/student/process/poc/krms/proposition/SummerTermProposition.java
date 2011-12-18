@@ -30,24 +30,18 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
  *
  * @author alubbers
  */
-public class SummerStudentProposition extends AbstractLeafProposition {
+public class SummerTermProposition extends AbstractLeafProposition {
+
+    private TermInfo term;
+
+    public SummerTermProposition(TermInfo term) {
+        this.term = term;
+    }
 
     @Override
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
-        Boolean isSummerOnlyStudent = environment.resolveTerm(new Term(RulesExecutionConstants.SUMMER_ONLY_STUDENT_TERM_NAME), this);
-
-        PropositionResult result = null;
-
-        if(isSummerOnlyStudent) {
-            TermInfo registrationTerm = environment.resolveTerm(new Term(RulesExecutionConstants.REGISTRATION_TERM_TERM_NAME), this);
-
-            boolean isSummer = registrationTerm.getTypeKey().equals(AtpServiceConstants.ATP_SUMMER_TYPE_KEY);
-            result = new PropositionResult(isSummer);
-        }
-        else {
-            result = new PropositionResult(true);
-        }
+        PropositionResult result = new PropositionResult(term.getTypeKey().equals(AtpServiceConstants.ATP_SUMMER_TYPE_KEY));
 
         environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
 
