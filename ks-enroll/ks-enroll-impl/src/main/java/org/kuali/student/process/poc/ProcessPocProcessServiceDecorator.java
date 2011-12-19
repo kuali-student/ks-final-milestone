@@ -74,7 +74,7 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
 
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.student.has.basic.eligibility", "Something about you as a person or your relationship with this institution needs to be fixed", 1, "Error", "No", "No", context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.open", "Registration period for this term has not yet begun", 3, "Error", "Yes", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.not.closed", "Registration period for this term is not past", 4, "Error", "Yes", "Yes", context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.not.closed", "Registration period for this term is closed", 4, "Error", "Yes", "Yes", context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.holds.cleared", "You have one or more holds that need to be cleared", 5, "Error", "Yes", "Yes", context);
         _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.summer.only.student", "kuali.check.is.not.summer.term", "Summer only students cannot register for fall, winter or spring terms", 9, "Error", "Yes", "Yes", context);
 
