@@ -1,9 +1,21 @@
 package org.kuali.student.r2.core.process.service.impl;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -12,7 +24,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:process-test-context.xml"})
@@ -23,18 +37,62 @@ public class TestProcessServiceImpl {
     @Resource(name="processServiceAuthDecorator")
     public ProcessService processService;
 
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo context = ContextInfo.newInstance();
 
     
     @Before
     public void setUp() {
-        callContext = ContextInfo.getInstance(callContext);
-        callContext.setPrincipalId("123");
+        context = ContextInfo.getInstance(context);
+        context.setPrincipalId("123");
     }
 
     @Test
     public void testAtpServiceValidationSetup() {
         assertNotNull(processService);
+    }
+
+    @Test
+    public void testCrudProcess() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
+
+        // Read
+        ProcessInfo existingProcess = processService.getProcess("StudentEligibleForRegistrationThisTermProcess", context);
+        assertNotNull(existingProcess);
+        assertNotNull(existingProcess.getStateKey());
+        assertNotNull(existingProcess.getTypeKey());
+
+        final String processId = "newProcess";
+
+        // Create
+        ProcessInfo process = new ProcessInfo();
+        process.setOwnerOrgId("Owner1");
+        process.setTypeKey(ProcessServiceConstants.PROCESS_TYPE_KEY);
+        process.setStateKey(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY);
+        processService.createProcess(processId, process, context);
+        process = processService.getProcess(processId, context);
+        assertNotNull(process);
+        assertEquals("Owner1", process.getOwnerOrgId());
+        assertEquals(ProcessServiceConstants.PROCESS_TYPE_KEY, process.getTypeKey());
+        assertEquals(ProcessServiceConstants.PROCESS_ENABLED_STATE_KEY, process.getStateKey());
+
+        // Update
+        process.setOwnerOrgId("Owner2");
+        process.setStateKey(ProcessServiceConstants.PROCESS_DISABLED_STATE_KEY);
+        processService.updateProcess(processId, process, context);
+        process = processService.getProcess(processId, context);
+        assertNotNull(process);
+        assertEquals("Owner2", process.getOwnerOrgId());
+        assertEquals(ProcessServiceConstants.PROCESS_TYPE_KEY, process.getTypeKey());
+        assertEquals(ProcessServiceConstants.PROCESS_DISABLED_STATE_KEY, process.getStateKey());
+
+        // Delete
+        processService.deleteProcess(processId, context);
+        try {
+            process = processService.getProcess(processId, context);
+            fail("Process not deleted properly.");
+        } catch (DoesNotExistException e) {
+            // expected, do nothing
+        }
+
     }
 
 }

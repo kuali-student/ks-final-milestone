@@ -230,6 +230,8 @@ public class ProcessServiceImpl implements ProcessService {
 
         ProcessEntity process = new ProcessEntity(processInfo);
 
+        process.setId(processKey);
+
         if (processInfo.getDescr() != null) {
             process.setDescr(new ProcessRichTextEntity(processInfo.getDescr()));
         }

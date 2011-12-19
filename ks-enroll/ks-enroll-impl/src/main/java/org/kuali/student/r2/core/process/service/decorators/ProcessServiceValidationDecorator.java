@@ -21,6 +21,7 @@ import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessServiceDecorator;
 import org.kuali.student.r2.core.service.util.ValidationUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessServiceValidationDecorator extends ProcessServiceDecorator implements HoldsValidator{
@@ -119,11 +120,14 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         }
 
         List<ValidationResultInfo> errors;
+        errors = new ArrayList<ValidationResultInfo>(); // TODO remove
+/*  TODO Need to add dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, processInfo, contextInfo);
         List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateProcess(validationTypeKey, processInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
+*/
         return errors;
     }
 
@@ -149,7 +153,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         // TODO check for existing
 
         _processFullValidation(processInfo, contextInfo);
-        return getNextDecorator().createProcess(processInfo.getKey(), processInfo, contextInfo);
+        return getNextDecorator().createProcess(processKey, processInfo, contextInfo);
     }
 
     @Override
