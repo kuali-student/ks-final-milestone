@@ -58,6 +58,7 @@ public class CourseRegistrationServiceProcessCheckDecorator extends CourseRegist
     @Override
     public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         CourseRegistrationProcessContextInfo processContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(studentId, termKey);
+        processContext.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);        
         List<? extends ValidationResult> results;
         try {
             results = this.processEvaluator.evaluate(processContext, context);

@@ -11,7 +11,6 @@ import org.kuali.student.process.poc.context.HoldCheckContext;
 import org.kuali.student.process.poc.context.MilestoneCheckContext;
 import org.kuali.student.process.poc.util.InstructionComparator;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -65,13 +64,13 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
     
     
     @Override
-    public List<ValidationResultInfo> evaluate(CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<ValidationResult> evaluate(CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<InstructionInfo> instructionsList = new ArrayList<InstructionInfo>();
         TermInfo term = acalService.getTerm(processContext.getTermKey(), context);
 
-        for (InstructionInfo instruction : processService.getInstructionsByProcess(processContext.getProcessKey(), context)) {
+        for (InstructionInfo instruction : processService.getInstructionsForEvaluation(processContext.getProcessKey(), context)) {
 
             if (!instruction.getAppliedAtpTypeKeys().contains(term.getTypeKey()))
 
@@ -91,7 +90,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
         return evaluateAnInstructionsList(instructionsList, processContext, context);
     }
 
-    private List<ValidationResultInfo> evaluateAnInstructionsList(List<InstructionInfo> instructionsList, CourseRegistrationProcessContextInfo processContext, ContextInfo context)
+    private List<ValidationResult> evaluateAnInstructionsList(List<InstructionInfo> instructionsList, CourseRegistrationProcessContextInfo processContext, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
         Collections.sort(instructionsList, new InstructionComparator());
@@ -123,7 +122,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
             }
 
         }
-        return null;
+        return validationResults;
     }
 
     private void incrementExemptionUsage() {

@@ -114,6 +114,6 @@ public class ProcessPocIntegrationTest {
 
         List<ValidationResultInfo> results = null;
         results = service.checkStudentEligibilityForTerm(ProcessPocConstants.PERSON_ID_KARA_STONE_2272, ProcessPocConstants.FALL_2011_TERM_KEY, context);
-        assertEquals(1, results);
+        assertEquals(1, results.size ());
     }
 }
