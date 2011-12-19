@@ -36,8 +36,6 @@ X    UPDATETIME TIMESTAMP (6),
 >    TYPE_ID VARCHAR2(255),
 >    ISSUE_ID VARCHAR2(255),
 >    MILESTONE_ID  VARCHAR2(255),
->    AGENDA_ID   VARCHAR2(255),
->    PROCESS_ID  VARCHAR2(255)
     */
 
     //NAME
@@ -66,18 +64,6 @@ X    UPDATETIME TIMESTAMP (6),
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "MILESTONE_TYPE_ID")
 	private MilestoneEntity milestoneType;
-
-    /* TODO
-     * How should Agenda be filled out here?  What type?
-     * Couldn't find what I thought would be appropriate.
-     */
-	//@ManyToOne(optional=false)
-	//@JoinColumn(name = "AGENDA_ID")
-	//private Agenda...? agendaType;
-
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "PROCESS_ID")
-    private ProcessEntity process;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CheckAttributeEntity> attributes;
@@ -188,14 +174,6 @@ X    UPDATETIME TIMESTAMP (6),
 
     public void setMilestoneType(MilestoneEntity milestoneType) {
         this.milestoneType = milestoneType;
-    }
-
-    public ProcessEntity getProcess() {
-        return process;
-    }
-
-    public void setProcess(ProcessEntity process) {
-        this.process = process;
     }
 
     @Override

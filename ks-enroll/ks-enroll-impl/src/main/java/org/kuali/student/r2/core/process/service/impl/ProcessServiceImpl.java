@@ -368,10 +368,6 @@ public class ProcessServiceImpl implements ProcessService {
             checkEntity.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
         }
 
-        if (StringUtils.isNotBlank(checkInfo.getProcessKey())){
-            checkEntity.setProcess(processDao.find(checkInfo.getProcessKey()));
-        }
-
         if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
             checkEntity.setIssueType(issueDao.find(checkInfo.getIssueKey())); // TODO needs IssueType, not Issue?
         }
@@ -403,10 +399,6 @@ public class ProcessServiceImpl implements ProcessService {
 
         if (!StringUtils.isBlank(checkInfo.getTypeKey())){
             toUpdate.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
-        }
-
-        if (StringUtils.isNotBlank(checkInfo.getProcessKey())){
-            toUpdate.setProcess(processDao.find(checkInfo.getProcessKey()));
         }
 
         if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
