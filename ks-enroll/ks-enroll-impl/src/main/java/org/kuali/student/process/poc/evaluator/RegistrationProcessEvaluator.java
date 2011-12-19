@@ -93,7 +93,8 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
     private List<ValidationResult> evaluateAnInstructionsList(List<InstructionInfo> instructionsList, CourseRegistrationProcessContextInfo processContext, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
-        Collections.sort(instructionsList, new InstructionComparator());
+        // should already be sorted by position
+//        Collections.sort(instructionsList, new InstructionComparator());  
 
         List<ValidationResult> validationResults = new ArrayList<ValidationResult>();
 
