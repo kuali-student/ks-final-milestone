@@ -48,14 +48,6 @@ public interface RoomUsage extends HasId, HasAttributesAndMeta {
     public Integer getHardCapacity();
 
     /**
-     *  Exam capacity of the room
-     *
-     * @name Exam Capacity
-     *
-     */
-    public Integer getExamCapacity();
-
-    /**
      *  Usage type (classe, exam, meeting, ...)
      *
      * @name Usage Type key
