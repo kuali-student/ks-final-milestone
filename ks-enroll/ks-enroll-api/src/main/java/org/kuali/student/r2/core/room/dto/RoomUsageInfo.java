@@ -6,7 +6,6 @@ import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,7 +13,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomUsageInfo", propOrder = {"id", "usageTypeKey", "layoutTypeKey", "preferredCapacity", "hardCapacity", "examCapacity", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RoomUsageInfo", propOrder = {"id", "usageTypeKey", "layoutTypeKey", "preferredCapacity", "hardCapacity", "meta", "attributes", "_futureElements"})
 public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage, Serializable {
 
     @XmlElement
@@ -27,8 +26,6 @@ public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage
     private Integer preferredCapacity;
     @XmlElement
     private Integer hardCapacity;
-    @XmlElement
-    private Integer examCapacity;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -41,7 +38,6 @@ public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage
         if (null != roomUsage) {
             this.preferredCapacity = roomUsage.getPreferredCapacity();
             this.hardCapacity = roomUsage.getHardCapacity();
-            this.examCapacity = roomUsage.getExamCapacity();
             this.usageTypeKey = roomUsage.getUsageTypeKey();
             this.layoutTypeKey = roomUsage.getLayoutTypeKey();
         }
@@ -90,15 +86,6 @@ public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage
 
     public void setHardCapacity(Integer hardCapacity) {
         this.hardCapacity = hardCapacity;
-    }
-
-    @Override
-    public Integer getExamCapacity() {
-        return this.examCapacity;
-    }
-
-    public void setExamCapacity(Integer examCapacity) {
-        this.examCapacity = examCapacity;
     }
 
 
