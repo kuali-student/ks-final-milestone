@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.*;
 
 import org.kuali.rice.kim.impl.identity.PersonImpl;
+import org.kuali.student.core.atp.entity.MilestoneType;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -14,7 +15,6 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
-import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.infc.Check;
 
@@ -62,8 +62,8 @@ X    UPDATETIME TIMESTAMP (6),
 	private IssueEntity IssueType;
 
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "MILESTONE_TYPE_ID")
-	private MilestoneEntity milestoneType;
+    @JoinColumn(name = "MILESTONE_TYPE_ID")
+    private AtpTypeEntity milestoneType;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CheckAttributeEntity> attributes;
@@ -168,11 +168,11 @@ X    UPDATETIME TIMESTAMP (6),
         IssueType = issueType;
     }
 
-    public MilestoneEntity getMilestoneType() {
+    public AtpTypeEntity getMilestoneType() {
         return milestoneType;
     }
 
-    public void setMilestoneType(MilestoneEntity milestoneType) {
+    public void setMilestoneType(AtpTypeEntity milestoneType) {
         this.milestoneType = milestoneType;
     }
 
