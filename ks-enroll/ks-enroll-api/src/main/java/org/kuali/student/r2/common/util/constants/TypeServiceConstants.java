@@ -32,4 +32,9 @@ public class TypeServiceConstants {
     public static final String TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY = "kuali.type.type.relation.type.allowed";
     public static final String TYPE_TYPE_RELATION_CONTAINS_TYPE_KEY = "kuali.type.type.relation.type.contains";
     public static final String TYPE_TYPE_RELATION_GROUP_TYPE_KEY = "kuali.type.type.relation.type.group";
+    /**
+     * states
+     */
+    public static final String TYPE_TYPE_RELATION_ACTIVE_STATE_KEY = "kuali.type.type.relation.state.active";
+    public static final String TYPE_TYPE_RELATION_INACTIVE_STATE_KEY = "kuali.type.type.relation.state.inactive";
 }
