@@ -180,8 +180,8 @@ public abstract class ProcessServiceDecorator implements ProcessService {
     }
 
     @Override
-    public CheckInfo createCheck(CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return getNextDecorator().createCheck(checkInfo, contextInfo);
+    public CheckInfo createCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return getNextDecorator().createCheck(checkKey, checkInfo, contextInfo);
     }
 
     @Override

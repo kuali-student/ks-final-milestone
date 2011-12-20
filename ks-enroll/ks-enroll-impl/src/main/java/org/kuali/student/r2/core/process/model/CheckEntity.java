@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.student.core.atp.entity.MilestoneType;
+import org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -59,11 +60,15 @@ X    UPDATETIME TIMESTAMP (6),
 
 	@ManyToOne(optional=false)
 	@JoinColumn(name = "ISSUE_ID")
-	private IssueEntity IssueType;
+	private IssueEntity issue;
 
 	@ManyToOne(optional=false)
     @JoinColumn(name = "MILESTONE_TYPE_ID")
     private AtpTypeEntity milestoneType;
+
+    @ManyToOne(optional=true)
+    @JoinColumn(name = "PROCESS_ID")
+    private ProcessEntity process;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CheckAttributeEntity> attributes;
@@ -100,15 +105,26 @@ X    UPDATETIME TIMESTAMP (6),
      */
     public CheckInfo toDto(){
         CheckInfo obj = new CheckInfo();
-    	obj.setKey(getId());
-    	obj.setName(name);
-        if (checkType != null)
-            obj.setTypeKey(checkType.getId());
-        if (checkState != null)
-            obj.setStateKey(checkState.getId());
         obj.setMeta(super.toDTO());
+        obj.setKey(getId());
+        obj.setName(name);
+        if (checkType != null) {
+            obj.setTypeKey(checkType.getId());
+        }
+        if (checkState != null) {
+            obj.setStateKey(checkState.getId());
+        }
         if (descr != null)
             obj.setDescr(descr.toDto());
+        if (null != issue) {
+            obj.setIssueKey(issue.getId());
+        }
+        if (null != milestoneType) {
+            obj.setMilestoneTypeKey(milestoneType.getId());
+        }
+        if (null != process) {
+            obj.setProcessKey(process.getId());
+        }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (CheckAttributeEntity att : getAttributes()) {
@@ -160,12 +176,12 @@ X    UPDATETIME TIMESTAMP (6),
         this.checkType = checkType;
     }
 
-    public IssueEntity getIssueType() {
-        return IssueType;
+    public IssueEntity getIssue() {
+        return issue;
     }
 
-    public void setIssueType(IssueEntity issueType) {
-        IssueType = issueType;
+    public void setIssue(IssueEntity issue) {
+        this.issue = issue;
     }
 
     public AtpTypeEntity getMilestoneType() {
@@ -174,6 +190,14 @@ X    UPDATETIME TIMESTAMP (6),
 
     public void setMilestoneType(AtpTypeEntity milestoneType) {
         this.milestoneType = milestoneType;
+    }
+
+    public ProcessEntity getProcess() {
+        return process;
+    }
+
+    public void setProcess(ProcessEntity process) {
+        this.process = process;
     }
 
     @Override

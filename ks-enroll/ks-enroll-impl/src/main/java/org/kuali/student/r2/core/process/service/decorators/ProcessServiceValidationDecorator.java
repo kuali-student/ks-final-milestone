@@ -52,11 +52,14 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         }
 
         List<ValidationResultInfo> errors;
+        errors = new ArrayList<ValidationResultInfo>(); // TODO remove
+/*  TODO Need to add dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, processCategoryInfo, contextInfo);
         List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateProcessCategory(validationTypeKey, processCategoryInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
+*/
         return errors;
     }
 
@@ -169,16 +172,22 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         }
 
         List<ValidationResultInfo> errors;
+        errors = new ArrayList<ValidationResultInfo>(); // TODO remove
+/* TODO populate dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, checkInfo, contextInfo);
         List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateCheck(validationTypeKey, checkInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
+*/
         return errors;
     }
 
     @Override
-    public CheckInfo createCheck(CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public CheckInfo createCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        if (null == checkKey) {
+            throw new MissingParameterException("checkKey");
+        }
         if (null == checkInfo) {
             throw new MissingParameterException("checkInfo");
         }
@@ -186,8 +195,8 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new MissingParameterException("contextInfo");
         }
 
-        if (null != checkInfo.getKey()) { // TODO Do we need to change method to include key or change object to have ID instead of key?
-            throw new ReadOnlyException("Id is not allowed to be supplied on a create");
+        if (null != checkInfo.getKey() && !checkKey.equals(checkInfo.getKey())) {
+            throw new InvalidParameterException("Process key different than supplied processKey");
         }
         if (null != checkInfo.getMeta()) {
             throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
@@ -196,7 +205,7 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         // TODO check for existing
 
         _checkFullValidation(checkInfo, contextInfo);
-        return getNextDecorator().createCheck(checkInfo, contextInfo);
+        return getNextDecorator().createCheck(checkKey, checkInfo, contextInfo);
     }
 
     @Override
@@ -241,11 +250,14 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
         }
 
         List<ValidationResultInfo> errors;
+        errors = new ArrayList<ValidationResultInfo>(); // TODO remove
+/*  TODO Need to add dictionary entry
         errors = ValidationUtils.validateInfo(validator, validationTypeKey, instructionInfo, contextInfo);
         List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateInstruction(validationTypeKey, processKey, checkKey, instructionInfo, contextInfo);
         if (null != nextDecoratorErrors) {
             errors.addAll(nextDecoratorErrors);
         }
+*/
         return errors;
     }
 

@@ -78,7 +78,7 @@ public class ProcessServiceMockImpl implements ProcessService {
     }
 
     @Override
-    public CheckInfo createCheck(CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public CheckInfo createCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (checks.containsKey(checkInfo.getKey())) {
             throw new AlreadyExistsException(checkInfo.getKey());
         }

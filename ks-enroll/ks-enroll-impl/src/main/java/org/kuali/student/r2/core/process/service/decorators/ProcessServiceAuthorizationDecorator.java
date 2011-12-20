@@ -69,11 +69,11 @@ public class ProcessServiceAuthorizationDecorator extends ProcessServiceDecorato
     }
 
     @Override
-    public CheckInfo createCheck(CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public CheckInfo createCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (!permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createCheck", null, null)) {
             throw new PermissionDeniedException();
         }
-        return getNextDecorator().createCheck(checkInfo, contextInfo);
+        return getNextDecorator().createCheck(checkKey, checkInfo, contextInfo);
     }
 
     @Override

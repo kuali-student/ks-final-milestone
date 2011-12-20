@@ -15,6 +15,7 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,6 +27,7 @@ import javax.annotation.Resource;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.fail;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -47,7 +49,7 @@ public class TestProcessServiceImpl {
     }
 
     @Test
-    public void testAtpServiceValidationSetup() {
+    public void testServiceValidationSetup() {
         assertNotNull(processService);
     }
 
@@ -92,6 +94,38 @@ public class TestProcessServiceImpl {
         } catch (DoesNotExistException e) {
             // expected, do nothing
         }
+
+    }
+
+    @Test
+    public void testCrudCheck() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException {
+
+        // Read
+        CheckInfo existingCheck = processService.getCheck("StudentPaidTuitonCheck", context);
+        assertNotNull(existingCheck);
+        assertNull(existingCheck.getAgendaId()); // TODO
+        assertNotNull(existingCheck.getIssueKey());
+        assertNotNull(existingCheck.getMilestoneTypeKey());
+        assertNull(existingCheck.getProcessKey()); // TODO
+        assertNotNull(existingCheck.getTypeKey());
+        assertNotNull(existingCheck.getStateKey());
+
+        String checkKey = "newCheck";
+
+        // Create
+        CheckInfo check = new CheckInfo();
+        check.setIssueKey("Hold-Issue-2");
+        check.setMilestoneTypeKey("kuali.atp.milestone.RegistrationPeriod");
+        check.setTypeKey(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY);
+        check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED);
+        processService.createCheck(checkKey, check, context);
+        check = processService.getCheck(checkKey, context);
+        assertNotNull(check);
+        assertEquals("Hold-Issue-2", check.getIssueKey());
+        assertEquals("kuali.atp.milestone.RegistrationPeriod", check.getMilestoneTypeKey());
+        assertEquals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
+        assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED, check.getStateKey());
+
 
     }
 

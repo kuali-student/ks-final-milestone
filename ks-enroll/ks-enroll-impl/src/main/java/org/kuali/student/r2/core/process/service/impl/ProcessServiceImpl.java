@@ -3,12 +3,14 @@ package org.kuali.student.r2.core.process.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.enrollment.class1.hold.dao.IssueDao;
+import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao;
 import org.kuali.student.r2.core.process.dao.*;
 import org.kuali.student.r2.core.process.dao.InstructionDao;
 import org.kuali.student.r2.core.process.dao.InstructionTypeDao;
@@ -28,14 +30,23 @@ import java.util.*;
 
 public class ProcessServiceImpl implements ProcessService {
 
+    private AtpTypeDao atpTypeDao;
     private CheckDao checkDao;
     private CheckTypeDao checkTypeDao;
     private InstructionDao instructionDao;
-    private ProcessDao processDao;
-    private ProcessTypeDao processTypeDao;
     private InstructionTypeDao instructionTypeDao;
     private IssueDao issueDao;
+    private ProcessDao processDao;
+    private ProcessTypeDao processTypeDao;
     private StateService stateService;
+
+    public AtpTypeDao getAtpTypeDao() {
+        return atpTypeDao;
+    }
+
+    public void setAtpTypeDao(AtpTypeDao atpTypeDao) {
+        this.atpTypeDao = atpTypeDao;
+    }
 
     public CheckDao getCheckDao() {
         return checkDao;
@@ -354,13 +365,14 @@ public class ProcessServiceImpl implements ProcessService {
 
     @Override
     @Transactional(readOnly = false)
-    public CheckInfo createCheck(@WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public CheckInfo createCheck(@WebParam(name = "checkKey") String checkKey, @WebParam(name = "checkInfo") CheckInfo checkInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        if (checkDao.find(checkInfo.getKey()) != null){
+        if (checkDao.find(checkKey) != null){
             throw new AlreadyExistsException(checkInfo.getKey());
         }
 
         CheckEntity checkEntity = new CheckEntity(checkInfo);
+        checkEntity.setId(checkKey);
 
         if (!StringUtils.isBlank(checkInfo.getStateKey())){
             checkEntity.setCheckState(findState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY,checkInfo.getStateKey(),contextInfo));
@@ -371,13 +383,17 @@ public class ProcessServiceImpl implements ProcessService {
         }
 
         if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
-            checkEntity.setIssueType(issueDao.find(checkInfo.getIssueKey())); // TODO needs IssueType, not Issue?
+            checkEntity.setIssue(issueDao.find(checkInfo.getIssueKey()));
+        }
+
+        if (StringUtils.isNotBlank(checkInfo.getMilestoneTypeKey())) {
+            checkEntity.setMilestoneType(atpTypeDao.find(checkInfo.getMilestoneTypeKey()));
         }
 
 
         checkDao.persist(checkEntity);
 
-		CheckEntity retrieved = checkDao.find(checkInfo.getKey());
+		CheckEntity retrieved = checkDao.find(checkKey);
 
         return retrieved.toDto();
 
@@ -404,7 +420,7 @@ public class ProcessServiceImpl implements ProcessService {
         }
 
         if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
-            toUpdate.setIssueType(issueDao.find(checkInfo.getIssueKey())); // TODO needs IssueType, not Issue?
+            toUpdate.setIssue(issueDao.find(checkInfo.getIssueKey()));
         }
 
         checkDao.merge(toUpdate);

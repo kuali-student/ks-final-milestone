@@ -29,6 +29,9 @@ Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDA
 Insert into KSEN_HOLD_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.hold.restriction.type.registration',null,0,'Cannot register',null,null,'Registration Restriction')
 Insert into KSEN_HOLD_RICH_TEXT (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('Issue-1-Desc',null,0,'<p>Issue Desc 101</p>','Issue Desc 101')
 Insert into KSEN_ISSUE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NAME,ORG_ID,RT_DESCR_ID,STATE_ID,TYPE_ID) values ('Hold-Issue-1',null,0,null,null,null,null,'Issue one','102','Issue-1-Desc','kuali.hold.issue.state.active','kuali.hold.restriction.type.registration')
+Insert into KSEN_HOLD_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.check.has.not.paid.bill.from.prior.term',null,0,'xxx',null,null,'xxx')
+Insert into KSEN_HOLD_RICH_TEXT (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('Issue-2-Desc',null,0,'<p>Issue Desc 101</p>','Issue Desc 101')
+Insert into KSEN_ISSUE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NAME,ORG_ID,RT_DESCR_ID,STATE_ID,TYPE_ID) values ('Hold-Issue-2',null,0,null,null,null,null,'Issue two','102','Issue-2-Desc','kuali.hold.issue.state.active','kuali.check.has.not.paid.bill.from.prior.term')
 
 
 INSERT INTO KSEN_CHECK_RICH_TEXT (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('StudentPaidTuitonCheckDesc', '<p>Student Paid Tuiton</p>', 'Student Paid Tuiton', 0)
