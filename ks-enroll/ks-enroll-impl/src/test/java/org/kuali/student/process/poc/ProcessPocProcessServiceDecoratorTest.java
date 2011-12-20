@@ -61,8 +61,11 @@ public class ProcessPocProcessServiceDecoratorTest {
         CheckInfo check = null;
         check = processService.getCheck(ProcessServiceConstants.CHECK_KEY_IS_ALIVE, context);
         assertEquals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE, check.getKey());
+        assertEquals (ProcessServiceConstants.DIRECT_RULE_CHECK_TYPE_KEY, check.getTypeKey());
+        
         check = processService.getCheck(ProcessServiceConstants.CHECK_KEY_HAS_OVERDUE_LIBRARY_BOOK, context);
         assertEquals(ProcessServiceConstants.CHECK_KEY_HAS_OVERDUE_LIBRARY_BOOK, check.getKey());
+        assertEquals (ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
 
         List<InstructionInfo> instructions = null;
         InstructionInfo instruction = null;
