@@ -114,7 +114,11 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
 
         List<InstructionInfo> instructions = processService.getInstructionsByProcess(processContext.getProcessKey(), context);
 
-        TermInfo term = acalService.getTerm(processContext.getTermKey(), context);
+        TermInfo term = null;
+
+        if(processContext.getTermKey() != null) {
+            term = acalService.getTerm(processContext.getTermKey(), context);
+        }
 
         List<InstructionInfo> sortedInstructions = new ArrayList<InstructionInfo>();
 
@@ -122,7 +126,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         for (InstructionInfo instruction : instructions) {
 
             // filter out by term
-            if (!instruction.getAppliedAtpTypeKeys().contains(term.getTypeKey())) {
+            if (term != null && !instruction.getAppliedAtpTypeKeys().contains(term.getTypeKey())) {
                 continue;
             }
 
@@ -174,10 +178,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         }
 
         // Build the list of known facts prior to execution
-        Map<String, Object> executionFacts = new HashMap<String, Object>();
-        executionFacts.put(RulesExecutionConstants.STUDENT_ID_TERM_NAME, processContext.getStudentId());
-        executionFacts.put(RulesExecutionConstants.REGISTRATION_TERM_TERM_NAME, processContext.getTermKey());
-        executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME, context);
+        Map<String, Object> executionFacts = buildExecutionFacts(processContext, context);
 
         // Combine all propositions into a CompoundProposition and evaluate the results
         EngineResults krmsResults = evaluateProposition(new CompoundProposition(LogicalOperator.AND, new ArrayList<Proposition>(propositions.keySet())), executionFacts);
@@ -253,6 +254,48 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         }
 
         return results;
+    }
+
+    public List<ValidationResultInfo> evaluateStudentAliveRule(InstructionInfo instruction, CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+
+        // Build the list of known facts prior to execution
+        Map<String, Object> executionFacts = buildExecutionFacts(processContext, context);
+
+        // evaluate the results for just the one proposition
+        Proposition prop = new PersonLivingProposition();
+        EngineResults engineResults = evaluateProposition(prop, executionFacts);
+
+        Map<Proposition, InstructionInfo> propInstructionMap = Collections.singletonMap(prop, instruction);
+
+        return buildValidationResultsFromEngineResults(engineResults, propInstructionMap, context);
+    }
+
+    public List<ValidationResultInfo> evaluateSummerTermRule(InstructionInfo instruction, CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, OperationFailedException, PermissionDeniedException {
+        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
+
+        TermInfo term = acalService.getTerm(processContext.getTermKey(), context);
+
+        // Build the list of known facts prior to execution
+        Map<String, Object> executionFacts = buildExecutionFacts(processContext, context);
+
+        // evaluate the results for just the one proposition
+        Proposition prop = new SummerTermProposition(term);
+        EngineResults engineResults = evaluateProposition(prop, executionFacts);
+
+        Map<Proposition, InstructionInfo> propInstructionMap = Collections.singletonMap(prop, instruction);
+
+        return buildValidationResultsFromEngineResults(engineResults, propInstructionMap, context);
+    }
+
+    private Map<String, Object> buildExecutionFacts(CourseRegistrationProcessContextInfo processContext, ContextInfo context) {
+        Map<String, Object> executionFacts = new HashMap<String, Object>();
+        executionFacts.put(RulesExecutionConstants.STUDENT_ID_TERM_NAME, processContext.getStudentId());
+        executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME, context);
+        if(processContext.getTermKey() != null) {
+            executionFacts.put(RulesExecutionConstants.REGISTRATION_TERM_TERM_NAME, processContext.getTermKey());
+        }
+        return executionFacts;
     }
 
     public void setTermResolvers(List<TermResolver<?>> termResolvers) {
