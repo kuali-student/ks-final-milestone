@@ -37,3 +37,8 @@ INSERT INTO KSEN_PROCESS( ID, OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, U
 
 INSERT INTO KSEN_INSTR_MESSAGE ( ID, OBJ_ID, PLAIN, FORMATTED, VER_NBR) VALUES ('InstructionMessage', '6DAA013E-FC02-3C0D-8334-B40EDAE47741', 'Instruction Message', '<p>Instruction Message</p>', 0);
 INSERT INTO KSEN_INSTR ( ID, OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, STATE_ID, TYPE_ID, EFF_DT, EXPIR_DT, PROCESS_ID, CHECK_ID, MESSAGE, POSITION, IS_WARNING, CONTINUE_ON_FAIL, IS_EXEMPTABLE) VALUES ( 'StudentEligibleForRegistrationThisTermProcessStudentPaidTuitonCheckInstruction', 'A63166D7-B74B-F176-CF32-E877901373E1', 0, 'admin', {ts '2010-01-01 00:00:00.0'}, 'admin', {ts '2010-01-01 00:00:00.0'}, 'kuali.process.instruction.state.enabled', 'kuali.process.instruction.type', {ts '2010-01-01 00:00:00.0'}, NULL, 'StudentEligibleForRegistrationThisTermProcess', 'StudentPaidTuitonCheck', 'InstructionMessage', 1, 0, 1, 1)
+
+
+INSERT INTO KSEN_POPULATION (ID, VER_NBR) VALUES ('Population-1', 0);
+INSERT INTO KSEN_INSTR_POPLTN_RELTN (INSTR_ID, POPLTN_ID) VALUES ('StudentEligibleForRegistrationThisTermProcessStudentPaidTuitonCheckInstruction', 'Population-1');
+

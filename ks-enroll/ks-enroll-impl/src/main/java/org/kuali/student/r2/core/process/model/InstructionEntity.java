@@ -8,6 +8,8 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
+import org.kuali.student.r2.core.population.infc.Population;
+import org.kuali.student.r2.core.population.model.PopulationEntity;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
 
@@ -60,10 +62,9 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "IS_EXEMPTABLE")
     private boolean exemptable;
 
-    @Transient // TODO make population entity
-//    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-//    @JoinTable(name = "KSEN_INSTR_PRSN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "PERSON_ID"))
-    private List<String> appliedPopulation;
+    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinTable(name = "KSEN_INSTR_POPLTN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "POPLTN_ID"))
+    private List<PopulationEntity> appliedPopulation;
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinTable(name = "KSEN_INSTR_ATPTYPE_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
@@ -140,12 +141,12 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         }
 
         List<String> appliedPopulation = new ArrayList<String>();
-//        if (getAppliedPopulation() != null){
-//            for (PersonImpl person : getAppliedPopulation()) {
-//                appliedPopulation.add(person.getEntityId());
-//            }
-//        }
-//        dto.setAppliedPopulationKeys(appliedPopulation);
+        if (getAppliedPopulation() != null){
+            for (PopulationEntity population : getAppliedPopulation()) {
+                appliedPopulation.add(population.getId());
+            }
+        }
+        dto.setAppliedPopulationKeys(appliedPopulation);
 
         List<String> appliedAtpTypeKeys = new ArrayList<String>();
         if (getAppliedAtpTypes() != null){
@@ -258,11 +259,11 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.exemptable = exemptable;
     }
 
-    public List<String> getAppliedPopulation() {
+    public List<PopulationEntity> getAppliedPopulation() {
         return appliedPopulation;
     }
 
-    public void setAppliedPopulation(List<String> appliedPopulation) {
+    public void setAppliedPopulation(List<PopulationEntity> appliedPopulation) {
         this.appliedPopulation = appliedPopulation;
     }
 

@@ -173,7 +173,9 @@ public class TestProcessServiceImpl {
         assertNotNull(existingInstruction.getAppliedAtpTypeKeys());
         assertTrue(existingInstruction.getAppliedAtpTypeKeys().isEmpty()); // TODO
         assertNotNull(existingInstruction.getAppliedPopulationKeys());
-        assertTrue(existingInstruction.getAppliedPopulationKeys().isEmpty());
+        assertFalse(existingInstruction.getAppliedPopulationKeys().isEmpty());
+        assertEquals(1, existingInstruction.getAppliedPopulationKeys().size());
+        assertTrue(existingInstruction.getAppliedPopulationKeys().contains("Population-1"));
         assertNotNull(existingInstruction.getAttributes());
         assertNotNull(existingInstruction.getCheckKey());
         assertNotNull(existingInstruction.getContinueOnFail());
