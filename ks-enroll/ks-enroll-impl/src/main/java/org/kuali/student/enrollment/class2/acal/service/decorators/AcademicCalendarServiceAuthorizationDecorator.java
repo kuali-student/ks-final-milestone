@@ -3,12 +3,10 @@ package org.kuali.student.enrollment.class2.acal.service.decorators;
 import java.util.Date;
 import java.util.List;
 
-import javax.jws.WebParam;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
@@ -212,8 +210,6 @@ public class AcademicCalendarServiceAuthorizationDecorator extends AcademicCalen
             throw new PermissionDeniedException();
         }
     }
-
-    
 
     @Override
     public AcademicCalendarInfo createAcademicCalendar(String academicCalendarTypeKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo contextInfo) throws DataValidationErrorException,
@@ -861,8 +857,6 @@ public class AcademicCalendarServiceAuthorizationDecorator extends AcademicCalen
         }
     }
 
-    
-
     @Override
     public List<KeyDateInfo> getKeyDatesForTerm(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -920,21 +914,18 @@ public class AcademicCalendarServiceAuthorizationDecorator extends AcademicCalen
     }
 
     @Override
-    public List<ValidationResultInfo> validateKeyDate(String validationTypeKey,  String termId,
-           String keyDateTypeKey, KeyDateInfo keyDateInfo,  ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateKeyDate(String validationTypeKey, String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == contextInfo) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateKeyDate", null, null)) {
-            return getNextDecorator().validateKeyDate(validationTypeKey,termId, keyDateTypeKey, keyDateInfo, contextInfo);
+            return getNextDecorator().validateKeyDate(validationTypeKey, termId, keyDateTypeKey, keyDateInfo, contextInfo);
         } else {
             throw new OperationFailedException("Permission Denied.");
         }
     }
-
-   
 
     @Override
     public KeyDateInfo updateKeyDate(String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,

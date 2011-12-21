@@ -1,7 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.service.assembler;
 
 
-import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
+
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
