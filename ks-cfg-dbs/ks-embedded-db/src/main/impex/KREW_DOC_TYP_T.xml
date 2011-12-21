@@ -274,7 +274,7 @@
         OBJ_ID="C812DAB2-26F9-F5FB-A1A3-929F378DD852" PARNT_ID="3009"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
-        DOC_HDLR_URL="${application.url}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"
+        DOC_HDLR_URL="${application.url}/spring/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo"
         DOC_TYP_DESC="Create a New Course Offering Maintenance Document"
         DOC_TYP_ID="3019"
         DOC_TYP_NM="CourseOfferingInfoMaintenanceDocument"
@@ -284,7 +284,7 @@
         POST_PRCSR="org.kuali.rice.krad.workflow.postprocessor.KualiPostProcessor"
         RTE_VER_NBR="2" VER_NBR="1"/>
     <KREW_DOC_TYP_T ACTV_IND="1" BLNKT_APPR_GRP_ID="1" CUR_IND="1"
-        DOC_HDLR_URL="${application.url}/kr-krad/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"
+        DOC_HDLR_URL="${application.url}/spring/maintenance?methodToCall=docHandler&amp;dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"
         DOC_TYP_DESC="New Academic Calendar" DOC_TYP_ID="3020"
         DOC_TYP_NM="AcademicCalendarWrapperMaintenanceDocument"
         DOC_TYP_VER_NBR="0" GRP_ID="1"
