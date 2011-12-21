@@ -20,22 +20,8 @@ INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kua
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.process.process.state.disabled', 'Disabled', 'kuali.process.process.lifecycle', 'Indicates that this Process is disabled and should be skipped resulting in success.', 0)
 INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.process.process.state.inactive', 'Inactive', 'kuali.process.process.lifecycle', 'Indicates that this Process is inactive because it was put out to pasture. Any checks for this process should fail.', 0)
 
-
--- AtpTypes for Milestones // TODO needs clarification
-INSERT INTO KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) VALUES ('kuali.milestone.state.Official', 'Official', 'kuali.milestone.process', 'Indicates that this milestone has been established', 0)
-INSERT INTO KSEN_ATP_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) VALUES ('kuali.atp.milestone.RegistrationPeriod', 'Registration Period', 'Registration Period', 'http://student.kuali.org/wsdl/atp/MilestoneInfo', 0)
-
-Insert into KSEN_COMM_STATE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,DESCR,EFF_DT,EXPIR_DT,NAME,PROCESS_KEY) values ('kuali.hold.issue.state.active',null,0,null,null,null,null,'This issue is active and can be attached to holds ',null,null,'Active','kuali.hold.issue.process')
-Insert into KSEN_HOLD_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.hold.restriction.type.registration',null,0,'Cannot register',null,null,'Registration Restriction')
-Insert into KSEN_HOLD_RICH_TEXT (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('Issue-1-Desc',null,0,'<p>Issue Desc 101</p>','Issue Desc 101')
-Insert into KSEN_ISSUE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NAME,ORG_ID,RT_DESCR_ID,STATE_ID,TYPE_ID) values ('Hold-Issue-1',null,0,null,null,null,null,'Issue one','102','Issue-1-Desc','kuali.hold.issue.state.active','kuali.hold.restriction.type.registration')
-Insert into KSEN_HOLD_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME) values ('kuali.check.has.not.paid.bill.from.prior.term',null,0,'xxx',null,null,'xxx')
-Insert into KSEN_HOLD_RICH_TEXT (ID,OBJ_ID,VER_NBR,FORMATTED,PLAIN) values ('Issue-2-Desc',null,0,'<p>Issue Desc 101</p>','Issue Desc 101')
-Insert into KSEN_ISSUE (ID,OBJ_ID,VER_NBR,CREATEID,CREATETIME,UPDATEID,UPDATETIME,NAME,ORG_ID,RT_DESCR_ID,STATE_ID,TYPE_ID) values ('Hold-Issue-2',null,0,null,null,null,null,'Issue two','102','Issue-2-Desc','kuali.hold.issue.state.active','kuali.check.has.not.paid.bill.from.prior.term')
-
-
 INSERT INTO KSEN_CHECK_RICH_TEXT (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('StudentPaidTuitonCheckDesc', '<p>Student Paid Tuiton</p>', 'Student Paid Tuiton', 0)
-INSERT INTO KSEN_CHECK ( ID, OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, NAME, RT_DESCR_ID, STATE_ID, TYPE_ID, ISSUE_ID, MILESTONE_TYPE_ID) VALUES ( 'StudentPaidTuitonCheck', 'A63166D6-B6EB-A489-773E-6B815D2AAC9E', 0, 'admin', {ts '2010-01-01 00:00:00.0'}, 'admin', {ts '2010-01-01 00:00:00.0'}, 'Check Student Paid Tuiton', 'StudentPaidTuitonCheckDesc', 'kuali.process.check.state.enabled', 'kuali.process.check.type.hold', 'Hold-Issue-1', 'kuali.atp.milestone.RegistrationPeriod')
+INSERT INTO KSEN_CHECK ( ID, OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, NAME, RT_DESCR_ID, STATE_ID, TYPE_ID, ISSUE_ID, MILESTONE_TYPE_ID, AGENDA_ID, PROCESS_ID) VALUES ( 'StudentPaidTuitonCheck', 'A63166D6-B6EB-A489-773E-6B815D2AAC9E', 0, 'admin', {ts '2010-01-01 00:00:00.0'}, 'admin', {ts '2010-01-01 00:00:00.0'}, 'Check Student Paid Tuiton', 'StudentPaidTuitonCheckDesc', 'kuali.process.check.state.enabled', 'kuali.process.check.type.hold', 'Hold-Issue-1', 'kuali.atp.milestone.RegistrationPeriod', 'agendaId-1', NULL)
 
 INSERT INTO KSEN_PROCESS_RICH_TEXT (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('StudentEligibleForRegistrationThisTermProcessDesc', '<p>Student Eligible For Registration This Term</p>', 'Student Eligible For Registration This Term', 0)
 INSERT INTO KSEN_PROCESS( ID, OBJ_ID, VER_NBR, CREATEID, CREATETIME, UPDATEID, UPDATETIME, NAME, RT_DESCR_ID, STATE_ID, TYPE_ID, OWNER_ORG_ID) VALUES ( 'StudentEligibleForRegistrationThisTermProcess', 'A4956D5D-C087-82D0-460D-EF2948C0DFF1', 0, 'admin', {ts '2010-01-01 00:00:00.0'}, 'admin', {ts '2010-01-01 00:00:00.0'}, 'Student Eligible For Registration This Term', 'StudentEligibleForRegistrationThisTermProcessDesc', 'kuali.process.process.state.enabled', 'kuali.process.process.type', NULL)

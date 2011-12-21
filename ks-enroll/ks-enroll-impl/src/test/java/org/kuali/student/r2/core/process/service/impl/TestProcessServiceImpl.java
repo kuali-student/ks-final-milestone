@@ -1,6 +1,5 @@
 package org.kuali.student.r2.core.process.service.impl;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -98,15 +97,15 @@ public class TestProcessServiceImpl {
     }
 
     @Test
-    public void testCrudCheck() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException {
+    public void testCrudCheck() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException, DataValidationErrorException, AlreadyExistsException, ReadOnlyException, VersionMismatchException {
 
         // Read
         CheckInfo existingCheck = processService.getCheck("StudentPaidTuitonCheck", context);
         assertNotNull(existingCheck);
-        assertNull(existingCheck.getAgendaId()); // TODO
+        assertNotNull(existingCheck.getAgendaId());
         assertNotNull(existingCheck.getIssueKey());
         assertNotNull(existingCheck.getMilestoneTypeKey());
-        assertNull(existingCheck.getProcessKey()); // TODO
+        assertNull(existingCheck.getProcessKey());
         assertNotNull(existingCheck.getTypeKey());
         assertNotNull(existingCheck.getStateKey());
 
@@ -114,19 +113,47 @@ public class TestProcessServiceImpl {
 
         // Create
         CheckInfo check = new CheckInfo();
+        check.setAgendaId("AgendaId-1");
         check.setIssueKey("Hold-Issue-2");
-        check.setMilestoneTypeKey("kuali.atp.milestone.RegistrationPeriod");
+        check.setMilestoneTypeKey("milestoneTypeKey-1");
+        check.setProcessKey("StudentEligibleForRegistrationThisTermProcess");
         check.setTypeKey(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY);
         check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED);
         processService.createCheck(checkKey, check, context);
         check = processService.getCheck(checkKey, context);
         assertNotNull(check);
+        assertEquals("AgendaId-1", check.getAgendaId());
         assertEquals("Hold-Issue-2", check.getIssueKey());
-        assertEquals("kuali.atp.milestone.RegistrationPeriod", check.getMilestoneTypeKey());
+        assertEquals("milestoneTypeKey-1", check.getMilestoneTypeKey());
+        assertEquals("StudentEligibleForRegistrationThisTermProcess", check.getProcessKey());
         assertEquals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY, check.getTypeKey());
         assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_ENABLED, check.getStateKey());
 
+        // Update
+        check.setIssueKey("Hold-Issue-1");
+        check.setMilestoneTypeKey("milestoneTypeKey-2");
+        check.setProcessKey(null);
+        check.setAgendaId("AgendaId-2");
+        check.setTypeKey(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY);
+        check.setStateKey(ProcessServiceConstants.PROCESS_CHECK_STATE_INACTIVE);
+        processService.updateCheck(check.getKey(), check, context);
+        check = processService.getCheck(checkKey, context);
+        assertNotNull(check);
+        assertEquals("AgendaId-2", check.getAgendaId());
+        assertEquals("Hold-Issue-1", check.getIssueKey());
+        assertEquals("milestoneTypeKey-2", check.getMilestoneTypeKey());
+        assertNull(check.getProcessKey());
+        assertEquals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY, check.getTypeKey());
+        assertEquals(ProcessServiceConstants.PROCESS_CHECK_STATE_INACTIVE, check.getStateKey());
 
+        // Delete
+        processService.deleteCheck(checkKey, context);
+        try {
+            check = processService.getCheck(checkKey, context);
+            fail("Check not deleted properly.");
+        } catch (DoesNotExistException e) {
+            // expected, do nothing
+        }
     }
 
 }

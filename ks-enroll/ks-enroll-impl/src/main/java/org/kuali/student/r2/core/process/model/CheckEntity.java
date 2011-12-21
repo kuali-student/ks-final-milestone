@@ -1,43 +1,26 @@
 package org.kuali.student.r2.core.process.model;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.persistence.*;
-
-import org.kuali.rice.kim.impl.identity.PersonImpl;
-import org.kuali.student.core.atp.entity.MilestoneType;
-import org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity;
-import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.infc.Check;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "KSEN_CHECK")
 public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttributeEntity>{
-
-    /*
-X    ID VARCHAR2(255),
-X    OBJ_ID VARCHAR2(36),
-X    VER_NBR NUMBER(19,0),
-X    CREATEID VARCHAR2(255),
-X    CREATETIME TIMESTAMP (6),
-X    UPDATEID VARCHAR2(255),
-X    UPDATETIME TIMESTAMP (6),
->    NAME VARCHAR2(255),
->    RT_DESCR_ID VARCHAR2(255),
->    STATE_ID VARCHAR2(255),
->    TYPE_ID VARCHAR2(255),
->    ISSUE_ID VARCHAR2(255),
->    MILESTONE_ID  VARCHAR2(255),
-    */
 
     //NAME
     @Column(name = "NAME")
@@ -58,17 +41,18 @@ X    UPDATETIME TIMESTAMP (6),
 	@JoinColumn(name = "TYPE_ID")
 	private CheckTypeEntity checkType;
 
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "ISSUE_ID")
-	private IssueEntity issue;
+    @Column(name = "ISSUE_ID")
+	private String issueId;
 
-	@ManyToOne(optional=false)
-    @JoinColumn(name = "MILESTONE_TYPE_ID")
-    private AtpTypeEntity milestoneType;
+    @Column(name = "MILESTONE_TYPE_ID")
+    private String milestoneTypeId;
 
     @ManyToOne(optional=true)
     @JoinColumn(name = "PROCESS_ID")
     private ProcessEntity process;
+
+    @Column(name = "AGENDA_ID")
+    private String agendaId;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<CheckAttributeEntity> attributes;
@@ -81,23 +65,23 @@ X    UPDATETIME TIMESTAMP (6),
     public CheckEntity() {}
 	public CheckEntity(Check check){
 	    super(check);
-        try {
-	        this.setId(check.getKey());
-	        this.setName(check.getName());
-	        if(check.getDescr() != null) {
-	            this.setDescr(new CheckRichTextEntity(check.getDescr()));
-			}
-
-	        this.setAttributes(new ArrayList<CheckAttributeEntity>());
-	        if (null != check.getAttributes()) {
-	            for (Attribute att : check.getAttributes()) {
-	            	CheckAttributeEntity attEntity = new CheckAttributeEntity(att);
-	                this.getAttributes().add(attEntity);
-	            }
-	        }
-        } catch (Exception e){
-            e.printStackTrace();
+        this.setId(check.getKey());
+        this.setName(check.getName());
+        if(check.getDescr() != null) {
+            this.setDescr(new CheckRichTextEntity(check.getDescr()));
         }
+
+        this.setAttributes(new ArrayList<CheckAttributeEntity>());
+        if (null != check.getAttributes()) {
+            for (Attribute att : check.getAttributes()) {
+                CheckAttributeEntity attEntity = new CheckAttributeEntity(att);
+                this.getAttributes().add(attEntity);
+            }
+        }
+
+        this.setIssueId(check.getIssueKey());
+        this.setMilestoneTypeId(check.getMilestoneTypeKey());
+        this.setAgendaId(check.getAgendaId());
 	}
 
     /**
@@ -114,17 +98,17 @@ X    UPDATETIME TIMESTAMP (6),
         if (checkState != null) {
             obj.setStateKey(checkState.getId());
         }
-        if (descr != null)
+        if (descr != null) {
             obj.setDescr(descr.toDto());
-        if (null != issue) {
-            obj.setIssueKey(issue.getId());
         }
-        if (null != milestoneType) {
-            obj.setMilestoneTypeKey(milestoneType.getId());
-        }
+
         if (null != process) {
             obj.setProcessKey(process.getId());
         }
+
+        obj.setIssueKey(issueId);
+        obj.setMilestoneTypeKey(milestoneTypeId);
+        obj.setAgendaId(agendaId);
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (CheckAttributeEntity att : getAttributes()) {
@@ -176,20 +160,20 @@ X    UPDATETIME TIMESTAMP (6),
         this.checkType = checkType;
     }
 
-    public IssueEntity getIssue() {
-        return issue;
+    public String getIssueId() {
+        return issueId;
     }
 
-    public void setIssue(IssueEntity issue) {
-        this.issue = issue;
+    public void setIssueId(String issueId) {
+        this.issueId = issueId;
     }
 
-    public AtpTypeEntity getMilestoneType() {
-        return milestoneType;
+    public String getMilestoneTypeId() {
+        return milestoneTypeId;
     }
 
-    public void setMilestoneType(AtpTypeEntity milestoneType) {
-        this.milestoneType = milestoneType;
+    public void setMilestoneTypeId(String milestoneTypeId) {
+        this.milestoneTypeId = milestoneTypeId;
     }
 
     public ProcessEntity getProcess() {
@@ -198,6 +182,14 @@ X    UPDATETIME TIMESTAMP (6),
 
     public void setProcess(ProcessEntity process) {
         this.process = process;
+    }
+
+    public String getAgendaId() {
+        return agendaId;
+    }
+
+    public void setAgendaId(String agendaId) {
+        this.agendaId = agendaId;
     }
 
     @Override

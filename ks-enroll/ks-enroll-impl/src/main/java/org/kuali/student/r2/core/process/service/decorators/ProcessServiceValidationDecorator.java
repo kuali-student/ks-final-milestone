@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.process.service.decorators;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -12,6 +13,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.process.dao.InstructionDao;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
@@ -19,7 +21,6 @@ import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessServiceDecorator;
-import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -195,8 +196,27 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new MissingParameterException("contextInfo");
         }
 
+        if (StringUtils.isBlank(checkInfo.getTypeKey())){
+            throw new InvalidParameterException("Check typeKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getStateKey())){
+            throw new InvalidParameterException("Check stateKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())){
+            throw new InvalidParameterException("Check milestoneTypeKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getIssueKey())){
+            throw new InvalidParameterException("Check issueKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getAgendaId())){
+            throw new InvalidParameterException("Check agendaId is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getTypeKey())){
+            throw new InvalidParameterException("Check typeKey is required");
+        }
+
         if (null != checkInfo.getKey() && !checkKey.equals(checkInfo.getKey())) {
-            throw new InvalidParameterException("Process key different than supplied processKey");
+            throw new InvalidParameterException("Check key different than supplied checkKey");
         }
         if (null != checkInfo.getMeta()) {
             throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
@@ -206,6 +226,44 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
 
         _checkFullValidation(checkInfo, contextInfo);
         return getNextDecorator().createCheck(checkKey, checkInfo, contextInfo);
+    }
+
+    @Override
+    public CheckInfo updateCheck(String checkKey, CheckInfo checkInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        if (null == checkKey) {
+            throw new MissingParameterException("checkKey");
+        }
+        if (null == checkInfo) {
+            throw new MissingParameterException("checkInfo");
+        }
+        if (null == contextInfo) {
+            throw new MissingParameterException("contextInfo");
+        }
+
+        if (StringUtils.isBlank(checkInfo.getTypeKey())){
+            throw new InvalidParameterException("Check typeKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getStateKey())){
+            throw new InvalidParameterException("Check stateKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getMilestoneTypeKey())){
+            throw new InvalidParameterException("Check milestoneTypeKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getIssueKey())){
+            throw new InvalidParameterException("Check issueKey is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getAgendaId())){
+            throw new InvalidParameterException("Check agendaId is required");
+        }
+        if (StringUtils.isBlank(checkInfo.getTypeKey())){
+            throw new InvalidParameterException("Check typeKey is required");
+        }
+
+        if (null != checkInfo.getKey() && !checkKey.equals(checkInfo.getKey())) {
+            throw new InvalidParameterException("Check key different than supplied checkKey");
+        }
+
+        return getNextDecorator().updateCheck(checkKey, checkInfo, contextInfo);
     }
 
     @Override

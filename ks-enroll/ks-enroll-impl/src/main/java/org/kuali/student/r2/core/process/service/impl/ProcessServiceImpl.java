@@ -2,18 +2,32 @@ package org.kuali.student.r2.core.process.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.enrollment.class1.hold.dao.IssueDao;
-import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StateProcessInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao;
-import org.kuali.student.r2.core.process.dao.*;
+import org.kuali.student.r2.core.process.dao.CheckDao;
+import org.kuali.student.r2.core.process.dao.CheckTypeDao;
 import org.kuali.student.r2.core.process.dao.InstructionDao;
 import org.kuali.student.r2.core.process.dao.InstructionTypeDao;
+import org.kuali.student.r2.core.process.dao.ProcessDao;
+import org.kuali.student.r2.core.process.dao.ProcessTypeDao;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
@@ -26,27 +40,22 @@ import org.kuali.student.r2.core.process.service.ProcessService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
 
 public class ProcessServiceImpl implements ProcessService {
 
-    private AtpTypeDao atpTypeDao;
     private CheckDao checkDao;
     private CheckTypeDao checkTypeDao;
     private InstructionDao instructionDao;
     private InstructionTypeDao instructionTypeDao;
-    private IssueDao issueDao;
     private ProcessDao processDao;
     private ProcessTypeDao processTypeDao;
     private StateService stateService;
-
-    public AtpTypeDao getAtpTypeDao() {
-        return atpTypeDao;
-    }
-
-    public void setAtpTypeDao(AtpTypeDao atpTypeDao) {
-        this.atpTypeDao = atpTypeDao;
-    }
 
     public CheckDao getCheckDao() {
         return checkDao;
@@ -78,14 +87,6 @@ public class ProcessServiceImpl implements ProcessService {
 
     public void setInstructionTypeDao(InstructionTypeDao instructionTypeDao) {
         this.instructionTypeDao = instructionTypeDao;
-    }
-
-    public IssueDao getIssueDao() {
-        return issueDao;
-    }
-
-    public void setIssueDao(IssueDao issueDao) {
-        this.issueDao = issueDao;
     }
 
     public ProcessDao getProcessDao() {
@@ -374,22 +375,18 @@ public class ProcessServiceImpl implements ProcessService {
         CheckEntity checkEntity = new CheckEntity(checkInfo);
         checkEntity.setId(checkKey);
 
-        if (!StringUtils.isBlank(checkInfo.getStateKey())){
-            checkEntity.setCheckState(findState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY,checkInfo.getStateKey(),contextInfo));
-        }
+        checkEntity.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
+        checkEntity.setCheckState(findState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY, checkInfo.getStateKey(), contextInfo));
 
-        if (!StringUtils.isBlank(checkInfo.getTypeKey())){
-            checkEntity.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
+        if (StringUtils.isNotBlank(checkInfo.getProcessKey())) {
+            ProcessEntity process = processDao.find(checkInfo.getProcessKey());
+            if (null == process) {
+                throw new InvalidParameterException("Check processKey not valid.");
+            }
+            checkEntity.setProcess(process);
+        } else {
+            checkEntity.setProcess(null);
         }
-
-        if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
-            checkEntity.setIssue(issueDao.find(checkInfo.getIssueKey()));
-        }
-
-        if (StringUtils.isNotBlank(checkInfo.getMilestoneTypeKey())) {
-            checkEntity.setMilestoneType(atpTypeDao.find(checkInfo.getMilestoneTypeKey()));
-        }
-
 
         checkDao.persist(checkEntity);
 
@@ -411,16 +408,17 @@ public class ProcessServiceImpl implements ProcessService {
 
         CheckEntity toUpdate = new CheckEntity(checkInfo);
 
-        if (!StringUtils.isBlank(checkInfo.getStateKey())){
-            toUpdate.setCheckState(findState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY,checkInfo.getStateKey(),contextInfo));
-        }
+        toUpdate.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
+        toUpdate.setCheckState(findState(ProcessServiceConstants.CHECK_LIFECYCLE_KEY, checkInfo.getStateKey(), contextInfo));
 
-        if (!StringUtils.isBlank(checkInfo.getTypeKey())){
-            toUpdate.setCheckType(checkTypeDao.find(checkInfo.getTypeKey()));
-        }
-
-        if (StringUtils.isNotBlank(checkInfo.getIssueKey())){
-            toUpdate.setIssue(issueDao.find(checkInfo.getIssueKey()));
+        if (StringUtils.isNotBlank(checkInfo.getProcessKey())) {
+            ProcessEntity process = processDao.find(checkInfo.getProcessKey());
+            if (null == process) {
+                throw new InvalidParameterException("Check processKey not valid.");
+            }
+            toUpdate.setProcess(process);
+        } else {
+            toUpdate.setProcess(null);
         }
 
         checkDao.merge(toUpdate);

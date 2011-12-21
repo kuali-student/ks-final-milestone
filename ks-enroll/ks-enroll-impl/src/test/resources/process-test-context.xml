@@ -96,12 +96,10 @@
     </bean>
     
     <bean id="processServiceImpl" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl">
-        <property name="atpTypeDao" ref="atpTypeDao"/>
         <property name="checkDao" ref="checkDao"/>
         <property name="checkTypeDao" ref="checkTypeDao"/>
         <property name="instructionDao" ref="instructionDao"/>
         <property name="instructionTypeDao" ref="instructionTypeDao"/>
-        <property name="issueDao" ref="issueDao"/>
         <property name="processDao" ref="processDao"/>
         <property name="processTypeDao" ref="processTypeDao"/>
         <property name="stateService" ref="stateService"/>
@@ -119,9 +117,6 @@
     </bean>
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
     <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao">
         <property name="em" ref="entityManager"/>
     </bean>
@@ -132,9 +127,6 @@
         <property name="em" ref="entityManager"/>
     </bean>
     <bean id="instructionTypeDao" class="org.kuali.student.r2.core.process.dao.InstructionTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
-    <bean id="issueDao" class="org.kuali.student.enrollment.class1.hold.dao.IssueDao">
         <property name="em" ref="entityManager"/>
     </bean>
     <bean id="processDao" class="org.kuali.student.r2.core.process.dao.ProcessDao">
