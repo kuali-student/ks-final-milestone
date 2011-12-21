@@ -218,7 +218,7 @@ public class RegistrationController extends UifControllerBase {
             }
 
 //            return getUIFModelAndView(regForm, regForm.getViewId(), "registrationPage");
-            return getUIFModelAndView(regForm);
+            return getUIFModelAndView(regForm, "registrationPage");
         } catch (InvalidParameterException e) {
             throw new RuntimeException(e);
         } catch (MissingParameterException e) {
