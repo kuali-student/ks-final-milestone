@@ -22,6 +22,8 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao;
+import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
 import org.kuali.student.r2.core.process.dao.CheckDao;
 import org.kuali.student.r2.core.process.dao.CheckTypeDao;
 import org.kuali.student.r2.core.process.dao.InstructionDao;
@@ -49,6 +51,7 @@ import java.util.List;
 
 public class ProcessServiceImpl implements ProcessService {
 
+    private AtpTypeDao atpTypeDao;
     private CheckDao checkDao;
     private CheckTypeDao checkTypeDao;
     private InstructionDao instructionDao;
@@ -56,6 +59,14 @@ public class ProcessServiceImpl implements ProcessService {
     private ProcessDao processDao;
     private ProcessTypeDao processTypeDao;
     private StateService stateService;
+
+    public AtpTypeDao getAtpTypeDao() {
+        return atpTypeDao;
+    }
+
+    public void setAtpTypeDao(AtpTypeDao atpTypeDao) {
+        this.atpTypeDao = atpTypeDao;
+    }
 
     public CheckDao getCheckDao() {
         return checkDao;
@@ -544,12 +555,27 @@ public class ProcessServiceImpl implements ProcessService {
     @Transactional(readOnly = false)
     public InstructionInfo createInstruction(@WebParam(name = "processKey") String processKey, @WebParam(name = "checkKey") String checkKey, @WebParam(name = "instructionInfo") InstructionInfo instructionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         InstructionEntity instruction = new InstructionEntity(instructionInfo);
-        if (StringUtils.isNotBlank(instructionInfo.getStateKey())){
-            instruction.setInstructionState(findState(ProcessServiceConstants.INSTRUCTION_LIFECYCLE_KEY, instructionInfo.getStateKey(), contextInfo));
+        instruction.setInstructionState(findState(ProcessServiceConstants.INSTRUCTION_LIFECYCLE_KEY, instructionInfo.getStateKey(), contextInfo));
+        instruction.setInstructionType(instructionTypeDao.find(instructionInfo.getTypeKey()));
+
+        List<AtpTypeEntity> appliedAtpTypes = atpTypeDao.findByIds(instructionInfo.getAppliedAtpTypeKeys());
+        if (appliedAtpTypes.contains(null)) {
+            throw new InvalidParameterException("Could not find all appliedAtpTypes: " + instructionInfo.getAppliedAtpTypeKeys());
         }
-        if (StringUtils.isNotBlank(instructionInfo.getTypeKey())){
-            instruction.setInstructionType(instructionTypeDao.find(instructionInfo.getTypeKey()));
+        instruction.setAppliedAtpTypes(appliedAtpTypes);
+
+        ProcessEntity process = processDao.find(processKey);
+        if (null == process) {
+            throw new InvalidParameterException("processKey");
         }
+        instruction.setProcess(process);
+
+        CheckEntity check = checkDao.find(checkKey);
+        if (null == check) {
+            throw new InvalidParameterException("checkKey");
+        }
+        instruction.setCheck(check);
+
         instructionDao.persist(instruction);
         return instruction.toDto();
     }
@@ -564,14 +590,26 @@ public class ProcessServiceImpl implements ProcessService {
         }
 
         InstructionEntity toUpdate = new InstructionEntity(instructionInfo);
+        toUpdate.setInstructionState(findState(ProcessServiceConstants.INSTRUCTION_LIFECYCLE_KEY, instructionInfo.getStateKey(), contextInfo));
+        toUpdate.setInstructionType(instructionTypeDao.find(instructionInfo.getTypeKey()));
 
-        if (StringUtils.isNotBlank(instructionInfo.getStateKey())){
-            toUpdate.setInstructionState(findState(ProcessServiceConstants.INSTRUCTION_LIFECYCLE_KEY, instructionInfo.getStateKey(), contextInfo));
+        List<AtpTypeEntity> appliedAtpTypes = atpTypeDao.findByIds(instructionInfo.getAppliedAtpTypeKeys());
+        if (appliedAtpTypes.contains(null)) {
+            throw new InvalidParameterException("Could not find all appliedAtpTypes: " + instructionInfo.getAppliedAtpTypeKeys());
         }
+        toUpdate.setAppliedAtpTypes(appliedAtpTypes);
 
-        if (StringUtils.isNotBlank(instructionInfo.getTypeKey())){
-            toUpdate.setInstructionType(instructionTypeDao.find(instructionInfo.getTypeKey()));
+        ProcessEntity process = processDao.find(instructionInfo.getProcessKey());
+        if (null == process) {
+            throw new InvalidParameterException("Instruction processKey");
         }
+        toUpdate.setProcess(process);
+
+        CheckEntity check = checkDao.find(instructionInfo.getCheckKey());
+        if (null == check) {
+            throw new InvalidParameterException("Instruction checkKey");
+        }
+        toUpdate.setCheck(check);
 
         instructionDao.merge(toUpdate);
 

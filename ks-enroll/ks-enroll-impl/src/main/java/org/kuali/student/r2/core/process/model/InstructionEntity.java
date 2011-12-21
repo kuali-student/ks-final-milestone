@@ -66,7 +66,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     private List<String> appliedPopulation;
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinTable(name = "KSEN_INSTR_PRSN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
+    @JoinTable(name = "KSEN_INSTR_ATPTYPE_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
     private List<AtpTypeEntity> appliedAtpTypes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)
@@ -83,6 +83,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         setContinueOnFail(dto.getContinueOnFail());
         setExemptable(dto.getIsExemptable());
         setPosition(dto.getPosition());
+        setWarning(dto.getIsWarning());
 
         if (dto.getExpirationDate() != null){
             setExpirationDate(dto.getExpirationDate());
@@ -112,6 +113,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         dto.setContinueOnFail(isContinueOnFail());
         dto.setPosition(getPosition());
         dto.setIsExemptable(isExemptable());
+        dto.setIsWarning(isWarning());
 
         if (getEffectiveDate() != null){
             dto.setEffectiveDate(getEffectiveDate());

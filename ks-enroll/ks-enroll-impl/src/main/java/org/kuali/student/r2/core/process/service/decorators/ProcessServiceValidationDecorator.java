@@ -341,8 +341,62 @@ public class ProcessServiceValidationDecorator extends ProcessServiceDecorator i
             throw new ReadOnlyException("MetaInfo is not allowed to be supplied on a create");
         }
 
+        if (null != instructionInfo.getProcessKey() && !processKey.equals(instructionInfo.getProcessKey())) {
+            throw new InvalidParameterException("Instruction processKey different than supplied processKey");
+        }
+
+        if (null != instructionInfo.getCheckKey() && !checkKey.equals(instructionInfo.getCheckKey())) {
+            throw new InvalidParameterException("Instruction checkKey different than supplied checkKey");
+        }
+
+        if (StringUtils.isBlank(instructionInfo.getTypeKey())){
+            throw new InvalidParameterException("Instruction typeKey is required");
+        }
+        if (StringUtils.isBlank(instructionInfo.getStateKey())){
+            throw new InvalidParameterException("Instruction stateKey is required");
+        }
+        if (null == instructionInfo.getAppliedAtpTypeKeys() || instructionInfo.getAppliedAtpTypeKeys().isEmpty()){
+            throw new InvalidParameterException("Instruction appliedAtpTypeKeys is required");
+        }
+
+
         _instructionFullValidation(processKey, checkKey, instructionInfo, contextInfo);
         return getNextDecorator().createInstruction(processKey, checkKey, instructionInfo, contextInfo);
+    }
+
+    @Override
+    public InstructionInfo updateInstruction(String instructionId, InstructionInfo instructionInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        if (null == instructionId) {
+            throw new MissingParameterException("instructionId");
+        }
+        if (null == instructionInfo) {
+            throw new MissingParameterException("instructionInfo");
+        }
+        if (null == contextInfo) {
+            throw new MissingParameterException("contextInfo");
+        }
+
+        if (null != instructionInfo.getId() && !instructionId.equals(instructionInfo.getId())) {
+            throw new InvalidParameterException("Instruction id different than supplied instructionId");
+        }
+
+        if (StringUtils.isBlank(instructionInfo.getProcessKey())) {
+            throw new InvalidParameterException("Instruction processKey is required");
+        }
+        if (StringUtils.isBlank(instructionInfo.getCheckKey())) {
+            throw new InvalidParameterException("Instruction checkKey is required");
+        }
+        if (StringUtils.isBlank(instructionInfo.getTypeKey())){
+            throw new InvalidParameterException("Instruction typeKey is required");
+        }
+        if (StringUtils.isBlank(instructionInfo.getStateKey())){
+            throw new InvalidParameterException("Instruction stateKey is required");
+        }
+        if (null == instructionInfo.getAppliedAtpTypeKeys() || instructionInfo.getAppliedAtpTypeKeys().isEmpty()){
+            throw new InvalidParameterException("Instruction appliedAtpTypeKeys is required");
+        }
+
+        return getNextDecorator().updateInstruction(instructionId, instructionInfo, contextInfo);
     }
 
     @Override
