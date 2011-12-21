@@ -16,6 +16,8 @@
 
 package org.kuali.student.r2.common.infc;
 
+import java.util.Date;
+
 /*
  * This is a generic context container to be used by services to pass
  * user identity and preferences
@@ -24,7 +26,7 @@ package org.kuali.student.r2.common.infc;
  *      1. ISO3 standard can now be interpreted by looking at the
  *         language and country codes
  *      2. Time zone is defined in GMT +/- hours and minutes format
- *      3. Should Locale contain currency
+ *      3. Should Locale contain currency?
  *
  * References:
  * ftp://ftp.rfc-editor.org/in-notes/bcp/bcp47.txt
@@ -39,26 +41,56 @@ package org.kuali.student.r2.common.infc;
 public interface Context extends HasAttributes {
 
     /**
-     * Principal Id of the currently authenticated user or the user on
-     * whom's behalf this method is being invoked.
+     * The Principal Id of the currently authenticated user.
      *
-     * Used for authorization checking.
+     * @name Authenticated Principal Id
+     */
+    public String getAuthenticatedPrincipalId();
+
+    /**
+     * The Principal Id of the principal on whose behalf the
+     * authenticated principal is acting. If the authenticated
+     * principal is not acting on behalf of a different user, then
+     * this Id should be the same as the Authenticated Principal Id.
+     *
+     * (1) User is authorized to only act on behalf of
+     * itself. Principal Id must equal the Authenticated Principal Id
+     * and the authorization is performed on that Id. If the Principal
+     * Id differs from the Authenticated Principal Id, then the user
+     * is not authorized to perform the requested operation.
+     *
+     * (2) User is authorized to act on behalf of another user. The
+     * Principal Id differs from the Authentication Principal
+     * Id. Authorization is checked to see if Authenticated Principal
+     * Id can perform the operation on behalf of Principal Id. Then,
+     * authorization is checked to see if Principal Id can perform the
+     * operation.
+     *
      * @name Principal Id
      */
     public String getPrincipalId();
 
     /**
-     * Locale information associated with this context
+     * The current date in this context. This date is used to instruct
+     * the provider to peform operations as if this date were the
+     * current date.
+     *
+     * @name Current Date
+     */
+    public Date getCurrentDate();
+
+    /**
+     * The locale information requested by the user.
      *
      * @name Locale
      */
     public Locale getLocale();
    
     /**
-     * The time zone to be used in this context
+     * The time zone requested by the user.
+     *
      * @name Time Zone
      */
     public String getTimeZone();
-
 }
 
