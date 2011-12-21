@@ -39,8 +39,6 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
 
     private IdentityService identityService;
 
-    private PersonService personService;
-
     private final static Set<String> preRequisites;
 
     static {
@@ -53,10 +51,6 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
 
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
-    }
-
-    public void setPersonService(PersonService personService) {
-        this.personService = personService;
     }
 
     @Override
@@ -86,9 +80,7 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
         String studentId = (String) resolvedPrereqs.get(RulesExecutionConstants.STUDENT_ID_TERM_NAME);
         Date currentDate = (Date) resolvedPrereqs.get(RulesExecutionConstants.CURRENT_DATE_TERM_NAME);
 
-        Person person = personService.getPerson(studentId);
-
-        Entity entity = identityService.getEntityByPrincipalId(person.getPrincipalId());
+        Entity entity = identityService.getEntity(studentId);
 
         Date deceasedDate = null;
 
