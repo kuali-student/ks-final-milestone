@@ -791,6 +791,7 @@
         <column name="END_DT" type="TIMESTAMP"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="START_DT" type="TIMESTAMP"/>
+        <column name="ADMIN_ORG_ID" size="50" type="VARCHAR"/>
         <column name="ATP_STATE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ATP_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
