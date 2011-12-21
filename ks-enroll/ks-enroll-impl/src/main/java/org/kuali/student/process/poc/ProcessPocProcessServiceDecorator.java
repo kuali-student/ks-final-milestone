@@ -68,20 +68,18 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         _createCheck(ProcessServiceConstants.CHECK_KEY_STUDENT_HAS_ELIGIBILITY_FOR_EACH_COURSE, ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY, "", "", "", "kuali.process.registration.eligible.for.course", "student has eligibility for each course", "Checks all the checks that make sure the student is eligible for a particular course but does it for all the courses in the proposed set of courses", context);
         _createCheck(ProcessServiceConstants.CHECK_KEY_DOES_NOT_EXCEED_CREDIT_LIMIT, ProcessServiceConstants.MAXIMUM_VALUE_CHECK_TYPE_KEY, "", "", "", "", "does not exceed credit limit", "Checks that the student has not exceeded her credit limit", context);
 
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, "kuali.population.everyone", "kuali.check.is.alive", "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.", 1, "Error", "No", "No", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, "kuali.population.everyone", "kuali.check.has.overdue.library.book", "Please note: you have an overdue library book", 3, "Warning", "Yes", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, "kuali.population.everyone", "kuali.check.has.not.paid.bill.from.prior.term", "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter", 5, "Error", "Yes", "Yes", context);
-
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.student.has.basic.eligibility", "Something about you as a person or your relationship with this institution needs to be fixed", 1, "Error", "No", "No", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.open", "Registration period for this term has not yet begun", 3, "Error", "Yes", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.not.closed", "Registration period for this term is closed", 4, "Error", "Yes", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.holds.cleared", "You have one or more holds that need to be cleared", 5, "Error", "Yes", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.summer.only.student", "kuali.check.is.not.summer.term", "Summer only students cannot register for fall, winter or spring terms", 9, "Error", "Yes", "Yes", context);
-
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone", "kuali.check.eligibility.for.term", "", 1, "Error", "No", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone", "kuali.check.has.the.necessary.prereq", "", 2, "Error", "Yes", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone", "kuali.check.student.has.eligibility.for.each.course", "", 1, "Error", "No", "Yes", context);
-        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone", "kuali.check.does.not.exceed.credit.limit", "You are exceeding your credit limit", 2, "Error", "", "Yes", context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_BASIC_ELIGIBILITY, "kuali.population.everyone", "kuali.check.is.alive", "A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.", 1, false, false, false, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, "kuali.population.everyone", "kuali.check.has.overdue.library.book", "Please note: you have an overdue library book", 3, true, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_HOLDS_CLEARED, "kuali.population.everyone", "kuali.check.has.not.paid.bill.from.prior.term", "You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter", 5, false, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.student.has.basic.eligibility", "Something about you as a person or your relationship with this institution needs to be fixed", 1, false, false, false, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.open", "Registration period for this term has not yet begun", 3, false, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.period.is.not.closed", "Registration period for this term is closed", 4, false, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.everyone", "kuali.check.registration.holds.cleared", "You have one or more holds that need to be cleared", 5, false, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM, "kuali.population.summer.only.student", "kuali.check.is.not.summer.term", "Summer only students cannot register for fall, winter or spring terms", 9, false, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone", "kuali.check.eligibility.for.term", "", 1, false, false, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSE, "kuali.population.everyone", "kuali.check.has.the.necessary.prereq", "", 2, false, true, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone", "kuali.check.student.has.eligibility.for.each.course", "", 1, false, false, true, context);
+        _createInstruction(ProcessServiceConstants.PROCESS_KEY_ELIGIBLE_FOR_COURSES, "kuali.population.everyone", "kuali.check.does.not.exceed.credit.limit", "You are exceeding your credit limit", 2, false, false, true, context);
     }
 
     private void _createInstruction(String processKey,
@@ -89,9 +87,9 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
             String checkKey,
             String message,
             int position,
-            String isWarning,
-            String continueOnFail,
-            String canBeExempted,
+            boolean isWarning,
+            boolean continueOnFail,
+            boolean canBeExempted,
             ContextInfo context) {
 
         InstructionInfo info = new InstructionInfo();
@@ -102,29 +100,15 @@ public class ProcessPocProcessServiceDecorator extends ProcessServiceDecorator {
         info.setCheckKey(checkKey);
         info.setMessage(new RichTextHelper().fromPlain(message));
         info.setPosition(position);
-        info.setContinueOnFail(_asBoolean(continueOnFail));
-        info.setIsWarning(_asWarning(isWarning));
-        info.setIsExemptable(_asBoolean(canBeExempted));
+        info.setContinueOnFail(continueOnFail);
+        info.setIsWarning(isWarning);
+        info.setIsExemptable(canBeExempted);
         try {
             info = this.createInstruction(info.getProcessKey(), info.getCheckKey(), info, context);
         } catch (Exception ex) {
             throw new RuntimeException("error creating exemption request", ex);
         }
 
-    }
-
-    private Boolean _asBoolean(String str) {
-        if ("Yes".equalsIgnoreCase(str)) {
-            return true;
-        }
-        return false;
-    }
-
-    private Boolean _asWarning(String str) {
-        if ("Error".equalsIgnoreCase(str)) {
-            return false;
-        }
-        return true;
     }
 
     private ProcessInfo _createProcess(String key, String name, String descr, ContextInfo context) {
