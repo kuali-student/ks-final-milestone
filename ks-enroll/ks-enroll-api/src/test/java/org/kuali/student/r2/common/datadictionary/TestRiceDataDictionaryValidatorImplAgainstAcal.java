@@ -512,7 +512,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
         List<String> campusCalendarKeys = new ArrayList();
-        acal.setCampusCalendarIds(campusCalendarKeys);
+        acal.setHolidayCalendarIds(campusCalendarKeys);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -538,7 +538,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
         List<String> campusCalendarKeys = new ArrayList();
-        acal.setCampusCalendarIds(campusCalendarKeys);
+        acal.setHolidayCalendarIds(campusCalendarKeys);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -565,7 +565,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         acal = this.getDefaultAcademicCalendarInfo();
         List<String> campusCalendarKeys = new ArrayList();
         campusCalendarKeys.add("campusCalendarKey1");
-        acal.setCampusCalendarIds(campusCalendarKeys);
+        acal.setHolidayCalendarIds(campusCalendarKeys);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -592,7 +592,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         List<String> campusCalendarKeys = new ArrayList();
         campusCalendarKeys.add("campusCalendarKey1");
         campusCalendarKeys.add("campusCalendarKey2");
-        acal.setCampusCalendarIds(campusCalendarKeys);
+        acal.setHolidayCalendarIds(campusCalendarKeys);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -620,7 +620,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         campusCalendarKeys.add("campusCalendarKey1");
         campusCalendarKeys.add("campusCalendarKey2");
         campusCalendarKeys.add("campusCalendarKey3");
-        acal.setCampusCalendarIds(campusCalendarKeys);
+        acal.setHolidayCalendarIds(campusCalendarKeys);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -646,7 +646,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         acal = this.getDefaultAcademicCalendarInfo();
         List<String> campusCalendarKeys = new ArrayList();
         campusCalendarKeys.add("campusCa\nlendarKey1");
-        acal.setCampusCalendarIds(campusCalendarKeys);
+        acal.setHolidayCalendarIds(campusCalendarKeys);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {

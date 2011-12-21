@@ -53,5 +53,13 @@ public interface Atp extends KeyEntity {
      * automatically be considered greater than the effective date.
      */
     public Date getEndDate();
+    
+    /**
+     * The adminsitrative organization responsible for maintaining
+     * this calendar.
+     *
+     * @name AdminOrg Id
+     */
+    public String getAdminOrgId();
  
 }

@@ -865,8 +865,8 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(originalCalendar.getDescr().getFormatted(), copiedCalendar.getDescr().getFormatted());
         assertEquals(originalCalendar.getDescr().getPlain(), copiedCalendar.getDescr().getPlain());
 
-        List<String> originalCampusCalendarsKeys = originalCalendar.getCampusCalendarIds();
-        List<String> copiedCampusCalendarsKeys = copiedCalendar.getCampusCalendarIds();
+        List<String> originalCampusCalendarsKeys = originalCalendar.getHolidayCalendarIds();
+        List<String> copiedCampusCalendarsKeys = copiedCalendar.getHolidayCalendarIds();
         assertNotNull(originalCampusCalendarsKeys);
         assertNotNull(copiedCampusCalendarsKeys);
         assertFalse(originalCampusCalendarsKeys.isEmpty());

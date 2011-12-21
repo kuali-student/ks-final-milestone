@@ -29,7 +29,7 @@ import org.kuali.student.r2.core.atp.infc.Atp;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpInfo", propOrder = { "key", "typeKey", "stateKey", "name",
+@XmlType(name = "AtpInfo", propOrder = {"adminOrgId", "key", "typeKey", "stateKey", "name",
 		"descr", "startDate", "endDate", "meta", "attributes",
 		"_futureElements" })
 public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
@@ -39,6 +39,8 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
 	private Date startDate;
 	@XmlElement
 	private Date endDate;
+	
+	private String adminOrgId;
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
@@ -60,11 +62,20 @@ public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
 		if (null != atp) {
 			this.startDate = new Date(atp.getStartDate().getTime());
 			this.endDate = new Date(atp.getEndDate().getTime());
+			this.adminOrgId = atp.getAdminOrgId();
 			_futureElements = null;
 		}
 	}
 
-	@Override
+	public String getAdminOrgId() {
+        return adminOrgId;
+    }
+
+    public void setAdminOrgId(String adminOrgId) {
+        this.adminOrgId = adminOrgId;
+    }
+
+    @Override
 	public Date getStartDate() {
 		return startDate != null ? new Date(startDate.getTime()) : null;
 	}

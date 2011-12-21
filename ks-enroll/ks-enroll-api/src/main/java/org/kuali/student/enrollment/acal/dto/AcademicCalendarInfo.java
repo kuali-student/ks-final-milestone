@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AcademicCalendarInfo", propOrder = { 
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "campusCalendarIds", "adminOrgId", "startDate", "endDate", 
+                "holidayCalendarIds", "adminOrgId", "startDate", "endDate", 
 		"meta", "attributes", "_futureElements" })
 
 public class AcademicCalendarInfo 
@@ -43,7 +43,7 @@ public class AcademicCalendarInfo
     private static final long serialVersionUID = 1L;
     
     @XmlElement
-    private List<String> campusCalendarIds;
+    private List<String> holidayCalendarIds;
 
     @XmlElement
     private String adminOrgId;
@@ -72,8 +72,8 @@ public class AcademicCalendarInfo
         super(acal);
 
         if (acal != null) {
-            if (acal.getCampusCalendarIds() != null) {
-                this.campusCalendarIds = new ArrayList<String>(acal.getCampusCalendarIds());
+            if (acal.getHolidayCalendarIds() != null) {
+                this.holidayCalendarIds = new ArrayList<String>(acal.getHolidayCalendarIds());
             }
             this.adminOrgId = acal.getAdminOrgId();
             if (acal.getStartDate() != null) {
@@ -87,16 +87,16 @@ public class AcademicCalendarInfo
     }
 
     @Override
-    public List<String> getCampusCalendarIds() {
-        if (campusCalendarIds == null) {
-            campusCalendarIds = new ArrayList<String>();
+    public List<String> getHolidayCalendarIds() {
+        if (holidayCalendarIds == null) {
+            holidayCalendarIds = new ArrayList<String>();
         }
 
-        return campusCalendarIds;
+        return holidayCalendarIds;
     }
 
-    public void setCampusCalendarIds(List<String> campusCalendarIds) {
-        this.campusCalendarIds = campusCalendarIds;
+    public void setHolidayCalendarIds(List<String> holidayCalendarIds) {
+        this.holidayCalendarIds = holidayCalendarIds;
     }
 
     @Override

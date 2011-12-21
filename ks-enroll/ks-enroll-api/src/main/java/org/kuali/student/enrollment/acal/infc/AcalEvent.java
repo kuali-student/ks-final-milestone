@@ -21,7 +21,8 @@ import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about an event on an AcademicCalendar.
+ * Information about a holiday. Holdays are used to mark holidays and
+ * other non-instructional days on a AcalEventCalendar.
  *
  * @author tom
  * @since Tue Apr 05 14:22:34 EDT 2011

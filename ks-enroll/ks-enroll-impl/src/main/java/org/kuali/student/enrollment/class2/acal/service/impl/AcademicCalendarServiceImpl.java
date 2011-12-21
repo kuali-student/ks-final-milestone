@@ -193,38 +193,22 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     @Transactional
-    public AcademicCalendarInfo createAcademicCalendar(String academicCalendarKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
+    public AcademicCalendarInfo createAcademicCalendar(String academicCalendarTypeKey, AcademicCalendarInfo academicCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        boolean existed = true;
+
         try {
-            AtpInfo existedAtp = atpService.getAtp(academicCalendarKey, context);
-            if (existedAtp != null) {
-                throw new OperationFailedException("Academic calendar with id = " + academicCalendarKey + " already exists");
-            } else {
-                existed = false;
-            }
-        } catch (DoesNotExistException e) {
-            existed = false;
+            AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
+            AtpInfo createdAtp = atpService.createAtp(academicCalendarTypeKey, toCreate, context);
+
+            processAcalToCcalRelation(createdAtp.getKey(), academicCalendarInfo.getHolidayCalendarIds(), context);
+            return acalAssembler.assemble(createdAtp, context);
+
+        } catch (AlreadyExistsException e) {
+            throw new OperationFailedException(e.getMessage());
+        } catch (AssemblyException ex) {
+            throw new OperationFailedException(ex.getMessage());
         }
 
-        if (!existed) {
-            try {
-                AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
-                AtpInfo createdAtp = atpService.createAtp(academicCalendarKey, toCreate, context);
-                if (createdAtp != null) {
-                    processAcalToCcalRelation(createdAtp.getKey(), academicCalendarInfo.getCampusCalendarIds(), context);
-                    return acalAssembler.assemble(createdAtp, context);
-                } else {
-                    throw new OperationFailedException("Failed to create atp for Academic calendar with id = " + academicCalendarKey);
-                }
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException : " + e.getMessage());
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("AlreadyExistsException : " + e.getMessage());
-            }
-        } else {
-            throw new OperationFailedException("Academic calendar with id = " + academicCalendarKey + " already exists");
-        }
     }
 
     @Override
@@ -238,7 +222,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                     AtpInfo toUpdate = acalAssembler.disassemble(academicCalendarInfo, context);
                     AtpInfo updated = atpService.updateAtp(academicCalendarKey, toUpdate, context);
                     if (updated != null) {
-                        processAcalToCcalRelation(academicCalendarKey, academicCalendarInfo.getCampusCalendarIds(), context);
+                        processAcalToCcalRelation(academicCalendarKey, academicCalendarInfo.getHolidayCalendarIds(), context);
                         return acalAssembler.assemble(updated, context);
                     } else {
                         throw new OperationFailedException("Failed to update atp for Academic calendar with id = " + academicCalendarKey);
@@ -282,7 +266,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     /*
      * TODO - Rewrite this method completely after copy logic
      */
-    
     public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Integer startYear, Integer endYear, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -301,7 +284,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         }
 
         Map<String, KeyDateInfo> oldDatesToNewDates = new HashMap<String, KeyDateInfo>();
-      
 
         List<TermInfo> templateTerms = getTermsForAcademicCalendar(templateAcademicCalendar.getId(), contextInfo);
         for (TermInfo templateTerm : templateTerms) {
@@ -370,28 +352,28 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
                 keyDate.setTypeKey(templateKeyDate.getTypeKey());
 
                 try {
-                    
+
                     createKeyDate(term.getId(), keyDate.getId(), keyDate, context); // TODO
-                                                                                           // Need
-                                                                                           // a
-                                                                                           // way
-                                                                                           // to
-                                                                                           // only
-                                                                                           // create
-                                                                                           // a
-                                                                                           // KeyDate
-                                                                                           // in
-                                                                                           // order
-                                                                                           // to
-                                                                                           // associate
-                                                                                           // it
-                                                                                           // with
-                                                                                           // multiple
-                                                                                           // Terms
+                                                                                    // Need
+                                                                                    // a
+                                                                                    // way
+                                                                                    // to
+                                                                                    // only
+                                                                                    // create
+                                                                                    // a
+                                                                                    // KeyDate
+                                                                                    // in
+                                                                                    // order
+                                                                                    // to
+                                                                                    // associate
+                                                                                    // it
+                                                                                    // with
+                                                                                    // multiple
+                                                                                    // Terms
                     templateDatesToNewDates.put(templateKeyDate.getId(), keyDate);
                 } catch (DataValidationErrorException e) {
                     throw new OperationFailedException("Could not create KeyDate '" + keyDate.getId() + "'", e);
-                }  catch (ReadOnlyException e) {
+                } catch (ReadOnlyException e) {
                     throw new OperationFailedException("ReadOnlyException " + keyDate.getId() + "'", e);
                 }
 
@@ -603,7 +585,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return terms;
     }
 
-  
     @Override
     public List<TermInfo> getTermsForAcademicCalendar(String academicCalendarKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -1093,8 +1074,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return null;
     }
 
-   
-        @Override
+    @Override
     public HolidayInfo updateHoliday(String holidayKey, HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
@@ -1191,7 +1171,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return keyDate;
     }
 
-   
     @Override
     public RegistrationDateGroupInfo updateRegistrationDateGroup(String termKey, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DataValidationErrorException,
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -1254,10 +1233,10 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         } else if (null != updatedKeyDate && null == existingKeyDate) {
             // add date
             updatedKeyDate.setId(typeKey + "." + termKey + "." + RandomStringUtils.randomAlphanumeric(4)); // TODO
-                                                                                                            // properly
-                                                                                                            // generate
-                                                                                                            // new
-                                                                                                            // key
+                                                                                                           // properly
+                                                                                                           // generate
+                                                                                                           // new
+                                                                                                           // key
             updatedKeyDate.setTypeKey(typeKey);
             updatedKeyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
             try {
@@ -1269,7 +1248,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             atpService.deleteMilestone(existingKeyDate.getId(), context);
         }
     }
-
 
     public AtpService getAtpService() {
         return atpService;

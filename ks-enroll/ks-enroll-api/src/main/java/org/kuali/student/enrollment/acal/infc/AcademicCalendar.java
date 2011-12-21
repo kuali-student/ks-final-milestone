@@ -38,7 +38,7 @@ public interface AcademicCalendar
      *
      * @name Campus Calendar Ids
      */
-    public List<String> getCampusCalendarIds();
+    public List<String> getHolidayCalendarIds();
     
     /**
      * The adminsitrative organization responsible for maintaining
