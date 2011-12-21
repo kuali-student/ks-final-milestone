@@ -59,7 +59,7 @@ A term is the time period in which a  course may be offered.
 
 		<property name="attributes">
 			<list>
-				<ref bean="TermInfo.key"/>
+				<ref bean="TermInfo.id"/>
 				<ref bean="TermInfo.typeKey"/>
 				<ref bean="TermInfo.stateKey"/>
 				<ref bean="TermInfo.name"/>
@@ -81,8 +81,8 @@ A term is the time period in which a  course may be offered.
 		</property>
 	</bean>
 
-	<bean id="TermInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="TermInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="TermInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">

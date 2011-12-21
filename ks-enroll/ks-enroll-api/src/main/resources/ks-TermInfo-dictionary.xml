@@ -42,8 +42,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
 	</bean>
 
-	<bean id="TermInfo.key" parent="TermInfo.key-parent"/>
-	<bean id="TermInfo.key-parent" abstract="true" parent="TermInfo.key-generated">
+	<bean id="TermInfo.id" parent="TermInfo.id-parent"/>
+	<bean id="TermInfo.id-parent" abstract="true" parent="TermInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

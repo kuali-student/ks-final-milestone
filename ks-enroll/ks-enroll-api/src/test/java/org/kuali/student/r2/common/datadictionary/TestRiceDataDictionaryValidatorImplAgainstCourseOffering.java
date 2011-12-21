@@ -29,6 +29,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -46,6 +47,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  *
  * @author nwright
  */
+@Ignore
 public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
 
     public TestRiceDataDictionaryValidatorImplAgainstCourseOffering() {

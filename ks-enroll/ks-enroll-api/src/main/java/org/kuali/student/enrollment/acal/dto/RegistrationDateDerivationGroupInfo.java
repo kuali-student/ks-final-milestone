@@ -24,183 +24,173 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.RegistrationDateDerivationGroup;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationDateDerivationGroupInfo", propOrder = {
 		"registrationStartDateTermKey", "registrationEndDateTermKey",
-		"classStartDateTermKey", "classEndDateTermKey", "addDateTermKey",
-		"dropDateTermKey", "finalExamStartDateTermKey",
-		"finalExamEndDateTermKey", "gradingStartDateTermKey",
-		"gradingEndDateTermKey", "_futureElements" })
-public class RegistrationDateDerivationGroupInfo implements
-		RegistrationDateDerivationGroup, Serializable {
+		"classStartDateTermKey", "classEndDateTermKey", 
+                "addDateTermKey", "dropDateTermKey", 
+                "finalExamStartDateTermKey", "finalExamEndDateTermKey", 
+                "gradingStartDateTermKey", "gradingEndDateTermKey", 
+                "_futureElements" })
 
-	private static final long serialVersionUID = 1L;
-	@XmlElement
-	private String registrationStartDateTermKey;
-	@XmlElement
-	private String registrationEndDateTermKey;
-	@XmlElement
-	private String classStartDateTermKey;
-	@XmlElement
-	private String classEndDateTermKey;
-	@XmlElement
-	private String addDateTermKey;
-	@XmlElement
-	private String dropDateTermKey;
-	@XmlElement
-	private String finalExamStartDateTermKey;
-	@XmlElement
-	private String finalExamEndDateTermKey;
-	@XmlElement
-	private String gradingStartDateTermKey;
-	@XmlElement
-	private String gradingEndDateTermKey;
-	@XmlAnyElement
-	private List<Element> _futureElements;
+public class RegistrationDateDerivationGroupInfo 
+    implements RegistrationDateDerivationGroup, Serializable {
 
+    private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String registrationStartDateTermKey;
 	
-	public RegistrationDateDerivationGroupInfo() {
-		registrationStartDateTermKey = null;
-		registrationEndDateTermKey = null;
-		classStartDateTermKey = null;
-		classEndDateTermKey = null;
-		addDateTermKey = null;
-		dropDateTermKey = null;
-		finalExamStartDateTermKey = null;
-		finalExamEndDateTermKey = null;
-		gradingStartDateTermKey = null;
-		gradingEndDateTermKey = null;
-		_futureElements = null;
-	}
-
-		/**
-	 * Constructs a new RegistrationDateDerivationGroupInfo from another
-	 * RegistrationDateDerivationGroup.
-	 * 
-	 * @param dateDerivationGroup
-	 *            the RegistrationDateDerivationGroup to copy
-	 */
-	public RegistrationDateDerivationGroupInfo(
-			RegistrationDateDerivationGroup dateDerivationGroup) {
-		registrationStartDateTermKey = dateDerivationGroup
-				.getRegistrationStartDateTermKey();
-		registrationEndDateTermKey = dateDerivationGroup
-				.getRegistrationEndDateTermKey();
-		classStartDateTermKey = dateDerivationGroup.getClassStartDateTermKey();
-		classEndDateTermKey = dateDerivationGroup
-				.getRegistrationEndDateTermKey();
-		addDateTermKey = dateDerivationGroup.getAddDateTermKey();
-		dropDateTermKey = dateDerivationGroup.getDropDateTermKey();
-		finalExamStartDateTermKey = dateDerivationGroup
-				.getFinalExamStartDateTermKey();
-		finalExamEndDateTermKey = dateDerivationGroup
-				.getFinalExamEndDateTermKey();
-		gradingStartDateTermKey = dateDerivationGroup
-				.getGradingStartDateTermKey();
-		gradingEndDateTermKey = dateDerivationGroup.getGradingEndDateTermKey();
-		_futureElements = null;
-	}
-
-	@Override
-	public String getRegistrationStartDateTermKey() {
-		return registrationStartDateTermKey;
-	}
-
+    @XmlElement
+    private String registrationEndDateTermKey;
 	
-	public void setRegistrationStartDateTermKey(
-			String registrationStartDateTermKey) {
-		this.registrationStartDateTermKey = registrationStartDateTermKey;
-	}
-
-	@Override
-	public String getRegistrationEndDateTermKey() {
-		return registrationEndDateTermKey;
-	}
-
+    @XmlElement
+    private String classStartDateTermKey;
 	
-	public void setRegistrationEndDateTermKey(String registrationEndDateTermKey) {
-		this.registrationEndDateTermKey = registrationEndDateTermKey;
-	}
-
-	@Override
-	public String getClassStartDateTermKey() {
-		return classStartDateTermKey;
-	}
-
+    @XmlElement
+    private String classEndDateTermKey;
 	
-	public void setClassStartDateTermKey(String classStartDateTermKey) {
-		this.classStartDateTermKey = classStartDateTermKey;
-	}
-
-	@Override
-	public String getClassEndDateTermKey() {
-		return classEndDateTermKey;
-	}
-
+    @XmlElement
+    private String addDateTermKey;
 	
-	public void setClassEndDateTermKey(String classEndDateTermKey) {
-		this.classEndDateTermKey = classEndDateTermKey;
-	}
-
-	@Override
-	public String getAddDateTermKey() {
-		return addDateTermKey;
-	}
-
+    @XmlElement
+    private String dropDateTermKey;
 	
-	public void setAddDateTermKey(String addDateTermKey) {
-		this.addDateTermKey = addDateTermKey;
-	}
-
-	@Override
-	public String getDropDateTermKey() {
-		return dropDateTermKey;
-	}
-
+    @XmlElement
+    private String finalExamStartDateTermKey;
 	
-	public void setDropDateTermKey(String dropDateTermKey) {
-		this.dropDateTermKey = dropDateTermKey;
-	}
-
-	@Override
-	public String getFinalExamStartDateTermKey() {
-		return finalExamStartDateTermKey;
-	}
-
+    @XmlElement
+    private String finalExamEndDateTermKey;
 	
-	public void setFinalExamStartDateTermKey(String finalExamStartDateTermKey) {
-		this.finalExamStartDateTermKey = finalExamStartDateTermKey;
-	}
-
-	@Override
-	public String getFinalExamEndDateTermKey() {
-		return finalExamEndDateTermKey;
-	}
-
+    @XmlElement
+    private String gradingStartDateTermKey;
 	
-	public void setFinalExamEndDateTermKey(String finalExamEndDateTermKey) {
-		this.finalExamEndDateTermKey = finalExamEndDateTermKey;
-	}
-
-	@Override
-	public String getGradingStartDateTermKey() {
-		return gradingStartDateTermKey;
-	}
-
+    @XmlElement
+    private String gradingEndDateTermKey;
 	
-	public void setGradingStartDateTermKey(String gradingStartDateTermKey) {
-		this.gradingStartDateTermKey = gradingStartDateTermKey;
-	}
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-	@Override
-	public String getGradingEndDateTermKey() {
-		return gradingEndDateTermKey;
-	}
+    
+    /**
+     * Constructs a new registrationDateDerivationGroupInfo.
+     */
+    public RegistrationDateDerivationGroupInfo() {
+    }
+    
+    /**
+     * Constructs a new RegistrationDateDerivationGroupInfo from
+     * another RegistrationDateDerivationGroup.
+     * 
+     * @param dateDerivationGroup the RegistrationDateDerivationGroup
+     *        to copy
+     */
+    public RegistrationDateDerivationGroupInfo(RegistrationDateDerivationGroup dateDerivationGroup) {
+        
+        if (dateDerivationGroup != null) {
+            registrationStartDateTermKey = dateDerivationGroup.getRegistrationStartDateTermKey();
+            registrationEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
+            classStartDateTermKey = dateDerivationGroup.getClassStartDateTermKey();
+            classEndDateTermKey = dateDerivationGroup.getRegistrationEndDateTermKey();
+            addDateTermKey = dateDerivationGroup.getAddDateTermKey();
+            dropDateTermKey = dateDerivationGroup.getDropDateTermKey();
+            finalExamStartDateTermKey = dateDerivationGroup	.getFinalExamStartDateTermKey();
+            finalExamEndDateTermKey = dateDerivationGroup.getFinalExamEndDateTermKey();
+            gradingStartDateTermKey = dateDerivationGroup.getGradingStartDateTermKey();
+            gradingEndDateTermKey = dateDerivationGroup.getGradingEndDateTermKey();
+        }
+    }
 
-	
-	public void setGradingEndDateTermKey(String gradingEndDateTermKey) {
-		this.gradingEndDateTermKey = gradingEndDateTermKey;
-	}
+    @Override
+    public String getRegistrationStartDateTermKey() {
+        return registrationStartDateTermKey;
+    }
+    
+    public void setRegistrationStartDateTermKey(String registrationStartDateTermKey) {
+        this.registrationStartDateTermKey = registrationStartDateTermKey;
+    }
+    
+    @Override
+    public String getRegistrationEndDateTermKey() {
+        return registrationEndDateTermKey;
+    }
+    	
+    public void setRegistrationEndDateTermKey(String registrationEndDateTermKey) {
+        this.registrationEndDateTermKey = registrationEndDateTermKey;
+    }
+    
+    @Override
+    public String getClassStartDateTermKey() {
+        return classStartDateTermKey;
+    }
+    
+    public void setClassStartDateTermKey(String classStartDateTermKey) {
+        this.classStartDateTermKey = classStartDateTermKey;
+    }
+    
+    @Override
+    public String getClassEndDateTermKey() {
+        return classEndDateTermKey;
+    }
+    
+    public void setClassEndDateTermKey(String classEndDateTermKey) {
+        this.classEndDateTermKey = classEndDateTermKey;
+    }
+    
+    @Override
+    public String getAddDateTermKey() {
+        return addDateTermKey;
+    }
+    
+    public void setAddDateTermKey(String addDateTermKey) {
+        this.addDateTermKey = addDateTermKey;
+    }
+    
+    @Override
+    public String getDropDateTermKey() {
+        return dropDateTermKey;
+    }
+    
+    public void setDropDateTermKey(String dropDateTermKey) {
+        this.dropDateTermKey = dropDateTermKey;
+    }
+    
+    @Override
+    public String getFinalExamStartDateTermKey() {
+        return finalExamStartDateTermKey;
+    }
+    
+    public void setFinalExamStartDateTermKey(String finalExamStartDateTermKey) {
+        this.finalExamStartDateTermKey = finalExamStartDateTermKey;
+    }
+    
+    @Override
+    public String getFinalExamEndDateTermKey() {
+        return finalExamEndDateTermKey;
+    }
+    
+    public void setFinalExamEndDateTermKey(String finalExamEndDateTermKey) {
+        this.finalExamEndDateTermKey = finalExamEndDateTermKey;
+    }
+    
+    @Override
+    public String getGradingStartDateTermKey() {
+        return gradingStartDateTermKey;
+    }
+    
+    public void setGradingStartDateTermKey(String gradingStartDateTermKey) {
+        this.gradingStartDateTermKey = gradingStartDateTermKey;
+    }
+    
+    @Override
+    public String getGradingEndDateTermKey() {
+        return gradingEndDateTermKey;
+    }
+
+    public void setGradingEndDateTermKey(String gradingEndDateTermKey) {
+        this.gradingEndDateTermKey = gradingEndDateTermKey;
+    }
 }

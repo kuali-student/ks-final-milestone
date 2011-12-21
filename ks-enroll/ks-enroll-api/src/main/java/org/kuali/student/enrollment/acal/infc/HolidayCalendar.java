@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -16,33 +16,40 @@
 package org.kuali.student.enrollment.acal.infc;
 
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about a Term.
- *
- * A term is the time period in which a  course may be offered.
+ * Information about a Holiday Calendar. A Holiday Calendar is used
+ * for holidays and other non-instructional days. A Holiday Calendar
+ * is used to share those special days among AcademicCalendars.
  *
  * @author tom
  * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Term 
+public interface HolidayCalendar 
     extends IdEntity {
 
     /**
-     * Gets a display code for this Term.
+     * The campuses to which this calendar pertains.
      *
-     * @name Code
+     * @name Campus Keys
      */
-
-    public String getCode();
-
+    public List<String> getCampusKeys();
 
     /**
-     * Date and time the term became effective. This
+     * The adminsitrative organization responsible for maintaining
+     * this calendar.
+     *
+     * @name AdminOrg Id
+     */
+    public String getAdminOrgId();
+   
+    /**
+     * Date and time the holiday calendar became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
      * time period proper. This is a similar concept to the effective
@@ -53,10 +60,9 @@ public interface Term
      * @name Start Date
      */
     public Date getStartDate();
-  
 
     /**
-     * Date and time the term expires. This does not
+     * Date and time the holiday calendar expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
      * proper. If specified, this must be greater than or equal to the
@@ -67,5 +73,4 @@ public interface Term
      * @name End Date
      */
     public Date getEndDate();
-  
 }

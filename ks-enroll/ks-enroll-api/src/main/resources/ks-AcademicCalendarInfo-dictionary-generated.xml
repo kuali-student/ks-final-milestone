@@ -51,19 +51,18 @@ Information about an Academic Calendar.
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="AcademicCalendarInfo.key"/>
+				<ref bean="AcademicCalendarInfo.id"/>
 				<ref bean="AcademicCalendarInfo.typeKey"/>
 				<ref bean="AcademicCalendarInfo.stateKey"/>
 				<ref bean="AcademicCalendarInfo.name"/>
 				<ref bean="AcademicCalendarInfo.startDate"/>
 				<ref bean="AcademicCalendarInfo.endDate"/>
-				<ref bean="AcademicCalendarInfo.credentialProgramTypeKey"/>
 			</list>
 		</property>
 
@@ -80,8 +79,8 @@ Information about an Academic Calendar.
 		</property>
 	</bean>
 
-	<bean id="AcademicCalendarInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="AcademicCalendarInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="AcademicCalendarInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
@@ -214,8 +213,8 @@ automatically be considered greater than the effective date.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AcademicCalendarInfo.campusCalendarKeys-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="campusCalendarKeys"/>
+	<bean id="AcademicCalendarInfo.campusCalendarIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="campusCalendarIds"/>
 		<property name="shortLabel" value="Campus Calendar Keys"/>
 		<property name="summary">
 			<value>
@@ -224,7 +223,7 @@ calendar.
 			</value>
 		</property>
 		<property name="label" value="Campus Calendar"/>
-		<property name="elementLabel" value="Campus Calendar Key"/>
+		<property name="elementLabel" value="Campus Calendar Id"/>
 		<property name="description">
 			<value>
 The campus calendar key corresponding to this academic
@@ -236,25 +235,7 @@ campus calendar.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="AcademicCalendarInfo.credentialProgramTypeKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="credentialProgramTypeKey"/>
-		<property name="shortLabel" value="Credential Program Type Key"/>
-		<property name="summary">
-			<value>
-The credential program type key to which this calendar
-relates.
-			</value>
-		</property>
-		<property name="label" value="Credential Program Type Key"/>
-		<property name="description">
-			<value>
-The credential program type key to which this calendar
-relates.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
+	
 	<bean id="AcademicCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>

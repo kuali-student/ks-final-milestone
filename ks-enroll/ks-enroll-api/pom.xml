@@ -4,7 +4,8 @@
     <modelVersion>4.0.0</modelVersion>
     <artifactId>ks-enroll-api</artifactId>
     <name>KS Enroll API</name>
-    <description>KS Enrollment API</description>
+	<version>2.0.0-M1-SNAPSHOT</version>
+	<description>KS Enrollment API</description>
     <parent>
         <groupId>org.kuali.student.enroll</groupId>
         <artifactId>ks-enroll</artifactId>
@@ -16,17 +17,17 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.3.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.kuali.student.common</groupId>
             <artifactId>ks-common-api</artifactId>
-            <version>${project.version}</version>
+            <version>1.3.0-SNAPSHOT</version>
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
@@ -70,6 +71,7 @@
             <artifactId>spring-context-support</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
     <!-- <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-tx</artifactId> <version>3.0.5.RELEASE</version> 
       </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-orm</artifactId> <version>3.0.5.RELEASE</version> 
       </dependency> <dependency> <groupId>org.springframework</groupId> <artifactId>spring-context-jdbc</artifactId> <version>3.0.5.RELEASE</version> 

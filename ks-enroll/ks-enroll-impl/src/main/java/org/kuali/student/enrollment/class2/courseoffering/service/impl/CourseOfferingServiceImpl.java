@@ -198,7 +198,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         for(String luiId : luiIds) {
             CourseOfferingInfo co = getCourseOffering(luiId, context);
 
-            if(StringUtils.equals(co.getSubjectArea(), subjectArea) && StringUtils.equals(co.getTermKey(), term.getKey())) {
+            if(StringUtils.equals(co.getSubjectArea(), subjectArea) && StringUtils.equals(co.getTermKey(), term.getId())) {
                 results.add(co.getId());
             }
         }

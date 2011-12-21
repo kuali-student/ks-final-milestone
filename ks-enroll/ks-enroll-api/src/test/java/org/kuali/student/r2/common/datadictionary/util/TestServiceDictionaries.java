@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -45,6 +46,7 @@ import org.kuali.student.r2.core.hold.dto.RestrictionInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+@Ignore
 public class TestServiceDictionaries {
 
     private String calculateXmlFileName(Class<?> clazz) {

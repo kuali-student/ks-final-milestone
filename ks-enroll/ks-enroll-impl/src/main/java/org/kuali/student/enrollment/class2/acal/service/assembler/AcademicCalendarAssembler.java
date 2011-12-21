@@ -29,7 +29,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
     public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setKey(atp.getKey());
+        acal.setId(atp.getKey());
         acal.setName(atp.getName());
         acal.setDescr(atp.getDescr());
         acal.setStartDate(atp.getStartDate());
@@ -39,17 +39,8 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         acal.setMeta(atp.getMeta());
         acal.setAttributes(atp.getAttributes());
 
-        List<AttributeInfo> attributes = atp.getAttributes();
-        if (attributes != null && !attributes.isEmpty()) {
-            for (AttributeInfo attribute : attributes) {
-                if (attribute.getKey().equals("CredentialProgramType")) {
-                    acal.setCredentialProgramTypeKey(attribute.getValue());
-                    break;
-                }
-            }
-        }
 
-        acal.setCampusCalendarKeys(assembleRelations(atp.getKey(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
+        acal.setCampusCalendarIds(assembleRelations(atp.getKey(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
         return acal;
     }
 
@@ -80,7 +71,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
     @Override
     public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) throws AssemblyException {
         AtpInfo atp = new AtpInfo();
-        atp.setKey(acal.getKey());
+        atp.setKey(acal.getId());
         atp.setName(acal.getName());
         atp.setDescr(acal.getDescr());
         atp.setStartDate(acal.getStartDate());
@@ -91,25 +82,12 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
 
         List<AttributeInfo> attributes = (null != acal.getAttributes() ? acal.getAttributes() : new ArrayList<AttributeInfo>());
 
-        if (noAttributeEntryWithKey(attributes, "CredentialProgramType") && acal.getCredentialProgramTypeKey() != null) {
-            AttributeInfo cpt = new AttributeInfo();
-            cpt.setKey("CredentialProgramType");
-            cpt.setValue(acal.getCredentialProgramTypeKey());
-            attributes.add(cpt);
-        }
-
+       
         atp.setAttributes(attributes);
 
         return atp;
     }
 
-    private boolean noAttributeEntryWithKey(List<AttributeInfo> attributes, String key) {
-        for (AttributeInfo attInfo : attributes) {
-            if (attInfo.getKey().equals(key)) {
-                return false;
-            }
-        }
-        return true;
-    }
+   
 
 }

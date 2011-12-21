@@ -42,8 +42,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
 	</bean>
 
-	<bean id="AcademicCalendarInfo.key" parent="AcademicCalendarInfo.key-parent"/>
-	<bean id="AcademicCalendarInfo.key-parent" abstract="true" parent="AcademicCalendarInfo.key-generated">
+	<bean id="AcademicCalendarInfo.id" parent="AcademicCalendarInfo.id-parent"/>
+	<bean id="AcademicCalendarInfo.id-parent" abstract="true" parent="AcademicCalendarInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -87,16 +87,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AcademicCalendarInfo.campusCalendarKeys" parent="AcademicCalendarInfo.campusCalendarKeys-parent"/>
-	<bean id="AcademicCalendarInfo.campusCalendarKeys-parent" abstract="true" parent="AcademicCalendarInfo.campusCalendarKeys-generated">
+	<bean id="AcademicCalendarInfo.campusCalendarIds" parent="AcademicCalendarInfo.campusCalendarIds-parent"/>
+	<bean id="AcademicCalendarInfo.campusCalendarIds-parent" abstract="true" parent="AcademicCalendarInfo.campusCalendarIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AcademicCalendarInfo.credentialProgramTypeKey" parent="AcademicCalendarInfo.credentialProgramTypeKey-parent"/>
-	<bean id="AcademicCalendarInfo.credentialProgramTypeKey-parent" abstract="true" parent="AcademicCalendarInfo.credentialProgramTypeKey-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
-
+	
 	<bean id="AcademicCalendarInfo.meta" parent="AcademicCalendarInfo.meta-parent"/>
 	<bean id="AcademicCalendarInfo.meta-parent" abstract="true" parent="AcademicCalendarInfo.meta-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->

@@ -24,70 +24,71 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.enrollment.acal.infc.KeyDate;
+import org.kuali.student.enrollment.acal.infc.AcalEvent;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyDateInfo", propOrder = { 
+@XmlType(name = "AcalEventInfo", propOrder = { 
                 "id", "typeKey", "stateKey", "name", "descr", 
-                 "isAllDay", "isDateRange", "startDate", "endDate",
-		"meta", "attributes", "_futureElements" })
+                "isAllDay", "isDateRange", "startDate", "endDate", 
+                "meta", "attributes", "_futureElements" })
 
-public class KeyDateInfo 
+public class AcalEventInfo 
     extends IdEntityInfo 
-    implements KeyDate, Serializable {
+    implements AcalEvent, Serializable {
 
     private static final long serialVersionUID = 1L;
-	
+    
     @XmlElement
     private Boolean isAllDay;
-	
+
     @XmlElement
     private Boolean isDateRange;
-	
+
     @XmlElement
     private Date startDate;
-	
+
     @XmlElement
     private Date endDate;
-	
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
     /**
-     * Constructs a new KeyDateInfo.
+     * Constructs a new AcalEvent.
      */
-    public KeyDateInfo() {
+    public AcalEventInfo() {
+        super();
     }
-    
-    /**
-     * Constructs a new KeyDateInfo from another KeyDate.
-     * 
-     * @param keyDate the KeyDate to copy
-     */
-    public KeyDateInfo(KeyDate keyDate) {
-        super(keyDate);
-        if (keyDate != null) {
-            this.isAllDay = keyDate.getIsAllDay();
-            this.isDateRange = keyDate.getIsDateRange();
 
-            if (keyDate.getStartDate() != null) {
-                this.startDate = new Date(keyDate.getStartDate().getTime());
+    /**
+     * Constructs a new AcalEventInfo from another AcalEvent.
+     * 
+     * @param acalEvent the AcalEvent to copy
+     */
+    public AcalEventInfo(AcalEvent acalEvent) {
+        super(acalEvent);
+        if (acalEvent != null) {
+            this.isAllDay = acalEvent.getIsAllDay();
+            this.isDateRange = acalEvent.getIsDateRange();
+
+            if (acalEvent.getStartDate() != null) {
+                this.startDate = new Date(acalEvent.getStartDate().getTime());
             }
 
-            if (keyDate.getEndDate() != null) {
-                this.endDate = new Date(keyDate.getEndDate().getTime());
+            if (acalEvent.getEndDate() != null) {
+                this.endDate = new Date(acalEvent.getEndDate().getTime());
             }
         }
     }
-
+    
     @Override
     public Boolean getIsAllDay() {
         return isAllDay;
     }
-    
+
     public void setIsAllDay(Boolean isAllDay) {
         this.isAllDay = isAllDay;
     }
