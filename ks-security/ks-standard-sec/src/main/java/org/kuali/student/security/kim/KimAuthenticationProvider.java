@@ -15,8 +15,6 @@
 
 package org.kuali.student.security.kim;
 
-import org.kuali.rice.core.config.Config;
-import org.kuali.rice.core.config.ConfigContext;
 import org.kuali.student.security.spring.KSRiceDefaultUserDetailsService;
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.AuthenticationException;
@@ -57,30 +55,22 @@ public class KimAuthenticationProvider extends AbstractUserDetailsAuthentication
     protected void additionalAuthenticationChecks(UserDetails userDetails,
             UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         Object salt = null;
-        Config config = ConfigContext.getCurrentContextConfig();
-        String ksIgnoreRiceLogin = config.getProperty("ks.ignore.rice.login");
-        
-        // We skip the salt value since the password won't match when people are testing.
-        // I do have a concern... the context of this attribute, does it imply use another authentication handler ?
-        // I ask since Rice is used 2 determine the workflows...
-        if(!Boolean.valueOf(ksIgnoreRiceLogin)){
-	        if (this.saltSource != null) {
-	            salt = this.saltSource.getSalt(userDetails);
-	        }
-	
-	        if (authentication.getCredentials() == null) {
-	            throw new BadCredentialsException(messages.getMessage(
-	                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"),
-	                    includeDetailsObject ? userDetails : null);
-	        }
-	
-	        String presentedPassword = authentication.getCredentials().toString();
-	
-	        if (!passwordEncoder.isPasswordValid(userDetails.getPassword(), presentedPassword, salt)) {
-	            throw new BadCredentialsException(messages.getMessage(
-	                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"),
-	                    includeDetailsObject ? userDetails : null);
-	        }
+        if (this.saltSource != null) {
+            salt = this.saltSource.getSalt(userDetails);
+        }
+
+        if (authentication.getCredentials() == null) {
+            throw new BadCredentialsException(messages.getMessage(
+                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"),
+                    includeDetailsObject ? userDetails : null);
+        }
+
+        String presentedPassword = authentication.getCredentials().toString();
+
+        if (!passwordEncoder.isPasswordValid(userDetails.getPassword(), presentedPassword, salt)) {
+            throw new BadCredentialsException(messages.getMessage(
+                    "AbstractUserDetailsAuthenticationProvider.badCredentials", "Bad credentials"),
+                    includeDetailsObject ? userDetails : null);
         }
     }
 

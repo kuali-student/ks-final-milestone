@@ -37,7 +37,7 @@
     </context-param>
 
     <listener>
-      <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
+      <listener-class>org.springframework.web.context.ContextLoaderListenerr</listener-class>
     </listener>
     
     <filter>

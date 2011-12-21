@@ -16,11 +16,11 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    public KimPermissionInfo createKimPermissionInfo() {
-        return new KimPermissionInfo();
-    }
-
-    public KimPermissionTemplateInfo createKimPermissionTemplateInfo() {
-        return new KimPermissionTemplateInfo();
-    }
+//    public KimPermissionInfo createKimPermissionInfo() {
+//        return new KimPermissionInfo();
+//    }
+//
+//    public KimPermissionTemplateInfo createKimPermissionTemplateInfo() {
+//        return new KimPermissionTemplateInfo();
+//    }
 }

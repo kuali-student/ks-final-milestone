@@ -2,11 +2,11 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.search.dto.SearchResultRow;
 
 public class ParentOrganizationQualifierResolver extends
@@ -18,8 +18,8 @@ public class ParentOrganizationQualifierResolver extends
     protected static final String ROUTE_NODE_XML_RELATED_ORG_TYPE = "relatedOrganizationType";
     
 	@Override
-	public List<AttributeSet> resolve(RouteContext context) {
-        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+	public List<Map<String,String>> resolve(RouteContext context) {
+        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         
         String orgIdKey = getNodeSpecificOrganizationIdAttributeSetKey(context);
         String orgRelationType = getOrganizationRelationTypeCode(context);

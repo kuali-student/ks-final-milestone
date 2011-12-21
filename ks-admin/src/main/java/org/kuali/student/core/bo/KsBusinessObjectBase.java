@@ -8,7 +8,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.rice.kns.bo.PersistableBusinessObjectBase;
+import org.kuali.rice.krad.bo.PersistableBusinessObjectBase;
 import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
@@ -20,20 +20,10 @@ public abstract class KsBusinessObjectBase extends PersistableBusinessObjectBase
     @Column(name = "ID")
     private String id;
 
-    
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
+    public void prePersist() {
         this.id = UUIDHelper.genStringUUID(this.id);
-        super.beforeInsert(persistenceBroker);
-    }
-
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> toStringMap = new LinkedHashMap<String, Object>();
-        
-        toStringMap.put("id", id);
-        
-        return toStringMap;
+        super.prePersist();
     }
 
     public String getId() {

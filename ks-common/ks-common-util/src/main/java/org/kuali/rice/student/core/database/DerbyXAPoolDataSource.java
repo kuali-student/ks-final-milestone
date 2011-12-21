@@ -17,7 +17,7 @@ package org.kuali.rice.student.core.database;
 
 import java.sql.SQLException;
 
-import org.kuali.rice.core.database.XAPoolDataSource;
+import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSource;
 
 /**
  * This extends the rice XAPoolDataSource and checks to see if a connection is being

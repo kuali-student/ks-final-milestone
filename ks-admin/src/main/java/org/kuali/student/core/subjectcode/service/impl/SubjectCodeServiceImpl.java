@@ -9,17 +9,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.MaxAgeSoftReference;
-import org.kuali.rice.core.util.MaxSizeMap;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.LookupService;
+import com.google.common.collect.MapMaker;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LookupService;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -53,8 +54,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
-
+	//protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
+	protected Map<String,SearchResult> searchCache;
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
@@ -130,13 +131,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		
     	if(cachingEnabled){
     		//Get From Cache
-    		MaxAgeSoftReference<SearchResult> ref = searchCache.get(searchRequest.toString());
-    		if ( ref != null ) {
-    			searchResult = ref.get();
-    			if(searchResult != null){
-    				return searchResult;
-    			}
-    		}
+            return searchCache.get(searchRequest.toString());
 		}
 		
 		//Do searches
@@ -149,7 +144,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		//Store to Cache
     	if(cachingEnabled){
     		//Store to cache
-    		searchCache.put(searchRequest.toString(), new MaxAgeSoftReference<SearchResult>( searchCacheMaxAgeSeconds, searchResult) );
+    		searchCache.put(searchRequest.toString(), searchResult );
     	}
     	
 		return searchResult;
@@ -232,7 +227,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 
 	private SearchResult doSubjectCodeGenericSearch(Map<String, Object> paramMap) {
 		SearchResult searchResult = new SearchResult();
-		Map<String,Object> queryMap = new HashMap<String,Object>();
+		Map<String,String> queryMap = new HashMap<String,String>();
 		String code = (String) paramMap.get("subjectCode.queryParam.code");
 		if(code!=null){ 
 			queryMap.put("code", "*" + paramMap.get("subjectCode.queryParam.code") + "*");
@@ -265,13 +260,13 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 
 	protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return  businessObjectService;
     }
 	protected LookupService getLookupService() {
         if (lookupService == null) {
-        	lookupService = KNSServiceLocator.getLookupService();
+        	lookupService = KRADServiceLocatorWeb.getLookupService();
         }
         return lookupService;
     }
@@ -289,7 +284,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-			searchCache = Collections.synchronizedMap( new MaxSizeMap<String,MaxAgeSoftReference<SearchResult>>( searchCacheMaxSize ) );
+            searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
 		}
 	}
 	

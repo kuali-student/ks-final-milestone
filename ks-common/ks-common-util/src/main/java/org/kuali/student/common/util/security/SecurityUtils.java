@@ -63,4 +63,42 @@ public class SecurityUtils {
 	    return username;
 	}
 
+	/**
+	 * This can be used to get the current user id from security context
+	 *
+	 * @return userId
+	 */
+	public static String getCurrentUserId() {
+        String username=null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth!=null){
+        	Object obj = auth.getPrincipal();
+        	if(obj instanceof UserWithId){
+        		//This is actually the user Id
+        		username = ((UserWithId)obj).getUserId();
+        	}else if (obj instanceof UserDetails) {
+            	username = ((UserDetails)obj).getUsername();
+            } else {
+            	username = obj.toString();
+            }
+        }
+		return username;
+	}
+
+    public static String getPrincipalUserName(){
+        String username = "unknown";
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            Object obj = auth.getPrincipal();
+            if (obj instanceof UserDetails) {
+                username = ((UserDetails)obj).getUsername();
+            } else {
+                username = obj.toString();
+            }
+        }
+
+        return username;
+    }
+
 }

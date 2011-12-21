@@ -27,23 +27,14 @@
 
 	<bean id="kimIdentityService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl" />
 
-	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.messaging.KSBExporter">
-		<property name="remotedServiceRegistry" ref="enServiceInvoker" />
-		<property name="serviceDefinition">
-			<bean parent="kimSoapService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionService">
-				<property name="busSecurity" value="${ks.core.bus.security}" />
-				<property name="jaxWsService" value="true" />
-			</bean>
-		</property>
-	</bean>
+    <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
-	<bean id="studentRiceModule" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+	<bean id="studentRiceModule" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
 		<property name="moduleConfiguration" ref="studentRiceModuleConfiguration" />
 		<property name="kualiModuleService" ref="kualiModuleService" />
 	</bean>
 
-	<bean id="studentRiceModuleConfiguration" class="org.kuali.rice.kns.bo.ModuleConfiguration">
+	<bean id="studentRiceModuleConfiguration" class="org.kuali.rice.krad.bo.ModuleConfiguration">
 		<property name="namespaceCode" value="KS-SYS" />
 		<property name="initializeDataDictionary" value="true" />
 		<property name="dataDictionaryPackages">
@@ -63,6 +54,20 @@
 			</list>
 		</property>
 	</bean>
+    <bean id="enKSWorkflowDocumentService" class="org.kuali.rice.kew.impl.document.WorkflowDocumentServiceImpl" lazy-init="true" />
+
+    <bean id="ks.exp.workflowDocumentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+                <property name="jaxWsService" value="false" />
+                <property name="service" ref="enKSWorkflowDocumentService" />
+                <property name="serviceInterface" value="org.kuali.rice.kew.api.document.WorkflowDocumentService" />
+                <property name="localServiceName" value="WorkflowDocumentService" />
+                <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/kew" />
+                <property name="busSecurity" value="true" />
+            </bean>
+        </property>
+    </bean>
 
 	<!-- OrgAdmin Derived role (AdministrativeOfficer of this org) -->
 	<bean id="ksOrgAdminRoleTypeService"
@@ -116,12 +121,12 @@
         <property name="checkFutureRequests" value="false" />
 	</bean>
 
-	<bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.student.lum.kim.role.type.PermissionDerivedRoleTypeServiceNoCacheImpl">
+    <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
 	    <property name="permissionTemplateNamespace" value="KS-SYS" />
 	    <property name="permissionTemplateName" value="Comment on Document" />
 	</bean>
 
-    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.student.lum.kim.role.type.PermissionDerivedRoleTypeServiceNoCacheImpl">
+    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>

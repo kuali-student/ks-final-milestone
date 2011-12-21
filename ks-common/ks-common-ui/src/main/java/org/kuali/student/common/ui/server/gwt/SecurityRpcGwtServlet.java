@@ -15,14 +15,11 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.SecurityRpcService;
@@ -49,7 +46,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 	
 	private static final long serialVersionUID = 1L;
     
-	private IdentityManagementService permissionService;
+	private PermissionService permissionService;
        
 	@Override
     public String getPrincipalUsername(){
@@ -84,7 +81,7 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		
 		LOG.debug("Retreiving screen permission " + screenName + " for " + principalId);		
 			
-        AttributeSet permDetails = new AttributeSet();
+        Map<String, String> permDetails = new LinkedHashMap<String, String>();
         permDetails.put(StudentIdentityConstants.SCREEN_COMPONENT, screenName);
         boolean hasAccess = false;
         hasAccess = getPermissionService().isAuthorizedByTemplateName(principalId, 
@@ -127,11 +124,10 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		
 		LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId);
  
-		List<KimPermissionInfo> permissions = (List<KimPermissionInfo>)getPermissionService().getAuthorizedPermissionsByTemplateName(
+		List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(
 				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), null, null);
-		
-		
-		for (KimPermissionInfo permissionInfo:permissions){
+
+		for (Permission permissionInfo:permissions){
 			matchingPermissions.add(permissionInfo.getName());
 		}
 		
@@ -139,11 +135,11 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 	}
 	
 	
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 
-	public IdentityManagementService getPermissionService()throws OperationFailedException{
+	public PermissionService getPermissionService()throws OperationFailedException{
 		if(permissionService==null){
         	throw new OperationFailedException("Permission Service is unavailable");
         }
@@ -151,5 +147,13 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		return permissionService;
 	}
 
-	
+    protected Map<String, String> getQualification(String idType, String id, String docType) {
+        Map<String, String> qualification = new LinkedHashMap<String, String>();
+        qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
+        qualification.put(idType, id);
+        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
+        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());
+        return qualification;
+    }
+
 }

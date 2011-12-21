@@ -16,14 +16,14 @@
 package org.kuali.student.common.assembly.old;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -37,7 +37,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {
     protected final Logger LOG = Logger.getLogger(getClass());
 
-    protected IdentityManagementService permissionService;
+    protected PermissionService permissionService;
     protected MetadataServiceImpl metadataService;
     
     public enum Permission {
@@ -67,18 +67,19 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
         try {
             //get permissions and turn into a map of fieldName=>access
             String principalId = SecurityUtils.getCurrentPrincipalId();
-            AttributeSet qualification = getQualification(idType, id);
-            AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
-            List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
-            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
+            Map<String,String> qualification = getQualification(idType, id);
+            Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
+            permissionDetails.put ("dtoName", dtoName);
+//            List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
+//            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
             Map<String, String> permMap = new HashMap<String, String>();
-            if (permissions != null) {
-                for (KimPermissionInfo permission : permissions) {
-                    String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
-                    String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
-                    permMap.put(dtoFieldKey, fieldAccessLevel);
-                }
-            }
+//            if (permissions != null) {
+//                for (KimPermissionInfo permission : permissions) {
+//                    String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
+//                    String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+//                    permMap.put(dtoFieldKey, fieldAccessLevel);
+//                }
+//            }
             return permMap;
         } catch (Exception e) {
             LOG.warn("Error calling permission service.", e);
@@ -110,12 +111,12 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
     protected void applyPermissionsToMetadata(Metadata metadata, String idType, String id){
         Boolean authorized = null;
         if (StringUtils.isNotBlank(id) && checkDocumentLevelPermissions()) {
-            AttributeSet qualification = getQualification(idType, id);
+            Map<String,String> qualification = getQualification(idType, id);
         	String currentUser = SecurityUtils.getCurrentPrincipalId();
-	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
-	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
-			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
-					+ "' for user '" + currentUser + "': " + authorized);
+//	        authorized = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
+//	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
+//			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName()
+//					+ "' for user '" + currentUser + "': " + authorized);
 	        metadata.setCanEdit(authorized.booleanValue());
         }  
         if(metadata != null && metadata.getProperties() != null) {
@@ -218,9 +219,9 @@ public abstract class BaseAssembler<TargetType, SourceType> implements Assembler
      * 
      * @return the qualifications in at AttributeSet
      */
-    protected abstract AttributeSet getQualification(String idType, String id);
+    protected abstract Map<String,String> getQualification(String idType, String id);
     
-    public void setPermissionService(IdentityManagementService permissionService) {
+    public void setPermissionService(PermissionService permissionService) {
         this.permissionService = permissionService;
     }
     

@@ -9,12 +9,12 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kew.actiontaken.ActionTakenValue;
-import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
-import org.kuali.rice.kew.postprocessor.DocumentRouteStatusChange;
-import org.kuali.rice.kew.postprocessor.IDocumentEvent;
-import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.api.action.ActionTaken;
+import org.kuali.rice.kew.framework.postprocessor.ActionTakenEvent;
+import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
+import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.OperationFailedException;
@@ -35,19 +35,18 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
 
     private CourseService courseService;
     private CourseStateChangeServiceImpl courseStateChangeService;
-    
+
     @Override
     protected void processWithdrawActionTaken(ActionTakenEvent actionTakenEvent, ProposalInfo proposalInfo) throws Exception {
-        LOG.info("Will set CLU state to '" + DtoConstants.STATE_NOT_APPROVED + "'");
+        LOG.info("Will set CLU state to '" + DtoConstants.STATE_SUBMITTED + "'");
         CourseInfo courseInfo = getCourseService().getCourse(getCourseId(proposalInfo));
-        updateCourse(actionTakenEvent, DtoConstants.STATE_NOT_APPROVED, courseInfo);
+        updateCourse(actionTakenEvent, DtoConstants.STATE_SUBMITTED, courseInfo);
     }
 
     @Override
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTakenValue actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
         String cluId = getCourseId(proposalInfo);
         CourseInfo courseInfo = getCourseService().getCourse(cluId);
-        
         updateCourse(actionTakenEvent, null, courseInfo);
         return true;
     }
@@ -56,16 +55,9 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
         // update the course state if the cluState value is not null (allows for clearing of the state)
         String courseId = getCourseId(proposalInfo);
-        String prevEndTermAtpId = proposalInfo.getAttributes().get("prevEndTerm");
         CourseInfo courseInfo = getCourseService().getCourse(courseId);
         String courseState = getCluStateForRouteStatus(courseInfo.getState(), statusChangeEvent.getNewRouteStatus());
-        //Use the state change service to update to active and update preceding versions  
-        if(DtoConstants.STATE_ACTIVE.equals(courseState)){
-        	//Change the state using the effective date as the version start date
-        	getCourseStateChangeService().changeState(courseId, courseState, prevEndTermAtpId);
-        }else{
-        	updateCourse(statusChangeEvent, courseState, courseInfo);
-        }
+        updateCourse(statusChangeEvent, courseState, courseInfo);
         return true;
     }
 
@@ -83,20 +75,20 @@ public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
      * @return the CLU state to set or null if the CLU does not need it's state changed
      */
     protected String getCluStateForRouteStatus(String currentCluState, String newWorkflowStatusCode) {
-        if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
+        if (StringUtils.equals(KewApiConstants.ROUTE_HEADER_SAVED_CD, newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
-        } else if (KEWConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_CANCEL_CD .equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
-        } else if (KEWConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_ENROUTE_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
-        } else if (KEWConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(newWorkflowStatusCode)) {
             /* current requirements state that on a Withdraw (which is a KEW Disapproval) the 
              * CLU state should be submitted so no special handling required here
              */
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_NOT_APPROVED);
-        } else if (KEWConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_PROCESSED_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_ACTIVE);
-        } else if (KEWConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
+        } else if (KewApiConstants.ROUTE_HEADER_EXCEPTION_CD.equals(newWorkflowStatusCode)) {
             return getCourseStateFromNewState(currentCluState, DtoConstants.STATE_DRAFT);
         } else {
             // no status to set

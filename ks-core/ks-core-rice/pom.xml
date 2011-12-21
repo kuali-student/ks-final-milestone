@@ -19,11 +19,11 @@
       </plugin>
     </plugins>
   </build>
-  <dependencies>
-    <dependency>
-      <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-  </dependencies>
+  <!--<dependencies>-->
+    <!--<dependency>-->
+      <!--<groupId>org.kuali.rice</groupId>-->
+      <!--<artifactId>rice-api</artifactId>-->
+      <!--<scope>provided</scope>-->
+    <!--</dependency>-->
+  <!--</dependencies>-->
 </project>
