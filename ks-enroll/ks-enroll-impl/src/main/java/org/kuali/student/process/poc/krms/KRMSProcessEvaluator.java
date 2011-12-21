@@ -54,8 +54,10 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
+import org.kuali.student.r2.core.exemption.infc.DateOverride;
 import org.kuali.student.r2.core.exemption.service.ExemptionService;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
@@ -139,6 +141,12 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 }
             }
 
+            // check for any direct exemptions the student may have for this check
+            List<ExemptionInfo> exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), instruction.getCheckKey(), processContext.getStudentId(), context);
+            if(!exemptions.isEmpty()) {
+                skipInstruction = true;
+            }
+
             if(skipInstruction) {
                 continue;
             }
@@ -152,10 +160,9 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         Map<Proposition, InstructionInfo> propositions = new LinkedHashMap<Proposition, InstructionInfo>(sortedInstructions.size());
         for (InstructionInfo instruction : sortedInstructions) {
 
-            List<ExemptionInfo> exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(null, processContext.getProcessKey(), instruction.getCheckKey(), processContext.getStudentId(), context);
-            // TODO do something with exemptions
-
             CheckInfo check = processService.getCheck(instruction.getCheckKey(), context);
+
+            // TODO handle sub-process?
 
             if(check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
                 propositions.put(new RegistrationHoldProposition(check.getIssueKey()), instruction);
@@ -167,13 +174,13 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 propositions.put(new SummerTermProposition(term), instruction);
             }
             else if(check.getTypeKey().equals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY)) {
-                propositions.put(new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, DateComparisonType.AFTER, check.getMilestoneTypeKey()), instruction);
+                propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.AFTER, processContext, context), instruction);
             }
             else if(check.getTypeKey().equals(ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY)) {
-                propositions.put(new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, DateComparisonType.BEFORE, check.getMilestoneTypeKey()), instruction);
+                propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.BEFORE, processContext, context), instruction);
             }
             else if(check.getTypeKey().equals(ProcessServiceConstants.TIME_PERIOD_CHECK_TYPE_KEY)) {
-                propositions.put(new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, DateComparisonType.BETWEEN, check.getMilestoneTypeKey()), instruction);
+                propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.BETWEEN, processContext, context), instruction);
             }
         }
 
@@ -187,6 +194,20 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         List<ValidationResultInfo> results = buildValidationResultsFromEngineResults(krmsResults, propositions, context);
 
         return results;
+    }
+
+    private MilestoneDateComparisonProposition buildMilestoneCheckProposition(CheckInfo check, DateComparisonType comparisonType, CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, PermissionDeniedException, OperationFailedException {
+        List<ExemptionInfo> exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), check.getKey(), processContext.getStudentId(), context);
+
+        if(exemptions.isEmpty()) {
+            return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), true, null);
+        }
+
+        // For now, assume there is only one active Exemption
+        DateOverride dateOverrideInfo = exemptions.get(0).getDateOverride();
+
+        return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), true, dateOverrideInfo);
     }
 
     private EngineResults evaluateProposition(Proposition proposition, Map<String, Object> executionFacts) {
@@ -236,6 +257,8 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                     result.setError(instruction.getMessage().getPlain());
                 }
 
+                results.add(result);
+
                 if(!instruction.getContinueOnFail()) {
                     break;
                 }
@@ -250,6 +273,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 HoldInfo hold = holdService.getHold(holdId, context);
                 ValidationResultInfo result = new ValidationResultInfo();
                 result.setWarn("The following hold was found on the student's account, but set as a warning: " + hold.getDescr().getPlain());
+                results.add(result);
             }
         }
 

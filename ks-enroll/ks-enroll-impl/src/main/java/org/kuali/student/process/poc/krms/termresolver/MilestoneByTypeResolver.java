@@ -33,11 +33,11 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * This class resolves milestone ids into MilestoneInfos
+ * This class resolves a milestone type into MilestoneInfos
  *
  * @author alubbers
  */
-public class MilestoneTermResolver implements TermResolver<List<MilestoneInfo>> {
+public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>> {
 
     private AtpService atpService;
 

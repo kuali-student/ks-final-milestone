@@ -33,7 +33,7 @@ import java.util.List;
  *
  * @author alubbers
  */
-public class RegistrationHoldProposition extends AbstractLeafProposition implements WarningProposition {
+public class RegistrationHoldProposition extends AbstractLeafProposition {
 
     private final String issueKey;
 
