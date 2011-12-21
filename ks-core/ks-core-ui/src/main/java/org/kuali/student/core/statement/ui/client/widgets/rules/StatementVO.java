@@ -661,7 +661,11 @@ public class StatementVO extends Token implements Serializable {
         StatementOperatorTypeKey op = (statementVO == null || statementVO.getStatementInfo() == null)? null :
                                         statementVO.getStatementInfo().getOperator();
         StatementOperatorTypeKey parentOp = (parent == null || parent.getStatementInfo() == null)? null : parent.getStatementInfo().getOperator();
-
+        
+        if (parent != null && parentOp != op && statementVO.isWrapperStatementVO()) {
+            statementVO.getStatementInfo().setOperator(parentOp);
+        }
+        
         if (parentOp == op && !statementVO.isWrapperStatementVO()) {
             structureChanged = true;
             if (statementVO.getReqComponentVOCount() > 0) {

@@ -18,11 +18,14 @@ package org.kuali.student.lum.common.server;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+
+import java.util.List;
 import java.util.Map;
 
 public class LoCategoryDataService extends AbstractDataService {
@@ -72,6 +75,11 @@ public class LoCategoryDataService extends AbstractDataService {
     }
 
     @Override
+	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
+		return loService.validateLoCategory("OBJECT", (LoCategoryInfo)dto);
+	}
+
+	@Override
     protected Class<?> getDtoClass() {
         return LoCategoryInfo.class;
     }

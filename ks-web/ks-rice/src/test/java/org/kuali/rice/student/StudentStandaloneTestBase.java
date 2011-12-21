@@ -25,12 +25,12 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
-import org.kuali.rice.core.api.lifecycle.Lifecycle;
-import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
-import org.kuali.rice.kew.api.WorkflowRuntimeException;
+import org.kuali.rice.core.lifecycle.BaseLifecycle;
+import org.kuali.rice.core.lifecycle.Lifecycle;
+import org.kuali.rice.core.resourceloader.SpringResourceLoader;
 import org.kuali.rice.kew.batch.KEWXmlDataLoader;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kew.exception.WorkflowRuntimeException;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.test.BaselineTestCase;
 import org.kuali.rice.test.SQLDataLoader;
 
@@ -51,7 +51,7 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
      */
     @Override
     protected Lifecycle getLoadApplicationLifecycle() {
-        SpringResourceLoader springResourceLoader = new SpringResourceLoader(new QName("StudentStandaloneTestResourceLoader"), "classpath:StandaloneTestSpringBeans.xml", null);
+        SpringResourceLoader springResourceLoader = new SpringResourceLoader(new QName("StudentStandaloneTestResourceLoader"), "classpath:StandaloneTestSpringBeans.xml");
         springResourceLoader.setParentSpringResourceLoader(getTestHarnessSpringResourceLoader());
         return springResourceLoader;
     }
@@ -71,9 +71,8 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 	
 	public class ClearCacheLifecycle extends BaseLifecycle {
 		public void stop() throws Exception {
-            // TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release
-//			KimApiServiceLocator.getIdentityService().flushAllCaches();
-//			KimApiServiceLocator.getRoleService().flushRoleCaches();
+			KIMServiceLocator.getIdentityManagementService().flushAllCaches();
+			KIMServiceLocator.getRoleManagementService().flushRoleCaches();
 			super.stop();
 		}
 	}

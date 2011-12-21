@@ -6,7 +6,6 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.xml.xpath.XPath;
@@ -14,11 +13,12 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.XmlHelper;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.w3c.dom.Document;
@@ -85,8 +85,8 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
      * @see org.kuali.rice.kew.role.QualifierResolver#resolve(org.kuali.rice.kew.engine.RouteContext)
      */
     @Override
-    public List<Map<String,String>> resolve(RouteContext context) {
-        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
+    public List<AttributeSet> resolve(RouteContext context) {
+        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
               attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationIdAttributeSetKey(context)));
         }
@@ -147,7 +147,8 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:" + XmlJotter.jotDocument(xmlContent));
+                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:");
+                XmlHelper.printDocumentStructure(xmlContent);
             }
             Set<String> distinctiveOrganizationIds = new HashSet<String>();
             for (int i = 0; i < baseElements.getLength(); i++) {
@@ -164,9 +165,9 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         }
     }
 
-    protected List<Map<String,String>> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
+    protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
         
-        List<Map<String,String>> returnAttributeSets = new ArrayList<Map<String,String>>();
+        List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
         List<OrgInfo> orgsForRouting = null;
         if (orgId != null) {
             try {

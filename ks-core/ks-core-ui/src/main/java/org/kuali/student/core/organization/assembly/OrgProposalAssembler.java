@@ -22,11 +22,10 @@ import static org.kuali.student.common.assembly.util.AssemblerUtils.setCreated;
 import static org.kuali.student.common.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -55,7 +54,6 @@ import org.kuali.student.core.organization.service.OrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
-@Deprecated
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
@@ -143,7 +141,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
 
     @Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public SaveResult<Data> save(Data input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
@@ -307,10 +305,10 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     }
 
     @Override
-    protected Map<String,String> getQualification(String idType, String id) {
-        Map<String,String> qualification = null;
+    protected AttributeSet getQualification(String idType, String id) {
+        AttributeSet qualification = null;
         if(id!=null&&!id.isEmpty()){
-         qualification = new LinkedHashMap<String,String>();
+         qualification = new AttributeSet();
         /*String DOCUMENT_TYPE_NAME = "documentTypeName";
         //FIXME: should this be something like org.proposal?
         qualification.put(DOCUMENT_TYPE_NAME, "Organization");*/

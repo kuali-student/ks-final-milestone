@@ -8,7 +8,7 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.util.ExportElement;
@@ -19,5 +19,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/GwtExportRpcService")
 public interface GwtExportRpcService extends RemoteService {
 
-    public String reportExport(ArrayList<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle);
+    public String reportExport(List<ExportElement> exportElements, Data root, String templateName, String exportFormat, String reportTitle);
 }

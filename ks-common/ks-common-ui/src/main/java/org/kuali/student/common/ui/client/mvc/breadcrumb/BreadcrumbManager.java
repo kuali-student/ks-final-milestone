@@ -58,6 +58,10 @@ public class BreadcrumbManager extends Composite{
 	 * @param historyStack
 	 */
 	public static void updateLinks(String historyStack){
+	    if (root == null){
+	        return;
+	    }
+	    
 		links.clear();
 		panel.clear();
 		panelEmpty = true;

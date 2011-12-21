@@ -6,7 +6,7 @@
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
+ * abUnless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
@@ -19,20 +19,19 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.DefaultRedirectStrategy;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.security.web.util.UrlUtils;
+import org.springframework.security.Authentication;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.ui.FilterChainOrder;
+import org.springframework.security.ui.SpringSecurityFilter;
+import org.springframework.security.ui.logout.LogoutHandler;
+import org.springframework.security.ui.logout.SecurityContextLogoutHandler;
+import org.springframework.security.util.RedirectUtils;
+import org.springframework.security.util.UrlUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -40,11 +39,12 @@ import org.springframework.web.filter.GenericFilterBean;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public class KSLogoutFilter extends GenericFilterBean {
+public class KSLogoutFilter extends SpringSecurityFilter {
 
     private String filterProcessesUrl = "/j_spring_security_logout";
     private String logoutSuccessUrl = "/";
     private LogoutHandler[] handlers;
+    private boolean useRelativeContext;
     String invalidateSession = "true";
     
     public KSLogoutFilter(){
@@ -65,16 +65,6 @@ public class KSLogoutFilter extends GenericFilterBean {
         this.handlers = handlers;
     }
 
-    public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-			doFilterHttp((HttpServletRequest) request,
-					(HttpServletResponse) response, chain);
-		} else {
-			// TODO: handle this
-		}
-	}
-    
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException,
             ServletException {
 
@@ -173,8 +163,7 @@ public class KSLogoutFilter extends GenericFilterBean {
     protected void sendRedirect(HttpServletRequest request, HttpServletResponse response, String url)
             throws IOException {
 
-        new DefaultRedirectStrategy().sendRedirect(request, response, url);
-        
+        RedirectUtils.sendRedirect(request, response, url, useRelativeContext);
     }
 
     public void setFilterProcessesUrl(String filterProcessesUrl) {
@@ -187,18 +176,21 @@ public class KSLogoutFilter extends GenericFilterBean {
         return logoutSuccessUrl;
     }    
     
+    public void setLogoutSuccessUrl(String logoutSuccessUrl){
+        this.logoutSuccessUrl = logoutSuccessUrl;
+        Assert.isTrue(UrlUtils.isValidRedirectUrl(logoutSuccessUrl), logoutSuccessUrl + " isn't a valid redirect URL");    	
+    }    
+    
     protected String getFilterProcessesUrl() {
         return filterProcessesUrl;
     }
 
-    /* We can't do this unless we create a new Redirect Strategy.  Thanks Spring!
     public void setUseRelativeContext(boolean useRelativeContext) {
         this.useRelativeContext = useRelativeContext;
-    }*/
+    }
 
-    /* I don't think we need this
     public int getOrder() {
         return FilterChainOrder.LOGOUT_FILTER;
-    } */
+    }
 
 }

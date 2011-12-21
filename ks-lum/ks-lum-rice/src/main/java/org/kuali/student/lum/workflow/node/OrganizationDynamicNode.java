@@ -14,10 +14,8 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.exception.RiceRuntimeException;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-//import org.kuali.rice.core.util.xml.XmlJotter;
-import org.kuali.rice.core.api.util.xml.XmlJotter;
+import org.kuali.rice.core.exception.RiceRuntimeException;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
@@ -25,7 +23,7 @@ import org.kuali.rice.kew.engine.node.Branch;
 import org.kuali.rice.kew.engine.node.DynamicNode;
 import org.kuali.rice.kew.engine.node.DynamicResult;
 import org.kuali.rice.kew.engine.node.NodeState;
-import org.kuali.rice.kew.engine.node.ProcessDefinitionBo;
+import org.kuali.rice.kew.engine.node.Process;
 import org.kuali.rice.kew.engine.node.RoleNode;
 import org.kuali.rice.kew.engine.node.RouteNode;
 import org.kuali.rice.kew.engine.node.RouteNodeInstance;
@@ -34,6 +32,7 @@ import org.kuali.rice.kew.role.RoleRouteModule;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.XmlHelper;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -180,7 +179,8 @@ public class OrganizationDynamicNode implements DynamicNode {
                 orgIds.add(attributeValue);
             }
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:" + XmlJotter.jotDocument(xmlContent));
+                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:");
+                XmlHelper.printDocumentStructure(xmlContent);
             }
             return orgIds;
         } catch (XPathExpressionException e) {
@@ -272,7 +272,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      */
     protected RouteNodeInstance generateNextNodeInstance(String orgId, RouteNode routeNodeDefinition, RouteContext context, Branch branch, RouteHelper helper) {
         LOG.debug("Adding new node with name '" + routeNodeDefinition.getRouteNodeName() + "'");
-        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getDocumentId(), routeNodeDefinition);
+        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getRouteHeaderId(), routeNodeDefinition);
         actualRouteNodeInstance.setBranch(branch);
         actualRouteNodeInstance.addNodeState(new NodeState(NODE_STATE_ORG_ID_KEY, orgId));
         return actualRouteNodeInstance;
@@ -324,8 +324,8 @@ public class OrganizationDynamicNode implements DynamicNode {
         return roleNode;
     }
 
-    protected ProcessDefinitionBo getPrototypeProcess(RouteNode node, DocumentType documentType) {
-        ProcessDefinitionBo process = new ProcessDefinitionBo();
+    protected Process getPrototypeProcess(RouteNode node, DocumentType documentType) {
+        Process process = new Process();
         process.setDocumentType(documentType);
         process.setInitial(false);
         process.setInitialRouteNode(node);

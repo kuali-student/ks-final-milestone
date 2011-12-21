@@ -35,6 +35,7 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.ListOfStringWidget;
@@ -127,7 +128,7 @@ public class MultiplicityGroup extends Composite {
         if (!loaded || itemCount == 0){
         	Integer minOccurs = MetadataInterrogator.getLargestMinOccurs(config.getMetaData());
         	
-        	if (minOccurs != null) {
+        	if (minOccurs != null && minOccurs > 0) {
 	            for (int i=0; i < minOccurs; i++){
 	            	createItem();
 	            }
@@ -154,6 +155,7 @@ public class MultiplicityGroup extends Composite {
                 createItem();
             }
         });
+        addWidget.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(this.getElement().getId() + "-" + config.getAddItemLabel()));
         return addWidget;
     }
 
@@ -466,18 +468,22 @@ public class MultiplicityGroup extends Composite {
 
 	public boolean isDirty(){
         isDirty = false;
-		for (MultiplicityGroupItem item:items){
-			if (item.isDirty()){
-				isDirty = true;
-				break;
-			} else {
-				Widget itemWidget = item.getItemWidget();
-				if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+        if (removed != null && !removed.isEmpty()){
+        	isDirty = true;
+        } else {
+			for (MultiplicityGroupItem item:items){
+				if (item.isDirty()){
 					isDirty = true;
 					break;
+				} else {
+					Widget itemWidget = item.getItemWidget();
+					if (itemWidget instanceof BaseSection && ((BaseSection)itemWidget).isDirty()){
+						isDirty = true;
+						break;
+					}
 				}
 			}
-		}
+        }
 		return isDirty;
 	}
 

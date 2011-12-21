@@ -162,4 +162,8 @@ public class VerticalFieldLayout extends FieldLayout {
         return fieldContainers;
     }
 
+	public FlowPanel getVerticalLayout() {
+		return verticalLayout;
+	}
+
 }

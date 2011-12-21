@@ -14,19 +14,15 @@
  */
 
 package org.kuali.student.lum.workflow;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.actionrequest.ActionRequestValue;
 import org.kuali.rice.kew.actiontaken.ActionTakenValue;
-import org.kuali.rice.kew.api.WorkflowDocument;
-import org.kuali.rice.kew.api.WorkflowDocumentFactory;
-import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.dto.ActionRequestDTO;
 import org.kuali.rice.kew.postprocessor.ActionTakenEvent;
 import org.kuali.rice.kew.postprocessor.AfterProcessEvent;
 import org.kuali.rice.kew.postprocessor.BeforeProcessEvent;
@@ -38,9 +34,11 @@ import org.kuali.rice.kew.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.postprocessor.PostProcessor;
 import org.kuali.rice.kew.postprocessor.ProcessDocReport;
 import org.kuali.rice.kew.service.KEWServiceLocator;
+import org.kuali.rice.kew.service.WorkflowDocument;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.services.KimApiServiceLocator;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.KIMServiceLocator;
 import org.kuali.rice.student.StudentWorkflowConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.exceptions.OperationFailedException;
@@ -65,7 +63,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
 		if (actionTaken == null) {
 		    if (LOG.isInfoEnabled()) {
-		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getDocumentId() + "'" + 
+		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getRouteHeaderId() + "'" + 
 		                ((actionTakenEvent.getActionTaken() == null) ? "" : " for action: " + actionTakenEvent.getActionTaken().getActionTakenLabel()));
 		    }
 		    actionTaken = actionTakenEvent.getActionTaken();
@@ -73,9 +71,9 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 		boolean success = true;
 		// on a save action we may not have access to the proposal object because the transaction may not have committed
 		if (!StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, actionTaken.getActionTaken())) {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getDocumentId().toString());
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(actionTakenEvent.getRouteHeaderId().toString());
             if (actionTaken == null) {
-                throw new OperationFailedException("No action taken found for document id " + actionTakenEvent.getDocumentId());
+                throw new OperationFailedException("No action taken found for document id " + actionTakenEvent.getRouteHeaderId());
             }
     	    if (StringUtils.equals(KEWConstants.ACTION_TAKEN_SU_DISAPPROVED_CD, actionTaken.getActionTaken())) {
     	        // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
@@ -107,7 +105,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     }
 
     protected void processActionTakenOnAdhocRequest(ActionTakenEvent actionTakenEvent, ActionRequestValue actionRequestValue) throws Exception {
-        WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), actionTakenEvent.getDocumentId());
+        WorkflowDocument doc = new WorkflowDocument(getPrincipalIdForSystemUser(), actionTakenEvent.getRouteHeaderId());
         LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequestValue.getPrincipalId());
         removeEditAdhocPermissions(actionRequestValue.getPrincipalId(), doc);
     }
@@ -128,18 +126,17 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	}
 
 	public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
-        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId());
+        ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getRouteHeaderId().toString());
 
 		// if this is the initial route then clear only edit permissions as per KSLUM-192
 		if (StringUtils.equals(StudentWorkflowConstants.DEFAULT_WORKFLOW_DOCUMENT_START_NODE_NAME,documentRouteLevelChange.getOldNodeName())) {
 			// remove edit perm for all adhoc action requests to a user for the route node we just exited
-	        WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getDocumentId());
-                // TODO: evaluate group or role level changes by not using isUserRequest()
-			for (ActionRequest actionRequest : doc.getRootActionRequests()) {
-				if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest() && 
-						StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequest.getNodeName())) {
-					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
-					removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
+	        WorkflowDocument doc = new WorkflowDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getRouteHeaderId());
+			for (ActionRequestDTO actionRequestDTO : doc.getActionRequests()) {
+				if (actionRequestDTO.isAdHocRequest() && actionRequestDTO.isUserRequest() && 
+						StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequestDTO.getNodeName())) {
+					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequestDTO.getPrincipalId());
+					removeEditAdhocPermissions(actionRequestDTO.getPrincipalId(), doc);
 				}
 	        }
 		}
@@ -150,9 +147,13 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 		return new ProcessDocReport(success);
 	}
 
-	protected boolean processCustomRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange, ProposalInfo proposalInfo) throws Exception {
-	    // do nothing but allow override
-	    return true;
+	protected boolean processCustomRouteLevelChange(
+			DocumentRouteLevelChange documentRouteLevelChange,
+			ProposalInfo proposalInfo) throws Exception {
+		//Update the proposal with the new node name
+		proposalInfo.getAttributes().put("workflowNode", documentRouteLevelChange.getNewNodeName());
+		getProposalService().updateProposal(proposalInfo.getId(), proposalInfo);
+		return true;
 	}
 
 	public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange statusChangeEvent) throws Exception {
@@ -163,7 +164,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	        // assume the proposal status is already correct
             success = processCustomRouteStatusSavedStatusChange(statusChangeEvent);
 	    } else {
-            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId());
+            ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getRouteHeaderId().toString());
             
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
             String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), statusChangeEvent.getNewRouteStatus());
@@ -183,7 +184,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         return true;
     }
 
-	public List<String> getDocumentIdsToLock(DocumentLockingEvent arg0) throws Exception {
+	public List<Long> getDocumentIdsToLock(DocumentLockingEvent arg0) throws Exception {
 		return null;
 	}
 
@@ -241,21 +242,21 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     }
 
     protected void removeEditAdhocPermissions(String principalId, WorkflowDocument doc) {
-        Map<String,String> qualifications = new LinkedHashMap<String,String>();
-        qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentTypeName());
-        qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);       
+        AttributeSet qualifications = new AttributeSet();
+        qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentType());
+        qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getAppDocId());
+        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);       
     }
 
     protected void removeCommentAdhocPermissions(String roleNamespace, String roleName, String principalId, WorkflowDocument doc) {
-        Map<String,String> qualifications = new LinkedHashMap<String,String>();
-        qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentTypeName());
-        qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
+        AttributeSet qualifications = new AttributeSet();
+        qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentType());
+        qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getAppDocId());
+        KIMServiceLocator.getRoleManagementService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, qualifications);
     }
 
     protected String getPrincipalIdForSystemUser() {
-        Principal principal = KimApiServiceLocator.getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+        KimPrincipalInfo principal = KIMServiceLocator.getIdentityManagementService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
         if (principal == null) {
             throw new RuntimeException("Cannot find Principal for principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
         }

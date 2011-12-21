@@ -145,9 +145,21 @@ public class SearchManagerImpl implements SearchManager{
 		}
 		
 		String searchKey = searchRequest.getSearchKey();
-		
-		//Check if the search is a cross search
+
 		SearchTypeInfo searchType = searchInfoTypeMap.get(searchKey);
+		
+		//If no type was found for the key, try to dispatch the search
+		if(searchType == null){
+			if(crossSearchManager!=null && crossSearchManager.getSearchDispatcher()!=null){
+				logger.info("Search type '"+searchKey+"' is not known to this service's search manager, attempting to dispatch search.");
+				return crossSearchManager.getSearchDispatcher().dispatchSearch(searchRequest);
+			}else{
+				logger.error("Search type '"+searchKey+"' is not known to this service's search manager.");
+				throw new RuntimeException("Search type '"+searchKey+"' is not known to this service's search manager.");
+			}
+		}
+
+		//Check if the search is a cross search
 		if(searchType instanceof CrossSearchTypeInfo){
 			if(crossSearchManager == null){
 				//FIXME should we change these to Operation Failed Exceptions? also we need to handle invalid parameters.

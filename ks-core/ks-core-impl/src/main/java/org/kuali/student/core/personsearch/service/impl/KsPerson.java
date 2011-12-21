@@ -18,11 +18,11 @@ package org.kuali.student.core.personsearch.service.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.rice.core.api.util.type.KualiDecimal;
-import org.kuali.rice.kim.api.identity.Person;
-import org.kuali.rice.kim.api.identity.entity.EntityDefault;
-import org.kuali.rice.kim.api.identity.name.EntityName;
-import org.kuali.rice.kim.api.identity.principal.Principal;
+import org.kuali.rice.kim.bo.Person;
+import org.kuali.rice.kim.bo.entity.KimEntityName;
+import org.kuali.rice.kim.bo.entity.KimPrincipal;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityDefaultInfo;
+import org.kuali.rice.kns.util.KualiDecimal;
 
 /**
  *
@@ -46,7 +46,7 @@ public class KsPerson implements Person {
     private String lastName;
 	private String principalName;
 
-    public KsPerson(EntityDefault entity, Principal principal) {
+    public KsPerson(KimEntityDefaultInfo entity, KimPrincipal principal) {
         this.principalId = principal.getPrincipalId();
         this.entityId = entity.getEntityId();
         populateNameInfo(entity, principal);
@@ -298,26 +298,25 @@ public class KsPerson implements Person {
         return false;
     }
 
-// deleted method
-//    @Override
-//    public void prepareForWorkflow() {
-//
-//    }
+    @Override
+    public void prepareForWorkflow() {
+
+    }
 
     @Override
     public void refresh() {
 
     }
 
-    protected void populateNameInfo(EntityDefault entity, Principal principal) {
+    protected void populateNameInfo(KimEntityDefaultInfo entity, KimPrincipal principal) {
     	this.principalName = principal.getPrincipalName();
         if (entity != null) {
-            EntityName entityName = entity.getName();
+            KimEntityName entityName = entity.getDefaultName();
             if (entityName != null) {
                 firstName = unNullify(entityName.getFirstNameUnmasked());
                 middleName = unNullify(entityName.getMiddleNameUnmasked());
                 lastName = unNullify(entityName.getLastNameUnmasked());
-                name = unNullify(entityName.getCompositeNameUnmasked());
+                name = unNullify(entityName.getFormattedNameUnmasked());
             } else {
                 firstName = "";
                 middleName = "";

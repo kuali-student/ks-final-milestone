@@ -29,12 +29,13 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
+import org.kuali.rice.kim.bo.entity.dto.KimEntityNamePrincipalNameInfo;
+import org.kuali.rice.kim.service.IdentityService;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
@@ -473,13 +474,13 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     @Override
     public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds) {
-        Map<String, EntityNamePrincipalName> kimIdentities = identityServiceNonCached.getDefaultNamesForPrincipalIds(personIds);
+        Map<String, KimEntityNamePrincipalNameInfo> kimIdentities = identityServiceNonCached.getDefaultNamesForPrincipalIds(personIds);
         Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
         for(String pId:personIds ){
-            EntityNamePrincipalName kimEntity = kimIdentities.get(pId);
+            KimEntityNamePrincipalNameInfo kimEntity = kimIdentities.get(pId);
             MembershipInfo memeberEntity = new MembershipInfo();
-            memeberEntity.setFirstName(kimEntity.getDefaultName().getFirstName());
-            memeberEntity.setLastName(kimEntity.getDefaultName().getLastName());
+            memeberEntity.setFirstName(kimEntity.getDefaultEntityName().getFirstName());
+            memeberEntity.setLastName(kimEntity.getDefaultEntityName().getLastName());
             identities.put(pId, memeberEntity);
         }
         
@@ -510,5 +511,10 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     protected String getDefaultWorkflowDocumentType() {
         return null;
     }
+
+	@Override
+	public List<ValidationResultInfo> validate(Data data) throws OperationFailedException {
+		return null;
+	}
     
 }

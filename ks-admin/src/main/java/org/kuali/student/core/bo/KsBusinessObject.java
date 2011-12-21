@@ -1,6 +1,6 @@
 package org.kuali.student.core.bo;
 
-import org.kuali.rice.krad.bo.PersistableBusinessObject;
+import org.kuali.rice.kns.bo.PersistableBusinessObject;
 
 public interface KsBusinessObject extends PersistableBusinessObject {
     

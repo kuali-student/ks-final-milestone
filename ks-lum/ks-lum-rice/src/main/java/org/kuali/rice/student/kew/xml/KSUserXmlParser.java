@@ -23,17 +23,16 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.Namespace;
-import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.xml.UserXmlParser;
-import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
-import org.kuali.rice.kim.impl.identity.email.EntityEmailBo;
-import org.kuali.rice.kim.impl.identity.employment.EntityEmploymentBo;
-import org.kuali.rice.kim.impl.identity.entity.EntityBo;
-import org.kuali.rice.kim.impl.identity.name.EntityNameBo;
-import org.kuali.rice.kim.impl.identity.principal.PrincipalBo;
-import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.rice.krad.service.SequenceAccessorService;
+import org.kuali.rice.kim.bo.entity.impl.KimEntityAffiliationImpl;
+import org.kuali.rice.kim.bo.entity.impl.KimEntityEmailImpl;
+import org.kuali.rice.kim.bo.entity.impl.KimEntityEmploymentInformationImpl;
+import org.kuali.rice.kim.bo.entity.impl.KimEntityEntityTypeImpl;
+import org.kuali.rice.kim.bo.entity.impl.KimEntityImpl;
+import org.kuali.rice.kim.bo.entity.impl.KimEntityNameImpl;
+import org.kuali.rice.kim.bo.entity.impl.KimPrincipalImpl;
+import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.kns.service.SequenceAccessorService;
 
 /**
  * Adds password to the User xml ingestion
@@ -62,8 +61,8 @@ public class KSUserXmlParser extends UserXmlParser {
 	private static final String CAMPUS_CD_ELEMENT = "campusCode";
 	
     @Override
-    protected EntityBo constructEntity(Element userElement) {
-        SequenceAccessorService sas = KRADServiceLocator.getSequenceAccessorService();
+    protected KimEntityImpl constructEntity(Element userElement) {
+        SequenceAccessorService sas = KNSServiceLocator.getSequenceAccessorService();
     	
     	String firstName = userElement.getChildTextTrim(GIVEN_NAME_ELEMENT, NAMESPACE);
         String lastName = userElement.getChildTextTrim(LAST_NAME_ELEMENT, NAMESPACE);
@@ -74,21 +73,21 @@ public class KSUserXmlParser extends UserXmlParser {
         }
     	
         Long entityId = sas.getNextAvailableSequenceNumber("KRIM_ENTITY_ID_S", 
-        		EntityEmploymentBo.class);
+        		KimEntityEmploymentInformationImpl.class);
         
         // if they define an empl id, let's set that up
-        EntityEmploymentBo emplInfo = null;
+        KimEntityEmploymentInformationImpl emplInfo = null;
         if (!StringUtils.isBlank(emplId)) {
-        	emplInfo = new EntityEmploymentBo();
+        	emplInfo = new KimEntityEmploymentInformationImpl();
         	emplInfo.setActive(true);
         	emplInfo.setEmployeeId(emplId);
         	emplInfo.setPrimary(true);
         	emplInfo.setEntityId("" + entityId);
-                emplInfo.setId (emplId);
+        	emplInfo.setEntityEmploymentId(emplId);
         }
         
     	
-		EntityBo entity = new EntityBo();
+		KimEntityImpl entity = new KimEntityImpl();
 		
 		//Set active on the entity
 		String active = userElement.getChildTextTrim(ACTIVE_ELEMENT, NAMESPACE);
@@ -99,8 +98,8 @@ public class KSUserXmlParser extends UserXmlParser {
 		}
 		
 		
-		entity.setId("" + entityId);
-		List<EntityEmploymentBo> emplInfos = new ArrayList<EntityEmploymentBo>();
+		entity.setEntityId("" + entityId);
+		List<KimEntityEmploymentInformationImpl> emplInfos = new ArrayList<KimEntityEmploymentInformationImpl>();
 		if (emplInfo != null) {
 			emplInfos.add(emplInfo);
 		}
@@ -110,17 +109,17 @@ public class KSUserXmlParser extends UserXmlParser {
 		String affiliationTypeCode = userElement.getChildTextTrim(AFFILIATION_CD_ELEMENT, NAMESPACE);
 		if (!StringUtils.isBlank(affiliationTypeCode)) {
 			if(entity.getAffiliations()==null){
-				entity.setAffiliations(new ArrayList<EntityAffiliationBo>());
+				entity.setAffiliations(new ArrayList<KimEntityAffiliationImpl>());
 			}
-			EntityAffiliationBo affiliation = new EntityAffiliationBo();
+			KimEntityAffiliationImpl affiliation = new KimEntityAffiliationImpl();
 			
 			Long affiliationId = sas.getNextAvailableSequenceNumber(
-					"KRIM_ENTITY_AFLTN_ID_S", EntityAffiliationBo.class);
-			affiliation.setId(""+affiliationId);
+					"KRIM_ENTITY_AFLTN_ID_S", KimEntityAffiliationImpl.class);
+			affiliation.setEntityAffiliationId(""+affiliationId);
 			affiliation.setAffiliationTypeCode(affiliationTypeCode);
 			affiliation.setActive(true);
-			affiliation.setDefaultValue(true);
-			affiliation.setEntityId(entity.getId());
+			affiliation.setDefault(true);
+			affiliation.setEntityId(entity.getEntityId());
 			String campusCode = userElement.getChildTextTrim(CAMPUS_CD_ELEMENT, NAMESPACE);
 			if(!StringUtils.isBlank(campusCode)){
 				affiliation.setCampusCode(campusCode);
@@ -128,51 +127,52 @@ public class KSUserXmlParser extends UserXmlParser {
 			entity.getAffiliations().add(affiliation);
 		}		
 		
-		EntityTypeContactInfoBo entityType = new EntityTypeContactInfoBo();
-		entity.getEntityTypeContactInfos().add(entityType);
+		KimEntityEntityTypeImpl entityType = new KimEntityEntityTypeImpl();
+		entity.getEntityTypes().add(entityType);
 		entityType.setEntityTypeCode(entityTypeCode);
-		entityType.setEntityId(entity.getId());
+		entityType.setEntityId(entity.getEntityId());
 		entityType.setActive(true);
 		
 		if (!StringUtils.isBlank(firstName) || !StringUtils.isBlank(lastName)) {
 			Long entityNameId = sas.getNextAvailableSequenceNumber(
-					"KRIM_ENTITY_NM_ID_S", EntityNameBo.class);
-			EntityNameBo name = new EntityNameBo();
+					"KRIM_ENTITY_NM_ID_S", KimEntityNameImpl.class);
+			KimEntityNameImpl name = new KimEntityNameImpl();
 			name.setActive(true);
-			name.setId("" + entityNameId);
-			name.setEntityId(entity.getId());
+			name.setEntityNameId("" + entityNameId);
+			name.setEntityId(entity.getEntityId());
 			// must be in krim_ent_nm_typ_t.ent_nm_typ_cd
-			name.setNameCode("PRFR");
+			name.setNameTypeCode("PRFR");
 			name.setFirstName(firstName);
 			name.setMiddleName("");
 			name.setLastName(lastName);
-			name.setDefaultValue(true);
+			name.setDefault(true);
 			
 			entity.getNames().add(name);
 		}
 		
-		KRADServiceLocator.getBusinessObjectService().save(entity);
+		KNSServiceLocator.getBusinessObjectService().save(entity);
 		
 		String emailAddress = userElement.getChildTextTrim(EMAIL_ELEMENT, NAMESPACE);
 		if (!StringUtils.isBlank(emailAddress)) {
 			Long emailId = sas.getNextAvailableSequenceNumber(
-					"KRIM_ENTITY_EMAIL_ID_S", EntityEmailBo.class);
-			EntityEmailBo email = new EntityEmailBo();
+					"KRIM_ENTITY_EMAIL_ID_S", KimEntityEmailImpl.class);
+			KimEntityEmailImpl email = new KimEntityEmailImpl();
 			email.setActive(true);
+			email.setEntityEmailId("" + emailId);
 			email.setEntityTypeCode("PERSON");
 			// must be in krim_email_typ_t.email_typ_cd:
 			email.setEmailTypeCode("WRK");
 			email.setEmailAddress(emailAddress);
-			email.setDefaultValue(true);
-			email.setEntityId(entity.getId());
-			KRADServiceLocator.getBusinessObjectService().save(email);
+			email.setDefault(true);
+			email.setEntityId(entity.getEntityId());
+			KNSServiceLocator.getBusinessObjectService().save(email);
 		}
 		
 		return entity;
     }
     
     @Override
-	protected PrincipalBo constructPrincipal(Element userElement, String entityId) {
+	protected KimPrincipalImpl constructPrincipal(Element userElement, String entityId) {
     	String principalId = userElement.getChildTextTrim(WORKFLOW_ID_ELEMENT, NAMESPACE);
     	if (principalId == null) {
     		principalId = userElement.getChildTextTrim(PRINCIPAL_ID_ELEMENT, NAMESPACE);
@@ -184,17 +184,17 @@ public class KSUserXmlParser extends UserXmlParser {
     	String password= userElement.getChildTextTrim(PASSWORD_ELEMENT, NAMESPACE);
     	
     	
-    	PrincipalBo principal = new PrincipalBo ();
+		KimPrincipalImpl principal = new KimPrincipalImpl();
 		principal.setActive(true);
 		principal.setPrincipalId(principalId);
 		principal.setPrincipalName(principalName);
 		principal.setEntityId(entityId);
 		try {
-			principal.setPassword(CoreApiServiceLocator.getEncryptionService().hash(password)+HASH_SUFFIX);
+			principal.setPassword(KNSServiceLocator.getEncryptionService().hash(password)+HASH_SUFFIX);
 		} catch (GeneralSecurityException e) {
 			LOG.warn("Error hashing password.",e);
 		}
-		KRADServiceLocator.getBusinessObjectService().save(principal);
+		KNSServiceLocator.getBusinessObjectService().save(principal);
 		
 		return principal;
     }

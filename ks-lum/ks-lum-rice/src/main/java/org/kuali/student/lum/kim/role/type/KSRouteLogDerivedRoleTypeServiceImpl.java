@@ -15,26 +15,27 @@
 
 package org.kuali.student.lum.kim.role.type;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.kew.api.KewApiServiceLocator;
-import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
-import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.exception.WorkflowException;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kim.api.role.Role;
-import org.kuali.rice.kim.api.role.RoleMembership;
-import org.kuali.rice.kim.util.KimConstants;
-import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
+import org.kuali.rice.kim.bo.Role;
+import org.kuali.rice.kim.bo.impl.KimAttributes;
+import org.kuali.rice.kim.bo.role.dto.RoleMembershipInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.support.impl.KimDerivedRoleTypeServiceBase;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;
-
-import java.util.*;
 
 /**
  *
  */
-public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
+public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServiceBase {
     private static org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(KSRouteLogDerivedRoleTypeServiceImpl.class);
 
     public static final String INITIATOR_ROLE_NAME = "Initiator";
@@ -45,13 +46,14 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	protected Set<List<String>> newRequiredAttributes = new HashSet<List<String>>();
 
 	{
-		// add document number as one required attribute set
+		checkRequiredAttributes = true;
+        // add document number as one required attribute set
 		List<String> listOne = new ArrayList<String>();
-		listOne.add( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
+		listOne.add( KimAttributes.DOCUMENT_NUMBER );
 		newRequiredAttributes.add(listOne);
         // add document type name and KEW application id as one required attribute set
 		List<String> listTwo = new ArrayList<String>();
-		listTwo.add( KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME );
+		listTwo.add( KimAttributes.DOCUMENT_TYPE_NAME );
 		listTwo.add( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID );
 		newRequiredAttributes.add(listTwo);
         // add object id and object type as one required attribute set
@@ -70,34 +72,34 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	/** 
 	 * The part about where the receivedAttributes list being empty does not return errors is copied from Rice base class.
 	 * 
-	 * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateRequiredAttributesAgainstReceived(org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateRequiredAttributesAgainstReceived(org.kuali.rice.kim.bo.types.dto.AttributeSet)
 	 **/
 	@Override
-	protected void validateRequiredAttributesAgainstReceived(Map<String,String> receivedAttributes){
+	protected void validateRequiredAttributesAgainstReceived(AttributeSet receivedAttributes){
 		KimQualificationHelper.validateRequiredAttributesAgainstReceived(newRequiredAttributes, receivedAttributes, isCheckFutureRequests(), COMMA_SEPARATOR);
         super.validateRequiredAttributesAgainstReceived(receivedAttributes);
 	}
 
     @Override
-    public Map<String,String> translateInputAttributes(Map<String,String> qualification) {
-        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributes(qualification));
+    public AttributeSet translateInputAttributeSet(AttributeSet qualification) {
+        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributeSet(qualification));
     }
 
-	protected String getDocumentNumber(Map<String,String> qualification) throws WorkflowException {
+	protected Long getDocumentNumber(AttributeSet qualification) throws WorkflowException {
 		// first check for a valid document id passed in
-		String documentId = qualification.get( KimConstants.AttributeConstants.DOCUMENT_NUMBER );
+		String documentId = qualification.get( KimAttributes.DOCUMENT_NUMBER );
         if (StringUtils.isNotEmpty(documentId)) {
-            return documentId;
+            return Long.valueOf(documentId);
         } else {
             LOG.warn("Could not find workflow document id in qualification list:");
-            LOG.warn(qualification);
+            LOG.warn(qualification.formattedDump(20));
             return null;
         }
 //		if (StringUtils.isNotEmpty(documentId)) {
 //			return Long.valueOf(documentId);
 //		}
 //		// if no document id passed in get the document via the id and document type name
-//		String documentTypeName = qualification.get( KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME );
+//		String documentTypeName = qualification.get( KimAttributes.DOCUMENT_TYPE_NAME );
 //		if (StringUtils.isEmpty(documentTypeName)) {
 //			String ksObjectType = qualification.get( StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE );
 //			if (StringUtils.equals(ksObjectType, "referenceType.clu.proposal")) {
@@ -110,7 +112,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 //		if (docDetail == null) {
 //			throw new RuntimeException("No valid document instance found for document type name '" + documentTypeName + "' and Application Id '" + appId + "'");
 //		}
-//		return docDetail.getDocumentId();
+//		return docDetail.getRouteHeaderId();
 	}
 
 	public boolean isCheckFutureRequests() {
@@ -130,32 +132,32 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	 *		i.e. initiators, people who have taken action, people with a pending action request, 
 	 *		or people who will receive an action request for the document in question get the KR-WKFLW Initiator or Reviewer Role 
 	 * 
-	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getRoleMembersFromApplicationRole(String, String, Map<String,String>)
+	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#getRoleMembersFromApplicationRole(String, String, AttributeSet)
 	 */
 	@Override
-    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String,String> paramQualification) {
-		List<RoleMembership> members = new ArrayList<RoleMembership>();
+    public List<RoleMembershipInfo> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, AttributeSet paramQualification) {
+		List<RoleMembershipInfo> members = new ArrayList<RoleMembershipInfo>();
 		validateRequiredAttributesAgainstReceived(paramQualification);
-		Map<String,String> qualification = translateInputAttributes(paramQualification);
-		String documentNumber = null;
+		AttributeSet qualification = translateInputAttributeSet(paramQualification);
+		Long documentNumber = null;
 		try {
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
 				if (INITIATOR_ROLE_NAME.equals(roleName)) {
-				    String principalId = getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentNumber);
-	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null).build());
+				    String principalId = getWorkflowUtility().getDocumentInitiatorPrincipalId(documentNumber);
+	                members.add( new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null) );
 				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
-					List<String> ids = getWorkflowDocumentActionsService().getPrincipalIdsInRouteLog(documentNumber, isCheckFutureRequests());
+					String[] ids = getWorkflowUtility().getPrincipalIdsInRouteLog(documentNumber, isCheckFutureRequests());
 					if (ids != null) {
 					    for ( String id : ids ) {
 					    	if ( StringUtils.isNotBlank(id) ) {
-					    		members.add(RoleMembership.Builder.create(null/*roleId*/, null, id, Role.PRINCIPAL_MEMBER_TYPE, null).build());
+					    		members.add( new RoleMembershipInfo(null/*roleId*/, null, id, Role.PRINCIPAL_MEMBER_TYPE, null) );
 					    	}
 					    }
 					}
 				} else if(ROUTER_ROLE_NAME.equals(roleName)) {
-				    String principalId = getWorkflowDocumentService().getRoutedByPrincipalIdByDocumentId(documentNumber);
-	                members.add(RoleMembership.Builder.create(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null).build() );
+				    String principalId = getWorkflowUtility().getDocumentRoutedByPrincipalId(documentNumber);
+	                members.add( new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null) );
 				}
 			}
 		} catch (WorkflowException wex) {
@@ -166,24 +168,24 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 	}
 
 	/***
-	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.AttributeSet)
 	 */
 	@Override
 	public boolean hasApplicationRole(
-			String principalId, List<String> groupIds, String namespaceCode, String roleName, Map<String,String> paramQualification){
+			String principalId, List<String> groupIds, String namespaceCode, String roleName, AttributeSet paramQualification){
         validateRequiredAttributesAgainstReceived(paramQualification);
-        Map<String,String> qualification = translateInputAttributes(paramQualification);
+        AttributeSet qualification = translateInputAttributeSet(paramQualification);
         boolean isUserInRouteLog = false;
-		String documentNumber = null;
+		Long documentNumber = null;
 		try {
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
 				if (INITIATOR_ROLE_NAME.equals(roleName)){
-					isUserInRouteLog = principalId.equals(getWorkflowDocumentService().getDocumentInitiatorPrincipalId(documentNumber));
+					isUserInRouteLog = principalId.equals(getWorkflowUtility().getDocumentInitiatorPrincipalId(documentNumber));
 				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)){
-					isUserInRouteLog = getWorkflowDocumentActionsService().isUserInRouteLog(documentNumber, principalId, isCheckFutureRequests());
+					isUserInRouteLog = getWorkflowUtility().isUserInRouteLog(documentNumber, principalId, isCheckFutureRequests());
 				} else if(ROUTER_ROLE_NAME.equals(roleName)){
-					isUserInRouteLog = principalId.equals(getWorkflowDocumentService().getRoutedByPrincipalIdByDocumentId(documentNumber));
+					isUserInRouteLog = principalId.equals(getWorkflowUtility().getDocumentRoutedByPrincipalId(documentNumber));
 				}
 			}
 		} catch (WorkflowException wex) {
@@ -203,13 +205,8 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 		return false;
 	}
 
-
-    protected WorkflowDocumentService getWorkflowDocumentService() {
-        return KewApiServiceLocator.getWorkflowDocumentService();
-    }
-
-    public WorkflowDocumentActionsService getWorkflowDocumentActionsService() {
-        return KewApiServiceLocator.getWorkflowDocumentActionsService();
-    }
+	protected WorkflowUtility getWorkflowUtility() {
+		return KEWServiceLocator.getWorkflowUtilityService();
+	}
 
 }

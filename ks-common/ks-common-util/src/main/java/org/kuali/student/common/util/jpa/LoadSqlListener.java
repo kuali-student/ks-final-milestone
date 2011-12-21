@@ -43,6 +43,36 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.jta.JtaTransactionManager;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 
+/**
+ * This Spring listener will load SQL files into your database after the context is loaded
+ * This is used in testing when you need to load data before your tests are run.
+ * To Configure, you will need the jtaTxManager from your application context (use ref="JtaTxManager" with our unit tests)
+ * You will also need a map of persistence unit names to the sql files you want loaded. 
+ * 
+ * <p>Example configuration:</p>
+ * <pre>
+ * {@code
+ *	<!--  Preloaded data -->
+ *	<bean id="dataLoadListenerLum" class="org.kuali.student.common.util.jpa.LoadSqlListener">
+ *		<property name="jtaTxManager" ref="JtaTxManager"/>
+ *		<property name="shouldLoadData" value="true"/>
+ *		<property name="preloadMap">
+ *			<map>
+ *				<entry key="Lu">
+ *					<value>classpath:ks-lu.sql</value>
+ *				</entry>
+ *				<entry key="Statement">
+ *					<list>
+ *						<value>classpath:ks-statement.sql</value>
+ *						<value>classpath:ks-statement-tree.sql</value>
+ *					</list>
+ *				</entry>
+ *			</map>
+ *		</property>
+ *	</bean>
+ * }
+ * </pre>
+ */
 public class LoadSqlListener implements ApplicationListener,
 		ApplicationContextAware {
 
@@ -131,6 +161,11 @@ public class LoadSqlListener implements ApplicationListener,
 		return jtaTxManager;
 	}
 
+	/**
+	 * A reference to a jta tx manager. To use with KS unit test framework,
+	 * use ref="JtaTxManager"
+	 * @param jtaTxManager
+	 */
 	public void setJtaTxManager(JtaTransactionManager jtaTxManager) {
 		this.jtaTxManager = jtaTxManager;
 	}
@@ -139,10 +174,19 @@ public class LoadSqlListener implements ApplicationListener,
 		return preloadMap;
 	}
 
+	/**
+	 * This is a map of persistence unit names to sql files
+	 * The file names are loaded as spring classpath resources so you can use the syntax "classpath:ks-lu.sql"
+	 * @param preloadMap
+	 */
 	public void setPreloadMap(Map<String, Object> preloadMap) {
 		this.preloadMap = preloadMap;
 	}
 
+	/**
+	 * Sets whether data is loaded or not so that this param can be configured by properties
+	 * @param shouldLoadData defaults to false so you will need to set to true if you want data loaded.
+	 */
 	public void setShouldLoadData(boolean shouldLoadData) {
 		this.shouldLoadData = shouldLoadData;
 	}

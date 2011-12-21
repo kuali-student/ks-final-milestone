@@ -15,19 +15,22 @@
 
 package org.kuali.student.lum.workflow.search;
 
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.kew.api.document.attribute.DocumentAttribute;
-import org.kuali.rice.kew.api.extension.ExtensionDefinition;
-import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
-import org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl;
-import org.kuali.rice.kew.framework.document.lookup.DocumentSearchContext;
-import org.kuali.rice.krad.workflow.attribute.KualiXmlSearchableAttributeImpl;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import java.util.List;
 
 import javax.xml.namespace.QName;
-import java.util.List;
+
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.kew.docsearch.DocumentSearchContext;
+import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
+import org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl;
+import org.kuali.rice.kns.workflow.attribute.KualiXmlSearchableAttributeImpl;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.core.organization.service.OrganizationService;
 
 /**
  * Extension for CluCreditCourse documents searches that converts Organization ID to the Organization Long Name
@@ -41,19 +44,18 @@ public class OrgSearchAttribute extends KualiXmlSearchableAttributeImpl {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<DocumentAttribute> getDocumentAttributes(ExtensionDefinition extensionDefinition, DocumentSearchContext documentSearchContext) {
+	public List<SearchableAttributeValue> getSearchStorageValues(DocumentSearchContext documentSearchContext) {
 		OrganizationService orgService = null;
-		List<DocumentAttribute> attributeValues = super.getDocumentAttributes(extensionDefinition, documentSearchContext);
-		for (DocumentAttribute value : attributeValues) {
-			String orgId = (String)value.getValue();
+		List<SearchableAttributeValue> attributeValues = (List<SearchableAttributeValue>)super.getSearchStorageValues(documentSearchContext);
+		for (SearchableAttributeValue value : attributeValues) {
+			String orgId = (String)value.getSearchableAttributeValue();
 			if (orgId != null) {
 				try {
 					if (orgService == null) {
 						orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 					}
 					OrgInfo orgInfo = orgService.getOrganization(orgId);
-            //        TODO: RICE-M7 UPGRADE I think this is correct but I'm not sure
-					((SearchableAttributeValue)value).setupAttributeValue(orgInfo.getShortName());
+					value.setupAttributeValue(orgInfo.getShortName());
 				} catch (DoesNotExistException e) {
 					LOG.error(e);
 					throw new RuntimeException(e);

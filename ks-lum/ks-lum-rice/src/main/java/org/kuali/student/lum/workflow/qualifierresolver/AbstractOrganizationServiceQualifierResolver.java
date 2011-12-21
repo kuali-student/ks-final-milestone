@@ -5,9 +5,7 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.xml.namespace.QName;
@@ -16,13 +14,14 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.xml.XmlJotter;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.util.KEWConstants;
+import org.kuali.rice.kew.util.XmlHelper;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
@@ -86,7 +85,8 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:" + XmlJotter.jotDocument(xmlContent));
+                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:");
+                XmlHelper.printDocumentStructure(xmlContent);
             }
             Set<String> distinctiveOrganizationIds = new HashSet<String>();
             for (int i = 0; i < baseElements.getLength(); i++) {
@@ -115,7 +115,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
         List<SearchResultRow> results = null;
         if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
+            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(3);
             SearchParam qpRelType = new SearchParam();
             qpRelType.setKey("org.queryParam.relationType");
             qpRelType.setValue(relationType);
@@ -148,18 +148,16 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     /*
      *  Add attributes for derived role and adhoc routing participants to the results
      */
-    protected List<Map<String,String>> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
-        List<Map<String,String>> returnAttrSetList = new ArrayList<Map<String,String>>();
+    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
+        List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
         if (results != null) {
             for (SearchResultRow result : results) {
-                Map<String,String> attributeSet = new LinkedHashMap<String,String>();
+                AttributeSet attributeSet = new AttributeSet();
                 String resolvedOrgId = "";
-                String resolvedOrgShortName = "";
                 for (SearchResultCell resultCell : result.getCells()) {
                     if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
                         resolvedOrgId = resultCell.getValue();
-                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        resolvedOrgShortName = resultCell.getValue();
+                        break;
                     }
                 }
                 if (orgIdKey != null) {

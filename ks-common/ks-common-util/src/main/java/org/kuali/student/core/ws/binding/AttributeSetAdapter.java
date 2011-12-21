@@ -15,11 +15,11 @@
 
 package org.kuali.student.core.ws.binding;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 
 /**
  * This is jaxb adapter for org.kuali.rice.kim.bo.types.dto.AttributeSet. 
@@ -27,17 +27,17 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  *
  */
 public class AttributeSetAdapter extends
-        XmlAdapter<JaxbAttributeList, Map<String, String>> {
-    public Map<String,String> unmarshal(JaxbAttributeList value) {
+        XmlAdapter<JaxbAttributeList, AttributeSet> {
+    public AttributeSet unmarshal(JaxbAttributeList value) {
         if(value == null) return null;
-        Map<String,String> result = new LinkedHashMap<String, String>();
+        AttributeSet result = new AttributeSet();
         for (JaxbAttribute a : value.getAttribute()) {
             result.put(a.key, a.value);
         }
         return result;
     }
 
-    public JaxbAttributeList marshal(Map<String,String> value) {
+    public JaxbAttributeList marshal(AttributeSet value) {
         if(value == null) return null;
         JaxbAttributeList attributes = new JaxbAttributeList();
         for (Map.Entry<String, String> e : value.entrySet()) {

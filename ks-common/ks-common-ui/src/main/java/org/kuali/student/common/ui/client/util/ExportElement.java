@@ -8,10 +8,32 @@ public class ExportElement implements Serializable {
     private static final long serialVersionUID = 1L;
     private String fieldLabel;
     private boolean isMandatory;
+    private int printType = -1;
 
     private String fieldValue;
     private String fieldValue2;
     private String viewName;
+    
+    //Print type constants.
+    public static int DEFAULT = 0;
+    public static int BOLD = 1;
+    public static int LIST_SUBREPORT = 2;
+    public static int SUBREPORT = 3;
+    public static int LIST = 4;
+    public static int ITALIC = 5;
+    public static int PROPOSAL = 6;
+    public static int PARAGRAPH = 7;
+
+    public ExportElement() {
+        super();
+    }
+
+    public ExportElement(String viewName, String sectionName) {
+        super();
+        this.viewName = viewName;
+        this.sectionName = sectionName;
+    }
+
     private String sectionName;
     private List<ExportElement> subset;
 
@@ -40,22 +62,31 @@ public class ExportElement implements Serializable {
     }
 
     public String getFieldValue() {
-        if (fieldValue != null) {
-            return fieldValue;
-        }
-        return "";
+        return this.fieldValue;
     }
 
     public void setFieldValue(String fieldValue) {
         this.fieldValue = fieldValue;
     }
 
-    public String getKey() {
-        return fieldLabel;
+	public boolean isSub() {
+        return subset != null;
+    }
+    
+    public void setPrintType(int printType) {
+        this.printType = printType;
     }
 
-    public boolean isSub() {
-        return subset != null;
+    public int getPrintType() {
+        if (this.printType != -1) {
+            if (this.printType == LIST && this.getSubset() != null){
+                return LIST_SUBREPORT;
+            }
+            return this.printType;
+        } else if (this.getSubset() != null && this.getValue().equals( "" )) {
+            return SUBREPORT;
+        }
+        return DEFAULT;
     }
 
     public List<ExportElement> getSubset() {
@@ -64,7 +95,7 @@ public class ExportElement implements Serializable {
 
     public void setSubset(List<ExportElement> subset) {
         if (subset != null && subset.size() > 0) {
-            this.subset = subset;            
+            this.subset = subset;
         }
     }
 
@@ -77,32 +108,57 @@ public class ExportElement implements Serializable {
     }
 
     public String getFieldValue2() {
-        if (fieldValue2 != null) {
-            return fieldValue2;
-        }
-        return "";
+        return fieldValue2;
     }
 
     public void setFieldValue2(String fieldValue2) {
         this.fieldValue2 = fieldValue2;
     }
 
+    public String getKey() {
+        if (this.getFieldLabel() != null) {
+            return this.getFieldLabel();
+        }
+        return "";
+    }
+
     public String getValue() {
-        return this.getFieldValue();
+        if (this.getFieldValue() != null) {
+            return getFieldValue();
+        }
+        return "";
     }
 
     public String getProposalValue() {
-        return this.getFieldValue();
+        if (this.getFieldValue() != null) {
+            return getFieldValue();
+        }
+        return "";
     }
 
     public String getOriginalValue() {
-        return this.getFieldValue2();
+        if (this.getFieldValue2() != null) {
+            return this.getFieldValue2();
+        }
+        return "";
     }
-    
-    public String printLine() {
-        String output = new String();
-        output = this.sectionName + " - " + this.viewName + " - " + this.getFieldLabel() + " - " + this.getFieldValue() + " - " + this.getFieldValue2();
-        return output;
+
+    public boolean isDataEmpty() {
+        if ((this.fieldLabel == null) && (this.fieldValue == null) && (this.fieldValue2 == null)) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isEmpty() {
+        if ((this.fieldLabel == null) && (this.fieldValue == null) && (this.fieldValue2 == null) && (this.subset == null)) {
+            return true;
+        }
+        return false;
+    }
+
+    public String toString() {
+        return this.sectionName + " - " + this.viewName + " - " + this.getFieldLabel() + " - " + this.getFieldValue() + " - " + this.getFieldValue2();
     }
 
 }

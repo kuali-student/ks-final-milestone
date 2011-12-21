@@ -1,29 +1,34 @@
 package org.kuali.student.core.workflow.ui.server.gwt;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.api.action.DocumentActionParameters;
-import org.kuali.rice.kew.api.action.ReturnPoint;
-import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
-import org.kuali.rice.kew.api.doctype.DocumentType;
-import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.kew.api.document.*;
-import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
+import org.kuali.rice.kew.dto.DocumentContentDTO;
+import org.kuali.rice.kew.dto.DocumentDetailDTO;
+import org.kuali.rice.kew.dto.DocumentTypeDTO;
+import org.kuali.rice.kew.dto.RouteNodeInstanceDTO;
 import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.service.WorkflowUtility;
 import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.identity.principal.Principal;
-import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.rice.kew.webservice.DocumentResponse;
+import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
+import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.rice.authorization.CollaboratorHelper;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 
-import java.util.*;
-import java.util.logging.Level;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements WorkflowRpcService {
 
@@ -31,144 +36,190 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 
 	final Logger LOG = Logger.getLogger(WorkflowRpcGwtServlet.class);
 	
-	private WorkflowDocumentActionsService workflowDocumentActionsService;
-    private WorkflowDocumentService workflowDocumentService;
-    private DocumentTypeService workflowDocumentTypeService;
-	private IdentityService identityService;
-	private PermissionService permissionService;
-    private CollaboratorHelper collaboratorHelper;
-
-    public static final String WORKFLOW_DOCUMENT_ACTION_ACKNOWLEGE = "Acknowlege";
-    public static final String WORKFLOW_DOCUMENT_ACTION_APPROVE = "Approve";
-    public static final String WORKFLOW_DOCUMENT_ACTION_BLANKET_APPROVE = "Blanket Approve";
-    public static final String WORKFLOW_DOCUMENT_ACTION_CANCEL = "Cancel";
-    public static final String WORKFLOW_DOCUMENT_ACTION_DISAPPROVE = "Disapprove";
-    public static final String WORKFLOW_DOCUMENT_ACTION_FYI = "FYI";
-    public static final String WORKFLOW_DOCUMENT_ACTION_RETURN = "Return";
-    public static final String WORKFLOW_DOCUMENT_ACTION_SUBMIT = "Submit";
-    public static final String WORKFLOW_DOCUMENT_ACTION_WITHDRAW = "Withdraw";
-
-
-
-    // targetNode should be null except for returnToPrevious or other node directed actions
-    public Boolean performWorkflowDocumentAction(String action, String workflowId, String targetNodeName) throws OperationFailedException {
-        try{
-			String annotation = action;
-
-			// get the current user name
-            String username = SecurityUtils.getCurrentUserId();
-
-            // for all actions that require super user add an or condition here
-            if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_WITHDRAW)) {
-                Principal systemPrincipal = null;
-                try {
-                    systemPrincipal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
-                } catch (OperationFailedException ex) {
-                    java.util.logging.Logger.getLogger(WorkflowRpcGwtServlet.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                if (systemPrincipal == null) {
-                    throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
-                }
-                annotation = action + " Document performed as SuperUser by " + username;
-                username = systemPrincipal.getPrincipalId();
-            }
-
-
-            DocumentActionParameters.Builder dapBuilder = DocumentActionParameters.Builder.create(workflowId, username);
-
-            // for all actions that require populating the document info and content add an or condition here
-            if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_SUBMIT)) {
-                           //Get the workflow ID
-                DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(workflowId);
-                if(docDetail==null){
-                    throw new OperationFailedException("Error found getting document. " );
-                }
-                DocumentContent docContent = workflowDocumentService.getDocumentContent(workflowId);
-                DocumentUpdate docUpdate = DocumentUpdate.Builder.create(docDetail.getDocument()).build();
-                dapBuilder.setDocumentUpdate(docUpdate);
-                DocumentContentUpdate docContentUpdate = DocumentContentUpdate.Builder.create(docContent).build();
-                dapBuilder.setDocumentContentUpdate(docContentUpdate);
-            }
-            dapBuilder.setAnnotation(annotation);
-            DocumentActionParameters docActionParams = dapBuilder.build();
-
-	        if(StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_ACKNOWLEGE)) {
-                getWorkflowDocumentActionsService().acknowledge(docActionParams);
-            } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_APPROVE)) {
-                getWorkflowDocumentActionsService().approve(docActionParams);
-            } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_BLANKET_APPROVE)) {
-                getWorkflowDocumentActionsService().blanketApprove(docActionParams);
-            } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_CANCEL)) {
-                getWorkflowDocumentActionsService().cancel(docActionParams);
-            } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_DISAPPROVE)) {
-                getWorkflowDocumentActionsService().disapprove(docActionParams);
-            } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_FYI)) {
-                getWorkflowDocumentActionsService().clearFyi(docActionParams);
-            } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_RETURN)) {
-                ReturnPoint returnPoint = ReturnPoint.create(targetNodeName);
-                getWorkflowDocumentActionsService().returnToPreviousNode(docActionParams, returnPoint);
-            } else if (StringUtils.equals(action,WORKFLOW_DOCUMENT_ACTION_WITHDRAW)) {
-                getWorkflowDocumentActionsService().superUserDisapprove(docActionParams,true);
-            } else {
-                throw new OperationFailedException("Invalid Action requested:" + action);
-            }
-
-		} catch(Exception e){
-            LOG.error("Error attempting to " + action + " Document with workflow id:" + workflowId, e);
-            throw new OperationFailedException("Could not " + action + " Document");
-		}
-        return Boolean.valueOf(true);
-    }
+	private SimpleDocumentActionsWebService simpleDocService;
+    private WorkflowUtility workflowUtilityService;
+	private IdentityManagementService identityService;
 
 	@Override
 	public Boolean acknowledgeDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_ACKNOWLEGE, workflowId, null);
+		try{
+			//get a user name
+            String username= SecurityUtils.getCurrentPrincipalId();
+
+	        StandardResponse stdResp = getSimpleDocService().acknowledge(workflowId, username, "");
+
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new OperationFailedException("Error found acknowledging document: " + stdResp.getErrorMessage());
+        	}
+
+		}catch(OperationFailedException e){
+            LOG.error("Error acknowledging Document with workflow id:" + workflowId, e);
+            throw new OperationFailedException("Could not acknowledge");
+		}
+        return Boolean.valueOf(true);
+	}
+
+	@Override
+	public Boolean adhocRequest(String workflowId, String recipientPrincipalId,
+			ActionRequestType requestType, String annotation) throws OperationFailedException {
+
+        try {
+            //Get a user name
+            String username = SecurityUtils.getCurrentPrincipalId();
+
+            String fyiAnnotation = "";
+            String approveAnnotation = "";
+            String ackAnnotation = "";
+
+            if (ActionRequestType.FYI.equals(requestType)) {
+                StandardResponse stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(workflowId,recipientPrincipalId, username, fyiAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new OperationFailedException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
+                }
+            }
+            if (ActionRequestType.APPROVE.equals(requestType)) {
+                StandardResponse stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(workflowId, recipientPrincipalId,username, approveAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new OperationFailedException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
+                }
+            }
+            if (ActionRequestType.ACKNOWLEDGE.equals(requestType)) {
+                StandardResponse stdResp = getSimpleDocService().requestAdHocAckToPrincipal(workflowId,recipientPrincipalId,username, ackAnnotation);
+                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+                    throw new OperationFailedException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
+                }
+            }
+
+        } catch (Exception e) {
+            LOG.error("Error adhoc routing",e);
+            throw new OperationFailedException("Could not adhoc route");
+        }
+        return  Boolean.valueOf(true);
 	}
 
 	@Override
 	public Boolean approveDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_APPROVE, workflowId, null);
+
+		try{
+            //get a user name
+            String username = SecurityUtils.getCurrentPrincipalId();
+            StandardResponse stdResp = getSimpleDocService().approve(workflowId, username, null, null, "");
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
+        	}
+
+		}catch(Exception e){
+            LOG.error("Error approving document",e);
+            return Boolean.FALSE;
+		}
+        return Boolean.TRUE;
 	}
 
     @Override
     public Boolean blanketApproveDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_BLANKET_APPROVE, workflowId, null);
+
+        try{
+            //get a user name
+            String username = SecurityUtils.getCurrentPrincipalId();
+            StandardResponse stdResp = getSimpleDocService().blanketApprove(workflowId, username, null, null, "");
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+                throw new OperationFailedException("Error found blanket approving document: " + stdResp.getErrorMessage());
+            }
+
+        }catch(Exception e){
+            LOG.error("Error blanket approving document",e);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
     }
 
 	@Override
-	public Boolean disapproveDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_DISAPPROVE, workflowId, null);
+	public Boolean disapproveDocumentWithId(String workflowId) {
+
+		try{
+            //get a user name
+            String username = SecurityUtils.getCurrentPrincipalId();
+	        String disapproveComment = "Disapproved";
+
+	        StandardResponse stdResp = getSimpleDocService().disapprove(workflowId, username, disapproveComment);
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		LOG.error("Error  disapproving document: " + stdResp.getErrorMessage());
+        		return Boolean.FALSE;
+        	}
+		}catch(Exception e){
+            LOG.error("Error disapproving document",e);
+            return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
 	}
 
 	@Override
-	public Boolean fyiDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_FYI, workflowId, null);
-    }
+	public Boolean fyiDocumentWithId(String workflowId) {
+		try{
+            //get a user name
+            String username = SecurityUtils.getCurrentPrincipalId();
+
+	        StandardResponse stdResp = getSimpleDocService().fyi(workflowId, username);
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		LOG.error("Error FYIing document: " + stdResp.getErrorMessage());
+        		return Boolean.FALSE;
+        	}
+		}catch(Exception e){
+            LOG.error("Error FYIing document",e);
+            return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
 
 	@Override
-	public Boolean withdrawDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_WITHDRAW, workflowId, null);
-    }
+	public Boolean withdrawDocumentWithId(String workflowId) {
+        if(simpleDocService==null){
+        	LOG.error("Workflow Service is unavailable");
+        	return Boolean.FALSE;
+        }
+
+		try{
+            String username = SecurityUtils.getCurrentPrincipalId();
+			KimPrincipalInfo systemPrincipal = getIdentityService().getPrincipalByPrincipalName(StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			if (systemPrincipal == null) {
+				throw new RuntimeException("Cannot find principal for system user principal name: " + StudentIdentityConstants.SYSTEM_USER_PRINCIPAL_NAME);
+			}
+			String annotation = "Document was withdrawn by " + username;
+
+			StandardResponse stdResp = simpleDocService.superUserDisapprove(workflowId, systemPrincipal.getPrincipalId(), null, null, annotation);
+	        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+        		LOG.error("Error withdrawing document: " + stdResp.getErrorMessage());
+        		return Boolean.FALSE;
+        	}
+		}catch(Exception e){
+            LOG.error("Error withdrawing document",e);
+            return Boolean.FALSE;
+		}
+		return Boolean.TRUE;
+	}
 	
 	@Override
-	public Boolean returnDocumentWithId(String workflowId, String nodeName) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_RETURN, workflowId, null);
+	public Boolean returnDocumentWithId(String workflowId, String nodeName) {
+
+        try{
+            //get the current user username
+            String username = SecurityUtils.getCurrentPrincipalId();
+            StandardResponse stdResp = getSimpleDocService().returnToPreviousNode(workflowId, username, "", nodeName);
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+                throw new OperationFailedException("Error found approving document: " + stdResp.getErrorMessage());
+            }
+
+        }catch(Exception e){
+            LOG.error("Error approving document",e);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
 	}
-    @Override
-    public Boolean cancelDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_CANCEL, workflowId, null);
-    }
-
-    @Override
-	public Boolean submitDocumentWithId(String workflowId) throws OperationFailedException {
-		return performWorkflowDocumentAction(WORKFLOW_DOCUMENT_ACTION_SUBMIT, workflowId, null);
-	}
-
-
 
     public List<String> getPreviousRouteNodeNames(String workflowId) throws OperationFailedException {
         try {
-            return getWorkflowDocumentService().getPreviousRouteNodeNames(workflowId);
+            String[] nodeNames = getWorkflowUtilityService().getPreviousRouteNodeNames(Long.parseLong(workflowId));
+            return Arrays.asList(nodeNames);
         } catch (Exception e) {
             LOG.error("Error approving document",e);
             throw new OperationFailedException("Error getting previous node names");
@@ -184,15 +235,15 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
     		}
 
             //get a user name
-            String principalId = SecurityUtils.getCurrentUserId();
+            String principalId = SecurityUtils.getCurrentPrincipalId();
 
     		//Build up a string of actions requested from the attribute set.  The actions can be R,W,S,F,A,C,K. examples are "A" "AF" "FCK" "SCA"
             LOG.debug("Calling action requested with user:"+principalId+" and workflowId:" + workflowId);
 
             Map<String,String> results = new HashMap<String,String>();
-            Map<String,String> kewActionsRequested = getWorkflowDocumentService().getActionsRequested(principalId, workflowId);
+            AttributeSet kewActionsRequested = getWorkflowUtilityService().getActionsRequested(principalId, Long.parseLong(workflowId));
             for (String key : kewActionsRequested.keySet()) {
-            	if (StringUtils.equalsIgnoreCase("true", kewActionsRequested.get(key))) {
+            	if ("true".equalsIgnoreCase(kewActionsRequested.get(key))) {
             		results.put(key,"true");
             	}
             }
@@ -200,19 +251,19 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
             //Use StringBuilder to avoid using string concatenations in the for loop.
             StringBuilder actionsRequestedBuffer = new StringBuilder();
 
-            DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(workflowId);
+            DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(workflowId));
 
             for(Map.Entry<String,String> entry:results.entrySet()){
             	// if saved or initiated status... must show only 'complete' button
-            	if (StringUtils.equals(KEWConstants.ROUTE_HEADER_SAVED_CD, docDetail.getDocument().getStatus().getCode()) || StringUtils.equals(KEWConstants.ROUTE_HEADER_INITIATED_CD, docDetail.getDocument().getStatus().getCode())) {
+            	if (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus()) || KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) {
             		// show only complete button if complete or approve code in this doc status
-            		if ( (StringUtils.equals(KEWConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KEWConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
+            		if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
             			actionsRequestedBuffer.append("S");
                         actionsRequestedBuffer.append("C");
             		}
             		// if not Complete or Approve code then show the standard buttons
             		else {
-    	            	if(StringUtils.equals("true", entry.getValue())){
+    	            	if("true".equals(entry.getValue())){
     	            		actionsRequestedBuffer.append(entry.getKey());
     	            	}
             		}
@@ -221,50 +272,44 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
                 	if("true".equals(entry.getValue())){
                 		actionsRequestedBuffer.append(entry.getKey());
                         // show the return to previous button if there is a COMPLETE or APPROVE action request
-                        if ( (StringUtils.equals(KEWConstants.ACTION_REQUEST_COMPLETE_REQ, entry.getKey()) || StringUtils.equals(KEWConstants.ACTION_REQUEST_APPROVE_REQ, entry.getKey())) && (StringUtils.equals("true", entry.getValue())) ) {
+                        if ( (KEWConstants.ACTION_REQUEST_COMPLETE_REQ.equals(entry.getKey()) || KEWConstants.ACTION_REQUEST_APPROVE_REQ.equals(entry.getKey())) && ("true".equals(entry.getValue())) ) {
                             actionsRequestedBuffer.append("R");
                         }
                 	}
             	}
             }
-            String docTypeName = getWorkflowDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId()).getName();
+
+            String docTypeName = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId()).getName();
             // if user can withdraw document then add withdraw button
-            Map<String,String> permDetails = new LinkedHashMap<String,String>();
+            AttributeSet permDetails = new AttributeSet();
             permDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
-            permDetails.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocument().getStatus().getCode());
-            Map<String,String> workflowDetails = new LinkedHashMap<String,String> ();
-            workflowDetails.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
-            if (getPermissionService().isAuthorizedByTemplateName(principalId, 
+            permDetails.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
+            if (getIdentityService().isAuthorizedByTemplateName(principalId, 
             		PermissionType.WITHDRAW.getPermissionNamespace(), 
-            		PermissionType.WITHDRAW.getPermissionTemplateName(), 
-                        permDetails, 
-            		workflowDetails)) {
+            		PermissionType.WITHDRAW.getPermissionTemplateName(), permDetails, 
+            		new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId))) {
             	LOG.info("User '" + principalId + "' is allowed to Withdraw the Document");
             	actionsRequestedBuffer.append("W");
             }
 
             Map<String,String> permDetails2 = new HashMap<String,String>();
             permDetails2.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docTypeName);
-            permDetails2.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocument().getStatus().getCode());
+            permDetails2.put(StudentIdentityConstants.ROUTE_STATUS_CODE,docDetail.getDocRouteStatus());
             // first check permission with no node name
-            Map<String,String> qualifiers = new LinkedHashMap ();
-            qualifiers.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
-            boolean canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+            boolean canBlanketApprove = getIdentityService().isAuthorizedByTemplateName(principalId, 
                     PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
-                    PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new LinkedHashMap<String,String>(permDetails2), 
-                    qualifiers);
-            for (String nodeName : getCurrentActiveNodeNames(docDetail.getDocument().getStatus().getCode())) {
+                    PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), new AttributeSet(permDetails2), 
+                    new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
+            for (String nodeName : getCurrentActiveNodeNames(docDetail.getRouteHeaderId())) {
                 if (canBlanketApprove) {
                     break;
                 }
-                Map<String,String> newSet = new LinkedHashMap<String,String>(permDetails2);
+                AttributeSet newSet = new AttributeSet(permDetails2);
                 newSet.put(StudentIdentityConstants.ROUTE_NODE_NAME, nodeName);
-                qualifiers = new LinkedHashMap ();
-                qualifiers.put (StudentIdentityConstants.DOCUMENT_NUMBER,workflowId);
-                canBlanketApprove = getPermissionService().isAuthorizedByTemplateName(principalId, 
+                canBlanketApprove = getIdentityService().isAuthorizedByTemplateName(principalId, 
                         PermissionType.BLANKET_APPROVE.getPermissionNamespace(), 
                         PermissionType.BLANKET_APPROVE.getPermissionTemplateName(), newSet, 
-                        qualifiers);
+                        new AttributeSet(StudentIdentityConstants.DOCUMENT_NUMBER,workflowId));
             }
             if (canBlanketApprove) {
                 LOG.info("User '" + principalId + "' is allowed to Blanket Approve the Document");
@@ -278,12 +323,12 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         }
 	}
 
-	protected List<String> getCurrentActiveNodeNames(String routeHeaderId) throws OperationFailedException, WorkflowException {
+	protected List<String> getCurrentActiveNodeNames(Long routeHeaderId) throws OperationFailedException, WorkflowException {
         List<String> currentActiveNodeNames = new ArrayList<String>();
-        List<RouteNodeInstance> nodeInstances = getWorkflowDocumentService().getActiveRouteNodeInstances(routeHeaderId);
+        RouteNodeInstanceDTO[] nodeInstances = getWorkflowUtilityService().getActiveNodeInstances(routeHeaderId);
         if (null != nodeInstances) {
-            for (RouteNodeInstance routeNodeInstance : nodeInstances) {
-                currentActiveNodeNames.add(routeNodeInstance.getName());
+            for (RouteNodeInstanceDTO routeNodeInstanceDTO : nodeInstances) {
+                currentActiveNodeNames.add(routeNodeInstanceDTO.getName());
             }
         }
         return currentActiveNodeNames;
@@ -294,7 +339,8 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			throws OperationFailedException {
 		if (workflowId != null && !workflowId.isEmpty()){
 			try {
-				return workflowDocumentService.getDocumentStatus(workflowId);
+				Long documentId = Long.valueOf(workflowId);
+				return workflowUtilityService.getDocumentStatus(documentId);
 			} catch (Exception e) {
 				throw new OperationFailedException("Error getting document status. " + e.getMessage());
 			}
@@ -308,18 +354,19 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	 * NOTE: This method may no longer be required if workflow id is stored in the proposal.
 	 */
 	public String getWorkflowIdFromDataId(String workflowDocType, String dataId) throws OperationFailedException {
-		if(null== workflowDocumentActionsService){
+		if(null==simpleDocService){
         	throw new OperationFailedException("Workflow Service is unavailable");
         }
 
-        DocumentDetail docDetail;
+        DocumentDetailDTO docDetail;
 		try {
-			docDetail = workflowDocumentService.getDocumentDetailByAppId(workflowDocType, dataId);
+			docDetail = workflowUtilityService.getDocumentDetailFromAppId(workflowDocType, dataId);
 	        if(null==docDetail){
 	        	LOG.error("Nothing found for id: "+dataId);
 	        	return null;
 	        }
-	        return docDetail.getDocument().getDocumentId();
+	        Long workflowId=docDetail.getRouteHeaderId();
+	        return null==workflowId?null:workflowId.toString();
 		} catch (Exception e) {
 			LOG.error("Call Failed getting workflowId for id: "+dataId, e);
 		}
@@ -329,10 +376,14 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	
 	@Override
 	public String getDataIdFromWorkflowId(String workflowId) throws OperationFailedException {
-        String username = SecurityUtils.getCurrentUserId();
-        Document docResponse = getWorkflowDocumentService().getDocument(workflowId);
+        String username = SecurityUtils.getCurrentPrincipalId();
 
-        return docResponse.getApplicationDocumentId();
+        DocumentResponse docResponse = getSimpleDocService().getDocument(workflowId, username);
+        if(docResponse==null||StringUtils.isNotBlank(docResponse.getErrorMessage())){
+        	throw new OperationFailedException("Error found gettting document: " + docResponse.getErrorMessage());
+        }
+        
+        return docResponse.getAppDocId();
 	}
 
 	@Override
@@ -340,11 +391,12 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 			throws OperationFailedException {
 		List<String> routeNodeNames = new ArrayList<String>();
 
+		Long documentId = Long.valueOf(workflowId);
 		try{
-			List<RouteNodeInstance> routeNodes = workflowDocumentService.getActiveRouteNodeInstances(workflowId);
+			RouteNodeInstanceDTO[] routeNodes = workflowUtilityService.getActiveNodeInstances(documentId);
 			if (routeNodes != null){
-				for (RouteNodeInstance routeNodeInstance : routeNodes) {
-					routeNodeNames.add(routeNodeInstance.getName());
+				for (RouteNodeInstanceDTO routeNodeInstanceDTO : routeNodes) {
+					routeNodeNames.add(routeNodeInstanceDTO.getName());
 				}
 			}
 
@@ -355,15 +407,67 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 		return routeNodeNames;
 	}
 
+	@Override
+	public Boolean submitDocumentWithId(String workflowId) {
+		try {
+            if(simpleDocService==null){
+            	throw new OperationFailedException("Workflow Service is unavailable");
+            }
 
+            //get a user name
+            String username = SecurityUtils.getCurrentPrincipalId();
+
+            //Get the workflow ID
+            DocumentDetailDTO docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+            if(docDetail==null){
+            	throw new OperationFailedException("Error found getting document. " );
+            }
+            DocumentContentDTO docContent = workflowUtilityService.getDocumentContent(Long.parseLong(workflowId));
+
+            String routeComment = "Routed";
+
+            StandardResponse stdResp = simpleDocService.route(docDetail.getRouteHeaderId().toString(), username, docDetail.getDocTitle(), docContent.getApplicationContent(), routeComment);
+
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+        		throw new OperationFailedException("Error found routing document: " + stdResp.getErrorMessage());
+        	}
+
+        } catch (Exception e) {
+            LOG.error("Error found routing document",e);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+	}
+
+    @Override
+    public Boolean cancelDocumentWithId(String workflowId) {
+        try {
+            if(simpleDocService==null){
+                throw new OperationFailedException("Workflow Service is unavailable");
+            }
+
+            //get a user name
+            String username = SecurityUtils.getCurrentPrincipalId();
+            StandardResponse stdResp = simpleDocService.cancel(workflowId, username, "");
+
+            if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
+                throw new OperationFailedException("Error found cancelling document: " + stdResp.getErrorMessage());
+            }
+
+        } catch (Exception e) {
+            LOG.error("Error found routing document",e);
+            return Boolean.FALSE;
+        }
+        return Boolean.TRUE;
+    }
 
 	@Override
     public Boolean isAuthorizedAddReviewer(String docId) throws OperationFailedException{
 		if (docId != null && (!"".equals(docId.trim()))) {
-			Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
-			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
+			AttributeSet permissionDetails = new AttributeSet();
+			AttributeSet roleQuals = new AttributeSet();
 			roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-			return Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
+			return Boolean.valueOf(getIdentityService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.ADD_ADHOC_REVIEWER.getPermissionNamespace(), 
 					PermissionType.ADD_ADHOC_REVIEWER.getPermissionTemplateName(), permissionDetails, roleQuals));
 		}
 		return Boolean.FALSE;
@@ -372,93 +476,56 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	public Boolean isAuthorizedRemoveReviewers(String docId) throws OperationFailedException {
 	    try {
             if (docId != null && (!"".equals(docId.trim()))) {
-                DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
-                DocumentType docType = getWorkflowDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
-                Map<String,String> permissionDetails = new LinkedHashMap<String,String>();
+                DocumentDetailDTO docDetail = getWorkflowUtilityService().getDocumentDetail(Long.parseLong(docId));
+                DocumentTypeDTO docType = getWorkflowUtilityService().getDocumentType(docDetail.getDocTypeId());
+                AttributeSet permissionDetails = new AttributeSet();
                 permissionDetails.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME,docType.getName());
-                Map<String,String> roleQuals = new LinkedHashMap<String,String>();
+                AttributeSet roleQuals = new AttributeSet();
                 roleQuals.put(StudentIdentityConstants.DOCUMENT_NUMBER,docId);
-                boolean returnValue = getPermissionService().isAuthorizedByTemplateName(SecurityUtils.getCurrentUserId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
+                boolean returnValue = getIdentityService().isAuthorizedByTemplateName(SecurityUtils.getCurrentPrincipalId(), PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionNamespace(), 
                         PermissionType.REMOVE_ADHOC_REVIEWERS.getPermissionTemplateName(), permissionDetails, roleQuals);
                 return Boolean.valueOf(returnValue);
             }
             return Boolean.FALSE;
-	    } catch (Exception e) {
+	    } catch (WorkflowException e) {
 	        LOG.error("Unable to get document information from Workflow for doc id " + docId);
 	        throw new OperationFailedException("Unable to get document information from Workflow for doc id " + docId);
 	    }
 	}
 
-	public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
-		this.workflowDocumentActionsService = workflowDocumentActionsService;
+	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
+		this.simpleDocService = simpleDocService;
 	}
 	
-	public WorkflowDocumentActionsService getWorkflowDocumentActionsService() throws OperationFailedException{
-		if(workflowDocumentActionsService ==null){
+	public SimpleDocumentActionsWebService getSimpleDocService() throws OperationFailedException{
+		if(simpleDocService==null){
         	throw new OperationFailedException("Workflow Simple Document Service is unavailable");
         }
 		
-		return workflowDocumentActionsService;
+		return simpleDocService;
 	}
 
-	public void setWorkflowDocumentService(WorkflowDocumentService WorkflowDocumentService) {
-		this.workflowDocumentService = workflowDocumentService;
+	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
+		this.workflowUtilityService = workflowUtilityService;
 	}
 
-	public WorkflowDocumentService getWorkflowDocumentService() throws OperationFailedException {
-		if(workflowDocumentService ==null){
-        	throw new OperationFailedException("Workflow Document Service is unavailable");
+	public WorkflowUtility getWorkflowUtilityService() throws OperationFailedException{
+		if(workflowUtilityService==null){
+        	throw new OperationFailedException("Workflow Utility Service is unavailable");
         }
 		
-		return workflowDocumentService;
+		return workflowUtilityService;
 	}
 
-
-    public DocumentTypeService getWorkflowDocumentTypeService() throws OperationFailedException {
-        if(workflowDocumentTypeService ==null){
-        	throw new OperationFailedException("Workflow Document Type Service is unavailable");
-        }
-
-        return workflowDocumentTypeService;
-    }
-
-    public void setWorkflowDocumentTypeService(DocumentTypeService workflowDocumentTypeService) {
-        this.workflowDocumentTypeService = workflowDocumentTypeService;
-    }
-
-	public void setIdentityService(IdentityService identityService) {
+	public void setIdentityService(IdentityManagementService identityService) {
 		this.identityService = identityService;
 	}
 
-	public IdentityService getIdentityService() throws OperationFailedException{
+	public IdentityManagementService getIdentityService() throws OperationFailedException{
 		if(identityService==null){
         	throw new OperationFailedException("Identity Service is unavailable");
         }
 		
 		return identityService;
 	}
-
-	public void setPermissionService(PermissionService permissionService) {
-		this.permissionService = permissionService;
-	}
-
-	public PermissionService getPermissionService()throws OperationFailedException{
-		if(permissionService==null){
-        	throw new OperationFailedException("Permission Service is unavailable");
-        }
-
-		return permissionService;
-	}
-
-
-    public void setCollaboratorHelper(CollaboratorHelper collaboratorHelper) {
-        this.collaboratorHelper = collaboratorHelper;
-    }
-
-    public CollaboratorHelper getCollaboratorHelper() throws OperationFailedException {
-        if(collaboratorHelper==null) {
-            throw new OperationFailedException("Collaborator Helper not initialized");
-        }
-        return collaboratorHelper;
-    }
 }

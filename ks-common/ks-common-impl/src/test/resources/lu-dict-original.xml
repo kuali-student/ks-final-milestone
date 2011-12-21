@@ -907,7 +907,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 										</dict:constraintDescriptor>
 									</dict:field>
 								</dict:state>
-								<dict:state key="inactive">
+								<dict:state key="Suspended">
 									<!-- Identifier is inactive -->
 									<!-- TODO: Add to simple spec -->
 									<dict:fieldRef bean="course.official.no" />

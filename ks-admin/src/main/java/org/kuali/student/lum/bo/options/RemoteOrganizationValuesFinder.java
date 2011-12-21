@@ -7,10 +7,9 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.api.util.ConcreteKeyValue;
-import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.rice.krad.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
@@ -23,8 +22,8 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
     private OrganizationService organizationService;
     
     @Override
-    public List<KeyValue> getKeyValues() {
-        List<KeyValue> departments = new ArrayList<KeyValue>();
+    public List<KeyLabelPair> getKeyValues() {
+        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
 
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setSearchKey("org.search.generic");
@@ -46,7 +45,7 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
                         orgType = resultCell.getValue();
                     }
                 }
-                departments.add(buildKeyValue(orgId, orgShortName, orgOptionalLongName, orgType));
+                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
             }
 
         } catch (Exception e) {
@@ -67,7 +66,7 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
     }
     
     /**
-     * Builds a valid {@link KeyValue} object for use in Student system KeyValue classes. Will throw an {@link IllegalArgumentException}
+     * Builds a valid {@link KeyLabelPair} object for use in Student system KeyValue classes. Will throw an {@link IllegalArgumentException}
      * if the parameters needed are not passed.
      * 
      * @param orgId
@@ -76,12 +75,12 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
      * @param orgType
      * @return
      */
-    protected KeyValue buildKeyValue(String orgId, String orgShortName, String orgLongName, String orgType) {
+    protected KeyLabelPair buildKeyLabelPair(String orgId, String orgShortName, String orgLongName, String orgType) {
         if (StringUtils.isBlank(orgShortName)) {
             throw new IllegalArgumentException("Blank value for orgShortName is invalid.");
         }
         
-        return new ConcreteKeyValue(orgId, (StringUtils.isNotBlank(orgLongName) ? orgLongName : orgShortName) );
+        return new KeyLabelPair(orgId, (StringUtils.isNotBlank(orgLongName) ? orgLongName : orgShortName) );
     }
 
 }

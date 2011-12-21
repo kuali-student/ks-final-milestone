@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.common.dictionary.service.old.DictionaryService;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -34,7 +35,6 @@ import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import org.kuali.rice.kim.api.permission.PermissionService;
 
 /**
  * This abstract service delegates search & dictionary operations to the web service being remoted.
@@ -49,7 +49,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     private static final long serialVersionUID = 1L;
     
     protected SEI service;
-    protected PermissionService permissionService;
+    protected IdentityManagementService permissionService;
         
     
     public SEI getService(){
@@ -60,11 +60,11 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
         this.service = service;
     };
 
-    public PermissionService getPermissionService() {
+    public IdentityManagementService getPermissionService() {
     	return permissionService;
     }
 
-	public void setPermissionService(PermissionService permissionService) {
+	public void setPermissionService(IdentityManagementService permissionService) {
     	this.permissionService = permissionService;
     }
 
@@ -228,7 +228,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     }        
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");

@@ -20,6 +20,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.service.WorkflowUtility;
+import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -34,10 +38,6 @@ import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
-import java.util.LinkedHashMap;
-import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
-import org.kuali.rice.kim.api.identity.IdentityService;
-import org.kuali.rice.kim.api.permission.PermissionService;
 
 /**
  * Generic implementation of data orchestration calls and workflow calls
@@ -57,10 +57,10 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	private Assembler<Data, Void> assembler;
 
-    private WorkflowDocumentActionsService simpleDocService;
+    private SimpleDocumentActionsWebService simpleDocService;
     private WorkflowUtility workflowUtilityService;
-	private PermissionService permissionService;
-	private IdentityService identityService;
+	private IdentityManagementService permissionService;
+	private IdentityManagementService identityService;
 
 	@Override
 	public Data getData(String dataId) {
@@ -104,7 +104,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
@@ -125,8 +125,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			}
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
-			Map<String, String> roleQuals = new LinkedHashMap<String, String>();
-                        roleQuals.put (StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
+			AttributeSet roleQuals = new AttributeSet(StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
 			if (attributes != null) {
 				roleQuals.putAll(attributes);
 			}
@@ -158,23 +157,23 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		this.assembler = assembler;
 	}
 
-	public PermissionService getPermissionService() {
+	public IdentityManagementService getPermissionService() {
         return permissionService;
     }
 
-    public void setPermissionService(PermissionService permissionService) {
+    public void setPermissionService(IdentityManagementService permissionService) {
         this.permissionService = permissionService;
     }
 
-	public IdentityService getIdentityService() {
+	public IdentityManagementService getIdentityService() {
     	return identityService;
     }
 
-	public void setIdentityService(IdentityService identityService) {
+	public void setIdentityService(IdentityManagementService identityService) {
     	this.identityService = identityService;
     }
 
-	public void setSimpleDocService(WorkflowDocumentActionsService simpleDocService) {
+	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
 		this.simpleDocService = simpleDocService;
 	}
 
@@ -186,7 +185,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 		return assembler;
 	}
 
-	protected WorkflowDocumentActionsService getSimpleDocService() {
+	protected SimpleDocumentActionsWebService getSimpleDocService() {
 		return simpleDocService;
 	}
 

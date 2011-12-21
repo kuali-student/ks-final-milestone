@@ -31,24 +31,8 @@
 
 	<!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
-    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
-	</bean>
-
-	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
-		<property name="configLocations">
-			<list>
-				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
-			</list>
-		</property>
-	</bean>
-	
-	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
-		<property name="arguments">
-			<list><ref bean="bootstrapConfig"/></list>
-		</property>
-	</bean>
+    <bean id="propertyPlaceholder"
+        class="org.kuali.rice.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" />
 
 	<!-- Service Clients -->
 	<bean id="orgClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -69,19 +53,18 @@
         <property name="serviceEndpointInterface" value="org.kuali.student.common.search.service.SearchService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/personsearch}personsearchService" />
     </bean>
-        <!-- TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release -->
     <bean id="permissionServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.permission.PermissionService" />
-		<property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}permissionServiceSoap " />
+		<property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService" />
+		<property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP" />
 	</bean>
     <bean id="identityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityServiceSoap"/>
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP"/>
     </bean>
-
+    
     <bean id="identityServiceClientNonCached" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService" />
-        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityServiceSoap" />
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityService" />
+        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityServiceSOAP" />
     </bean>
 
 	<!--<bean id="coreDictionaryServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
@@ -93,10 +76,7 @@
         <property name="serviceEndpointInterface" value="org.kuali.student.core.proposal.service.ProposalService" />
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/proposal}ProposalService" />
     </bean>
-    
-	<bean id="transactionManager" class="org.kuali.rice.krad.config.GlobalResourceLoaderServiceFactoryBean">
-		<property name="serviceName" value="transactionManager" />
-	</bean>
+
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
@@ -204,6 +184,7 @@
 
 	<bean id="SearchDispatchRpcGwtServlet" class="org.kuali.student.common.ui.server.gwt.SearchDispatchRpcGwtServlet">
 		<property name="searchDispatcher" ref="searchDispatcher" />
+		<property name="cachingEnabled" value="true"/>
 	</bean>
 	<bean id="searchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
