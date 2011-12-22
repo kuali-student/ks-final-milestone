@@ -4,7 +4,11 @@
  */
 package org.kuali.student.process.poc;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
@@ -34,7 +38,8 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
 
         IssueInfo overdueBookIssue = _createIssue(HoldServiceConstants.ISSUE_KEY_BOOK_OVERDUE,
                 "Overdue Library Book", HoldServiceConstants.OVERDUE_LIBRARY_MATERIALS_ISSUE_TYPE_KEY, context);
-
+        
+        this._createHold(ProcessPocConstants.PERSON_ID_KARA_STONE_2272, unpaidTuitionIssue, context);
         this._createHold(ProcessPocConstants.PERSON_ID_CLIFFORD_RIDDLE_2397, unpaidTuitionIssue, context);
         this._createHold(ProcessPocConstants.PERSON_ID_NINA_WELCH_2166, unpaidTuitionIssue, context);
         this._createHold(ProcessPocConstants.PERSON_ID_BETTY_MARTIN_2005, overdueBookIssue, context);
@@ -55,7 +60,7 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         return issue;
     }
 
-    private HoldInfo _createHold(String personId, IssueInfo issue, ContextInfo context) {
+    private HoldInfo _createHold(String personId, IssueInfo issue, ContextInfo context)  {
         HoldInfo hold = new HoldInfo();
         hold.setTypeKey(HoldServiceConstants.STUDENT_HOLD_TYPE_KEY);
         hold.setStateKey(HoldServiceConstants.HOLD_ACTIVE_STATE_KEY);
@@ -63,7 +68,13 @@ public class ProcessPocHoldServiceDecorator extends HoldServiceDecorator {
         hold.setName(issue.getName());
         hold.setIsOverridable(true);
         hold.setIsWarning(false);
-        hold.setEffectiveDate(new Date());
+        Date effDate = null;
+        try {
+            effDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2011-01-01");
+        } catch (ParseException ex) {
+            throw new RuntimeException (ex);
+        }
+        hold.setEffectiveDate(effDate);
         hold.setPersonId(personId);
         try {
             hold = this.createHold(hold, context);

@@ -1,29 +1,27 @@
 package org.kuali.student.process.poc.context;
 
+import org.kuali.student.r2.core.process.dto.CheckInfo;
+import org.kuali.student.r2.core.process.dto.InstructionInfo;
+
 public class CheckContext {
     
-    
-    private String checkKey;
-    
-    private String studentId;
+    private InstructionInfo instruction;    
+    private CheckInfo check;
 
-  
-
-    public String getCheckKey() {
-        return checkKey;
+    public CheckInfo getCheck() {
+        return check;
     }
 
-    public void setCheckKey(String checkKey) {
-        this.checkKey = checkKey;
+    public void setCheck(CheckInfo check) {
+        this.check = check;
     }
 
-    public String getStudentId() {
-        return studentId;
+    public InstructionInfo getInstruction() {
+        return instruction;
     }
 
-    public void setStudentId(String studentId) {
-        this.studentId = studentId;
-    }
-    
+    public void setInstruction(InstructionInfo instruction) {
+        this.instruction = instruction;
+    } 
     
 }

@@ -12,9 +12,10 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.process.poc.krms;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ExecutionFlag;
@@ -79,16 +80,14 @@ import java.util.Map;
  *
  * @author alubbers
  */
-public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistrationProcessContextInfo, ContextInfo> {
+public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistrationProcessContextInfo> {
 
     private AcademicCalendarService acalService;
     private ProcessService processService;
     private PopulationService populationService;
     private ExemptionService exemptionService;
     private HoldService holdService;
-
     private List<TermResolver<?>> termResolvers;
-
     private ExecutionOptions executionOptions;
     private SelectionCriteria selectionCriteria;
 
@@ -112,14 +111,28 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         this.holdService = holdService;
     }
 
-    public List<ValidationResultInfo> evaluate(CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> evaluate(CourseRegistrationProcessContextInfo processContext, ContextInfo context)
+            throws OperationFailedException {
 
-        List<InstructionInfo> instructions = processService.getInstructionsByProcess(processContext.getProcessKey(), context);
+        List<InstructionInfo> instructions;
+        try {
+            instructions = processService.getInstructionsByProcess(processContext.getProcessKey(), context);
+        } catch (OperationFailedException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
 
         TermInfo term = null;
 
-        if(processContext.getTermKey() != null) {
-            term = acalService.getTerm(processContext.getTermKey(), context);
+        if (processContext.getTermKey() != null) {
+            try {
+                term = acalService.getTerm(processContext.getTermKey(), context);
+            } catch (OperationFailedException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                throw new OperationFailedException("unexpected", ex);
+            }
         }
 
         List<InstructionInfo> sortedInstructions = new ArrayList<InstructionInfo>();
@@ -135,19 +148,32 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             // filter out by applicable Population
             boolean skipInstruction = true;
             for (String popKey : instruction.getAppliedPopulationKeys()) {
-                if (populationService.isMember(processContext.getStudentId(), popKey, context)) {
-                    skipInstruction = false;
-                    break;
+                try {
+                    if (populationService.isMember(processContext.getStudentId(), popKey, context)) {
+                        skipInstruction = false;
+                        break;
+                    }
+                } catch (OperationFailedException ex) {
+                    throw ex;
+                } catch (Exception ex) {
+                    throw new OperationFailedException("unexpected", ex);
                 }
             }
 
             // check for any direct exemptions the student may have for this check
-            List<ExemptionInfo> exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), instruction.getCheckKey(), processContext.getStudentId(), context);
-            if(!exemptions.isEmpty()) {
+            List<ExemptionInfo> exemptions;
+            try {
+                exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), instruction.getCheckKey(), processContext.getStudentId(), context);
+            } catch (OperationFailedException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                throw new OperationFailedException("unexpected", ex);
+            }
+            if (!exemptions.isEmpty()) {
                 skipInstruction = true;
             }
 
-            if(skipInstruction) {
+            if (skipInstruction) {
                 continue;
             }
 
@@ -160,26 +186,28 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         Map<Proposition, InstructionInfo> propositions = new LinkedHashMap<Proposition, InstructionInfo>(sortedInstructions.size());
         for (InstructionInfo instruction : sortedInstructions) {
 
-            CheckInfo check = processService.getCheck(instruction.getCheckKey(), context);
+            CheckInfo check;
+            try {
+                check = processService.getCheck(instruction.getCheckKey(), context);
+            } catch (OperationFailedException ex) {
+                throw ex;
+            } catch (Exception ex) {
+                throw new OperationFailedException("unexpected", ex);
+            }
 
             // TODO handle sub-process?
 
-            if(check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
+            if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
                 propositions.put(new RegistrationHoldProposition(check.getIssueKey()), instruction);
-            }
-            else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
+            } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_ALIVE)) {
                 propositions.put(new PersonLivingProposition(), instruction);
-            }
-            else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
+            } else if (check.getKey().equals(ProcessServiceConstants.CHECK_KEY_IS_NOT_SUMMER_TERM)) {
                 propositions.put(new SummerTermProposition(term), instruction);
-            }
-            else if(check.getTypeKey().equals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY)) {
+            } else if (check.getTypeKey().equals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY)) {
                 propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.AFTER, processContext, context), instruction);
-            }
-            else if(check.getTypeKey().equals(ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY)) {
+            } else if (check.getTypeKey().equals(ProcessServiceConstants.DEADLINE_CHECK_TYPE_KEY)) {
                 propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.BEFORE, processContext, context), instruction);
-            }
-            else if(check.getTypeKey().equals(ProcessServiceConstants.TIME_PERIOD_CHECK_TYPE_KEY)) {
+            } else if (check.getTypeKey().equals(ProcessServiceConstants.TIME_PERIOD_CHECK_TYPE_KEY)) {
                 propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.BETWEEN, processContext, context), instruction);
             }
         }
@@ -191,16 +219,30 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         EngineResults krmsResults = evaluateProposition(new CompoundProposition(LogicalOperator.AND, new ArrayList<Proposition>(propositions.keySet())), executionFacts);
 
 
-        List<ValidationResultInfo> results = buildValidationResultsFromEngineResults(krmsResults, propositions, context);
+        List<ValidationResultInfo> results;
+        try {
+            results = buildValidationResultsFromEngineResults(krmsResults, propositions, context);   
+        } catch (OperationFailedException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
 
         return results;
     }
 
-    private MilestoneDateComparisonProposition buildMilestoneCheckProposition(CheckInfo check, DateComparisonType comparisonType, CourseRegistrationProcessContextInfo processContext, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, PermissionDeniedException, OperationFailedException {
-        List<ExemptionInfo> exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), check.getKey(), processContext.getStudentId(), context);
+    private MilestoneDateComparisonProposition buildMilestoneCheckProposition(CheckInfo check, DateComparisonType comparisonType, CourseRegistrationProcessContextInfo processContext, ContextInfo context)
+            throws OperationFailedException {
+        List<ExemptionInfo> exemptions;
+        try {
+            exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY, processContext.getProcessKey(), check.getKey(), processContext.getStudentId(), context);
+        } catch (OperationFailedException ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new OperationFailedException("unexpected", ex);
+        }
 
-        if(exemptions.isEmpty()) {
+        if (exemptions.isEmpty()) {
             return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), true, null);
         }
 
@@ -224,13 +266,13 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         ProviderBasedEngine engine = new ProviderBasedEngine();
         engine.setContextProvider(contextProvider);
 
-        if(executionOptions == null) {
+        if (executionOptions == null) {
             executionOptions = new ExecutionOptions();
             executionOptions.setFlag(ExecutionFlag.LOG_EXECUTION, true);
             executionOptions.setFlag(ExecutionFlag.EVALUATE_ALL_PROPOSITIONS, true);
         }
 
-        if(selectionCriteria == null) {
+        if (selectionCriteria == null) {
             Map<String, String> contextQualifiers = Collections.singletonMap(RulesExecutionConstants.DOCTYPE_CONTEXT_QUALIFIER, RulesExecutionConstants.STUDENT_ELIGIBILITY_DOCTYPE);
 
             Map<String, String> empty = Collections.emptyMap();
@@ -250,16 +292,15 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 Proposition prop = (Proposition) e.getSource();
                 InstructionInfo instruction = propositionInstructionMap.get(prop);
                 ValidationResultInfo result = new ValidationResultInfo();
-                if(instruction.getIsWarning()) {
+                if (instruction.getIsWarning()) {
                     result.setWarn(instruction.getMessage().getPlain());
-                }
-                else {
+                } else {
                     result.setError(instruction.getMessage().getPlain());
                 }
 
                 results.add(result);
 
-                if(!instruction.getContinueOnFail()) {
+                if (!instruction.getContinueOnFail()) {
                     break;
                 }
             }
@@ -268,7 +309,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         // Now check if there are any warnings from Holds that are marked as warning only
         List<String> warningHoldIds = (List<String>) engineResults.getAttribute(RulesExecutionConstants.REGISTRATION_HOLD_WARNINGS_ATTRIBUTE);
 
-        if(warningHoldIds != null && !warningHoldIds.isEmpty()) {
+        if (warningHoldIds != null && !warningHoldIds.isEmpty()) {
             for (String holdId : warningHoldIds) {
                 HoldInfo hold = holdService.getHold(holdId, context);
                 ValidationResultInfo result = new ValidationResultInfo();
@@ -316,7 +357,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         Map<String, Object> executionFacts = new HashMap<String, Object>();
         executionFacts.put(RulesExecutionConstants.STUDENT_ID_TERM_NAME, processContext.getStudentId());
         executionFacts.put(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME, context);
-        if(processContext.getTermKey() != null) {
+        if (processContext.getTermKey() != null) {
             executionFacts.put(RulesExecutionConstants.REGISTRATION_TERM_TERM_NAME, processContext.getTermKey());
         }
         return executionFacts;

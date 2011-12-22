@@ -1,11 +1,11 @@
 package org.kuali.student.process.poc.context;
 
-public class HoldCheckContext extends CheckContext {
+public class DirectRuleCheckContext extends CheckContext {
 
     private String atpKey;
     private String studentId;
 
-    public HoldCheckContext() {
+    public DirectRuleCheckContext() {
     }
 
     public String getAtpKey() {

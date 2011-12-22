@@ -32,14 +32,13 @@ public class CourseRegistrationServiceProcessCheckDecorator extends CourseRegist
     public CourseRegistrationServiceProcessCheckDecorator(CourseRegistrationService nextDecorator) {
         super(nextDecorator);
     }
-    
-    private ProcessEvaluator<CourseRegistrationProcessContextInfo, ContextInfo> processEvaluator;
+    private ProcessEvaluator<CourseRegistrationProcessContextInfo> processEvaluator;
 
-    public ProcessEvaluator<CourseRegistrationProcessContextInfo, ContextInfo> getProcessEvaluator() {
+    public ProcessEvaluator<CourseRegistrationProcessContextInfo> getProcessEvaluator() {
         return processEvaluator;
     }
 
-    public void setProcessEvaluator(ProcessEvaluator<CourseRegistrationProcessContextInfo, ContextInfo> processEvaluator) {
+    public void setProcessEvaluator(ProcessEvaluator<CourseRegistrationProcessContextInfo> processEvaluator) {
         this.processEvaluator = processEvaluator;
     }
 
@@ -58,13 +57,9 @@ public class CourseRegistrationServiceProcessCheckDecorator extends CourseRegist
     @Override
     public List<ValidationResultInfo> checkStudentEligibilityForTerm(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         CourseRegistrationProcessContextInfo processContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(studentId, termKey);
-        processContext.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);        
+        processContext.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
         List<? extends ValidationResult> results;
-        try {
-            results = this.processEvaluator.evaluate(processContext, context);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Unexpected", ex);
-        }
+        results = this.processEvaluator.evaluate(processContext, context);
         List<ValidationResultInfo> infos = new ArrayList<ValidationResultInfo>(results.size());
         for (ValidationResult vr : results) {
             infos.add(new ValidationResultInfo(vr));

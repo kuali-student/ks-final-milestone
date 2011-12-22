@@ -1,34 +1,46 @@
 package org.kuali.student.process.poc.context;
 
+import java.util.Date;
+
 public class MilestoneCheckContext extends CheckContext {
 
     private String atpKey;
+    private Date dateToTest;
+    private int comparison;
+    private String studentId;
+    public static final int START_DATE = 0;
+    public static final int END_DATE = 1;
+    public static final int PERIOD = 2;
 
-    private String milestoneTypeKey;
-
-    private String milestoneCheckType;
-
-    public static MilestoneCheckContext createMilestoneCheckContext(String atpKey, String milestoneTypeKey, String milestoneCheckType) {
-        return new MilestoneCheckContext(atpKey, milestoneTypeKey, milestoneCheckType);
+    public String getStudentId() {
+        return studentId;
     }
 
-    private MilestoneCheckContext(String atpKey, String milestoneTypeKey, String milestoneCheckType) {
-
-        this.atpKey = atpKey;
-        this.milestoneTypeKey = milestoneTypeKey;
-        this.milestoneCheckType = milestoneCheckType;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getAtpKey() {
         return atpKey;
     }
 
-    public String getMilestoneTypeKey() {
-        return milestoneTypeKey;
+    public void setAtpKey(String atpKey) {
+        this.atpKey = atpKey;
     }
 
-    public String getMilestoneCheckType() {
-        return milestoneCheckType;
+    public int getComparison() {
+        return comparison;
     }
 
+    public void setComparison(int comparison) {
+        this.comparison = comparison;
+    }
+
+    public Date getDateToTest() {
+        return dateToTest;
+    }
+
+    public void setDateToTest(Date dateToTest) {
+        this.dateToTest = dateToTest;
+    }
 }
