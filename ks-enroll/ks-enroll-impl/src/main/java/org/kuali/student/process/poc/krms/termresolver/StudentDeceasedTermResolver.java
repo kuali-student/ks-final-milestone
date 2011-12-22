@@ -84,14 +84,16 @@ public class StudentDeceasedTermResolver implements TermResolver<Boolean> {
 
         Date deceasedDate = null;
 
-        try {
-            deceasedDate = DateUtils.parseDate(entity.getBioDemographics().getDeceasedDate(), new String[]{EntityBioDemographicsContract.DECEASED_DATE_FORMAT});
-        } catch (ParseException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters, e);
+        if(entity.getBioDemographics().getDeceasedDate() != null) {
+            try {
+                deceasedDate = DateUtils.parseDate(entity.getBioDemographics().getDeceasedDate(), new String[]{EntityBioDemographicsContract.DECEASED_DATE_FORMAT});
+            } catch (ParseException e) {
+                throw new TermResolutionException(e.getMessage(), this, parameters, e);
+            }
         }
 
         if(deceasedDate != null) {
-            return currentDate.before(deceasedDate);
+            return deceasedDate.before(currentDate);
         }
 
         return false;

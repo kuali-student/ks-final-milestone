@@ -52,6 +52,10 @@ public class SummerOnlyStudentTermResolver implements TermResolver<Boolean> {
         this.summerPopulationKey = summerPopulationKey;
     }
 
+    public void setPopulationService(PopulationService populationService) {
+        this.populationService = populationService;
+    }
+
     @Override
     public Set<String> getPrerequisites() {
         return prerequisites;

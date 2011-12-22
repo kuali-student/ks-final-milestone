@@ -41,6 +41,10 @@ public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>
 
     private AtpService atpService;
 
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
+
     @Override
     public Set<String> getPrerequisites() {
         return Collections.singleton(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);

@@ -33,7 +33,7 @@ public class PersonLivingProposition extends AbstractLeafProposition {
     public PropositionResult evaluate(ExecutionEnvironment environment) {
         Boolean isStudentDeceased = environment.resolveTerm(RulesExecutionConstants.studentDeceasedTerm, this);
 
-        PropositionResult result = new PropositionResult(isStudentDeceased);
+        PropositionResult result = new PropositionResult(!isStudentDeceased);
 
         environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
 

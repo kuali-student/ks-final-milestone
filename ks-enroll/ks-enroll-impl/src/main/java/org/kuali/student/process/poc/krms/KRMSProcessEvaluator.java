@@ -42,6 +42,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.process.poc.context.CourseRegistrationProcessContextInfo;
 import org.kuali.student.process.poc.evaluator.ProcessEvaluator;
+import org.kuali.student.process.poc.krms.proposition.ExemptionAwareProposition;
 import org.kuali.student.process.poc.krms.proposition.MilestoneDateComparisonProposition;
 import org.kuali.student.process.poc.krms.proposition.MilestoneDateComparisonProposition.DateComparisonType;
 import org.kuali.student.process.poc.krms.proposition.PersonLivingProposition;
@@ -55,6 +56,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.exemption.dto.ExemptionInfo;
@@ -82,7 +84,7 @@ import java.util.Map;
  */
 public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistrationProcessContextInfo> {
 
-    public static final EXEMPTION_WAS_USED_MESSAGE_SUFFIX = " (exemption applied)"
+    public static final String EXEMPTION_WAS_USED_MESSAGE_SUFFIX = " (exemption applied)";
 
     private AcademicCalendarService acalService;
     private ProcessService processService;
@@ -261,7 +263,8 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         List<AgendaTreeEntry> treeEntries = new ArrayList<AgendaTreeEntry>(1);
         treeEntries.add(new BasicAgendaTreeEntry(new BasicRule(proposition, null)));
 
-        Agenda agenda = new BasicAgenda(null, new BasicAgendaTree(treeEntries));
+        Map<String, String> qualifiers = Collections.emptyMap();
+        Agenda agenda = new BasicAgenda(qualifiers, new BasicAgendaTree(treeEntries));
 
         Context context = new BasicContext(Arrays.asList(agenda), termResolvers);
         ContextProvider contextProvider = new ManualContextProvider(context);
@@ -303,8 +306,9 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 }
             }
             if (e.getResult()) {
+                result.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
                 if(exemptionProp != null && exemptionProp.isExemptionUsed()) {
-                    result.setInfo(message);
+                    result.setMessage(message);
                 }
                 results.add(result);
             }

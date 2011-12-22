@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
@@ -19,8 +21,10 @@ import org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarSer
 import org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl;
+import org.kuali.student.kim.permission.mock.IdentityServiceMockImpl;
 import org.kuali.student.process.poc.krms.KRMSProcessEvaluator;
 import org.kuali.student.process.poc.krms.termresolver.CurrentDateResolver;
+import org.kuali.student.process.poc.krms.termresolver.MilestoneByTypeResolver;
 import org.kuali.student.process.poc.krms.termresolver.MilestoneResolver;
 import org.kuali.student.process.poc.krms.termresolver.RegistrationHoldsTermResolver;
 import org.kuali.student.process.poc.krms.termresolver.StudentDeceasedTermResolver;
@@ -58,6 +62,9 @@ public class ProcessPocKrmsIntegrationTest {
     public void setUp() {
         CourseRegistrationServiceProcessCheckDecorator decorator = new CourseRegistrationServiceProcessCheckDecorator();
         decorator.setNextDecorator(new CourseRegistrationServiceMockImpl());
+
+        IdentityService identityService = new IdentityServiceMockImpl();
+        identityService = new ProcessPocIdentityServiceDecorator(identityService);
         
         HoldService holdService = new ProcessPocHoldServiceDecorator(new HoldServiceMockImpl());
         ExemptionService exemptionService = new ProcessPocExemptionServiceDecorator(new ExemptionServiceMockImpl());
@@ -76,10 +83,23 @@ public class ProcessPocKrmsIntegrationTest {
         evaluator.setHoldService(holdService);
         List<TermResolver<?>> termResolvers = new ArrayList();
         termResolvers.add(new CurrentDateResolver());
-        termResolvers.add(new MilestoneResolver());
-        termResolvers.add(new RegistrationHoldsTermResolver());
-        termResolvers.add(new StudentDeceasedTermResolver());
-        termResolvers.add(new SummerOnlyStudentTermResolver(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY));
+
+        MilestoneByTypeResolver milestoneByTypeResolver = new MilestoneByTypeResolver();
+        milestoneByTypeResolver.setAtpService(atpService);
+        termResolvers.add(milestoneByTypeResolver);
+
+        RegistrationHoldsTermResolver registrationHoldsTermResolver = new RegistrationHoldsTermResolver();
+        registrationHoldsTermResolver.setHoldService(holdService);
+        termResolvers.add(registrationHoldsTermResolver);
+
+        StudentDeceasedTermResolver studentDeceasedTermResolver = new StudentDeceasedTermResolver();
+        studentDeceasedTermResolver.setIdentityService(identityService);
+        termResolvers.add(studentDeceasedTermResolver);
+
+        SummerOnlyStudentTermResolver summerOnlyStudentTermResolver = new SummerOnlyStudentTermResolver(PopulationServiceConstants.SUMMER_ONLY_STUDENTS_POPULATION_KEY);
+        summerOnlyStudentTermResolver.setPopulationService(populationService);
+        termResolvers.add(summerOnlyStudentTermResolver);
+
         evaluator.setTermResolvers(termResolvers);        
         // TODO: worry about configuring these 2
         // private ExecutionOptions executionOptions;

@@ -93,7 +93,7 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
 
         boolean dateCompareResult = true;
         for(MilestoneInfo milestone : milestones) {
-            dateCompareResult = compareDateToMilestone(comparisonDate, milestone);
+            dateCompareResult = compareDateToMilestone(comparisonDate, milestone.getStartDate(), milestone.getEndDate());
 
             if(dateCompareResult) {
                 break;
@@ -106,12 +106,8 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
            }
            else {
 
-               // resolve the Milestone id from the override data
-               Term overrideMilestoneTerm = new Term(RulesExecutionConstants.MILESTONE_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.MILESTONE_ID_TERM_PROPERTY, dateOverride.getMilestoneKey()));
-               MilestoneInfo overrideMilestone = environment.resolveTerm(overrideMilestoneTerm, this);
-
-               // set the proposition result equal to the comparison of the date and the milestone from the override
-               dateCompareResult = compareDateToMilestone(comparisonDate, overrideMilestone);
+               // set the proposition result equal to the comparison of the date and the dates from the override
+               dateCompareResult = compareDateToMilestone(comparisonDate, dateOverride.getEffectiveEndDate(), dateOverride.getEffectiveEndDate());
 
                // it should be up to the caller what happens when the comparison fails even when the exemption information was checked
                // so we set the exemptionUsed to true no matter what the actual comparison result was
@@ -126,27 +122,27 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
         return result;
     }
 
-    private boolean compareDateToMilestone(Date comparisonDate, MilestoneInfo milestone) {
+    private boolean compareDateToMilestone(Date comparisonDate, Date startDate, Date endDate) {
         boolean dateCompareResult;
         switch (comparisonType) {
             case BEFORE: {
-                dateCompareResult = comparisonDate.before(milestone.getStartDate());
+                dateCompareResult = comparisonDate.before(startDate);
                 if(inclusive && !dateCompareResult) {
-                    dateCompareResult = comparisonDate.equals(milestone.getStartDate());
+                    dateCompareResult = comparisonDate.equals(startDate);
                 }
                 break;
             }
             case AFTER: {
-                dateCompareResult = comparisonDate.after(milestone.getEndDate());
+                dateCompareResult = comparisonDate.after(endDate);
                 if(inclusive && !dateCompareResult) {
-                    dateCompareResult = comparisonDate.equals(milestone.getEndDate());
+                    dateCompareResult = comparisonDate.equals(endDate);
                 }
                 break;
             }
             case BETWEEN: {
-                dateCompareResult = comparisonDate.after(milestone.getStartDate()) && comparisonDate.before(milestone.getEndDate());
+                dateCompareResult = comparisonDate.after(startDate) && comparisonDate.before(endDate);
                 if(inclusive && !dateCompareResult) {
-                    dateCompareResult = comparisonDate.equals(milestone.getStartDate()) || comparisonDate.equals(milestone.getEndDate());
+                    dateCompareResult = comparisonDate.equals(startDate) || comparisonDate.equals(endDate);
                 }
                 break;
             }
