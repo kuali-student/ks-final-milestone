@@ -82,6 +82,8 @@ import java.util.Map;
  */
 public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistrationProcessContextInfo> {
 
+    public static final EXEMPTION_WAS_USED_MESSAGE_SUFFIX = " (exemption applied)"
+
     private AcademicCalendarService acalService;
     private ProcessService processService;
     private PopulationService populationService;
@@ -289,15 +291,33 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         // go through all the results from the Propositions, and build validation results based on any propositions that failed
         List<ResultEvent> events = engineResults.getResultsOfType(ResultEvent.PropositionEvaluated);
         for (ResultEvent e : events) {
-            if (!e.getResult()) {
-                Proposition prop = (Proposition) e.getSource();
-                InstructionInfo instruction = propositionInstructionMap.get(prop);
-                ValidationResultInfo result = new ValidationResultInfo();
-                if (instruction.getIsWarning()) {
-                    result.setWarn(instruction.getMessage().getPlain());
-                } else {
-                    result.setError(instruction.getMessage().getPlain());
+            Proposition prop = (Proposition) e.getSource();
+            InstructionInfo instruction = propositionInstructionMap.get(prop);
+            ValidationResultInfo result = new ValidationResultInfo();
+            String message = instruction.getMessage().getPlain();
+            ExemptionAwareProposition exemptionProp = null;
+            if(prop instanceof ExemptionAwareProposition) {
+                exemptionProp = (ExemptionAwareProposition)prop;
+                if(exemptionProp.isExemptionUsed()) {
+                    message += EXEMPTION_WAS_USED_MESSAGE_SUFFIX;
                 }
+            }
+            if (e.getResult()) {
+                if(exemptionProp != null && exemptionProp.isExemptionUsed()) {
+                    result.setInfo(message);
+                }
+                results.add(result);
+            }
+            else {
+
+
+                if (instruction.getIsWarning()) {
+                    result.setWarn(message);
+                } else {
+                    result.setError(message);
+                }
+
+
 
                 results.add(result);
 
