@@ -63,7 +63,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
 
     public MilestoneEntity(Milestone milestone) {
         super(milestone);
-        this.setId(milestone.getKey());
+        this.setId(milestone.getId());
         this.setAllDay(milestone.getIsAllDay());
         this.setDateRange(milestone.getIsDateRange());
         this.setDescr(new AtpRichTextEntity(milestone.getDescr()));
@@ -164,7 +164,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     public MilestoneInfo toDto() {
         MilestoneInfo info = new MilestoneInfo();
         
-        info.setKey(getId());
+        info.setId(getId());
         info.setName(getName());
         info.setTypeKey(null != atpType ? atpType.getId() : null);
         info.setStateKey(null != atpState ? atpState.getId() : null);

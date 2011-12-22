@@ -51,7 +51,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     public AtpEntity(Atp atp) {
         super(atp);
-        this.setId(atp.getKey());
+        this.setId(atp.getId());
         this.setName(atp.getName());
         this.setAdminOrgId(atp.getAdminOrgId());
         if (atp.getStartDate() != null) {
@@ -142,7 +142,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     public AtpInfo toDto() {
         AtpInfo atp = new AtpInfo();
-        atp.setKey(getId());
+        atp.setId(getId());
         atp.setName(name);
         atp.setStartDate(startDate);
         atp.setEndDate(endDate);

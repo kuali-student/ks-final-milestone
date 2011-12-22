@@ -15,37 +15,32 @@
  */
 package org.kuali.student.r2.core.atp.dto;
 
-import java.io.Serializable;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 import org.w3c.dom.Element;
 
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+import java.util.List;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpAtpRelationInfo", propOrder = { "id", "typeKey",
-		"stateKey", "atpKey", "relatedAtpKey", "effectiveDate",
+		"stateKey", "atpId", "relatedAtpId", "effectiveDate",
 		"expirationDate", "meta", "attributes", "_futureElements" })
 public class AtpAtpRelationInfo extends RelationshipInfo implements
 		AtpAtpRelation, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@XmlElement
-	private String atpKey;
+	private String atpId;
 	@XmlElement
-    private String relatedAtpKey;
+    private String relatedAtpId;
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
 	public AtpAtpRelationInfo() {
-		atpKey = null;
-		relatedAtpKey = null;
+		atpId = null;
+		relatedAtpId = null;
 		_futureElements = null;
 	}
 
@@ -58,29 +53,29 @@ public class AtpAtpRelationInfo extends RelationshipInfo implements
 	public AtpAtpRelationInfo(AtpAtpRelation atpr) {
 		super(atpr);
 		if (null != atpr) {
-			this.atpKey = atpr.getAtpKey();
-			this.relatedAtpKey = atpr.getRelatedAtpKey();
+			this.atpId = atpr.getAtpId();
+			this.relatedAtpId = atpr.getRelatedAtpId();
 			_futureElements = null;
 		}
 	}
 
 	@Override
-	public String getAtpKey() {
-		return atpKey;
+	public String getAtpId() {
+		return atpId;
 	}
 
 	
-	public void setAtpKey(String atpKey) {
-		this.atpKey = atpKey;
+	public void setAtpId(String atpId) {
+		this.atpId = atpId;
 	}
 
 	@Override
-	public String getRelatedAtpKey() {
-		return relatedAtpKey;
+	public String getRelatedAtpId() {
+		return relatedAtpId;
 	}
 
 	
-	public void setRelatedAtpKey(String relatedAtpKey) {
-		this.relatedAtpKey = relatedAtpKey;
+	public void setRelatedAtpId(String relatedAtpId) {
+		this.relatedAtpId = relatedAtpId;
 	}
 }

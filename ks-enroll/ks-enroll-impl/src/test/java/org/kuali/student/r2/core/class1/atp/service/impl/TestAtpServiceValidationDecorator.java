@@ -83,7 +83,7 @@ public class TestAtpServiceValidationDecorator {
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
-        milestone.setKey("newId");
+        milestone.setId("newId");
         milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
         validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
         assertEquals("validateMilestone() should have returned one error.", 1, validationResults.size());
@@ -106,7 +106,7 @@ public class TestAtpServiceValidationDecorator {
         List<ValidationResultInfo> validationResults =
                 null;
         try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getKey(), atpInfo, callContext);
+            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }
@@ -114,10 +114,10 @@ public class TestAtpServiceValidationDecorator {
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
-        atpInfo.setKey("newId");
+        atpInfo.setId("newId");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
         try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getKey(), atpInfo, callContext);
+            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }
@@ -127,7 +127,7 @@ public class TestAtpServiceValidationDecorator {
         // validation should pass once the stateKey is provided
         atpInfo.setStateKey("kuali.atp.state.Draft");
         try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getKey(), atpInfo, callContext);
+            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }

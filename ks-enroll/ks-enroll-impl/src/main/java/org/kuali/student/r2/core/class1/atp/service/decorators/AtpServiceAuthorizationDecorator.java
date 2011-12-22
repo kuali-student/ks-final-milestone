@@ -253,7 +253,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<AtpInfo> getAtpsByKeys(List<String> atpKeyList, ContextInfo context)
+    public List<AtpInfo> getAtpsByIds(List<String> atpKeyList, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
@@ -262,7 +262,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByKeyList", null, null)) {
-        	return getNextDecorator().getAtpsByKeys(atpKeyList, context);
+        	return getNextDecorator().getAtpsByIds(atpKeyList, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -271,7 +271,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context)
+    public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context)
     throws InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -279,7 +279,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpKeysByType", null, null)) {
-        	return getNextDecorator().getAtpKeysByType(atpTypeKey, context);
+        	return getNextDecorator().getAtpIdsByType(atpTypeKey, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -476,7 +476,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<String> searchForAtpKeys(QueryByCriteria criteria, ContextInfo context) 
+    public List<String> searchForAtpIds(QueryByCriteria criteria, ContextInfo context)
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -484,7 +484,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpKeys", null, null)) {
-        	return getNextDecorator().searchForAtpKeys(criteria, context);
+        	return getNextDecorator().searchForAtpIds(criteria, context);
         }
         else {
            throw new PermissionDeniedException();

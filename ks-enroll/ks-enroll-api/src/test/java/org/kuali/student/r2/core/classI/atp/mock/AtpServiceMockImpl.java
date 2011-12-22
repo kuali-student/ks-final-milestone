@@ -10,36 +10,19 @@
  */
 package org.kuali.student.r2.core.classI.atp.mock;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-
+import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-
 import org.kuali.student.test.utilities.MockHelper;
 
 import javax.jws.WebParam;
+import java.util.*;
 
 /**
  * This is a mock memory based implementation for ATP service
@@ -120,10 +103,10 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        AtpInfo atp = atpCache.get(atpKey);
+    public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        AtpInfo atp = atpCache.get(atpId);
         if (null == atp) {
-            throw new DoesNotExistException("No atp found for: " + atpKey);
+            throw new DoesNotExistException("No atp found for: " + atpId);
 
         }
         return atp;
@@ -213,27 +196,27 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> atpKeyList = new ArrayList<String>();
+    public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> atpIdList = new ArrayList<String>();
 
         Set<String> keys = atpCache.keySet();
 
         for (String key : keys) {
             AtpInfo atp = atpCache.get(key);
             if (atp.getTypeKey().equalsIgnoreCase(atpTypeKey)) {
-                atpKeyList.add(atp.getKey());
+                atpIdList.add(atp.getId());
             }
         }
 
-        return atpKeyList;
+        return atpIdList;
     }
 
     @Override
-    public List<AtpInfo> getAtpsByKeys(List<String> atpKeyList, ContextInfo context) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<AtpInfo> atpList = new ArrayList<AtpInfo>();
 
-        for (String key : atpKeyList) {
+        for (String key : atpIdList) {
             atpList.add(this.getAtp(key, context));
         }
 
@@ -241,31 +224,31 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public MilestoneInfo getMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        MilestoneInfo milestone = milestoneCache.get(milestoneKey);
+        MilestoneInfo milestone = milestoneCache.get(milestoneId);
         if (null == milestone) {
-            throw new DoesNotExistException("No milestone found for: " + milestoneKey);
+            throw new DoesNotExistException("No milestone found for: " + milestoneId);
         }
 
         return milestone;
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesForAtp(String atpKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<MilestoneInfo> getMilestonesForAtp(String atpId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<MilestoneInfo> milestoneList = new ArrayList<MilestoneInfo>();
         return milestoneList;
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate,
+    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // To change body of implemented methods use File |
                      // Settings | File Templates.
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
+    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // To change body of implemented methods use File |
                      // Settings | File Templates.
@@ -295,11 +278,11 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> milestoneList = new ArrayList<MilestoneInfo>();
 
-        for (String key : milestoneKeyList) {
+        for (String key : milestoneIdList) {
             milestoneList.add(this.getMilestone(key, context));
         }
 
@@ -309,22 +292,22 @@ public class AtpServiceMockImpl implements AtpService {
     @Override
     public List<String> getMilestoneIdsByType(String milestoneTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> milestoneKeyList = new ArrayList<String>();
+        List<String> milestoneIdList = new ArrayList<String>();
 
         Set<String> keys = milestoneCache.keySet();
 
         for (String key : keys) {
             MilestoneInfo milestone = milestoneCache.get(key);
             if (milestone.getTypeKey().equalsIgnoreCase(milestoneTypeKey)) {
-                milestoneKeyList.add(milestone.getKey());
+                milestoneIdList.add(milestone.getId());
             }
         }
 
-        return milestoneKeyList;
+        return milestoneIdList;
     }
 
     @Override
-    public List<String> searchForAtpKeys(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> searchForAtpIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         return new ArrayList<String>();
@@ -342,26 +325,26 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        AtpInfo existing = this.atpCache.get(atpKey);
+        AtpInfo existing = this.atpCache.get(atpId);
         if (existing != null) {
-            throw new AlreadyExistsException(atpKey);
+            throw new AlreadyExistsException(atpId);
         }
 
         MockHelper helper = new MockHelper();
         AtpInfo atp = new AtpInfo(atpInfo);
         atp.setMeta(helper.createMeta(context));
-        this.atpCache.put(atpKey, atp);
+        this.atpCache.put(atpId, atp);
         return atp;
     }
 
     @Override
-    public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        AtpInfo existing = this.atpCache.get(atpKey);
+        AtpInfo existing = this.atpCache.get(atpId);
         if (existing == null) {
-            throw new DoesNotExistException(atpKey);
+            throw new DoesNotExistException(atpId);
         }
         if (!atpInfo.getMeta().getVersionInd().equals(existing.getMeta().getVersionInd())) {
             throw new VersionMismatchException("Updated by " + existing.getMeta().getUpdateId() + " on " + existing.getMeta().getUpdateId() + " with version of " + existing.getMeta().getVersionInd());
@@ -375,16 +358,16 @@ public class AtpServiceMockImpl implements AtpService {
             atts.add(new AttributeInfo(att));
         }
         atp.setAttributes(atts);
-        this.atpCache.put(atpKey, atp);
+        this.atpCache.put(atpId, atp);
 
         return atp;
     }
 
     @Override
-    public StatusInfo deleteAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public StatusInfo deleteAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (this.atpCache.remove(atpKey) == null) {
-            throw new DoesNotExistException(atpKey);
+        if (this.atpCache.remove(atpId) == null) {
+            throw new DoesNotExistException(atpId);
         }
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -414,44 +397,44 @@ public class AtpServiceMockImpl implements AtpService {
     @Override
     public MilestoneInfo createMilestone(MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        MilestoneInfo existing = this.milestoneCache.get(milestoneInfo.getKey());
+        MilestoneInfo existing = this.milestoneCache.get(milestoneInfo.getId());
         if (existing != null) {
-            throw new DataValidationErrorException(milestoneInfo.getKey());
+            throw new DataValidationErrorException(milestoneInfo.getId());
         }
 
         MockHelper helper = new MockHelper();
         MilestoneInfo mInfo = new MilestoneInfo(milestoneInfo);
         mInfo.setMeta(helper.createMeta(context));
-        this.milestoneCache.put(milestoneInfo.getKey(), mInfo);
+        this.milestoneCache.put(milestoneInfo.getId(), mInfo);
         return mInfo;
     }
 
     @Override
-    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        MilestoneInfo existing = this.milestoneCache.get(milestoneKey);
+        MilestoneInfo existing = this.milestoneCache.get(milestoneId);
         if (existing == null) {
-            throw new DoesNotExistException(milestoneKey);
+            throw new DoesNotExistException(milestoneId);
         }
         if (!milestoneInfo.getMeta().getVersionInd().equals(existing.getMeta().getVersionInd())) {
             throw new VersionMismatchException("Updated by " + existing.getMeta().getUpdateId() + " on " + existing.getMeta().getUpdateId() + " with version of " + existing.getMeta().getVersionInd());
         }
         MilestoneInfo mInfo = new MilestoneInfo(milestoneInfo);
         mInfo.setMeta(new MockHelper().updateMeta(existing.getMeta(), context));
-        this.milestoneCache.put(milestoneKey, mInfo);
+        this.milestoneCache.put(milestoneId, mInfo);
 
         return mInfo;
     }
 
     @Override
-    public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public StatusInfo deleteMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         // Check to see if Milestone exists in a relationship
         // TODO: Put the check once methods to access milestons/atp using
         // relations are added to the service
-        if (this.milestoneCache.remove(milestoneKey) == null) {
-            throw new DoesNotExistException(milestoneKey);
+        if (this.milestoneCache.remove(milestoneId) == null) {
+            throw new DoesNotExistException(milestoneId);
         }
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -459,14 +442,14 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // To change body of implemented methods use File |
                      // Settings | File Templates.
     }
 
     @Override
-    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null; // To change body of implemented methods use File |
                      // Settings | File Templates.
@@ -514,7 +497,7 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<AtpAtpRelationInfo> atpRltnList = new ArrayList<AtpAtpRelationInfo>();
 
@@ -522,7 +505,7 @@ public class AtpServiceMockImpl implements AtpService {
 
         for (String id : atpRltnIds) {
             AtpAtpRelationInfo rltn = atpAtpRltnCache.get(id);
-            if (rltn.getAtpKey().equalsIgnoreCase(atpKey) || rltn.getRelatedAtpKey().equalsIgnoreCase(atpKey)) {
+            if (rltn.getAtpId().equalsIgnoreCase(atpId) || rltn.getRelatedAtpId().equalsIgnoreCase(atpId)) {
                 atpRltnList.add(rltn);
             }
         }
@@ -531,13 +514,13 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList();
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey,
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList();
     }
@@ -557,13 +540,13 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpKey, String atpPeerKey, String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpId, String atpPeerId, String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
             ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(String atpKey, String atpPeerKey, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
+    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, String atpPeerId, AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         MockHelper helper = new MockHelper();
         AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo(atpAtpRelationInfo);

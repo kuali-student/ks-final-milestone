@@ -262,7 +262,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
   @Override
-    public List<AtpInfo> getAtpsByKeys(@WebParam(name = "atpKeys") List<String> atpKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpKeys") List<String> atpKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             List<AtpEntity> atps = atpDao.findByIds(atpKeys);
 
         if (atps == null) {
@@ -283,7 +283,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<String> getAtpKeysByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException,
+    public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         try {
@@ -443,7 +443,7 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<String> searchForAtpKeys(QueryByCriteria criteria, ContextInfo context)
+    public List<String> searchForAtpIds(QueryByCriteria criteria, ContextInfo context)
 	throws InvalidParameterException, MissingParameterException, 
 	       OperationFailedException, PermissionDeniedException {
 
@@ -588,8 +588,8 @@ public class AtpServiceImpl implements AtpService {
     public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        if (milestoneDao.find(milestoneInfo.getKey()) != null) {
-            throw new DataValidationErrorException(milestoneInfo.getKey());
+        if (milestoneDao.find(milestoneInfo.getId()) != null) {
+            throw new DataValidationErrorException(milestoneInfo.getId());
         }
 
         MilestoneEntity entity = new MilestoneEntity(milestoneInfo);
@@ -803,10 +803,10 @@ public class AtpServiceImpl implements AtpService {
         boolean exist = false;
 
         List<AtpAtpRelationEntity> rels = atpRelDao.getAtpAtpRelationsByAtpAndRelationType(
-                atpAtpRelationInfo.getAtpKey(), atpAtpRelationInfo.getTypeKey());
+                atpAtpRelationInfo.getAtpId(), atpAtpRelationInfo.getTypeKey());
         if (rels != null && !rels.isEmpty()) {
             for (AtpAtpRelationEntity rel : rels) {
-                if (rel.getRelatedAtp().getId().equals(atpAtpRelationInfo.getRelatedAtpKey())) {
+                if (rel.getRelatedAtp().getId().equals(atpAtpRelationInfo.getRelatedAtpId())) {
                     exist = true;
                     break;
                 }
@@ -831,11 +831,11 @@ public class AtpServiceImpl implements AtpService {
             if (null != atpAtpRelationInfo.getTypeKey()) {
                 atpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
             }
-            if (null != atpAtpRelationInfo.getAtpKey()) {
-                atpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
+            if (null != atpAtpRelationInfo.getAtpId()) {
+                atpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpId()));
             }
-            if (null != atpAtpRelationInfo.getRelatedAtpKey()) {
-                atpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
+            if (null != atpAtpRelationInfo.getRelatedAtpId()) {
+                atpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpId()));
             }
 
             atpRelDao.persist(atpRel);
@@ -843,7 +843,7 @@ public class AtpServiceImpl implements AtpService {
             return atpRelDao.find(atpRel.getId()).toDto();
         } else {
             throw new DataValidationErrorException("The Atp-Atp relation already exists. atp="
-                    + atpAtpRelationInfo.getAtpKey() + ", relatedAtp=" + atpAtpRelationInfo.getRelatedAtpKey());
+                    + atpAtpRelationInfo.getAtpId() + ", relatedAtp=" + atpAtpRelationInfo.getRelatedAtpId());
         }
     }
 
@@ -857,10 +857,10 @@ public class AtpServiceImpl implements AtpService {
 
         if (null != atpRel) {
             AtpAtpRelationEntity modifiedAtpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
-            if (atpAtpRelationInfo.getAtpKey() != null)
-                modifiedAtpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpKey()));
-            if (atpAtpRelationInfo.getRelatedAtpKey() != null)
-                modifiedAtpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpKey()));
+            if (atpAtpRelationInfo.getAtpId() != null)
+                modifiedAtpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpId()));
+            if (atpAtpRelationInfo.getRelatedAtpId() != null)
+                modifiedAtpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpId()));
             if (atpAtpRelationInfo.getTypeKey() != null)
                 modifiedAtpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
             if (atpAtpRelationInfo.getStateKey() != null)

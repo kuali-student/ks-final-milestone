@@ -131,8 +131,8 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     public AtpAtpRelationInfo toDto() {
         AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo();
         aarInfo.setId(getId());
-        aarInfo.setAtpKey(atp.getId());
-        aarInfo.setRelatedAtpKey(relatedAtp.getId());
+        aarInfo.setAtpId(atp.getId());
+        aarInfo.setRelatedAtpId(relatedAtp.getId());
         aarInfo.setEffectiveDate(effectiveDate);
         aarInfo.setExpirationDate(expirationDate);
         aarInfo.setStateKey(atpState.getId());

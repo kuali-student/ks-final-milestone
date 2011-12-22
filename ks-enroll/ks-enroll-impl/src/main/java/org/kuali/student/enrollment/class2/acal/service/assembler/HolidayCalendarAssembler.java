@@ -19,7 +19,7 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
     public HolidayCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         if(atp != null){
             HolidayCalendarInfo campusCalendarInfo = new HolidayCalendarInfo();
-            campusCalendarInfo.setId(atp.getKey());
+            campusCalendarInfo.setId(atp.getId());
             campusCalendarInfo.setName(atp.getName());
             campusCalendarInfo.setDescr(atp.getDescr());
             campusCalendarInfo.setStartDate(atp.getStartDate());
@@ -40,7 +40,7 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
     public AtpInfo disassemble(HolidayCalendarInfo holidayCalendarInfo, ContextInfo context) throws AssemblyException{
         if (holidayCalendarInfo != null){
             AtpInfo atp = new AtpInfo();
-            atp.setKey(holidayCalendarInfo.getId());
+            atp.setId(holidayCalendarInfo.getId());
             atp.setName(holidayCalendarInfo.getName());
             atp.setDescr(holidayCalendarInfo.getDescr());
             atp.setStartDate(holidayCalendarInfo.getStartDate());

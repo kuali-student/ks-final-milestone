@@ -11,36 +11,23 @@
 
 package org.kuali.student.r2.core.atp.service;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
+import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
-
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Academic Time Period Service Description and Assumptions. This service
@@ -59,43 +46,43 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 public interface AtpService extends DataDictionaryService, TypeService, StateService {
 
     //
-    // Lookup Methods for ATP Key Entity Pattern.
+    // Lookup Methods for ATP Id Entity Pattern.
     //
 
     /**
-     * Retrieves a single Academic Time Period by ATP key.
+     * Retrieves a single Academic Time Period by ATP id.
      * 
-     * @param atpKey the identifier of the Academic Time Period to be retrieved
+     * @param atpId the identifier of the Academic Time Period to be retrieved
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return the Academic Time Period requested
-     * @throws DoesNotExistException atpKey not found
+     * @throws DoesNotExistException atpId not found
      * @throws InvalidParameterException contextInfo not valid
-     * @throws MissingParameterException atpKey or contextInfo is missing or
+     * @throws MissingParameterException atpId or contextInfo is missing or
      *             null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public AtpInfo getAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+    public AtpInfo getAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of Academic Time Periods from a list of ATP keys. The
-     * returned list may be in any order and if duplicate keys are supplied, a
+     * Retrieves a list of Academic Time Periods from a list of ATP ids. The
+     * returned list may be in any order and if duplicate ids are supplied, a
      * unique set may or may not be returned.
      * 
-     * @param atpKeys a list of ATP keys
+     * @param atpIds a list of ATP ids
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return a list of ATPs
-     * @throws DoesNotExistException an atpKey in the list not found
+     * @throws DoesNotExistException an atpId in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpKeys, a key in atpKeys, or
+     * @throws MissingParameterException atpIds, a id in atpIds, or
      *             contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AtpInfo> getAtpsByKeys(@WebParam(name = "atpKeys") List<String> atpKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpIds") List<String> atpIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -104,7 +91,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @param atpTypeKey an identifier for the ATP type
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
-     * @return a list of Academic Time Period keys matching atpTypeKey or an
+     * @return a list of Academic Time Period ids matching atpTypeKey or an
      *         empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException atpTypeKey or contextInfo is missing or
@@ -112,7 +99,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getAtpKeysByType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> getAtpIdsByType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
@@ -258,7 +245,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForAtpKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<String> searchForAtpIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -278,7 +265,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
-    // CRUD methods for ATP Key Entity Pattern.
+    // CRUD methods for ATP Id Entity Pattern.
     //
 
     /**
@@ -315,39 +302,39 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * Creates a new Academic Time Period. The ATP Type and Meta information may
      * not be set in the supplied data object.
      * 
-     * @param atpKey a unique for the new ATP
+     * @param atpId a unique for the new ATP
      * @param atpInfo the data with which to create the ATP
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return the new ATP
-     * @throws AlreadyExistsException atpKey already exists
+     * @throws AlreadyExistsException atpId already exists
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException atpTypeKey does not exist or is not
      *             supported
      * @throws InvalidParameterException atpInfo or contextInfo is not valid
-     * @throws MissingParameterException atpKey, atpTypeKey, atpInfo, or
+     * @throws MissingParameterException atpId, atpTypeKey, atpInfo, or
      *             contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information designated
      *             as read only
      */
-    public AtpInfo createAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public AtpInfo createAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Updates an existing Academic Time Period. The ATP key, Type, and Meta
+     * Updates an existing Academic Time Period. The ATP id, Type, and Meta
      * information may not be changed.
      * 
-     * @param atpKey the identifier for the ATP to be updated
+     * @param atpId the identifier for the ATP to be updated
      * @param atpInfo the new data for the ATP
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return the updated ATP
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException atpKey is not found
+     * @throws DoesNotExistException atpId is not found
      * @throws InvalidParameterException atpInfo or contextInfo is not valid
-     * @throws MissingParameterException atpKey, atpInfo, or contextInfo is
+     * @throws MissingParameterException atpId, atpInfo, or contextInfo is
      *             missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -356,25 +343,25 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws VersionMismatchException an optimistic locking failure or the
      *             action was attempted on an out of date version
      */
-    public AtpInfo updateAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public AtpInfo updateAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
             VersionMismatchException;
 
     /**
      * Deletes an existing Academic Time Period.
      * 
-     * @param atpKey the identifier for the ATP to be deleted
+     * @param atpId the identifier for the ATP to be deleted
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return the status of the operation. This must always be true.
-     * @throws DoesNotExistException atpKey is not found
+     * @throws DoesNotExistException atpId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpKey or contextInfo is missing or
+     * @throws MissingParameterException atpId or contextInfo is missing or
      *             null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+    public StatusInfo deleteAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
@@ -439,54 +426,54 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * Retrieves all AtpAtpRelations to the given ATP independent of which side
      * of the relationship the ATP resides.
      * 
-     * @param atpKey the identifier for the ATP
+     * @param atpId the identifier for the ATP
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return a list of AtpAtprelations to the given ATP or an empty list if
      *         none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpKey or contextInfo is missing or
+     * @throws MissingParameterException atpId or contextInfo is missing or
      *             null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves all AtpAtpRelations between the given ATPs.
      * 
-     * @param atpKey the identifier for the ATP
+     * @param atpId the identifier for the ATP
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return a list of AtpAtprelations between the given ATPs or an empty list
      *         if none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpKey, atpPeerKey, or contextInfo is
+     * @throws MissingParameterException atpId, atpPeerId, or contextInfo is
      *             missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of AtpAtpRelations of the specified AtpAtpRelationType
      * for an ATP. (these parameters are backwards).
      * 
-     * @param atpKey the identifier for an ATP
+     * @param atpId the identifier for an ATP
      * @param atpRelationTypeKey the identifier for an AtpAtpRelationType
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return a list of AtpAtpRelations of the specified AtpAtpRelationType for
      *         the given ATP or an empty list if none found
      * @throws InvalidParameterException contextInfo is notvalid
-     * @throws MissingParameterException atpKey, atpAtpRelationTypeKey, or
+     * @throws MissingParameterException atpId, atpAtpRelationTypeKey, or
      *             contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey,
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
@@ -541,45 +528,45 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * checks if the object with the given data can be created.
      * 
      * @param validationTypeKey the identifier for the validation Type
-     * @param atpKey the identifier for an ATP
-     * @param atpPeerKey a the identifier for the ATP peer
+     * @param atpId the identifier for an ATP
+     * @param atpPeerId a the identifier for the ATP peer
      * @param atpAtpRelationTypeKey the identifier for the AtpAtpRelation Type
      * @param atpAtpRelationInfo the AtpAtpRelation to be validated
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return a list of validation results or an empty list if validation
      *         succeeded
-     * @throws DoesNotExistException validationTypeKey, atpKey, atpPeerKey, or
+     * @throws DoesNotExistException validationTypeKey, atpId, atpPeerId, or
      *             atpAtpRelationTypeKey is not found
      * @throws InvalidParameterException atpAtpRelationInfo or contextInfo is
      *             not valid
-     * @throws MissingParameterException validationTypeKey, atpKey, atpPeerKey,
+     * @throws MissingParameterException validationTypeKey, atpId, atpPeerId,
      *             atpAtpRelationTypeKey, atpAtpRelationInfo, or contextInfo is
      *             missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateAtpAtpRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpKey") String atpKey,
-            @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtprelationTypeKey") String atpAtpRelationTypeKey,
+    public List<ValidationResultInfo> validateAtpAtpRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpId") String atpId,
+            @WebParam(name = "atpPeerId") String atpPeerId, @WebParam(name = "atpAtprelationTypeKey") String atpAtpRelationTypeKey,
             @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a new AtpAtpRelation. The AtpAtpRelation Id, Type, ATP keys, and
+     * Creates a new AtpAtpRelation. The AtpAtpRelation Id, Type, ATP ids, and
      * Meta information may not be set in the supplied data.
      * 
-     * @param atpKey a peer of the relationship
-     * @param atpPeerKey a peer of the relationship
+     * @param atpId a peer of the relationship
+     * @param atpPeerId a peer of the relationship
      * @param atpAtpRelationInfo the relationship to be created
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return the new AtpAtpRelation
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException atpKey, atpPeerKey, or
+     * @throws DoesNotExistException atpId, atpPeerId, or
      *             atpAtpRelationTypeKey is not found
      * @throws InvalidParameterException atpAtpRelationInfo or contextInfo is
      *             not valid
-     * @throws MissingParameterException atpKey, atpPeerKey,
+     * @throws MissingParameterException atpId, atpPeerId,
      *             atpAtpRelationTypeKey, atpAtpRelationInfo, or contextInfo is
      *             missing or null
      * @throws OperationFailedException unable to complete request
@@ -587,13 +574,13 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * @throws ReadOnlyException an attempt at supplying information designated
      *             as read only
      */
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "atpPeerKey") String atpPeerKey,
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpPeerId") String atpPeerId,
             @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an ATP Milestone Relationship. The AtpAtpRelation Id, Type, ATP
-     * keys, and Meta information may not be changed.
+     * ids, and Meta information may not be changed.
      * 
      * @param atpAtpRelationId the identifier for the AtpAtpRelation updated
      * @param atpAtpRelationInfo the new data for the AtpAtpRelation
@@ -714,24 +701,24 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
     /**
      * Retrieves a list of Milestones for a specified Academic Time Period.
      * 
-     * @param atpKey an identifier for an Academic Time Period
+     * @param atpId an identifier for an Academic Time Period
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return a list of Milestones for the ATP or an empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpKey or contextInfo is missing or
+     * @throws MissingParameterException atpId or contextInfo is missing or
      *             null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+    public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of Milestones for a specified Academic Time Period that
      * fall within a specified set of dates inclusive of the dates.
      * 
-     * @param atpKey an identifier for an ATP
+     * @param atpId an identifier for an ATP
      * @param startDate start of date range
      * @param endDate end of date range
      * @param contextInfo information containing the principalId and locale
@@ -740,31 +727,31 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      *         an empty list if none found
      * @throws InvalidParameterException contextInfo is not valid or startDate
      *             is greater than end date
-     * @throws MissingParameterException atpKey, startDate, endDate, or
+     * @throws MissingParameterException atpId, startDate, endDate, or
      *             contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate,
+    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of Milestones of a specified Milestone Type for an
      * Acdemic Time Period.
      * 
-     * @param atpKey an identifier for an ATP
+     * @param atpId an identifier for an ATP
      * @param milestoneTypeKey an identifier for a Milestone Type
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return a list of Milestones of the Milestone Type for the ATP or an
      *         empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpKey, milsetoneTypeKey, or
+     * @throws MissingParameterException atpId, milsetoneTypeKey, or
      *             contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpKey") String atpKey, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
+    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
@@ -904,37 +891,37 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
      * Adds a Milestone to an ATP.
      * 
      * @param milestoneId an identifier for a Milestone
-     * @param atpKey an identifier for an ATP
+     * @param atpId an identifier for an ATP
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return status of the mapping operation. This must always be true.
-     * @throws AlreadyExistsException milestoneId is already related to atpKey
-     * @throws DoesNotExistException milestoneId or atpKey is not found
+     * @throws AlreadyExistsException milestoneId is already related to atpId
+     * @throws DoesNotExistException milestoneId or atpId is not found
      * @throws InvalidParameterException contextInfo is not valud
-     * @throws MissingParameterException milestoneId, atpKey, or contextInfo is
+     * @throws MissingParameterException milestoneId, atpId, or contextInfo is
      *             missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Removes a Milestone from an ATP.
      * 
      * @param milestoneId an identifier for a Milestone
-     * @param atpKey an identifier for an ATP
+     * @param atpId an identifier for an ATP
      * @param contextInfo information containing the principalId and locale
      *            information about the caller of service operation
      * @return status of the unmapping operation. This must always be true.
-     * @throws DoesNotExistException milestoneId or atpKey is not found or
-     *             milestoneId is not related to atpKey
+     * @throws DoesNotExistException milestoneId or atpId is not found or
+     *             milestoneId is not related to atpId
      * @throws InvalidParameterException contextInfo is not valud
-     * @throws MissingParameterException milestoneId, atpKey, or contextInfo is
+     * @throws MissingParameterException milestoneId, atpId, or contextInfo is
      *             missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

@@ -24,15 +24,16 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpInfo", propOrder = {"adminOrgId", "key", "typeKey", "stateKey", "name",
+@XmlType(name = "AtpInfo", propOrder = {"adminOrgId", "id", "typeKey", "stateKey", "name",
 		"descr", "startDate", "endDate", "meta", "attributes",
 		"_futureElements" })
-public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
+public class AtpInfo extends IdEntityInfo implements Atp, Serializable {
 
 	private static final long serialVersionUID = 1L;
 	@XmlElement

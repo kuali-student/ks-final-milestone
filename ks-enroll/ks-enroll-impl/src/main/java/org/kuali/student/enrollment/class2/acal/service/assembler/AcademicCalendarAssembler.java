@@ -1,8 +1,5 @@
 package org.kuali.student.enrollment.class2.acal.service.assembler;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.assembler.DTOAssembler;
@@ -12,6 +9,9 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarInfo, AtpInfo> {
   private AtpService atpService;
@@ -29,7 +29,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
     public AcademicCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setId(atp.getKey());
+        acal.setId(atp.getId());
         acal.setName(atp.getName());
         acal.setDescr(atp.getDescr());
         acal.setStartDate(atp.getStartDate());
@@ -40,7 +40,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         acal.setAttributes(atp.getAttributes());
         acal.setAdminOrgId(atp.getAdminOrgId());
 
-        acal.setHolidayCalendarIds(assembleRelations(atp.getKey(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
+        acal.setHolidayCalendarIds(assembleRelations(atp.getId(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
         return acal;
     }
 
@@ -53,11 +53,11 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
             
             if(atpRels != null && !atpRels.isEmpty()){                  
                 for(AtpAtpRelationInfo atpRelInfo : atpRels){
-                    if(atpRelInfo.getAtpKey().equals(atpKey)){
+                    if(atpRelInfo.getAtpId().equals(atpKey)){
                         if(atpRelInfo.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY)){
-                            AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpKey(), context);
+                            AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpId(), context);
                             if(thisAtp != null && thisAtp.getTypeKey().equals(relatedAtpType))
-                            ccKeys.add(atpRelInfo.getRelatedAtpKey());
+                            ccKeys.add(atpRelInfo.getRelatedAtpId());
                         }
                     }
                 }
@@ -71,7 +71,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
     @Override
     public AtpInfo disassemble(AcademicCalendarInfo acal, ContextInfo context) throws AssemblyException {
         AtpInfo atp = new AtpInfo();
-        atp.setKey(acal.getId());
+        atp.setId(acal.getId());
         atp.setName(acal.getName());
         atp.setDescr(acal.getDescr());
         atp.setAdminOrgId(acal.getAdminOrgId());

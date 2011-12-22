@@ -17,8 +17,6 @@ package org.kuali.student.r2.common.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
-
 
 /**
  * Information about a milestone or a key date. A milestone or a key date may 
@@ -28,7 +26,7 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface KeyDateOrMilestone extends KeyEntity {
+public interface KeyDateOrMilestone extends IdEntity {
 
     /**
      * Name: Is All Day

@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.atp.infc;
 
-import java.util.Date;
+import org.kuali.student.r2.common.infc.IdEntity;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import java.util.Date;
 
 
 /**
@@ -27,7 +27,7 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Atp extends KeyEntity {
+public interface Atp extends IdEntity {
 
     /**
      * Name: Start Date

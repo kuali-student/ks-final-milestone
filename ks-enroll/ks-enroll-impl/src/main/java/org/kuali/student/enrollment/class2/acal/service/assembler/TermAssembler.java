@@ -13,7 +13,7 @@ public class TermAssembler implements DTOAssembler<TermInfo, AtpInfo>{
     public TermInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         if(atp != null){
             TermInfo term = new TermInfo();
-            term.setId(atp.getKey());
+            term.setId(atp.getId());
             term.setName(atp.getName());
             term.setDescr(atp.getDescr());
             term.setStartDate(atp.getStartDate());
@@ -32,7 +32,7 @@ public class TermAssembler implements DTOAssembler<TermInfo, AtpInfo>{
     @Override
     public AtpInfo disassemble(TermInfo term, ContextInfo context) throws AssemblyException{
         AtpInfo atp = new AtpInfo();
-        atp.setKey(term.getId());
+        atp.setId(term.getId());
         atp.setName(term.getName());
         atp.setDescr(term.getDescr());
         atp.setStartDate(term.getStartDate());

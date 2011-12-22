@@ -1,8 +1,5 @@
 package org.kuali.student.r2.core.class1.atp.service.decorators;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -15,6 +12,9 @@ import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 import org.kuali.student.r2.core.service.util.ValidationUtils;
+
+import java.util.Date;
+import java.util.List;
 
 public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
     private DataDictionaryValidator validator;
@@ -41,21 +41,21 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (null == atpKey) {
-            throw new DoesNotExistException("Null parameter in the input:atpKey");
+        if (null == atpId) {
+            throw new DoesNotExistException("Null parameter in the input:atpId");
         }
-        return getNextDecorator().getAtp(atpKey, context);
+        return getNextDecorator().getAtp(atpId, context);
     }
 
     @Override
-    public List<AtpInfo> getAtpsByKeys(List<String> atpKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (null == atpKeyList && atpKeyList.size() == 0) {
-            throw new DoesNotExistException("Null parameter in the input:atpKey");
+        if (null == atpIdList && atpIdList.size() == 0) {
+            throw new DoesNotExistException("Null parameter in the input:atpId");
         }
-        return getNextDecorator().getAtpsByKeys(atpKeyList, context);
+        return getNextDecorator().getAtpsByIds(atpIdList, context);
     }
 
     @Override
@@ -68,18 +68,18 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         _atpFullValidation(atpInfo, context);
-        return getNextDecorator().createAtp(atpKey, atpInfo, context);
+        return getNextDecorator().createAtp(atpId, atpInfo, context);
     }
 
     @Override
-    public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException {
         _atpFullValidation(atpInfo, context);
         try {
-            return getNextDecorator().updateAtp(atpKey, atpInfo, context);
+            return getNextDecorator().updateAtp(atpId, atpInfo, context);
         } catch (ReadOnlyException e) {
             throw new OperationFailedException(e.getMessage());
         }
@@ -115,12 +115,12 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(String atpKey, String atpPeerKey,
+    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, String atpPeerKey,
                                                    AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
     throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
            OperationFailedException, PermissionDeniedException, ReadOnlyException {
         _atpAtpRelationFullValidation(atpAtpRelationInfo, context);
-        return getNextDecorator().createAtpAtpRelation(atpKey, atpPeerKey, atpAtpRelationInfo, context);
+        return getNextDecorator().createAtpAtpRelation(atpId, atpPeerKey, atpAtpRelationInfo, context);
     }
 
     @Override
@@ -147,7 +147,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpKey, String atpPeerKey,
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpId, String atpPeerKey,
                                                              String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
                                                              ContextInfo context)
     throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
@@ -155,7 +155,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
         List<ValidationResultInfo> errors;
         try {
             errors = ValidationUtils.validateInfo(validator, validationTypeKey, atpAtpRelationInfo, context);
-            List<ValidationResultInfo> nextDecorationErrors = getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpKey, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, context);
+            List<ValidationResultInfo> nextDecorationErrors = getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpId, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, context);
             if (null != nextDecorationErrors) {
                 errors.addAll(nextDecorationErrors);
             }

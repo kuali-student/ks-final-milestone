@@ -116,7 +116,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<AcademicCalendarInfo> getAcademicCalendarsByIds(List<String> academicCalendarKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
-        List<AtpInfo> atps = atpService.getAtpsByKeys(academicCalendarKeyList, context);
+        List<AtpInfo> atps = atpService.getAtpsByIds(academicCalendarKeyList, context);
         for (AtpInfo atp : atps) {
             try {
                 academicCalendars.add(acalAssembler.assemble(atp, context));
@@ -150,7 +150,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
             @Override
             public int compare(AtpInfo atpInfo1, AtpInfo atpInfo2) {
-                return atpInfo1.getKey().compareTo(atpInfo2.getKey());
+                return atpInfo1.getId().compareTo(atpInfo2.getId());
             }
         });
 
@@ -200,7 +200,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
             AtpInfo createdAtp = atpService.createAtp(academicCalendarTypeKey, toCreate, context);
 
-            processAcalToCcalRelation(createdAtp.getKey(), academicCalendarInfo.getHolidayCalendarIds(), context);
+            processAcalToCcalRelation(createdAtp.getId(), academicCalendarInfo.getHolidayCalendarIds(), context);
             return acalAssembler.assemble(createdAtp, context);
 
         } catch (AlreadyExistsException e) {
@@ -417,7 +417,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<HolidayCalendarInfo> getHolidayCalendarsByIds(List<String> holidayCalendarIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<AtpInfo> atps = atpService.getAtpsByKeys(holidayCalendarIds, context);
+        List<AtpInfo> atps = atpService.getAtpsByIds(holidayCalendarIds, context);
         List<HolidayCalendarInfo> campusCalendarInfos = new ArrayList<HolidayCalendarInfo>();
         for (AtpInfo atp : atps) {
             try {
@@ -438,7 +438,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             atpInfo = campusCalendarAssembler.disassemble(campusCalendarInfo, context);
 
-            atpInfo = atpService.createAtp(atpInfo.getKey(), atpInfo, context);
+            atpInfo = atpService.createAtp(atpInfo.getId(), atpInfo, context);
 
             holidayCalendarInfo = campusCalendarAssembler.assemble(atpInfo, context);
 
@@ -570,7 +570,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<TermInfo> getTermsByIds(List<String> termKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<AtpInfo> results = atpService.getAtpsByKeys(termKeyList, context);
+        List<AtpInfo> results = atpService.getAtpsByIds(termKeyList, context);
 
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
@@ -594,8 +594,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
         for (AtpAtpRelationInfo atpRelation : results) {
-            if (atpRelation.getAtpKey().equals(academicCalendarKey)) {
-                AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpKey(), context);
+            if (atpRelation.getAtpId().equals(academicCalendarKey)) {
+                AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpId(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
                     try {
@@ -635,8 +635,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
 
         for (AtpAtpRelationInfo atpRelation : results) {
-            if (atpRelation.getAtpKey().equals(termKey)) {
-                AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpKey(), context);
+            if (atpRelation.getAtpId().equals(termKey)) {
+                AtpInfo possibleTerm = atpService.getAtp(atpRelation.getRelatedAtpId(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
                     try {
@@ -666,8 +666,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         // check that the relations we found have the given termKey as the
         // "related" atp, and that the owning atp is a term
         for (AtpAtpRelationInfo atpRelation : results) {
-            if (atpRelation.getRelatedAtpKey().equals(termKey)) {
-                AtpInfo possibleTerm = atpService.getAtp(atpRelation.getAtpKey(), context);
+            if (atpRelation.getRelatedAtpId().equals(termKey)) {
+                AtpInfo possibleTerm = atpService.getAtp(atpRelation.getAtpId(), context);
 
                 if (checkTypeForTermType(possibleTerm.getTypeKey(), context)) {
                     try {
@@ -807,15 +807,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return null != acalType ? acalType.equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY) : false;
     }
 
-    private boolean termAlreadyExists(String atpKey, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    private boolean termAlreadyExists(String atpId, String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         boolean found = false;
-        List<AtpAtpRelationInfo> atpRels = atpService.getAtpAtpRelationsByTypeAndAtp(atpKey, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
+        List<AtpAtpRelationInfo> atpRels = atpService.getAtpAtpRelationsByTypeAndAtp(atpId, AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, context);
 
         if (atpRels != null && !atpRels.isEmpty()) {
             for (AtpAtpRelationInfo atpRelInfo : atpRels) {
-                if (atpRelInfo.getAtpKey().equals(atpKey)) {
-                    if (atpRelInfo.getRelatedAtpKey().equals(termKey)) {
+                if (atpRelInfo.getAtpId().equals(atpId)) {
+                    if (atpRelInfo.getRelatedAtpId().equals(termKey)) {
                         found = true;
                         break;
                     }
@@ -851,8 +851,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpAtpRelationInfo relationToRemove = null;
 
         for (AtpAtpRelationInfo rel : relations) {
-            if (rel.getAtpKey().equals(academicCalendarKey)) {
-                if (rel.getRelatedAtpKey().equals(termKey)) {
+            if (rel.getAtpId().equals(academicCalendarKey)) {
+                if (rel.getRelatedAtpId().equals(termKey)) {
                     // if the relation represents an "includes" relationship
                     // from the AcademicCalendar to the Term,
                     // then it is the one we need to remove
@@ -925,8 +925,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpAtpRelationInfo relationToRemove = null;
 
         for (AtpAtpRelationInfo rel : relations) {
-            if (rel.getAtpKey().equals(termKey)) {
-                if (rel.getRelatedAtpKey().equals(includedTermKey)) {
+            if (rel.getAtpId().equals(termKey)) {
+                if (rel.getRelatedAtpId().equals(includedTermKey)) {
                     // if the relation represents an "includes" relationship
                     // from the Term to the included Term,
                     // then it is the one we need to remove
@@ -1013,7 +1013,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             msInfo.setAttributes(keyDateInfo.getAttributes());
             msInfo.setIsDateRange(keyDateInfo.getIsDateRange());
             msInfo.setDescr(keyDateInfo.getDescr());
-            msInfo.setKey(keyDateInfo.getId());
+            msInfo.setId(keyDateInfo.getId());
             msInfo.setMeta(keyDateInfo.getMeta());
             msInfo.setName(keyDateInfo.getName());
             msInfo.setStartDate(keyDateInfo.getStartDate());
@@ -1033,7 +1033,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             keyInfo.setAttributes(milestoneInfo.getAttributes());
             keyInfo.setIsDateRange(milestoneInfo.getIsDateRange());
             keyInfo.setDescr(milestoneInfo.getDescr());
-            keyInfo.setId(milestoneInfo.getKey());
+            keyInfo.setId(milestoneInfo.getId());
             keyInfo.setMeta(milestoneInfo.getMeta());
             keyInfo.setName(milestoneInfo.getName());
             keyInfo.setStartDate(milestoneInfo.getStartDate());
@@ -1315,62 +1315,62 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return false;
     }
 
-    public StatusInfo disassemble(String atpKey, List<String> relatedAtpKeys, String relatedAtpType, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
+    public StatusInfo disassemble(String atpId, List<String> relatedAtpIds, String relatedAtpType, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
-        disassembleAtpAtpRelations(atpKey, relatedAtpKeys, relatedAtpType, context);
+        disassembleAtpAtpRelations(atpId, relatedAtpIds, relatedAtpType, context);
 
         return status;
     }
 
-    private void disassembleAtpAtpRelations(String atpKey, List<String> relatedAtpKeys, String relatedAtpType, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
+    private void disassembleAtpAtpRelations(String atpId, List<String> relatedAtpIds, String relatedAtpType, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
         try {
-            List<AtpAtpRelationInfo> atpRels = atpService.getAtpAtpRelationsByAtp(atpKey, context);
+            List<AtpAtpRelationInfo> atpRels = atpService.getAtpAtpRelationsByAtp(atpId, context);
             Map<String, String> currentRelIds = new HashMap<String, String>();
 
             if (atpRels != null && !atpRels.isEmpty()) {
                 for (AtpAtpRelationInfo atpRelInfo : atpRels) {
-                    if (atpRelInfo.getAtpKey().equals(atpKey)) {
+                    if (atpRelInfo.getAtpId().equals(atpId)) {
                         if (AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY.equals(atpRelInfo.getTypeKey())) {
-                            AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpKey(), context);
+                            AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpId(), context);
                             if (thisAtp != null && thisAtp.getTypeKey().equals(relatedAtpType))
-                                currentRelIds.put(atpRelInfo.getRelatedAtpKey(), atpRelInfo.getId());
+                                currentRelIds.put(atpRelInfo.getRelatedAtpId(), atpRelInfo.getId());
 
                         }
                     }
                 }
             }
 
-            for (String relatedKey : relatedAtpKeys) {
+            for (String relatedKey : relatedAtpIds) {
                 if (!currentRelIds.containsKey(relatedKey))
-                    createAtpAtpRelations(atpKey, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
+                    createAtpAtpRelations(atpId, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
                 else
                     updateAtpAtpRelations(currentRelIds.get(relatedKey), context);
             }
 
         } catch (DoesNotExistException e) {
             // if not exist, create relations
-            for (String relatedKey : relatedAtpKeys) {
-                createAtpAtpRelations(atpKey, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
+            for (String relatedKey : relatedAtpIds) {
+                createAtpAtpRelations(atpId, relatedKey, AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, context);
             }
         }
     }
 
-    private void createAtpAtpRelations(String atpKey, String relatedAtpKey, String relationType, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
+    private void createAtpAtpRelations(String atpId, String relatedAtpId, String relationType, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
         atpRel.setId(UUIDHelper.genStringUUID());
-        atpRel.setAtpKey(atpKey);
-        atpRel.setRelatedAtpKey(relatedAtpKey);
+        atpRel.setAtpId(atpId);
+        atpRel.setRelatedAtpId(relatedAtpId);
         atpRel.setTypeKey(relationType);
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
         atpRel.setEffectiveDate(new Date());
         try {
-            atpService.createAtpAtpRelation(atpKey, relatedAtpKey, atpRel, context);
+            atpService.createAtpAtpRelation(atpId, relatedAtpId, atpRel, context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("Error creating atp-atp relation", e);
         } catch (ReadOnlyException e) {

@@ -14,26 +14,21 @@
  */
 package org.kuali.student.r2.core.atp.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
 import org.kuali.student.r2.core.atp.infc.Milestone;
 import org.w3c.dom.Element;
 
+import javax.xml.bind.annotation.*;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneInfo", propOrder = { "key", "typeKey", "stateKey",
+@XmlType(name = "MilestoneInfo", propOrder = { "id", "typeKey", "stateKey",
 		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
 		"meta", "attributes", "_futureElements" })
-public class MilestoneInfo extends KeyEntityInfo implements Milestone,
+public class MilestoneInfo extends IdEntityInfo implements Milestone,
 		Serializable {
 
 	private static final long serialVersionUID = 1L;
