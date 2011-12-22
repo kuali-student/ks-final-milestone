@@ -38,7 +38,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public AtpInfo getAtp(String atpKey, ContextInfo context)
+    public AtpInfo getAtp(String atpId, ContextInfo context)
 		    throws	DoesNotExistException, InvalidParameterException, MissingParameterException,
 				    OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -46,7 +46,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtp", null, null)) {
-	        return getNextDecorator().getAtp(atpKey, context);
+	        return getNextDecorator().getAtp(atpId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -253,7 +253,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpKeyList, ContextInfo context)
+    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException, 
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
@@ -262,7 +262,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpsByKeyList", null, null)) {
-        	return getNextDecorator().getAtpsByIds(atpKeyList, context);
+        	return getNextDecorator().getAtpsByIds(atpIdList, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -278,7 +278,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpKeysByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpIdsByType", null, null)) {
         	return getNextDecorator().getAtpIdsByType(atpTypeKey, context);
         }
         else {
@@ -442,7 +442,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesForAtp(String atpKey, ContextInfo context)
+    public List<MilestoneInfo> getMilestonesForAtp(String atpId, ContextInfo context)
     throws InvalidParameterException, MissingParameterException, 
     OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -450,7 +450,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesForAtp", null, null)) {
-        	return getNextDecorator().getMilestonesForAtp(atpKey, context);
+        	return getNextDecorator().getMilestonesForAtp(atpId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -483,7 +483,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpKeys", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAtpIds", null, null)) {
         	return getNextDecorator().searchForAtpIds(criteria, context);
         }
         else {
@@ -527,7 +527,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context)
+    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context)
     throws AlreadyExistsException, DataValidationErrorException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException {
@@ -536,7 +536,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtp", null, null)) {
-        	return getNextDecorator().createAtp(atpKey, atpInfo, context);
+        	return getNextDecorator().createAtp(atpId, atpInfo, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -545,7 +545,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context)
+    public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context)
     throws DataValidationErrorException, DoesNotExistException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException,
@@ -556,7 +556,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAtp", null, null)) {
             try {
-                return getNextDecorator().updateAtp(atpKey, atpInfo, context);
+                return getNextDecorator().updateAtp(atpId, atpInfo, context);
             } catch (ReadOnlyException e) {
                 throw new OperationFailedException(e.getMessage());
             }
@@ -568,7 +568,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public StatusInfo deleteAtp(String atpKey, ContextInfo context)
+    public StatusInfo deleteAtp(String atpId, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -577,7 +577,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAtp", null, null)) {
-        	return getNextDecorator().deleteAtp(atpKey, context);
+        	return getNextDecorator().deleteAtp(atpId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -757,7 +757,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpKey, ContextInfo context) 
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtp(String atpId, ContextInfo context)
     throws InvalidParameterException,
     MissingParameterException, OperationFailedException, 
     PermissionDeniedException {
@@ -766,7 +766,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByAtp", null, null)) {
-        	return getNextDecorator().getAtpAtpRelationsByAtp(atpKey, context);
+        	return getNextDecorator().getAtpAtpRelationsByAtp(atpId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -809,7 +809,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpKey, String atpPeerKey,
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpId, String atpPeerKey,
                                                              String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
                                                              ContextInfo contextInfo)
     throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
@@ -818,7 +818,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateAtpAtpRelation", null, null)) {
-        	return getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpKey, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, contextInfo);
+        	return getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpId, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, contextInfo);
         }
         else {
         	throw new OperationFailedException("Permission Denied.");
@@ -827,7 +827,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(String atpKey, String atpPeerKey,
+    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, String atpPeerKey,
                                                    AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
     throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
            OperationFailedException, PermissionDeniedException, ReadOnlyException {
@@ -837,7 +837,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtpAtpRelation", null, null)) {
-        	 return getNextDecorator().createAtpAtpRelation(atpKey, atpPeerKey, atpAtpRelationInfo, context);
+        	 return getNextDecorator().createAtpAtpRelation(atpId, atpPeerKey, atpAtpRelationInfo, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -887,7 +887,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(String atpKey, String relationType, ContextInfo context)
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(String atpId, String relationType, ContextInfo context)
     throws InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -896,7 +896,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAtpAtpRelationsByTypeAndAtp", null, null)) {
-        	return getNextDecorator().getAtpAtpRelationsByTypeAndAtp(atpKey, relationType, context);
+        	return getNextDecorator().getAtpAtpRelationsByTypeAndAtp(atpId, relationType, context);
         }
         else {
            throw new PermissionDeniedException();

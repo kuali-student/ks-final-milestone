@@ -45,15 +45,15 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
     }
 
     
-    public List<String> assembleRelations(String atpKey, String relatedAtpType, ContextInfo context) throws AssemblyException {
+    public List<String> assembleRelations(String atpId, String relatedAtpType, ContextInfo context) throws AssemblyException {
         List<String> ccKeys = new ArrayList<String>();
         List<AtpAtpRelationInfo> atpRels;
         try {
-            atpRels = atpService.getAtpAtpRelationsByAtp(atpKey, context);
+            atpRels = atpService.getAtpAtpRelationsByAtp(atpId, context);
             
             if(atpRels != null && !atpRels.isEmpty()){                  
                 for(AtpAtpRelationInfo atpRelInfo : atpRels){
-                    if(atpRelInfo.getAtpId().equals(atpKey)){
+                    if(atpRelInfo.getAtpId().equals(atpId)){
                         if(atpRelInfo.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY)){
                             AtpInfo thisAtp = atpService.getAtp(atpRelInfo.getRelatedAtpId(), context);
                             if(thisAtp != null && thisAtp.getTypeKey().equals(relatedAtpType))
