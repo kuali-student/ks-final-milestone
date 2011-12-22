@@ -17,9 +17,10 @@ package org.kuali.student.security.spring;
 
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.student.common.util.security.UserWithId;
-import org.springframework.security.providers.UsernamePasswordAuthenticationToken;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UsernameNotFoundException;
+
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * This is a description of what this class does. 

@@ -16,6 +16,7 @@
 package org.kuali.student.security.spring;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.kuali.rice.core.api.config.property.Config;
 import org.kuali.rice.core.api.config.property.ConfigContext;
@@ -24,14 +25,15 @@ import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.role.RoleService;
 import org.kuali.rice.kim.api.role.Role;
 import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.util.security.UserWithId;
-import org.springframework.security.GrantedAuthority;
-import org.springframework.security.userdetails.UserDetails;
-import org.springframework.security.userdetails.UserDetailsService;
-import org.springframework.security.userdetails.UsernameNotFoundException;
-import org.springframework.security.util.AuthorityUtils;
-import org.springframework.util.StringUtils;
 
+import org.kuali.student.common.util.security.UserWithId;
+import org.springframework.util.StringUtils;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -78,12 +80,11 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
             throw new KimUserNotFoundException("Invalid username or password");  
         }
         UserWithId ksuser = new UserWithId(username, password, enabled, true, true, nonlocked, getGrantedAuthority(userId));
-        ksuser.setUserId(userId);                     
-        
+        ksuser.setUserId(userId);
         return ksuser;
     }
     
-    protected GrantedAuthority[] getGrantedAuthority(String principalId){
+    protected List<GrantedAuthority> getGrantedAuthority(String principalId){
     	
     	String springRoles = "";
     	
@@ -116,7 +117,7 @@ public class KSDefaultUserDetailsService implements UserDetailsService{
         }
         
         springRoles = StringUtils.collectionToCommaDelimitedString(ksSpringRolesList);
-        return AuthorityUtils.commaSeparatedStringToAuthorityArray(springRoles);                
+        return AuthorityUtils.commaSeparatedStringToAuthorityList(springRoles);
         
     }
 

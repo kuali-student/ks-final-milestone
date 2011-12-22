@@ -25,7 +25,6 @@
                            http://www.springframework.org/schema/aop
                            http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
 
-	<bean id="kimIdentityService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl" />
 
     <bean id="kualiModuleService" class="org.kuali.rice.krad.service.impl.KualiModuleServiceImpl" />
 
