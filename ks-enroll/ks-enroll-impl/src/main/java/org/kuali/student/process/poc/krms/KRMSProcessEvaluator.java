@@ -111,6 +111,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         this.holdService = holdService;
     }
 
+    @Override
     public List<ValidationResultInfo> evaluate(CourseRegistrationProcessContextInfo processContext, ContextInfo context)
             throws OperationFailedException {
 
