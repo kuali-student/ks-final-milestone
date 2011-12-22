@@ -81,7 +81,6 @@ public class DirectRuleCheckEvaluator implements CheckEvaluator<DirectRuleCheckC
     }
 
     private static ValidationResultInfo initError(InstructionInfo instruction) {
-        // TODO: set the error level based on hold.isWarning () but not sure it should even be a property of the hold
         return MilestoneCheckEvaluator.initError(instruction);
     }
 

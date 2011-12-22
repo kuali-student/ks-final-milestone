@@ -160,7 +160,6 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
         List<ExemptionInfo> exemptions;
         try {
             exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(ExemptionServiceConstants.CHECK_EXEMPTION_TYPE_KEY,
-                    // TODO: worry about this being the right process key on sub-processes
                     processContext.getProcessKey(),
                     instruction.getCheckKey(),
                     processContext.getStudentId(),
