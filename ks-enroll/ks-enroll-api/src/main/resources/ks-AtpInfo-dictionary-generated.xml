@@ -51,13 +51,13 @@ Information about an Academic Time Period.
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="AtpInfo.key"/>
+				<ref bean="AtpInfo.id"/>
 				<ref bean="AtpInfo.typeKey"/>
 				<ref bean="AtpInfo.stateKey"/>
 				<ref bean="AtpInfo.name"/>
@@ -79,8 +79,8 @@ Information about an Academic Time Period.
 		</property>
 	</bean>
 
-	<bean id="AtpInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="AtpInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="AtpInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
