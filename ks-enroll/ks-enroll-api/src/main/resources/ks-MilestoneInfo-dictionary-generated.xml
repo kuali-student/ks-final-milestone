@@ -52,13 +52,13 @@ point in time or a range depending on the value of isDateRange().
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="MilestoneInfo.key"/>
+				<ref bean="MilestoneInfo.id"/>
 				<ref bean="MilestoneInfo.typeKey"/>
 				<ref bean="MilestoneInfo.stateKey"/>
 				<ref bean="MilestoneInfo.name"/>
@@ -82,8 +82,8 @@ point in time or a range depending on the value of isDateRange().
 		</property>
 	</bean>
 
-	<bean id="MilestoneInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="MilestoneInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="MilestoneInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">

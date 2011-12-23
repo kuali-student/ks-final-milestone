@@ -42,8 +42,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
 	</bean>
 
-	<bean id="MilestoneInfo.key" parent="MilestoneInfo.key-parent"/>
-	<bean id="MilestoneInfo.key-parent" abstract="true" parent="MilestoneInfo.key-generated">
+	<bean id="MilestoneInfo.id" parent="MilestoneInfo.id-parent"/>
+	<bean id="MilestoneInfo.id-parent" abstract="true" parent="MilestoneInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

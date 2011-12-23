@@ -57,13 +57,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpAtpRelationInfo.atpKey" parent="AtpAtpRelationInfo.atpKey-parent"/>
-	<bean id="AtpAtpRelationInfo.atpKey-parent" abstract="true" parent="AtpAtpRelationInfo.atpKey-generated">
+	<bean id="AtpAtpRelationInfo.atpId" parent="AtpAtpRelationInfo.atpId-parent"/>
+	<bean id="AtpAtpRelationInfo.atpId-parent" abstract="true" parent="AtpAtpRelationInfo.atpId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AtpAtpRelationInfo.relatedAtpKey" parent="AtpAtpRelationInfo.relatedAtpKey-parent"/>
-	<bean id="AtpAtpRelationInfo.relatedAtpKey-parent" abstract="true" parent="AtpAtpRelationInfo.relatedAtpKey-generated">
+	<bean id="AtpAtpRelationInfo.relatedAtpId" parent="AtpAtpRelationInfo.relatedAtpId-parent"/>
+	<bean id="AtpAtpRelationInfo.relatedAtpId-parent" abstract="true" parent="AtpAtpRelationInfo.relatedAtpId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
