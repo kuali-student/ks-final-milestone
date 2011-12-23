@@ -79,7 +79,7 @@ public class TestAtpServiceValidationDecorator {
         // validation should have problems with a new, incomplete milestone
         List<ValidationResultInfo> validationResults =
                 atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
-        assertEquals("Three validation errors are expected.", 3, validationResults.size());
+        assertEquals("Three validation errors are expected.", 2, validationResults.size());
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
@@ -110,7 +110,7 @@ public class TestAtpServiceValidationDecorator {
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }
-        assertEquals("Three validation errors are expected.", 3, validationResults.size());
+        assertEquals("Three validation errors are expected.", 2, validationResults.size());
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
