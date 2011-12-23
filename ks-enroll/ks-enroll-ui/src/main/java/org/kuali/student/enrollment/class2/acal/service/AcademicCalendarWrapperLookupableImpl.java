@@ -41,9 +41,7 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
                 if (acal != null) academicCalendarInfoList.add(acal);
             }
             else {
-                //TODO: method removed. Fix in M1
-                //List<AcademicCalendarInfo> acals = getAcademicCalendarService().getAcademicCalendarsByCredentialProgramType(credentialProgramType, context);
-                List<AcademicCalendarInfo> acals = null;
+                List<AcademicCalendarInfo> acals = getAcademicCalendarService().getAcademicCalendarsByCredentialProgramType(credentialProgramType, context);
                 if(!acals.isEmpty()){
                     if(academicCalendarName != null && !academicCalendarName.trim().isEmpty()){
                         for (AcademicCalendarInfo academicCalendarInfo : acals){
@@ -62,11 +60,11 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     	            List<TermWrapper> termWrapperList = academicCalendarWrapper.getTermWrapperList();
 
                     academicCalendarWrapper.setAcademicCalendarInfo(academicCalendarInfo);
-                    List<TermInfo> terms = getAcademicCalendarService().getTermsForAcademicCalendar(academicCalendarInfo.getId(), context);
+                    List<TermInfo> terms = getAcademicCalendarService().getTermsForAcademicCalendar(academicCalendarInfo.getKey(), context);
                     for (TermInfo term : terms){
                         TermWrapper termWrapper = new TermWrapper();
                         termWrapper.setTermInfo(term);
-                        List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(term.getId(), context);
+                        List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(term.getKey(), context);
                         for (KeyDateInfo keyDateInfo : keyDateInfoList){
                             if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
                                 termWrapper.setClassesMeetDates(keyDateInfo);

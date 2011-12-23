@@ -46,6 +46,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.*;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.test.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
@@ -92,7 +93,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     @Override
     public List<GradeStudent> loadStudents(String selectedCourse,GradingForm gradingForm) throws Exception {
 
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = TestHelper.getContext1();
 
         IdentityService identityService = (IdentityService) GlobalResourceLoader.getService(new QName(
                 GradingConstants.IDENTITY_SERVICE_URL, GradingConstants.IDENTITY_SERVICE_NAME));
@@ -159,7 +160,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     public boolean saveGrades(GradingForm gradingForm)throws Exception {
 
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = TestHelper.getContext1();
 
         List<GradeStudent> gradeStudentList = gradingForm.getStudents();
         boolean updateRoster = false;
@@ -184,7 +185,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     public boolean submitGradeRoster(GradingForm gradingForm)throws Exception {
         boolean save = saveGrades(gradingForm);
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = TestHelper.getContext1();
 
         for (GradeRosterInfo info : gradingForm.getRosterInfos()){
             getGradingService().updateFinalGradeRosterState(info.getId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_SUBMITTED_STATE_KEY,context);
@@ -202,7 +203,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         TermInfo term = getAcalService().getTerm(studentGradeForm.getSelectedTerm(), context);
 
-        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getId(), context);
+        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getKey(), context);
         if (null != courseRecords) {
             for (StudentCourseRecord courseRecord : courseRecords) {
                 StudentCredit credit = new StudentCredit();
@@ -255,7 +256,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
 
         try{
-            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getId(), context.getPrincipalId(), context);
+            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), context.getPrincipalId(), context);
 
             if (coIds == null || coIds.isEmpty()){
                 GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_COURSE_NOT_FOUND_TO_GRADE,term.getName());

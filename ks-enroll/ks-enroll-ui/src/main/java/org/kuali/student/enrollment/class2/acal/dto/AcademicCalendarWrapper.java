@@ -39,7 +39,7 @@ public class AcademicCalendarWrapper implements Serializable {
 	 */
 	public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
 		this.academicCalendarInfo = academicCalendarInfo;
-        this.key = academicCalendarInfo.getId();
+        this.key = academicCalendarInfo.getKey();
 	}
 	/**
 	 * @return the termWrapperList

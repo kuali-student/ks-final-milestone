@@ -46,20 +46,20 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         TermInfo termInfo = termWrapper.getTermInfo();
         String termKey = getTermInfoKey (termInfo);
         System.out.println(">>>termKey = "+termKey);
-        termInfo.setId(termKey);
+        termInfo.setKey(termKey);
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         
         KeyDateInfo classesMeetDates = termWrapper.getClassesMeetDates();
         classesMeetDates.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         classesMeetDates.setTypeKey(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY);
         String classesMeetDatesKey = getKeyDateInfoKey(classesMeetDates, termKey);
-        classesMeetDates.setId(classesMeetDatesKey);
+        classesMeetDates.setKey(classesMeetDatesKey);
         
         KeyDateInfo registrationPeriod = termWrapper.getRegistrationPeriod();
         registrationPeriod.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         registrationPeriod.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         String registrationPeriodKey = getKeyDateInfoKey(registrationPeriod, termKey);
-        registrationPeriod.setId(registrationPeriodKey);
+        registrationPeriod.setKey(registrationPeriodKey);
 
         
   
@@ -67,21 +67,21 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         dropPeriodEndsDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         dropPeriodEndsDate.setTypeKey(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY);
         String dropPeriodEndsDateKey = getKeyDateInfoKey(dropPeriodEndsDate, termKey);
-        dropPeriodEndsDate.setId(dropPeriodEndsDateKey);
+        dropPeriodEndsDate.setKey(dropPeriodEndsDateKey);
 
 
         KeyDateInfo finalExaminationsDates = termWrapper.getFinalExaminationsDates();
         finalExaminationsDates.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         finalExaminationsDates.setTypeKey(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY);
         String finalExaminationsDatesKey = getKeyDateInfoKey(finalExaminationsDates, termKey);
-        finalExaminationsDates.setId(finalExaminationsDatesKey);
+        finalExaminationsDates.setKey(finalExaminationsDatesKey);
 
         
         KeyDateInfo gradesDueDate = termWrapper.getGradesDueDate();
         gradesDueDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         gradesDueDate.setTypeKey(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
         String gradesDueDateKey = getKeyDateInfoKey(gradesDueDate, termKey);
-        gradesDueDate.setId(gradesDueDateKey);
+        gradesDueDate.setKey(gradesDueDateKey);
   
 		academicCalendarService = getAcademicCalendarService();
 		ContextInfo context = ContextInfo.newInstance();
@@ -90,11 +90,11 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {          		
         		academicCalendarService.createTerm(termKey, termInfo, context);
-        		academicCalendarService.createKeyDate(termKey, classesMeetDatesKey, classesMeetDates, context);
-        		academicCalendarService.createKeyDate(termKey, registrationPeriodKey, registrationPeriod, context);
-        		academicCalendarService.createKeyDate(termKey, dropPeriodEndsDateKey, dropPeriodEndsDate, context);
-        		academicCalendarService.createKeyDate(termKey, finalExaminationsDatesKey, finalExaminationsDates, context);
-        		academicCalendarService.createKeyDate(termKey, gradesDueDateKey, gradesDueDate, context);
+        		academicCalendarService.createKeyDateForTerm(termKey, classesMeetDatesKey, classesMeetDates, context);
+        		academicCalendarService.createKeyDateForTerm(termKey, registrationPeriodKey, registrationPeriod, context);
+        		academicCalendarService.createKeyDateForTerm(termKey, dropPeriodEndsDateKey, dropPeriodEndsDate, context);
+        		academicCalendarService.createKeyDateForTerm(termKey, finalExaminationsDatesKey, finalExaminationsDates, context);
+        		academicCalendarService.createKeyDateForTerm(termKey, gradesDueDateKey, gradesDueDate, context);
        		
         	}
         	else {
@@ -105,6 +105,8 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         		academicCalendarService.updateKeyDate(finalExaminationsDatesKey, finalExaminationsDates, context);
         		academicCalendarService.updateKeyDate(gradesDueDateKey, gradesDueDate, context);        		
         	}
+        }catch (AlreadyExistsException aee){
+
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -112,8 +114,6 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         }catch (MissingParameterException mpe){
             
         }catch (OperationFailedException ofe){
-
-        }catch (ReadOnlyException roe){
            
         }catch (PermissionDeniedException pde){
             
@@ -143,7 +143,7 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
                     // If we don't clear the primary key and set the fieldsClearedOnCopy flag then the
                     // MaintenanceDocumentServiceImpl.processMaintenanceObjectForCopy() will try to locate the primary keys in
                     // an attempt to clear them which again would cause an exception due to the wrapper class.
-                    termInfo.setId(null);
+                    termInfo.setKey(null);
                     document.setFieldsClearedOnCopy(true);
                 }
                 termWrapper.setTermInfo(termInfo);

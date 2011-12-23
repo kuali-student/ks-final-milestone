@@ -48,7 +48,7 @@ public class TermWrapper implements Serializable {
 	 */
 	public void setTermInfo(TermInfo termInfo) {
 		this.termInfo = termInfo;
-        this.key = termInfo.getId();
+        this.key = termInfo.getKey();
 	}
 	/**
 	 * @return the classesMeetDates
