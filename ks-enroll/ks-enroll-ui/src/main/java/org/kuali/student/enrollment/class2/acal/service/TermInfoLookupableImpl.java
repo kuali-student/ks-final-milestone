@@ -39,7 +39,7 @@ public class TermInfoLookupableImpl extends LookupableImpl {
                 // and last
                 acalInfoList.addAll(getAcademicCalendarService().getAcademicCalendarsByStartYear(thisYear - 1, context));
                 for (AcademicCalendarInfo acalInfo : acalInfoList) {
-                    termInfoList.addAll(getAcademicCalendarService().getTermsForAcademicCalendar(acalInfo.getKey(), context));
+                    termInfoList.addAll(getAcademicCalendarService().getTermsForAcademicCalendar(acalInfo.getId(), context));
                 }
             } catch (Exception e) {
                 e.printStackTrace();

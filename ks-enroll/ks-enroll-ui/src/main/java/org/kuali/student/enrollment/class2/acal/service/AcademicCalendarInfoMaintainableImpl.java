@@ -14,14 +14,7 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
@@ -36,9 +29,8 @@ public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
     public void saveDataObject() {
         AcademicCalendarInfo academicCalendarInfo = (AcademicCalendarInfo)getDataObject();
         String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
-        academicCalendarInfo.setKey(academicCalendarKey);
+        academicCalendarInfo.setId(academicCalendarKey);
         academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-        System.out.println(">>>>credentialProgramTypeKey = "+academicCalendarInfo.getCredentialProgramTypeKey());
         try{
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {   
@@ -47,8 +39,6 @@ public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
         	else {
         		getAcademicCalendarService().updateAcademicCalendar(academicCalendarKey, academicCalendarInfo, ContextInfo.newInstance());
         	}
-        }catch (AlreadyExistsException aee){
-            
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -57,6 +47,8 @@ public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
             
         }catch (OperationFailedException ofe){
            
+        }catch (ReadOnlyException roe){
+
         }catch (PermissionDeniedException pde){
             
         }catch (DoesNotExistException dee){
@@ -120,7 +112,9 @@ public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
         String academicCalendarKey = new String (ACADEMIC_CALENDAR_KEY_PREFIX);
         String credentialProgram;
         
-        String credentialProgramTypeKey = academicCalendarInfo.getCredentialProgramTypeKey();
+        //TODO: method removed fix in M1
+        // String credentialProgramTypeKey = academicCalendarInfo.getCredentialProgramTypeKey();
+        String credentialProgramTypeKey = "";
         if (credentialProgramTypeKey.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
         	credentialProgram  = credentialProgramTypeKey.substring(25);
         }

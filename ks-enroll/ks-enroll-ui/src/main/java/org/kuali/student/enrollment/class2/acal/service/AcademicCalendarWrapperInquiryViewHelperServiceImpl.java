@@ -50,7 +50,7 @@ public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends Inquira
     		for (TermInfo termInfo:termInfoList){
     			TermWrapper termWrapper = new TermWrapper();
     			termWrapper.setTermInfo(termInfo);
-    			List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm(termInfo.getKey(), context);
+    			List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm(termInfo.getId(), context);
     			for (KeyDateInfo keyDateInfo : keyDateInfoList){
     				if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
     					termWrapper.setClassesMeetDates(keyDateInfo);
