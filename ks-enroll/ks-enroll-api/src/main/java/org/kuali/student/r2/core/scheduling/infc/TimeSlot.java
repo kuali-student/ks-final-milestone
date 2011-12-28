@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 public interface TimeSlot extends IdEntity {
 
     /**
-     * The weekday codes.
+     * The weekday codes. 
      *
      * @name Weekdays
      * @required
@@ -37,26 +37,34 @@ public interface TimeSlot extends IdEntity {
     public Integer[] getWeekdays();
 
     /**
-     * The hour of the day (0-23).
+     * The starting hour of the day (0-23).
      *
-     * @name Hour
+     * @name Start Hour
      * @required
      */
-    public Integer getHour();
+    public Integer getStartHour();
 
     /**
-     * The minute of the hour (0-59).
+     * The starting minute of the hour (0-59).
      *
-     * @name Minute
+     * @name Start Minute
      * @required
      */
-    public Integer getMinute();
+    public Integer getStartMinute();
 
     /**
-     * The duration of the time.
+     * The ending hour of the day (0-23).
      *
-     * @name Duration
+     * @name End Hour
      * @required
      */
-    TimeAmount getDuration();
+    public Integer getEndHour();
+
+    /**
+     * The ending minute of the hour (0-59).
+     *
+     * @name End Minute
+     * @required
+     */
+    public Integer getEndMinute();
 }

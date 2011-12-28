@@ -10,8 +10,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -891,58 +892,7 @@ public class TestAcademicCalendarServiceImpl {
         for (TermInfo term : originalCalendarTerms) {
             assertFalse(copiedCalendarTerms.contains(term));
             // TODO check terms were copied properly
-            assertNotNull(acalService.getRegistrationDateGroup(term.getId(), callContext));
             assertNotNull(acalService.getContainingTerms(term.getId(), callContext));
         }
     }
-
-    @Test
-    public void testGetRegistrationDateGroup() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        final String termKey = "FALLTERM1990";
-        RegistrationDateGroupInfo registrationDateGroup = acalService.getRegistrationDateGroup(termKey, callContext);
-        assertNotNull(registrationDateGroup);
-        assertNotNull(registrationDateGroup.getAddDate());
-        assertNotNull(registrationDateGroup.getClassDateRange());
-        assertNotNull(registrationDateGroup.getDropDate());
-        assertNotNull(registrationDateGroup.getFinalExamDateRange());
-        assertNotNull(registrationDateGroup.getGradingDateRange());
-        assertNotNull(registrationDateGroup.getRegistrationDateRange());
-    }
-
-    @Test
-    public void testUpdateRegistrationDateGroup() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException,
-            DataValidationErrorException, VersionMismatchException {
-        RegistrationDateGroupInfo registrationDateGroup = acalService.getRegistrationDateGroup("FALLFIRSTBLOCK1990", callContext);
-        assertNotNull(registrationDateGroup.getGradingDateRange());
-        assertNull(registrationDateGroup.getFinalExamDateRange());
-        assertNotNull(registrationDateGroup.getRegistrationDateRange());
-        assertNotNull(registrationDateGroup.getRegistrationDateRange().getStart());
-        assertNotNull(registrationDateGroup.getRegistrationDateRange().getEnd());
-
-        Date newRegPeriodStart = DateUtils.addDays(registrationDateGroup.getRegistrationDateRange().getStart(), 1);
-        Date newRegPeriodEnd = DateUtils.addDays(registrationDateGroup.getRegistrationDateRange().getEnd(), -1);
-
-        // add final exam
-        registrationDateGroup.setFinalExamDateRange(registrationDateGroup.getGradingDateRange());
-        // remove grading period
-        registrationDateGroup.setGradingDateRange(null);
-        // change registration period
-        DateRangeInfo newRegPeriod = new DateRangeInfo();
-        newRegPeriod.setStart(newRegPeriodStart);
-        newRegPeriod.setEnd(newRegPeriodEnd);
-        registrationDateGroup.setRegistrationDateRange(newRegPeriod);
-        registrationDateGroup.setAddDate(newRegPeriodStart);
-
-        RegistrationDateGroupInfo updatedRegistrationDateGroup;
-        updatedRegistrationDateGroup = acalService.updateRegistrationDateGroup(registrationDateGroup.getTermKey(), registrationDateGroup, callContext);
-
-        assertNull(updatedRegistrationDateGroup.getGradingDateRange());
-        assertNotNull(updatedRegistrationDateGroup.getFinalExamDateRange());
-        assertNotNull(updatedRegistrationDateGroup.getRegistrationDateRange());
-        assertNotNull(updatedRegistrationDateGroup.getRegistrationDateRange().getStart());
-        assertNotNull(updatedRegistrationDateGroup.getRegistrationDateRange().getEnd());
-        assertEquals(newRegPeriodStart, updatedRegistrationDateGroup.getRegistrationDateRange().getStart());
-        assertEquals(newRegPeriodEnd, updatedRegistrationDateGroup.getRegistrationDateRange().getEnd());
-    }
-
 }

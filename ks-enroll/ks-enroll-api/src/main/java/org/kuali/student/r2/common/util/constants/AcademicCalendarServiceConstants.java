@@ -18,7 +18,6 @@ import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 /**
@@ -39,12 +38,13 @@ public class AcademicCalendarServiceConstants {
     public static final String REF_OBJECT_URI_HOLIDAY_CALENDAR = NAMESPACE + "/" + HolidayCalendarInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_HOLIDAY = NAMESPACE + "/" + HolidayInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_KEY_DATE = NAMESPACE + "/" + KeyDateInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_ENROLLMENT_DATE_GROUP = NAMESPACE + "/" + RegistrationDateGroupInfo.class.getSimpleName();
+
     /**
      * Academic Calendar Types
      */
     public static final String ACADEMIC_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY;
     public static final String CAMPUS_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY;
+
     /**
      * Registration Date Groups
      */

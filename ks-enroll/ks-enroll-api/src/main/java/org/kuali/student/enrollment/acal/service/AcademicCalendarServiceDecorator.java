@@ -21,7 +21,6 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -385,6 +384,11 @@ public class AcademicCalendarServiceDecorator
     }
 
     @Override
+    public List<KeyDateInfo> getImpactedKeyDates(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().getImpactedKeyDates(keyDateId, contextInfo));
+    }
+
+    @Override
     public List<String> searchForKeyDateIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().searchForKeyDateIds(criteria, contextInfo));
     }
@@ -462,6 +466,11 @@ public class AcademicCalendarServiceDecorator
     @Override
     public List<AcalEventInfo> getAcalEventsForAcademicCalendarByDate(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().getAcalEventsForAcademicCalendarByDate(academicCalendarId, startDate, endDate, contextInfo));
+    }
+
+    @Override
+    public List<AcalEventInfo> getImpactedAcalEvents(String acalEventId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().getImpactedAcalEvents(acalEventId, contextInfo));
     }
 
     @Override
@@ -545,6 +554,11 @@ public class AcademicCalendarServiceDecorator
     }
 
     @Override
+    public List<HolidayInfo> getImpactedHolidays(String holidayId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().getImpactedHolidays(holidayId, contextInfo));
+    }
+
+    @Override
     public List<String> searchForHolidayIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().searchForHolidayIds(criteria, contextInfo));
     }
@@ -572,21 +586,6 @@ public class AcademicCalendarServiceDecorator
     @Override
     public StatusInfo deleteHoliday(String holidayId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().deleteHoliday(holidayId, contextInfo));
-    }
-
-    @Override
-    public RegistrationDateGroupInfo getRegistrationDateGroup(String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return (getNextDecorator().getRegistrationDateGroup(termId, contextInfo));
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateRegistrationDateGroup(String validationTypeKey, String termId, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return (getNextDecorator().validateRegistrationDateGroup(validationTypeKey, termId, registrationDateGroupInfo, contextInfo));
-    }
-
-    @Override
-    public RegistrationDateGroupInfo updateRegistrationDateGroup(String termId, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return (getNextDecorator().updateRegistrationDateGroup(termId, registrationDateGroupInfo, contextInfo));
     }
 
     @Override

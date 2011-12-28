@@ -6,10 +6,10 @@ import javax.jws.WebParam;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarServiceDecorator;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
@@ -259,40 +259,4 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
         }
         return errors;
     }
-
-    @Override
-    public RegistrationDateGroupInfo updateRegistrationDateGroup(String termId, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        _validateRegistrationDateGroup(termId, registrationDateGroupInfo, context);
-        return this.getNextDecorator().updateRegistrationDateGroup(termId, registrationDateGroupInfo, context);
-    }
-
-    private void _validateRegistrationDateGroup(String termId, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException,
-            InvalidParameterException, MissingParameterException {
-        try {
-            List<ValidationResultInfo> errors = this.validateRegistrationDateGroup(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), null, registrationDateGroupInfo, context);
-            if (!errors.isEmpty()) {
-                throw new DataValidationErrorException("Error(s) occurred validating registration date group", errors);
-            }
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Error validating registration date group", ex);
-        }
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateRegistrationDateGroup(String validationTypeKey, String termId, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, DataValidationErrorException {
-        List<ValidationResultInfo> errors;
-        try {
-            errors = ValidationUtils.validateInfo(validator, validationTypeKey, registrationDateGroupInfo, contextInfo);
-            List<ValidationResultInfo> nextDecoratorErrors = getNextDecorator().validateRegistrationDateGroup(validationTypeKey,termId,  registrationDateGroupInfo, contextInfo);
-            if (null != nextDecoratorErrors) {
-                errors.addAll(nextDecoratorErrors);
-            }
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Error validating registration date group", ex);
-        }
-        return errors;
-    }
-
 }

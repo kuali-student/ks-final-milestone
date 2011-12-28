@@ -25,7 +25,6 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -53,13 +52,15 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
  * reference to a Term that does not retrieve all the key date
  * information that may relate to the Term. Terms may be nested at
  * this level. A Term may contain another Term and each of these
- * included Terms may have their own key dates. Convenience service
- * methods exist to query all the key dates for an Academic Calendar
- * or Term. An Academic Calendar also has a Holiday Calendar. The
- * Holiday Calendar has a holiday location, and include the key dates
- * and holidays that are specific to a holiday. The same Holiday
- * Calendar can be used for multiple Academic Calendars. Version: 1.0
- * (Dev)
+ * included Terms may have their own key dates. 
+ *
+ * Convenience service methods exist to query all the key dates for an
+ * Academic Calendar or Term. An Academic Calendar also has a Holiday
+ * Calendar. The Holiday Calendar has a holiday location, and include
+ * the holidays that are specific to a holiday. The same Holiday
+ * Calendar can be used for multiple Academic Calendars.
+ *
+ * Version: 1.0 (Dev)
  * 
  * @author tom
  * @since Sun Apr 10 14:22:34 EDT 2011
@@ -1200,7 +1201,7 @@ public interface AcademicCalendarService extends DataDictionaryService {
     /**
      * Retrieves a list of KeyDate Ids by Type.
      * 
-     * @param keyDateTypeKey an identifier for an KeyDate Type
+     * @param keyDateTypeKey an identifier for a KeyDate Type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of KeyDates matching keyDateTypeKey or an empty
@@ -1251,6 +1252,26 @@ public interface AcademicCalendarService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<KeyDateInfo> getKeyDatesForTermByDate(@WebParam(name = "termId") String termId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Gets a list of KeyDates impacted by a change to a given
+     * KeyDate. Rules may exist to calculate key dates based on a
+     * KeyDate Type. Management of these calculation rules are not at
+     * this time exposed in this service.
+     * 
+     * @param keyDateId an identifier for a KeyDate
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of KeyDates impacted by the given KeyDate
+     * @throws DoesNotExistException keyDateId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException keyDateId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure
+     *         occurred
+     */
+    public List<KeyDateInfo> getImpactedKeyDates(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for KeyDates that meet the given search criteria.
@@ -1554,6 +1575,26 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<AcalEventInfo> getAcalEventsForAcademicCalendarByDate(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Gets a list of AcalEvents impacted by a change to a given
+     * AcalEvent. Rules may exist to calculate key dates based on a
+     * AcalEvent Type. Management of these calculation rules are not at
+     * this time exposed in this service.
+     * 
+     * @param acalEventId an identifier for an AcalEvent
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of AcalEvents impacted by the given AcalEvent
+     * @throws DoesNotExistException keyDateId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException acalEventId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure
+     *         occurred
+     */
+    public List<AcalEventInfo> getImpactedAcalEvents(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Searches for AcalEvents that meet the given search criteria.
      * 
      * @param criteria the search criteria
@@ -1852,6 +1893,26 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public List<HolidayInfo> getHolidaysForHolidayCalendarByDate(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Gets a list of Holidays impacted by a change to a given
+     * Holiday. Rules may exist to calculate key dates based on a
+     * Holiday Type. Management of these calculation rules are not at
+     * this time exposed in this service.
+     * 
+     * @param holidayId an identifier for a Holiday
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Holidays impacted by the given Holiday
+     * @throws DoesNotExistException keyDateId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException holidayId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure
+     *         occurred
+     */
+    public List<HolidayInfo> getImpactedHolidays(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Searches for Holidays that meet the given search criteria.
      * 
      * @param criteria the search criteria
@@ -1988,104 +2049,6 @@ public interface AcademicCalendarService extends DataDictionaryService {
      *         occurred
      */
     public StatusInfo deleteHoliday(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Gets the RegistrationDateGroup for a Term. The date group is a
-     * set of hardened well-known dates where the KeyDates are marked
-     * witha KeyDate Type. A RegistrationDateGroup is a short cut to
-     * getting a set KeyDates related to the given Term. 
-     *
-     * A RegistrationDateGroup is available for all Terms by default
-     * and does not explicitly need to be created. If the KeyDates
-     * have not been created for the dates in the group, a
-     * RegistrationDateGroup is still returned from
-     * getRegistrationDateGroup() but with empty or default dates.
-     * 
-     * @param termId an identifier for a Term
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return the requested RegistrationDateGroup
-     * @throws DoesNotExistException termId is not found
-     * @throws InvalidParameterException contextInfois not valid
-     * @throws MissingParameterException termId or contextInfo is
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public RegistrationDateGroupInfo getRegistrationDateGroup(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Validates a RegistrationDateGrpup. Depending on the value of
-     * validationType, this validation could be limited to tests on
-     * just the current RegistrationDateGroup and its directly
-     * contained subobjects or expanded to perform all tests related
-     * to this RegistrationDateGroup. If an identifier is present for
-     * the RegistrationDateGroup (and/or one of its contained
-     * sub-objects) and a record is found for that identifier, the
-     * validation checks if the RegistrationDateGroup can be updated
-     * to the new values. If an identifier is not present or a record
-     * does not eist, thevalidation checks if the object with the
-     * given data can be created.
-     * 
-     * @param validationTypeKey the identifier for the validation Type
-     * @param termId the identifier for the Term
-     * @param registrationDateGroupInfo the RegistrationDateGroup to
-     *        be validated
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return a list of validation rsults or an empty list if
-     *         validation succeeded
-     * @throws DataValidationErrorException the supplied data is
-     *         invalid
-     * @throws DoesNotExistException validationTypeKey or termid is
-     *         not found
-     * @throws InvalidParameterException registrationDateGroupInfo or
-     *         contextInfo is not valid
-     * @throws MissingParameterException missing validationTypeKey,
-     *         termId, registrationDateGroupInfo, or contextInfo is
-     *         missing or null
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ValidationResultInfo> validateRegistrationDateGroup(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "termId") String termId, @WebParam(name = "registrationDateGroupInfo") RegistrationDateGroupInfo registrationDateGroupInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Updates a RegistrationDateGroup for a Term. The date group is a
-     * set of hardened well-known dates. Updating a
-     * RegistrationDateGroup is a short cut to creating or updating
-     * the corresponding KeyDates and relating them to the given
-     * Term. 
-     *
-     * A RegistrationDateGroupInfo is available for all Terms by
-     * default and does not explicitly need to be created. If the
-     * KeyDates have not been created for the dates in the group, a
-     * RegistrationDateGroup is still returned from
-     * getRegistrationDateGroup() but with empty or default
-     * dates. 
-     *
-     * Setting date values in an RegistrationDateGroup through this
-     * update method either creates the KeyDates with the appropriate
-     * Types that map to the fields in the date group for the given
-     * Term or updates them if they already exist.
-     * 
-     * @param termId an identifier for the Term
-     * @param registrationDateGroupInfo the new data for the
-     *        RegistrationDateGroup
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return the updated RegistrationDateGroup
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException termId is not found
-     * @throws InvalidParameterException registrationDateGroupInfo or
-     *         contextInfo is not valid
-     * @throws MissingParameterException termId,
-     *         registrationDateGroupInfo, or contextInfo is missing or
-     *         null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException optimistic locking failure or
-     *         the action was attempted on an out of date version
-     */
-    public RegistrationDateGroupInfo updateRegistrationDateGroup(@WebParam(name = "termId") String termId, @WebParam(name = "registrationDateGroupInfo") RegistrationDateGroupInfo registrationDateGroupInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
      * Calculates the number of instructional days for a Term. The

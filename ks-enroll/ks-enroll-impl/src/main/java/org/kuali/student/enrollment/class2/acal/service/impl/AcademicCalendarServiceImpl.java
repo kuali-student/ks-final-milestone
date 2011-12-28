@@ -1006,6 +1006,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return keyDates;
     }
 
+    @Override
+    public List<KeyDateInfo> getImpactedKeyDates(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return new ArrayList<KeyDateInfo>();
+    }
+
     private MilestoneInfo toMilestoneInfo(KeyDateInfo keyDateInfo) {
         if (keyDateInfo != null) {
             MilestoneInfo msInfo = new MilestoneInfo();
@@ -1100,6 +1106,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return atpService.deleteMilestone(holidayKey, context);
     }
 
+    /*
+     * reg date groups removed from service 12/16
+
     @Override
     public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -1133,6 +1142,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         KeyDateInfo gradingPeriod = keyDates.get(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
         registrationDateGroup.setGradingDateRange(getDateRangeFromKeyDate(gradingPeriod));
     }
+
+    */
 
     private DateRangeInfo getDateRangeFromKeyDate(KeyDateInfo keyDate) {
         DateRangeInfo dateRange = null;
@@ -1170,6 +1181,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         keyDate.setIsDateRange(Boolean.FALSE);
         return keyDate;
     }
+
+    /* reg date groups removed from service
 
     @Override
     public RegistrationDateGroupInfo updateRegistrationDateGroup(String termKey, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DataValidationErrorException,
@@ -1248,6 +1261,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             atpService.deleteMilestone(existingKeyDate.getId(), context);
         }
     }
+    */
 
     public AtpService getAtpService() {
         return atpService;
@@ -1606,6 +1620,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    public List<AcalEventInfo> getImpactedAcalEvents(String acalEventId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return new ArrayList<AcalEventInfo>();
+    }
+
+    @Override
     public List<String> searchForAcalEventIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -1708,6 +1728,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    public List<HolidayInfo> getImpactedHolidays(String holidayId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return new ArrayList<HolidayInfo>();
+    }
+
+    @Override
     public List<String> searchForHolidayIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -1728,12 +1754,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return null;
     }
 
+    /* reg date groups removed from service
+
     @Override
     public List<ValidationResultInfo> validateRegistrationDateGroup(String validationTypeKey, String termId, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+    */
 
     @Override
     public String getAcademicCalendarData(String academicCalendarId, String calendarDataFormatTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,

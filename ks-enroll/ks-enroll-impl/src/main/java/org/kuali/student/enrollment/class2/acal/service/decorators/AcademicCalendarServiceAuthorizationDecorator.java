@@ -6,19 +6,22 @@ import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.permission.PermissionService;
+
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarServiceDecorator;
+
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -28,9 +31,13 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
 
-public class AcademicCalendarServiceAuthorizationDecorator extends AcademicCalendarServiceDecorator implements HoldsPermissionService {
+public class AcademicCalendarServiceAuthorizationDecorator 
+    extends AcademicCalendarServiceDecorator 
+    implements HoldsPermissionService {
+
     public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";
     public static final String SERVICE_NAME = "AcademicCalendarService.";
 
@@ -1033,34 +1040,6 @@ public class AcademicCalendarServiceAuthorizationDecorator extends AcademicCalen
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHoliday", null, null)) {
             return getNextDecorator().deleteHoliday(holidayKey, context);
-        } else {
-            throw new PermissionDeniedException();
-        }
-    }
-
-    @Override
-    public RegistrationDateGroupInfo getRegistrationDateGroup(String termKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationDateGroup", null, null)) {
-            return getNextDecorator().getRegistrationDateGroup(termKey, context);
-        } else {
-            throw new PermissionDeniedException();
-        }
-    }
-
-    @Override
-    public RegistrationDateGroupInfo updateRegistrationDateGroup(String termKey, RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo context) throws DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateRegistrationDateGroup", null, null)) {
-            return getNextDecorator().updateRegistrationDateGroup(termKey, registrationDateGroupInfo, context);
         } else {
             throw new PermissionDeniedException();
         }

@@ -36,7 +36,7 @@ public interface ScheduleRequest extends IdEntity {
      * @required
      * @readonly
      */
-    public String getRequestinPersonId();
+    public String getRequestingPersonId();
 
     /**
      * The Organization Id for this request.
