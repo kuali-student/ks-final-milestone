@@ -60,7 +60,7 @@
         <constructor-arg>
             <list>
                 <bean parent="acalInfoDictionaryLocation" />
-                <bean parent="campusCalendarInfoDictionaryLocation" />                
+                <bean parent="holidayCalendarInfoDictionaryLocation" />                
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
 <!--                <bean parent="registrationDateGroupInfoDictionaryLocation" /> -->
@@ -124,7 +124,7 @@
                 <bean parent="milestoneInfoDictionaryLocation" />
                 <bean parent="atpAtpRelationInfoDictionaryLocation" />
                 <bean parent="acalInfoDictionaryLocation" />
-                <bean parent="campusCalendarInfoDictionaryLocation" />                  
+                <bean parent="holidayCalendarInfoDictionaryLocation" />                  
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
 <!--                <bean parent="registrationDateGroupInfoDictionaryLocation" /> -->
