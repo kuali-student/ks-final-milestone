@@ -55,17 +55,17 @@
         NAME="2011-2012 Academic Year" RT_DESCR_ID="RICHTEXT-101"
         START_DT="20110909000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
-        ATP_TYPE_ID="kuali.atp.type.CampusCalendar"
+        ATP_TYPE_ID="kuali.atp.type.HolidayCalendar"
         END_DT="20120908000000" ID="testAtpId2"
-        NAME="2011-2012 Campus Calendar" RT_DESCR_ID="RICHTEXT-102"
+        NAME="2011-2012 Holiday Calendar" RT_DESCR_ID="RICHTEXT-102"
         START_DT="20110909000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
-        ATP_TYPE_ID="kuali.atp.type.CampusCalendar"
+        ATP_TYPE_ID="kuali.atp.type.HolidayCalendar"
         END_DT="20001231000000" ID="testDeleteAtpId1"
         NAME="testDeleteAtp1" RT_DESCR_ID="RICHTEXT-103"
         START_DT="20000101000000" VER_NBR="0"/>
     <KSEN_ATP ATP_STATE_ID="kuali.atp.state.Draft"
-        ATP_TYPE_ID="kuali.atp.type.CampusCalendar"
+        ATP_TYPE_ID="kuali.atp.type.HolidayCalendar"
         END_DT="20001231000000" ID="testDeleteAtpId2"
         NAME="testDeleteAtp2" RT_DESCR_ID="RICHTEXT-104"
         START_DT="20000101000000" VER_NBR="0"/>

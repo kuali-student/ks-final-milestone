@@ -55,10 +55,6 @@
     <KSEN_ATP_TYPE NAME="Ad hoc"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_DESC="Ad hoc" TYPE_KEY="kuali.atp.type.Adhoc" VER_NBR="0"/>
-    <KSEN_ATP_TYPE NAME="Campus Calendar"
-        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpInfo"
-        TYPE_DESC="Campus Calendar"
-        TYPE_KEY="kuali.atp.type.CampusCalendar" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="FY"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_DESC="Fiscal Year" TYPE_KEY="kuali.atp.type.FY" VER_NBR="0"/>
@@ -88,6 +84,10 @@
     <KSEN_ATP_TYPE NAME="Holiday"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_DESC="Holiday" TYPE_KEY="kuali.atp.type.Holiday" VER_NBR="0"/>
+    <KSEN_ATP_TYPE NAME="Holiday Calendar"
+        REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpInfo"
+        TYPE_DESC="Holiday Calendar"
+        TYPE_KEY="kuali.atp.type.HolidayCalendar" VER_NBR="0"/>
     <KSEN_ATP_TYPE NAME="Mini Semester 1A"
         REF_OBJECT_URI="http:--student.kuali.org/wsdl/atp/AtpInfo"
         TYPE_DESC="Mini Semester 1A"
