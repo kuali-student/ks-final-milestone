@@ -33,7 +33,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private AcademicCalendarAssembler acalAssembler;
     private TermAssembler termAssembler;
     private DataDictionaryService dataDictionaryService;
-    private HolidayCalendarAssembler campusCalendarAssembler;
+    private HolidayCalendarAssembler holidayCalendarAssembler;
     private HolidayAssembler holidayAssembler;
 
     public HolidayAssembler getHolidayAssembler() {
@@ -44,12 +44,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         this.holidayAssembler = holidayAssembler;
     }
 
-    public HolidayCalendarAssembler getCampusCalendarAssembler() {
-        return campusCalendarAssembler;
+    public HolidayCalendarAssembler getHolidayCalendarAssembler() {
+        return holidayCalendarAssembler;
     }
 
-    public void setCampusCalendarAssembler(HolidayCalendarAssembler campusCalendarAssembler) {
-        this.campusCalendarAssembler = campusCalendarAssembler;
+    public void setHolidayCalendarAssembler(HolidayCalendarAssembler holidayCalendarAssembler) {
+        this.holidayCalendarAssembler = holidayCalendarAssembler;
     }
 
     public DataDictionaryService getDataDictionaryService() {
@@ -167,24 +167,24 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return acalInfos;
     }
 
-    private void processAcalToCcalRelation(String academicCalendarKey, List<String> campusCalendarKeys, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
+    private void processAcalToCcalRelation(String academicCalendarKey, List<String> holidayCalendarKeys, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        if (campusCalendarKeys != null && !campusCalendarKeys.isEmpty()) {
+        if (holidayCalendarKeys != null && !holidayCalendarKeys.isEmpty()) {
             List<String> validCcalKeys = new ArrayList<String>();
-            for (String ccKey : campusCalendarKeys) {
+            for (String ccKey : holidayCalendarKeys) {
                 try {
                     AtpInfo cCal = atpService.getAtp(ccKey, context);
                     if (cCal != null)
                         validCcalKeys.add(ccKey);
                     else
-                        throw new OperationFailedException("The CampusCalendar does not exist. " + ccKey);
+                        throw new OperationFailedException("The HolidayCalendar does not exist. " + ccKey);
                 } catch (DoesNotExistException e) {
-                    throw new OperationFailedException("The CampusCalendar Does Not Exist. " + ccKey);
+                    throw new OperationFailedException("The HolidayCalendar Does Not Exist. " + ccKey);
                 }
             }
 
             try {
-                disassemble(academicCalendarKey, validCcalKeys, AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context);
+                disassemble(academicCalendarKey, validCcalKeys, AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, context);
             } catch (VersionMismatchException e) {
                 throw new OperationFailedException();
             }
@@ -406,7 +406,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         AtpInfo atp = atpService.getAtp(holidayCalendarId, contextInfo);
         HolidayCalendarInfo ccal;
         try {
-            ccal = campusCalendarAssembler.assemble(atp, contextInfo);
+            ccal = holidayCalendarAssembler.assemble(atp, contextInfo);
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
         }
@@ -418,36 +418,36 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<HolidayCalendarInfo> getHolidayCalendarsByIds(List<String> holidayCalendarIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<AtpInfo> atps = atpService.getAtpsByIds(holidayCalendarIds, context);
-        List<HolidayCalendarInfo> campusCalendarInfos = new ArrayList<HolidayCalendarInfo>();
+        List<HolidayCalendarInfo> holidayCalendarInfos = new ArrayList<HolidayCalendarInfo>();
         for (AtpInfo atp : atps) {
             try {
-                campusCalendarInfos.add(campusCalendarAssembler.assemble(atp, context));
+                holidayCalendarInfos.add(holidayCalendarAssembler.assemble(atp, context));
             } catch (AssemblyException e) {
                 throw new OperationFailedException("AssemblyException : " + e.getMessage());
             }
         }
-        return campusCalendarInfos;
+        return holidayCalendarInfos;
     }
 
     @Override
-    public HolidayCalendarInfo createHolidayCalendar(String holidayCalendarTypeKey, HolidayCalendarInfo campusCalendarInfo, ContextInfo context) throws DataValidationErrorException,
+    public HolidayCalendarInfo createHolidayCalendar(String holidayCalendarTypeKey, HolidayCalendarInfo holidayCalendarInfo, ContextInfo context) throws DataValidationErrorException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         AtpInfo atpInfo;
-        HolidayCalendarInfo holidayCalendarInfo = null;
+        HolidayCalendarInfo newHolidayCalendar = null;
         try {
-            atpInfo = campusCalendarAssembler.disassemble(campusCalendarInfo, context);
+            atpInfo = holidayCalendarAssembler.disassemble(holidayCalendarInfo, context);
 
             atpInfo = atpService.createAtp(atpInfo.getId(), atpInfo, context);
 
-            holidayCalendarInfo = campusCalendarAssembler.assemble(atpInfo, context);
+            newHolidayCalendar = holidayCalendarAssembler.assemble(atpInfo, context);
 
         } catch (AssemblyException e) {
             e.printStackTrace();
         } catch (AlreadyExistsException e) {
             e.printStackTrace();
         }
-        return holidayCalendarInfo;
+        return newHolidayCalendar;
     }
 
     @Override
@@ -455,9 +455,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
         try {
-            AtpInfo toUpdate = campusCalendarAssembler.disassemble(holidayCalendarInfo, contextInfo);
+            AtpInfo toUpdate = holidayCalendarAssembler.disassemble(holidayCalendarInfo, contextInfo);
             AtpInfo updated = atpService.updateAtp(holidayCalendarId, toUpdate, contextInfo);
-            return campusCalendarAssembler.assemble(updated, contextInfo);
+            return holidayCalendarAssembler.assemble(updated, contextInfo);
         } catch (AssemblyException e) {
             throw new OperationFailedException("AssemblyException : " + e.getMessage());
         } catch (DoesNotExistException e) {

@@ -141,7 +141,7 @@ public class TestAcademicCalendarServiceImpl {
         acal.setId("testAcalId1");
         acal.setName("testAcal1");
         List<String> ccKeys = new ArrayList<String>();
-        // Assume campusCalendarKeys picking up from dropdown and valid(already
+        // Assume holidayCalendarKeys picking up from dropdown and valid(already
         // in db)
         ccKeys.add("testAtpId2");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
@@ -866,14 +866,14 @@ public class TestAcademicCalendarServiceImpl {
         assertEquals(originalCalendar.getDescr().getFormatted(), copiedCalendar.getDescr().getFormatted());
         assertEquals(originalCalendar.getDescr().getPlain(), copiedCalendar.getDescr().getPlain());
 
-        List<String> originalCampusCalendarsKeys = originalCalendar.getHolidayCalendarIds();
-        List<String> copiedCampusCalendarsKeys = copiedCalendar.getHolidayCalendarIds();
-        assertNotNull(originalCampusCalendarsKeys);
-        assertNotNull(copiedCampusCalendarsKeys);
-        assertFalse(originalCampusCalendarsKeys.isEmpty());
-        assertEquals(originalCampusCalendarsKeys.size(), copiedCampusCalendarsKeys.size());
-        for (String campusCalendarKey : originalCampusCalendarsKeys) {
-            assertTrue("campusCalendarKey not found: " + campusCalendarKey, copiedCampusCalendarsKeys.contains(campusCalendarKey));
+        List<String> originalHolidayCalendarsKeys = originalCalendar.getHolidayCalendarIds();
+        List<String> copiedHolidayCalendarsKeys = copiedCalendar.getHolidayCalendarIds();
+        assertNotNull(originalHolidayCalendarsKeys);
+        assertNotNull(copiedHolidayCalendarsKeys);
+        assertFalse(originalHolidayCalendarsKeys.isEmpty());
+        assertEquals(originalHolidayCalendarsKeys.size(), copiedHolidayCalendarsKeys.size());
+        for (String holidayCalendarKey : originalHolidayCalendarsKeys) {
+            assertTrue("holidayCalendarKey not found: " + holidayCalendarKey, copiedHolidayCalendarsKeys.contains(holidayCalendarKey));
         }
 
         List<TermInfo> originalCalendarTerms = acalService.getTermsForAcademicCalendar(originalCalendarKey, callContext);

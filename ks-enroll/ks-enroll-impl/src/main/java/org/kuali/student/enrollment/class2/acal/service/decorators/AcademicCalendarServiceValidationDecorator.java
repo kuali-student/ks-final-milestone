@@ -121,10 +121,10 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
         try {
             List<ValidationResultInfo> errors = this.validateHolidayCalendar(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), null, holidayCalendarInfo, context);
             if (!errors.isEmpty()) {
-                throw new DataValidationErrorException("Error(s) occurred validating campus calendar", errors);
+                throw new DataValidationErrorException("Error(s) occurred validating holiday calendar", errors);
             }
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Error validating campus calendar", ex);
+            throw new OperationFailedException("Error validating holiday calendar", ex);
         }
     }
 
@@ -139,7 +139,7 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
                 errors.addAll(nextDecoratorErrors);
             }
         } catch (DoesNotExistException ex) {
-            throw new OperationFailedException("Error validating campus calendar", ex);
+            throw new OperationFailedException("Error validating holiday calendar", ex);
         }
         return errors;
     }

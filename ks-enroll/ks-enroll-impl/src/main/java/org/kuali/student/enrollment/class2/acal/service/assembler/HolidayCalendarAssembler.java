@@ -18,19 +18,19 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
     @Override
     public HolidayCalendarInfo assemble(AtpInfo atp, ContextInfo context) throws AssemblyException {
         if(atp != null){
-            HolidayCalendarInfo campusCalendarInfo = new HolidayCalendarInfo();
-            campusCalendarInfo.setId(atp.getId());
-            campusCalendarInfo.setName(atp.getName());
-            campusCalendarInfo.setDescr(atp.getDescr());
-            campusCalendarInfo.setStartDate(atp.getStartDate());
-            campusCalendarInfo.setEndDate(atp.getEndDate());
-            campusCalendarInfo.setTypeKey(atp.getTypeKey());
-            campusCalendarInfo.setStateKey(atp.getStateKey());
-            campusCalendarInfo.setMeta(atp.getMeta());
-            campusCalendarInfo.setAttributes(atp.getAttributes());
+            HolidayCalendarInfo holidayCalendarInfo = new HolidayCalendarInfo();
+            holidayCalendarInfo.setId(atp.getId());
+            holidayCalendarInfo.setName(atp.getName());
+            holidayCalendarInfo.setDescr(atp.getDescr());
+            holidayCalendarInfo.setStartDate(atp.getStartDate());
+            holidayCalendarInfo.setEndDate(atp.getEndDate());
+            holidayCalendarInfo.setTypeKey(atp.getTypeKey());
+            holidayCalendarInfo.setStateKey(atp.getStateKey());
+            holidayCalendarInfo.setMeta(atp.getMeta());
+            holidayCalendarInfo.setAttributes(atp.getAttributes());
 
        
-            return campusCalendarInfo;
+            return holidayCalendarInfo;
         }
         else
             return null;
@@ -45,7 +45,7 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
             atp.setDescr(holidayCalendarInfo.getDescr());
             atp.setStartDate(holidayCalendarInfo.getStartDate());
             atp.setEndDate(holidayCalendarInfo.getEndDate());
-            atp.setTypeKey(AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY);
+            atp.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
             atp.setStateKey(holidayCalendarInfo.getStateKey());
             atp.setMeta(holidayCalendarInfo.getMeta());
 

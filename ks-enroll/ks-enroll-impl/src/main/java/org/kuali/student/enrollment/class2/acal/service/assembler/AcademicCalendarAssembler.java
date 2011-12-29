@@ -40,7 +40,7 @@ public class AcademicCalendarAssembler implements DTOAssembler<AcademicCalendarI
         acal.setAttributes(atp.getAttributes());
         acal.setAdminOrgId(atp.getAdminOrgId());
 
-        acal.setHolidayCalendarIds(assembleRelations(atp.getId(), AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, context));
+        acal.setHolidayCalendarIds(assembleRelations(atp.getId(), AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, context));
         return acal;
     }
 

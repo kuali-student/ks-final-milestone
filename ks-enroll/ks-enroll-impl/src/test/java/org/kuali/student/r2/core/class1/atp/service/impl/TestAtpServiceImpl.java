@@ -516,7 +516,7 @@ public class TestAtpServiceImpl {
     @Test
     public void testGetType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         try {
-	        TypeInfo typeInfo = atpService.getType(AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY, callContext);
+	        TypeInfo typeInfo = atpService.getType(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, callContext);
 	        assertNotNull(typeInfo);
 	        try {
 		        typeInfo = atpService.getType("totally.bogus.type.key", callContext);
@@ -684,8 +684,8 @@ public class TestAtpServiceImpl {
         try{
             AtpInfo atpInfo = new AtpInfo();
             atpInfo.setId("testAtpId1-newCC");
-            atpInfo.setName("testAtpId1 to new campus calendar");
-            atpInfo.setTypeKey(AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY);
+            atpInfo.setName("testAtpId1 to new holiday calendar");
+            atpInfo.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
             atpInfo.setStateKey("kuali.atp.state.Draft");
             atpInfo.setStartDate(Calendar.getInstance().getTime());
             atpInfo.setEndDate(Calendar.getInstance().getTime());
