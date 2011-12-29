@@ -37,9 +37,7 @@ public interface Term
      *
      * @name Code
      */
-
     public String getCode();
-
 
     /**
      * Date and time the term became effective. This
@@ -54,7 +52,6 @@ public interface Term
      */
     public Date getStartDate();
   
-
     /**
      * Date and time the term expires. This does not
      * provide a bound on date ranges or milestones associated with
@@ -66,6 +63,5 @@ public interface Term
      *
      * @name End Date
      */
-    public Date getEndDate();
-  
+    public Date getEndDate();  
 }

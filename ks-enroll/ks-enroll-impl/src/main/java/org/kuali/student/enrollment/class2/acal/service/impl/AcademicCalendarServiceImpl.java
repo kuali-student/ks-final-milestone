@@ -1075,6 +1075,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    public KeyDateInfo calculateKeyDate(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Sambit - THIS METHOD NEEDS JAVADOCS
+        return getKeyDate(keyDateId, contextInfo);
+    }
+
+    @Override
     public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
         return null;
@@ -1104,6 +1110,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public StatusInfo deleteHoliday(String holidayKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return atpService.deleteMilestone(holidayKey, context);
+    }
+
+    @Override
+    public HolidayInfo calculateHoliday(String holidayId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Sambit - THIS METHOD NEEDS JAVADOCS
+        return getHoliday(holidayId, contextInfo);
     }
 
     /*
@@ -1665,6 +1677,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
+    }
+
+    @Override
+    public AcalEventInfo calculateAcalEvent(String acalEventId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO Sambit - THIS METHOD NEEDS JAVADOCS
+        return getAcalEvent(acalEventId, contextInfo);
     }
 
     @Override

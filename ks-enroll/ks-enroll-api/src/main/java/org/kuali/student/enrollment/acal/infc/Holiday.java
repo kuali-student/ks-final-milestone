@@ -35,6 +35,7 @@ public interface Holiday
      * Tests if this holiday is an instructional day.
      *
      * @name Is Instructional Day
+     * @required
      */
     public Boolean getIsInstructionalDay();
 
@@ -43,6 +44,7 @@ public interface Holiday
      * does not have a meaningful time component in the date.
      *
      * @name Is All Day
+     * @required
      */
     public Boolean getIsAllDay();
   
@@ -52,6 +54,7 @@ public interface Holiday
      * @return true if the end date is different than the start
      *         date, false if the start end end date are the same
      * @name Is Date Range
+     * @required
      */
     public Boolean getIsDateRange();    
 

@@ -38,14 +38,14 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- CampusCalendarInfo-->
-	<bean id="CampusCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="campusCalendarInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.CampusCalendarInfo"/>
-		<property name="objectLabel" value="Campus Calendar"/>
+	<!-- HolidayCalendarInfo-->
+	<bean id="HolidayCalendarInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="holidayCalendarInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo"/>
+		<property name="objectLabel" value="Holiday Calendar"/>
 		<property name="objectDescription">
 			<value>
-Information about a Campus Calendar.
+Information about a Holiday Calendar.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
@@ -57,20 +57,20 @@ Information about a Campus Calendar.
 
 		<property name="attributes">
 			<list>
-				<ref bean="CampusCalendarInfo.key"/>
-				<ref bean="CampusCalendarInfo.typeKey"/>
-				<ref bean="CampusCalendarInfo.stateKey"/>
-				<ref bean="CampusCalendarInfo.name"/>
-				<ref bean="CampusCalendarInfo.startDate"/>
-				<ref bean="CampusCalendarInfo.endDate"/>
-				<ref bean="CampusCalendarInfo.location"/>
+				<ref bean="HolidayCalendarInfo.key"/>
+				<ref bean="HolidayCalendarInfo.typeKey"/>
+				<ref bean="HolidayCalendarInfo.stateKey"/>
+				<ref bean="HolidayCalendarInfo.name"/>
+				<ref bean="HolidayCalendarInfo.startDate"/>
+				<ref bean="HolidayCalendarInfo.endDate"/>
+				<ref bean="HolidayCalendarInfo.location"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="CampusCalendarInfo.descr"/>
-				<ref bean="CampusCalendarInfo.meta"/>
+				<ref bean="HolidayCalendarInfo.descr"/>
+				<ref bean="HolidayCalendarInfo.meta"/>
 			</list>
 		</property>
 
@@ -80,23 +80,23 @@ Information about a Campus Calendar.
 		</property>
 	</bean>
 
-	<bean id="CampusCalendarInfo.key-generated" abstract="true" parent="BaseKuali.key">
+	<bean id="HolidayCalendarInfo.key-generated" abstract="true" parent="BaseKuali.key">
 		<property name="name" value="key"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="HolidayCalendarInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="HolidayCalendarInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="HolidayCalendarInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="HolidayCalendarInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -124,8 +124,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="CampusCalendarInfo.descr.plain"/>
-						<ref bean="CampusCalendarInfo.descr.formatted"/>
+						<ref bean="HolidayCalendarInfo.descr.plain"/>
+						<ref bean="HolidayCalendarInfo.descr.formatted"/>
 					</list>
 				</property>
 
@@ -142,26 +142,26 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="CampusCalendarInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="HolidayCalendarInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="HolidayCalendarInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
+	<bean id="HolidayCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
 		<property name="name" value="startDate"/>
 		<property name="shortLabel" value="Start Date"/>
 		<property name="summary">
 			<value>
-Date and time the campus calendar became effective. 
+Date and time the holiday calendar became effective. 
 			</value>
 		</property>
 		<property name="label" value="Start Date"/>
 		<property name="description">
 			<value>
-Date and time the campus calendar became effective. This
+Date and time the holiday calendar became effective. This
 does not provide a bound on date ranges or milestones
 associated with this time period, but instead indicates the
 time period proper. This is a similar concept to the effective
@@ -173,18 +173,18 @@ expiration date.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
+	<bean id="HolidayCalendarInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
 		<property name="name" value="endDate"/>
 		<property name="shortLabel" value="End Date"/>
 		<property name="summary">
 			<value>
-Date and time the campus calendar expires. 
+Date and time the holiday calendar expires. 
 			</value>
 		</property>
 		<property name="label" value="End Date"/>
 		<property name="description">
 			<value>
-Date and time the campus calendar expires. This does not
+Date and time the holiday calendar expires. This does not
 provide a bound on date ranges or milestones associated with
 this time period, but instead indicates the time period
 proper. If specified, this must be greater than or equal to the
@@ -196,24 +196,24 @@ automatically be considered greater than the effective date.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.location-generated" abstract="true" parent="BaseKuali.string">
+	<bean id="HolidayCalendarInfo.location-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="location"/>
 		<property name="shortLabel" value="Location"/>
 		<property name="summary">
 			<value>
-The campus or location to which this calendar pertains.
+The holiday or location to which this calendar pertains.
 			</value>
 		</property>
 		<property name="label" value="Location"/>
 		<property name="description">
 			<value>
-The campus or location to which this calendar pertains.
+The holiday or location to which this calendar pertains.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="HolidayCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -259,11 +259,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="CampusCalendarInfo.meta.versionInd"/>
-						<ref bean="CampusCalendarInfo.meta.createTime"/>
-						<ref bean="CampusCalendarInfo.meta.createId"/>
-						<ref bean="CampusCalendarInfo.meta.updateTime"/>
-						<ref bean="CampusCalendarInfo.meta.updateId"/>
+						<ref bean="HolidayCalendarInfo.meta.versionInd"/>
+						<ref bean="HolidayCalendarInfo.meta.createTime"/>
+						<ref bean="HolidayCalendarInfo.meta.createId"/>
+						<ref bean="HolidayCalendarInfo.meta.updateTime"/>
+						<ref bean="HolidayCalendarInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -280,23 +280,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="CampusCalendarInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="HolidayCalendarInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="HolidayCalendarInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="HolidayCalendarInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="HolidayCalendarInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="CampusCalendarInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="HolidayCalendarInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

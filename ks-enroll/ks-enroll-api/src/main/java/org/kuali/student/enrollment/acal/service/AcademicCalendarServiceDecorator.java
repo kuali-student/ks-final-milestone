@@ -419,6 +419,11 @@ public class AcademicCalendarServiceDecorator
     }
 
     @Override
+    public KeyDateInfo calculateKeyDate(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().calculateKeyDate(keyDateId, contextInfo));
+    }
+
+    @Override
     public TypeInfo getAcalEventType(String acalEventTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return (getNextDecorator().getAcalEventType(acalEventTypeKey, contextInfo));
     }
@@ -504,6 +509,11 @@ public class AcademicCalendarServiceDecorator
     }
 
     @Override
+    public AcalEventInfo calculateAcalEvent(String acalEventId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().calculateAcalEvent(acalEventId, contextInfo));
+    }
+
+    @Override
     public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return (getNextDecorator().getHolidayType(holidayTypeKey, contextInfo));
     }
@@ -586,6 +596,11 @@ public class AcademicCalendarServiceDecorator
     @Override
     public StatusInfo deleteHoliday(String holidayId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return (getNextDecorator().deleteHoliday(holidayId, contextInfo));
+    }
+
+    @Override
+    public HolidayInfo calculateHoliday(String holidayId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().calculateHoliday(holidayId, contextInfo));
     }
 
     @Override

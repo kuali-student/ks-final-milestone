@@ -36,6 +36,7 @@ public interface KeyDate
      * does not have a meaningful time component in the date.
      *
      * @name Is All Day
+     * @required
      */
     public Boolean getIsAllDay();
   
@@ -45,6 +46,7 @@ public interface KeyDate
      * @return true if the end date is different than the start
      *         date, false if the start end end date are the same
      * @name Is Date Range
+     * @required
      */
     public Boolean getIsDateRange();    
 

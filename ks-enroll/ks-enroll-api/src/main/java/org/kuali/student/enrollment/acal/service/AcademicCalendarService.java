@@ -46,19 +46,45 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /**
- * This service manages Academic Calendars. An Academic Calendar
- * contains Terms. Key Dates are mapped to Terms but are managed
- * through the service independent of the Term. This is to allow a
- * reference to a Term that does not retrieve all the key date
- * information that may relate to the Term. Terms may be nested at
- * this level. A Term may contain another Term and each of these
- * included Terms may have their own key dates. 
+ * This service manages Academic Calendars. There are three kinds of
+ * calendars in this service. 
  *
- * Convenience service methods exist to query all the key dates for an
- * Academic Calendar or Term. An Academic Calendar also has a Holiday
- * Calendar. The Holiday Calendar has a holiday location, and include
- * the holidays that are specific to a holiday. The same Holiday
- * Calendar can be used for multiple Academic Calendars.
+ * 1. HolidayCalendar:  a HolidayCalendar relates to a Campus and is
+ *                      intended to define all the Holiday dates and
+ *                      other non-instructional days on a designated
+ *                      campus.
+ *
+ * 2. AcademicCalendar: an AcademicCalendar is a calendar of Terms.
+ *                      The Academic Calendar may have one or more
+ *                      HolidayCalendars. This distinction is to allow
+ *                      multiple AcademicCalendars to exist on a
+ *                      Campus without having to manage multiple sets
+ *                      of Holidays. An AcademicCalendar may be
+ *                      referenced from a ProgramOffering.
+ *
+ *                      An AcademicCalendar may have its own
+ *                      milestones called AcalEvents.
+ *
+ * 3. Term:             A Term has KeyDates and may have Terms nested 
+ *                      within. 
+ *
+ * For example, an AcademicCalendar for the undergraduate program in a
+ * given year may have a HolidayCalendar for the holidays of that
+ * year, Fall, Spring, and Summer Terms, the Fall and Spring
+ * mini-mesters, all with their own managed dates. 
+ *
+ * Not all of the relations among the entities are maintained within
+ * the entities. To maximize flexibility and to easily reference
+ * calendars and terms externally, these mappings are often implied by
+ * the service operations.
+ * 
+ * Each of the calendaring entities have their own milestone structures.
+ *
+ * 1. Holiday:   A milestone used with HolidayCalendars (e.g. Labor
+ *               Day).
+ * 2. AcalEvent: A milestone used with AcademicCalendars
+ *               (e.g. Commencement).
+ * 3. KeyDate:   A milestone used with Terms (e.g. Registration Period).
  *
  * Version: 1.0 (Dev)
  * 
@@ -1412,6 +1438,25 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public StatusInfo deleteKeyDate(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Calculates the dates in the KeyDate based on a rule attached to
+     * the KeyDate Type. If there is no rule available for the Type of
+     * the given KeyDate, then no changes to the KeyDate occur.
+     * 
+     * @param keyDateId an identifier for a KeyDate
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the KeyDate with the calculated dates
+     * @throws DoesNotExistException keyDateId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException keyDateId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure
+     *         occurred
+     */
+    public KeyDateInfo calculateKeyDate(@WebParam(name = "keyDateId") String keyDateId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Rerieves a AcalEvent Type by Type key.
      * 
      * @param acalEventTypeKey the key of a acalEvent Type
@@ -1732,6 +1777,25 @@ public interface AcademicCalendarService extends DataDictionaryService {
     public StatusInfo deleteAcalEvent(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Calculates the dates in the AcalEvent based on a rule attached to
+     * the AcalEvent Type. If there is no rule available for the Type of
+     * the given AcalEvent, then no changes to the AcalEvent occur.
+     * 
+     * @param acalEventId an identifier for a AcalEvent
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the AcalEvent with the calculated dates
+     * @throws DoesNotExistException acalEventId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException acalEventId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure
+     *         occurred
+     */
+    public AcalEventInfo calculateAcalEvent(@WebParam(name = "acalEventId") String acalEventId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Rerieves a Holiday Type by Type key.
      * 
      * @param holidayTypeKey the key of a holiday Type
@@ -2049,6 +2113,25 @@ public interface AcademicCalendarService extends DataDictionaryService {
      *         occurred
      */
     public StatusInfo deleteHoliday(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Calculates the dates in the Holiday based on a rule attached to
+     * the Holiday Type. If there is no rule available for the Type of
+     * the given Holiday, then no changes to the Holiday occur.
+     * 
+     * @param holidayId an identifier for a Holiday
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the Holiday with the calculated dates
+     * @throws DoesNotExistException holidayId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException holidayId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure
+     *         occurred
+     */
+    public HolidayInfo calculateHoliday(@WebParam(name = "holidayId") String holidayId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Calculates the number of instructional days for a Term. The

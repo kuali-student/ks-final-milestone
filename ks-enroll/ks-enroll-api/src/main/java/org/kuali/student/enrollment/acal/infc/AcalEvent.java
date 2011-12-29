@@ -21,8 +21,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about a holiday. Holdays are used to mark holidays and
- * other non-instructional days on a AcalEventCalendar.
+ * Information about a milestone for an AcademicCalendar.
  *
  * @author tom
  * @since Tue Apr 05 14:22:34 EDT 2011
@@ -36,6 +35,7 @@ public interface AcalEvent
      * does not have a meaningful time component in the date.
      *
      * @name Is All Day
+     * @required
      */
     public Boolean getIsAllDay();
   
@@ -45,6 +45,7 @@ public interface AcalEvent
      * @return true if the end date is different than the start
      *         date, false if the start end end date are the same
      * @name Is Date Range
+     * @required
      */
     public Boolean getIsDateRange();    
 
