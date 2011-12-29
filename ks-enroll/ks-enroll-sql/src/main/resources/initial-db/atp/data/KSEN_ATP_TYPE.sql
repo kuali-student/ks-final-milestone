@@ -2,7 +2,7 @@
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.type.AcademicCalendar',null,0,'Academic Calendar',null,null,'Academic Calendar','http:--student.kuali.org/wsdl/atp/AtpInfo')
 /
 
-Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.type.CampusCalendar',null,0,'Campus Calendar',null,null,'Campus Calendar','http:--student.kuali.org/wsdl/atp/AtpInfo')
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.type.HolidayCalendar',null,0,'Holiday Calendar',null,null,'Holiday Calendar','http:--student.kuali.org/wsdl/atp/AtpInfo')
 /
 
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.type.Fall',null,0,'Fall Semester',null,null,'Fall','http:--student.kuali.org/wsdl/atp/AtpInfo')
