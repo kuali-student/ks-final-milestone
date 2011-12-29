@@ -125,9 +125,8 @@
                                 <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
                                <!-- ACAL -->
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-CampusCalendarInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-HolidayCalendarInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-TermInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-RegistrationDateGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>
                                <!-- LPR -->
@@ -187,9 +186,8 @@
                                 <className>AtpAtpRelationInfo</className>  
                                  Acal 
                                 <className>AcademicCalendarInfo</className>
-                                <className>CampusCalendarInfo</className>
+                                <className>HolidayCalendarInfo</className>
                                 <className>TermInfo</className>
-                                <className>RegistrationDateGroupInfo</className>
                                 <className>HolidayInfo</className>
                                 <className>KeyDateInfo</className>
                                 LPR 

@@ -213,22 +213,22 @@ automatically be considered greater than the effective date.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AcademicCalendarInfo.campusCalendarIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="campusCalendarIds"/>
-		<property name="shortLabel" value="Campus Calendar Keys"/>
+	<bean id="AcademicCalendarInfo.holidayCalendarIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="holidayCalendarIds"/>
+		<property name="shortLabel" value="Holiday Calendar Keys"/>
 		<property name="summary">
 			<value>
-The campus calendar key corresponding to this academic
+The holiday calendar key corresponding to this academic
 calendar. 
 			</value>
 		</property>
-		<property name="label" value="Campus Calendar"/>
-		<property name="elementLabel" value="Campus Calendar Id"/>
+		<property name="label" value="Holiday Calendar"/>
+		<property name="elementLabel" value="Holiday Calendar Id"/>
 		<property name="description">
 			<value>
-The campus calendar key corresponding to this academic
+The holiday calendar key corresponding to this academic
 calendar. A multi-year academic calendar may have more than one
-campus calendar.
+holiday calendar.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>

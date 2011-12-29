@@ -57,7 +57,7 @@ Information about a holiday.
 
 		<property name="attributes">
 			<list>
-				<ref bean="HolidayInfo.key"/>
+				<ref bean="HolidayInfo.id"/>
 				<ref bean="HolidayInfo.typeKey"/>
 				<ref bean="HolidayInfo.stateKey"/>
 				<ref bean="HolidayInfo.name"/>
@@ -82,8 +82,8 @@ Information about a holiday.
 		</property>
 	</bean>
 
-	<bean id="HolidayInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="HolidayInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="HolidayInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">

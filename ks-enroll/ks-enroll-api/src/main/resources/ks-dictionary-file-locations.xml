@@ -47,15 +47,10 @@
     </bean>
     <bean id="holidayInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-HolidayInfo-dictionary.xml" />
-    </bean>
-<!--
-    <bean id="registrationDateGroupInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-RegistrationDateGroupInfo-dictionary.xml" />
     </bean> 
--->
     <bean id="keyDateInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-KeyDateInfo-dictionary.xml" />
-    </bean>      
+    </bean>  
     <bean name="acalServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
@@ -63,7 +58,6 @@
                 <bean parent="holidayCalendarInfoDictionaryLocation" />                
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
-<!--                <bean parent="registrationDateGroupInfoDictionaryLocation" /> -->
                 <bean parent="keyDateInfoDictionaryLocation" />
             </list>
         </constructor-arg>
@@ -127,7 +121,6 @@
                 <bean parent="holidayCalendarInfoDictionaryLocation" />                  
                 <bean parent="termInfoDictionaryLocation" />
                 <bean parent="holidayInfoDictionaryLocation" />
-<!--                <bean parent="registrationDateGroupInfoDictionaryLocation" /> -->
                 <bean parent="keyDateInfoDictionaryLocation" />   
                 <bean parent="holdInfoDictionaryLocation" />
                 <bean parent="issueInfoDictionaryLocation" />                

@@ -42,8 +42,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
 	</bean>
 
-	<bean id="HolidayCalendarInfo.key" parent="HolidayCalendarInfo.key-parent"/>
-	<bean id="HolidayCalendarInfo.key-parent" abstract="true" parent="HolidayCalendarInfo.key-generated">
+	<bean id="HolidayCalendarInfo.id" parent="HolidayCalendarInfo.id-parent"/>
+	<bean id="HolidayCalendarInfo.id-parent" abstract="true" parent="HolidayCalendarInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
@@ -87,10 +87,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="HolidayCalendarInfo.location" parent="HolidayCalendarInfo.location-parent"/>
+<!--	<bean id="HolidayCalendarInfo.location" parent="HolidayCalendarInfo.location-parent"/>
 	<bean id="HolidayCalendarInfo.location-parent" abstract="true" parent="HolidayCalendarInfo.location-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-	</bean>
+	 insert any overrides to the generated attribute definitions here 
+	</bean>-->
 
 	<bean id="HolidayCalendarInfo.meta" parent="HolidayCalendarInfo.meta-parent"/>
 	<bean id="HolidayCalendarInfo.meta-parent" abstract="true" parent="HolidayCalendarInfo.meta-generated">

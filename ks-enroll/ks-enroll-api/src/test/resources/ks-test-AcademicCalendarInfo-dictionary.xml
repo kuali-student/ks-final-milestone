@@ -26,26 +26,26 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
         <property name="collections">
             <list>
-                <ref bean="TestAcademicCalendarInfo.campusCalendarIds"/>
+                <ref bean="TestAcademicCalendarInfo.holidayCalendarIds"/>
             </list>
         </property>
     </bean>
    
-    <bean id="TestAcademicCalendarInfo.campusCalendarIds" parent="TestAcademicCalendarInfo.campusCalendarIds-parent"/>
-    <bean id="TestAcademicCalendarInfo.campusCalendarIds-parent" abstract="true" parent="CollectionDefinition">
+    <bean id="TestAcademicCalendarInfo.holidayCalendarIds" parent="TestAcademicCalendarInfo.holidayCalendarIds-parent"/>
+    <bean id="TestAcademicCalendarInfo.holidayCalendarIds-parent" abstract="true" parent="CollectionDefinition">
         <property name="dataObjectClass" value="java.lang.String"/>
-        <property name="name" value="campusCalendarIds"/>
-        <property name="shortLabel" value="Campus Calendar Ids"/>
+        <property name="name" value="holidayCalendarIds"/>
+        <property name="shortLabel" value="Holiday Calendar Ids"/>
         <property name="summary">
             <value>
-Campus calendar 
+Holiday calendar 
             </value>
         </property>
-        <property name="label" value="campus calendar ids"/>
-        <property name="elementLabel" value="Campus Calendar Key"/>        
+        <property name="label" value="holiday calendar ids"/>
+        <property name="elementLabel" value="Holiday Calendar Key"/>        
         <property name="description">
             <value>
-Campus calendar ids
+Holiday calendar ids
             </value>
         </property>
         <property name="minOccurs" value="1"/>

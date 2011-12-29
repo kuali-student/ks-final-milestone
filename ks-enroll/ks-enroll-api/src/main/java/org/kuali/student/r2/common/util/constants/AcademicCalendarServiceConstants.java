@@ -43,7 +43,7 @@ public class AcademicCalendarServiceConstants {
      * Academic Calendar Types
      */
     public static final String ACADEMIC_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY;
-    public static final String CAMPUS_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_CAMPUS_CALENDAR_TYPE_KEY;
+    public static final String CAMPUS_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY;
 
     /**
      * Registration Date Groups

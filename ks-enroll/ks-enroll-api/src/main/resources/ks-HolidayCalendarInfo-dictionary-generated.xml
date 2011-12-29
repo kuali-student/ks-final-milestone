@@ -57,13 +57,13 @@ Information about a Holiday Calendar.
 
 		<property name="attributes">
 			<list>
-				<ref bean="HolidayCalendarInfo.key"/>
+				<ref bean="HolidayCalendarInfo.id"/>
 				<ref bean="HolidayCalendarInfo.typeKey"/>
 				<ref bean="HolidayCalendarInfo.stateKey"/>
 				<ref bean="HolidayCalendarInfo.name"/>
 				<ref bean="HolidayCalendarInfo.startDate"/>
 				<ref bean="HolidayCalendarInfo.endDate"/>
-				<ref bean="HolidayCalendarInfo.location"/>
+<!--				<ref bean="HolidayCalendarInfo.location"/>-->
 			</list>
 		</property>
 
@@ -80,8 +80,8 @@ Information about a Holiday Calendar.
 		</property>
 	</bean>
 
-	<bean id="HolidayCalendarInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="HolidayCalendarInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="HolidayCalendarInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
@@ -195,7 +195,7 @@ automatically be considered greater than the effective date.
 		</property>
 		<property name="required" value="false"/>
 	</bean>
-
+<!--
 	<bean id="HolidayCalendarInfo.location-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="location"/>
 		<property name="shortLabel" value="Location"/>
@@ -211,7 +211,7 @@ The holiday or location to which this calendar pertains.
 			</value>
 		</property>
 		<property name="required" value="false"/>
-	</bean>
+	</bean>-->
 
 	<bean id="HolidayCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>

@@ -32,11 +32,11 @@ public interface AcademicCalendar
     extends IdEntity {
     
     /**
-     * The campus calendar key corresponding to this academic
+     * The holiday calendar key corresponding to this academic
      * calendar. A multi-year academic calendar may have more than one
-     * campus calendar.
+     * holiday calendar.
      *
-     * @name Campus Calendar Ids
+     * @name Holiday Calendar Ids
      */
     public List<String> getHolidayCalendarIds();
     

@@ -87,8 +87,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="AcademicCalendarInfo.campusCalendarIds" parent="AcademicCalendarInfo.campusCalendarIds-parent"/>
-	<bean id="AcademicCalendarInfo.campusCalendarIds-parent" abstract="true" parent="AcademicCalendarInfo.campusCalendarIds-generated">
+	<bean id="AcademicCalendarInfo.holidayCalendarIds" parent="AcademicCalendarInfo.holidayCalendarIds-parent"/>
+	<bean id="AcademicCalendarInfo.holidayCalendarIds-parent" abstract="true" parent="AcademicCalendarInfo.holidayCalendarIds-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 

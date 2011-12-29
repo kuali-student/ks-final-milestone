@@ -435,13 +435,13 @@ Could be implemented as as sequence number or as a UUID.
         <property name="description" value="Unique key to the Academic Time Period (ATP)"/>
     </bean>
   
-    <bean id="BaseKuali.campusCalendarKey" parent="BaseKuali.atpKey" abstract="true">
-        <property name="name" value="campusCalendarKey"/>
-        <property name="childEntryName" value="campusCalendarKey"/>
-        <property name="shortLabel" value="Campus Calendar"/>
-        <property name="summary" value="Unique key to a campus calendar"/>
-        <property name="label" value="Campus Calendar Key"/>
-        <property name="description" value="Unique key to a campus calendar"/>
+    <bean id="BaseKuali.holidayCalendarKey" parent="BaseKuali.atpKey" abstract="true">
+        <property name="name" value="holidayCalendarKey"/>
+        <property name="childEntryName" value="holidayCalendarKey"/>
+        <property name="shortLabel" value="Holiday Calendar"/>
+        <property name="summary" value="Unique key to a holiday calendar"/>
+        <property name="label" value="Holiday Calendar Key"/>
+        <property name="description" value="Unique key to a holiday calendar"/>
     </bean>
   
     <bean id="BaseKuali.cluId" abstract="true" parent="BaseKuali.idField">

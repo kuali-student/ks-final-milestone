@@ -58,7 +58,7 @@ point in time or a range depending on the value of isDateRange().
 
 		<property name="attributes">
 			<list>
-				<ref bean="KeyDateInfo.key"/>
+				<ref bean="KeyDateInfo.id"/>
 				<ref bean="KeyDateInfo.typeKey"/>
 				<ref bean="KeyDateInfo.stateKey"/>
 				<ref bean="KeyDateInfo.name"/>
@@ -82,8 +82,8 @@ point in time or a range depending on the value of isDateRange().
 		</property>
 	</bean>
 
-	<bean id="KeyDateInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="KeyDateInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="KeyDateInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
