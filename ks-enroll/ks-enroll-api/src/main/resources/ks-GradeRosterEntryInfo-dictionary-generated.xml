@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -99,18 +99,37 @@ Information about a Grading Roster Entry
 		<property name="required" value="false"/>
 	</bean>
 
+	<bean id="GradeRosterEntryInfo.validGradeGroupKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="validGradeGroupKeys"/>
+		<property name="shortLabel" value="Valid Grade Group Keys"/>
+		<property name="summary">
+			<value>
+Gets the valid grade for a student
+			</value>
+		</property>
+		<property name="label" value="Valid Grade Group Keys"/>
+		<property name="elementLabel" value="Valid Grade Group Key"/>
+		<property name="description">
+			<value>
+Gets the valid grade for a student
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
 	<bean id="GradeRosterEntryInfo.activityOfferingId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="activityOfferingId"/>
 		<property name="shortLabel" value="Activity Offering Id"/>
 		<property name="summary">
 			<value>
-This method ...
+This method gets the actvity offering id for the roster entry
 			</value>
 		</property>
 		<property name="label" value="Activity Offering Id"/>
 		<property name="description">
 			<value>
-This method ...
+This method gets the actvity offering id for the roster entry
 			</value>
 		</property>
 		<property name="required" value="false"/>

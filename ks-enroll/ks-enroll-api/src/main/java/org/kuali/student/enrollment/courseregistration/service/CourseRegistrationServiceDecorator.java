@@ -130,16 +130,16 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibilityForTerm(String studentId,
-            String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            String termId, ContextInfo context) throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termKey, context);
+        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termId, context);
     }
 
     @Override
-    public List<DateRangeInfo> getAppointmentWindows(String studentId, String termKey, ContextInfo context)
+    public List<DateRangeInfo> getAppointmentWindows(String studentId, String termId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().getAppointmentWindows(studentId, termKey, context);
+        return getNextDecorator().getAppointmentWindows(studentId, termId, context);
     }
 
     @Override
@@ -164,10 +164,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public LoadInfo calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
+    public LoadInfo calculateCreditLoadForTerm(String studentId, String termId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().calculateCreditLoadForTerm(studentId, termKey, context);
+        return getNextDecorator().calculateCreditLoadForTerm(studentId, termId, context);
     }
 
     @Override
@@ -274,10 +274,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey,
+    public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termId,
             List<String> requestStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termKey, requestStates, context);
+        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termId, requestStates, context);
     }
 
     @Override
@@ -360,10 +360,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termKey,
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termKey, context);
+        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termId, context);
     }
 
     @Override
@@ -389,10 +389,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey,
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
+        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termId, context);
     }
 
     @Override

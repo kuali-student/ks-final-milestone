@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -57,6 +57,7 @@ Information about an Academic Time Period.
 
 		<property name="attributes">
 			<list>
+				<ref bean="AtpInfo.adminOrgId"/>
 				<ref bean="AtpInfo.id"/>
 				<ref bean="AtpInfo.typeKey"/>
 				<ref bean="AtpInfo.stateKey"/>
@@ -77,6 +78,25 @@ Information about an Academic Time Period.
 			<list>
 			</list>
 		</property>
+	</bean>
+
+	<bean id="AtpInfo.adminOrgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="adminOrgId"/>
+		<property name="shortLabel" value="Admin Org Id"/>
+		<property name="summary">
+			<value>
+The adminsitrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="label" value="AdminOrg Id"/>
+		<property name="description">
+			<value>
+The adminsitrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="AtpInfo.id-generated" abstract="true" parent="BaseKuali.id">

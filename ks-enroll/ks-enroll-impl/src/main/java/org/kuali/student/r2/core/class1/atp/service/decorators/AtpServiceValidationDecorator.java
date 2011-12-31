@@ -175,11 +175,11 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         _milestoneFullValidation(milestoneInfo, context);
         try {
-            return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
+            return getNextDecorator().updateMilestone(milestoneId, milestoneInfo, context);
         } catch (ReadOnlyException e) {
             throw new OperationFailedException(e.getMessage());
         }
@@ -218,15 +218,15 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public MilestoneInfo getMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        if (milestoneKey == null) {
+        if (milestoneId == null) {
 
-            throw new InvalidParameterException(milestoneKey);
+            throw new InvalidParameterException(milestoneId);
         }
 
-        return getNextDecorator().getMilestone(milestoneKey, context);
+        return getNextDecorator().getMilestone(milestoneId, context);
 
     }
 

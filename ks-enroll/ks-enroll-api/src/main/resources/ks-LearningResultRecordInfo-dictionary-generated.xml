@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -62,8 +62,7 @@ Information about the Learning Result Record Info.
 				<ref bean="LearningResultRecordInfo.typeKey"/>
 				<ref bean="LearningResultRecordInfo.stateKey"/>
 				<ref bean="LearningResultRecordInfo.lprId"/>
-				<ref bean="LearningResultRecordInfo.resultValueGroupId"/>
-				<ref bean="LearningResultRecordInfo.resultValueId"/>
+				<ref bean="LearningResultRecordInfo.resultValueKey"/>
 			</list>
 		</property>
 
@@ -167,27 +166,9 @@ A description of the entity.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LearningResultRecordInfo.resultValueGroupId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="resultValueGroupId"/>
-		<property name="shortLabel" value="Result Value Group Id"/>
-		<property name="summary">
-			<value>
-???
-			</value>
-		</property>
-		<property name="label" value="Result Value Group Id Result Value Group to which the result value contained in this LRR belongs. The Id will
-come from LRC service"/>
-		<property name="description">
-			<value>
-???
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="LearningResultRecordInfo.resultValueId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="resultValueId"/>
-		<property name="shortLabel" value="Result Value Id"/>
+	<bean id="LearningResultRecordInfo.resultValueKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="resultValueKey"/>
+		<property name="shortLabel" value="Result Value Key"/>
 		<property name="summary">
 			<value>
 Result Value (Grade, Credits, etc). 

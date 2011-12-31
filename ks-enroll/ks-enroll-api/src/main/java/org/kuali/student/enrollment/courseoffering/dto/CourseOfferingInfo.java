@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
-        "formatIds", "termKey", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
+        "formatIds", "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys", "gradeRosterLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
@@ -74,7 +74,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private Integer waitlistMaximum;
 
     @XmlElement
-    private String termKey;
+    private String termId;
 
     @XmlElement
     private String courseOfferingCode;
@@ -144,7 +144,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.hasFinalExam = false;
         this.waitlistTypeKey = null;
         this.waitlistMaximum = null;
-        this.termKey = null;
+        this.termId = null;
         this.courseOfferingCode = null;
         this.courseNumberSuffix = null;
         this.courseTitle = null;
@@ -183,7 +183,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.hasFinalExam = course.getHasFinalExam();
         this.waitlistTypeKey = course.getWaitlistTypeKey();
         this.waitlistMaximum = course.getWaitlistMaximum();
-        this.termKey = course.getTermKey();
+        this.termId = course.getTermId();
         this.courseOfferingCode = course.getCourseOfferingCode();
         this.courseNumberSuffix = course.getCourseNumberSuffix();
         this.courseTitle = course.getCourseTitle();
@@ -264,8 +264,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public String getTermKey() {
-        return this.termKey;
+    public String getTermId() {
+        return this.termId;
     }
 
     @Override
@@ -413,8 +413,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.waitlistMaximum = waitlistMaximum;
     }
 
-    public void setTermKey(String termKey) {
-        this.termKey = termKey;
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     public void setCourseOfferingCode(String courseOfferingCode) {

@@ -36,13 +36,13 @@ public abstract class ProgramAttributesInfo extends IdEntityInfo implements Prog
     private String selectiveEnrollmentCode;
 
     @XmlElement
-    private String startTermKey;
+    private String startTermId;
 
     @XmlElement
-    private String endTermKey;
+    private String endTermId;
 
     @XmlElement
-    private String endProgramEntryTermKey;
+    private String endProgramEntryTermId;
 
     @XmlElement
     private String shortTitle;
@@ -93,9 +93,9 @@ public abstract class ProgramAttributesInfo extends IdEntityInfo implements Prog
             this.diplomaTitle = programAttributes.getDiplomaTitle();
             this.code = programAttributes.getCode();
             this.universityClassification = programAttributes.getUniversityClassification();
-            this.startTermKey = programAttributes.getStartTermKey();
-            this.endTermKey = programAttributes.getEndTermKey();
-            this.endProgramEntryTermKey = programAttributes.getEndProgramEntryTermKey();
+            this.startTermId = programAttributes.getStartTermId();
+            this.endTermId = programAttributes.getEndTermId();
+            this.endProgramEntryTermId = programAttributes.getEndProgramEntryTermId();
             this.programRequirements = programAttributes.getProgramRequirements() != null ? new ArrayList<String>(programAttributes.getProgramRequirements()) : new ArrayList<String>();
             this.divisionsContentOwner = programAttributes.getDivisionsContentOwner() != null ? new ArrayList<String>(programAttributes.getDivisionsContentOwner()) : new ArrayList<String>();
             this.divisionsStudentOversight = programAttributes.getDivisionsStudentOversight() != null ? new ArrayList<String>(programAttributes.getDivisionsContentOwner()) : new ArrayList<String>();
@@ -159,18 +159,18 @@ public abstract class ProgramAttributesInfo extends IdEntityInfo implements Prog
     }
 
     @Override
-    public String getStartTermKey() {
-        return startTermKey;
+    public String getStartTermId() {
+        return startTermId;
     }
 
     @Override
-    public String getEndTermKey() {
-        return endTermKey;
+    public String getEndTermId() {
+        return endTermId;
     }
 
     @Override
-    public String getEndProgramEntryTermKey() {
-        return endProgramEntryTermKey;
+    public String getEndProgramEntryTermId() {
+        return endProgramEntryTermId;
     }
 
     @Override

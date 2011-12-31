@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -45,13 +45,15 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Holiday Calendar"/>
 		<property name="objectDescription">
 			<value>
-Information about a Holiday Calendar.
+Information about a Holiday Calendar. A Holiday Calendar is used
+for holidays and other non-instructional days. A Holiday Calendar
+is used to share those special days among AcademicCalendars.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
@@ -61,9 +63,9 @@ Information about a Holiday Calendar.
 				<ref bean="HolidayCalendarInfo.typeKey"/>
 				<ref bean="HolidayCalendarInfo.stateKey"/>
 				<ref bean="HolidayCalendarInfo.name"/>
+				<ref bean="HolidayCalendarInfo.adminOrgId"/>
 				<ref bean="HolidayCalendarInfo.startDate"/>
 				<ref bean="HolidayCalendarInfo.endDate"/>
-<!--				<ref bean="HolidayCalendarInfo.location"/>-->
 			</list>
 		</property>
 
@@ -150,6 +152,44 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
+	<bean id="HolidayCalendarInfo.campusKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="campusKeys"/>
+		<property name="shortLabel" value="Campus Keys"/>
+		<property name="summary">
+			<value>
+The campuses to which this calendar pertains.
+			</value>
+		</property>
+		<property name="label" value="Campus Keys"/>
+		<property name="elementLabel" value="Campus Key"/>
+		<property name="description">
+			<value>
+The campuses to which this calendar pertains.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="HolidayCalendarInfo.adminOrgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="adminOrgId"/>
+		<property name="shortLabel" value="Admin Org Id"/>
+		<property name="summary">
+			<value>
+The adminsitrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="label" value="AdminOrg Id"/>
+		<property name="description">
+			<value>
+The adminsitrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="HolidayCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
 		<property name="name" value="startDate"/>
 		<property name="shortLabel" value="Start Date"/>
@@ -195,23 +235,6 @@ automatically be considered greater than the effective date.
 		</property>
 		<property name="required" value="false"/>
 	</bean>
-<!--
-	<bean id="HolidayCalendarInfo.location-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="location"/>
-		<property name="shortLabel" value="Location"/>
-		<property name="summary">
-			<value>
-The holiday or location to which this calendar pertains.
-			</value>
-		</property>
-		<property name="label" value="Location"/>
-		<property name="description">
-			<value>
-The holiday or location to which this calendar pertains.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>-->
 
 	<bean id="HolidayCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>

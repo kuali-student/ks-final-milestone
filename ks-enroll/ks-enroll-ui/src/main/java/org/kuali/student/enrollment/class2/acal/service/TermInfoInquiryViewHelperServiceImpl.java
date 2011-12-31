@@ -26,10 +26,10 @@ public class TermInfoInquiryViewHelperServiceImpl extends InquirableImpl {
 	 public TermInfo retrieveDataObject(Map<String, String> parameters) {
 	    	TermInfo termInfo = null;
 	    		    	
-	    	String termKey = parameters.get(TERM_KEY);
+	    	String termId = parameters.get(TERM_KEY);
 	    	ContextInfo context = ContextInfo.newInstance();
 	    	try{
-	    		termInfo = getAcademicCalendarService().getTerm(termKey, context);	    		
+	    		termInfo = getAcademicCalendarService().getTerm(termId, context);	    		
 	    		return termInfo;
 	    	}catch (DoesNotExistException dnee){
 	    		

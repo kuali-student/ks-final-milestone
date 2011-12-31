@@ -307,14 +307,14 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException,
+    public MilestoneInfo getMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        MilestoneEntity entity = milestoneDao.find(milestoneKey);
+        MilestoneEntity entity = milestoneDao.find(milestoneId);
 
         if (entity != null) {
             return entity.toDto();
         } else {
-            throw new DoesNotExistException(milestoneKey);
+            throw new DoesNotExistException(milestoneId);
         }
 
     }
@@ -615,14 +615,14 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     @Transactional
-    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
+    public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
-        MilestoneEntity existingEntity = milestoneDao.find(milestoneKey);
+        MilestoneEntity existingEntity = milestoneDao.find(milestoneId);
 
         if (existingEntity == null) {
-            throw new DoesNotExistException(milestoneKey);
+            throw new DoesNotExistException(milestoneId);
         }
 
         MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
@@ -636,19 +636,19 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     @Transactional
-    public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException,
+    public StatusInfo deleteMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
-        MilestoneEntity existingEntity = milestoneDao.find(milestoneKey);
-        List<AtpMilestoneRelationEntity> amrEntities = atpMilestoneRelationDao.getByMilestoneId(milestoneKey);
+        MilestoneEntity existingEntity = milestoneDao.find(milestoneId);
+        List<AtpMilestoneRelationEntity> amrEntities = atpMilestoneRelationDao.getByMilestoneId(milestoneId);
 
         if (existingEntity != null) {
             milestoneDao.remove(existingEntity);
         } else {
-            throw new DoesNotExistException(milestoneKey);
+            throw new DoesNotExistException(milestoneId);
         }
 
         if (null != amrEntities) {

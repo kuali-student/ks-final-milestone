@@ -52,10 +52,10 @@ public abstract class GradingServiceDecorator implements GradingService {
     }
 
     @Override
-    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(String graderId, String termKey, ContextInfo context)
+    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(String graderId, String termId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getGradeRostersByGraderAndTerm(graderId, termKey, context);
+        return getNextDecorator().getGradeRostersByGraderAndTerm(graderId, termId, context);
     }
 
     @Override

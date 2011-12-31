@@ -99,10 +99,10 @@ public interface ActivityOffering extends HasId, TypeStateEntity {
     /**
      * Academic term the activity is being offered in. Should be same as CourseOffering unless changed, then must 
      * be nested term of courseOffering
-     * @name Term Key
-     * @impl map to Lui.getAtpKey
+     * @name Term Id
+     * @impl map to Lui.getAtpId
      */
-    public String getTermKey();
+    public String getTermId();
         
     /**
      * Indicates that the course is an Honors Course

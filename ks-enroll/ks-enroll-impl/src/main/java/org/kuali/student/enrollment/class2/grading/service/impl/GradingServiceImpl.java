@@ -98,7 +98,7 @@ public class GradingServiceImpl implements GradingService {
      * Retrieve information about grade rosters by grader and term
      *
      * @param graderId
-     * @param termKey
+     * @param termId
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation
@@ -112,7 +112,7 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(@WebParam(name = "graderId") String graderId,
-            @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context)
+            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.

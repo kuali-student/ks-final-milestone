@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -61,6 +61,7 @@ Information about an Academic Calendar.
 				<ref bean="AcademicCalendarInfo.typeKey"/>
 				<ref bean="AcademicCalendarInfo.stateKey"/>
 				<ref bean="AcademicCalendarInfo.name"/>
+				<ref bean="AcademicCalendarInfo.adminOrgId"/>
 				<ref bean="AcademicCalendarInfo.startDate"/>
 				<ref bean="AcademicCalendarInfo.endDate"/>
 			</list>
@@ -85,24 +86,6 @@ Information about an Academic Calendar.
 
 	<bean id="AcademicCalendarInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
-		<property name="shortLabel" value="Type Key"/>
-		<property name="summary">
-			<value>
-Unique identifier for the type of this academic calendar.
-			</value>
-		</property>
-		<property name="label" value="Type Key"/>
-		<property name="description">
-			<value>
-Unique identifier for the type of this academic calendar.
-			</value>
-		</property>
-		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
-		<property name="attributeSecurity">
-		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
-		</property>
-		-->
-		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="AcademicCalendarInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
@@ -167,6 +150,47 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
+	<bean id="AcademicCalendarInfo.holidayCalendarIds-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="holidayCalendarIds"/>
+		<property name="shortLabel" value="Holiday Calendar Ids"/>
+		<property name="summary">
+			<value>
+The holiday calendar id corresponding to this academic
+calendar. 
+			</value>
+		</property>
+		<property name="label" value="Holiday Calendar Ids"/>
+		<property name="elementLabel" value="Holiday Calendar Id"/>
+		<property name="description">
+			<value>
+The holiday calendar id corresponding to this academic
+calendar. A multi-year academic calendar may have more than one
+holiday calendar.
+			</value>
+		</property>
+		<property name="minOccurs" value="0"/>
+		<property name="dataObjectClass" value="java.lang.String"/>
+	</bean>
+
+	<bean id="AcademicCalendarInfo.adminOrgId-generated" abstract="true" parent="BaseKuali.orgId">
+		<property name="name" value="adminOrgId"/>
+		<property name="shortLabel" value="Admin Org Id"/>
+		<property name="summary">
+			<value>
+The administrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="label" value="AdminOrg Id"/>
+		<property name="description">
+			<value>
+The administrative organization responsible for maintaining
+this calendar.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="AcademicCalendarInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
 		<property name="name" value="startDate"/>
 		<property name="shortLabel" value="Start Date"/>
@@ -213,29 +237,6 @@ automatically be considered greater than the effective date.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="AcademicCalendarInfo.holidayCalendarIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="holidayCalendarIds"/>
-		<property name="shortLabel" value="Holiday Calendar Keys"/>
-		<property name="summary">
-			<value>
-The holiday calendar key corresponding to this academic
-calendar. 
-			</value>
-		</property>
-		<property name="label" value="Holiday Calendar"/>
-		<property name="elementLabel" value="Holiday Calendar Id"/>
-		<property name="description">
-			<value>
-The holiday calendar key corresponding to this academic
-calendar. A multi-year academic calendar may have more than one
-holiday calendar.
-			</value>
-		</property>
-		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="java.lang.String"/>
-	</bean>
-
-	
 	<bean id="AcademicCalendarInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>

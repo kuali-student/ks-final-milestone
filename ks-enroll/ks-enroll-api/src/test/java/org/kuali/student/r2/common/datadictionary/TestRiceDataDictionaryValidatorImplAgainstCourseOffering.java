@@ -124,7 +124,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstCourseOffering {
         co.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         co.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         co.setCourseId("fake-course-id");
-        co.setTermKey("fake-term-key");
+        co.setTermId("fake-term-key");
 //        co.setEffectiveDate(this.parseDate("2011-01-01"));
         return co;
     }

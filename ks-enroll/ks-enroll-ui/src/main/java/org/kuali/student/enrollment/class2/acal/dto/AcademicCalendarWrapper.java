@@ -9,7 +9,7 @@ import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 public class AcademicCalendarWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-    String key;
+    String id;
 	AcademicCalendarInfo academicCalendarInfo;
 	List<TermWrapper> termWrapperList;
 
@@ -20,13 +20,13 @@ public class AcademicCalendarWrapper implements Serializable {
 	 * @return the key
 	 */
 	public String getKey() {
-		return key;
+		return id;
 	}
 	/**
 	 * @param key the key to set. It equals to academicCalendarInfo.getKey()
 	 */
 	public void setKey(String key) {
-		this.key = key;
+		this.id = key;
 	}
 	/**
 	 * @return the academicCalendarInfo
@@ -39,7 +39,7 @@ public class AcademicCalendarWrapper implements Serializable {
 	 */
 	public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
 		this.academicCalendarInfo = academicCalendarInfo;
-        this.key = academicCalendarInfo.getKey();
+        this.id = academicCalendarInfo.getId();
 	}
 	/**
 	 * @return the termWrapperList

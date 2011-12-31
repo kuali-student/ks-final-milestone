@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -138,6 +138,7 @@ Returns the reg group id for the RegGroupRegistration.
 					<list>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.courseOfferingId"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.registrationCode"/>
+						<ref bean="RegGroupRegistrationInfo.registrationGroup.termId"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.formatId"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.isHonorsOffering"/>
 						<ref bean="RegGroupRegistrationInfo.registrationGroup.maximumEnrollment"/>
@@ -226,6 +227,24 @@ Uniquely identifies an instance of the course for the purposes of registration
 			</value>
 		</property>
 		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="RegGroupRegistrationInfo.registrationGroup.termId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="termId"/>
+		<property name="shortLabel" value="Term Id"/>
+		<property name="summary">
+			<value>
+Academic term the registration group is being offered in. 
+			</value>
+		</property>
+		<property name="label" value="Term id"/>
+		<property name="description">
+			<value>
+Academic term the registration group is being offered in. Should be same as CourseOffering unless changed, then must 
+be nested term of courseOffering
+			</value>
+		</property>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="RegGroupRegistrationInfo.registrationGroup.formatId-generated" abstract="true" parent="BaseKuali.string">

@@ -66,9 +66,9 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * The unique identifier for the Academic Time Period (ATP)
      * for which this instance is offered.
      *
-     * @name Atp Key
+     * @name Atp Id
      */
-    public String getAtpKey();
+    public String getAtpId();
 
     /**
      * List of LU code info structures. These are structures so that

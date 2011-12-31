@@ -44,44 +44,44 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
     	System.out.println(">>In TermWrapperMaintainableImpl.saveDataObject()");
         TermWrapper termWrapper = (TermWrapper)getDataObject();
         TermInfo termInfo = termWrapper.getTermInfo();
-        String termKey = getTermInfoKey (termInfo);
-        System.out.println(">>>termKey = "+termKey);
-        termInfo.setKey(termKey);
+//        String termId = getTermInfoKey (termInfo);
+//        System.out.println(">>>termId = "+termId);
+//        termInfo.setKey(termId);
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         
         KeyDateInfo classesMeetDates = termWrapper.getClassesMeetDates();
         classesMeetDates.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         classesMeetDates.setTypeKey(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY);
-        String classesMeetDatesKey = getKeyDateInfoKey(classesMeetDates, termKey);
-        classesMeetDates.setKey(classesMeetDatesKey);
+//        String classesMeetDatesKey = getKeyDateInfoKey(classesMeetDates, termId);
+//        classesMeetDates.setKey(classesMeetDatesKey);
         
         KeyDateInfo registrationPeriod = termWrapper.getRegistrationPeriod();
         registrationPeriod.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         registrationPeriod.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
-        String registrationPeriodKey = getKeyDateInfoKey(registrationPeriod, termKey);
-        registrationPeriod.setKey(registrationPeriodKey);
+//        String registrationPeriodKey = getKeyDateInfoKey(registrationPeriod, termId);
+//        registrationPeriod.setKey(registrationPeriodKey);
 
         
   
         KeyDateInfo dropPeriodEndsDate = termWrapper.getDropPeriodEndsDate();
         dropPeriodEndsDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         dropPeriodEndsDate.setTypeKey(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY);
-        String dropPeriodEndsDateKey = getKeyDateInfoKey(dropPeriodEndsDate, termKey);
-        dropPeriodEndsDate.setKey(dropPeriodEndsDateKey);
+//        String dropPeriodEndsDateKey = getKeyDateInfoKey(dropPeriodEndsDate, termId);
+//        dropPeriodEndsDate.setKey(dropPeriodEndsDateKey);
 
 
         KeyDateInfo finalExaminationsDates = termWrapper.getFinalExaminationsDates();
         finalExaminationsDates.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         finalExaminationsDates.setTypeKey(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY);
-        String finalExaminationsDatesKey = getKeyDateInfoKey(finalExaminationsDates, termKey);
-        finalExaminationsDates.setKey(finalExaminationsDatesKey);
+//        String finalExaminationsDatesKey = getKeyDateInfoKey(finalExaminationsDates, termId);
+//        finalExaminationsDates.setKey(finalExaminationsDatesKey);
 
         
         KeyDateInfo gradesDueDate = termWrapper.getGradesDueDate();
         gradesDueDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         gradesDueDate.setTypeKey(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
-        String gradesDueDateKey = getKeyDateInfoKey(gradesDueDate, termKey);
-        gradesDueDate.setKey(gradesDueDateKey);
+//        String gradesDueDateKey = getKeyDateInfoKey(gradesDueDate, termId);
+//        gradesDueDate.setKey(gradesDueDateKey);
   
 		academicCalendarService = getAcademicCalendarService();
 		ContextInfo context = ContextInfo.newInstance();
@@ -89,23 +89,23 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         try{
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {          		
-        		academicCalendarService.createTerm(termKey, termInfo, context);
-        		academicCalendarService.createKeyDateForTerm(termKey, classesMeetDatesKey, classesMeetDates, context);
-        		academicCalendarService.createKeyDateForTerm(termKey, registrationPeriodKey, registrationPeriod, context);
-        		academicCalendarService.createKeyDateForTerm(termKey, dropPeriodEndsDateKey, dropPeriodEndsDate, context);
-        		academicCalendarService.createKeyDateForTerm(termKey, finalExaminationsDatesKey, finalExaminationsDates, context);
-        		academicCalendarService.createKeyDateForTerm(termKey, gradesDueDateKey, gradesDueDate, context);
+        		termInfo = academicCalendarService.createTerm(termInfo.getTypeKey(), termInfo, context);
+        		academicCalendarService.createKeyDate(termInfo.getId(), classesMeetDates.getTypeKey(), classesMeetDates, context);
+        		academicCalendarService.createKeyDate(termInfo.getId(), registrationPeriod.getTypeKey(), registrationPeriod, context);
+        		academicCalendarService.createKeyDate(termInfo.getId(), dropPeriodEndsDate.getTypeKey(), dropPeriodEndsDate, context);
+        		academicCalendarService.createKeyDate(termInfo.getId(), finalExaminationsDates.getTypeKey(), finalExaminationsDates, context);
+        		academicCalendarService.createKeyDate(termInfo.getId(), gradesDueDate.getTypeKey(), gradesDueDate, context);
        		
         	}
         	else {
-        		getAcademicCalendarService().updateTerm(termKey, termInfo, ContextInfo.newInstance());
-        		academicCalendarService.updateKeyDate(classesMeetDatesKey, classesMeetDates, context);
-        		academicCalendarService.updateKeyDate(registrationPeriodKey, registrationPeriod, context);
-        		academicCalendarService.updateKeyDate(dropPeriodEndsDateKey, dropPeriodEndsDate, context);
-        		academicCalendarService.updateKeyDate(finalExaminationsDatesKey, finalExaminationsDates, context);
-        		academicCalendarService.updateKeyDate(gradesDueDateKey, gradesDueDate, context);        		
+        		termInfo = getAcademicCalendarService().updateTerm(termInfo.getId(), termInfo, ContextInfo.newInstance());
+        		academicCalendarService.updateKeyDate(classesMeetDates.getId(), classesMeetDates, context);
+        		academicCalendarService.updateKeyDate(registrationPeriod.getId(), registrationPeriod, context);
+        		academicCalendarService.updateKeyDate(dropPeriodEndsDate.getId(), dropPeriodEndsDate, context);
+        		academicCalendarService.updateKeyDate(finalExaminationsDates.getId(), finalExaminationsDates, context);
+        		academicCalendarService.updateKeyDate(gradesDueDate.getId(), gradesDueDate, context);        		
         	}
-        }catch (AlreadyExistsException aee){
+        }catch (ReadOnlyException roe){
 
         }catch (DataValidationErrorException dvee){
             
@@ -133,22 +133,22 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
            // Since the dataObject is a wrapper class we need to build it and populate with the agenda bo.
            TermWrapper termWrapper = new TermWrapper();
            ContextInfo context = ContextInfo.newInstance();
-           String termKey =  dataObjectKeys.get(TERM_KEY);
+           String termId =  dataObjectKeys.get(TERM_KEY);
 
            try {
-                TermInfo termInfo = getAcademicCalendarService().getTerm(termKey, context);
+                TermInfo termInfo = getAcademicCalendarService().getTerm(termId, context);
                 // getLookupService().findObjectBySearch(((TermWrapper) getDataObject()).getTermInfo().getClass(), dataObjectKeys);
 
                 if (KRADConstants.MAINTENANCE_COPY_ACTION.equals(getMaintenanceAction())) {
                     // If we don't clear the primary key and set the fieldsClearedOnCopy flag then the
                     // MaintenanceDocumentServiceImpl.processMaintenanceObjectForCopy() will try to locate the primary keys in
                     // an attempt to clear them which again would cause an exception due to the wrapper class.
-                    termInfo.setKey(null);
+                    termInfo.setId(null);
                     document.setFieldsClearedOnCopy(true);
                 }
                 termWrapper.setTermInfo(termInfo);
 
-                List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termKey, ContextInfo.newInstance());
+                List<KeyDateInfo> keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termId, ContextInfo.newInstance());
 
                 for (KeyDateInfo keyDateInfo : keyDateInfoList){
     				if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
@@ -168,15 +168,15 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
     				}
                 }
     	   }catch (DoesNotExistException dnee){
-                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get DoesNotExistException:  "+dnee.toString());
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get DoesNotExistException:  "+dnee.toString());
            }catch (InvalidParameterException ipe){
-                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get InvalidParameterException:  "+ipe.toString());
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get InvalidParameterException:  "+ipe.toString());
            }catch (MissingParameterException mpe){
-                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get MissingParameterException:  "+mpe.toString());
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get MissingParameterException:  "+mpe.toString());
            }catch (OperationFailedException ofe){
-                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get OperationFailedException:  "+ofe.toString());
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get OperationFailedException:  "+ofe.toString());
            }catch (PermissionDeniedException pde){
-                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get PermissionDeniedException:  "+pde.toString());
+                System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get PermissionDeniedException:  "+pde.toString());
            }
            dataObject = termWrapper;
 
@@ -199,61 +199,61 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
        return academicCalendarService;
    }
     
-    /*
-     *  Based on Norm's suggestion at 
-     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
-     *  Term Keys should be 
-     *  kuali.term.<yearOfStartDate>-<yearOfEndDate>.
-     *  <The last part of the type key of the term selected (when split using ".") converted to lower case>
-     */
-    private String getTermInfoKey(TermInfo termInfo){
-        String termKey = new String (TERM_KEY_PREFIX);
-        String theType;
-        
-        String theTypeKey = termInfo.getTypeKey();      
-        if (theTypeKey.startsWith(TERM_TYPE_KEY_PREFIX)){
-     	   theType = theTypeKey.substring(15);
-        }
-        else {
-     	   theType = theTypeKey;
-        }        
-        String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
-        String yearOfEndDate = getYearFromDate(termInfo.getEndDate());
-        termKey = termKey.concat("."+yearOfStartDate+"-"+yearOfEndDate+"."+theType.toLowerCase());
-        return termKey;       
-        
-    }
-    
-    private String getYearFromDate(Date date){
-    	Calendar cal = Calendar.getInstance();
-    	cal.setTime(date);
-    	int year = cal.get(Calendar.YEAR);
-    	return new Integer(year).toString();
-    }
-	
-    /*
-     *  Based on Norm's suggestion at 
-     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities#HowtoCalculateKeysforAcademicCalendarEntities-MilestoneKeys
-     *  KeyDateInfo Key should be 
-     *  kuali.milestone.<The last part of the type key of the milestone selected (when split using ".") converted to lower case>.
-     *  <The term key to which this milestone is expected to be connected with the "kuali." prefix removed>
-     */
-    private String getKeyDateInfoKey(KeyDateInfo keyDateInfo, String termKey){
-        String keyDateInfoKey = new String (KEY_DATE_INFO_KEY_PREFIX);
-        
-        String theKeyDateInfoType;
-        
-        String theKeyDateInfoTypeKey = keyDateInfo.getTypeKey();      
-        if (theKeyDateInfoTypeKey.startsWith(MILESTONE_TYPE_KEY_PREFIX)){
-        	theKeyDateInfoType = theKeyDateInfoTypeKey.substring(MILESTONE_TYPE_KEY_PREFIX.length());
-        }
-        else {
-        	theKeyDateInfoType = theKeyDateInfoTypeKey;
-        }        
-
-        keyDateInfoKey = keyDateInfoKey.concat("."+theKeyDateInfoType.toLowerCase()+"."+termKey.substring(6));
-        return keyDateInfoKey;       
-        
-    }
+//    /*
+//     *  Based on Norm's suggestion at 
+//     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
+//     *  Term ids should be 
+//     *  kuali.term.<yearOfStartDate>-<yearOfEndDate>.
+//     *  <The last part of the type key of the term selected (when split using ".") converted to lower case>
+//     */
+//    private String getTermInfoKey(TermInfo termInfo){
+//        String termId = new String (TERM_KEY_PREFIX);
+//        String theType;
+//        
+//        String theTypeKey = termInfo.getTypeKey();      
+//        if (theTypeKey.startsWith(TERM_TYPE_KEY_PREFIX)){
+//     	   theType = theTypeKey.substring(15);
+//        }
+//        else {
+//     	   theType = theTypeKey;
+//        }        
+//        String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
+//        String yearOfEndDate = getYearFromDate(termInfo.getEndDate());
+//        termId = termId.concat("."+yearOfStartDate+"-"+yearOfEndDate+"."+theType.toLowerCase());
+//        return termId;       
+//        
+//    }
+//    
+//    private String getYearFromDate(Date date){
+//    	Calendar cal = Calendar.getInstance();
+//    	cal.setTime(date);
+//    	int year = cal.get(Calendar.YEAR);
+//    	return new Integer(year).toString();
+//    }
+//	
+//    /*
+//     *  Based on Norm's suggestion at 
+//     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities#HowtoCalculateKeysforAcademicCalendarEntities-MilestoneIds
+//     *  KeyDateInfo Key should be 
+//     *  kuali.milestone.<The last part of the type key of the milestone selected (when split using ".") converted to lower case>.
+//     *  <The term id to which this milestone is expected to be connected with the "kuali." prefix removed>
+//     */
+//    private String getKeyDateInfoKey(KeyDateInfo keyDateInfo, String termId){
+//        String keyDateInfoKey = new String (KEY_DATE_INFO_KEY_PREFIX);
+//        
+//        String theKeyDateInfoType;
+//        
+//        String theKeyDateInfoTypeKey = keyDateInfo.getTypeKey();      
+//        if (theKeyDateInfoTypeKey.startsWith(MILESTONE_TYPE_KEY_PREFIX)){
+//        	theKeyDateInfoType = theKeyDateInfoTypeKey.substring(MILESTONE_TYPE_KEY_PREFIX.length());
+//        }
+//        else {
+//        	theKeyDateInfoType = theKeyDateInfoTypeKey;
+//        }        
+//
+//        keyDateInfoKey = keyDateInfoKey.concat("."+theKeyDateInfoType.toLowerCase()+"."+termId.substring(6));
+//        return keyDateInfoKey;       
+//        
+//    }
 
 }

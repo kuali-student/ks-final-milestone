@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -123,7 +123,7 @@ Returns the activity offering id for the activity registration.
 					<list>
 						<ref bean="ActivityRegistrationInfo.activityOffering.activityId"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.activityCode"/>
-						<ref bean="ActivityRegistrationInfo.activityOffering.termKey"/>
+						<ref bean="ActivityRegistrationInfo.activityOffering.termId"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.isHonorsOffering"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.finalExamStartTime"/>
 						<ref bean="ActivityRegistrationInfo.activityOffering.finalExamEndTime"/>
@@ -190,15 +190,15 @@ Alphanumeric character that identifies the section of the course offering
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ActivityRegistrationInfo.activityOffering.termKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="termKey"/>
-		<property name="shortLabel" value="Term Key"/>
+	<bean id="ActivityRegistrationInfo.activityOffering.termId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="termId"/>
+		<property name="shortLabel" value="Term Id"/>
 		<property name="summary">
 			<value>
 Academic term the activity is being offered in. 
 			</value>
 		</property>
-		<property name="label" value="Term Key"/>
+		<property name="label" value="Term Id"/>
 		<property name="description">
 			<value>
 Academic term the activity is being offered in. Should be same as CourseOffering unless changed, then must 
@@ -234,12 +234,12 @@ The options/scales that indicate the allowable grades that can be awarded.
 
 			</value>
 		</property>
-		<property name="label" value="Grading Options"/>
-		<property name="elementLabel" value="Grading Option"/>
+		<property name="label" value="Grading Option Keys"/>
+		<property name="elementLabel" value="Grading Option Key"/>
 		<property name="description">
 			<value>
 The options/scales that indicate the allowable grades that can be awarded.
-If the value is set here then the Clu must have a grading option set on the
+If the value is set here then the canonical course must have a grading option set on the
 canonical activity
 			</value>
 		</property>

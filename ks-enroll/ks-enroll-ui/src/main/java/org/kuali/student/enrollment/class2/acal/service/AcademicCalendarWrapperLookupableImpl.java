@@ -32,7 +32,7 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
 
     	String academicCalendarKey = fieldValues.get(ACADEMIC_CALENDAR_WRAPPER_KEY);
         String academicCalendarName = fieldValues.get(ACADEMIC_CALENDAR_NAME);
-        String credentialProgramType =  fieldValues.get(CREDENTIAL_PROGRAM_TYPE_KEY);
+//        String credentialProgramType =  fieldValues.get(CREDENTIAL_PROGRAM_TYPE_KEY);
         System.out.println(">>>academicCalendarKey = "+academicCalendarKey);
     	ContextInfo context = ContextInfo.newInstance();
     	try{
@@ -40,19 +40,19 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     		    AcademicCalendarInfo acal = getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context);
                 if (acal != null) academicCalendarInfoList.add(acal);
             }
-            else {
-                List<AcademicCalendarInfo> acals = getAcademicCalendarService().getAcademicCalendarsByCredentialProgramType(credentialProgramType, context);
-                if(!acals.isEmpty()){
-                    if(academicCalendarName != null && !academicCalendarName.trim().isEmpty()){
-                        for (AcademicCalendarInfo academicCalendarInfo : acals){
-                            if(academicCalendarInfo.getName()!= null && academicCalendarInfo.getName().equals(academicCalendarName))
-                                academicCalendarInfoList.add(academicCalendarInfo);
-                        }
-                    }
-                    else
-                        academicCalendarInfoList = acals;
-                }
-            }
+//            else {
+////                List<AcademicCalendarInfo> acals = getAcademicCalendarService().getAcademicCalendarsByCredentialProgramType(credentialProgramType, context);
+//                if(!acals.isEmpty()){
+//                    if(academicCalendarName != null && !academicCalendarName.trim().isEmpty()){
+//                        for (AcademicCalendarInfo academicCalendarInfo : acals){
+//                            if(academicCalendarInfo.getName()!= null && academicCalendarInfo.getName().equals(academicCalendarName))
+//                                academicCalendarInfoList.add(academicCalendarInfo);
+//                        }
+//                    }
+//                    else
+//                        academicCalendarInfoList = acals;
+//                }
+//            }
 
             if(!academicCalendarInfoList.isEmpty()){
                 for(AcademicCalendarInfo academicCalendarInfo : academicCalendarInfoList){
@@ -60,11 +60,11 @@ public class AcademicCalendarWrapperLookupableImpl extends LookupableImpl {
     	            List<TermWrapper> termWrapperList = academicCalendarWrapper.getTermWrapperList();
 
                     academicCalendarWrapper.setAcademicCalendarInfo(academicCalendarInfo);
-                    List<TermInfo> terms = getAcademicCalendarService().getTermsForAcademicCalendar(academicCalendarInfo.getKey(), context);
+                    List<TermInfo> terms = getAcademicCalendarService().getTermsForAcademicCalendar(academicCalendarInfo.getId(), context);
                     for (TermInfo term : terms){
                         TermWrapper termWrapper = new TermWrapper();
                         termWrapper.setTermInfo(term);
-                        List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(term.getKey(), context);
+                        List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(term.getId(), context);
                         for (KeyDateInfo keyDateInfo : keyDateInfoList){
                             if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
                                 termWrapper.setClassesMeetDates(keyDateInfo);

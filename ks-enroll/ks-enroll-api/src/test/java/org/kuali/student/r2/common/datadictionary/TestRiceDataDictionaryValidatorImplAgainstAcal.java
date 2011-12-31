@@ -511,8 +511,8 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         // validate the empty list is ok
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
-        List<String> holidayCalendarKeys = new ArrayList();
-        acal.setHolidayCalendarIds(holidayCalendarKeys);
+        List<String> holidayCalendarIds = new ArrayList();
+        acal.setHolidayCalendarIds(holidayCalendarIds);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -537,8 +537,8 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         // validate the empty list is ok
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
-        List<String> holidayCalendarKeys = new ArrayList();
-        acal.setHolidayCalendarIds(holidayCalendarKeys);
+        List<String> holidayCalendarIds = new ArrayList();
+        acal.setHolidayCalendarIds(holidayCalendarIds);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -563,9 +563,9 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
         // validate the single entry in list is ok
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
-        List<String> holidayCalendarKeys = new ArrayList();
-        holidayCalendarKeys.add("holidayCalendarKey1");
-        acal.setHolidayCalendarIds(holidayCalendarKeys);
+        List<String> holidayCalendarIds = new ArrayList();
+        holidayCalendarIds.add("holidayCalendarId1");
+        acal.setHolidayCalendarIds(holidayCalendarIds);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -589,10 +589,10 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
 
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
-        List<String> holidayCalendarKeys = new ArrayList();
-        holidayCalendarKeys.add("holidayCalendarKey1");
-        holidayCalendarKeys.add("holidayCalendarKey2");
-        acal.setHolidayCalendarIds(holidayCalendarKeys);
+        List<String> holidayCalendarIds = new ArrayList();
+        holidayCalendarIds.add("holidayCalendarId1");
+        holidayCalendarIds.add("holidayCalendarId2");
+        acal.setHolidayCalendarIds(holidayCalendarIds);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -616,11 +616,11 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
 
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
-        List<String> holidayCalendarKeys = new ArrayList();
-        holidayCalendarKeys.add("holidayCalendarKey1");
-        holidayCalendarKeys.add("holidayCalendarKey2");
-        holidayCalendarKeys.add("holidayCalendarKey3");
-        acal.setHolidayCalendarIds(holidayCalendarKeys);
+        List<String> holidayCalendarIds = new ArrayList();
+        holidayCalendarIds.add("holidayCalendarId1");
+        holidayCalendarIds.add("holidayCalendarId2");
+        holidayCalendarIds.add("holidayCalendarId3");
+        acal.setHolidayCalendarIds(holidayCalendarIds);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {
@@ -644,9 +644,9 @@ public class TestRiceDataDictionaryValidatorImplAgainstAcal {
 
         validationType = DataDictionaryValidator.ValidationType.FULL_VALIDATION;
         acal = this.getDefaultAcademicCalendarInfo();
-        List<String> holidayCalendarKeys = new ArrayList();
-        holidayCalendarKeys.add("campusCa\nlendarKey1");
-        acal.setHolidayCalendarIds(holidayCalendarKeys);
+        List<String> holidayCalendarIds = new ArrayList();
+        holidayCalendarIds.add("campusCa\nlendarKey1");
+        acal.setHolidayCalendarIds(holidayCalendarIds);
         context = getContext1();
         result = intstance.validate(validationType, acal, context);
         for (ValidationResult vri : result) {

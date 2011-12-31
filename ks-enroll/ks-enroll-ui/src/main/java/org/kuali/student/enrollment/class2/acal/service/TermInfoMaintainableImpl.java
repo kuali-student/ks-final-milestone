@@ -28,21 +28,19 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
     public void saveDataObject() {
     	System.out.println(">>In TermInfoMaintainableImpl.saveDataObject()");
         TermInfo termInfo = (TermInfo)getDataObject();
-        String termKey = getTermInfoKey (termInfo);
-        System.out.println(">>>termKey = "+termKey);
-        termInfo.setKey(termKey);
+//        String termId = getTermInfoKey (termInfo);
+//        System.out.println(">>>termId = "+termId);
+//        termInfo.setId(termId);
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
 
         try{
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {   
-        		getAcademicCalendarService().createTerm(termKey, termInfo, ContextInfo.newInstance());
+        		termInfo = getAcademicCalendarService().createTerm(termInfo.getTypeKey(), termInfo, ContextInfo.newInstance());
         	}
         	else {
-        		getAcademicCalendarService().updateTerm(termKey, termInfo, ContextInfo.newInstance());
+        		termInfo = getAcademicCalendarService().updateTerm(termInfo.getId(), termInfo, ContextInfo.newInstance());
         	}
-        }catch (AlreadyExistsException aee){
-            
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -57,8 +55,9 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
             
         }catch (VersionMismatchException vme){
             
-        }       
-        
+        }catch (ReadOnlyException roe) {      
+            
+        }
     }
 
     @Override
@@ -103,36 +102,36 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
         super.prepareForSave();
     }
     
-    /*
-     *  Based on Norm's suggestion at 
-     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
-     *  Term Keys should be 
-     *  kuali.term.<yearOfStartDate>-<yearOfEndDate>.
-     *  <The last part of the type key of the term selected (when split using ".") converted to lower case>
-     */
-   private String getTermInfoKey(TermInfo termInfo){
-       String termKey = new String (TERM_KEY_PREFIX);
-       String theType;
-       
-       String theTypeKey = termInfo.getTypeKey();      
-       if (theTypeKey.startsWith(TYPE_KEY_PREFIX)){
-    	   theType = theTypeKey.substring(15);
-       }
-       else {
-    	   theType = theTypeKey;
-       }        
-       String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
-       String yearOfEndDate = getYearFromDate(termInfo.getEndDate());
-       termKey = termKey.concat("."+yearOfStartDate+"-"+yearOfEndDate+"."+theType.toLowerCase());
-       return termKey;       
-       
-   }
-   
-   private String getYearFromDate(Date date){
-   	Calendar cal = Calendar.getInstance();
-   	cal.setTime(date);
-   	int year = cal.get(Calendar.YEAR);
-   	return new Integer(year).toString();
-   }
+//    /*
+//     *  Based on Norm's suggestion at 
+//     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
+//     *  Term ids should be 
+//     *  kuali.term.<yearOfStartDate>-<yearOfEndDate>.
+//     *  <The last part of the type key of the term selected (when split using ".") converted to lower case>
+//     */
+//   private String getTermInfoKey(TermInfo termInfo){
+//       String termId = new String (TERM_KEY_PREFIX);
+//       String theType;
+//       
+//       String theTypeKey = termInfo.getTypeKey();      
+//       if (theTypeKey.startsWith(TYPE_KEY_PREFIX)){
+//    	   theType = theTypeKey.substring(15);
+//       }
+//       else {
+//    	   theType = theTypeKey;
+//       }        
+//       String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
+//       String yearOfEndDate = getYearFromDate(termInfo.getEndDate());
+//       termId = termId.concat("."+yearOfStartDate+"-"+yearOfEndDate+"."+theType.toLowerCase());
+//       return termId;       
+//       
+//   }
+//   
+//   private String getYearFromDate(Date date){
+//   	Calendar cal = Calendar.getInstance();
+//   	cal.setTime(date);
+//   	int year = cal.get(Calendar.YEAR);
+//   	return new Integer(year).toString();
+//   }
 
 }

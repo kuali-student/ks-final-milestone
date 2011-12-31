@@ -26,9 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.exemption.infc.ExemptionRequest;
-import org.kuali.student.r2.core.exemption.infc.DateOverride;
-import org.kuali.student.r2.core.exemption.infc.LearningResultOverride;
-import org.kuali.student.r2.core.exemption.infc.MilestoneOverride;
 
 import org.w3c.dom.Element;
 
@@ -167,7 +164,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     }
 
     @Override
-    public DateOverride getDateOverride() {
+    public DateOverrideInfo getDateOverride() {
         return dateOverrideInfo;
     }
 
@@ -176,7 +173,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     }
 
     @Override
-    public MilestoneOverride getMilestoneOverride() {
+    public MilestoneOverrideInfo getMilestoneOverride() {
         return milestoneOverrideInfo;
     }
 
@@ -185,7 +182,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     }
 
     @Override
-    public LearningResultOverride getLearningResultOverride() {
+    public LearningResultOverrideInfo getLearningResultOverride() {
         return learningResultOverrideInfo;
     }
 

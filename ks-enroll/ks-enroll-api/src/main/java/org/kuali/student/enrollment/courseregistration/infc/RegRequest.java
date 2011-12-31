@@ -47,7 +47,7 @@ public interface RegRequest extends IdEntity {
      * 
      * @return
      */
-    public String getTermKey();
+    public String getTermId();
 
     /**
      * Returns a list of {@link RegRequestItem} that the RegRequest is composed

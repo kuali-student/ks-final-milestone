@@ -37,7 +37,7 @@
                           p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/lookup?methodToCall=start&amp;dataObjectClassName=org.kuali.student.lum.course.dto.CourseInfo&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentLaunchView&amp;methodToCall=start"/>
                 <bean parent="LabelField" p:labelText="Registration"/>
                 <bean parent="LinkField" p:linkLabel="Register for Fall 2011 Classes" p:target="_self"
-                          p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/registration?methodToCall=start&amp;viewId=studentRegistrationView&amp;termKey=testTermId1&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentLaunchView&amp;methodToCall=start"/>
+                          p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/registration?methodToCall=start&amp;viewId=studentRegistrationView&amp;termId=testTermId1&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentLaunchView&amp;methodToCall=start"/>
                 <bean parent="LabelField" p:labelText="Grading" />
                 <bean parent="LinkField" p:linkLabel="Grading" p:target="_self"
                           p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/grading?methodToCall=start&amp;viewId=GradingView&amp;returnLocation=@{#ConfigProperties['application.url']}/kr-krad/launch?viewId=enrollmentLaunchView&amp;methodToCall=start"/>

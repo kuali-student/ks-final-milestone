@@ -68,13 +68,13 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
             acals.addAll(getAcalService().getAcademicCalendarsByStartYear(year+1, context));
             for (AcademicCalendarInfo acal : acals) {
                 if (StringUtils.equals(acal.getStateKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)){
-                    terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getKey(), context));
+                    terms.addAll(getAcalService().getTermsForAcademicCalendar(acal.getId(), context));
                 }
             }
 
             // TODO: remove this when we figure out why KRAD defaultValue property is not working
             for (TermInfo term : terms) {
-                if ("testTermId1".equals(term.getKey())) {
+                if ("testTermId1".equals(term.getId())) {
                     terms.remove(term);
                     terms.add(0, term);
                     break;
@@ -95,7 +95,7 @@ public class TermKeyValues extends KeyValuesBase implements Serializable {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         for(TermInfo term : terms) {
-            keyValues.add(new ConcreteKeyValue(term.getKey(), term.getName()));
+            keyValues.add(new ConcreteKeyValue(term.getId(), term.getName()));
         }
 
         return keyValues;

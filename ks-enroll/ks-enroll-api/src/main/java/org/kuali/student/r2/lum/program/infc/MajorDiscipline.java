@@ -83,12 +83,12 @@ public interface MajorDiscipline extends IdEntity {
      * The first academic time period that this clu would be effective. This may
      * not reflect the first "real" academic time period for this Major.
      */
-    public String getStartTermKey();
+    public String getStartTermId();
 
     /**
      * The last academic time period that this Major would be effective.
      */
-    public String getEndTermKey();
+    public String getEndTermId();
     
     public String getNextReviewPeriod();
 
@@ -149,7 +149,7 @@ public interface MajorDiscipline extends IdEntity {
 
     public TimeAmount getStdDuration();
 
-    public String getEndProgramEntryTermKey();
+    public String getEndProgramEntryTermId();
 
     public List<AccreditationInfo> getAccreditingAgencies();
 

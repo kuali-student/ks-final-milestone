@@ -50,10 +50,10 @@ public interface RegistrationGroup extends IdEntity {
      * Academic term the registration group is being offered in. Should be same as CourseOffering unless changed, then must 
      * be nested term of courseOffering
      * @required
-     * @name Term Key
-     * @impl map to Lui.getAtpKey
+     * @name Term id
+     * @impl map to Lui.getAtpId
      */
-    public String getTermKey();
+    public String getTermId();
         
     /**
      * Uniquely identifies an instance of the course for the purposes of registration

@@ -93,13 +93,13 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
     }
 	
 	@Override
-	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo,
+	public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo,
 			ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		_luiFullValidation(luiInfo, context);
-		return getNextDecorator().createLui(cluId,atpKey,luiInfo, context);
+		return getNextDecorator().createLui(cluId,atpId,luiInfo, context);
 	}
 
 	@Override

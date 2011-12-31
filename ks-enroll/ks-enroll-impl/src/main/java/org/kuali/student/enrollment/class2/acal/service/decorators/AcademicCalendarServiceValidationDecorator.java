@@ -186,10 +186,10 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
 
     
     @Override
-    public KeyDateInfo updateKeyDate(String keyDateKey, KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public KeyDateInfo updateKeyDate(String keyDateId, KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
         _keyDateFullValidation(keyDateInfo, context);
-        return this.getNextDecorator().updateKeyDate(keyDateKey, keyDateInfo, context);
+        return this.getNextDecorator().updateKeyDate(keyDateId, keyDateInfo, context);
     }
 
     private void _keyDateFullValidation(KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException,
@@ -226,10 +226,10 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
     }
 
     @Override
-    public HolidayInfo updateHoliday(String holidayKey, HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
         _holidayFullValidation(holidayInfo, context);
-        return this.getNextDecorator().updateHoliday(holidayKey, holidayInfo, context);
+        return this.getNextDecorator().updateHoliday(holidayId, holidayInfo, context);
     }
 
     private void _holidayFullValidation(HolidayInfo holidayInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException,

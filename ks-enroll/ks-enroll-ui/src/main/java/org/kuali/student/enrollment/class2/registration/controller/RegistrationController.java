@@ -90,7 +90,7 @@ public class RegistrationController extends UifControllerBase {
     protected RegRequestInfo generateNewRegRequestInfo(ContextInfo context, RegistrationForm regForm){
         String id = context.getPrincipalId();
         RegRequestInfo info = new RegRequestInfo();
-        info.setTermKey(regForm.getTermKey());
+        info.setTermId(regForm.getTermId());
         info.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         info.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
         info.setRequestorId(id);
@@ -157,9 +157,9 @@ public class RegistrationController extends UifControllerBase {
         }
     }
 
-    protected List<CourseRegistrationInfo> getCourseRegistrations(String studentId, String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, DisabledIdentifierException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    protected List<CourseRegistrationInfo> getCourseRegistrations(String studentId, String termId, ContextInfo context) throws InvalidParameterException, MissingParameterException, DisabledIdentifierException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         if (getCourseRegistrationService() != null) {
-            return getCourseRegistrationService().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
+            return getCourseRegistrationService().getCourseRegistrationsForStudentByTerm(studentId, termId, context);
         }
         return new ArrayList<CourseRegistrationInfo>();                                    }
 
@@ -175,12 +175,12 @@ public class RegistrationController extends UifControllerBase {
         ContextInfo context = ContextInfo.newInstance();
         RegistrationForm regForm = (RegistrationForm) formBase;
         try {
-            regForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), regForm.getTermKey(), context));
+            regForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), regForm.getTermId(), context));
 
             //Pull any existing 'new' cart out
             List<String> states = new ArrayList<String>();
             states.add(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
-            List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsForStudentByTerm(context.getPrincipalId(), regForm.getTermKey(), states, context);
+            List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsForStudentByTerm(context.getPrincipalId(), regForm.getTermId(), states, context);
             RegRequestInfo regRequest = null;
             if(regRequestInfos != null){
                 for(RegRequestInfo info: regRequestInfos){
@@ -297,7 +297,7 @@ public class RegistrationController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Searching by Course Offering Code is not yet implemented");
             return new ArrayList<String>();
         } else {
-            return getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
+            return getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermId(), registrationForm.getSubjectArea(), context);
         }
     }
 
@@ -455,7 +455,7 @@ public class RegistrationController extends UifControllerBase {
                     if(!oneClick){
                         registrationForm.setRegRequest(null);
                     }
-                    registrationForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), registrationForm.getTermKey(), context));
+                    registrationForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), registrationForm.getTermId(), context));
                 }
                 else {
                     if(regResponse.getOperationStatus().getErrors().isEmpty()) {

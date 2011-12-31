@@ -418,10 +418,10 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpKey, String personId,
+    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpId, String personId,
             List<String> lprTypes, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprTransactionsForPersonByAtp(atpKey, personId, lprTypes, context);
+        return getNextDecorator().getLprTransactionsForPersonByAtp(atpId, personId, lprTypes, context);
     }
 
     @Override
@@ -478,24 +478,24 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(String personId, String atpKey, String typeKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(String personId, String atpId, String typeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprsByPersonAndTypeForAtp(personId, atpKey, typeKey, context);
+        return getNextDecorator().getLprsByPersonAndTypeForAtp(personId, atpId, typeKey, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpId,
             String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprsByPersonForAtpAndLuiType(personId, atpKey, luiTypeKey, context);
+        return getNextDecorator().getLprsByPersonForAtpAndLuiType(personId, atpId, luiTypeKey, context);
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndPersonType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndPersonType(String personId, String atpId,
             String personTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprsByPersonForAtpAndPersonType(personId, atpKey, personTypeKey, context);
+        return getNextDecorator().getLprsByPersonForAtpAndPersonType(personId, atpId, personTypeKey, context);
     }
 
     @Override

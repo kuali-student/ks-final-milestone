@@ -35,13 +35,13 @@ public class TermWrapperLookupableImpl extends LookupableImpl {
     	TermInfo termInfo = null;
     	List<TermWrapper> termWrapperList = new ArrayList<TermWrapper>();
 
-    	String termKey = fieldValues.get(TERM_WRAPPER_KEY);
+    	String termId = fieldValues.get(TERM_WRAPPER_KEY);
     	ContextInfo context = ContextInfo.newInstance();
     	try{
-    		termInfo = getAcademicCalendarService().getTerm(termKey, context);
+    		termInfo = getAcademicCalendarService().getTerm(termId, context);
             TermWrapper termWrapper = new TermWrapper();
             termWrapper.setTermInfo(termInfo);
-            List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termKey, context);
+            List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termId, context);
             for (KeyDateInfo keyDateInfo : keyDateInfoList){
     				if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
                         termWrapper.setClassesMeetDates(keyDateInfo);
@@ -62,15 +62,15 @@ public class TermWrapperLookupableImpl extends LookupableImpl {
     		termWrapperList.add(termWrapper);
     		return termWrapperList;
     	}catch (DoesNotExistException dnee){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get DoesNotExistException:  "+dnee.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get DoesNotExistException:  "+dnee.toString());
     	}catch (InvalidParameterException ipe){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get InvalidParameterException:  "+ipe.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get InvalidParameterException:  "+ipe.toString());
     	}catch (MissingParameterException mpe){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get MissingParameterException:  "+mpe.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get MissingParameterException:  "+mpe.toString());
     	}catch (OperationFailedException ofe){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get OperationFailedException:  "+ofe.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get OperationFailedException:  "+ofe.toString());
     	}catch (PermissionDeniedException pde){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get PermissionDeniedException:  "+pde.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get PermissionDeniedException:  "+pde.toString());
     	}
     	return null;
     }

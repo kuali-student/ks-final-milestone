@@ -16,7 +16,7 @@ public class ActivityOfferingTransformer {
         ao.setDescr(lui.getDescr());
         ao.setAttributes(lui.getAttributes());
         ao.setActivityId(lui.getCluId());
-        ao.setTermKey(lui.getAtpKey());
+        ao.setTermId(lui.getAtpId());
         ao.setMeetingSchedules(lui.getMeetingSchedules());
 
         // TODO: ao.setGradingOptionIds --- lui.getResultOptionIds() call
@@ -38,7 +38,7 @@ public class ActivityOfferingTransformer {
         lui.setMeta(ao.getMeta());
         lui.setAttributes(ao.getAttributes());
         lui.setCluId(ao.getActivityId());
-        lui.setAtpKey(ao.getTermKey());
+        lui.setAtpId(ao.getTermId());
         lui.setMeetingSchedules(ao.getMeetingSchedules());
         return lui;
 

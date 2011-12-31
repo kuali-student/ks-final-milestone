@@ -395,20 +395,20 @@ public class TestAtpServiceImpl {
     
     @Test
     public void testGetMilestonesByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> milestoneKeys = new ArrayList<String>();
-        milestoneKeys.addAll(Arrays.asList("testId", "testId2"));
+        List<String> milestoneIds = new ArrayList<String>();
+        milestoneIds.addAll(Arrays.asList("testId", "testId2"));
         
-        List<MilestoneInfo> milestones = atpService.getMilestonesByIds(milestoneKeys, callContext);
+        List<MilestoneInfo> milestones = atpService.getMilestonesByIds(milestoneIds, callContext);
         
         assertNotNull(milestones);
-        assertEquals(milestoneKeys.size(), milestones.size());
+        assertEquals(milestoneIds.size(), milestones.size());
         
         // check that all the expected ids came back
         for(MilestoneInfo info : milestones) {
-            milestoneKeys.remove(info.getId());
+            milestoneIds.remove(info.getId());
         }
         
-        assertTrue(milestoneKeys.isEmpty());
+        assertTrue(milestoneIds.isEmpty());
         
         // now make sure an exception is thrown for any not found keys
         
@@ -469,8 +469,8 @@ public class TestAtpServiceImpl {
     @Test
     public void testGetMilestoneIdsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         String expectedMilestoneType = "kuali.atp.milestone.RegistrationPeriod";
-        List<String> milestoneKeys = atpService.getMilestoneIdsByType(expectedMilestoneType, callContext);
-        assertTrue(milestoneKeys.contains("testId2"));
+        List<String> milestoneIds = atpService.getMilestoneIdsByType(expectedMilestoneType, callContext);
+        assertTrue(milestoneIds.contains("testId2"));
         
         String fakeMilestoneType = "fakeTypeKey";
         List<String> shouldBeNull = null;

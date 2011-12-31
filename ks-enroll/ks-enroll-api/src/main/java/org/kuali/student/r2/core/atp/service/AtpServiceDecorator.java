@@ -174,17 +174,17 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public MilestoneInfo getMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        return getNextDecorator().getMilestone(milestoneKey, context);
+        return getNextDecorator().getMilestone(milestoneId, context);
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
-        return getNextDecorator().getMilestonesByIds(milestoneKeyList, context);
+        return getNextDecorator().getMilestonesByIds(milestoneIdList, context);
     }
 
     @Override
@@ -289,17 +289,17 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
 
-        return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
+        return getNextDecorator().updateMilestone(milestoneId, milestoneInfo, context);
     }
 
     @Override
-    public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public StatusInfo deleteMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        return getNextDecorator().deleteMilestone(milestoneKey, context);
+        return getNextDecorator().deleteMilestone(milestoneId, context);
     }
 
     @Override

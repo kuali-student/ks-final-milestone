@@ -390,7 +390,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context)
+    public MilestoneInfo getMilestone(String milestoneId, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -399,7 +399,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestone", null, null)) {
-        	return getNextDecorator().getMilestone(milestoneKey, context);
+        	return getNextDecorator().getMilestone(milestoneId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -408,7 +408,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneKeyList, ContextInfo context)
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -417,7 +417,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getMilestonesByIds", null, null)) {
-        	return getNextDecorator().getMilestonesByIds(milestoneKeyList, context);
+        	return getNextDecorator().getMilestonesByIds(milestoneIdList, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -593,7 +593,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestoneKeys", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForMilestoneIds", null, null)) {
         	return getNextDecorator().searchForMilestoneIds(criteria, context);
         }
         else {
@@ -663,7 +663,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context)
+    public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context)
     throws DataValidationErrorException, DoesNotExistException,
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException,
@@ -674,7 +674,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateMilestone", null, null)) {
             try {
-                return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
+                return getNextDecorator().updateMilestone(milestoneId, milestoneInfo, context);
             } catch (ReadOnlyException e) {
                 throw new OperationFailedException(e.getMessage());
             }
@@ -686,7 +686,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public StatusInfo deleteMilestone(String milestoneKey, ContextInfo context)
+    public StatusInfo deleteMilestone(String milestoneId, ContextInfo context)
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -695,7 +695,7 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteMilestone", null, null)) {
-        	return getNextDecorator().deleteMilestone(milestoneKey, context);
+        	return getNextDecorator().deleteMilestone(milestoneId, context);
         }
         else {
            throw new PermissionDeniedException();

@@ -138,7 +138,7 @@ public class TestLuiServiceImpl {
         }
         // info.setStudySubjectArea("Math");
         info.setCluId("testCluId");
-        info.setAtpKey("testAtpId1");
+        info.setAtpId("testAtpId1");
 
         List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
         OfferingInstructorInfo instructor = new OfferingInstructorInfo();
@@ -158,7 +158,7 @@ public class TestLuiServiceImpl {
         assertEquals(Integer.valueOf(25), created.getMaximumEnrollment());
         assertEquals(Integer.valueOf(10), created.getMinimumEnrollment());
         assertEquals("testCluId", created.getCluId());
-        assertEquals("testAtpId1", created.getAtpKey());
+        assertEquals("testAtpId1", created.getAtpId());
         // assertEquals("Math", created.getStudySubjectArea());
         // assertTrue(created.getInstructors().size() == 1);
 
@@ -176,7 +176,7 @@ public class TestLuiServiceImpl {
             assertEquals(Integer.valueOf(25), retrieved.getMaximumEnrollment());
             assertEquals(Integer.valueOf(10), retrieved.getMinimumEnrollment());
             assertEquals("testCluId", retrieved.getCluId());
-            assertEquals("testAtpId1", retrieved.getAtpKey());
+            assertEquals("testAtpId1", retrieved.getAtpId());
             // assertEquals("Math", retrieved.getStudySubjectArea());
             // assertTrue(retrieved.getInstructors().size() == 1);
             // assertEquals("Org-1",

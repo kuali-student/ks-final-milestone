@@ -198,15 +198,15 @@ public class GradingServiceMockImpl implements GradingService {
     }
 
     @Override
-    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(String graderId, String termKey, ContextInfo context)
+    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(String graderId, String termId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<GradeRosterInfo> gradeRosters = new ArrayList<GradeRosterInfo>();
-        if (termCourseOfferingsCache.get(termKey) != null) {
+        if (termCourseOfferingsCache.get(termId) != null) {
             for (GradeRosterInfo gradeRoster : gradeRostersCache.values()) {
                 if (gradeRoster.getGraderIds().contains(graderId)
-                        && termCourseOfferingsCache.get(termKey).contains(gradeRoster.getCourseOfferingId())) {
+                        && termCourseOfferingsCache.get(termId).contains(gradeRoster.getCourseOfferingId())) {
                     gradeRosters.add(gradeRoster);
                 }
 

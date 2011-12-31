@@ -14,13 +14,13 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
@@ -35,20 +35,19 @@ public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
     @Override
     public void saveDataObject() {
         AcademicCalendarInfo academicCalendarInfo = (AcademicCalendarInfo)getDataObject();
-        String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
-        academicCalendarInfo.setKey(academicCalendarKey);
+        // switched from key to id so no need to calculate
+//        String academicCalendarKey = getAcademicCalendarId (academicCalendarInfo);
+//        academicCalendarInfo.setId(academicCalendarKey);
         academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-        System.out.println(">>>>credentialProgramTypeKey = "+academicCalendarInfo.getCredentialProgramTypeKey());
+//        System.out.println(">>>>credentialProgramTypeKey = "+academicCalendarInfo.getCredentialProgramTypeKey());
         try{
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {   
-        		getAcademicCalendarService().createAcademicCalendar(academicCalendarKey, academicCalendarInfo, ContextInfo.newInstance());
+        		getAcademicCalendarService().createAcademicCalendar(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, academicCalendarInfo, ContextInfo.newInstance());
         	}
         	else {
-        		getAcademicCalendarService().updateAcademicCalendar(academicCalendarKey, academicCalendarInfo, ContextInfo.newInstance());
+        		getAcademicCalendarService().updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, ContextInfo.newInstance());
         	}
-        }catch (AlreadyExistsException aee){
-            
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -63,7 +62,10 @@ public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
             
         }catch (VersionMismatchException vme){
             
-        }       
+        } catch (ReadOnlyException roe) {
+            
+        }
+        
         
     }
 
@@ -110,34 +112,34 @@ public class AcademicCalendarInfoMaintainableImpl extends MaintainableImpl {
 
         return academicCalendarService;
     }
-    /*
-     *  Based on Norm's suggestion at 
-     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
-     *  AcademicCalendarKey should be 
-     *  kuali.academic.calendar.<last part of credentialProgramTypeKey>.<yearOfStartDate>-<yearOfEndDate>
-     */
-    private String getAcademicCalendarKey(AcademicCalendarInfo academicCalendarInfo){
-        String academicCalendarKey = new String (ACADEMIC_CALENDAR_KEY_PREFIX);
-        String credentialProgram;
-        
-        String credentialProgramTypeKey = academicCalendarInfo.getCredentialProgramTypeKey();
-        if (credentialProgramTypeKey.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
-        	credentialProgram  = credentialProgramTypeKey.substring(25);
-        }
-        else {
-        	credentialProgram = credentialProgramTypeKey;
-        }        
-        String yearOfStartDate = getYearFromDate(academicCalendarInfo.getStartDate());
-        String yearOfEndDate = getYearFromDate(academicCalendarInfo.getEndDate());
-        academicCalendarKey = academicCalendarKey.concat(credentialProgram.toLowerCase()+"."+yearOfStartDate+"-"+yearOfEndDate);
-        return academicCalendarKey;       
-        
-    }
-    
-    private String getYearFromDate(Date date){
-    	Calendar cal = Calendar.getInstance();
-    	cal.setTime(date);
-    	int year = cal.get(Calendar.YEAR);
-    	return new Integer(year).toString();
-    }
+//    /*
+//     *  Based on Norm's suggestion at 
+//     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
+//     *  AcademicCalendarId should be 
+//     *  kuali.academic.calendar.<last part of credentialProgramTypeKey>.<yearOfStartDate>-<yearOfEndDate>
+//     */
+//    private String getAcademicCalendarId(AcademicCalendarInfo academicCalendarInfo){
+//        String academicCalendarKey = new String (ACADEMIC_CALENDAR_KEY_PREFIX);
+//        String credentialProgram;
+//        
+//        String credentialProgramTypeKey = academicCalendarInfo.getCredentialProgramTypeKey();
+//        if (credentialProgramTypeKey.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
+//        	credentialProgram  = credentialProgramTypeKey.substring(25);
+//        }
+//        else {
+//        	credentialProgram = credentialProgramTypeKey;
+//        }        
+//        String yearOfStartDate = getYearFromDate(academicCalendarInfo.getStartDate());
+//        String yearOfEndDate = getYearFromDate(academicCalendarInfo.getEndDate());
+//        academicCalendarKey = academicCalendarKey.concat(credentialProgram.toLowerCase()+"."+yearOfStartDate+"-"+yearOfEndDate);
+//        return academicCalendarKey;       
+//        
+//    }
+//    
+//    private String getYearFromDate(Date date){
+//    	Calendar cal = Calendar.getInstance();
+//    	cal.setTime(date);
+//    	int year = cal.get(Calendar.YEAR);
+//    	return new Integer(year).toString();
+//    }
 }

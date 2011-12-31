@@ -49,7 +49,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
                 <ref bean="LuiInfo.effectiveDate"/>
                 <ref bean="LuiInfo.expirationDate"/>
                 <ref bean="LuiInfo.cluId"/>
-                <ref bean="LuiInfo.atpKey"/>
+                <ref bean="LuiInfo.atpId"/>
                 <ref bean="LuiInfo.maximumEnrollment"/>
                 <ref bean="LuiInfo.minimumEnrollment"/>
                 <ref bean="LuiInfo.referenceURL"/>
@@ -270,8 +270,8 @@ The LUI identifier.
 	<!-- insert any overrides to the generated attribute definitions here -->
     </bean>
 
-    <bean id="LuiInfo.atpKey" parent="LuiInfo.atpKey-parent"/>
-    <bean id="LuiInfo.atpKey-parent" abstract="true" parent="LuiInfo.atpKey-generated">
+    <bean id="LuiInfo.atpId" parent="LuiInfo.atpId-parent"/>
+    <bean id="LuiInfo.atpId-parent" abstract="true" parent="LuiInfo.atpId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
     </bean>
 
@@ -590,9 +590,9 @@ The unique identifier for the Canonical Learning Unit
         </property>
     </bean>
 
-    <bean id="LuiInfo.atpKey-generated" abstract="true" parent="BaseKuali.atpKey">
-        <property name="name" value="atpKey"/>
-        <property name="childEntryName" value="atpKey"/>
+    <bean id="LuiInfo.atpId-generated" abstract="true" parent="BaseKuali.atpId">
+        <property name="name" value="atpId"/>
+        <property name="childEntryName" value="atpId"/>
         <property name="required" value="false"/>
         <property name="shortLabel" value="Atp Key"/>
         <property name="summary">

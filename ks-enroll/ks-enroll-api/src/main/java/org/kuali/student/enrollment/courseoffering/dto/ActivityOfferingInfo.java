@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingInfo", propOrder = {"activityId",
-        "activityCode", "termKey", "isHonorsOffering", "gradingOptionKeys", "instructors",
+        "activityCode", "termId", "isHonorsOffering", "gradingOptionKeys", "instructors",
         "finalExamStartTime", "finalExamEndTime", "finalExamSpaceCode", "meetingSchedules", "weeklyInclassContactHours",
         "weeklyOutofclassContactHours", "weeklyTotalContactHours", "maximumEnrollment", "minimumEnrollment", 
         "id", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
@@ -63,7 +63,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     private String activityCode;   
     
     @XmlElement
-    private String termKey;
+    private String termId;
 
     @XmlElement
     private Boolean isHonorsOffering;
@@ -118,7 +118,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.isHonorsOffering = new Boolean(false);
         this.maximumEnrollment = null;
         this.minimumEnrollment = null;
-        this.termKey = null;
+        this.termId = null;
         this.weeklyInclassContactHours = null;
         this.weeklyOutofclassContactHours = null;
         this.weeklyTotalContactHours = null;
@@ -141,7 +141,7 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.isHonorsOffering = (null != activity.getIsHonorsOffering()) ? new Boolean(activity.getIsHonorsOffering()) : null;
         this.maximumEnrollment = activity.getMaximumEnrollment();
         this.minimumEnrollment = activity.getMinimumEnrollment();        
-        this.termKey = activity.getTermKey();
+        this.termId = activity.getTermId();
         this.weeklyInclassContactHours = (null != activity.getWeeklyInclassContactHours()) ? new Float(activity.getWeeklyInclassContactHours()) : null;
         this.weeklyOutofclassContactHours = (null != activity.getWeeklyOutofclassContactHours()) ? new Float(activity.getWeeklyOutofclassContactHours()) : null;
         this.weeklyTotalContactHours = (null != activity.getWeeklyTotalContactHours()) ? new Float(activity.getWeeklyTotalContactHours()) : null;
@@ -184,8 +184,8 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     }
 
     @Override
-    public String getTermKey() {
-        return termKey;
+    public String getTermId() {
+        return termId;
     }
 
     @Override
@@ -269,8 +269,8 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.activityCode = activityCode;
     }
 
-    public void setTermKey(String termKey) {
-        this.termKey = termKey;
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {

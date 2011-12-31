@@ -95,7 +95,7 @@ public interface GradingService extends DataDictionaryService {
      * Retrieve information about grade rosters by grader and term
      * 
      * @param graderId
-     * @param termKey
+     * @param termId
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
      * @return
@@ -105,7 +105,7 @@ public interface GradingService extends DataDictionaryService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException authorization failure
      */
-    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(@WebParam(name = "graderId") String graderId, @WebParam(name = "termKey") String termKey,
+    public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(@WebParam(name = "graderId") String graderId, @WebParam(name = "termId") String termId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**

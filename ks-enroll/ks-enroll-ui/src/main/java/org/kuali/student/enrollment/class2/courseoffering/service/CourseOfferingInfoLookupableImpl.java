@@ -16,20 +16,20 @@ import java.util.Map;
 public class CourseOfferingInfoLookupableImpl extends LookupableImpl {
 
     private transient CourseOfferingService courseOfferingService;
-    private static final String TERM_FIELD_NAME = "termKey";
+    private static final String TERM_FIELD_NAME = "termId";
     private static final String SUBJECT_AREA_FIELD_NAME = "subjectArea";
 
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
         ContextInfo context = ContextInfo.newInstance();
-        String termKey = fieldValues.get(TERM_FIELD_NAME);
+        String termId = fieldValues.get(TERM_FIELD_NAME);
         String subjectArea = fieldValues.get(SUBJECT_AREA_FIELD_NAME);
 
         List<CourseOfferingInfo> courseOfferings;
 
         try {
-            List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termKey, subjectArea, context);
+            List<String> courseOfferingIds = getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectArea, context);
             courseOfferings = new ArrayList<CourseOfferingInfo>(courseOfferingIds.size());
 
             for(String coId : courseOfferingIds) {

@@ -60,39 +60,39 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(String courseId, String termKey,
+    public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(String courseId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingsForCourseAndTerm(courseId, termKey, context);
+        return getNextDecorator().getCourseOfferingsForCourseAndTerm(courseId, termId, context);
     }
 
     @Override
-    public List<String> getCourseOfferingIdsForTerm(String termKey, Boolean useIncludedTerm, ContextInfo context)
+    public List<String> getCourseOfferingIdsForTerm(String termId, Boolean useIncludedTerm, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingIdsForTerm(termKey, useIncludedTerm, context);
+        return getNextDecorator().getCourseOfferingIdsForTerm(termId, useIncludedTerm, context);
     }
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termKey, String subjectArea, ContextInfo context)
+    public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId, String subjectArea, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingIdsByTermAndSubjectArea(termKey, subjectArea, context);
+        return getNextDecorator().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectArea, context);
     }
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termKey, String unitOwnerId,
+    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termId, String unitOwnerId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingIdsByTermAndUnitContentOwner(termKey, unitOwnerId, context);
+        return getNextDecorator().getCourseOfferingIdsByTermAndUnitContentOwner(termId, unitOwnerId, context);
     }
 
     @Override
-    public CourseOfferingInfo createCourseOfferingFromCanonical(String courseid, String termKey,
+    public CourseOfferingInfo createCourseOfferingFromCanonical(String courseid, String termId,
             List<String> formatIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().createCourseOfferingFromCanonical(courseid, termKey, formatIdList, context);
+        return getNextDecorator().createCourseOfferingFromCanonical(courseid, termId, formatIdList, context);
     }
 
     @Override
@@ -468,10 +468,10 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termKey, String instructorId,
+    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termId, String instructorId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingIdsByTermAndInstructorId(termKey, instructorId, context);
+        return getNextDecorator().getCourseOfferingIdsByTermAndInstructorId(termId, instructorId, context);
     }
 
 }

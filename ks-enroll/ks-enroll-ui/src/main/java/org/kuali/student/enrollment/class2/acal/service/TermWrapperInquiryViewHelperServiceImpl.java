@@ -27,12 +27,12 @@ public class TermWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
     	TermInfo termInfo = null;
         TermWrapper termWrapper = new TermWrapper();
 
-    	String termKey = parameters.get(TERM_WRAPPER_KEY);
+    	String termId = parameters.get(TERM_WRAPPER_KEY);
     	ContextInfo context = ContextInfo.newInstance();
     	try{
-    		termInfo = getAcademicCalendarService().getTerm(termKey, context);
+    		termInfo = getAcademicCalendarService().getTerm(termId, context);
             termWrapper.setTermInfo(termInfo);
-            List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termKey, context);
+            List<KeyDateInfo>  keyDateInfoList = getAcademicCalendarService().getKeyDatesForTerm(termId, context);
             for (KeyDateInfo keyDateInfo : keyDateInfoList){
     				if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
     					termWrapper.setClassesMeetDates(keyDateInfo);

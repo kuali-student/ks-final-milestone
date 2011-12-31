@@ -55,12 +55,12 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="InputField_Form" p:propertyName="termKey" p:label="Select Term" p:required="true">
+                <bean parent="InputField_Form" p:propertyName="termId" p:label="Select Term" p:required="true">
                     <property name="control">
                         <bean parent="SelectControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermIdValues"/>
                     </property>
                 </bean>
             </list>
@@ -175,7 +175,7 @@
                         <bean class="org.kuali.student.enrollment.class2.courseoffering.keyvalue.SubjectAreaKeyValues"/>
                     </property>
                 </bean>
-                <bean parent="InputField_Form" p:labelField.renderColon="false" p:propertyName="termKey">
+                <bean parent="InputField_Form" p:labelField.renderColon="false" p:propertyName="termId">
                     <property name="control">
                         <bean parent="HiddenControl"/>
                     </property>

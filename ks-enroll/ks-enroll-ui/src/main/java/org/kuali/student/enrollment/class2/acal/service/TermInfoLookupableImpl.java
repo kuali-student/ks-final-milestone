@@ -26,9 +26,9 @@ public class TermInfoLookupableImpl extends LookupableImpl {
     	List<TermInfo> termInfoList = new ArrayList<TermInfo>();
         List<AcademicCalendarInfo> acalInfoList = new ArrayList<AcademicCalendarInfo>();
 
-    	String termKey = fieldValues.get(TERM_KEY);
+    	String termId = fieldValues.get(TERM_KEY);
     	ContextInfo context = ContextInfo.newInstance();
-        if (StringUtils.isBlank(termKey)) {
+        if (StringUtils.isBlank(termId)) {
             Calendar now = Calendar.getInstance();
             int thisYear = now.get(Calendar.YEAR);
             try {
@@ -39,7 +39,7 @@ public class TermInfoLookupableImpl extends LookupableImpl {
                 // and last
                 acalInfoList.addAll(getAcademicCalendarService().getAcademicCalendarsByStartYear(thisYear - 1, context));
                 for (AcademicCalendarInfo acalInfo : acalInfoList) {
-                    termInfoList.addAll(getAcademicCalendarService().getTermsForAcademicCalendar(acalInfo.getKey(), context));
+                    termInfoList.addAll(getAcademicCalendarService().getTermsForAcademicCalendar(acalInfo.getId(), context));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -48,7 +48,7 @@ public class TermInfoLookupableImpl extends LookupableImpl {
         }
         else {
             try{
-                termInfo = getAcademicCalendarService().getTerm(termKey, context);
+                termInfo = getAcademicCalendarService().getTerm(termId, context);
                 termInfoList.add(termInfo);
             } catch (Exception e){
                 e.printStackTrace();

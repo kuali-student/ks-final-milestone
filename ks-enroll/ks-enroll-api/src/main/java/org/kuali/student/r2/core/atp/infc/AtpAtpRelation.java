@@ -29,20 +29,20 @@ import org.kuali.student.r2.common.infc.Relationship;
 public interface AtpAtpRelation extends Relationship {
 
     /**
-     *  Name: ATP Key
+     *  Name: ATP Id
      *  A unique identifier for the first ATP in the relation.
      * 
-     * @return the ATP key
+     * @return the ATP Id
      * @required
      */
     public String getAtpId();
   
 
     /**
-     *  Name: Related ATP Key
+     *  Name: Related ATP Id
      *  A unique identifier for the second ATP in the relation.
      *
-     *  @return the ATP key
+     *  @return the ATP Id
      * @required
      */
     public String getRelatedAtpId();

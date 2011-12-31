@@ -153,7 +153,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
 	@Override
 	public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(
-			String courseId, String termKey, ContextInfo context)
+			String courseId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -162,7 +162,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
-	public List<String> getCourseOfferingIdsForTerm(String termKey,
+	public List<String> getCourseOfferingIdsForTerm(String termId,
 			Boolean useIncludedTerm, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -182,14 +182,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
      *
      * HACK HACK HACK
      */
-	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termKey,
+	public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId,
 			String subjectArea, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		// TODO UNHACK THIS HACK!!
 
-        TermInfo term = acalService.getTerm(termKey, context);
+        TermInfo term = acalService.getTerm(termId, context);
 
         List<String> luiIds = luiService.getLuiIdsByType(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, context);
 
@@ -198,7 +198,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         for(String luiId : luiIds) {
             CourseOfferingInfo co = getCourseOffering(luiId, context);
 
-            if(StringUtils.equals(co.getSubjectArea(), subjectArea) && StringUtils.equals(co.getTermKey(), term.getId())) {
+            if(StringUtils.equals(co.getSubjectArea(), subjectArea) && StringUtils.equals(co.getTermId(), term.getId())) {
                 results.add(co.getId());
             }
         }
@@ -207,11 +207,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termKey, String instructorId, ContextInfo context) 
+    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termId, String instructorId, ContextInfo context) 
                     throws DoesNotExistException, InvalidParameterException, MissingParameterException,
                            OperationFailedException, PermissionDeniedException {
 
-        List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByPersonAndTypeForAtp(instructorId,termKey,"kuali.lpr.type.instructor.main",context);
+        List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByPersonAndTypeForAtp(instructorId,termId,"kuali.lpr.type.instructor.main",context);
         List<String> coIds = new ArrayList<String>();
         for(LuiPersonRelationInfo lprInfo : lprInfos){
             coIds.add(lprInfo.getLuiId());
@@ -222,7 +222,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         
         
 	@Override
-	public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termKey,
+	public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termId,
 			String unitOwnerId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -234,7 +234,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	@Override
 	@Transactional
 	public CourseOfferingInfo createCourseOfferingFromCanonical(
-			String courseId, String termKey, List<String> formatIdList,
+			String courseId, String termId, List<String> formatIdList,
 			ContextInfo context) throws AlreadyExistsException,
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -250,11 +250,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         	throw new DoesNotExistException("The course does not exist. course: " + courseId);
         }
 
-        if(acalService.getTerm(termKey, context) != null) {
-        	courseOfferingInfo.setTermKey(termKey);
+        if(acalService.getTerm(termId, context) != null) {
+        	courseOfferingInfo.setTermId(termId);
         }
         else {
-        	throw new DoesNotExistException("The term does not exist. term: " + termKey);
+        	throw new DoesNotExistException("The term does not exist. term: " + termId);
         }
 
         if (checkExistenceForFormats(formatIdList, context)) {
@@ -265,7 +265,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         courseOfferingInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         
         LuiInfo luiInfo = coAssembler.disassemble(courseOfferingInfo, context);
-        LuiInfo created = luiService.createLui(courseId, termKey, luiInfo, context);
+        LuiInfo created = luiService.createLui(courseId, termId, luiInfo, context);
         
         if (created != null) {
         	courseOfferingInfo.setId(created.getId());
@@ -373,7 +373,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
 			PermissionDeniedException, VersionMismatchException{
 
-		processInstructors(co.getId(), co.getInstructors(), co.getTermKey(), context);
+		processInstructors(co.getId(), co.getInstructors(), co.getTermId(), context);
 
 		//how to determine that the lui already exist?
 		if(co.getHasFinalExam()) {
@@ -388,19 +388,19 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private void processFinalExam(CourseOfferingInfo co, ContextInfo context) throws DataValidationErrorException, 
 	DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		String cluId = co.getCourseId();
-		String atpKey = co.getTermKey();
+		String atpId = co.getTermId();
 		LuiInfo finalExam = new LuiInfo();
 		finalExam.setCluId(cluId);
-		finalExam.setAtpKey(atpKey);
+		finalExam.setAtpId(atpId);
 		finalExam.setStateKey(co.getStateKey());
 		//TODO: not sure what type
 		finalExam.setTypeKey("kuali.lui.type.course.finalExam");
 		//TODO: what else inherit or fill into finalExam?
 		LuiInfo created;
 		try {
-			created = luiService.createLui(cluId, atpKey, finalExam, context);
+			created = luiService.createLui(cluId, atpId, finalExam, context);
 		} catch (AlreadyExistsException e1) {
-			throw new OperationFailedException("AlreadyExistsException when createLui. cluId: " + cluId + ", atpKey: " + atpKey);
+			throw new OperationFailedException("AlreadyExistsException when createLui. cluId: " + cluId + ", atpId: " + atpId);
 		}
 		
 		if(created != null){
@@ -412,7 +412,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		}
 	}
 	
-	private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, String atpKey, ContextInfo context) 
+	private void processInstructors(String courseOfferingId, List<OfferingInstructorInfo> instructors, String atpId, ContextInfo context) 
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
 		PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
 		
@@ -443,7 +443,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		}
 		
 		if (currrentInstructors != null && currrentInstructors.size() > 0){
-			if(atpKey != null){
+			if(atpId != null){
 				for(String instructorId: currrentInstructors){
 					LuiPersonRelationInfo lpr = getLpr(instructorId, courseOfferingId, context);
 					if(lpr != null ) {
@@ -674,7 +674,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 
         try {
             LuiInfo created = luiService.createLui(
-                    activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermKey(), lui, context);
+                    activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermId(), lui, context);
             if (null == created) {
                 throw new OperationFailedException("LUI service did not create LUI");
             }
@@ -694,7 +694,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		processLuiluiRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
 		
 		try {
-			processInstructors(activityOfferingInfo.getId(), activityOfferingInfo.getInstructors(), activityOfferingInfo.getTermKey(), context);
+			processInstructors(activityOfferingInfo.getId(), activityOfferingInfo.getInstructors(), activityOfferingInfo.getTermId(), context);
 	
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException();
@@ -936,21 +936,21 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
             }
 
             try {
-				String termKey = null;
+				String termId = null;
 				
-				if(registrationGroupInfo.getTermKey()!= null) {
-					termKey = registrationGroupInfo.getTermKey();
+				if(registrationGroupInfo.getTermId()!= null) {
+					termId = registrationGroupInfo.getTermId();
                 }
 				else {
-					termKey = getTermkeyByCourseOffering(courseOfferingId, context);
+					termId = getTermkeyByCourseOffering(courseOfferingId, context);
                 }
 				
-				if(termKey != null){
-					LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termKey, lui, context);
+				if(termId != null){
+					LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termId, lui, context);
 					
 					if(created != null){
 						registrationGroupInfo.setId(created.getId());
-						registrationGroupInfo.setTermKey(termKey);
+						registrationGroupInfo.setTermId(termId);
 						processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
 					}
 					
@@ -969,14 +969,14 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	
 	private String getTermkeyByCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, 
 		InvalidParameterException, MissingParameterException, OperationFailedException{
-		String termKey = null;
+		String termId = null;
 		
 		LuiInfo co = luiService.getLui(courseOfferingId, context);
 		if(co != null){
-			termKey = co.getAtpKey();
+			termId = co.getAtpId();
 		}
 		
-		return termKey;
+		return termId;
 	}
 
 	private void processRelationsForRegGroup(String courseOfferingId, RegistrationGroupInfo registrationGroupInfo, ContextInfo context) 

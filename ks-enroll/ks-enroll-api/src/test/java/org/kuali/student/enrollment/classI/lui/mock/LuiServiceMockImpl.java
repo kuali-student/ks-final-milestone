@@ -173,12 +173,12 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey, ContextInfo context)
+    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context)
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
         List<String> luiIds = new ArrayList<String>();
-        for (LuiInfo info : getLuisInAtpByCluId(cluId, atpKey, context)) {
+        for (LuiInfo info : getLuisInAtpByCluId(cluId, atpId, context)) {
             luiIds.add(info.getId());
         }
 
@@ -186,20 +186,20 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey, ContextInfo context)
+    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpId, ContextInfo context)
         throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         if (cluId == null) {
             throw new MissingParameterException("cluId is null");
         }
 
-        if (atpKey == null) {
-            throw new MissingParameterException("atpKey is null");
+        if (atpId == null) {
+            throw new MissingParameterException("atpId is null");
         }
 
         List<LuiInfo> infos = new ArrayList<LuiInfo>();
         for (LuiInfo info : this.luiCache.values()) {
-            if (cluId.equals(info.getCluId()) && atpKey.equals(info.getAtpKey())) {
+            if (cluId.equals(info.getCluId()) && atpId.equals(info.getAtpId())) {
                 infos.add(info);
             }
         }
@@ -324,7 +324,7 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo context)
+    public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo, ContextInfo context)
     throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -342,7 +342,7 @@ public class LuiServiceMockImpl implements LuiService {
 
         lInfo.setId(UUID.randomUUID().toString());
         lInfo.setCluId(cluId);
-        lInfo.setAtpKey(atpKey);
+        lInfo.setAtpId(atpId);
         lInfo.setMeta(helper.createMeta(context));
         this.luiCache.put(lInfo.getId(), lInfo);
 

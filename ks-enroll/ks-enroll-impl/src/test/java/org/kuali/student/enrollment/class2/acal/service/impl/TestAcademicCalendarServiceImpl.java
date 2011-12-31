@@ -141,7 +141,7 @@ public class TestAcademicCalendarServiceImpl {
         acal.setId("testAcalId1");
         acal.setName("testAcal1");
         List<String> ccKeys = new ArrayList<String>();
-        // Assume holidayCalendarKeys picking up from dropdown and valid(already
+        // Assume holidayCalendarIds picking up from dropdown and valid(already
         // in db)
         ccKeys.add("testAtpId2");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
@@ -368,18 +368,18 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermKeysByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testGetTermIdsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         String expectedTermType = "kuali.atp.type.HalfFall1";
 
-        List<String> termKeys = acalService.getTermIdsByType(expectedTermType, callContext);
+        List<String> termIds = acalService.getTermIdsByType(expectedTermType, callContext);
 
-        assertTrue(termKeys.contains("termRelationTestingTerm4"));
+        assertTrue(termIds.contains("termRelationTestingTerm4"));
 
         String expectedEmptyTermType = "kuali.atp.type.SessionG2";
 
-        termKeys = acalService.getTermIdsByType(expectedEmptyTermType, callContext);
+        termIds = acalService.getTermIdsByType(expectedEmptyTermType, callContext);
 
-        assertTrue(termKeys == null || termKeys.isEmpty());
+        assertTrue(termIds == null || termIds.isEmpty());
 
         String fakeTermType = "fakeTypeKey";
 
@@ -394,20 +394,20 @@ public class TestAcademicCalendarServiceImpl {
 
     @Test
     public void testGetTermsByKeyList() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> termKeys = new ArrayList<String>();
-        termKeys.addAll(Arrays.asList("termRelationTestingTerm1", "termRelationTestingTerm2"));
+        List<String> termIds = new ArrayList<String>();
+        termIds.addAll(Arrays.asList("termRelationTestingTerm1", "termRelationTestingTerm2"));
 
-        List<TermInfo> terms = acalService.getTermsByIds(termKeys, callContext);
+        List<TermInfo> terms = acalService.getTermsByIds(termIds, callContext);
 
         assertNotNull(terms);
-        assertEquals(termKeys.size(), terms.size());
+        assertEquals(termIds.size(), terms.size());
 
         // check that all the expected ids came back
         for (TermInfo info : terms) {
-            termKeys.remove(info.getId());
+            termIds.remove(info.getId());
         }
 
-        assertTrue(termKeys.isEmpty());
+        assertTrue(termIds.isEmpty());
 
         // now make sure an exception is thrown for any not found keys
 
@@ -872,8 +872,8 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(copiedHolidayCalendarsKeys);
         assertFalse(originalHolidayCalendarsKeys.isEmpty());
         assertEquals(originalHolidayCalendarsKeys.size(), copiedHolidayCalendarsKeys.size());
-        for (String holidayCalendarKey : originalHolidayCalendarsKeys) {
-            assertTrue("holidayCalendarKey not found: " + holidayCalendarKey, copiedHolidayCalendarsKeys.contains(holidayCalendarKey));
+        for (String holidayCalendarId : originalHolidayCalendarsKeys) {
+            assertTrue("holidayCalendarId not found: " + holidayCalendarId, copiedHolidayCalendarsKeys.contains(holidayCalendarId));
         }
 
         List<TermInfo> originalCalendarTerms = acalService.getTermsForAcademicCalendar(originalCalendarKey, callContext);
@@ -882,12 +882,12 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(copiedCalendarTerms);
         assertFalse(originalCalendarTerms.isEmpty());
         assertEquals(originalCalendarTerms.size(), copiedCalendarTerms.size());
-        List<String> originalCalendarTermKeys = new ArrayList<String>();
+        List<String> originalCalendarTermIds = new ArrayList<String>();
         for (TermInfo term : originalCalendarTerms) {
-            originalCalendarTermKeys.add(term.getId());
+            originalCalendarTermIds.add(term.getId());
         }
         for (TermInfo term : copiedCalendarTerms) {
-            assertFalse(originalCalendarTermKeys.contains(term.getId()));
+            assertFalse(originalCalendarTermIds.contains(term.getId()));
         }
         for (TermInfo term : originalCalendarTerms) {
             assertFalse(copiedCalendarTerms.contains(term));

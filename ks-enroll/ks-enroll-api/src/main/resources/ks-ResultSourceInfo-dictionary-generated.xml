@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -45,7 +45,12 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Result Source"/>
 		<property name="objectDescription">
 			<value>
-Information about the Result Source. Result source is used to indicate how the result was created (Manual, Articulation, Result transformation etc)
+Information about the Result Source. Result source is used to
+indicate how the result was created (Manual, Articulation, Result
+transformation etc)
+
+Core-slice: A ResultSource represents a &quot;native&quot; course for the
+Academic Record.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>

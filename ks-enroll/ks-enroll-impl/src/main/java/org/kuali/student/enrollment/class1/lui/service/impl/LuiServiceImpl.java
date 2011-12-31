@@ -251,7 +251,7 @@ public class LuiServiceImpl implements LuiService {
 	}
 
 	@Override
-	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey,
+	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -266,7 +266,7 @@ public class LuiServiceImpl implements LuiService {
 	}
 
 	@Override
-	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey,
+	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -420,19 +420,19 @@ public class LuiServiceImpl implements LuiService {
     	return true;
     }
     
-    private boolean checkExistenceForAtp(String atpKey, ContextInfo context) throws DoesNotExistException,
+    private boolean checkExistenceForAtp(String atpId, ContextInfo context) throws DoesNotExistException,
 	InvalidParameterException, MissingParameterException,
 	OperationFailedException, PermissionDeniedException {
  /*   	boolean existing = false;
     	try {
-			AtpInfo atp = atpService.getAtp(atpKey, context);
+			AtpInfo atp = atpService.getAtp(atpId, context);
 			
 			if(atp != null)
 				existing = true;
 			else
-				throw new DoesNotExistException("The ATP does not exist. atp " + atpKey);
+				throw new DoesNotExistException("The ATP does not exist. atp " + atpId);
 		} catch (DoesNotExistException e) {
-			throw new DoesNotExistException("The ATP does not exist. atp " + atpKey);
+			throw new DoesNotExistException("The ATP does not exist. atp " + atpId);
 		} catch (InvalidParameterException e) {
 		} catch (MissingParameterException e) {
 		} catch (OperationFailedException e) {
@@ -446,7 +446,7 @@ public class LuiServiceImpl implements LuiService {
     
 	@Override
 	@Transactional
-	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo,
+	public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo,
 			ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -457,8 +457,8 @@ public class LuiServiceImpl implements LuiService {
         if( null != cluId && checkExistenceForClu(cluId, context))
         	entity.setCluId(cluId);
         
-        if(null != atpKey && checkExistenceForAtp(atpKey, context))
-        	entity.setAtpKey(atpKey);
+        if(null != atpId && checkExistenceForAtp(atpId, context))
+        	entity.setAtpId(atpId);
 
         if (null != luiInfo.getStateKey())
         	entity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));
@@ -505,9 +505,9 @@ public class LuiServiceImpl implements LuiService {
             if( null != cluId && checkExistenceForClu(cluId, context))
             	modifiedEntity.setCluId(cluId);
             
-            String atpKey = luiInfo.getAtpKey();
-            if(null != atpKey && checkExistenceForAtp(atpKey, context))
-            	modifiedEntity.setAtpKey(atpKey);
+            String atpId = luiInfo.getAtpId();
+            if(null != atpId && checkExistenceForAtp(atpId, context))
+            	modifiedEntity.setAtpId(atpId);
 
             if (null != luiInfo.getStateKey())
             	modifiedEntity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));

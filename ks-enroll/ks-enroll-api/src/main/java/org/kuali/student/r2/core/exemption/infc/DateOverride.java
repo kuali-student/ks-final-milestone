@@ -29,10 +29,10 @@ import java.util.Date;
 public interface DateOverride {
 
     /**
-     * Name: Milestone Key
+     * Name: Milestone id
      * The key for the Milestone.
      */
-    public String getMilestoneKey();
+    public String getMilestoneId();
 
     /**
      * Name: Effective Start Date

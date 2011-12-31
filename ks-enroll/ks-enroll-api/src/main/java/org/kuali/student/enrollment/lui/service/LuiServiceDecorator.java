@@ -118,11 +118,11 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey, ContextInfo context) 
+    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpId, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuisInAtpByCluId(cluId, atpKey, context);
+        return getNextDecorator().getLuisInAtpByCluId(cluId, atpId, context);
     }
 
     @Override
@@ -134,11 +134,11 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey, ContextInfo context) 
+    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuiIdsInAtpByCluId(cluId, atpKey, context);
+        return getNextDecorator().getLuiIdsInAtpByCluId(cluId, atpId, context);
     }
 
     @Override
@@ -198,13 +198,13 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo context) 
+    public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo, ContextInfo context) 
         throws AlreadyExistsException, DataValidationErrorException, 
                DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException, 
                PermissionDeniedException {
 
-        return getNextDecorator().createLui(cluId,atpKey,luiInfo, context);
+        return getNextDecorator().createLui(cluId,atpId,luiInfo, context);
     }
 
     @Override

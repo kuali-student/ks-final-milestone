@@ -203,7 +203,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         TermInfo term = getAcalService().getTerm(studentGradeForm.getSelectedTerm(), context);
 
-        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getKey(), context);
+        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getId(), context);
         if (null != courseRecords) {
             for (StudentCourseRecord courseRecord : courseRecords) {
                 StudentCredit credit = new StudentCredit();
@@ -256,7 +256,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
 
         try{
-            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), context.getPrincipalId(), context);
+            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getId(), context.getPrincipalId(), context);
 
             if (coIds == null || coIds.isEmpty()){
                 GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_COURSE_NOT_FOUND_TO_GRADE,term.getName());

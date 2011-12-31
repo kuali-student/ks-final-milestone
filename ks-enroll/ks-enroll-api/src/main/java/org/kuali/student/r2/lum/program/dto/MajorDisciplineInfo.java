@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
  */
 
 @XmlType(name = "MajorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "publishedInstructors", "credentialProgramId", "programVariationIds", "code",
-        "cip2000Code", "cip2010Code", "hegisCode", "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermKey", "endTermKey", "endProgramEntryTermKey",
+        "cip2000Code", "cip2010Code", "hegisCode", "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermId", "endTermId", "endProgramEntryTermId",
         "nextReviewPeriod", "effectiveDate", "shortTitle", "longTitle", "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations",
         "coreProgramId", "programRequirements", "accreditingAgencies", "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources",
         "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment", "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes", "_futureElements"})
@@ -86,13 +86,13 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     private TimeAmountInfo stdDuration;
 
     @XmlElement
-    private String startTermKey;
+    private String startTermId;
 
     @XmlElement
-    private String endTermKey;
+    private String endTermId;
 
     @XmlElement
-    private String endProgramEntryTermKey;
+    private String endProgramEntryTermId;
 
     @XmlElement
     private String nextReviewPeriod;
@@ -195,9 +195,9 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         this.selectiveEnrollmentCode = majorDiscipline.getSelectiveEnrollmentCode();
         this.resultOptions = majorDiscipline.getResultOptions();
         this.stdDuration = new TimeAmountInfo(majorDiscipline.getStdDuration());
-        this.startTermKey = majorDiscipline.getStartTermKey();
-        this.endTermKey = majorDiscipline.getEndTermKey();
-        this.endProgramEntryTermKey = majorDiscipline.getEndProgramEntryTermKey();
+        this.startTermId = majorDiscipline.getStartTermId();
+        this.endTermId = majorDiscipline.getEndTermId();
+        this.endProgramEntryTermId = majorDiscipline.getEndProgramEntryTermId();
         this.nextReviewPeriod = majorDiscipline.getNextReviewPeriod();
         this.effectiveDate = majorDiscipline.getEffectiveDate();
         this.longTitle = majorDiscipline.getLongTitle();
@@ -382,24 +382,24 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
      * not reflect the first "real" academic time period for this Major.
      */
     @Override
-    public String getStartTermKey() {
-        return startTermKey;
+    public String getStartTermId() {
+        return startTermId;
     }
 
-    public void setStartTermKey(String startTermKey) {
-        this.startTermKey = startTermKey;
+    public void setStartTermId(String startTermId) {
+        this.startTermId = startTermId;
     }
 
     /**
      * The last academic time period that this Major would be effective.
      */
     @Override
-    public String getEndTermKey() {
-        return endTermKey;
+    public String getEndTermId() {
+        return endTermId;
     }
 
-    public void setEndTermKey(String endTermKey) {
-        this.endTermKey = endTermKey;
+    public void setEndTermId(String endTermId) {
+        this.endTermId = endTermId;
     }
 
     @Override
@@ -558,12 +558,12 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     @Override
-    public String getEndProgramEntryTermKey() {
-        return endProgramEntryTermKey;
+    public String getEndProgramEntryTermId() {
+        return endProgramEntryTermId;
     }
 
-    public void setEndProgramEntryTermKey(String endProgramEntryTermKey) {
-        this.endProgramEntryTermKey = endProgramEntryTermKey;
+    public void setEndProgramEntryTermId(String endProgramEntryTermId) {
+        this.endProgramEntryTermId = endProgramEntryTermId;
     }
 
     @Override

@@ -37,22 +37,22 @@ public class TermLookupableImpl extends LookupableImpl  {
     	TermInfo termInfo = null;
     	List<TermInfo> termInfoList = new ArrayList<TermInfo>();
 
-    	String termKey = fieldValues.get(TERM_KEY);
+    	String termId = fieldValues.get(TERM_KEY);
     	ContextInfo context = ContextInfo.newInstance();
     	try{
-    		termInfo = getAcademicCalendarService().getTerm(termKey, context);
+    		termInfo = getAcademicCalendarService().getTerm(termId, context);
     		termInfoList.add(termInfo);
     		return termInfoList;
     	}catch (DoesNotExistException dnee){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get DoesNotExistException:  "+dnee.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get DoesNotExistException:  "+dnee.toString());
     	}catch (InvalidParameterException ipe){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get InvalidParameterException:  "+ipe.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get InvalidParameterException:  "+ipe.toString());
     	}catch (MissingParameterException mpe){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get MissingParameterException:  "+mpe.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get MissingParameterException:  "+mpe.toString());
     	}catch (OperationFailedException ofe){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get OperationFailedException:  "+ofe.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get OperationFailedException:  "+ofe.toString());
     	}catch (PermissionDeniedException pde){
-            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termKey, context), and get PermissionDeniedException:  "+pde.toString());
+            System.out.println("call getAcademicCalendarService().getKeyDatesForTerm(termId, context), and get PermissionDeniedException:  "+pde.toString());
     	}
     	return null;
 

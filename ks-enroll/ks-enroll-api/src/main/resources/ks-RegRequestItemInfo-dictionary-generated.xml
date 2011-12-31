@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -69,12 +69,13 @@ Type is UPDATE and newRegGroupId is populated
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>name</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
+				<ref bean="RegRequestItemInfo.id"/>
 				<ref bean="RegRequestItemInfo.name"/>
 				<ref bean="RegRequestItemInfo.typeKey"/>
 				<ref bean="RegRequestItemInfo.stateKey"/>
@@ -99,6 +100,10 @@ Type is UPDATE and newRegGroupId is populated
 			<list>
 			</list>
 		</property>
+	</bean>
+
+	<bean id="RegRequestItemInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="RegRequestItemInfo.name-generated" abstract="true" parent="BaseKuali.name">

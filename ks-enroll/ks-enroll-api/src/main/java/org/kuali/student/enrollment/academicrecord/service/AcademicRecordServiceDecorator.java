@@ -37,11 +37,11 @@ public abstract class AcademicRecordServiceDecorator
     }
 
     @Override
-    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(String personId, String termKey, ContextInfo context) 
+    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(String personId, String termId, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getAttemptedCourseRecordsForTerm(personId, termKey, context);
+        return getNextDecorator().getAttemptedCourseRecordsForTerm(personId, termId, context);
     }
 
     @Override
@@ -53,19 +53,19 @@ public abstract class AcademicRecordServiceDecorator
     }
 
     @Override
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(String personId, String termKey, ContextInfo context) 
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(String personId, String termId, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getCompletedCourseRecordsForTerm(personId, termKey, context);
+        return getNextDecorator().getCompletedCourseRecordsForTerm(personId, termId, context);
     }
 
     @Override
-    public GPAInfo getGPAForTerm(String personId, String termKey, String calculationTypeKey, ContextInfo context) 
+    public GPAInfo getGPAForTerm(String personId, String termId, String calculationTypeKey, ContextInfo context) 
          throws DoesNotExistException, InvalidParameterException, 
                 MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getGPAForTerm(personId, termKey, calculationTypeKey, context);
+        return getNextDecorator().getGPAForTerm(personId, termId, calculationTypeKey, context);
     }
 
     @Override
@@ -85,11 +85,11 @@ public abstract class AcademicRecordServiceDecorator
     }
 
     @Override
-    public String getEarnedCreditsForTerm(String personId, String termKey, String calculationTypeKey, ContextInfo context) 
+    public String getEarnedCreditsForTerm(String personId, String termId, String calculationTypeKey, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getEarnedCreditsForTerm(personId, termKey, calculationTypeKey, context);
+        return getNextDecorator().getEarnedCreditsForTerm(personId, termId, calculationTypeKey, context);
     }
 
     @Override

@@ -229,7 +229,7 @@ public interface AtpService extends DataDictionaryService, TypeService, StateSer
             OperationFailedException, PermissionDeniedException;
 
     //
-    // Search methods for ATP Key Entity Pattern.
+    // Search methods for ATP id Entity Pattern.
     //
 
     /**

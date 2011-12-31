@@ -61,13 +61,13 @@ public class ExemptionServiceDecorator implements ExemptionService {
     }
 
     @Override
-    public ExemptionInfo retrieveMilestoneExemption(String checkKey, String personId, String milestoneKey, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().retrieveMilestoneExemption(checkKey, personId, milestoneKey, qualifierTypeKey, qualifierId, context);
+    public ExemptionInfo retrieveMilestoneExemption(String checkKey, String personId, String milestoneId, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().retrieveMilestoneExemption(checkKey, personId, milestoneId, qualifierTypeKey, qualifierId, context);
     }
 
     @Override
-    public ExemptionInfo retrieveDateExemption(String checkKey, String personId, String milestoneKey, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().retrieveDateExemption(checkKey, personId, milestoneKey, qualifierTypeKey, qualifierId, context);
+    public ExemptionInfo retrieveDateExemption(String checkKey, String personId, String milestoneId, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().retrieveDateExemption(checkKey, personId, milestoneId, qualifierTypeKey, qualifierId, context);
     }
 
     @Override

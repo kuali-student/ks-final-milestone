@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -62,7 +62,7 @@ plus any of its dependencies -->
 				<ref bean="CourseOfferingInfo.stateKey"/>
 				<ref bean="CourseOfferingInfo.name"/>
 				<ref bean="CourseOfferingInfo.courseId"/>
-				<ref bean="CourseOfferingInfo.termKey"/>
+				<ref bean="CourseOfferingInfo.termId"/>
 				<ref bean="CourseOfferingInfo.courseOfferingCode"/>
 				<ref bean="CourseOfferingInfo.courseNumberSuffix"/>
 				<ref bean="CourseOfferingInfo.courseTitle"/>
@@ -284,15 +284,15 @@ part of the course offering This is not updatable once initialized.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="CourseOfferingInfo.termKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="termKey"/>
-		<property name="shortLabel" value="Term Key"/>
+	<bean id="CourseOfferingInfo.termId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="termId"/>
+		<property name="shortLabel" value="Term Id"/>
 		<property name="summary">
 			<value>
 Academic term of course offering
 			</value>
 		</property>
-		<property name="label" value="Term Key"/>
+		<property name="label" value="Term Id"/>
 		<property name="description">
 			<value>
 Academic term of course offering
@@ -957,8 +957,8 @@ The options/scales that indicate the allowable grades that can be
 awarded. 
 			</value>
 		</property>
-		<property name="label" value="Grading Option Ids"/>
-		<property name="elementLabel" value="Grading Option Id"/>
+		<property name="label" value="Grading Option Keys"/>
+		<property name="elementLabel" value="Grading Option Key"/>
 		<property name="description">
 			<value>
 The options/scales that indicate the allowable grades that can be

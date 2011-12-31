@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RegistrationGroupInfo", propOrder = {"activityOfferingIds", 
-    "courseOfferingId", "registrationCode", "termKey", "formatId", 
+    "courseOfferingId", "registrationCode", "termId", "formatId", 
     "isHonorsOffering", "maximumEnrollment", 
     "minimumEnrollment", "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", 
     "isWaitlistCheckinRequired", "waitlistCheckinFrequency", "id", 
@@ -54,7 +54,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     private String registrationCode;
 
     @XmlElement
-    private String termKey;
+    private String termId;
     
     @XmlElement
     private Boolean isHonorsOffering;
@@ -87,7 +87,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.maximumEnrollment = null;
         this.minimumEnrollment = null;
         this.registrationCode = null;
-        this.termKey = null;
+        this.termId = null;
         this.waitlistCheckinFrequency = null;
         this.waitlistMaximum = null;
         this.waitlistTypeKey = null;
@@ -108,7 +108,7 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.maximumEnrollment = registrationGroup.getMaximumEnrollment();
         this.minimumEnrollment = registrationGroup.getMinimumEnrollment();
         this.registrationCode = registrationGroup.getRegistrationCode();
-                this.termKey = registrationGroup.getTermKey();
+                this.termId = registrationGroup.getTermId();
         this.waitlistCheckinFrequency = new TimeAmountInfo(registrationGroup.getWaitlistCheckinFrequency());
         this.waitlistMaximum = registrationGroup.getWaitlistMaximum();
         this.waitlistTypeKey = registrationGroup.getWaitlistTypeKey();
@@ -145,8 +145,8 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
     }
 
    @Override
-    public String getTermKey() {
-        return termKey;
+    public String getTermId() {
+        return termId;
     }
     
     @Override
@@ -203,8 +203,8 @@ public class RegistrationGroupInfo extends IdEntityInfo implements RegistrationG
         this.registrationCode = registrationCode;
     }
 
-    public void setTermKey(String termKey) {
-        this.termKey = termKey;
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     public void setIsHonorsOffering(Boolean isHonorsOffering) {

@@ -111,18 +111,18 @@ public interface CourseOfferingService extends DataDictionaryService {
      * cross listed
      * 
      * @param courseId Unique Id of the Course (canonical)
-     * @param termKey Unique key of the term in which the course is being offered
+     * @param termId Unique key of the term in which the course is being offered
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
      * @return List of CourseOfferings
-     * @throws DoesNotExistException courseId or termKey not found
-     * @throws InvalidParameterException invalid courseId or termKey
-     * @throws MissingParameterException missing courseId or termKey
+     * @throws DoesNotExistException courseId or termId not found
+     * @throws InvalidParameterException invalid courseId or termId
+     * @throws MissingParameterException missing courseId or termId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
     public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(@WebParam(name = "courseId") String courseId,
-            @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context)
+            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
 
@@ -130,19 +130,19 @@ public interface CourseOfferingService extends DataDictionaryService {
      * Retrieve CourseOffering ids for a given term and if useIncludedTerms is
      * set to 'true' then use included terms also
      * 
-     * @param termKey Unique key of the term in which the course is being offered
+     * @param termId Unique key of the term in which the course is being offered
      * @param useIncludedTerm Indicates if the offerings from included term are also to be
      *            returned
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
      * @return List of CourseOffering Ids
-     * @throws DoesNotExistException courseId or termKey not found
-     * @throws InvalidParameterException invalid courseId or termKey
-     * @throws MissingParameterException missing courseId or termKey
+     * @throws DoesNotExistException courseId or termId not found
+     * @throws InvalidParameterException invalid courseId or termId
+     * @throws MissingParameterException missing courseId or termId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCourseOfferingIdsForTerm(@WebParam(name = "termKey") String termKey,
+    public List<String> getCourseOfferingIdsForTerm(@WebParam(name = "termId") String termId,
             @WebParam(name = "useIncludedTerm") Boolean useIncludedTerm, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -150,18 +150,18 @@ public interface CourseOfferingService extends DataDictionaryService {
     /**
      * Retrieve CourseOffering ids for a given term and subject area
      * 
-     * @param termKey Unique key of the term in which the course is being offered
+     * @param termId Unique key of the term in which the course is being offered
      * @param subjectArea subject area
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
      * @return List of CourseOffering Ids
-     * @throws DoesNotExistException courseId or termKey not found
-     * @throws InvalidParameterException invalid courseId or termKey
-     * @throws MissingParameterException missing courseId or termKey
+     * @throws DoesNotExistException courseId or termId not found
+     * @throws InvalidParameterException invalid courseId or termId
+     * @throws MissingParameterException missing courseId or termId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCourseOfferingIdsByTermAndSubjectArea(@WebParam(name = "termKey") String termKey,
+    public List<String> getCourseOfferingIdsByTermAndSubjectArea(@WebParam(name = "termId") String termId,
             @WebParam(name = "subjectArea") String subjectArea, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -169,18 +169,18 @@ public interface CourseOfferingService extends DataDictionaryService {
     /**
      * Retrieve CourseOffering ids for a given term and instructor id
      * 
-     * @param termKey Unique key of the term in which the course is being offered
+     * @param termId Unique key of the term in which the course is being offered
      * @param instructorId person id of an instructor
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
      * @return List of CourseOffering Ids
-     * @throws DoesNotExistException courseId or termKey or instructorId not found
-     * @throws InvalidParameterException invalid courseId or termKey
-     * @throws MissingParameterException missing courseId or termKey
+     * @throws DoesNotExistException courseId or termId or instructorId not found
+     * @throws InvalidParameterException invalid courseId or termId
+     * @throws MissingParameterException missing courseId or termId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCourseOfferingIdsByTermAndInstructorId (@WebParam(name = "termKey") String termKey,
+    public List<String> getCourseOfferingIdsByTermAndInstructorId (@WebParam(name = "termId") String termId,
             @WebParam(name = "instructorId") String instructorId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -188,18 +188,18 @@ public interface CourseOfferingService extends DataDictionaryService {
     /**
      * Retrieve CourseOffering ids for a given term and unit content owner
      * 
-     * @param termKey Unique key of the term in which the course is being offered
+     * @param termId Unique key of the term in which the course is being offered
      * @param unitOwnerId Unit content owner Id
      * @param context Context information containing the principalId and locale
      *            information about the caller of service operation
      * @return List of CourseOffering Ids
-     * @throws DoesNotExistException courseId or termKey not found
-     * @throws InvalidParameterException invalid courseId or termKey
-     * @throws MissingParameterException missing courseId or termKey
+     * @throws DoesNotExistException courseId or termId not found
+     * @throws InvalidParameterException invalid courseId or termId
+     * @throws MissingParameterException missing courseId or termId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(@WebParam(name = "termKey") String termKey,
+    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(@WebParam(name = "termId") String termId,
             @WebParam(name = "unitOwnerId") String unitOwnerId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
@@ -209,7 +209,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * 
      * @param courseId Canonical course IdList of courseOffering Ids that the
      *            ActivityOffering will belong to
-     * @param termKey Unique key of the term in which the course is being offered
+     * @param termId Unique key of the term in which the course is being offered
      * @param formatIdList Canonical formats from the canonical course to be used for the
      *            course offering
      * @param context Context information containing the principalId and locale
@@ -224,7 +224,7 @@ public interface CourseOfferingService extends DataDictionaryService {
      * @throws PermissionDeniedException authorization failure
      */
     public CourseOfferingInfo createCourseOfferingFromCanonical(@WebParam(name = "courseId") String courseId,
-            @WebParam(name = "termKey") String termKey, @WebParam(name = "formatIdList") List<String> formatIdList,
+            @WebParam(name = "termId") String termId, @WebParam(name = "formatIdList") List<String> formatIdList,
             @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;

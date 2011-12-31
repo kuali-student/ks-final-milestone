@@ -271,7 +271,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<ValidationResultInfo> checkStudentEligibilityForTerm(
-			String studentId, String termKey, ContextInfo context)
+			String studentId, String termId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -279,7 +279,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibilityForTerm", null, null)) {
-	        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termKey, context);
+	        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -288,7 +288,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<DateRangeInfo> getAppointmentWindows(String studentId,
-			String termKey, ContextInfo context)
+			String termId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -296,7 +296,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAppointmentWindows", null, null)) {
-	        return getNextDecorator().getAppointmentWindows(studentId, termKey, context);
+	        return getNextDecorator().getAppointmentWindows(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -356,7 +356,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public LoadInfo calculateCreditLoadForTerm(String studentId,
-			String termKey, ContextInfo context)
+			String termId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -364,7 +364,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateCreditLoadForTerm", null, null)) {
-	        return getNextDecorator().calculateCreditLoadForTerm(studentId, termKey, context);
+	        return getNextDecorator().calculateCreditLoadForTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -689,7 +689,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<RegRequestInfo> getRegRequestsForStudentByTerm(
-			String studentId, String termKey, List<String> requestStates,
+			String studentId, String termId, List<String> requestStates,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -698,7 +698,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForStudentByTerm", null, null)) {
-	        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termKey, requestStates, context);
+	        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termId, requestStates, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -921,7 +921,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(
-			String studentId, String termKey, ContextInfo context)
+			String studentId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -930,7 +930,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForStudentByTerm", null, null)) {
-	        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termKey, context);
+	        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -1029,7 +1029,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(
-			String studentId, String termKey, ContextInfo context)
+			String studentId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, DisabledIdentifierException {
@@ -1038,7 +1038,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudentByTerm", null, null)) {
-	        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
+	        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();

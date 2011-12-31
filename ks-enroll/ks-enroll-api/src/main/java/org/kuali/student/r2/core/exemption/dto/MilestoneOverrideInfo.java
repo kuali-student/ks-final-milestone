@@ -27,25 +27,25 @@ import org.kuali.student.r2.core.exemption.infc.MilestoneOverride;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneOverrideInfo", propOrder = { "milestoneKey", 
-                 "effectiveMilestoneKey", "_futureElements" })
+@XmlType(name = "MilestoneOverrideInfo", propOrder = { "milestoneId", 
+                 "effectiveMilestoneId", "_futureElements" })
 
 public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private String milestoneKey;
+	private String milestoneId;
 
 	@XmlElement
-	private String effectiveMilestoneKey;
+	private String effectiveMilestoneId;
 
 	@XmlAnyElement
 	private List<Element> _futureElements;
 
 	public MilestoneOverrideInfo() {
 		super();
-		milestoneKey = null;
-		effectiveMilestoneKey = null;
+		milestoneId = null;
+		effectiveMilestoneId = null;
 		_futureElements = null;
 	}
 
@@ -58,28 +58,28 @@ public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 	public MilestoneOverrideInfo(MilestoneOverride milestoneOverride) {
 		super();
 		if (null != milestoneOverride) {
-		    this.milestoneKey = milestoneOverride.getMilestoneKey();
-		    this.effectiveMilestoneKey = milestoneOverride.getEffectiveMilestoneKey();
+		    this.milestoneId = milestoneOverride.getMilestoneId();
+		    this.effectiveMilestoneId = milestoneOverride.getEffectiveMilestoneId();
 		}
 
 		_futureElements = null;
 	}
 
 	@Override
-	public String getMilestoneKey() {
-	    return milestoneKey;
+	public String getMilestoneId() {
+	    return milestoneId;
 	}
 
-	public void setMilestoneKey(String milestoneKey) {
-	    this.milestoneKey = milestoneKey;
+	public void setMilestoneId(String milestoneId) {
+	    this.milestoneId = milestoneId;
 	}
 
 	@Override
-	public String getEffectiveMilestoneKey() {
-	    return effectiveMilestoneKey;
+	public String getEffectiveMilestoneId() {
+	    return effectiveMilestoneId;
 	}
 
-	public void setEffectiveMilestoneKey(String effectiveMilestoneKey) {
-	    this.effectiveMilestoneKey = effectiveMilestoneKey;
+	public void setEffectiveMilestoneId(String effectiveMilestoneId) {
+	    this.effectiveMilestoneId = effectiveMilestoneId;
 	}
 }
