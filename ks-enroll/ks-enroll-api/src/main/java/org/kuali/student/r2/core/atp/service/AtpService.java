@@ -731,9 +731,12 @@ public interface AtpService extends TypeService, StateService {
 
     /**
      * Gets a list of Milestones impacted by a change to a given
-     * Milestone. Rules may exist to calculate milestones based on a
-     * Milestone Type. Management of these calculation rules are not
-     * at this time exposed in this service.
+     * Milestone. A milestone can be a "relative" milsetone where its
+     * dates are calculated from another milestone. The calculation
+     * itself is a rule attched to the Milestone Type. 
+     *
+     * This method queries to see what other Milestones use the given
+     * Milestone as an anchor.
      * 
      * @param milestoneId an identifier for a Milestone
      * @param contextInfo information containing the principalId and
