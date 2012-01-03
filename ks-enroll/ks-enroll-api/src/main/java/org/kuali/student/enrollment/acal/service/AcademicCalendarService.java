@@ -1711,28 +1711,29 @@ public interface AcademicCalendarService {
      * Creates a new AcalEvent. The AcalEvent Id, Type, and Meta
      * information may not be set in the supplied data object.
      * 
-     * @param termId the identifier for the Term in which to create
-     *        the AcalEvent
-     * @param acalEventTypeKey the identifier for the Type of AcalEvent
-     *        to be created
+     * @param academicCalendarId the identifier for the
+     *        AcademicCalendar in which to create the AcalEvent
+     * @param acalEventTypeKey the identifier for the Type of
+     *        AcalEvent to be created
      * @param acalEventInfo the data with which to create the AcalEvent
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the new AcalEvent
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException termId is not found or
+     * @throws DoesNotExistException academicCalendarId is not found or
      *         acalEventTypeKey does not exist or is not supported
      * @throws InvalidParameterException acalEventInfo or contextInfo
      *         is not valid
-     * @throws MissingParameterException termId, acalEventTypeKey,
-     *         acalEventInfo, or contextInfo is missing or null
+     * @throws MissingParameterException academicCalendarId,
+     *         acalEventTypeKey, acalEventInfo, or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure
      *         occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public AcalEventInfo createAcalEvent(@WebParam(name = "termId") String termId, @WebParam(name = "acalEventTypeKey") String acalEventTypeKey, @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public AcalEventInfo createAcalEvent(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "acalEventTypeKey") String acalEventTypeKey, @WebParam(name = "acalEventInfo") AcalEventInfo acalEventInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing AcalEvent. The AcalEvent Id, Type, and Meta
