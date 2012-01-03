@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.atp.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
@@ -28,46 +28,57 @@ import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Milestone extends KeyDateOrMilestone {
+public interface Milestone 
+    extends IdEntity {
 
     /**
-     * Name: Is All Day
      * Tests if this Milestone is an all day event. An all-day event
      * does not have a meaningful time component in the date.
      *
      * @return true if this is an all-day event, false otherwise
+     * @name Is All Day
+     * @required
      */
-    @Override
     public Boolean getIsAllDay();
-   
 
     /**
-     * Name: Is Date Range
+     * Tests if this Milestone is relative to another Milestone.
+     *
+     * @name Is Relative
+     * @required
+     */
+    public Boolean getIsRelative();
+
+    /**
+     * Gets the anchor Milestone to which this Milestone is relative.
+     *
+     * @name Relative Anchor Milestone Key
+     */
+    public String getRelativeAnchorMilestoneKey();
+   
+    /**
      * Tests if this milestone has a date range. 
      *
      * @return true if the end date is different than the start date,
      *         false if the start end end date are the same
+     * @name Is Date Range
      */
-    @Override
     public Boolean getIsDateRange();
    
     /**
-     * Name: Start Date
      * The start date and time of the milestone.
      *
      * @return the milestone start date 
+     * @name Start Date
      */
-    @Override
     public Date getStartDate();
    
     /**
-     * Name: End Date 
      * The end date and time of the milestone. The end
      * date must be equal to or greater that the start.
      *
      * @return the milestone end date
+     * @ame End Date 
      */
-    @Override
     public Date getEndDate();
-   
 }

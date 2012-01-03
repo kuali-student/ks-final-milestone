@@ -25,76 +25,86 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpInfo", propOrder = {"adminOrgId", "id", "typeKey", "stateKey", "name",
-		"descr", "startDate", "endDate", "meta", "attributes",
-		"_futureElements" })
-public class AtpInfo extends IdEntityInfo implements Atp, Serializable {
+@XmlType(name = "AtpInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr",
+                "startDate", "endDate", "adminOrgId", 
+                "meta", "attributes", "_futureElements" })
 
-	private static final long serialVersionUID = 1L;
-	@XmlElement
-	private Date startDate;
-	@XmlElement
-	private Date endDate;
+public class AtpInfo 
+    extends IdEntityInfo 
+    implements Atp, Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
-	private String adminOrgId;
-	@XmlAnyElement
-	private List<Element> _futureElements;
-
+    @XmlElement
+    private Date startDate;
 	
-	public AtpInfo() {
-		startDate = null;
-		endDate = null;
-		_futureElements = null;
-	}
+    @XmlElement
+    private Date endDate;
+	
+    @XmlElement
+    private String adminOrgId;
 
-	/**
-	 * Constructs a new AtpInfo from another Atp.
-	 * 
-	 * @param atp
-	 *            the ATP to copy
-	 */
-	public AtpInfo(Atp atp) {
-		super(atp);
-		if (null != atp) {
-			this.startDate = new Date(atp.getStartDate().getTime());
-			this.endDate = new Date(atp.getEndDate().getTime());
-			this.adminOrgId = atp.getAdminOrgId();
-			_futureElements = null;
-		}
-	}
-
-	public String getAdminOrgId() {
-        return adminOrgId;
+    @XmlAnyElement
+    private List<Element> _futureElements;
+    
+    
+    /**
+     * Constructs a new AtpInfo.
+     */
+    public AtpInfo() {
     }
 
-    public void setAdminOrgId(String adminOrgId) {
-        this.adminOrgId = adminOrgId;
+    /**
+     * Constructs a new AtpInfo from another Atp.
+     * 
+     * @param atp the ATP to copy
+     */
+    public AtpInfo(Atp atp) {
+        super(atp);
+
+        if (atp != null) {
+            if (atp.getStartDate() != null) {
+                this.startDate = new Date(atp.getStartDate().getTime());
+            }
+
+            if (atp.getEndDate() != null) {
+                this.endDate = new Date(atp.getEndDate().getTime());
+            }
+
+            this.adminOrgId = atp.getAdminOrgId();
+        }
+    }
+    
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+	
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     @Override
-	public Date getStartDate() {
-		return startDate != null ? new Date(startDate.getTime()) : null;
-	}
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	
-	public void setStartDate(Date startDate) {
-		if (startDate != null)
-			this.startDate = new Date(startDate.getTime());
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 
-	@Override
-	public Date getEndDate() {
-		return endDate != null ? new Date(endDate.getTime()) : null;
-	}
-
-	
-	public void setEndDate(Date endDate) {
-		if (endDate != null)
-			this.endDate = new Date(endDate.getTime());
-	}
+    @Override
+    public String getAdminOrgId() {
+        return adminOrgId;
+    }
+    
+    public void setAdminOrgId(String adminOrgId) {
+        this.adminOrgId = adminOrgId;
+    }
 }

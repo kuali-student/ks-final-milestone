@@ -27,10 +27,10 @@ import java.util.Date;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Atp extends IdEntity {
+public interface Atp 
+    extends IdEntity {
 
     /**
-     * Name: Start Date
      * Date and time the academic time period became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
@@ -38,12 +38,13 @@ public interface Atp extends IdEntity {
      * date on enumerated values. When an expiration date has been
      * specified, this field must be less than or equal to the
      * expiration date.
+     *
+     * @name Start Date
+     * @required
      */
     public Date getStartDate();
    
-
     /**
-     * Name: End Date
      * Date and time the academic time period expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
@@ -51,15 +52,17 @@ public interface Atp extends IdEntity {
      * effective date. If this field is not specified, then no
      * expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
+     *
+     * @name End Date
+     * @required
      */
     public Date getEndDate();
     
     /**
      * The adminsitrative organization responsible for maintaining
-     * this calendar.
+     * this time period.
      *
      * @name AdminOrg Id
      */
     public String getAdminOrgId();
- 
-}
+ }
