@@ -168,7 +168,7 @@ import org.kuali.student.r2.common.util.constants.ExemptionServiceConstants;
 @WebService(name = "ExemptionService", targetNamespace = ExemptionServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface ExemptionService extends DataDictionaryService, StateService, TypeService {
+public interface ExemptionService extends StateService, TypeService {
 
     /*
      * This section defines methods used to retrieve an exemption to

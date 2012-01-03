@@ -44,7 +44,7 @@ import java.util.List;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AtpService extends DataDictionaryService, TypeService, StateService {
+public interface AtpService extends TypeService, StateService {
 
     //
     // Lookup Methods for ATP Id Entity Pattern.

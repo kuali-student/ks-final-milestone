@@ -95,7 +95,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 @WebService(name = "AcademicCalendarService", serviceName = "AcademicCalendarService", portName = "AcademicCalendarService", targetNamespace = "http://student.kuali.org/wsdl/acal")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface AcademicCalendarService extends DataDictionaryService {
+public interface AcademicCalendarService {
 
     /**
      * Rerieves an AcademicCalendar Type by Type key.

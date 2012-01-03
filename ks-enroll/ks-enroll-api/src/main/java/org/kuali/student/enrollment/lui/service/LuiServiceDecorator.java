@@ -46,22 +46,6 @@ public class LuiServiceDecorator implements LuiService
 
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-        throws OperationFailedException, MissingParameterException, 
-               PermissionDeniedException {
-
-        return getNextDecorator().getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) 
-        throws OperationFailedException, MissingParameterException, 
-               PermissionDeniedException, DoesNotExistException {
-
-        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
     public TypeInfo getType(String typeKey, ContextInfo context)
         throws DoesNotExistException, InvalidParameterException,
                MissingParameterException, OperationFailedException {

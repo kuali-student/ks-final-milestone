@@ -51,7 +51,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
  */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseService extends DataDictionaryService, TypeService, StateService {
+public interface CourseService extends TypeService, StateService {
     /**
      * Retrieves a Course
      * 

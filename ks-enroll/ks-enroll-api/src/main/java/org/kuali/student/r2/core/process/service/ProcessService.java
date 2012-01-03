@@ -63,7 +63,7 @@ import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface ProcessService 
-    extends DataDictionaryService, TypeService, StateService {
+    extends TypeService, StateService {
 
     /** 
      * Retrieves a ProcessCategory.

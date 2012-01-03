@@ -66,7 +66,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 @WebService(name = "LuiService", serviceName ="LuiService", portName = "LuiService", targetNamespace = LuiServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface LuiService extends DataDictionaryService, TypeService {
+public interface LuiService extends TypeService {
 
     /**
      * Retrieves information about a LUI.

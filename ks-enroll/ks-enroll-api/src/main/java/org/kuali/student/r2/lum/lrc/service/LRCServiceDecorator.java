@@ -36,20 +36,6 @@ public abstract class LRCServiceDecorator implements LRCService {
     public void setNextDecorator(LRCService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
-    
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
-        return getNextDecorator().getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
-    }
 
     @Override
     public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,

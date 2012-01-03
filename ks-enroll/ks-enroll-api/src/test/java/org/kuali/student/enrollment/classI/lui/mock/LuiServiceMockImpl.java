@@ -59,20 +59,6 @@ public class LuiServiceMockImpl implements LuiService {
     private final Map<String, LuiCapacityInfo> lcapCache = new HashMap<String, LuiCapacityInfo>();
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-        throws OperationFailedException, MissingParameterException,
-               PermissionDeniedException {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) 
-        throws OperationFailedException, MissingParameterException, 
-               PermissionDeniedException, DoesNotExistException {
-        return null;
-    }
-
-    @Override
     public TypeInfo getType(String typeKey, ContextInfo context)
         throws DoesNotExistException, InvalidParameterException,
                MissingParameterException, OperationFailedException {

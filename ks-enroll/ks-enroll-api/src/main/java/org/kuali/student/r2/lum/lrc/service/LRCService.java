@@ -53,7 +53,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 @WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface LRCService extends DataDictionaryService, TypeService, StateService {
+public interface LRCService extends TypeService, StateService {
 
     /**
      * Retrieves existing result component by an identifier.

@@ -61,7 +61,7 @@ import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface PopulationService 
-    extends DataDictionaryService, TypeService, StateService {
+    extends TypeService, StateService {
 
     /** 
      * Tests if a Person is a member of a Population.

@@ -38,21 +38,6 @@ public class HoldServiceMockImpl implements HoldService {
     private Map<String, IssueInfo> issues = new HashMap<String, IssueInfo>();
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-            throws OperationFailedException, MissingParameterException,
-            PermissionDeniedException {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-            ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return null;
-    }
-
-    @Override
     public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;
     }

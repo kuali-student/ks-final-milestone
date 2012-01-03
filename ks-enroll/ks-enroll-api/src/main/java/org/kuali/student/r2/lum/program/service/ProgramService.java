@@ -53,7 +53,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE)
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService extends DataDictionaryService, TypeService, StateService {
+public interface ProgramService extends TypeService, StateService {
 
     /**
      * Retrieves a CredentialProgram

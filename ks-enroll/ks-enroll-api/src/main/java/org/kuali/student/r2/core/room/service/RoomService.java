@@ -55,7 +55,7 @@ import java.util.List;
 @WebService(name = "RoomService", targetNamespace = RoomServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface RoomService extends DataDictionaryService, TypeService, StateService {
+public interface RoomService extends TypeService, StateService {
 
     /**
      * Retrieves a Room

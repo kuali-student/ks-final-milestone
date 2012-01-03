@@ -49,7 +49,7 @@ import java.util.List;
 
 @WebService(name = "CommentService", targetNamespace = CommentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CommentService extends DataDictionaryService, TypeService {
+public interface CommentService extends TypeService {
 
     /**
      * Retrieves information about a comment.

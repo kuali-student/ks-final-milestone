@@ -64,7 +64,7 @@ import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 @WebService(name = "HoldService", targetNamespace = HoldServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface HoldService extends DataDictionaryService, StateService, TypeService {
+public interface HoldService extends StateService, TypeService {
 
     /** 
      * Retrieves the a single Hold by a hold Id.

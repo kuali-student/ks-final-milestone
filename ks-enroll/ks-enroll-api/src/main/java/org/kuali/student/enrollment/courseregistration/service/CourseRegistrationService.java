@@ -50,7 +50,7 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
 
 @WebService(name = "CourseRegistrationService", targetNamespace = CourseRegistrationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseRegistrationService extends DataDictionaryService, TypeService, StateService {
+public interface CourseRegistrationService extends TypeService, StateService {
 
     /**
      * Checks if a student can register at all i.e., checks if the students

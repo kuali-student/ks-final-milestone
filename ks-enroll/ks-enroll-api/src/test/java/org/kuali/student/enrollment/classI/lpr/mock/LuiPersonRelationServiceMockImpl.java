@@ -339,21 +339,21 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        // get the dictionary entry for the LPR object
+//        // get the dictionary entry for the LPR object
         String dictionaryEntryKey = LuiPersonRelationServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
-        DictionaryEntry dictionaryEntry;
-        try {
-            dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException(dictionaryEntryKey + " is not in the dictionary", ex);
-        }
+//        DictionaryEntry dictionaryEntry;
+//        try {
+//            dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
+//        } catch (DoesNotExistException ex) {
+//            throw new OperationFailedException(dictionaryEntryKey + " is not in the dictionary", ex);
+//        }
 
         // validate the criteria
         CriteriaValidatorParser validator = new CriteriaValidatorParser();
 
         // now do the in memory matching
         CriteriaMatcherInMemory<LuiPersonRelationInfo> matcher = new CriteriaMatcherInMemory<LuiPersonRelationInfo>();
-        matcher.setDictionaryEntry(dictionaryEntry);
+//        matcher.setDictionaryEntry(dictionaryEntry);
         matcher.setParsedOperators(validator.getParsedOperators());
         matcher.setParsedValues(validator.getParsedValues());
         Collection<LuiPersonRelationInfo> allValues = this.lprCache.values();
@@ -407,21 +407,6 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     public void setLprService(LuiPersonRelationService lprService) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

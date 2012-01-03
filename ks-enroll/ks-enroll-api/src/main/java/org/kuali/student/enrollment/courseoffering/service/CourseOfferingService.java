@@ -68,7 +68,7 @@ import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants
  */
 @WebService(name = "CourseOfferingService", serviceName = "CourseOfferingService", portName = "CourseOfferingService", targetNamespace = CourseOfferingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseOfferingService extends DataDictionaryService {
+public interface CourseOfferingService {
 
     /**
      * Retrieve information about a CourseOffering

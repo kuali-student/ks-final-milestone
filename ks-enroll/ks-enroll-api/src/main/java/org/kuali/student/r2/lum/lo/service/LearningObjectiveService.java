@@ -48,7 +48,7 @@ import java.util.List;
  */
 @WebService(name = "LearningObjectiveService", targetNamespace = LearningObjectiveServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LearningObjectiveService extends DataDictionaryService, TypeService, StateService {
+public interface LearningObjectiveService extends TypeService, StateService {
 
     /**
      * Retrieves a single LoRepository by an LoRepository Key.

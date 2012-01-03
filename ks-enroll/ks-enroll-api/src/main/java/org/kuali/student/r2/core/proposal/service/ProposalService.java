@@ -45,7 +45,7 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 @WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 @XmlSeeAlso({org.kuali.student.common.dto.ReferenceTypeInfo.class})
-public interface ProposalService extends DataDictionaryService, TypeService, StateService {
+public interface ProposalService extends TypeService, StateService {
 
     /**
      * Retrieves the details of a single Proposal by proposalId

@@ -58,7 +58,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
  */
 @WebService(name = "GradingService", serviceName = "GradingService", portName = "GradingService", targetNamespace = GradingServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface GradingService extends DataDictionaryService {
+public interface GradingService {
 
     /**
      * This method returns the TypeInfo for a given grade roster type key.
