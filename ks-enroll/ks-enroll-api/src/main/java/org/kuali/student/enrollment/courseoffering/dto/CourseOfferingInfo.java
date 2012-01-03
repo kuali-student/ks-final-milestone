@@ -133,37 +133,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     @XmlAnyElement
     private List<Element> _futureElements;
 
+
     public CourseOfferingInfo() {
-        super();
-        this.courseId = null;
-        this.formatIds = new ArrayList<String>();
-        this.subjectArea = null;
-        this.isHonorsOffering = false;
-        this.instructors = new ArrayList<OfferingInstructorInfo>();
-        this.unitsContentOwner = null;
-        this.hasFinalExam = false;
-        this.waitlistTypeKey = null;
-        this.waitlistMaximum = null;
-        this.termId = null;
-        this.courseOfferingCode = null;
-        this.courseNumberSuffix = null;
-        this.courseTitle = null;
-        this.maximumEnrollment = null;
-        this.minimumEnrollment = null;
-        this.jointOfferingIds = new ArrayList<String>();
-        this.creditOptions = null;
-        this.gradingOptionKeys = new ArrayList<String>();
-        this.gradeRosterLevelTypeKey = null;
-        this.hasWaitlist = false;
-        this.isWaitlistCheckinRequired = false;
-        this.waitlistCheckinFrequency = null;
-        this.fundingSource = null;
-        this.fees = new ArrayList<FeeInfo>();
-        this.revenues = new ArrayList<RevenueInfo>();
-        this.expenditure = null;
-        this.isFinancialAidEligible = false;
-        this.registrationOrderTypeKey = null;
-        this._futureElements = null;
     }
 
     public CourseOfferingInfo(CourseOffering course) {

@@ -31,35 +31,49 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionRequestInfo", propOrder = {"id", "typeKey",
-    "stateKey", "name", "descr", "processKey", "checkKey",
-    "personId",
-    "requesterId", "requestDate",
-    "approvedByPersonId", "approvedDate",
-    "dateOverride", "milestoneOverride",
-    "learningResultOverride", "meta", "attributes", "_futureElements"})
-public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
+                "stateKey", "name", "descr", "processKey", "checkKey",
+                "personId", "requesterId", "requestDate",
+                "approvedByPersonId", "approvedDate",
+                "dateOverride", "milestoneOverride",
+                "learningResultOverride", 
+                "meta", "attributes", "_futureElements"})
+
+public class ExemptionRequestInfo 
+    extends IdEntityInfo 
+    implements ExemptionRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String processKey;
+
     @XmlElement
     private String checkKey;
+
     @XmlElement
     private String personId;
+
     @XmlElement
     private String requesterId;
+
     @XmlElement
     private Date requestDate;
+
     @XmlElement
     private String approvedByPersonId;
+
     @XmlElement
     private Date approvedDate;
+
     @XmlElement
-    private DateOverrideInfo dateOverrideInfo;
+    private DateOverrideInfo dateOverride;
+
     @XmlElement
-    private MilestoneOverrideInfo milestoneOverrideInfo;
+    private MilestoneOverrideInfo milestoneOverride;
+
     @XmlElement
-    private LearningResultOverrideInfo learningResultOverrideInfo;
+    private LearningResultOverrideInfo learningResultOverride;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -85,19 +99,17 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
             this.approvedDate = request.getApprovedDate();
 
             if (request.getDateOverride() != null) {
-                this.dateOverrideInfo = new DateOverrideInfo(request.getDateOverride());
+                this.dateOverride = new DateOverrideInfo(request.getDateOverride());
             }
 
             if (request.getMilestoneOverride() != null) {
-                this.milestoneOverrideInfo = new MilestoneOverrideInfo(request.getMilestoneOverride());
+                this.milestoneOverride = new MilestoneOverrideInfo(request.getMilestoneOverride());
             }
 
             if (request.getLearningResultOverride() != null) {
-                this.learningResultOverrideInfo = new LearningResultOverrideInfo(request.getLearningResultOverride());
+                this.learningResultOverride = new LearningResultOverrideInfo(request.getLearningResultOverride());
             }
         }
-
-        _futureElements = null;
     }
 
     @Override
@@ -165,28 +177,28 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
 
     @Override
     public DateOverrideInfo getDateOverride() {
-        return dateOverrideInfo;
+        return dateOverride;
     }
 
     public void setDateOverride(DateOverrideInfo dateOverrideInfo) {
-        this.dateOverrideInfo = dateOverrideInfo;
+        this.dateOverride = dateOverrideInfo;
     }
 
     @Override
     public MilestoneOverrideInfo getMilestoneOverride() {
-        return milestoneOverrideInfo;
+        return milestoneOverride;
     }
 
     public void setMilestoneOverride(MilestoneOverrideInfo milestoneOverrideInfo) {
-        this.milestoneOverrideInfo = milestoneOverrideInfo;
+        this.milestoneOverride = milestoneOverrideInfo;
     }
 
     @Override
     public LearningResultOverrideInfo getLearningResultOverride() {
-        return learningResultOverrideInfo;
+        return learningResultOverride;
     }
 
     public void setLearningResultOverride(LearningResultOverrideInfo learningResultOverrideInfo) {
-        this.learningResultOverrideInfo = learningResultOverrideInfo;
+        this.learningResultOverride = learningResultOverrideInfo;
     }
 }

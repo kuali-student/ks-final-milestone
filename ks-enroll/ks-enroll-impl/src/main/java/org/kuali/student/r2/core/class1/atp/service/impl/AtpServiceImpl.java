@@ -564,6 +564,12 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
+    public List<MilestoneInfo> getImpactedMilestones(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO
+        return new ArrayList<MilestoneInfo>();
+    }
+
+    @Override
     public List<String> searchForMilestoneIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -660,6 +666,12 @@ public class AtpServiceImpl implements AtpService {
         // TODO Handle removal of orphan RichTextEntities
 
         return status;
+    }
+
+    @Override
+    public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO - unimplemented
+        return getMilestone(milestoneId, contextInfo);
     }
 
     @Override

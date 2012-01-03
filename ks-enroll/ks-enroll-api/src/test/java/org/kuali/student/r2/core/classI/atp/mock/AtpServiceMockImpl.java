@@ -375,6 +375,11 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
+    public List<MilestoneInfo> getImpactedMilestones(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return new ArrayList<MilestoneInfo>();
+    }
+
+    @Override
     public List<String> searchForMilestoneIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -439,6 +444,11 @@ public class AtpServiceMockImpl implements AtpService {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
+    }
+
+    @Override
+    public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getMilestone(milestoneId, contextInfo);
     }
 
     @Override

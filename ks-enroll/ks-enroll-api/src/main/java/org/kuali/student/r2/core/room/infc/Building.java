@@ -30,7 +30,6 @@ public interface Building extends IdEntity {
      *
      * @name Building Code
      * @required
-     *
      */
     public String getBuildingCode();
 
@@ -39,7 +38,6 @@ public interface Building extends IdEntity {
      *
      * @name Campus Key
      * @required
-     *
      */
     public String getCampusKey();
 }

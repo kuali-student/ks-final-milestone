@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.room.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.room.infc.Room;
+import org.kuali.student.r2.core.room.infc.RoomUsage;
 import org.kuali.student.r2.core.room.infc.RoomFixedResource;
 import org.w3c.dom.Element;
 
@@ -38,27 +39,33 @@ import java.util.List;
 @XmlType(name = "RoomInfo", propOrder = {"id", "typeKey", "stateKey",
         "name", "descr", "roomCode", "buildingId", "floor", "roomFixedResources", "roomUsages", "accessibilityTypeKeys",
         "meta", "attributes", "_futureElements"})
+
 public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 
     private static final long serialVersionUID = 1L;
     
     @XmlElement
     private String roomCode;
+
     @XmlElement
     private String buildingId;
+
     @XmlElement
     private String floor;
+
     @XmlElement
-    List<RoomFixedResource> roomFixedResources;
+    List<RoomFixedResourceInfo> roomFixedResources;
+
     @XmlElement
     List<RoomUsageInfo> roomUsages;
+
     @XmlElement
     List<String> accessibilityTypeKeys;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public RoomInfo() {
-
     }
 
     public RoomInfo(Room room) {
@@ -67,12 +74,17 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
             this.roomCode =
             this.buildingId = room.getBuildingId();
             this.floor = room.getFloor();
-            if (null != room.getRoomFixedResources()) {
-                this.roomFixedResources = new ArrayList<RoomFixedResource>(room.getRoomFixedResources());
+            
+            this.roomFixedResources = new ArrayList<RoomFixedResourceInfo>();
+            for (RoomFixedResource resource : room.getRoomFixedResources()) {
+                this.roomFixedResources.add(new RoomFixedResourceInfo(resource));
             }
-            if (null != room.getRoomUsages()) {
-                this.roomUsages = new ArrayList<RoomUsageInfo>(room.getRoomUsages());
+
+            this.roomUsages = new ArrayList<RoomUsageInfo>();
+            for (RoomUsage usage : room.getRoomUsages()) {
+                this.roomUsages.add(new RoomUsageInfo(usage));
             }
+
             if (null != room.getAccessibilityTypeKeys()) {
                 this.accessibilityTypeKeys = new ArrayList<String>(room.getAccessibilityTypeKeys());
             }
@@ -107,11 +119,11 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
     }
 
     @Override
-    public List<RoomFixedResource> getRoomFixedResources() {
+    public List<RoomFixedResourceInfo> getRoomFixedResources() {
         return this.roomFixedResources;
     }
 
-    public void setRoomFixedResources(List<RoomFixedResource> roomFixedResources) {
+    public void setRoomFixedResources(List<RoomFixedResourceInfo> roomFixedResources) {
         this.roomFixedResources = roomFixedResources;
     }
 

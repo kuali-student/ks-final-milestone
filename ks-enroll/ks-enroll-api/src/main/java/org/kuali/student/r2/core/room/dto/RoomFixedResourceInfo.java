@@ -30,19 +30,24 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RoomFixedResourceInfo", propOrder = {"id", "quantity", "resourceTypeKey", "meta", "attributes", "_futureElements"})
-public class RoomFixedResourceInfo extends HasAttributesAndMetaInfo implements RoomFixedResource, Serializable {
+
+public class RoomFixedResourceInfo 
+    extends HasAttributesAndMetaInfo 
+    implements RoomFixedResource, Serializable {
 
     @XmlElement
     private String id;
+
     @XmlElement
     private Integer quantity;
+
     @XmlElement
     private String resourceTypeKey;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public RoomFixedResourceInfo() {
-
     }
 
     public RoomFixedResourceInfo(RoomFixedResource roomFixedResource) {

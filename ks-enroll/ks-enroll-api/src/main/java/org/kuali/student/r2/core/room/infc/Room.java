@@ -34,7 +34,6 @@ public interface Room extends IdEntity {
      * @name Room Code
      * @readOnly
      * @required
-     *
      */
     public String getRoomCode();
 
@@ -44,7 +43,6 @@ public interface Room extends IdEntity {
      * @name Building Id
      * @readOnly
      * @required
-     *
      */
     public String getBuildingId();
 
@@ -54,32 +52,27 @@ public interface Room extends IdEntity {
      * @name Floor
      * @readOnly
      * @required
-     *
      */
     public String getFloor();
 
     /**
-     *  Resources in the room
+     * Resources in the room
      *
      * @name Room Resources
-     *
      */
-    public List<RoomFixedResource> getRoomFixedResources();
+    public List<? extends RoomFixedResource> getRoomFixedResources();
 
     /**
-     *  Various usage information for the room
+     * Various usage information for the room
      *
      * @name Room Usages
-     *
      */
-    public List<RoomUsageInfo> getRoomUsages();
+    public List<? extends RoomUsage> getRoomUsages();
 
     /**
-     *  Accessibility types for the room (wheelchair, ...)
+     * Accessibility types for the room (wheelchair, ...)
      *
      * @name Accessibility Type Keys
-     *
      */
     public List<String> getAccessibilityTypeKeys();
-    
 }

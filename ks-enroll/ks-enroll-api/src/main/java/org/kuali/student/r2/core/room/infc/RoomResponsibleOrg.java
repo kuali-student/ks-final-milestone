@@ -35,7 +35,6 @@ public interface RoomResponsibleOrg extends Relationship {
      * @name Org Id
      * @readOnly
      * @required
-     *
      */
     public String getOrgId();
 
@@ -45,7 +44,6 @@ public interface RoomResponsibleOrg extends Relationship {
      * @name Room Id
      * @readOnly
      * @required
-     *
      */
     String getRoomId();
 }

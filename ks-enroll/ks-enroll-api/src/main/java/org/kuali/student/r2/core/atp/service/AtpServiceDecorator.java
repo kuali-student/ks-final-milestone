@@ -261,6 +261,11 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
+    public List<MilestoneInfo> getImpactedMilestones(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getImpactedMilestones(milestoneId, contextInfo);
+    }
+
+    @Override
     public List<String> searchForMilestoneIds(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
@@ -300,6 +305,11 @@ public class AtpServiceDecorator implements AtpService {
             PermissionDeniedException {
 
         return getNextDecorator().deleteMilestone(milestoneId, context);
+    }
+
+    @Override
+    public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().calculateMilestone(milestoneId, contextInfo);
     }
 
     @Override

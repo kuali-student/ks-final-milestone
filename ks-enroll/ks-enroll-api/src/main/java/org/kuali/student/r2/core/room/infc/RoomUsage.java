@@ -30,37 +30,32 @@ import java.util.List;
 public interface RoomUsage extends HasId, HasAttributesAndMeta {
 
     /**
-     *  Preferred capacity of the room
+     * Preferred capacity of the room
      *
      * @name Preferred Capacity
      * @required
-     *
      */
     public Integer getPreferredCapacity();
 
     /**
-     *  Hard capacity of the room
+     * Hard capacity of the room
      *
      * @name Hard Capacity
      * @required
-     *
      */
     public Integer getHardCapacity();
 
     /**
-     *  Usage type (classe, exam, meeting, ...)
+     * Usage type (classe, exam, meeting, ...)
      *
      * @name Usage Type key
-     *
      */
     public String getUsageTypeKey();
 
     /**
-     *  Layout type (class, exam, business school, ...)
+     * Layout type (class, exam, business school, ...)
      *
      * @name Layout Type key
-     *
      */
     public String getLayoutTypeKey();
-    
 }
