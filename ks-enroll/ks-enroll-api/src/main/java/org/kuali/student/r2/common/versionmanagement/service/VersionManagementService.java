@@ -1,4 +1,4 @@
-package org.kuali.student.common.versionmanagement.service;
+package org.kuali.student.r2.common.versionmanagement.service;
 
 import java.util.Date;
 import java.util.List;
