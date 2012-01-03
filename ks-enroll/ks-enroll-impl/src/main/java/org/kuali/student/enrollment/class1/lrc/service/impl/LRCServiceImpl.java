@@ -163,16 +163,6 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey, @WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
-    }
-
-    @Override
     public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }

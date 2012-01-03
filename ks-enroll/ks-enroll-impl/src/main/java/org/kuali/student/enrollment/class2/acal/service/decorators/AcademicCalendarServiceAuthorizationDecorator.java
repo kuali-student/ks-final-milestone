@@ -54,33 +54,6 @@ public class AcademicCalendarServiceAuthorizationDecorator
     }
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntryKeys", null, null)) {
-            return getNextDecorator().getDataDictionaryEntryKeys(context);
-        } else {
-            throw new PermissionDeniedException();
-        }
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntry", null, null)) {
-            return getNextDecorator().getDataDictionaryEntry(entryKey, context);
-        } else {
-            throw new PermissionDeniedException();
-        }
-    }
-
-    @Override
     public TypeInfo getAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         if (null == context) {

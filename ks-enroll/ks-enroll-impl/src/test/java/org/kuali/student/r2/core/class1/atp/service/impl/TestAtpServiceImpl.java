@@ -705,34 +705,34 @@ public class TestAtpServiceImpl {
             fail("exception from service call :" + ex.getMessage());
         }
     }
-
-    @Test
-    public void testGetDataDictionaryEntry()
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        DictionaryEntryInfo value = atpService.getDataDictionaryEntry("http://student.kuali.org/wsdl/atp/AtpInfo", callContext);
-
-        assertNotNull(value);
-
-        DictionaryEntryInfo fakeEntry = null;
-        try {
-            fakeEntry = atpService.getDataDictionaryEntry("fakeKey", callContext);
-            fail("Did not get a DoesNotExistException when expected");
-        }
-        catch(DoesNotExistException e) {
-            assertNull(fakeEntry);
-        }
-    }
-
-    @Test
-    public void testGetDataDictionaryEntryKeys()
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        List<String> results = atpService.getDataDictionaryEntryKeys(callContext);
-
-        assertNotNull(results);
-        assertTrue(!results.isEmpty());
-
-        assertTrue(results.contains("http://student.kuali.org/wsdl/atp/AtpInfo"));
-    }
+//
+//    @Test
+//    public void testGetDataDictionaryEntry()
+//            throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+//        DictionaryEntryInfo value = atpService.getDataDictionaryEntry("http://student.kuali.org/wsdl/atp/AtpInfo", callContext);
+//
+//        assertNotNull(value);
+//
+//        DictionaryEntryInfo fakeEntry = null;
+//        try {
+//            fakeEntry = atpService.getDataDictionaryEntry("fakeKey", callContext);
+//            fail("Did not get a DoesNotExistException when expected");
+//        }
+//        catch(DoesNotExistException e) {
+//            assertNull(fakeEntry);
+//        }
+//    }
+//
+//    @Test
+//    public void testGetDataDictionaryEntryKeys()
+//            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+//        List<String> results = atpService.getDataDictionaryEntryKeys(callContext);
+//
+//        assertNotNull(results);
+//        assertTrue(!results.isEmpty());
+//
+//        assertTrue(results.contains("http://student.kuali.org/wsdl/atp/AtpInfo"));
+//    }
 
     @Test
     public void testGetAtpAtpRelationsByTypeAndAtp() {

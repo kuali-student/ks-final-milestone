@@ -119,23 +119,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
-	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-			throws OperationFailedException, MissingParameterException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-			ContextInfo context) throws OperationFailedException,
-			MissingParameterException, PermissionDeniedException,
-			DoesNotExistException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public CourseOfferingInfo getCourseOffering(String courseOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

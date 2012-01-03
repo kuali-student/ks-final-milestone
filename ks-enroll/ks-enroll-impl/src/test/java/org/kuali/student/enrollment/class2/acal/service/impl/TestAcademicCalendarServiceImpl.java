@@ -746,31 +746,31 @@ public class TestAcademicCalendarServiceImpl {
         }
 
     }
-
-    @Test
-    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        List<String> results = acalService.getDataDictionaryEntryKeys(callContext);
-
-        assertNotNull(results);
-        assertTrue(!results.isEmpty());
-
-        assertTrue(results.contains("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo"));
-    }
-
-    @Test
-    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        DictionaryEntryInfo value = acalService.getDataDictionaryEntry("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo", callContext);
-
-        assertNotNull(value);
-
-        DictionaryEntryInfo fakeEntry = null;
-        try {
-            fakeEntry = acalService.getDataDictionaryEntry("fakeKey", callContext);
-            fail("Did not get a DoesNotExistException when expected");
-        } catch (DoesNotExistException e) {
-            assertNull(fakeEntry);
-        }
-    }
+//
+//    @Test
+//    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+//        List<String> results = acalService.getDataDictionaryEntryKeys(callContext);
+//
+//        assertNotNull(results);
+//        assertTrue(!results.isEmpty());
+//
+//        assertTrue(results.contains("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo"));
+//    }
+//
+//    @Test
+//    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+//        DictionaryEntryInfo value = acalService.getDataDictionaryEntry("http://student.kuali.org/wsdl/acal/AcademicCalendarInfo", callContext);
+//
+//        assertNotNull(value);
+//
+//        DictionaryEntryInfo fakeEntry = null;
+//        try {
+//            fakeEntry = acalService.getDataDictionaryEntry("fakeKey", callContext);
+//            fail("Did not get a DoesNotExistException when expected");
+//        } catch (DoesNotExistException e) {
+//            assertNull(fakeEntry);
+//        }
+//    }
 
     @Test
     public void testCreateKeyDateForTerm() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,

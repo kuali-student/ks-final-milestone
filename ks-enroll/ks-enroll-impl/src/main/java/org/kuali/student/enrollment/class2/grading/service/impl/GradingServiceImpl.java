@@ -215,7 +215,7 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public GradeRosterInfo buildInterimGradeRosterByType(
-            @WebParam(name = "activityOfferingIdList") String courseOfferingId,
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "activityOfferingIdList") List<String> activityOfferingIdList,
             @WebParam(name = "rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
@@ -638,61 +638,6 @@ public class GradingServiceImpl implements GradingService {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return false; // TODO implement method.
-    }
-
-    /**
-     * Get the list of entry keys in this dictionary
-     * <p/>
-     * The list of keys is stored in the ref object URI strcture E.g
-     * http://student.kuali.org/wsdl/luService/CluInfo will be the objectTypeURI
-     * for the CluInfo structure The refObjectURI has three parts:
-     * <ol>
-     * <li>http://student.kuali.org/wsdl -- which is fixed
-     * <li>luService -- which should match the namespace of the service in which
-     * the object is defined
-     * <li>CluInfo -- which should match the java class's simple name
-     * </ol>
-     *
-     * @param context
-     *            information about the user and locale
-     * @return a list of all the known data dictionary entry keys in the ref
-     *         object URI structure.
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *             if could not complete the operation
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *             if entryKey is null
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *             if user does not have permission to call this method
-     */
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "context") ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return null; // TODO implement method.
-    }
-
-    /**
-     * Get the data dictionary entry for the specified entry key
-     *
-     * @param entryKey
-     *            that identifies the dictionary entry, this is done by
-     *            specifying a refObjectURI
-     * @param context
-     *            information about the user and locale
-     * @return the data dictionary entry key
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *             if could not complete the operation
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *             if entryKey is null
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *             if entryKey does not exist in the dictionary
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *             if user does not have permission to call this method
-     */
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey,
-            @WebParam(name = "context") ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return null; // TODO implement method.
     }
 
     @Override
