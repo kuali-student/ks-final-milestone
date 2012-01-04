@@ -323,7 +323,7 @@ public class ProcessPocKrmsIntegrationTest {
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
         assertTrue(errors.get(0).getIsError());
-        // TODO: Shouldn't this message say something about the fact that the student has an extention but it is even too late for that?
-        assertEquals("Registration period for this term is closed", errors.get(0).getMessage());
+
+        assertEquals("Registration period for this term is closed" + KRMSProcessEvaluator.EXEMPTION_WAS_USED_MESSAGE_SUFFIX, errors.get(0).getMessage());
     } 
 }
