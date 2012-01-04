@@ -31,6 +31,7 @@ public class RulesExecutionConstants {
     public static final String COURSE_ID_TERM_PROPERTY = "courseIdProperty";
     public static final String TEST_SET_ID_TERM_PROPERTY = "testSetIdProperty";
     public static final String MILESTONE_TYPE_TERM_PROPERTY = "milestoneTypeProperty";
+    public static final String MILESTONE_ATP_KEY_TERM_PROPERTY = "milestoneAtpKeyProperty";
     public static final String MILESTONE_ID_TERM_PROPERTY = "milestoneIdProperty";
     public static final String ISSUE_KEY_TERM_PROPERTY = "issueKeyProperty";
 
@@ -41,4 +42,6 @@ public class RulesExecutionConstants {
 
     public static final String DOCTYPE_CONTEXT_QUALIFIER = "docTypeName";
     public static final String STUDENT_ELIGIBILITY_DOCTYPE = "Student.Eligibility";
+    public static final String SUBPROCESS_EVALUATION_EXCEPTION = "subprocessEvaluationException";
+    public static final String SUBPROCESS_EVALUATION_RESULTS = "subprocessEvaluationResults";
 }

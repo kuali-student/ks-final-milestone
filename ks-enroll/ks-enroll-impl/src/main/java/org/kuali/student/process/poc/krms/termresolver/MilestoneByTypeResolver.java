@@ -28,6 +28,7 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -40,6 +41,16 @@ import java.util.Set;
 public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>> {
 
     private AtpService atpService;
+
+    private final static Set<String> requiredParameterNames;
+
+    static {
+        Set<String> temp = new HashSet<String>(2);
+        temp.add(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY);
+        temp.add(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
+
+        requiredParameterNames = Collections.unmodifiableSet(temp);
+    }
 
     public void setAtpService(AtpService atpService) {
         this.atpService = atpService;
@@ -57,7 +68,7 @@ public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>
 
     @Override
     public Set<String> getParameterNames() {
-        return Collections.singleton(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
+        return requiredParameterNames;
     }
 
     @Override
@@ -70,14 +81,12 @@ public class MilestoneByTypeResolver implements TermResolver<List<MilestoneInfo>
     public List<MilestoneInfo> resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
 
         String milestoneType = parameters.get(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY);
+        String atpKey = parameters.get(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY);
         ContextInfo context = (ContextInfo) resolvedPrereqs.get(RulesExecutionConstants.CONTEXT_INFO_TERM_NAME);
 
         List<MilestoneInfo> result = null;
         try {
-            List<String> ids = atpService.getMilestoneIdsByType(milestoneType, context);
-            result = atpService.getMilestonesByIds(ids, context);
-        } catch (DoesNotExistException e) {
-            throw new TermResolutionException(e.getMessage(), this, parameters);
+            result = atpService.getMilestonesByTypeForAtp(atpKey, milestoneType, context);
         } catch (InvalidParameterException e) {
             throw new TermResolutionException(e.getMessage(), this, parameters);
         } catch (MissingParameterException e) {

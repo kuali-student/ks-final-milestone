@@ -14,8 +14,6 @@
  */
 package org.kuali.student.process.poc.krms;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.joda.time.DateTime;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.rice.krms.api.engine.ExecutionFlag;
@@ -47,6 +45,7 @@ import org.kuali.student.process.poc.krms.proposition.MilestoneDateComparisonPro
 import org.kuali.student.process.poc.krms.proposition.MilestoneDateComparisonProposition.DateComparisonType;
 import org.kuali.student.process.poc.krms.proposition.PersonLivingProposition;
 import org.kuali.student.process.poc.krms.proposition.RegistrationHoldProposition;
+import org.kuali.student.process.poc.krms.proposition.SubProcessProposition;
 import org.kuali.student.process.poc.krms.proposition.SummerTermProposition;
 import org.kuali.student.process.poc.util.InstructionComparator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -146,7 +145,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         for (InstructionInfo instruction : instructions) {
 
             // filter out by term
-            if (term != null && !instruction.getAppliedAtpTypeKeys().contains(term.getTypeKey())) {
+            if (term != null && !instruction.getAppliedAtpTypeKeys().isEmpty() && !instruction.getAppliedAtpTypeKeys().contains(term.getTypeKey())) {
                 continue;
             }
 
@@ -200,7 +199,14 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                 throw new OperationFailedException("unexpected", ex);
             }
 
-            // TODO handle sub-process?
+            // if a sub-process is found,
+            if (check.getTypeKey().equals(ProcessServiceConstants.PROCESS_CHECK_TYPE_KEY)) {
+
+                CourseRegistrationProcessContextInfo checkContext = CourseRegistrationProcessContextInfo.createForRegistrationEligibility(processContext.getStudentId(), processContext.getTermKey());
+                checkContext.setProcessKey(check.getProcessKey());
+
+                propositions.put(new SubProcessProposition(checkContext, this), instruction);
+            }
 
             if (check.getTypeKey().equals(ProcessServiceConstants.HOLD_CHECK_TYPE_KEY)) {
                 propositions.put(new RegistrationHoldProposition(check.getIssueKey()), instruction);
@@ -215,6 +221,13 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             } else if (check.getTypeKey().equals(ProcessServiceConstants.TIME_PERIOD_CHECK_TYPE_KEY)) {
                 propositions.put(buildMilestoneCheckProposition(check, DateComparisonType.BETWEEN, processContext, context), instruction);
             }
+        }
+
+        // if all instructions are skipped, and no propositions were generated, return one "success" message
+        if(propositions.isEmpty()) {
+            ValidationResultInfo success = new ValidationResultInfo();
+            success.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
+            return Collections.singletonList(success);
         }
 
         // Build the list of known facts prior to execution
@@ -248,13 +261,13 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         }
 
         if (exemptions.isEmpty()) {
-            return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), true, null);
+            return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, null);
         }
 
         // For now, assume there is only one active Exemption
         DateOverride dateOverrideInfo = exemptions.get(0).getDateOverride();
 
-        return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), true, dateOverrideInfo);
+        return new MilestoneDateComparisonProposition(RulesExecutionConstants.CURRENT_DATE_TERM_NAME, comparisonType, check.getMilestoneTypeKey(), processContext.getTermKey(), true, dateOverrideInfo);
     }
 
     private EngineResults evaluateProposition(Proposition proposition, Map<String, Object> executionFacts) {
@@ -299,35 +312,40 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
             ValidationResultInfo result = new ValidationResultInfo();
             String message = instruction.getMessage().getPlain();
             ExemptionAwareProposition exemptionProp = null;
-            if(prop instanceof ExemptionAwareProposition) {
-                exemptionProp = (ExemptionAwareProposition)prop;
-                if(exemptionProp.isExemptionUsed()) {
-                    message += EXEMPTION_WAS_USED_MESSAGE_SUFFIX;
-                }
-            }
-            if (e.getResult()) {
-                result.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
-                if(exemptionProp != null && exemptionProp.isExemptionUsed()) {
-                    result.setMessage(message);
-                }
-                results.add(result);
+
+            if(prop instanceof SubProcessProposition) {
+                List<ValidationResultInfo> subResults = (List<ValidationResultInfo>) e.getResultDetails().get(RulesExecutionConstants.SUBPROCESS_EVALUATION_RESULTS);
+                results.addAll(subResults);
             }
             else {
-
-
-                if (instruction.getIsWarning()) {
-                    result.setWarn(message);
-                } else {
-                    result.setError(message);
+                // if the proposition is could have an exemption, check for the exemption and add a suffix to the message
+                if(prop instanceof ExemptionAwareProposition) {
+                    exemptionProp = (ExemptionAwareProposition)prop;
+                    if(exemptionProp.isExemptionUsed()) {
+                        message += EXEMPTION_WAS_USED_MESSAGE_SUFFIX;
+                    }
                 }
+                if (e.getResult()) {
+                    result.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
+                    // add a message to an OK result only if an exemption was used
+                    if(exemptionProp != null && exemptionProp.isExemptionUsed()) {
+                        result.setMessage(message);
+                    }
+                }
+                else {
 
-
+                    if (instruction.getIsWarning()) {
+                        result.setWarn(message);
+                    } else {
+                        result.setError(message);
+                    }
+                }
 
                 results.add(result);
+            }
 
-                if (!instruction.getContinueOnFail()) {
-                    break;
-                }
+            if (!e.getResult() && !instruction.getContinueOnFail()) {
+                break;
             }
         }
 

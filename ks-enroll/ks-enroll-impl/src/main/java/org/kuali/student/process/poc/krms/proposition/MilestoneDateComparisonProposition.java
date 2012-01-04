@@ -28,7 +28,9 @@ import org.kuali.student.r2.core.exemption.infc.DateOverride;
 
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * This proposition evaluates a check of a particular date against the dates of a given Milestone.
@@ -39,6 +41,7 @@ import java.util.List;
 public class MilestoneDateComparisonProposition extends AbstractLeafProposition implements ExemptionAwareProposition {
 
     private boolean exemptionUsed = false;
+    private final Term milestonesTerm;
 
     public enum DateComparisonType {
         BETWEEN, BEFORE, AFTER
@@ -52,14 +55,22 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
 
     private final String milestoneType;
 
+    private final String atpKey;
+
     private final Boolean inclusive;
 
-    public MilestoneDateComparisonProposition(String comparisonDateTermKey, DateComparisonType comparisonType, String milestoneType, Boolean inclusive, DateOverride dateOverrideInfo) {
+    public MilestoneDateComparisonProposition(String comparisonDateTermKey, DateComparisonType comparisonType, String milestoneType, String atpKey, Boolean inclusive, DateOverride dateOverrideInfo) {
         this.comparisonDateTerm = new Term(comparisonDateTermKey);
         this.comparisonType = comparisonType;
         this.milestoneType = milestoneType;
         this.inclusive = inclusive;
         this.dateOverride = dateOverrideInfo;
+        this.atpKey = atpKey;
+
+        Map<String, String> termParametersMap = new HashMap<String, String>(2);
+        termParametersMap.put(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY, milestoneType);
+        termParametersMap.put(RulesExecutionConstants.MILESTONE_ATP_KEY_TERM_PROPERTY, atpKey);
+        milestonesTerm = new Term(RulesExecutionConstants.MILESTONES_BY_TYPE_TERM_NAME, termParametersMap);
     }
 
     public Term getComparisonDateTerm() {
@@ -86,7 +97,6 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
     public PropositionResult evaluate(ExecutionEnvironment environment) {
 
         // resolve the list of Milestones from the given Milestone type key
-        Term milestonesTerm = new Term(RulesExecutionConstants.MILESTONES_BY_TYPE_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.MILESTONE_TYPE_TERM_PROPERTY, milestoneType));
         List<MilestoneInfo> milestones = environment.resolveTerm(milestonesTerm, this);
 
         Date comparisonDate = environment.resolveTerm(comparisonDateTerm, this);
@@ -126,16 +136,16 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
         boolean dateCompareResult;
         switch (comparisonType) {
             case BEFORE: {
-                dateCompareResult = comparisonDate.before(startDate);
+                dateCompareResult = comparisonDate.before(endDate);
                 if(inclusive && !dateCompareResult) {
-                    dateCompareResult = comparisonDate.equals(startDate);
+                    dateCompareResult = comparisonDate.equals(endDate);
                 }
                 break;
             }
             case AFTER: {
-                dateCompareResult = comparisonDate.after(endDate);
+                dateCompareResult = comparisonDate.after(startDate);
                 if(inclusive && !dateCompareResult) {
-                    dateCompareResult = comparisonDate.equals(endDate);
+                    dateCompareResult = comparisonDate.equals(startDate);
                 }
                 break;
             }

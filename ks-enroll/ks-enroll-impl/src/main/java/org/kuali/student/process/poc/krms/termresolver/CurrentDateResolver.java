@@ -19,6 +19,7 @@ import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
@@ -56,6 +57,10 @@ public class CurrentDateResolver implements TermResolver<Date> {
 
     @Override
     public Date resolve(Map<String, Object> resolvedPrereqs, Map<String, String> parameters) throws TermResolutionException {
-        return new Date();
+        Calendar cal = Calendar.getInstance();
+
+        cal.set(2011, 11, 30);
+
+        return cal.getTime();
     }
 }
