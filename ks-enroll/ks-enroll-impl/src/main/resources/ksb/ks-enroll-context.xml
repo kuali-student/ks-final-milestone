@@ -408,7 +408,6 @@
       <property name="processTypeDao" ref="processTypeDao" />
       <property name="checkTypeDao" ref="checkTypeDao" />
       <property name="instructionTypeDao" ref="instructionTypeDao" />
-      <property name="issueDao"  ref="issueDao"/>
   </bean>
 
 </beans>
