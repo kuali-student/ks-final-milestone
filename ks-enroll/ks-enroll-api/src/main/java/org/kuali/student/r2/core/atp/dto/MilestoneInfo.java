@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MilestoneInfo", propOrder = { 
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "isAllDay", "isRelative", "relativeAnchorMilestoneKey",
+                "isAllDay", "isRelative", "relativeAnchorMilestoneId",
                 "isDateRange", "startDate", "endDate",
 		"meta", "attributes", "_futureElements" })
 
@@ -48,7 +48,7 @@ public class MilestoneInfo
     private Boolean isRelative;
 
     @XmlElement
-    private String relativeAnchorMilestoneKey;
+    private String relativeAnchorMilestoneId;
 	
     @XmlElement
     private Boolean isDateRange;
@@ -80,7 +80,7 @@ public class MilestoneInfo
         if (milestone != null) {
             this.isAllDay = milestone.getIsAllDay();
             this.isRelative = milestone.getIsRelative();
-            this.relativeAnchorMilestoneKey = milestone.getRelativeAnchorMilestoneKey();
+            this.relativeAnchorMilestoneId = milestone.getRelativeAnchorMilestoneId();
             this.isDateRange = milestone.getIsDateRange();
             
             if (milestone.getStartDate() != null) {
@@ -112,12 +112,12 @@ public class MilestoneInfo
     }
 
     @Override
-    public String getRelativeAnchorMilestoneKey() {
-        return relativeAnchorMilestoneKey;
+    public String getRelativeAnchorMilestoneId() {
+        return relativeAnchorMilestoneId;
     }
     
-    public void setRelativeAnchorMilestoneKey(String relativeAnchorMilestoneKey) {
-        this.relativeAnchorMilestoneKey = relativeAnchorMilestoneKey;
+    public void setRelativeAnchorMilestoneId(String relativeAnchorMilestoneId) {
+        this.relativeAnchorMilestoneId = relativeAnchorMilestoneId;
     }
     
     @Override

@@ -52,9 +52,9 @@ public interface Milestone
     /**
      * Gets the anchor Milestone to which this Milestone is relative.
      *
-     * @name Relative Anchor Milestone Key
+     * @name Relative Anchor Milestone Id
      */
-    public String getRelativeAnchorMilestoneKey();
+    public String getRelativeAnchorMilestoneId();
    
     /**
      * Tests if this milestone has a date range. 
