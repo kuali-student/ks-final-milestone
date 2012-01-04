@@ -20,16 +20,23 @@ import java.util.List;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.document.dto.DocumentInfo;
+import org.kuali.student.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 
 public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentService> implements DocumentRpcService{
 	private static final long serialVersionUID = 1L;
+	
+	 public List<DocumentTypeInfo> getDocumentTypes() throws Exception{    //KSLAB-2115
+	     
+	     return service.getDocumentTypes();
+	 }
 	
 	public DocumentInfo getDocument(String documentId) throws Exception{
 		return service.getDocument(documentId);

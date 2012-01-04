@@ -35,6 +35,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapComp
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
@@ -52,6 +54,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
@@ -71,8 +74,10 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
 
+/*
+ * Messages hard-coded throughout since this can't access KSMG-MESSAGE
+ */
 public class DocumentTool extends DelayedToolView implements HasReferenceId{
-
 	private String referenceId;
 	private String referenceTypeKey;
 	private String referenceType;
@@ -311,53 +316,59 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return labelKey;
     }
 
-    private MultiplicityConfiguration setupMultiplicityConfig(
-            MultiplicityConfiguration.MultiplicityType multiplicityType,
-            MultiplicityConfiguration.StyleType styleType,
-            String path, String addItemlabelMessageKey,
-            String itemLabelMessageKey,
-            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
-            List<String> deletionParentKeys) {
+    private MultiplicityConfiguration setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType multiplicityType
+                                                              , MultiplicityConfiguration.StyleType styleType
+                                                              , String path, String addItemlabelMessageKey
+                                                              , String itemLabelMessageKey
+                                                              , Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition
+                                                              , List<String> deletionParentKeys){
         QueryPath parentPath = QueryPath.concat(path);
-        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType,
-                styleType, getMetaData(parentPath.toString()));
-        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
-        config.setItemLabel(getLabel(itemLabelMessageKey));
-        config.setUpdateable(true);
-
-        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
-        config.setParent(parentFd);
-
-        MultiplicityFieldConfiguration fc = buildMultiplicityFD("fieldKey",
-                "", parentPath.toString());
+        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType, styleType, getMetaData(parentPath.toString()));
+        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, null, null);
+        
+        MultiplicityFieldConfiguration fc = buildMultiplicityFD("fieldKey", "", parentPath.toString());
         MultiplicityFieldWidgetInitializer fieldWidgetInitializer = new MultiplicityFieldWidgetInitializer() {
+            
             @Override
             public ModelWidgetBinding getModelWidgetBindingInstance() {
+                
                 return new ModelWidgetBinding<DocumentForm>() {
+                    
                     public void setModelValue(DocumentForm widget, DataModel model, String path) {
 
                     }
                     public void setWidgetValue(DocumentForm widget, DataModel model, String path){
+                        
 
                     }
                 };
             }
+            
             @Override
             public Widget getNewWidget() {
+                
                 return new DocumentForm();
             }
         };
+        
+        ConstraintMetadata min1 = new ConstraintMetadata();
+        Metadata metadata = new Metadata();
+        
+        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
+        config.setItemLabel(getLabel(itemLabelMessageKey));
+        config.setUpdateable(true);
+        config.setParent(parentFd);
+        
         fc.setFieldWidgetInitializer(fieldWidgetInitializer);
 
         // make the initial number of item equal to 1
-        ConstraintMetadata min1 = new ConstraintMetadata();
         min1.setMinOccurs(1);
-        Metadata metadata = new Metadata();
-        metadata = new Metadata();
         metadata.getConstraints().add(min1);
+        
         config.setMetaData(metadata);
         config.addFieldConfiguration(fc);
         config.nextLine();
+        
         return config;
     }
 
@@ -387,28 +398,64 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     }
 
     private Widget createUploadForm() {
-	    VerticalSection verticalSection = new VerticalSection();
-	    MultiplicityConfiguration uploadFileMultiplicityConfig = setupMultiplicityConfig(
-	            MultiplicityConfiguration.MultiplicityType.GROUP,
-	            MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
-	            "path", "Include More Files",
-	            "File Name",
-	            null,
-	            null);
-        MultiplicitySection ms = null;
-        ms = new MultiplicitySection(uploadFileMultiplicityConfig);
-        verticalSection.addSection(ms);
-        verticalSection.getLayout().setWidth("350");
+        final VerticalSectionView verticalSectionView= new VerticalSectionView(this.getViewEnum(), this.getName(), this.getController().getDefaultModelId());
+        MultiplicitySection ms= new MultiplicitySection(setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType.GROUP
+                                                                                , MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP
+                                                                                , "path", "Include More Files", "File", null, null));
+        
+        verticalSectionView.addSection(ms);
 
-        return verticalSection;
+        try {
+            
+            documentServiceAsync.getDocumentTypes(new KSAsyncCallback<List<DocumentTypeInfo>>(){
+                
+                @Override
+                public void onSuccess(List<DocumentTypeInfo> supportedDocumentTypeInfoResults){
+                    String acceptableDocumentTypesString;
+                    String maxFileSizeString= "10000000";   //from ks-document-dictionary-context.xml, inaccessible here (in a different service-loaded module?)
+                    int maxFileSizeInt= Integer.parseInt(maxFileSizeString)/1048576;
+                    
+                    if(supportedDocumentTypeInfoResults.isEmpty()){
+                        
+                        acceptableDocumentTypesString= "Sorry, no documents supported for upload now!";       
+                        
+                    }else{
+                        
+                        acceptableDocumentTypesString= "." + supportedDocumentTypeInfoResults.get(0).getName();
+                        for(int i= 1; i < supportedDocumentTypeInfoResults.size(); i++){
+                            
+                            acceptableDocumentTypesString+= ", ." + supportedDocumentTypeInfoResults.get(i).getName();
+                        }                 
+                    }
+                    
+                    if(verticalSectionView instanceof SectionView){
+                        
+                        ((SectionView) verticalSectionView).setInstructions(  "Multiple supporting documents associated with this course can be uploaded.<br>"
+                        		                                            + "&nbsp;&nbsp;&nbsp;<b>Acceptabled file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString + "</i><br>"
+                        		                                            + "&nbsp;&nbsp;&nbsp;<b>Max file size:</b>&nbsp;&nbsp;" + "<i>~" + maxFileSizeInt + "MB </i>");
+                    }
+               }
+            }); 
+            
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
+        
+        verticalSectionView.getLayout().setWidth("700");
+
+        return verticalSectionView;
 	}
 
     @Override
     protected Widget createWidget() {
-        SectionTitle viewTitle = SectionTitle.generateH2Title(getTitle());
+        //This section title code does not seem consistent with other sections (i.e: of CourseProposal)
+        //  section title is now instead displayed based on verticalSectionView in createUploadForm()
+        /*SectionTitle viewTitle = SectionTitle.generateH2Title(getTitle());
+          
         viewTitle.addStyleName("ks-layout-header");
-
-        layout.add(viewTitle);
+        layout.add(viewTitle);*/
+        
         layout.add(saveWarning);
         saveWarning.setVisible(false);
         buttonPanel.setButtonText(OkEnum.Ok, "Upload");
@@ -479,12 +526,15 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     }
 
 	private static class DocumentForm extends Composite{
-		private KSLabel file = new KSLabel("File Name");
+		private KSLabel file = new KSLabel("* File Location");
 		private KSLabel description = new KSLabel("Description");
 		private FileUpload upload = new FileUpload();
 		private KSTextArea documentDescription = new KSTextArea();
 		private FlexTable tableLayout = new FlexTable();
 
+		/*
+		 * A "File Name n" widget box for choosing a file to upload, and adding a description to it.
+		 */
 		public DocumentForm(){
 			tableLayout.setWidget(0, 0, file);
 			tableLayout.setWidget(0, 1, upload);
@@ -495,7 +545,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 			this.initWidget(tableLayout);
 		}
 	}
-
+	
 	public String getReferenceId() {
 		return referenceId;
 	}
