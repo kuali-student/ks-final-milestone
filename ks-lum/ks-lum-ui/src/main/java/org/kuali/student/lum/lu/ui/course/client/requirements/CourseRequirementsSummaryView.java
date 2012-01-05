@@ -389,7 +389,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                             if (result) {
                                 CourseProposalController courseController = ((CourseProposalController) parentController.getParentController());
                                 courseController.showNextViewOnMenu();
-                                courseController.getReqDataModel().retrieveStatementTypes(courseController.getCourseId(), Controller.NO_OP_CALLBACK);
+//                                courseController.getReqDataModel().retrieveStatementTypes(courseController.getCourseId(), Controller.NO_OP_CALLBACK);
                             }
                         }
                     });                    
