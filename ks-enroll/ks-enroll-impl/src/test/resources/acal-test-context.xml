@@ -103,6 +103,8 @@
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpServiceAuthorization" />
     <property name="acalAssembler" ref="acalAssembler" />
+    <property name="holidayAssembler" ref="holidayAssembler" />
+    <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
     <property name="termAssembler" ref="termAssembler" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
   </bean>
@@ -111,6 +113,8 @@
     <property name="atpService" ref="atpServiceAuthorization" />
   </bean>
 
+  <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
+  <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
 
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
 
@@ -136,10 +140,14 @@
   </bean>
 
   <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
-    <property name="nextDecorator" ref="acalService" />
+    <property name="nextDecorator" ref="acalServiceCalculation" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
     <property name="validator" ref="validator" />
   </bean>
+
+    <bean id="acalServiceCalculation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
+        <property name="nextDecorator" ref="acalService" />
+    </bean>
 
   <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
     <property name="em" ref="entityManager" />

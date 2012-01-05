@@ -1,18 +1,38 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.atp.entity.Milestone;
-import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.service.assembler.*;
+import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
-import org.kuali.student.r2.common.dto.*;
-import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DateRangeInfo;
+import org.kuali.student.r2.common.dto.StateInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
@@ -21,9 +41,16 @@ import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
-
-import javax.jws.WebParam;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
@@ -261,216 +288,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Integer startYear, Integer endYear, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-
-        AcademicCalendarInfo templateAcademicCalendar = getAcademicCalendar(academicCalendarId, contextInfo);
-        AcademicCalendarInfo academicCalendar = new AcademicCalendarInfo(templateAcademicCalendar);
-
-        academicCalendar.setId(UUIDHelper.genStringUUID());
-        academicCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-        academicCalendar.setName(templateAcademicCalendar.getName());
-        academicCalendar.setDescr(new RichTextInfo(templateAcademicCalendar.getDescr()));
-        academicCalendar.setTypeKey(templateAcademicCalendar.getTypeKey());
-        academicCalendar.setHolidayCalendarIds(copyHolidayCalendars(templateAcademicCalendar, contextInfo));
-
-        try {
-            academicCalendar = createAcademicCalendar(academicCalendar.getId(), academicCalendar, contextInfo);
-        } catch (DataValidationErrorException e) {
-            throw new OperationFailedException("Could not create AcademicCalendar '" + academicCalendar.getId() + "'", e);
-        }
-
-        Map<String, KeyDateInfo> oldDatesToNewDates = new HashMap<String, KeyDateInfo>();
-
-        List<TermInfo> templateTerms = getTermsForAcademicCalendar(templateAcademicCalendar.getId(), contextInfo);
-        for (TermInfo templateTerm : templateTerms) {
-            String termId = templateTerm.getId() + "." + RandomStringUtils.randomAlphanumeric(4); // TODO
-                                                                                                   // properly
-                                                                                                   // generate
-                                                                                                   // new
-                                                                                                   // key
-            TermInfo term;
-            term = copyTerm(templateTerm.getId(), termId, oldDatesToNewDates, contextInfo);
-            try {
-                addTermToAcademicCalendar(academicCalendar.getId(), term.getId(), contextInfo);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("AlreadyExistsException  thrown from addTermToAcademicCalendar :" + e.getMessage());
-            }
-        }
-
-        copyAcalEvents(templateAcademicCalendar.getId(),academicCalendar.getId(),contextInfo);
-
-        return academicCalendar;
-    }
-
-    private void copyAcalEvents(String templateAcalId,String newAcalId,ContextInfo contextInfo)
-    throws OperationFailedException {
-
-        List<AcalEventInfo> acalEventInfos;
-
-        try {
-            acalEventInfos = getAcalEventsForAcademicCalendar(templateAcalId,contextInfo);
-        } catch (Exception e) {
-            throw new OperationFailedException("Error getting Acal Events",e);
-        }
-
-        for (AcalEventInfo acalEventInfo : acalEventInfos) {
-             AcalEventInfo newAcalEventInfo = new AcalEventInfo(acalEventInfo);
-            newAcalEventInfo.setId(UUIDHelper.genStringUUID());
-            newAcalEventInfo.setDescr(new RichTextInfo(acalEventInfo.getDescr()));
-            newAcalEventInfo.setName(acalEventInfo.getName());
-            newAcalEventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-            newAcalEventInfo.setTypeKey(acalEventInfo.getTypeKey());
-
-            try{
-                createAcalEvent(newAcalId,acalEventInfo.getTypeKey(),newAcalEventInfo,contextInfo);
-            }catch(Exception e){
-                throw new OperationFailedException("Error creating AcalEvent",e);
-            }
-
-        }
-    }
-
-    private List<String> copyHolidayCalendars(AcademicCalendarInfo academicCalendar,ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException {
-
-        List<String> newHolidayCalendarIds = new ArrayList<String>();
-
-        if (academicCalendar.getHolidayCalendarIds().isEmpty()){
-            return newHolidayCalendarIds;
-        }
-
-        List<HolidayCalendarInfo> holidayCalendarInfos = getHolidayCalendarsByIds(academicCalendar.getHolidayCalendarIds(),contextInfo);
-
-        for (HolidayCalendarInfo templateHolidayCalendar : holidayCalendarInfos) {
-            HolidayCalendarInfo holidayCalendar = new HolidayCalendarInfo(templateHolidayCalendar);
-            holidayCalendar.setId(UUIDHelper.genStringUUID());
-            holidayCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-            holidayCalendar.setTypeKey(templateHolidayCalendar.getTypeKey());
-            holidayCalendar.setDescr(new RichTextInfo(templateHolidayCalendar.getDescr()));
-            holidayCalendar.setName(templateHolidayCalendar.getName());
-
-            try{
-                holidayCalendar = createHolidayCalendar(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY,holidayCalendar,contextInfo);
-                newHolidayCalendarIds.add(holidayCalendar.getId());
-            }catch(DataValidationErrorException e){
-                throw new OperationFailedException("Could not create HolidayCalendar",e);
-            }
-
-            List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(templateHolidayCalendar.getId(),contextInfo);
-            for (HolidayInfo holidayInfo : holidays) {
-                HolidayInfo newHoliday = new HolidayInfo(holidayInfo);
-                newHoliday.setId(UUIDHelper.genStringUUID());
-                newHoliday.setDescr(new RichTextInfo(holidayInfo.getDescr()));
-                newHoliday.setName(holidayInfo.getName());
-                newHoliday.setTypeKey(newHoliday.getTypeKey());
-                newHoliday.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-
-                try{
-                    newHoliday = createHoliday(holidayCalendar.getId(),holidayInfo.getTypeKey(),newHoliday,contextInfo);
-                } catch (DataValidationErrorException e) {
-                    throw new OperationFailedException("Error creating holiday",e);
-                } catch (ReadOnlyException e) {
-                    throw new OperationFailedException("Error creating holiday",e);
-                }
-            }
-        }
-
-        return newHolidayCalendarIds;
-    }
-
-    private TermInfo copyTerm(String templateTermId, String newTermId, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        TermInfo templateTerm = getTerm(templateTermId, context);
-
-        TermInfo term = new TermInfo(templateTerm);
-        term.setId(templateTerm.getId() + "." + RandomStringUtils.randomAlphanumeric(4)); // TODO
-                                                                                          // properly
-                                                                                          // generate
-                                                                                          // new
-                                                                                          // key
-        term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-        term.setName(templateTerm.getName());
-        term.setDescr(new RichTextInfo(templateTerm.getDescr()));
-        term.setTypeKey(templateTerm.getTypeKey());
-
-        try {
-            term = createTerm(term.getId(), term, context);
-        } catch (DataValidationErrorException e) {
-            throw new OperationFailedException("Could not create Term '" + term.getId() + "'", e);
-        }
-
-        /*
-         * Copy KeyDates of Term TODO Currently cannot reuse keydates in the
-         * acal service, but the design concept was that a term and subterm may
-         * share dates. A mapping of all KeyDates to their newly created
-         * counterparts is used to determine whether a new KeyDate has already
-         * been created. However, it is not being used at this time and a new
-         * KeyDate will be created for each relationship.
-         */
-        List<KeyDateInfo> templateKeyDates = getKeyDatesForTerm(templateTermId, context);
-        for (KeyDateInfo templateKeyDate : templateKeyDates) {
-            KeyDateInfo keyDate = templateDatesToNewDates.get(templateKeyDate.getId());
-            keyDate = null; // TODO Disabling usage of mapping until service
-                            // supports the reuse of dates
-
-            if (null == keyDate) {
-                keyDate = new KeyDateInfo(templateKeyDate);
-                keyDate.setId(templateKeyDate.getId() + "." + RandomStringUtils.randomAlphanumeric(4)); // TODO
-                                                                                                        // properly
-                                                                                                        // generate
-                                                                                                        // new
-                                                                                                        // key
-                keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-                keyDate.setName(templateKeyDate.getName());
-                keyDate.setDescr(new RichTextInfo(templateKeyDate.getDescr()));
-                keyDate.setTypeKey(templateKeyDate.getTypeKey());
-
-                try {
-
-                    createKeyDate(term.getId(), keyDate.getId(), keyDate, context); // TODO
-                                                                                    // Need
-                                                                                    // a
-                                                                                    // way
-                                                                                    // to
-                                                                                    // only
-                                                                                    // create
-                                                                                    // a
-                                                                                    // KeyDate
-                                                                                    // in
-                                                                                    // order
-                                                                                    // to
-                                                                                    // associate
-                                                                                    // it
-                                                                                    // with
-                                                                                    // multiple
-                                                                                    // Terms
-                    templateDatesToNewDates.put(templateKeyDate.getId(), keyDate);
-                } catch (DataValidationErrorException e) {
-                    throw new OperationFailedException("Could not create KeyDate '" + keyDate.getId() + "'", e);
-                } catch (ReadOnlyException e) {
-                    throw new OperationFailedException("ReadOnlyException " + keyDate.getId() + "'", e);
-                }
-
-            }
-            // TODO Need a way to associate a KeyDate with multiple Terms
-        }
-
-        // Recursive call to copy subTerms
-        List<TermInfo> templateSubTerms = getContainingTerms(templateTermId, context);
-        for (TermInfo templateSubTerm : templateSubTerms) {
-            String subTermId = templateSubTerm.getId() + "." + RandomStringUtils.randomAlphanumeric(4); // TODO
-                                                                                                         // properly
-                                                                                                         // generate
-                                                                                                         // new
-                                                                                                         // key
-            TermInfo subTerm = copyTerm(templateSubTerm.getId(), subTermId, templateDatesToNewDates, context);
-            try {
-                addTermToTerm(term.getId(), subTerm.getId(), context);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("AlreadyExistsException : " + e.getMessage());
-            }
-        }
-
-        return term;
+        throw new OperationFailedException("Method implemented in calculation decorator.");
     }
 
     @Override
