@@ -271,6 +271,7 @@ public interface RoomService extends TypeService, StateService {
      * @throws AlreadyExistsException       the Room being created already exists
      * @throws DataValidationErrorException one or more values invalid
      *                                      for this operation
+     * @throws DoesNotExistException        buildingId does not exist
      * @throws InvalidParameterException    invalid roomInfo or contextInfo
      * @throws MissingParameterException    missing roomInfo or contextInfo
      * @throws OperationFailedException     unable to complete request
@@ -278,7 +279,7 @@ public interface RoomService extends TypeService, StateService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read-only
      */
-    public RoomInfo createRoom(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public RoomInfo createRoom(@WebParam(name = "buildingId") String buildingId, @WebParam(name = "roomTypeKey") String roomTypeKey, @WebParam(name = "roomInfo") RoomInfo roomInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Room
@@ -446,6 +447,7 @@ public interface RoomService extends TypeService, StateService {
      * @throws AlreadyExistsException       the Building being created already exists
      * @throws DataValidationErrorException one or more values invalid
      *                                      for this operation
+     * @throws DoesNotExistException        buildingTypeKey does not exist or is not supported
      * @throws InvalidParameterException    invalid buildingInfo or contextInfo
      * @throws MissingParameterException    missing buildingInfo or contextInfo
      * @throws OperationFailedException     unable to complete request
@@ -453,7 +455,7 @@ public interface RoomService extends TypeService, StateService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read-only
      */
-    public BuildingInfo createBuilding(@WebParam(name = "buildingTypeKey") String buildingTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public BuildingInfo createBuilding(@WebParam(name = "buildingTypeKey") String buildingTypeKey, @WebParam(name = "buildingInfo") BuildingInfo buildingInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Building
