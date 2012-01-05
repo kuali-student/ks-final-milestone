@@ -41,6 +41,21 @@ public interface KeyDate
     public Boolean getIsAllDay();
   
     /**
+     * Tests if this KeyDate is relative to another KeyDate.
+     *
+     * @name Is Relative To Key Date
+     * @required
+     */
+    public Boolean getIsRelativeToKeyDate();
+
+    /**
+     * Gets the anchor KeyDate to which this KeyDate is relative.
+     *
+     * @name Relative Anchor KeyDate Id
+     */
+    public String getRelativeAnchorKeyDateId();
+
+    /**
      * Tests if this key date has a date range. 
      *
      * @return true if the end date is different than the start

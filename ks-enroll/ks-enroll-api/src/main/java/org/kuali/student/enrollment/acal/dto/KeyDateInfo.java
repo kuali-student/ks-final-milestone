@@ -32,7 +32,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "KeyDateInfo", propOrder = { 
                 "id", "typeKey", "stateKey", "name", "descr", 
-                 "isAllDay", "isDateRange", "startDate", "endDate",
+                "isAllDay", "isRelativeToKeyDate", "relativeAnchorKeyDateId", 
+                "isDateRange", "startDate", "endDate",
 		"meta", "attributes", "_futureElements" })
 
 public class KeyDateInfo 
@@ -43,7 +44,13 @@ public class KeyDateInfo
 	
     @XmlElement
     private Boolean isAllDay;
+
+    @XmlElement
+    private Boolean isRelativeToKeyDate;
 	
+    @XmlElement
+    private String relativeAnchorKeyDateId;
+
     @XmlElement
     private Boolean isDateRange;
 	
@@ -71,6 +78,9 @@ public class KeyDateInfo
         super(keyDate);
         if (keyDate != null) {
             this.isAllDay = keyDate.getIsAllDay();
+            this.isRelativeToKeyDate = keyDate.getIsRelativeToKeyDate();
+            this.relativeAnchorKeyDateId = keyDate.getRelativeAnchorKeyDateId();
+
             this.isDateRange = keyDate.getIsDateRange();
 
             if (keyDate.getStartDate() != null) {
@@ -90,6 +100,24 @@ public class KeyDateInfo
     
     public void setIsAllDay(Boolean isAllDay) {
         this.isAllDay = isAllDay;
+    }
+
+    @Override
+    public Boolean getIsRelativeToKeyDate() {
+        return isRelativeToKeyDate;
+    }
+    
+    public void setIsRelativeToKeyDate(Boolean isRelativeToKeyDate) {
+        this.isRelativeToKeyDate = isRelativeToKeyDate;
+    }
+
+    @Override
+    public String getRelativeAnchorKeyDateId() {
+        return relativeAnchorKeyDateId;
+    }
+    
+    public void setRelativeAnchirKeyDateId(String relativeAnchorKeyDateId) {
+        this.relativeAnchorKeyDateId = relativeAnchorKeyDateId;
     }
     
     @Override
