@@ -52,9 +52,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.service.TypeService;
+
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private AtpService atpService;
+    private StateService stateService;
+    private TypeService typeService;
     private AcademicCalendarAssembler acalAssembler;
     private TermAssembler termAssembler;
     private DataDictionaryService dataDictionaryService;
@@ -366,7 +371,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public TypeInfo getTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        TypeInfo type = atpService.getType(termTypeKey, context);
+        TypeInfo type = typeService.getType(termTypeKey, context);
 
         if (!checkTypeForTermType(termTypeKey, context)) {
             throw new InvalidParameterException(termTypeKey + " is not a Term type");
@@ -381,7 +386,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         List<TypeTypeRelationInfo> relations = null;
 
         try {
-            relations = atpService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
+            relations = typeService.getTypeRelationsByOwnerType(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY, TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
@@ -390,7 +395,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
             for (TypeTypeRelationInfo rel : relations) {
                 try {
-                    results.add(atpService.getType(rel.getRelatedTypeKey(), context));
+                    results.add(typeService.getType(rel.getRelatedTypeKey(), context));
                 } catch (DoesNotExistException e) {
                     throw new OperationFailedException(e.getMessage(), e);
                 }
@@ -406,22 +411,22 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<TypeInfo> getTermTypesForAcademicCalendarType(String academicCalendarTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
-        TypeInfo acalType = atpService.getType(academicCalendarTypeKey, context);
+        TypeInfo acalType = typeService.getType(academicCalendarTypeKey, context);
 
-        return atpService.getAllowedTypesForType(acalType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
+        return typeService.getAllowedTypesForType(acalType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
     public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         TypeInfo termType = getTermType(termTypeKey, context);
 
-        return atpService.getAllowedTypesForType(termType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
+        return typeService.getAllowedTypesForType(termType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
     public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        StateInfo termState = atpService.getState(AtpServiceConstants.ATP_PROCESS_KEY, termStateKey, context);
+        StateInfo termState = stateService.getState(AtpServiceConstants.ATP_PROCESS_KEY, termStateKey, context);
 
         return termState;
     }
@@ -431,7 +436,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         List<StateInfo> results;
         try {
-            results = atpService.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, context);
+            results = stateService.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, context);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException(AtpServiceConstants.ATP_PROCESS_KEY, ex);
         }

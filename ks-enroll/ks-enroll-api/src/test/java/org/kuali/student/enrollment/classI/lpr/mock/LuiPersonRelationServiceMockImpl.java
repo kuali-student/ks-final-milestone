@@ -123,69 +123,69 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         }
         return bean;
     }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // check type is valid
-        this.getLuiPersonRelationTypeEnum(processKey);
-        if (isInstructorType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(
-                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(
-                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (isStudentCourseType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (isStudentProgramType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        throw new IllegalArgumentException(processKey);
-    }
-
-    private boolean isInstructorType(String typeKey) {
-        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_INSTRUCTOR_TYPES) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isStudentCourseType(String typeKey) {
-        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_STUDENT_TYPES) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isStudentProgramType(String typeKey) {
-        if (LuiPersonRelationTypeEnum.REGISTRANT.getKey().equals(typeKey)) {
-            return true;
-        }
-        return false;
-    }
+//
+//    @Override
+//    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException, OperationFailedException {
+//        // check type is valid
+//        this.getLuiPersonRelationTypeEnum(processKey);
+//        if (isInstructorType(processKey)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(
+//                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(
+//                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        if (isStudentCourseType(processKey)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        if (isStudentProgramType(processKey)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        throw new IllegalArgumentException(processKey);
+//    }
+//
+//    private boolean isInstructorType(String typeKey) {
+//        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_INSTRUCTOR_TYPES) {
+//            if (type.getKey().equals(typeKey)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean isStudentCourseType(String typeKey) {
+//        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_STUDENT_TYPES) {
+//            if (type.getKey().equals(typeKey)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean isStudentProgramType(String typeKey) {
+//        if (LuiPersonRelationTypeEnum.REGISTRANT.getKey().equals(typeKey)) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     @Override
     public List<String> getLuiIdsByPerson(String personId, String luiPersonRelationType, String relationState,
@@ -365,37 +365,37 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         return selectedIds;
     }
 
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-
-        if (isInstructorType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-        if (isStudentCourseType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-        if (isStudentProgramType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-
-        throw new DoesNotExistException("Requested state does not exist!");
-    }
+//    @Override
+//    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException, OperationFailedException {
+//
+//        if (isInstructorType(processKey)) {
+//            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//        if (isStudentCourseType(processKey)) {
+//            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//        if (isStudentProgramType(processKey)) {
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//
+//        throw new DoesNotExistException("Requested state does not exist!");
+//    }
 
     @Override
     public LuiPersonRelationService getLprService() {
@@ -407,66 +407,6 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     public void setLprService(LuiPersonRelationService lprService) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override

@@ -108,28 +108,28 @@ public class TestLuiPersonRelationServiceImpl {
         assertNotNull(lprServiceValidationDecorator);
     }
 
-    @Test
-    public void testGetInitialValidStates() throws InvalidParameterException, MissingParameterException,
-            DoesNotExistException, OperationFailedException {
-
-        List<StateInfo> validStates = lprServiceValidationDecorator.getInitialValidStates(
-                LuiPersonRelationServiceConstants.STUDENT_COURSE_REGISTRATION_PROCESS_KEY, callContext);
-
-        assertNotNull(validStates);
-        assertEquals(1, validStates.size());
-
-        StateInfo state = validStates.get(0);
-        assertEquals(LuiPersonRelationServiceConstants.PLANNED_STATE_KEY, state.getKey());
-
-        // assert that an invalid process throws the expected exception
-        List<StateInfo> fakeValidStates = null;
-        try {
-            fakeValidStates = lprServiceValidationDecorator.getInitialValidStates("bogusProcess", callContext);
-            fail("Did not get an expected DoesNotExistException");
-        } catch (DoesNotExistException e) {
-            assertNull(fakeValidStates);
-        }
-    }
+//    @Test
+//    public void testGetInitialValidStates() throws InvalidParameterException, MissingParameterException,
+//            DoesNotExistException, OperationFailedException {
+//
+//        List<StateInfo> validStates = lprServiceValidationDecorator.getInitialValidStates(
+//                LuiPersonRelationServiceConstants.STUDENT_COURSE_REGISTRATION_PROCESS_KEY, callContext);
+//
+//        assertNotNull(validStates);
+//        assertEquals(1, validStates.size());
+//
+//        StateInfo state = validStates.get(0);
+//        assertEquals(LuiPersonRelationServiceConstants.PLANNED_STATE_KEY, state.getKey());
+//
+//        // assert that an invalid process throws the expected exception
+//        List<StateInfo> fakeValidStates = null;
+//        try {
+//            fakeValidStates = lprServiceValidationDecorator.getInitialValidStates("bogusProcess", callContext);
+//            fail("Did not get an expected DoesNotExistException");
+//        } catch (DoesNotExistException e) {
+//            assertNull(fakeValidStates);
+//        }
+//    }
     
     @Test
     public void testGetLpr() {

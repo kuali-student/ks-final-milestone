@@ -62,8 +62,7 @@ import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 @WebService(name = "ProcessService", serviceName = "ProcessService", portName = "ProcessService", targetNamespace = ProcessServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface ProcessService 
-    extends TypeService, StateService {
+public interface ProcessService {
 
     /** 
      * Retrieves a ProcessCategory.

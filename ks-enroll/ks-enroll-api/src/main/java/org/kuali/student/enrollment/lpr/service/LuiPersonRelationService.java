@@ -61,7 +61,7 @@ import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConsta
  */
 @WebService(name = "LuiPersonRelationService", targetNamespace = LuiPersonRelationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LuiPersonRelationService extends TypeService, StateService {
+public interface LuiPersonRelationService  {
 
     /**
      * Retrieves the Relation for the specified LUI Person Relation

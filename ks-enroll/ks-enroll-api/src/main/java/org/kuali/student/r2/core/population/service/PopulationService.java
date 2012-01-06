@@ -60,8 +60,7 @@ import org.kuali.student.r2.common.util.constants.PopulationServiceConstants;
 @WebService(name = "PopulationService", serviceName = "PopulationService", portName = "PopulationService", targetNamespace = PopulationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface PopulationService 
-    extends TypeService, StateService {
+public interface PopulationService {
 
     /** 
      * Tests if a Person is a member of a Population.

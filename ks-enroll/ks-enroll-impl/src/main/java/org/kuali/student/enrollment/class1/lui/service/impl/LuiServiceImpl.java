@@ -115,73 +115,73 @@ public class LuiServiceImpl implements LuiService {
 	public void setLuService(LuService luService) {
 		this.luService = luService;
 	}
-
-	@Override
-	public TypeInfo getType(String typeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    return null;
-	}
-
-	@Override
-	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        List<LuiTypeEntity> luiTypeEntities = luiTypeDao.getLuiTypesByRefObjectUri(refObjectURI);
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (LuiTypeEntity luiTypeEntity : luiTypeEntities) {
-            typeInfos.add(luiTypeEntity.toDto());
-        }
-
-        return typeInfos;
-	}
-
-	@Override
-	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
-			String relatedRefObjectURI, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		
-        if ( ! relatedRefObjectURI.startsWith(LuiServiceConstants.NAMESPACE) ) {
-            throw new DoesNotExistException("This method does not know how to handle object type:"
-                    + relatedRefObjectURI);
-        }
-
-        // get the TypeTypeRelations
-        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
-                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-        
-//        System.out.println(">>> in LuiServiceImpl.getAllowedTypesForType,find typeTypeRelations.size() = "+typeTypeRelations.size()+
-//        		" for ownerTypeKey="+ownerTypeKey+" and RelationType="+TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-        
-        // create a List of the related Types' IDs
-        List<String> ids = new ArrayList<String>();
-        for (TypeTypeRelationEntity entity : typeTypeRelations) {
-            ids.add(entity.getRelatedTypeId());
-        }
-
-        // now get the List of the related Types based on those IDs
-        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-       	typeEntities.addAll(luiTypeDao.findByIds(ids));
-
-        // convert them to DTOs and return them
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
-            typeInfos.add(entity.toDto());
-        }
-        
-        return typeInfos;
-	}
-
-	@Override
-	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
-			String ownerTypeKey, String relationTypeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-	    return new ArrayList<TypeTypeRelationInfo>();
-	}
+//
+//	@Override
+//	public TypeInfo getType(String typeKey, ContextInfo context)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//	    return null;
+//	}
+//
+//	@Override
+//	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
+//			ContextInfo context) throws DoesNotExistException,
+//			InvalidParameterException, MissingParameterException,
+//			OperationFailedException {
+//        List<LuiTypeEntity> luiTypeEntities = luiTypeDao.getLuiTypesByRefObjectUri(refObjectURI);
+//        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+//        for (LuiTypeEntity luiTypeEntity : luiTypeEntities) {
+//            typeInfos.add(luiTypeEntity.toDto());
+//        }
+//
+//        return typeInfos;
+//	}
+//
+//	@Override
+//	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
+//			String relatedRefObjectURI, ContextInfo context)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		
+//        if ( ! relatedRefObjectURI.startsWith(LuiServiceConstants.NAMESPACE) ) {
+//            throw new DoesNotExistException("This method does not know how to handle object type:"
+//                    + relatedRefObjectURI);
+//        }
+//
+//        // get the TypeTypeRelations
+//        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
+//                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+//                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+//        
+////        System.out.println(">>> in LuiServiceImpl.getAllowedTypesForType,find typeTypeRelations.size() = "+typeTypeRelations.size()+
+////        		" for ownerTypeKey="+ownerTypeKey+" and RelationType="+TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+//        
+//        // create a List of the related Types' IDs
+//        List<String> ids = new ArrayList<String>();
+//        for (TypeTypeRelationEntity entity : typeTypeRelations) {
+//            ids.add(entity.getRelatedTypeId());
+//        }
+//
+//        // now get the List of the related Types based on those IDs
+//        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
+//       	typeEntities.addAll(luiTypeDao.findByIds(ids));
+//
+//        // convert them to DTOs and return them
+//        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+//        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
+//            typeInfos.add(entity.toDto());
+//        }
+//        
+//        return typeInfos;
+//	}
+//
+//	@Override
+//	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
+//			String ownerTypeKey, String relationTypeKey, ContextInfo context)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//	    return new ArrayList<TypeTypeRelationInfo>();
+//	}
 
 	@Override
 	public LuiInfo getLui(String luiId, ContextInfo context)

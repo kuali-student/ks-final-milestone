@@ -8,24 +8,17 @@ import javax.jws.WebService;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
-import org.kuali.student.r2.common.entity.TypeEntity;
-import org.kuali.student.r2.common.entity.TypeTypeRelationEntity;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.infc.Status;
 import org.kuali.student.r2.common.model.StateEntity;
 import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -56,8 +49,10 @@ public class AtpServiceImpl implements AtpService {
     private AtpAtpRelationDao atpRelDao;
     private MilestoneDao milestoneDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
+    // TODO: remove this once the wiring is all working
     private TypeTypeRelationDao typeTypeRelationDao;
     private StateService stateService;
+    private TypeService typeService;
     private DataDictionaryService dataDictionaryService;
 
     public AtpDao getAtpDao() {
@@ -123,53 +118,21 @@ public class AtpServiceImpl implements AtpService {
         this.stateService = stateService;
     }
 
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    
+    
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        StateProcessInfo spInfo = stateService.getProcessByKey(processKey, context);
-        return spInfo;
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-    	return new ArrayList<String>();
-    }
-
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
-        return stateInfo;
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<StateInfo> stateInfos = stateService.getStatesByProcess(processKey, context);
-        return stateInfos;
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<StateInfo> stateInfos = stateService.getInitialValidStates(processKey, context);
-        return stateInfos;
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        StateInfo stateInfo = stateService.getNextHappyState(processKey, currentStateKey, context);
-        return stateInfo;
     }
 
     @Override
@@ -273,7 +236,7 @@ public class AtpServiceImpl implements AtpService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         try {
-            TypeInfo type = getType(atpTypeKey, context);
+            TypeInfo type = typeService.getType(atpTypeKey, context);
             if (type == null) {
                 throw new InvalidParameterException("No type found for key: " + atpTypeKey);
             }
@@ -485,7 +448,7 @@ public class AtpServiceImpl implements AtpService {
 			MissingParameterException, OperationFailedException{
 		StateEntity state = null;
 		try {
-			StateInfo stInfo = getState(processKey, stateKey, context);
+			StateInfo stInfo = stateService.getState(processKey, stateKey, context);
 			if(stInfo != null){
 				state = new StateEntity(stInfo);
 				return state;
@@ -889,92 +852,92 @@ public class AtpServiceImpl implements AtpService {
         return status;
     }
 
-    // TypeService methods
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        AtpTypeEntity atpType = atpTypeDao.find(typeKey);
-
-        if (null == atpType) {
-            throw new DoesNotExistException();
-        }
-        return atpType.toDto();
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-
-        if (null == refObjectURI) {
-            throw new MissingParameterException("refObjectUri parameter cannot be null");
-        }
-        if (refObjectURI.startsWith(AtpServiceConstants.NAMESPACE)) {
-            typeEntities.addAll(atpTypeDao.findAll(refObjectURI));
-        } else {
-            throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
-        }
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity<?>> typeEntity : typeEntities) {
-            typeInfos.add(typeEntity.toDto());
-        }
-        return typeInfos;
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        
-        if ( ! relatedRefObjectURI.startsWith(AtpServiceConstants.NAMESPACE) ) {
-            throw new DoesNotExistException("This method does not know how to handle object type:"
-                    + relatedRefObjectURI);
-        }
-
-        // get the TypeTypeRelations
-        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
-                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-        
-        // create a List of the related Types' IDs
-        List<String> ids = new ArrayList<String>();
-        for (TypeTypeRelationEntity entity : typeTypeRelations) {
-            ids.add(entity.getRelatedTypeId());
-        }
-
-        // now get the List of the related Types based on those IDs
-        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-        typeEntities.addAll(atpTypeDao.findByIds(ids));
-        
-        // convert them to DTOs and return them
-        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
-            typeInfos.add(entity.toDto());
-        }
-        
-        return typeInfos;
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        List<TypeTypeRelationEntity> typeTypeReltns = new ArrayList<TypeTypeRelationEntity>();
-
-        if (null == relationTypeKey || null == ownerTypeKey) {
-            throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
-        } else {
-            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-                    relationTypeKey));
-        }
-        List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
-        for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
-            ttrInfos.add(ttrEntity.toDto());
-        }
-        return ttrInfos;
-    }
-    // end TypeService methods
+//    // TypeService methods
+//    @Override
+//    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException, OperationFailedException {
+//        AtpTypeEntity atpType = atpTypeDao.find(typeKey);
+//
+//        if (null == atpType) {
+//            throw new DoesNotExistException();
+//        }
+//        return atpType.toDto();
+//    }
+//
+//    @Override
+//    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
+//            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+//            OperationFailedException {
+//
+//        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
+//
+//        if (null == refObjectURI) {
+//            throw new MissingParameterException("refObjectUri parameter cannot be null");
+//        }
+//        if (refObjectURI.startsWith(AtpServiceConstants.NAMESPACE)) {
+//            typeEntities.addAll(atpTypeDao.findAll(refObjectURI));
+//        } else {
+//            throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
+//        }
+//        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+//        for (TypeEntity<? extends BaseAttributeEntity<?>> typeEntity : typeEntities) {
+//            typeInfos.add(typeEntity.toDto());
+//        }
+//        return typeInfos;
+//    }
+//
+//    @Override
+//    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
+//            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+//            OperationFailedException {
+//        
+//        if ( ! relatedRefObjectURI.startsWith(AtpServiceConstants.NAMESPACE) ) {
+//            throw new DoesNotExistException("This method does not know how to handle object type:"
+//                    + relatedRefObjectURI);
+//        }
+//
+//        // get the TypeTypeRelations
+//        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
+//                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+//                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+//        
+//        // create a List of the related Types' IDs
+//        List<String> ids = new ArrayList<String>();
+//        for (TypeTypeRelationEntity entity : typeTypeRelations) {
+//            ids.add(entity.getRelatedTypeId());
+//        }
+//
+//        // now get the List of the related Types based on those IDs
+//        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
+//        typeEntities.addAll(atpTypeDao.findByIds(ids));
+//        
+//        // convert them to DTOs and return them
+//        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+//        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
+//            typeInfos.add(entity.toDto());
+//        }
+//        
+//        return typeInfos;
+//    }
+//
+//    @Override
+//    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
+//            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+//            OperationFailedException {
+//
+//        List<TypeTypeRelationEntity> typeTypeReltns = new ArrayList<TypeTypeRelationEntity>();
+//
+//        if (null == relationTypeKey || null == ownerTypeKey) {
+//            throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
+//        } else {
+//            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+//                    relationTypeKey));
+//        }
+//        List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
+//        for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
+//            ttrInfos.add(ttrEntity.toDto());
+//        }
+//        return ttrInfos;
+//    }
+//    // end TypeService methods
 }

@@ -25,7 +25,6 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.service.StateService;
@@ -39,10 +38,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.kuali.student.r2.common.service.TypeService;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
 	private LuiService luiService;
+        private TypeService typeService;
 	private CourseService courseService;
 	private AcademicCalendarService acalService;
 	private CourseOfferingAssembler coAssembler;
@@ -61,6 +62,15 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	public void setLuiService(LuiService luiService) {
 		this.luiService = luiService;
 	}
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+        
 
 	public CourseService getCourseService() {
 		return courseService;
@@ -567,7 +577,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
         try {
-            return luiService.getTypesByRefObjectURI(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,context);
+            return typeService.getTypesByRefObjectURI(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("Error getting Lui Types",e);
         }
@@ -580,7 +590,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			MissingParameterException, OperationFailedException {
 //        TypeInfo activityType = luiService.getType(activityTypeKey, context);    
         
-    	return luiService.getAllowedTypesForType(activityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, context);
+    	return typeService.getAllowedTypesForType(activityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, context);
 	}
 
 	@Override

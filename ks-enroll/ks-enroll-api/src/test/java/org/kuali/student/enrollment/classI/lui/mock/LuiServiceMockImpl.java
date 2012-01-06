@@ -58,33 +58,6 @@ public class LuiServiceMockImpl implements LuiService {
     private final Map<String, LuiLuiRelationInfo> llrCache = new HashMap<String, LuiLuiRelationInfo>();
     private final Map<String, LuiCapacityInfo> lcapCache = new HashMap<String, LuiCapacityInfo>();
 
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, 
-               MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeInfo>();
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeInfo>();
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeTypeRelationInfo>();
-    }
 
     @Override
     public LuiInfo getLui(String luiId, ContextInfo context) 

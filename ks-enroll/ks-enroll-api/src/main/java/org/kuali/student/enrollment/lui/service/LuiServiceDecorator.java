@@ -46,38 +46,6 @@ public class LuiServiceDecorator implements LuiService
 
 
     @Override
-    public TypeInfo getType(String typeKey, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getType(typeKey, context);
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, 
-               MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-
-        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
-    }
-
-    @Override
     public LuiInfo getLui(String luiId, ContextInfo context)
         throws DoesNotExistException, InvalidParameterException,
                MissingParameterException, OperationFailedException {
