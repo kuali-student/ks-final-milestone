@@ -1595,6 +1595,8 @@
         <column name="END_DT" type="TIMESTAMP"/>
         <column name="IS_ALL_DAY" size="1" type="DECIMAL"/>
         <column name="IS_DATE_RANGE" size="1" type="DECIMAL"/>
+        <column name="IS_RELATIVE" size="1" type="DECIMAL"/>
+        <column name="RELATIVE_MILESTONE_ID" size="255" type="VARCHAR"/>
         <column name="NAME" size="255" type="VARCHAR"/>
         <column name="START_DT" type="TIMESTAMP"/>
         <column name="MILESTONE_STATE_ID" size="255" type="VARCHAR"/>
