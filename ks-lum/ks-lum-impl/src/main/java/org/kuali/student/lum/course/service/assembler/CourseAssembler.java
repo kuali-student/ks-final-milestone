@@ -755,8 +755,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					try {
-						ResultComponentInfo resultComponent = lrcService.getResultComponent(resultOption.getResultComponentId());
-						results.add(resultComponent);
+						if(resultOption.getResultComponentId()!=null){
+							ResultComponentInfo resultComponent = lrcService.getResultComponent(resultOption.getResultComponentId());
+							results.add(resultComponent);
+						}
 					} catch (DoesNotExistException e) {
 						LOG.warn("Course Credit option:"+resultOption.getId()+" refers to non-existant ResultComponentInfo "+resultOption.getResultComponentId());
 					} catch (Exception e) {
