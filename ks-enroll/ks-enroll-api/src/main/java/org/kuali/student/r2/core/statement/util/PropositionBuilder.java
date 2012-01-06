@@ -18,6 +18,7 @@ import org.kuali.student.common.util.krms.proposition.MaxCourseCompletionProposi
 import org.kuali.student.common.util.krms.proposition.SingleCourseCompletionProposition;
 import org.kuali.student.common.util.krms.proposition.SingleCourseEnrollmentProposition;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.util.constants.StatementServiceConstants;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementOperatorTypeKey;

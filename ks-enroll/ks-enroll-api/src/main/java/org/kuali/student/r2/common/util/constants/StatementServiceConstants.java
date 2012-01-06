@@ -37,4 +37,26 @@ public class StatementServiceConstants {
     public static final String REF_OBJECT_URI_REQ_COMPONENT=NAMESPACE + "/" + ReqComponentInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_STATEMENT_TREE_VIEW=NAMESPACE + "/" + StatementTreeViewInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_NL_USAGE_TYPE=NAMESPACE + "/" + NlUsageTypeInfo.class.getSimpleName();
+
+    // Statement Types
+    public static final String PREREQUISITE_STATEMENT_TYPE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";
+    public static final String ANTIREQUISITE_STATEMENT_TYPE = "kuali.statement.type.course.academicReadiness.antireq";
+    public static final String COREQUISITE_STATEMENT_TYPE = "kuali.statement.type.course.academicReadiness.coreq";
+
+    // Requirement Component Types
+    public static final String COMPLETED_COURSE_REQ_COM_TYPE = "kuali.reqComponent.type.course.completed";
+    public static final String ALL_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE = "kuali.reqComponent.type.course.courseset.completed.all";
+    public static final String N_OF_REQUIRED_COURSES_COMPLETED_REQ_COM_TYPE = "kuali.reqComponent.type.course.courseset.completed.nof";
+    public static final String MAX_N_OF_COURSES_COMPLETED_REQ_COM_TYPE = "kuali.reqComponent.type.course.courseset.completed.max";
+    public static final String NONE_OF_COURSES_COMPLETED_REQ_COM_TYPE = "kuali.reqComponent.type.course.courseset.completed.none";
+    public static final String NOT_COMPLETED_COURSE_REQ_COM_TYPE = "kuali.reqComponent.type.course.notcompleted";
+
+    public static final String ENROLLED_COURSE_REQ_COM_TYPE = "kuali.reqComponent.type.course.enrolled";
+    public static final String ALL_OF_REQUIRED_COURSES_ENROLLED_REQ_COM_TYPE = "kuali.reqComponent.type.course.courseset.enrolled.all";
+    public static final String N_OF_REQUIRED_COURSES_ENROLLED_REQ_COM_TYPE = "kuali.reqComponent.type.course.courseset.enrolled.nof";
+
+    // Requirement Component Field Types
+    public static final String COURSE_ID_REQ_COM_FIELD_TYPE = "kuali.reqComponent.field.type.course.clu.id";
+    public static final String COURSE_SET_ID_REQ_COM_FIELD_TYPE = "kuali.reqComponent.field.type.course.cluSet.id";
+    public static final String INTEGER_REQ_COM_FIELD_TYPE = "kuali.reqComponent.field.type.value.positive.integer";
 }
