@@ -786,7 +786,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 if (rvGroup != null){
                     ResultScaleInfo resScale = lrcService.getResultScale(rvGroup.getResultScaleKey(),context);
                     if (resScale != null){
-                        if(StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE,resScale.getTypeKey())){
+                        if(StringUtils.equals(LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE,resScale.getTypeKey())){
                             courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr,rvGroup, context));
                             break;
                         }

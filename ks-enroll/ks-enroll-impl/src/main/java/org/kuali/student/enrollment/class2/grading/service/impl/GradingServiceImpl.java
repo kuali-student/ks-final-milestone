@@ -784,11 +784,11 @@ public class GradingServiceImpl implements GradingService {
 
             String resultValuetypeKey = resultValue.getTypeKey();
             String entryAttributesKey = null;
-            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+            if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ASSIGNED_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ADMINISTRATIVE_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 entryAttributesKey = CREDITS_EARNED;
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 entryAttributesKey = CALCULATED_GRADE;
@@ -854,11 +854,11 @@ public class GradingServiceImpl implements GradingService {
         for (int i = 0; i < resultValues.size(); i++) {
             ResultValueInfo resultValue = resultValues.get(i);
             String resultValuetypeKey = resultValue.getTypeKey();
-            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+            if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
                 assignedGradeKey = resultValue.getKey();
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
                 administrativeGradeKey = resultValue.getKey();
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 creditsEarnedKey = resultValue.getKey();
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 calculatedGradeKey = resultValue.getKey();

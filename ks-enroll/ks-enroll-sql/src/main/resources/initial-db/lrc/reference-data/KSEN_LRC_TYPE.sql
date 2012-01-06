@@ -8,3 +8,5 @@ INSERT INTO KSEN_LRC_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.resul
 /
 INSERT INTO KSEN_LRC_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.result.scale.type.grade',1,'The result of an assessment, typically of a course','Grade')
 /
+INSERT INTO KSEN_LRC_TYPE (TYPE_KEY,VER_NBR,TYPE_DESC,NAME) VALUES ('kuali.result.value.type.value',1,'The result value','Value')
+/
