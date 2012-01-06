@@ -15,54 +15,41 @@
 
 package org.kuali.student.r2.core.statement.dto;
 
-import java.io.Serializable;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.core.statement.infc.ReqCompField;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.List;
 
-import org.kuali.student.common.dto.Idable;
-
-/**
- *Detailed information about a requirement component field value.
- */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ReqCompFieldInfo implements Serializable, Idable {
+@XmlType(name = "ReqCompFieldInfo", propOrder = {"id", "typeKey", "stateKey",
+        "value", "meta", "attributes", "_futureElements"})
+public class ReqCompFieldInfo extends IdNamelessEntityInfo implements ReqCompField, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    private String id;
-
-    @XmlAttribute
-    private String type;
-
     @XmlElement
     private String value;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-    /**
-     * Unique identifier for a requirement component field type.
-     */
-    public String getId() {
-        return id;
+    public ReqCompFieldInfo() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public ReqCompFieldInfo(ReqCompField reqCompField) {
+        super(reqCompField);
+        if (null != reqCompField) {
+            this.value = reqCompField.getValue();
+        }
     }
 
-	public String getType() {
-		return type;
-	}
-
-	public void setType(String type) {
-		this.type = type;
-	}
-
-    /**
-     * Value for this requirement component field.
-     */
+    @Override
     public String getValue() {
         return value;
     }
@@ -70,9 +57,4 @@ public class ReqCompFieldInfo implements Serializable, Idable {
     public void setValue(String value) {
         this.value = value;
     }
-
-	@Override
-	public String toString() {
-		return "ReqCompFieldInfo[id=" + id + ", value=" + value + "]";
-	}
 }

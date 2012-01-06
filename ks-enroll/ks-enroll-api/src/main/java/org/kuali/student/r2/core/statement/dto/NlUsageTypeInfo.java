@@ -1,5 +1,5 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
+/*
+ * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -15,22 +15,35 @@
 
 package org.kuali.student.r2.core.statement.dto;
 
-import java.io.Serializable;
+import org.kuali.student.r2.common.dto.TypeEntityInfo;
+import org.kuali.student.r2.core.statement.infc.NlUsageType;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.TypeInfo;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlType;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class NlUsageTypeInfo extends TypeInfo implements Serializable, Idable, HasAttributes {
+@XmlType(name = "NlUsageTypeInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate",
+        "refObjectURI", "attributes", "_futureElements"})
+public class NlUsageTypeInfo extends TypeEntityInfo implements NlUsageType {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Override
-	public String toString() {
-		return "NlUsageTypeInfo[id=" + getId() + "]";
-	}
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public NlUsageTypeInfo() {
+    }
+
+    public NlUsageTypeInfo(NlUsageType nlUsageType) {
+        super(nlUsageType);
+    }
+
+    @Override
+    public String toString() {
+        return "NlUsageTypeInfo[id=" + getKey() + "]";
+    }
 }

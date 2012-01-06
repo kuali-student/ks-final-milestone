@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.util;
+package org.kuali.student.r2.core.statement.util;
 
 /**
  * Collection of constant values related to the Statement Service
