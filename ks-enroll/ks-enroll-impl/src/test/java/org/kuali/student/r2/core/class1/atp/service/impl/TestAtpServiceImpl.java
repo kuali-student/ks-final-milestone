@@ -862,4 +862,15 @@ public class TestAtpServiceImpl {
 	    }
     }
 
+    @Test
+    public void testGetImpactedMilestones() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        List<MilestoneInfo> impactedMilestones = atpService.getImpactedMilestones("FALLTERM1990INSTRUCTIONPERIOD", callContext);
+        assertNotNull(impactedMilestones);
+        List<String> impactedMilestoneIds = new ArrayList<String>();
+        for (MilestoneInfo impactedMilestone : impactedMilestones) {
+            impactedMilestoneIds.add(impactedMilestone.getId());
+        }
+        assertTrue(impactedMilestoneIds.contains("FALLTERM1990CENSUS"));
+    }
+
 }

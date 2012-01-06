@@ -551,8 +551,11 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<MilestoneInfo> getImpactedMilestones(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO
-        return new ArrayList<MilestoneInfo>();
+        List<MilestoneInfo> impactedMilestones = new ArrayList<MilestoneInfo>();
+        for (MilestoneEntity impactedMilestone : milestoneDao.getImpactedMilestones(milestoneId)) {
+            impactedMilestones.add(impactedMilestone.toDto());
+        }
+        return impactedMilestones;
     }
 
     @Override
@@ -656,8 +659,7 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO - unimplemented
-        return getMilestone(milestoneId, contextInfo);
+        throw new OperationFailedException("Method implemented in calculation decorator.");
     }
 
     @Override

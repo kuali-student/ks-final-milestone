@@ -54,7 +54,14 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     
     @Column(name="IS_DATE_RANGE")
     private boolean isDateRange;
-    
+
+    @Column(name="IS_RELATIVE")
+    private boolean isRelative;
+
+    @ManyToOne
+    @JoinColumn(name="RELATIVE_MILESTONE_ID")
+    private MilestoneEntity relativeAnchorMilestone;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<MilestoneAttributeEntity> attributes;
 
@@ -148,6 +155,22 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
 
     public void setDateRange(boolean isDateRange) {
         this.isDateRange = isDateRange;
+    }
+
+    public boolean isRelative() {
+        return isRelative;
+    }
+
+    public void setRelative(boolean relative) {
+        isRelative = relative;
+    }
+
+    public MilestoneEntity getRelativeAnchorMilestone() {
+        return relativeAnchorMilestone;
+    }
+
+    public void setRelativeAnchorMilestone(MilestoneEntity relativeAnchorMilestone) {
+        this.relativeAnchorMilestone = relativeAnchorMilestone;
     }
 
     @Override
