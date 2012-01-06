@@ -58,8 +58,13 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 
 	@Override
 	public HashMap<String, Boolean> getScreenPermissions(ArrayList<String> screens) {
-		// TODO Auto-generated method stub
-		return null;
+		HashMap<String,Boolean> screenPermissions = new HashMap<String,Boolean>();
+		for (String screenName:screens){
+			boolean hasAccess = hasScreenPermission(screenName);
+			screenPermissions.put(screenName, hasAccess);
+		}
+		
+		return screenPermissions;
 	}
 	 
 	@Override
