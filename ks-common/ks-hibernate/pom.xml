@@ -10,10 +10,10 @@
     <version>2.0.0-cm-SNAPSHOT</version>
   </parent>
   <dependencies>
-    <dependency>
+    <!-- RU dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-annotations</artifactId>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-entitymanager</artifactId>
