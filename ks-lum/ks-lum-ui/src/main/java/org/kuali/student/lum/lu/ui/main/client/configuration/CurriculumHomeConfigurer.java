@@ -29,6 +29,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -526,7 +527,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
             @Override
             public void onClick(ClickEvent event) {
                 final KSLightBox pop = new KSLightBox();
-                pop.setWidget(new CurriculumHomeHelpTable());
+                pop.setWidget((Widget)GWT.create(CurriculumHomeHelpTable.class));
+//                pop.setWidget(new CurriculumHomeHelpTable());
                 pop.setSize(800, 680);
                 pop.show();
             }
