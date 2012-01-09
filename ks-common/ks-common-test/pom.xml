@@ -43,10 +43,10 @@
       <artifactId>jetty</artifactId>
       <scope>compile</scope>
     </dependency>
-    <dependency>
+    <!-- RU dependency>
       <groupId>javax.persistence</groupId>
       <artifactId>persistence-api</artifactId>
-    </dependency>
+    </dependency-->
     <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>jta</artifactId>
@@ -58,7 +58,8 @@
     </dependency>
     <dependency>
       <groupId>net.sf.ehcache</groupId>
-      <artifactId>ehcache-core</artifactId>
+      <artifactId>ehcache</artifactId>
+      <version>1.4.1</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
@@ -99,7 +100,6 @@
       <type>pom</type>
     </dependency>
 
-
     <!-- Spring -->
     <dependency>
       <groupId>org.springframework</groupId>
@@ -121,6 +121,13 @@
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-web</artifactId>
+    </dependency>
+
+    <!-- AspectJ -->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>${aspectj.version}</version>
     </dependency>
   </dependencies>
 </project>
