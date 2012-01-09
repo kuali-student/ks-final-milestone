@@ -904,8 +904,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<KeyDateInfo> getImpactedKeyDates(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<KeyDateInfo>();
+        List<KeyDateInfo> impactedKeyDates = new ArrayList<KeyDateInfo>();
+        List<MilestoneInfo> impactedMilestones = atpService.getImpactedMilestones(keyDateId, contextInfo);
+        for (MilestoneInfo impactedMilestone : impactedMilestones) {
+            impactedKeyDates.add(fromMilestoneInfo(impactedMilestone));
+        }
+        return impactedKeyDates;
     }
 
     private MilestoneInfo toMilestoneInfo(KeyDateInfo keyDateInfo) {
@@ -942,6 +946,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             keyInfo.setEndDate(milestoneInfo.getEndDate());
             keyInfo.setStateKey(milestoneInfo.getStateKey());
             keyInfo.setTypeKey(milestoneInfo.getTypeKey());
+            keyInfo.setIsRelativeToKeyDate(milestoneInfo.getIsRelative());
+            keyInfo.setRelativeAnchirKeyDateId(milestoneInfo.getRelativeAnchorMilestoneId());
 
             return keyInfo;
         } else
@@ -972,8 +978,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public KeyDateInfo calculateKeyDate(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Sambit - THIS METHOD NEEDS JAVADOCS
-        return getKeyDate(keyDateId, contextInfo);
+        MilestoneInfo milestone = atpService.calculateMilestone(keyDateId, contextInfo);
+        return fromMilestoneInfo(milestone);
     }
 
     @Override

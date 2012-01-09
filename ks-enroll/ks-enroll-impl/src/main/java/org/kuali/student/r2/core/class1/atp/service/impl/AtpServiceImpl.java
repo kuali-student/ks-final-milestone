@@ -564,6 +564,10 @@ public class AtpServiceImpl implements AtpService {
             entity.setDescr(new AtpRichTextEntity(milestoneInfo.getDescr()));
         }
 
+        if (milestoneInfo.getRelativeAnchorMilestoneId() != null) {
+            entity.setRelativeAnchorMilestone(milestoneDao.find(milestoneInfo.getRelativeAnchorMilestoneId()));
+        }
+
         milestoneDao.persist(entity);
 
         MilestoneInfo result = entity.toDto();

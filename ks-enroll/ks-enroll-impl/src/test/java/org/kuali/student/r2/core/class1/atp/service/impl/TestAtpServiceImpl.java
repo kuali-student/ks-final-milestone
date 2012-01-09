@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.class1.atp.service.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import javax.annotation.Resource;
 
@@ -873,4 +875,24 @@ public class TestAtpServiceImpl {
         assertTrue(impactedMilestoneIds.contains("FALLTERM1990CENSUS"));
     }
 
+    @Test
+    public void testCalculateMilestone() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        // Census start needs to be recalculated to 14-sept-1990
+        final Date censusExpectedStartDate = (new GregorianCalendar(1990, Calendar.SEPTEMBER, 14)).getTime();
+        final Date instructionStartDate = (new GregorianCalendar(1990, Calendar.SEPTEMBER, 3)).getTime();
+
+        final String censusId = "FALLTERM1990CENSUS";
+        final String instructionPeriodId = "FALLTERM1990INSTRUCTIONPERIOD";
+
+        MilestoneInfo census = atpService.getMilestone(censusId, callContext);
+        assertFalse(censusExpectedStartDate.equals(census.getStartDate()));
+        MilestoneInfo instructionPeriod = atpService.getMilestone(instructionPeriodId, callContext);
+        assertEquals(instructionStartDate, instructionPeriod.getStartDate());
+
+        census = atpService.calculateMilestone(censusId, callContext);
+        assertTrue("Milestone start date not calculated as expected.", censusExpectedStartDate.equals(census.getStartDate()));
+        census = atpService.getMilestone(censusId, callContext);
+        // TODO should the milestone be saved in the calculation method or is that a seperate call?
+        assertFalse("Milestone was saved after calculation.", censusExpectedStartDate.equals(census.getStartDate()));
+    }
 }

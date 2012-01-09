@@ -2,24 +2,16 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import java.util.*;
 
-import javax.jws.WebParam;
-
-import org.apache.commons.lang.time.DateUtils;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -895,4 +887,40 @@ public class TestAcademicCalendarServiceImpl {
             assertNotNull(acalService.getContainingTerms(term.getId(), callContext));
         }
     }
+
+    @Test
+    public void testGetImpactedKeyDates() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        String milestoneId = "FALLTERM1990INSTRUCTIONPERIOD";
+        List<KeyDateInfo> impactedKeyDates = acalService.getImpactedKeyDates(milestoneId, callContext);
+        assertNotNull(impactedKeyDates);
+        List<String> impactedKeyDateIds = new ArrayList<String>();
+        for (KeyDateInfo impactedKeyDate : impactedKeyDates) {
+            assertTrue(impactedKeyDate.getIsRelativeToKeyDate());
+            assertEquals(milestoneId, impactedKeyDate.getRelativeAnchorKeyDateId());
+            impactedKeyDateIds.add(impactedKeyDate.getId());
+        }
+        assertTrue(impactedKeyDateIds.contains("FALLTERM1990CENSUS"));
+    }
+
+    @Test
+    public void testCalculateKeyDate() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        // Census start needs to be recalculated to 14-sept-1990
+        final Date censusExpectedStartDate = (new GregorianCalendar(1990, Calendar.SEPTEMBER, 14)).getTime();
+        final Date instructionStartDate = (new GregorianCalendar(1990, Calendar.SEPTEMBER, 3)).getTime();
+
+        final String censusId = "FALLTERM1990CENSUS";
+        final String instructionPeriodId = "FALLTERM1990INSTRUCTIONPERIOD";
+
+        KeyDateInfo census = acalService.getKeyDate(censusId, callContext);
+        assertFalse(censusExpectedStartDate.equals(census.getStartDate()));
+        KeyDateInfo instructionPeriod = acalService.getKeyDate(instructionPeriodId, callContext);
+        assertEquals(instructionStartDate, instructionPeriod.getStartDate());
+
+        census = acalService.calculateKeyDate(censusId, callContext);
+        assertTrue("KeyDate start date not calculated as expected.", censusExpectedStartDate.equals(census.getStartDate()));
+        census = acalService.getKeyDate(censusId, callContext);
+        // TODO should the milestone be saved in the calculation method or is that a seperate call?
+        assertFalse("KeyDate was saved after calculation.", censusExpectedStartDate.equals(census.getStartDate()));
+    }
+
 }

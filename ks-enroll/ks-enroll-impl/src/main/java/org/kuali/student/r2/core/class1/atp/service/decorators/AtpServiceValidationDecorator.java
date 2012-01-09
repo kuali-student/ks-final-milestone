@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.service.decorators;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -52,7 +53,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     @Override
     public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (null == atpIdList && atpIdList.size() == 0) {
+        if (null == atpIdList || atpIdList.size() == 0) {
             throw new DoesNotExistException("Null parameter in the input:atpId");
         }
         return getNextDecorator().getAtpsByIds(atpIdList, context);
@@ -183,6 +184,17 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
         } catch (ReadOnlyException e) {
             throw new OperationFailedException(e.getMessage());
         }
+    }
+
+    @Override
+    public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (StringUtils.isEmpty(milestoneId)) {
+            throw new MissingParameterException("milestoneId");
+        }
+        if (null == contextInfo) {
+            throw new MissingParameterException("contextInfo");
+        }
+        return getNextDecorator().calculateMilestone(milestoneId, contextInfo);
     }
 
     private void _milestoneFullValidation(MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException,

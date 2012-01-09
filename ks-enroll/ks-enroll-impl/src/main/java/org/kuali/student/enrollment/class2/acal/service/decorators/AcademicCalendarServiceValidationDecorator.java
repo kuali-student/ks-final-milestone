@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.jws.WebParam;
 
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
@@ -179,6 +180,17 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, ReadOnlyException {
         _keyDateFullValidation(keyDateInfo, context);
         return this.getNextDecorator().updateKeyDate(keyDateId, keyDateInfo, context);
+    }
+
+    @Override
+    public KeyDateInfo calculateKeyDate(String keyDateId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (StringUtils.isEmpty(keyDateId)) {
+            throw new MissingParameterException("keyDateId");
+        }
+        if (null == contextInfo) {
+            throw new MissingParameterException("contextInfo");
+        }
+        return this.getNextDecorator().calculateKeyDate(keyDateId, contextInfo);
     }
 
     private void _keyDateFullValidation(KeyDateInfo keyDateInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException,

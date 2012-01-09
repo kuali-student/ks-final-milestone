@@ -88,7 +88,7 @@
     <property name="entityManagerFactory" ref="entityManagerFactory" />
   </bean>
 
-  <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
+  <bean id="atpServiceImpl" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpDao" />
     <property name="atpTypeDao" ref="atpTypeDao" />
     <property name="atpStateDao" ref="atpStateDao" />
@@ -129,8 +129,13 @@
 
 
   <bean id="atpServiceValidation" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-    <property name="nextDecorator" ref="atpService" />
+    <property name="nextDecorator" ref="atpServiceCalculationDecorator" />
     <property name="validator" ref="validator" />
+  </bean>
+
+  <bean id="atpServiceCalculationDecorator" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCalculationDecorator">
+    <property name="nextDecorator" ref="atpServiceImpl"/>
+    <property name="milestoneDao" ref="milestoneDao"/>
   </bean>
 
   <bean id="acalServiceAuthDecorator"

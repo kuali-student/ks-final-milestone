@@ -124,10 +124,15 @@
     
     <bean id="atpServiceValidationDecorator"
           class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-      <property name="nextDecorator" ref="atpServiceImpl"/>
+      <property name="nextDecorator" ref="atpServiceCalculationDecorator"/>
       <property name="validator" ref="validator"/>
     </bean>
     
+    <bean id="atpServiceCalculationDecorator" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCalculationDecorator">
+      <property name="nextDecorator" ref="atpServiceImpl"/>
+      <property name="milestoneDao" ref="milestoneDao"/>
+    </bean>
+
    <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="entityManager"/>
     </bean>

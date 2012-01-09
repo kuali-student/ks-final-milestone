@@ -84,7 +84,8 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.descr = null != milestone.getDescr() ? new AtpRichTextEntity(milestone.getDescr()) : null;
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
         this.endDate = null != milestone.getEndDate() ? new Date(milestone.getEndDate().getTime()) : null;
-        
+        this.isRelative = (null != milestone.getIsRelative()) ? milestone.getIsRelative() : false;
+
         this.setAttributes(new ArrayList<MilestoneAttributeEntity>());
         if (null != milestone.getAttributes()) {
             for (Attribute att : milestone.getAttributes()) {
@@ -195,6 +196,8 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         info.setEndDate(getEndDate());
         info.setIsAllDay(isAllDay());
         info.setIsDateRange(isDateRange());
+        info.setIsRelative(isRelative);
+        info.setRelativeAnchorMilestoneId(null != relativeAnchorMilestone ? relativeAnchorMilestone.getId() : null);
         info.setMeta(super.toDTO());
         info.setDescr((getDescr()!= null) ? getDescr().toDto() : null);
         
