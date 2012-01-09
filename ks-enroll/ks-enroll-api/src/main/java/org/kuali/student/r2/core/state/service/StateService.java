@@ -25,12 +25,16 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.dto.LifecycleInfo;
 
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /**
  * Provides a state management and state flow information.
@@ -79,24 +83,20 @@ public interface StateService {
     public List<String> getLifecycleByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method returns information about a state for a given
-     * lifecycle. State keys can be reused and state key along with
-     * lifecycle key uniquely identifies the state instance within a
-     * lifecycle.
+     * This method returns information about a state.
      * 
-     * @param lifecycleKey Key identifying the lifecycle
      * @param stateKey Key of the state
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the requested State
-     * @throws DoesNotExistException  lifecycleKey, stateKey not found
+     * @throws DoesNotExistException stateKey not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException lifecycleKey or stateKey is
+     * @throws MissingParameterException stateKey or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StateInfo getState(@WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns a list of States that belong to a
@@ -112,7 +112,7 @@ public interface StateService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getStatesForLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns a list of StateInfo objects that are valid
