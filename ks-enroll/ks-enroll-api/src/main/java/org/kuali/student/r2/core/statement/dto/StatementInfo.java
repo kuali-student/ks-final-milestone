@@ -36,7 +36,7 @@ public class StatementInfo extends IdEntityInfo implements Statement, Serializab
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private StatementOperatorTypeKey operator;
+    private StatementOperator operator;
     @XmlElement
     private List<String> statementIds;
     @XmlElement
@@ -58,11 +58,11 @@ public class StatementInfo extends IdEntityInfo implements Statement, Serializab
     }
 
     @Override
-    public StatementOperatorTypeKey getOperator() {
+    public StatementOperator getOperator() {
         return this.operator;
     }
 
-    public void setOperator(StatementOperatorTypeKey operator) {
+    public void setOperator(StatementOperator operator) {
         this.operator = operator;
     }
 

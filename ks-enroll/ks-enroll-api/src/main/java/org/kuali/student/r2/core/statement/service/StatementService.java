@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.statement.service;
 
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -28,10 +28,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.StatementServiceConstants;
-import org.kuali.student.r2.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
@@ -51,8 +48,39 @@ import java.util.List;
  */
 @WebService(name = "StatementService", targetNamespace = StatementServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface StatementService extends DataDictionaryService, StateService, TypeService {
+public interface StatementService {
 
+    /**
+     * Retrieves the list of base types which can be connected to a document.
+     *
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return Object statement relationship information
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getRefObjectTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of types for a given base type which can be connected
+     * to a document.
+     *
+     * @param refObjectTypeKey reference Type Identifier
+     * @param contextInfo      context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return List of types for the given base type which can be connected to a
+     *         document
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing refObjectTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getRefObjectSubTypes(@WebParam(name = "refObjectTypeKey") ContextInfo refObjectTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a object statement relationship by its identifier.
@@ -76,9 +104,9 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * object.
      *
      * @param refStatementRelationIds object statement relationship identifiers
-     * @param contextInfo            context information containing the
-     *                               principalId and locale information about
-     *                               the caller of service operation
+     * @param contextInfo             context information containing the
+     *                                principalId and locale information about
+     *                                the caller of service operation
      * @return List of object statement relationships
      * @throws DoesNotExistException     a refStatementRelationId in the list
      *                                   was not found
@@ -124,7 +152,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException  Unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a refStatementRelation. Depending on the value of
@@ -142,8 +170,6 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @param validationTypeKey           identifier of the extent of
      *                                    validation
      * @param statementId                 statement identifier
-     * @param refStatementRelationId      object Statement Relationship
-     *                                    identifier
      * @param refStatementRelationTypeKey type of statement relation
      * @param refStatementRelationInfo    object statement relationship
      *                                    information to be validated
@@ -162,19 +188,19 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateRefStatementRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "refStatementRelationId") String refStatementRelationId, @WebParam(name = "statementId") String statementId, @WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "refStatementRelationInfo") RefStatementRelationInfo refStatementRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateRefStatementRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "statementId") String statementId, @WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "refStatementRelationInfo") RefStatementRelationInfo refStatementRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a relationship between a statement and an object.
      *
-     * @param refStatementRelationId      object statement relation identifier
-     * @param statementId                 statement identifier
-     * @param refStatementRelationTypeKey type of statement relation
-     * @param refStatementRelationInfo    information about the object statement
-     *                                    relationship
-     * @param contextInfo                 context information containing the
-     *                                    principalId and locale information
-     *                                    about the caller of service operation
+     * @param refObjectId              object statement relation identifier
+     * @param statementId              statement identifier
+     * @param refObjectTypeKey         type of statement relation
+     * @param refStatementRelationInfo information about the object statement
+     *                                 relationship
+     * @param contextInfo              context information containing the
+     *                                 principalId and locale information about
+     *                                 the caller of service operation
      * @return New object statement relationship
      * @throws AlreadyExistsException       connection between object and
      *                                      statement already exists
@@ -194,7 +220,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read-only
      */
-    public RefStatementRelationInfo createRefStatementRelation(@WebParam(name = "refStatementRelationId") String refStatementRelationId, @WebParam(name = "statementId") String statementId, @WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "refStatementRelationInfo") RefStatementRelationInfo refStatementRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public RefStatementRelationInfo createRefStatementRelation(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "statementId") String statementId, @WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "refStatementRelationInfo") RefStatementRelationInfo refStatementRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a relationship between an object and statement.
@@ -255,7 +281,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public NlUsageTypeInfo getNlUsageByType(@WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo getNlUsageByType(@WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * <p>Translates and retrieves a statement for a specific usage type
@@ -432,7 +458,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<StatementInfo> getStatementsByType(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StatementInfo> getStatementsByType(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of child statements that include a particular statement.
@@ -453,6 +479,21 @@ public interface StatementService extends DataDictionaryService, StateService, T
     public List<StatementInfo> getStatementsForStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves the list of all types of statements.
+     *
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return List of types of statements
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getStatementTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
      * Retrieves the list of statement types which are allowed to be used in a
      * statement type. This controls the nesting of statements.
      *
@@ -460,7 +501,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @param contextInfo      context information containing the principalId
      *                         and locale information about the caller of
      *                         service operation
-     * @return List of statement type
+     * @return List of statement type info
      * @throws DoesNotExistException     statementTypeKey not found
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException missing statementTypeKey or
@@ -468,7 +509,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getStatementTypesForStatementType(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getStatementTypesForStatementType(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the list of statement types which are allowed to be used for a
@@ -479,7 +520,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @param contextInfo                 context information containing the
      *                                    principalId and locale information
      *                                    about the caller of service operation
-     * @return List of statement types
+     * @return List of statement type info
      * @throws DoesNotExistException     refStatementRelationTypeKey not found
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException missing refStatementRelationTypeKey or
@@ -487,25 +528,25 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getStatementTypesForRefStatementRelationType(@WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getStatementTypesForRefStatementRelationType(@WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves the list of types of object statement relationships which are
-     * allowed to be used for a subtype of object.
+     * Retrieves the list of type infos for object statement relationships which
+     * are allowed to be used for a subtype of object.
      *
      * @param refSubTypeKey identifier for the subtype of object
      * @param contextInfo   context information containing the principalId and
      *                      locale information about the caller of service
      *                      operation
-     * @return List of types of object statement relationships which are allowed
-     *         to be used for a subtype of object
+     * @return List of type infos for object statement relationships which are
+     *         allowed to be used for a subtype of object
      * @throws DoesNotExistException     refSubTypeKey not found
      * @throws InvalidParameterException invalid refSubTypeKey
      * @throws MissingParameterException missing refSubTypeKey or contextInfo
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getRefStatementRelationTypesForRefObjectSubType(@WebParam(name = "refSubTypeKey") String refSubTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getRefStatementRelationTypesForRefObjectSubType(@WebParam(name = "refSubTypeKey") String refSubTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Validates a statement. Depending on the value of validationTypeKey, this
@@ -557,7 +598,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read-only
      */
-    public StatementInfo createStatement(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "statementInfo") StatementInfo statementInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public StatementInfo createStatement(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "statementInfo") StatementInfo statementInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates a statement
@@ -600,6 +641,25 @@ public interface StatementService extends DataDictionaryService, StateService, T
     public StatusInfo deleteStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves the list of ReqCompField types which are allowed to be used in
+     * an ReqComponent type
+     *
+     * @param reqComponentTypeKey identifier for a type of requirement
+     *                            component
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return A list of required components
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getReqCompFieldTypesForReqComponentType(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
      * Retrieves a requirement component by its identifier
      *
      * @param reqComponentId required component identifier
@@ -630,7 +690,53 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<ReqComponentInfo> getReqComponentsByType(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<ReqComponentInfo> getReqComponentsByType(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves type information for a specified ReqComponent Type
+     *
+     * @param reqComponentTypeKey reqComponent type key
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return Requirement component type information
+     * @throws DoesNotExistException     reqComponentTypeKey not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TypeInfo getReqComponentType(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of all types of ReqComponent.
+     *
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return List of types of ReqComponent
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getReqComponentTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of types of requirement components which are allowed
+     * to be used in a type of statement.
+     *
+     * @param statementTypeKey identifier for a type of statement
+     * @return list of types of requirement components
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getReqComponentTypesForStatementType(@WebParam(name = "statementTypeKey") String statementTypeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
     /**
      * Validates a ReqComponent. Depending on the value of validationTypeKey,
@@ -685,7 +791,7 @@ public interface StatementService extends DataDictionaryService, StateService, T
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read-only
      */
-    public ReqComponentInfo createReqComponent(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "reqComponentInfo") ReqComponentInfo reqComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public ReqComponentInfo createReqComponent(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "reqComponentInfo") ReqComponentInfo reqComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
 
     /**

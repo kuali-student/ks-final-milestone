@@ -36,7 +36,7 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private StatementOperatorTypeKey operator;
+    private StatementOperator operator;
     @XmlElement
     private List<StatementTreeViewInfo> statements;
     @XmlElement
@@ -64,11 +64,11 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
     }
 
     @Override
-    public StatementOperatorTypeKey getOperator() {
+    public StatementOperator getOperator() {
         return this.operator;
     }
 
-    public void setOperator(StatementOperatorTypeKey operator) {
+    public void setOperator(StatementOperator operator) {
         this.operator = operator;
     }
 

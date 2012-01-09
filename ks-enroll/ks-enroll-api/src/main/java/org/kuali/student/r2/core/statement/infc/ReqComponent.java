@@ -15,16 +15,16 @@
 
 package org.kuali.student.r2.core.statement.infc;
 
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface ReqComponent extends IdNamelessEntity {
+public interface ReqComponent extends IdNamelessEntity, HasEffectiveDates{
     /**
      * Detailed information about a requirement component field value.
      *
@@ -32,27 +32,6 @@ public interface ReqComponent extends IdNamelessEntity {
      * @required
      */
     List<? extends ReqCompField> getReqCompFields();
-
-    /**
-     * Date and time that this requirement component became effective. This is a
-     * similar concept to the effective date on enumerated values. When an
-     * expiration date has been specified, this field must be less than or equal
-     * to the expiration date.
-     *
-     * @name Effective Date
-     */
-    Date getEffectiveDate();
-
-    /**
-     * Date and time that this requirement component expires. This is a similar
-     * concept to the expiration date on enumerated values. If specified, this
-     * must be greater than or equal to the effective date. If this field is not
-     * specified, then no expiration date has been currently defined and should
-     * automatically be considered greater than the effective date.
-     *
-     * @name Expiration Date
-     */
-    Date getExpirationDate();
 
     /**
      * <code>naturalLanguageTranslation</code> attribute is generated on-the-fly

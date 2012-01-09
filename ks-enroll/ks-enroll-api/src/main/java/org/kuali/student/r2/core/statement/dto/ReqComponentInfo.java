@@ -36,19 +36,19 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReqComponentInfo", propOrder = {"id", "typeKey", "stateKey",
-        "reqCompFields", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+        "reqCompFields", "naturalLanguageTranslation", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqComponent, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private List<ReqCompFieldInfo> reqCompFields;
+    @XmlAttribute
+    private String naturalLanguageTranslation;
     @XmlElement
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-    @XmlAttribute
-    private String naturalLanguageTranslation;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -63,8 +63,8 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
             for (ReqCompField reqCompField : reqComponent.getReqCompFields()) {
                 this.reqCompFields.add(new ReqCompFieldInfo(reqCompField));
             }
-            this.effectiveDate = reqComponent.getEffectiveDate();
-            this.expirationDate = reqComponent.getExpirationDate();
+            this.effectiveDate = (null != reqComponent.getEffectiveDate()) ? new Date(reqComponent.getEffectiveDate().getTime()) : null;
+            this.expirationDate = (null != reqComponent.getExpirationDate()) ? new Date(reqComponent.getExpirationDate().getTime()) : null;
             this.naturalLanguageTranslation = reqComponent.getNaturalLanguageTranslation();
         }
     }

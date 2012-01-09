@@ -25,6 +25,18 @@ import org.kuali.student.r2.common.infc.Relationship;
  */
 public interface RefStatementRelation extends Relationship {
 
+
+    /**
+     * Unique identifier for an object type. Used to identify the type of
+     * object being referred to, so that the id can be resolved.
+     *
+     * @name Ref Object Type Key
+     * @readOnly
+     * @required
+     *
+     */
+    String getRefObjectTypeKey();
+
     /**
      * Sets the identifier for an object. This will likely require some
      * additional context in order to be resolved, such as the type of object.

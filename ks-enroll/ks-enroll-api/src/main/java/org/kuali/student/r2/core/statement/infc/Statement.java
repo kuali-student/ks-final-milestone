@@ -16,12 +16,12 @@
 package org.kuali.student.r2.core.statement.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 
 import java.util.List;
 
 /**
- * Detailed information about a single LU statement
+ * Detailed information about a single statement
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
@@ -29,15 +29,17 @@ import java.util.List;
 public interface Statement extends IdEntity {
 
     /**
-     * Statement operator
+     * Logical operator used to assemble statements. Acceptable values are
+     * restricted to AND and OR. This operator applies to both the statements
+     * and requirement components contained within this statement
      *
      * @name Operator
      * @required
      */
-    StatementOperatorTypeKey getOperator();
+    StatementOperator getOperator();
 
     /**
-     * List of LU statement identifiers
+     * List of statement identifiers
      *
      * @name Statement Ids
      * @readOnly

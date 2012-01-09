@@ -28,10 +28,12 @@ import java.io.Serializable;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RefStatementRelationInfo", propOrder = {"id", "typeKey", "stateKey", "refObjectId", "statementId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RefStatementRelationInfo", propOrder = {"id", "typeKey", "stateKey", "refObjectTypeKey", "refObjectId", "statementId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 public class RefStatementRelationInfo extends RelationshipInfo implements RefStatementRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
+    @XmlElement
+    private String refObjectTypeKey;
     @XmlElement
     private String refObjectId;
     @XmlElement
@@ -48,6 +50,15 @@ public class RefStatementRelationInfo extends RelationshipInfo implements RefSta
             this.refObjectId = refStatementRelation.getRefObjectId();
             this.statementId = refStatementRelation.getStatementId();
         }
+    }
+
+    @Override
+    public String getRefObjectTypeKey() {
+        return this.refObjectTypeKey;
+    }
+
+    public void setRefObjectTypeKey(String refObjectTypeKey) {
+        this.refObjectTypeKey = refObjectTypeKey;
     }
 
     @Override

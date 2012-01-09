@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.util.constants.StatementServiceConstants;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 
 import java.util.ArrayList;
@@ -129,7 +129,7 @@ public class PropositionBuilder {
     }
 
 
-    private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperatorTypeKey operator, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) throws InvalidParameterException {
+    private Proposition translateReqComponents(List<ReqComponentInfo> reqComponents, StatementOperator operator, Map<Proposition, ReqComponentInfo> reqComponentPropositionMap) throws InvalidParameterException {
 
         ReqComponentInfo req1 = null, req2 = null;
 
@@ -160,7 +160,7 @@ public class PropositionBuilder {
         }
     }
 
-    private LogicalOperator translateOperator(StatementOperatorTypeKey statementOperator) throws InvalidParameterException {
+    private LogicalOperator translateOperator(StatementOperator statementOperator) throws InvalidParameterException {
 
         if (statementOperator == null) {
             return null;

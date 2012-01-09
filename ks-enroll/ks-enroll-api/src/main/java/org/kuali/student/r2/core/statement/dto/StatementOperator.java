@@ -18,6 +18,6 @@ package org.kuali.student.r2.core.statement.dto;
 import javax.xml.bind.annotation.XmlEnum;
 
 @XmlEnum(String.class)
-public enum StatementOperatorTypeKey {
+public enum StatementOperator {
     AND, OR;
 }

@@ -15,7 +15,6 @@
 
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.r2.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementInfo;
@@ -36,7 +35,6 @@ public class StatementServiceConstants {
     public static final String REF_OBJECT_URI_REF_STATEMENT_RELATION = NAMESPACE + "/" + RefStatementRelationInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_REQ_COMPONENT=NAMESPACE + "/" + ReqComponentInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_STATEMENT_TREE_VIEW=NAMESPACE + "/" + StatementTreeViewInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_NL_USAGE_TYPE=NAMESPACE + "/" + NlUsageTypeInfo.class.getSimpleName();
 
     // Statement Types
     public static final String PREREQUISITE_STATEMENT_TYPE = "kuali.statement.type.course.academicReadiness.studentEligibilityPrereq";

@@ -16,7 +16,7 @@
 package org.kuali.student.r2.core.statement.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public interface StatementTreeView extends IdEntity {
      * @name Operator
      * @required
      */
-    StatementOperatorTypeKey getOperator();
+    StatementOperator getOperator();
 
 
     /**
