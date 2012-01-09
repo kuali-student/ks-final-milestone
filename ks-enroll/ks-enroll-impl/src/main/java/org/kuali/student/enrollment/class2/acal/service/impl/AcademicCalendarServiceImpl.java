@@ -14,6 +14,7 @@ import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalend
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler;
+import org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
@@ -65,6 +66,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private DataDictionaryService dataDictionaryService;
     private HolidayCalendarAssembler holidayCalendarAssembler;
     private HolidayAssembler holidayAssembler;
+    private KeyDateAssembler keyDateAssembler;
     private AcalEventAssembler acalEventAssembler;
 
     public AcalEventAssembler getAcalEventAssembler() {
@@ -1463,8 +1465,38 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public KeyDateInfo createKeyDate(String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        KeyDateInfo newKeyDateInfo = null;
+        MilestoneInfo milestoneInfo = null;
+
+        try {
+            milestoneInfo = keyDateAssembler.disassemble(keyDateInfo,contextInfo);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
+        }
+
+        if (milestoneInfo != null) {
+            if (StringUtils.isBlank(milestoneInfo.getTypeKey())){
+                milestoneInfo.setTypeKey(keyDateTypeKey);
+            }
+            MilestoneInfo newMilestone = null;
+            try {
+                newMilestone = atpService.createMilestone(milestoneInfo, contextInfo);
+                newKeyDateInfo = keyDateAssembler.assemble(newMilestone,contextInfo);
+            } catch (ReadOnlyException e) {
+                throw new OperationFailedException("Error creating milestone",e);
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+            }
+
+            try{
+                atpService.addMilestoneToAtp(newMilestone.getId(),termId,contextInfo);
+            } catch (AlreadyExistsException e) {
+                throw new OperationFailedException("Error creating ATP-Milestone relation",e);
+            }
+
+        }
+
+        return newKeyDateInfo;
     }
 
     @Override

@@ -765,7 +765,7 @@ public class TestAcademicCalendarServiceImpl {
 //    }
 
     @Test
-    public void testCreateKeyDateForTerm() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public void testCreateKeyDate() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException, ReadOnlyException {
         KeyDateInfo keyDate = new KeyDateInfo();
         keyDate.setId("new-keydate-Id");
