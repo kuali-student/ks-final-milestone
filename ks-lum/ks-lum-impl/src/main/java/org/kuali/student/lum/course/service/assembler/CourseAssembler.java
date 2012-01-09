@@ -1111,7 +1111,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     if (cluIdent.getAttributes().containsKey("courseId")) {
                         try {
                             CluInfo cluInfo = luService.getClu(cluIdent.getAttributes().get("courseId"));
-                            crosslisting.setId(cluInfo.getId());
+                            crosslisting.setId(cluIdent.getId()); 
                             crosslisting.setCode(cluInfo.getOfficialIdentifier().getCode());
                             crosslisting.setAttributes(cluIdent.getAttributes());
                             crosslisting.setType(cluInfo.getType());
