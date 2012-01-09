@@ -29,12 +29,11 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.StateServiceConstants;
 
 /**
- * Provides a read-only view of states and state flow information. 
- * 
- * This service needs to be implemented by any KS service that is going to handle states
+ * Provides a state management and state flow information.
  *
  * @version 1.0 (Dev)
  *
@@ -46,90 +45,110 @@ public interface StateService {
 
       
     /**
-     * Get Lifecycle Information by Key
+     * Get Lifecycle Information by Key.
+     *
      * @param lifecycleKey the lifecycle key
-     * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return Information about State Lifecycle
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the requested Lifecycle
      * @throws DoesNotExistException lifecycleKey not found
-     * @throws InvalidParameterException invalid lifecycleKey
-     * @throws MissingParameterException no lifecycle defined for that lifecycle Key
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lifecycleKey or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public LifecycleInfo getLifecycleByKey(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
+    public LifecycleInfo getLifecycleByKey(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
    
     /**
-     * This method retrieves the list of lifecycle keys associated with a type of object.
-     * TODO: consider changing the name of this method to getLifecycleByRefObjectUri
+     * This method retrieves the list of lifecycle keys associated
+     * with a type of object.  TODO: consider changing the name of
+     * this method to getLifecycleByRefObjectUri.
      * 
-     * @param refObjectUri unique name for an object that states are attached
-     * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return List of lifecycle keys
-     * @throws DoesNotExistException typeKey not found
-     * @throws InvalidParameterException invalid typeKey
-     * @throws MissingParameterException missing typeKey
+     * @param refObjectUri unique name for an object that states are
+     *        attached
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return  a list of lifecycle keys
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException refObjectUri or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getLifecycleByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLifecycleByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     *  
-     * This method returns information about a state for a given lifecycle. State keys can be reused and state key along with lifecycle key uniquely identifies the state instance within a lifecycle. 
+     * This method returns information about a state for a given
+     * lifecycle. State keys can be reused and state key along with
+     * lifecycle key uniquely identifies the state instance within a
+     * lifecycle.
      * 
      * @param lifecycleKey Key identifying the lifecycle
      * @param stateKey Key of the state
-     * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return Information about the state
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the requested State
      * @throws DoesNotExistException  lifecycleKey, stateKey not found
-     * @throws InvalidParameterException invalid lifecycleKey, stateKey
-     * @throws MissingParameterException missing lifecycleKey, stateKey
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lifecycleKey or stateKey is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public StateInfo getState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method returns a list of States that belong to a lifecycle. For e.g Clu states for clu proposal lifecycle
+     * This method returns a list of States that belong to a
+     * lifecycle. For e.g Clu states for clu proposal lifecycle
      * 
      * @param lifecycleKey Key identifying the lifecycle
-     * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return List of StateInfo objects associated with the lifecycle
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the list of StateInfo objects associated with the lifecycle
      * @throws DoesNotExistException lifecycleKey not found
-     * @throws InvalidParameterException invalid lifecycleKey
-     * @throws MissingParameterException missing lifecycleKey
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lifecycleKey is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StateInfo> getStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method returns a list of StateInfo objects that are valid initial states for a given lifecycle.
+     * This method returns a list of StateInfo objects that are valid
+     * initial states for a given lifecycle.
      *
      * Often there will be just a single initial valid state.
      *
-     * ? if more than one does the order matter? i.e. the 1st one returned should be the default but others still allowed?
-     * 
      * @param lifecycleKey Lifecycle key 
-     * @param context Context information containing the principalId and locale information about the caller of service operation
-     * @return list of states are valid for the given lifecycle
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the list of states are valid for the given lifecycle
      * @throws DoesNotExistException lifecycleKey not found
-     * @throws InvalidParameterException invalid lifecycleKey
-     * @throws MissingParameterException missing lifecycleKey
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lifecycleKey or contextInfo
+     *         is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getInitialValidStates(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StateInfo> getInitialValidStates(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    
     /**
      * 
-     * This method retrieves the next happy state in a lifecycle given the current state.
+     * This method retrieves the next happy state in a lifecycle given
+     * the current state.
      * 
      * @param lifecycleKey Lifecycle key 
      * @param currentStateKey Current state key 
-     * @param context  Context information containing the principalId and locale information about the caller of service operation
-     * @return Next happy state in the lifecycle 
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the next happy state in the lifecycle 
      * @throws DoesNotExistException lifecycleKey or currentStateKey not found
-     * @throws InvalidParameterException invalid lifecycleKey or currentStateKey
-     * @throws MissingParameterException missing lifecycleKey or currentStateKey
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException lifecycleKey, currentStateKey, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StateInfo getNextHappyState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public StateInfo getNextHappyState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

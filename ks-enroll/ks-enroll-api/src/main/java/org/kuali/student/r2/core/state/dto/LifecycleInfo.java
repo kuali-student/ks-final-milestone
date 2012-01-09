@@ -33,14 +33,17 @@ import org.w3c.dom.Element;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LifecycleInfo", propOrder = {
-                "key", "name", "descr", 
+                "key", "name", "descr", "refObjectUri",
                 "effectiveDate", "expirationDate", 
-                "attributes", "_futureElements"})
+                "meta", "attributes", "_futureElements"})
 
 public class LifecycleInfo 
     extends KeyEntityInfo
     implements Lifecycle, Serializable {
 	    
+    @XmlElement
+    private String refObjectUri;
+
     @XmlElement
     private Date effectiveDate;
     
@@ -66,10 +69,20 @@ public class LifecycleInfo
 		
     public LifecycleInfo(Lifecycle lifecycle) {
         super(lifecycle);
+        this.refObjectUri = lifecycle.getRefObjectUri();
         this.effectiveDate = null != lifecycle.getEffectiveDate() ? new Date(lifecycle.getEffectiveDate().getTime()) : null;
     	this.expirationDate = null != lifecycle.getExpirationDate() ? new Date(lifecycle.getExpirationDate().getTime()) : null;
     }
 	
+    @Override
+    public String getRefObjectUri() {
+        return refObjectUri;
+    }
+	
+    public void setRefObjectUri(String refObjectUri) {
+        this.refObjectUri = refObjectUri;
+    }
+
     @Override
     public Date getEffectiveDate() {
         return effectiveDate;

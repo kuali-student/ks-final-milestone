@@ -31,4 +31,11 @@ import org.kuali.student.r2.common.infc.HasEffectiveDates;
 
 public interface Lifecycle 
     extends KeyEntity, HasEffectiveDates {
+
+    /**
+     * Gets the refObjectUri to which this lifecycle is associated.
+     *
+     * @name Ref Object URI
+     */
+    public String getRefObjectUri();
 }
