@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.infc.Type;
+import org.kuali.student.r2.core.type.infc.Type;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
