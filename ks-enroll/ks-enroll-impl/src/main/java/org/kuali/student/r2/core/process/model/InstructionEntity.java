@@ -62,7 +62,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "IS_EXEMPTABLE")
     private boolean exemptable;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "KSEN_INSTR_POPLTN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "POPLTN_ID"))
     private List<PopulationEntity> appliedPopulation;
 
