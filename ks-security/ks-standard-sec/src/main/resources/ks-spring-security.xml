@@ -18,14 +18,10 @@
 
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-    xmlns:security="http://www.springframework.org/schema/security"
-    xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans 
-           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-           http://www.springframework.org/schema/security 
-           http://www.springframework.org/schema/security/spring-security-2.0.4.xsd">
-
+       xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
 
 	<import resource="ksss-auth-common.xml"/>
 	
@@ -38,51 +34,30 @@
         <security:intercept-url pattern="/login.jsp*" filters="none"/>
 		<security:form-login login-page="/login.jsp" />
 		<!-- used for backdoor login 		-->
-    	
-		
-    	
+        <!-- TODO Rice Upgrade-->
+        <security:custom-filter ref="ksLogoutFilter"
+                                position="LOGOUT_FILTER" />
+        <security:custom-filter ref="authenticationGwtRpcFilter"
+                                after="CAS_FILTER" />
     </security:http>
-    
-    <bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter">
-    	<security:custom-filter position="LOGOUT_FILTER"/>
-  	</bean>
-  	
+
+    <bean id="ksLogoutFilter" class="org.kuali.student.security.filter.KSLogoutFilter" />
+
   	<!--List of Custom Providers that can be registered with the default authentication manager -->
-  	
+
+    <security:authentication-manager>
+        <security:authentication-provider ref="daoAuthenticationProvider" />
+        <security:authentication-provider ref="daoAuthenticationProvider2" />
+    </security:authentication-manager>
+
   	<bean id="daoAuthenticationProvider" 
       	class="org.kuali.student.security.kim.KimAuthenticationProvider">
       	<property name="userDetailsService" ref="ksRiceUserDetailsService"/>
-    	<security:custom-authentication-provider />
    	</bean>
    	
    	<bean id="daoAuthenticationProvider2" 
-      	class="org.springframework.security.providers.dao.DaoAuthenticationProvider">
+      	class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
       	<property name="userDetailsService" ref="ksUserDetailsService"/>
-    	<security:custom-authentication-provider />
    	</bean>
-   	
-   	<bean id="exceptionTranslationFilter"
-     class="org.springframework.security.ui.ExceptionTranslationFilter">
-	  <property name="authenticationEntryPoint" ref="authenticationEntryPoint"/>
-	  <property name="accessDeniedHandler" ref="accessDeniedHandler"/>
-	</bean>
 
-	<bean id="authenticationEntryPoint"
-	     class="org.springframework.security.ui.webapp.AuthenticationProcessingFilterEntryPoint">
-	  <property name="loginFormUrl" value="/login.jsp"/>
-	</bean>
-	
-	<bean id="accessDeniedHandler"
-	     class="org.springframework.security.ui.AccessDeniedHandlerImpl">
-	  <property name="errorPage" value="/login.jsp"/>
-	</bean>
-   	
- <bean id="switchUserProcessingFilter" class="org.springframework.security.ui.switchuser.SwitchUserProcessingFilter">
-  <security:custom-filter after="FILTER_SECURITY_INTERCEPTOR" />
-     <property name="userDetailsService" ref="ksRiceUserDetailsService" />
-     <property name="switchUserUrl" value="/j_spring_security_switch_user" />
-     <property name="exitUserUrl" value="/j_spring_security_exit_user" />
-     <property name="targetUrl" value="${application.url}/" />
-  </bean>
-    
 </beans>
