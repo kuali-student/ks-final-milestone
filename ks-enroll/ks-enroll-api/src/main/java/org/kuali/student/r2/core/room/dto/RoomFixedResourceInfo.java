@@ -52,6 +52,7 @@ public class RoomFixedResourceInfo
 
     public RoomFixedResourceInfo(RoomFixedResource roomFixedResource) {
         if (null != roomFixedResource) {
+            this.id = roomFixedResource.getId();
             this.quantity = roomFixedResource.getQuantity();
             this.resourceTypeKey = roomFixedResource.getResourceTypeKey();
         }
