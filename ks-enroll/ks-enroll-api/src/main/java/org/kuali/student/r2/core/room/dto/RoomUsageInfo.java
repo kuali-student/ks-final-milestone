@@ -36,10 +36,11 @@ public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage
 
     public RoomUsageInfo(RoomUsage roomUsage) {
         if (null != roomUsage) {
-            this.preferredCapacity = roomUsage.getPreferredCapacity();
-            this.hardCapacity = roomUsage.getHardCapacity();
+            this.id = roomUsage.getId();
             this.usageTypeKey = roomUsage.getUsageTypeKey();
             this.layoutTypeKey = roomUsage.getLayoutTypeKey();
+            this.preferredCapacity = roomUsage.getPreferredCapacity();
+            this.hardCapacity = roomUsage.getHardCapacity();
         }
     }
 
