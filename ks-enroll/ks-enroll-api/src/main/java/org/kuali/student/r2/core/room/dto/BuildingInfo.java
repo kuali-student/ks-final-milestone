@@ -55,6 +55,7 @@ public class BuildingInfo extends IdEntityInfo implements Building, Serializable
         super(building);
         if (null != building) {
             this.buildingCode = building.getBuildingCode();
+            this.campusKey = building.getCampusKey();
         }
     }
 
