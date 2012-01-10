@@ -71,7 +71,7 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
     public RoomInfo(Room room) {
         super(room);
         if (null != room) {
-            this.roomCode =
+            this.roomCode = room.getRoomCode();
             this.buildingId = room.getBuildingId();
             this.floor = room.getFloor();
             
