@@ -375,7 +375,7 @@ public interface AtpService {
      *        to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return the AtpAtpRelatin requested
+     * @return the AtpAtpRelation requested
      * @throws DoesNotExistException atpAtpRelationId is not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException atpAtpRelationId or
