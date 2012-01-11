@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "OrgPersonRestrictionInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
                 "orgId", "orgPersonRelationTypeKey", "stdDuration",
-                "minNumRelations", "hasMaxNumRelations", "maxNumrelations",
+                "minNumRelations", "hasMaxNumRelations", "maxNumRelations",
                 "meta", "attributes", "_futureElements" })
 
 public class OrgPositionRestrictionInfo 

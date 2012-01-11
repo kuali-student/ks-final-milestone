@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgPersonRelationInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr",
+                "id", "typeKey", "stateKey", 
                 "orgId", "personId",
                 "effectiveDate", "expirationDate",
                 "meta", "attributes", "_futureElements" })

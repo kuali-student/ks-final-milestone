@@ -30,8 +30,8 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgTreeInfo", propOrder = {
-                "displayName", "orgHierarchyid", "orgId", "parentId",
-                "positions", "positionId", "personId", "relationType",
+                "displayName", "orgHierarchyId", "orgId", "parentId",
+                "positions", "positionId", "personId", "relationTypeKey",
                 "_futureElements" })
 
 public class OrgTreeInfo 
