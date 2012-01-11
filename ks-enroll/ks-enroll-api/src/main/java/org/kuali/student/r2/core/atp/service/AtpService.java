@@ -68,7 +68,7 @@ public interface AtpService {
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the Academic Time Period requested
-     * @throws DoesNotExistException atpId not found
+     * @throws DoesNotExistException atpId is not found
      * @throws InvalidParameterException contextInfo not valid
      * @throws MissingParameterException atpId or contextInfo is
      *         missing or null
@@ -88,7 +88,7 @@ public interface AtpService {
      * @return a list of ATPs
      * @throws DoesNotExistException an atpId in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpIds, a id in atpIds, or
+     * @throws MissingParameterException atpIds, an id in atpIds, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -238,8 +238,8 @@ public interface AtpService {
     //
 
     /**
-     * Searches for Academic Time Periods that meet the given search
-     * criteria.
+     * Searches for Academic Time Period ids that meet the given
+     * search criteria.
      * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
@@ -251,8 +251,7 @@ public interface AtpService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> searchForAtpIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> searchForAtpIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Academic Time Periods that meet the given search
