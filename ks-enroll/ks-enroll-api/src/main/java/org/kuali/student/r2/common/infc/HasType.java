@@ -32,4 +32,12 @@ public interface HasType  {
 
     public String getTypeKey();
     
+     /**
+     * Alternate method to get the typeKey to maintain R1 compatibility
+     * @name Type Key
+     * @readOnly on updates
+     * @required
+     */
+    @Deprecated
+    public String getType ();
 }

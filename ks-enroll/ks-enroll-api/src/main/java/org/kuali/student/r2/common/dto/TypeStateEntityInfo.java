@@ -5,7 +5,6 @@
  * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
  * implied. See the License for the specific language governing permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
@@ -21,7 +20,6 @@ public abstract class TypeStateEntityInfo extends HasAttributesAndMetaInfo imple
 
     @XmlAttribute
     private String typeKey;
-
     @XmlAttribute
     private String stateKey;
 
@@ -44,6 +42,12 @@ public abstract class TypeStateEntityInfo extends HasAttributesAndMetaInfo imple
         return typeKey;
     }
 
+    @Override
+    @Deprecated
+    public String getType() {
+        return this.getTypeKey();
+    }
+
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
     }
@@ -51,6 +55,12 @@ public abstract class TypeStateEntityInfo extends HasAttributesAndMetaInfo imple
     @Override
     public String getStateKey() {
         return stateKey;
+    }
+
+    @Override
+    @Deprecated
+    public String getState() {
+        return this.getStateKey();
     }
 
     public void setStateKey(String stateKey) {

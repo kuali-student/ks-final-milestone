@@ -30,5 +30,12 @@ public interface HasState  {
      */
 
     public String getStateKey();
-    
+  
+    /**
+     * Alternate method to get the stateKey to maintain R1 compatibility
+     * @name State Key
+     * @required
+     */
+    @Deprecated
+    public String getState ();
 }

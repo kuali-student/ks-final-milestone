@@ -78,7 +78,13 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     public String getTypeKey() {
         return typeKey;
     }
-
+    
+    @Override
+    @Deprecated
+    public String getType() {
+        return this.getTypeKey();
+    }
+    
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
     }
@@ -87,7 +93,13 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     public String getStateKey() {
         return stateKey;
     }
-
+    
+    @Override
+    @Deprecated
+    public String getState() {
+        return this.getStateKey();
+    }
+    
     public void setStateKey(String stateKey) {
         this.stateKey = stateKey;
     }
