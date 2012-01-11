@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.enumerationmanagement.service;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -106,6 +107,41 @@ public interface EnumerationManagementService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<EnumeratedValueInfo> getEnumeratedValues(@WebParam(name = "enumerationKey") String enumerationKey, @WebParam(name = "contextTypeKey") String contextTypeKey, @WebParam(name = "contextValue") String contextValue, @WebParam(name = "contextDate") Date contextDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Validates an EnumerationValue. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * object and its directly contained sub-objects or expanded to
+     * perform all tests related to this object. If an identifier is
+     * present for the Process and a record is found for that
+     * identifier, the validation checks if the Process can be shifted
+     * to the new values. If a record cannot be found for the
+     * identifier, it is assumed that the record does not exist and as
+     * such, the checks performed will be much shallower, typically
+     * mimicking those performed by setting the validationType to the
+     * current object. This is a slightly different pattern from the
+     * standard validation as the caller provides the identifier in
+     * the create statement instead of the server assigning an
+     * identifier.
+     *
+     * @param validationTypeKey the identifier of the extent of validation
+     * @param enumerationKey identifier for the Enumeration
+     * @param code                code identifying the value to be validated
+     * @param enumeratedValueInfo the Room information to be tested
+     * @param contextInfo Context information containing the
+     *        principalId and locale information about the caller of
+     *        service operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException validationTypeKey, enumerationKey or code not found
+     * @throws InvalidParameterException invalid enumeratedValueInfo or contextInfo
+     * @throws MissingParameterException missing validationTypeKey, enumerationKey, code,
+     *         enumeratedValueInfo or contextInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateRoom(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "enumerationKey") String enumerationKey, @WebParam(name = "code") String code, @WebParam(name = "enumeratedValueInfo") EnumeratedValueInfo enumeratedValueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
     /**
      * Updates a value in a particular Enumeration. The pattern in this
