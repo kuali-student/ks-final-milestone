@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.student.r2.common.infc;
 
 import java.util.List;
@@ -20,29 +21,30 @@ import java.util.List;
 /**
  * Search Parameter Info
  *
- * A structure that holds a key value pair as a way to supply a parameter
- * to a search.
+ * A structure that holds a key value pair as a way to supply a
+ * parameter to a search.
  *
  * @author nwright
  */
 @Deprecated
 public interface SearchParam {
 
-
     /**
-     * Name: Search Parameter Key
-     *
      * The key that identifies the name of the search parameter
+     *
+     * @name Key
      */
+
     public String getKey();
 
     /**
-     * Name: Values
-     * 
-     * The value(s) of the search parameter
+     * The value(s) of the search parameter.
      *
-     * Most parameters take only a single value but the list is available for
-     * operations such as "IN" that take a list of values.
+     * Most parameters take only a single value but the list is
+     * available for operations such as "IN" that take a list of
+     * values.
+     *
+     * @ame Values
      */
     public List<String> getValues();
 }

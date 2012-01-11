@@ -34,6 +34,7 @@ import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
  */
 @WebService(name = "TypeService", targetNamespace = TypeServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+
 public interface TypeService {
 
     /**
@@ -50,7 +51,8 @@ public interface TypeService {
     public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns a list of TypeInfo that belong to a RefObjectURI. For e.g all types for CluInfo
+     * This method returns a list of TypeInfo that belong to a
+     * RefObjectURI. For e.g all types for CluInfo
      * 
      * @param refObjectURI URI identifying the object e.g http://student.kuali.org/wsdl/luService/CluInfo
      * @param context Context information containing the principalId and locale information about the caller of service operation
@@ -63,9 +65,12 @@ public interface TypeService {
     public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * This method returns a list of TypeInfo objects that are allowed for another typeKey. This is a convenience method to
-     * retrieve TypeTypeRelation with allowed relation type. This will retrieve all the type keys associated with the
-     * ObjectURI of the related type. The relationship is captured unidirectionally from ownerType to relatedType.
+     * This method returns a list of TypeInfo objects that are allowed
+     * for another typeKey. This is a convenience method to retrieve
+     * TypeTypeRelation with allowed relation type. This will retrieve
+     * all the type keys associated with the ObjectURI of the related
+     * type. The relationship is captured unidirectionally from
+     * ownerType to relatedType.
      * 
      * @param ownerTypeKey Type key of the owner in the relation
      * @param relatedRefObjectURI RefObjectURI of the related type.
@@ -78,10 +83,9 @@ public interface TypeService {
      */
     public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectURI") String relatedRefObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    
     /**
-     * 
-     * This method retrieves all the TypeTypeRelation objects for a given ownerType and the relationType
+     * This method retrieves all the TypeTypeRelation objects for a
+     * given ownerType and the relationType
      * 
      * @param ownerTypeKey Type key of the owner in the relation
      * @param relationTypeKey Type key of the relation 
