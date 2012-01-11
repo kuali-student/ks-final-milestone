@@ -2,6 +2,7 @@ package org.kuali.student.process.poc.evaluator;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -187,6 +188,10 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
             throw new OperationFailedException("unexpected", ex);
         }
 
+        // Set a calendar instance back to the end of 2011, since the POC assumes student is attempting to register before the end of the year
+        Calendar registerDate = Calendar.getInstance();
+        registerDate.set(2011, 11, 30);
+
         // start date check
         if (check.getTypeKey().equals(ProcessServiceConstants.START_DATE_CHECK_TYPE_KEY)) {
             MilestoneCheckContext checkContext = new MilestoneCheckContext();
@@ -195,7 +200,8 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
             checkContext.setAtpKey(processContext.getTermKey());
             checkContext.setStudentId(processContext.getStudentId());
             // TODO: get the as of date from the context once it is added there
-            checkContext.setDateToTest(new Date());
+
+            checkContext.setDateToTest(registerDate.getTime());
             checkContext.setComparison(MilestoneCheckContext.START_DATE);
             List<ValidationResultInfo> vrs = milestoneCheckEvaluator.evaluate(checkContext, context);
             return vrs;
@@ -208,7 +214,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
             checkContext.setAtpKey(processContext.getTermKey());
             checkContext.setStudentId(processContext.getStudentId());
             // TODO: get the as of date from the context once it is added there
-            checkContext.setDateToTest(new Date());
+            checkContext.setDateToTest(registerDate.getTime());
             checkContext.setComparison(MilestoneCheckContext.END_DATE);
             List<ValidationResultInfo> vrs = milestoneCheckEvaluator.evaluate(checkContext, context);
             return vrs;
@@ -221,7 +227,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
             checkContext.setAtpKey(processContext.getTermKey());
             checkContext.setStudentId(processContext.getStudentId());
             // TODO: get the as of date from the context once it is added there
-            checkContext.setDateToTest(new Date());
+            checkContext.setDateToTest(registerDate.getTime());
             checkContext.setComparison(MilestoneCheckContext.PERIOD);
             List<ValidationResultInfo> vrs = milestoneCheckEvaluator.evaluate(checkContext, context);
             return vrs;
