@@ -32,7 +32,7 @@ import java.util.Map;
 public class AcademicCalendarServiceCalculationDecorator extends AcademicCalendarServiceDecorator {
 
     @Override
-    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Integer startYear, Integer endYear, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AcademicCalendarInfo templateAcademicCalendar = getAcademicCalendar(academicCalendarId, contextInfo);
         AcademicCalendarInfo academicCalendar = new AcademicCalendarInfo(templateAcademicCalendar);
 
@@ -42,6 +42,8 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         academicCalendar.setDescr(new RichTextInfo(templateAcademicCalendar.getDescr()));
         academicCalendar.setTypeKey(templateAcademicCalendar.getTypeKey());
         academicCalendar.setHolidayCalendarIds(copyHolidayCalendars(templateAcademicCalendar, contextInfo));
+        academicCalendar.setStartDate(startDate);
+        academicCalendar.setEndDate(endDate);
 
         try {
             academicCalendar = createAcademicCalendar(academicCalendar.getId(), academicCalendar, contextInfo);

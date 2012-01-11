@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 import org.junit.Before;
@@ -834,13 +836,15 @@ public class TestAcademicCalendarServiceImpl {
 
     @Test
     public void testCopyAcademicCalendar() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
+            PermissionDeniedException, ParseException {
         final String originalCalendarKey = "ACADEMICCALENDAR1990";
         final String copiedCalendarKey = "ACADEMICCALENDAR1990COPY";
 
         AcademicCalendar originalCalendar = acalService.getAcademicCalendar(originalCalendarKey, callContext);
-
-        AcademicCalendar copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, 2008, 2009, callContext);
+        Date startDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2008-09-01");
+        Date endDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2009-08-31");
+        
+        AcademicCalendar copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
 
         assertEquals(originalCalendarKey, originalCalendar.getId());
         assertEquals(copiedCalendarKey, copiedCalendar.getId());

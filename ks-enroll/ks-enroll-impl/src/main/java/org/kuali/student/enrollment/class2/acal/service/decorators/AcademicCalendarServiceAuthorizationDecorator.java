@@ -234,7 +234,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
     }
 
     @Override
-    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Integer startYear, Integer endYear, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (null == contextInfo) {
@@ -242,7 +242,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
         }
 
         if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "copyAcademicCalendar", null, null)) {
-            return getNextDecorator().copyAcademicCalendar(academicCalendarId, startYear, endYear, contextInfo);
+            return getNextDecorator().copyAcademicCalendar(academicCalendarId, startDate, endDate, contextInfo);
         } else {
             throw new PermissionDeniedException();
         }
