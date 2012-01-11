@@ -429,6 +429,27 @@ public interface OrganizationService {
     public List<TypeInfo> getOrgOrgRelationTypesForOrgHierarchy(@WebParam(name = "orgHierarchyId") String orgHierarchyId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
+    // Test method for OrgOrgRelation.
+    //
+
+    /** 
+     * Tests if a org has a current relationship with a specified organization.
+     *
+     * @param orgId identifier of the organization
+     * @param comparisonOrgId identifier of the organization to be compared to
+     * @param orgOrgRelationTypeKey type of relationship between the organizations
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return true if a relationship exists
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgId, comparisonOrgId,
+     *         orgOrgRelationType, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public Boolean hasOrgOrgRelation(@WebParam(name = "orgId") String orgId, @WebParam(name = "comparisonOrgId") String comparisonOrgId, @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
     // Lookup Methods for OrgOrgRelation Symmetric Relationship
     // Pattern.
     //
@@ -714,6 +735,26 @@ public interface OrganizationService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<TypeInfo> getOrgPersonRelationTypesForOrgType(@WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // Test method for OrgPersonRelation.
+    //
+
+    /** 
+     * Tests if a person has a current relationship with a specified organization
+     *
+     * @param orgId identifier of the organization
+     * @param personId identifier of the person
+     * @param orgPersonRelationTypeKey type of relationship between the person and organization
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return true if a relationship exists
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException missing orgId, personId, orgPersonRelationTypeKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public Boolean hasOrgPersonRelation(@WebParam(name="orgId")String orgId, @WebParam(name="personId")String personId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
     // Lookup methods for OrgPersonRelation Assymmetrical Relationship
@@ -1255,7 +1296,7 @@ public interface OrganizationService {
     public StatusInfo deleteOrgPositionRestriction(@WebParam(name = "orgPositionRestrictionId") String orgPositionRestrictionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
                                                    
     //
-    // Miscellaneous lookup methods.
+    // Organization Herarchy methods.
     //
 
     /** 
@@ -1324,38 +1365,6 @@ public interface OrganizationService {
      */
     public List<String> getAllAncestors(@WebParam(name="orgId")String orgId, @WebParam(name="orgHierarchy")String orgHierarchy, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Tests if a person has a current relationship with a specified organization
-     *
-     * @param orgId identifier of the organization
-     * @param personId identifier of the person
-     * @param orgPersonRelationTypeKey type of relationship between the person and organization
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return true if a relationship exists
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException missing orgId, personId, orgPersonRelationTypeKey
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public Boolean hasOrgPersonRelation(@WebParam(name="orgId")String orgId, @WebParam(name="personId")String personId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Tests if a org has a current relationship with a specified organization.
-     *
-     * @param orgId identifier of the organization
-     * @param comparisonOrgId identifier of the organization to be compared to
-     * @param orgOrgRelationTypeKey type of relationship between the organizations
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return true if a relationship exists
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException orgId, comparisonOrgId,
-     *         orgOrgRelationType, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public Boolean hasOrgOrgRelation(@WebParam(name = "orgId") String orgId, @WebParam(name = "comparisonOrgId") String comparisonOrgId, @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Finds a list of all orgs in the org hierarchy starting at the
