@@ -9,7 +9,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 import org.kuali.student.r2.core.class1.atp.dao.MilestoneDao;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 

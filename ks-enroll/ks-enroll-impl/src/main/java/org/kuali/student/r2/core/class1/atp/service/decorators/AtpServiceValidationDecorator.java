@@ -11,7 +11,6 @@ import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 import org.kuali.student.r2.core.service.util.ValidationUtils;
 
 import java.util.Date;
