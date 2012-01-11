@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -39,6 +39,15 @@ public class EnumerationInfo extends KeyEntityInfo implements Enumeration, Seria
     private List<String> contextDescriptors;
     @XmlAnyElement
     private List<Element> _futureElements;
+
+    public EnumerationInfo() {
+    }
+
+    public EnumerationInfo(Enumeration enumeration) {
+        if (null != enumeration) {
+            this.contextDescriptors = new ArrayList<String>(enumeration.getContextDescriptors());
+        }
+    }
 
     @Override
     public List<String> getContextDescriptors() {

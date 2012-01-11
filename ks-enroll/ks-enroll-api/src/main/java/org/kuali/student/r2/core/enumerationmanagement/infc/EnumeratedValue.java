@@ -53,12 +53,16 @@ public interface EnumeratedValue extends HasEffectiveDates {
     /**
      * Default position for the enumerated value. This might or might not exist,
      * particularly in cases where the enumeration consists solely of a view.
+     *
+     * @name Sort Key
      */
     String getSortKey();
 
     /**
      * Indicates which context types and values this particular enumerated value
      * participates in.
+     *
+     * @name Contexts
      */
     List<? extends EnumContextValue> getContexts();
 

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -96,6 +96,7 @@ public interface EnumerationManagementService {
      *                       locale information about the caller of service
      *                       operation
      * @return List of Codes and Values
+     * @throws DoesNotExistException     enumerationKey not found
      * @throws InvalidParameterException invalid contextValue, contextDate or
      *                                   contextInfo
      * @throws MissingParameterException missing enumerationKey, contextTypeKey,
@@ -104,7 +105,7 @@ public interface EnumerationManagementService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<EnumeratedValueInfo> getEnumeratedValues(@WebParam(name = "enumerationKey") String enumerationKey, @WebParam(name = "contextTypeKey") String contextTypeKey, @WebParam(name = "contextValue") String contextValue, @WebParam(name = "contextDate") Date contextDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<EnumeratedValueInfo> getEnumeratedValues(@WebParam(name = "enumerationKey") String enumerationKey, @WebParam(name = "contextTypeKey") String contextTypeKey, @WebParam(name = "contextValue") String contextValue, @WebParam(name = "contextDate") Date contextDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates a value in a particular Enumeration. The pattern in this
@@ -160,12 +161,14 @@ public interface EnumerationManagementService {
      * Adds a value to a particular Enumeration.
      *
      * @param enumerationKey      Identifier for the Enumeration
+     * @param code                code identifying the value to be added
      * @param enumeratedValueInfo Value to be added
      * @param contextInfo         context information containing the principalId
      *                            and locale information about the caller of
      *                            service operation
      * @return Newly created enumerated value
-     * @throws AlreadyExistsException       enumerationKey already exists
+     * @throws AlreadyExistsException       combination of enumerationKey, code
+     *                                      already exists
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException        enumerationKey not found
      * @throws InvalidParameterException    invalid enumeratedValueInfo or
@@ -177,7 +180,7 @@ public interface EnumerationManagementService {
      * @throws ReadOnlyException            an attempt at changing information
      *                                      designated as read only
      */
-    public EnumeratedValueInfo addEnumeratedValue(@WebParam(name = "enumerationKey") String enumerationKey, @WebParam(name = "enumeratedValueInfo") EnumeratedValueInfo enumeratedValueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public EnumeratedValueInfo addEnumeratedValue(@WebParam(name = "enumerationKey") String enumerationKey, @WebParam(name = "code") String code, @WebParam(name = "enumeratedValueInfo") EnumeratedValueInfo enumeratedValueInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
 }
 
