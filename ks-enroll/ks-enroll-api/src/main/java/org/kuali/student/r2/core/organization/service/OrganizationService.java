@@ -1088,7 +1088,7 @@ public interface OrganizationService {
     public List<String> getOrgPositionRestrictionIdsByType(@WebParam(name = "orgPositionRestrictionTypeKey") String orgPositionRestrictionTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of OrgPositionRestrictions by by Org.
+     * Retrieves a list of OrgPositionRestrictions by Org.
      * 
      * @param orgId an identifier for the Org
      * @param contextInfo information containing the principalId and
