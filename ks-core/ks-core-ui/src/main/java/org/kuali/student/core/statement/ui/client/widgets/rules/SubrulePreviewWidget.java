@@ -168,6 +168,9 @@ public class SubrulePreviewWidget extends FlowPanel {
             // return requirement component text, including operator text if applicable
             ReqComponentInfo reqComp = subStatement.getReqComponents().iterator().next();
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
+            if (!firstInList) {
+                prefixOperator = parentStatement.getOperator();
+            }
             return buildRequirementPanel(reqComp, prefixOperator, nl);
           }
         
