@@ -129,8 +129,8 @@ public class AcademicCalendarServiceDecorator
     }
           
     @Override                                   
-    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Integer startYear, Integer endYear, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return (getNextDecorator().copyAcademicCalendar(academicCalendarId, startYear, endYear, contextInfo));
+    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().copyAcademicCalendar(academicCalendarId, startDate, endDate, contextInfo));
     }
 
     @Override

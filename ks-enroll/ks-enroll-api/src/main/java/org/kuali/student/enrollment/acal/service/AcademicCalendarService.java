@@ -376,15 +376,15 @@ public interface AcademicCalendarService {
      * are also copied and related to this new calendar. This copy
      * operation allows for a AcademicCalendar to be created from an
      * existing AcademicCalendar in which the dates of the Terms and
-     * Key Dates will be updated. Currently, this method does not
-     * perform any date transformations on the Terms and key dates
-     * (Labor Day has a new date). A rollover process needs to make a
-     * copy of a calendar and set the new dates for the new year.
+     * Key Dates will be updated. 
+     * 
+     * This method may perform date transformations on the Terms and key dates 
+     * to make them applicable under the new academic calendar. 
      * 
      * @param academicCalendarId the identifier for the Academic
      *        Calendar to be copied
-     * @param startYear the start of the new calendar year
-     * @param endYear the end of the new calendar year
+     * @param startDate the start of the new calendar
+     * @param endDate the end of the new calendar
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return status of the copy operation. This must always be true.
@@ -395,7 +395,7 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public AcademicCalendarInfo copyAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "startYear") Integer startYear, @WebParam(name = "endYear") Integer endYear, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AcademicCalendarInfo copyAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Generates calendaring data for the Terms and key dates in an Academic
