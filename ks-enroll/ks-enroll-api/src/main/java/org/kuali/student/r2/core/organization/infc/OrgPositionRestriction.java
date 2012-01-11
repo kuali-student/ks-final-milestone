@@ -25,6 +25,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
  * constraints/descriptions typically involve active relationships.
  *
  * Changes: getTitle() -> getName()
+ *          MaxNumRelations String->Integer
  *
  * @author tom
  */ 
