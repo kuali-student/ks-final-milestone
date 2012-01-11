@@ -531,7 +531,7 @@ public interface OrganizationService {
      * @return a list of OrgOrgRelations of the specified OrgOrgRelationType for
      *         the given Org or an empty list if none found
      * @throws InvalidParameterException contextInfo is notvalid
-     * @throws MissingParameterException orgId, orgOrgRelationTypeKey, or
+     * @throws MissingParameterException orgOrgRelationTypeKey, orgId, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -819,12 +819,86 @@ public interface OrganizationService {
      * @return a list of OrgPersonRelations of the specified OrgPersonRelationType for
      *         the given Org or an empty list if none found
      * @throws InvalidParameterException contextInfo is notvalid
-     * @throws MissingParameterException orgId, orgPersonRelationTypeKey, or
-     *         contextInfo is missing or null
+     * @throws MissingParameterException orgPersonRelationTypeKey,
+     *         orgId, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrg(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves all OrgPersonRelations to the given Person.
+     * 
+     * @param personId the identifier for the Person
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of OrgPersonRelations to the given Person or an
+     *         empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException personId or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(@WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of OrgPersonRelations of the specified
+     * OrgPersonRelationType for a Person.
+     * 
+     * @param orgPersonRelationTypeKey the identifier for an
+     *        OrgPersonRelationType
+     * @param personId the identifier for a Person
+     * @param contextInfo information containing the principalId and locale
+     *        information about the caller of service operation
+     * @return a list of OrgPersonRelations of the specified OrgPersonRelationType for
+     *         the given Person or an empty list if none found
+     * @throws InvalidParameterException contextInfo is notvalid
+     * @throws MissingParameterException orgPersonRelationTypeKey,
+     *         personId, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndPerson(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves all OrgPersonRelations between the given Orn and
+     * Person.
+     * 
+     * @param orgId the identifier for the Org
+     * @param personId the identifier for the Person
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of OrgPersonRelations to the given Org and
+     *         Person or an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgId, personId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrgAndPerson(@WebParam(name = "orgId") String orgId, @WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of OrgPersonRelations of the specified
+     * OrgPersonRelationType between an Org and a Person.
+     * 
+     * @param orgPersonRelationTypeKey the identifier for an
+     *        OrgPersonRelationType
+     * @param orgId the identifier for the Org
+     * @param personId the identifier for a Person
+     * @param contextInfo information containing the principalId and locale
+     *        information about the caller of service operation
+     * @return a list of OrgPersonRelations of the specified
+     *         OrgPersonRelationType for the given Org and Person or
+     *         an empty list if none found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgPersonRelationTypeKey,
+     *         orgId, personId, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrgAndPerson(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
     // Search methods for OrgPersonRelation Assymmetrical Relationship
@@ -969,49 +1043,247 @@ public interface OrganizationService {
      */
     public StatusInfo deleteOrgPersonRelation(@WebParam(name = "orgPersonRelationId") String orgPersonRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    //
+    // Lookup Methods for OrgPositionRestriction Dependent Id Entity
+    // Pattern.
+    //
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /** 
-     * Validates an organization position restriction. Depending on
-     * the value of validationType, this validation could be limited
-     * to tests on just the current object and its directly contained
-     * sub-objects or expanded to perform all tests related to this
-     * object. If an identifier is present for the position
-     * restriction (and/or one of its contained sub-objects) and a
-     * record is found for that identifier, the validation checks if
-     * the position restriction can be shifted to the new values. If
-     * an identifier is not present or a record cannot be found for
-     * the identifier, it is assumed that the record does not exist
-     * and as such, the checks performed will be much shallower,
-     * typically mimicking those performed by setting the
-     * validationType to the current object.
-     *
-     * @param validationType identifier of the extent of validation
-     * @param orgPositionRestrictionInfo organization position restriction information to be tested.
+    /**
+     * Retrieves a single OrgPositionRestriction by
+     * OrgPositionRestriction id.
+     * 
+     * @param orgPositionRestrictionId the identifier of the
+     *        OrgPositionRestriction to be retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException orgPositionRestrictionInfo
-     *         or contextInfo is not valid
-     * @throws MissingParameterException missing validationTypeKey, orgPositionRestrictionInfo
+     * @return the OrgPositionRestriction requested
+     * @throws DoesNotExistException orgPositionRestrictionId is not found
+     * @throws InvalidParameterException contextInfo not valid
+     * @throws MissingParameterException orgPositionRestrictionId or
+     *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateOrgPositionRestriction(@WebParam(name="validationType")String validationType, @WebParam(name="orgPositionRestrictionInfo")OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public OrgPositionRestrictionInfo getOrgPositionRestriction(@WebParam(name = "orgPositionRestrictionId") String orgPositionRestrictionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of OrgPositionRestrictions from a list of
+     * OrgPositionRestriction ids. The returned list may be in any
+     * order and if duplicate ids are supplied, a unique set may or
+     * may not be returned.
+     * 
+     * @param orgPositionRestrictionIds a list of OrgPositionRestriction ids
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of OrgPositionRestrictions
+     * @throws DoesNotExistException an orgPositionRestrictionId in
+     *         the list not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgPositionRestrictionIds, an
+     *         id in orgPositionRestrictionIds, or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<OrgPositionRestrictionInfo> getOrgPositionRestrictionsByIds(@WebParam(name = "orgPositionRestrictionIds") List<String> orgPositionRestrictionIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of OrgPositionRestrictions by
+     * OrgPositionRestriction Type.
+     * 
+     * @param orgPositionRestrictionTypeKey an identifier for the OrgPositionRestriction
+     *        type
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of OrgPositionRestriction ids matching
+     *         orgPositionRestrictionTypeKey or an empty list if none found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException orgPositionRestrictionTypeKey or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getOrgPositionRestrictionIdsByType(@WebParam(name = "orgPositionRestrictionTypeKey") String orgPositionRestrictionTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of OrgPositionRestrictions by by Org.
+     * 
+     * @param orgId an identifier for the Org
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of OrgPositionRestrictions for the Org 
+     * @throws DoesNotExistException orgId is not found
+     * @throws InvalidParameterException contextInfo is invalid
+     * @throws MissingParameterException orgIdy or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getOrgPositionRestrictionIdsByOrg(@WebParam(name = "orgId") String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // Search methods for OrgPositionRestriction Dependent Id Entity
+    // Pattern.
+    //
+
+    /**
+     * Searches for OrgPositionRestriction ids that meet the given
+     * search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of OrgPositionRestriction identifiers matching the
+     *         criteria
+     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForOrgPositionRestrictionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for OrgPositionRestrictions that meet the given search
+     * criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of OrgPositionRestrictions matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<OrgPositionRestrictionInfo> searchForOrgPositionRestrictions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // CRUD methods for OrgPositionRestriction Dependent Id Entity
+    // Pattern.
+    //
+
+    /**
+     * Validates an OrgPositionRestriction. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained sub-objects
+     * or expanded to perform all tests related to this
+     * OrgPositionRestriction. If an identifier is present for the
+     * OrgPositionRestriction (and/or one of its contained
+     * sub-objects) and a record is found for that identifier, the
+     * validation checks if the OrgPositionRestriction can be shifted
+     * to the new values. If a an identifier is not present or a
+     * record does not exist, the validation checks if the
+     * OrgPositionRestriction with the given data can be created.
+     * 
+     * @param validationTypeKey the identifier for the validation Type
+     * @param orgId the identifier for the Org
+     * @param orgPositionRestrictionTypeKey the identifier for the 
+     *        OrgPositionRestriction Type to be validated
+     * @param orgPositionRestrictionInfo the identifier for the
+     *        OrgPositionRestriction to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey, orgId, or
+     *         orgPositionRestrictionTypeKey is not found
+     * @throws InvalidParameterException orgPositionRestrictionInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, orgId,
+     *         orgPositionRestrictionTypeKey
+     *         orgPositionRestrictionInfo, or contextInfo is missing
+     *         or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateOrgPositionRestriction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "orgPositionRestrictionTypeKey") String orgPositionRestrictionTypeKey, @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new OrgPositionRestriction. The
+     * OrgPositionRestriction Type and Meta information may not be set
+     * in the supplied data object.
+     * 
+     * @param orgPositionRestrictionTypeKey a unique identifier for
+     *        the Type of the new OrgPositionRestriction
+     * @param orgPositionRestrictionInfo the data with which to create
+     *        the OrgPositionRestriction
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new OrgPositionRestriction
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException orgPositionRestrictionTypeKey does not exist or is
+     *         not supported
+     * @throws InvalidParameterException orgPositionRestrictionInfo or contextInfo is not valid
+     * @throws MissingParameterException orgId,
+     *         orgPositionRestrictionTypeKey,
+     *         orgPositionRestrictionInfo, or contextInfo is missing
+     *         or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     */
+    public OrgPositionRestrictionInfo createOrgPositionRestriction(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgPositionRestrictionTypeKey") String orgPositionRestrictionTypeKey, @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing OrgPositionRestriction. The
+     * OrgPositionRestriction id, Type, and Meta information may not
+     * be changed.
+     * 
+     * @param orgPositionrestrictionId the identifier for the
+     *        OrgPositionRestriction to be updated
+     * @param orgPositionRestrictionInfo the new data for the OrgPositionRestriction
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the updated OrgPositionRestriction
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException orgPositionRestrictionId is not found
+     * @throws InvalidParameterException orgPositionRestrictionInfo or
+     *         contextInfo is not valid
+     * @throws MissingParameterException orgPositionRestrictionId,
+     *         orgPositionRestrictionInfo, or contextInfo is missing
+     *         or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     * @throws VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
+     */
+    public OrgPositionRestrictionInfo updateOrgPositionRestriction(@WebParam(name = "orgPositionRestrictionId") String orgPositionRestrictionId, @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing OrgPositionRestriction.
+     * 
+     * @param orgPositionRestrictionId the identifier for the
+     *        OrgPositionRestriction to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException orgPositionRestrictionId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException orgPositionRestrictionId or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteOrgPositionRestriction(@WebParam(name = "orgPositionRestrictionId") String orgPositionRestrictionId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+
+
+
+
+
+
+
+
+
+
+    // TODO
 
 
 
@@ -1118,86 +1390,6 @@ public interface OrganizationService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public Boolean hasOrgPersonRelation(@WebParam(name="orgId")String orgId, @WebParam(name="personId")String personId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Retrieves a list of organization-specific restrictions on
-     * relationships with people for a particular organization.
-     *
-     * @param orgId identifier of the organization
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return list of the organization-specific position restriction information
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException the orgId not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException missing orgId
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<OrgPositionRestrictionInfo> getPositionRestrictionsByOrg(@WebParam(name="orgId")String orgId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException;
-
-
-    /** 
-     * Adds a description of the organization-specific usage of an
-     * organization person relationship type. This information
-     * typically coincides with constraints, such as how many
-     * relationships of a given type may be active at a particular
-     * time, etc.
-     *
-     * @param orgId organization
-     * @param orgPersonRelationTypeKey organization person relationship type
-     * @param orgPositionRestrictionInfo organization position restriction information
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return information about the newly created organization position restriction
-     * @throws AlreadyExistsException org position restriction already exists
-     * @throws DataValidationErrorException one or more values invalid for this operation
-     * @throws DoesNotExistException the orgId, orgPersonRelationTypeKey not found
-     * @throws InvalidParameterException orgPersonrestrictionInfo or
-     *         contextInfo is not valid
-     * @throws MissingParameterException missing orgId, orgPersonRelationTypeKey, orgPositionRestrictionInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public OrgPositionRestrictionInfo addPositionRestrictionToOrg(@WebParam(name="orgId")String orgId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name="orgPositionRestrictionInfo")OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Updates a description of the organization-specific usage of an
-     * organization person relationship type.
-     *
-     * @param orgId organization
-     * @param orgPersonRelationTypeKey organization person relationship type
-     * @param orgPositionRestrictionInfo organization position restriction information
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return information about the updated organization position restriction
-     * @throws DataValidationErrorException one or more values invalid for this operation
-     * @throws DoesNotExistException orgId, orgPersonRelationTypeKey not found
-     * @throws InvalidParameterException orgPersonrestrictionInfo or
-     *         contextInfo is not valid
-     * @throws MissingParameterException missing orgId, orgPersonRelationTypeKey, orgPositionRestrictionInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @throws VersionMismatchException action was attempted on an out of date version.
-     */
-    public OrgPositionRestrictionInfo updatePositionRestrictionForOrg(@WebParam(name="orgId")String orgId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name="orgPositionRestrictionInfo")OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /** 
-     * Removes a description of the organization-specific usage of an
-     * organization person relationship type.
-     *
-     * @param orgId organization
-     * @param orgPersonRelationTypeKey organization person relationship type
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return status
-     * @throws DoesNotExistException the orgId, orgPersonRelationTypeKey not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException missing orgId, orgPersonRelationTypeKey
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StatusInfo removePositionRestrictionFromOrg(@WebParam(name="orgId")String orgId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     
     /**
