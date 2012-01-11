@@ -414,7 +414,7 @@ public interface AtpService {
      * @return a list of AtpAtpRelation identifiers matching
      *         atpAtpRelationTypeKey or an empty list if none found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpRelationTypeKey or
+     * @throws MissingParameterException atpAtpRelationTypeKey or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -444,7 +444,7 @@ public interface AtpService {
      * @param atpId the identifier for the ATP
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of AtpAtprelations between the given ATPs or an empty list
+     * @return a list of AtpAtpRelations between the given ATPs or an empty list
      *         if none found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException atpId, atpPeerId, or
@@ -460,7 +460,7 @@ public interface AtpService {
      * backwards).
      * 
      * @param atpId the identifier for an ATP
-     * @param atpRelationTypeKey the identifier for an AtpAtpRelationType
+     * @param atpAtpRelationTypeKey the identifier for an AtpAtpRelationType
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
      * @return a list of AtpAtpRelations of the specified AtpAtpRelationType for
@@ -471,7 +471,7 @@ public interface AtpService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpAtpRelationTypeKey") String atpAtpRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
     // Search methods for AtpAtpRelation Symmetrical Relationship Pattern.
