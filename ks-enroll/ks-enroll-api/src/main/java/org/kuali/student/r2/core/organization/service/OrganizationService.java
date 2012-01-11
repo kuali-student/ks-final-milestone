@@ -246,7 +246,7 @@ public interface OrganizationService {
     public List<String> getOrgIdsByType(@WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
-    // Search methods for Org id Entity Pattern.
+    // Search methods for Org Id Entity Pattern.
     //
 
     /**
