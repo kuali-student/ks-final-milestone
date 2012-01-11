@@ -4,12 +4,15 @@ package org.kuali.student.lum.program.client.major.view;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
@@ -18,6 +21,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -38,11 +42,10 @@ import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 
-public class MajorViewController extends MajorController {
+public class MajorViewController extends MajorController implements RequiresAuthorization{
 
     // TODO: Change to program and copy msgs
     private static final String MSG_GROUP = "program";
@@ -456,4 +459,31 @@ public class MajorViewController extends MajorController {
         viewContext.setIdType(IdAttributes.IdType.COPY_OF_OBJECT_ID); 
         Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
     }
+    
+    @Override
+	public boolean isAuthorizationRequired() {
+		return true;
+	}
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_FIND_PROGRAM_SCREEN, new Callback<Boolean>() {
+			@Override
+			public void exec(Boolean result) {
+
+				final boolean isAuthorized = result;
+	        
+				if(isAuthorized){
+					authCallback.isAuthorized();
+				}
+				else
+					authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_FIND_PROGRAM_SCREEN);
+			}	
+		});
+	}
 }

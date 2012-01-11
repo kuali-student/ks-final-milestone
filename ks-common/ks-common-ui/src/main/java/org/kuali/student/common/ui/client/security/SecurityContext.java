@@ -111,11 +111,11 @@ public class SecurityContext {
 	 * @param screenComponent
 	 * @return true if user has access to the screen component
 	 */
-	public void checkCachedScreenPermission(final String screenComponent){		
+	public boolean checkCachedScreenPermission(final String screenComponent){		
         if (permissionCache.containsKey(screenComponent)){
-        	permissionCache.get(screenComponent);
+        	return permissionCache.get(screenComponent);
         } else{
-        	throw new RuntimeException("Permission not cached");
+        	throw new RuntimeException("Permission not cached " + screenComponent);
         }
 	}
 

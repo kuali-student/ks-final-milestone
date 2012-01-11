@@ -2,12 +2,18 @@ package org.kuali.student.lum.lu.ui.dependency.client.controllers;
 
 import java.util.List;
 
+import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.dependency.client.views.DependencyAnalysisView;
 
-public class DependencyAnalysisController extends BasicLayout {
+public class DependencyAnalysisController extends BasicLayout implements RequiresAuthorization{
 
     public enum DependencyViews {
         MAIN
@@ -68,5 +74,32 @@ public class DependencyAnalysisController extends BasicLayout {
         }
         return name;
     }
+    
+    @Override
+	public boolean isAuthorizationRequired() {
+		return true;
+	}
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_DEPENDENCY_ANALYSIS_SCREEN, new Callback<Boolean>() {
+			@Override
+			public void exec(Boolean result) {
+
+				final boolean isAuthorized = result;
+	        
+				if(isAuthorized){
+					authCallback.isAuthorized();
+				}
+				else
+					authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_DEPENDENCY_ANALYSIS_SCREEN);
+			}	
+		});
+	}
 
 }

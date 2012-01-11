@@ -141,24 +141,21 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 				        	}
 				        	
 				        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
-				        	if (permType != null) {
-				        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
-				            	//A callback is required if async rpc call is required for authz check
-					        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
-									public void isAuthorized() {
-										finalizeShowView(view, viewType, onReadyCallback);
-									}
-				
-									public void isNotAuthorized(String msg) {
-										Window.alert(msg);
-										onReadyCallback.exec(false);					
-									}        		
-					        	});
-				        	}
-				        	else {
-				        		GWT.log("Cannot find PermissionType for view '" + view.toString() + "' which requires authorization", null);
-				            	finalizeShowView(view, viewType, onReadyCallback);
-				        	}
+			        	 	if(permType==null){
+			        	 		permType=PermissionType.USE_SCREEN;
+			        	 	}
+			        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
+			            	//A callback is required if async rpc call is required for authz check
+				        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
+								public void isAuthorized() {
+									finalizeShowView(view, viewType, onReadyCallback);
+								}
+			
+								public void isNotAuthorized(String msg) {
+									Window.alert(msg);
+									onReadyCallback.exec(false);					
+								}        		
+				        	});
 				        } else {
 				    		GWT.log("Not Requiring Auth.", null);
 				        	finalizeShowView(view, viewType, onReadyCallback);

@@ -35,6 +35,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
@@ -51,6 +53,7 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSect
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
@@ -75,7 +78,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements{
+public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements, RequiresAuthorization{
     private final DataModel cluModel = new DataModel(); 
    
     private WorkQueue modelRequestQueue;
@@ -147,11 +150,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 
             }
             
-        });
-        
-    	
+        });	
     }
-    
      
     public Widget generateActionDropDown(){		    	
     	CourseWorkflowActionList actionList = new CourseWorkflowActionList(this.getMessage("cluActionsLabel"), getViewContext(), "/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", cluModel, new Callback<String>() {
@@ -501,4 +501,31 @@ public class ViewCourseController extends TabMenuController implements DocumentL
         }
         return exportElements;
     }
+    
+	@Override
+	public boolean isAuthorizationRequired() {
+		return true;
+	}
+
+	@Override
+	public void setAuthorizationRequired(boolean required) {
+		throw new UnsupportedOperationException();
+	}
+	
+	@Override
+	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_FIND_COURSE_SCREEN, new Callback<Boolean>() {
+			@Override
+			public void exec(Boolean result) {
+
+				final boolean isAuthorized = result;
+	        
+				if(isAuthorized){
+					authCallback.isAuthorized();
+				}
+				else
+					authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_FIND_COURSE_SCREEN);
+			}	
+		});
+	}
 }
