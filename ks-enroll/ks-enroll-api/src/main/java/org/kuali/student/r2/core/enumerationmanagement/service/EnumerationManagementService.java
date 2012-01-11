@@ -36,6 +36,15 @@ import javax.jws.soap.SOAPBinding;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * Enumeration Management service supports the management of code tables for
+ * other services. It is only accessed by authorized callers configuring some
+ * piece of the system.
+ *
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
+ */
+
 @WebService(name = "EnumerationManagementService", targetNamespace = EnumerationManagementServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface EnumerationManagementService {
