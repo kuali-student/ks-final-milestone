@@ -9,10 +9,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
@@ -23,6 +21,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
@@ -106,20 +105,20 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     @Override
     public TypeInfo getActivityOfferingType(String activityOfferingTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getActivityOfferingType(activityOfferingTypeKey, context);
     }
 
     @Override
     public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getAllActivityOfferingTypes(context);
     }
 
     @Override
     public List<TypeInfo> getActivityOfferingTypesForActivityType(String activityTypeKey, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
+            OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getActivityOfferingTypesForActivityType(activityTypeKey, context);
     }
 

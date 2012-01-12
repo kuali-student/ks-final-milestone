@@ -16,8 +16,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Type;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.core.type.infc.Type;
 
 /**
  * Types for Learning Person Relations

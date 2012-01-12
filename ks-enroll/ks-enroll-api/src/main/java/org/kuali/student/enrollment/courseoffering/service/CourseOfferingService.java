@@ -23,10 +23,8 @@ import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
@@ -38,6 +36,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 /**
  * Version: DRAFT - NOT READY FOR RELEASE. Course Offering is a Class II service
@@ -297,7 +296,7 @@ public interface CourseOfferingService {
     /**
      * Validates a course offering. Depending on the value of validationType,
      * this validation could be limited to tests on just the current object and
-     * its directly contained subobjects or expanded to perform all tests
+     * its directly contained sub-objects or expanded to perform all tests
      * related to this object. If an identifier is present for the academic
      * calendar and a record is found for that identifier, the validation checks
      * if the academic calendar can be shifted to the new values. If a record
@@ -451,10 +450,11 @@ public interface CourseOfferingService {
      * @throws InvalidParameterException invalid activityOfferingTypeKey
      * @throws MissingParameterException missing activityOfferingTypeKey
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public TypeInfo getActivityOfferingType(@WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns the valid activity offering types.
@@ -465,9 +465,11 @@ public interface CourseOfferingService {
      * @throws InvalidParameterException invalid context
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<TypeInfo> getAllActivityOfferingTypes(@WebParam(name = "context") ContextInfo context)
-            throws InvalidParameterException, MissingParameterException, OperationFailedException;
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, 
+            PermissionDeniedException;
 
     /**
      * This method returns the valid activity offering types for a given
@@ -481,11 +483,12 @@ public interface CourseOfferingService {
      * @throws InvalidParameterException invalid context
      * @throws MissingParameterException missing context
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<TypeInfo> getActivityOfferingTypesForActivityType(
             @WebParam(name = "activityTypeKey") String activityTypeKey, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException;
+            OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve information about an ActivityOffering
@@ -788,8 +791,7 @@ public interface CourseOfferingService {
      *             invalid activityOfferingId
      * @throws OperationFailedException
      *             unable to complete request
-     * @throws PermissionDeniedException
-     *             authorization failure
+     * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteActivityOfferingRestriction(
             @WebParam(name = "activityOfferingId") String activityOfferingId,
@@ -826,8 +828,7 @@ public interface CourseOfferingService {
      *             invalid validationTypeKey, academicCalendarInfo
      * @throws MissingParameterException
      *             missing validationTypeKey, academicCalendarInfo
-     * @throws OperationFailedException
-     *             unable to complete request
+     * @throws OperationFailedException unable to complete request
      */
     public List<ValidationResultInfo> validateActivityOfferingRestriction(
             @WebParam(name = "validationType") String validationType,
