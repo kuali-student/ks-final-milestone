@@ -3,7 +3,7 @@ package org.kuali.student.r2.core.class1.atp.dao;
 import java.util.List;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
+import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 
 public class AtpTypeDao extends GenericEntityDao<AtpTypeEntity>{
 

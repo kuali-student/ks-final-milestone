@@ -9,7 +9,7 @@ import org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity;
 import org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity;
 import org.kuali.student.enrollment.class1.lrr.model.LrrRichTextEntity;
 import org.kuali.student.enrollment.class1.lrr.model.LrrTypeEntity;
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
 import java.util.ArrayList;
 import java.util.List;

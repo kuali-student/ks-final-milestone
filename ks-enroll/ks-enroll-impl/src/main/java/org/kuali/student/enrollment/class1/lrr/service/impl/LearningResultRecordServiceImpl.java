@@ -9,12 +9,10 @@ import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.dto.ResultSourceInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.common.util.constants.LrrServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +20,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
 
 @WebService(endpointInterface = "org.kuali.student.enrollment.lrr.service.LearningResultRecordService", serviceName = "LearningResultRecordService", portName = "LearningResultRecordService", targetNamespace = "http://student.kuali.org/wsdl/lrr")
 @Transactional(readOnly=true,noRollbackFor={org.kuali.student.common.exceptions.DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -80,7 +80,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             newLrr.setResultSourceList(resultSourceEntities);
 
             if (learningResultRecord.getStateKey() != null)  {
-                newLrr.setLrrState(findState(LrrServiceConstants.COURSE_FINAL_GRADING_LIFECYCLE_KEY, learningResultRecord.getStateKey(), context));
+                newLrr.setLrrState(findState(learningResultRecord.getStateKey(), context));
             }
 
             if (learningResultRecord.getTypeKey() != null) {
@@ -111,7 +111,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         modifiedLrr.setResultSourceList(resultSourceEntities);
 
         if (learningResultRecordInfo.getStateKey() != null)
-            modifiedLrr.setLrrState(findState(LrrServiceConstants.COURSE_FINAL_GRADING_LIFECYCLE_KEY, learningResultRecordInfo.getStateKey(), context));
+            modifiedLrr.setLrrState(findState(learningResultRecordInfo.getStateKey(), context));
         if (learningResultRecordInfo.getTypeKey() != null)
             modifiedLrr.setLrrType(lrrTypeDao.find(learningResultRecordInfo.getTypeKey()));
         lrrDao.merge(modifiedLrr);
@@ -119,25 +119,25 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         return lrrDao.find(modifiedLrr.getId()).toDto();
     }
 
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException{
+    private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException, PermissionDeniedException{
 		StateEntity state = null;
 		try {
-			StateInfo stInfo = getState(processKey, stateKey, context);
+			StateInfo stInfo = getState(stateKey, context);
 			if(stInfo != null){
 				state = new StateEntity(stInfo);
 				return state;
 			}
 			else
-				throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+				throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
 		} catch (DoesNotExistException e) {
-			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+			throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
 		}
     }
 
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
+    private StateInfo getState(String stateKey, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StateInfo stateInfo = stateService.getState(stateKey, context);
         return stateInfo;
     }
 
@@ -153,7 +153,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
-        StateEntity state = findState(LrrServiceConstants.COURSE_FINAL_GRADING_LIFECYCLE_KEY,LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY,context);
+        StateEntity state = findState(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY,context);
 
         if (state == null){
             throw new DoesNotExistException(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY + " state not found");

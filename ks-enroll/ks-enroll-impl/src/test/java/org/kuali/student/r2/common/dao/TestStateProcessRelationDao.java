@@ -1,5 +1,6 @@
 package org.kuali.student.r2.common.dao;
 
+import org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao;
 import static org.junit.Assert.*;
 
 import java.util.List;
@@ -9,21 +10,21 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.model.StateProcessEntity;
-import org.kuali.student.r2.common.model.StateProcessRelationEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.LifecycleEntity;
+import org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestStateProcessRelationDao extends AbstractTransactionalDaoTest{
 	@Dao(value = "org.kuali.student.r2.common.dao.StateProcessRelationDao", testSqlFile = "classpath:ks-common.sql")
-    private StateProcessRelationDao dao;
+    private StateLifecycleRelationDao dao;
 	
 	@Test	
 	public void testGetStateProcessRelation(){
-		StateProcessRelationEntity spr = dao.find("PROCESS-1");
+		StateLifecycleRelationEntity spr = dao.find("PROCESS-1");
 		assertNotNull(spr);
-        StateProcessEntity sp = spr.getProcess();
+        LifecycleEntity sp = spr.getProcess();
         assertNotNull(sp);
         assertEquals(AtpServiceConstants.ATP_PROCESS_KEY, sp.getId());
         StateEntity state = spr.getPriorState();

@@ -20,17 +20,10 @@ import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.dao.TypeTypeRelationDao;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.entity.BaseAttributeEntity;
-import org.kuali.student.r2.common.entity.TypeEntity;
-import org.kuali.student.r2.common.entity.TypeTypeRelationEntity;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -41,11 +34,11 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.lum.lu.service.LuService;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -376,18 +369,18 @@ public class LuiServiceImpl implements LuiService {
 	    return new ArrayList<ValidationResultInfo>();
 	}
 
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+    private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
     	StateEntity state = null;
 		try {
-			StateInfo stInfo = stateService.getState(processKey, stateKey, context);
+			StateInfo stInfo = stateService.getState(stateKey, context);
         	if(stInfo != null){
         		state = new StateEntity(stInfo);
         		return state;
         	}
         	else
-        		throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+        		throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
 		} catch (DoesNotExistException e) {
-			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+			throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
 		}			
     }
 
@@ -446,7 +439,7 @@ public class LuiServiceImpl implements LuiService {
         	entity.setAtpId(atpId);
 
         if (null != luiInfo.getStateKey())
-        	entity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));
+        	entity.setLuiState(findState(luiInfo.getStateKey(), context));
         
         if (null != luiInfo.getTypeKey())
         	entity.setLuiType(findType(luiInfo.getTypeKey()));
@@ -495,7 +488,7 @@ public class LuiServiceImpl implements LuiService {
             	modifiedEntity.setAtpId(atpId);
 
             if (null != luiInfo.getStateKey())
-            	modifiedEntity.setLuiState(findState(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, luiInfo.getStateKey(), context));
+            	modifiedEntity.setLuiState(findState(luiInfo.getStateKey(), context));
             
             if (null != luiInfo.getTypeKey())
             	modifiedEntity.setLuiType(findType(luiInfo.getTypeKey()));
@@ -610,7 +603,7 @@ public class LuiServiceImpl implements LuiService {
             entity.setId(UUIDHelper.genStringUUID());
 
             if (null != luiLuiRelationInfo.getStateKey()) {
-                entity.setLuiLuiRelationState(findState(LuiServiceConstants.LUI_LUI_RELATION_PROCESS_KEY, luiLuiRelationInfo.getStateKey(), context));
+                entity.setLuiLuiRelationState(findState(luiLuiRelationInfo.getStateKey(), context));
             }
             if (null != luiLuiRelationInfo.getTypeKey()) {
             	entity.setLuiLuiRelationType(findType(luiLuiRelationInfo.getTypeKey()));

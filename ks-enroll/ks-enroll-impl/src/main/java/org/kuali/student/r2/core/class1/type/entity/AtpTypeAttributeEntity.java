@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.class1.atp.model;
+package org.kuali.student.r2.core.class1.type.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;

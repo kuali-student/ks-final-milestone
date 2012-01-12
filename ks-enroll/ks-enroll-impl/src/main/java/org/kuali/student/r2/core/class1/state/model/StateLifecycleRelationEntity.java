@@ -1,4 +1,4 @@
-package org.kuali.student.r2.common.model;
+package org.kuali.student.r2.core.class1.state.model;
 
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -16,10 +16,10 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 	@NamedQuery(name="StateProcess.getInitialValidStates", query="select spr.nextState from StateProcessRelationEntity spr where spr.priorState.id is null and spr.process.id=:processKey"),
 	@NamedQuery(name="StateProcess.getNextHappyState", query="select spr.nextState from StateProcessRelationEntity spr where spr.priorState.id=:stateKey and spr.process.id=:processKey")
 })
-public class StateProcessRelationEntity extends MetaEntity {
+public class StateLifecycleRelationEntity extends MetaEntity {
 	@ManyToOne
     @JoinColumn(name="PROCESS_KEY")
-    private StateProcessEntity process;
+    private LifecycleEntity process;
     
 	@ManyToOne
     @JoinColumn(name="PRIOR_STATEKEY")
@@ -37,11 +37,11 @@ public class StateProcessRelationEntity extends MetaEntity {
 		this.priorState = priorState;
 	}
 
-	public StateProcessEntity getProcess() {
+	public LifecycleEntity getProcess() {
 		return process;
 	}
 
-	public void setProcess(StateProcessEntity process) {
+	public void setProcess(LifecycleEntity process) {
 		this.process = process;
 	}
 

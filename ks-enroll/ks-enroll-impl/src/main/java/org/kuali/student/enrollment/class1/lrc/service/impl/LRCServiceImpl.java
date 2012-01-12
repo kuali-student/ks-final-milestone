@@ -8,11 +8,9 @@ import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
 import org.kuali.student.enrollment.class1.lrc.model.ResultScaleEntity;
 import org.kuali.student.enrollment.class1.lrc.model.ResultValueEntity;
 import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
@@ -24,6 +22,8 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
 
 @WebService(name = "LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -73,7 +73,7 @@ public class LRCServiceImpl implements LRCService {
 
         ResultValuesGroupEntity newEntity = new ResultValuesGroupEntity(gradeValuesGroupInfo);
         if (StringUtils.isNotBlank(gradeValuesGroupInfo.getStateKey())){
-            newEntity.setState(findState(LrcServiceConstants.RESULT_VALUES_GROUP_PROCESS_KEY,gradeValuesGroupInfo.getStateKey(),context));
+            newEntity.setState(findState(gradeValuesGroupInfo.getStateKey(),context));
         }
 
         if (StringUtils.isNotBlank(gradeValuesGroupInfo.getTypeKey())){
@@ -162,19 +162,19 @@ public class LRCServiceImpl implements LRCService {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException,
-			MissingParameterException, OperationFailedException{
+    private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException, PermissionDeniedException{
 		StateEntity state = null;
 		try {
-			StateInfo stInfo = stateService.getState(processKey, stateKey, context);
+			StateInfo stInfo = stateService.getState(stateKey, context);
 			if(stInfo != null){
 				state = new StateEntity(stInfo);
 				return state;
 			}
 			else
-				throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+				throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
 		} catch (DoesNotExistException e) {
-			throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+			throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
 		}
     }
 

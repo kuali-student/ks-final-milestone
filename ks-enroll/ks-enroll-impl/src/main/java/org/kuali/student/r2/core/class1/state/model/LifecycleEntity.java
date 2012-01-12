@@ -1,4 +1,4 @@
-package org.kuali.student.r2.common.model;
+package org.kuali.student.r2.core.class1.state.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -13,23 +13,20 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.State;
+import org.kuali.student.r2.core.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.state.infc.Lifecycle;
 
 @Entity
-@Table(name = "KSEN_COMM_STATE")
-public class StateEntity extends MetaEntity implements AttributeOwner<StateAttributeEntity> {
+@Table(name = "KSEN_STATE_PROCESS")
+public class LifecycleEntity extends MetaEntity implements AttributeOwner<StateAttributeEntity> {
 	@Column(name="NAME")
     private String name;
 
     @Column(name="DESCR")
     private String description;
-    
-    @Column(name="PROCESS_KEY")
-    private String processKey;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -38,34 +35,26 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
- 
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<StateAttributeEntity> attributes;
     
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-	public String getProcessKey() {
-		return processKey;
+	public String getName() {
+		return name;
 	}
 
-	public void setProcessKey(String processKey) {
-		this.processKey = processKey;
+	public void setName(String name) {
+		this.name = name;
 	}
-	
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	public Date getEffectiveDate() {
 		return effectiveDate;
 	}
@@ -81,7 +70,7 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
 	public void setExpirationDate(Date expirationDate) {
 		this.expirationDate = expirationDate;
 	}
-	
+
 	public List<StateAttributeEntity> getAttributes() {
 		return attributes;
 	}
@@ -89,21 +78,22 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
 	public void setAttributes(List<StateAttributeEntity> attributes) {
 		this.attributes = attributes;
 	}
+	
+	public LifecycleEntity(){}
 
-	public StateEntity(){}
-
-	public StateEntity(State state){
+	public LifecycleEntity(Lifecycle lifecycle){
 		super();
 		try{
-			this.setId(state.getKey());
-			this.setName(state.getName());
-			this.setDescription(state.getDescr());
+			this.setId(lifecycle.getKey());
+			this.setName(lifecycle.getName());
+                        // TODO: change this entity to handle a rich text description
+//			this.setDescription(lifecycle.getDescr());
 			this.setVersionNumber((long) 0);
-			this.setEffectiveDate(state.getEffectiveDate());
-	        this.setExpirationDate(state.getExpirationDate());
+			this.setEffectiveDate(lifecycle.getEffectiveDate());
+	        this.setExpirationDate(lifecycle.getExpirationDate());
 			this.setAttributes(new ArrayList<StateAttributeEntity>());
-			if(null != state.getAttributes()){
-				for (Attribute att : state.getAttributes()) {
+			if(null != lifecycle.getAttributes()){
+				for (Attribute att : lifecycle.getAttributes()) {
 					StateAttributeEntity attEntity = new StateAttributeEntity(att);
 		            this.getAttributes().add(attEntity);
 		        }				
@@ -113,21 +103,22 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
         }		
 	}
 	
-	public StateInfo toDto(){
-		StateInfo state = StateInfo.newInstance();
-		state.setKey(getId());
-		state.setName(name);
-		state.setDescr(description);
-		state.setEffectiveDate(effectiveDate);
-		state.setExpirationDate(expirationDate);
+	public LifecycleInfo toDto(){
+		LifecycleInfo lifecycle = new LifecycleInfo ();
+		lifecycle.setKey(getId());
+		lifecycle.setName(name);
+                // TODO: make this entity handle rich text descriptions
+//		lifecycle.setDescr(description);
+		lifecycle.setEffectiveDate(effectiveDate);
+		lifecycle.setExpirationDate(expirationDate);
 		
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (StateAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
-        state.setAttributes(atts);
+        lifecycle.setAttributes(atts);
         
-        return state;
+        return lifecycle;
 	}
 }

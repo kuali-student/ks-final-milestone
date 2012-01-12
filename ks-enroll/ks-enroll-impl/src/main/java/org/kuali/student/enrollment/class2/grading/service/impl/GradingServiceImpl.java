@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
-import org.apache.bcel.generic.NEW;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.util.UUIDHelper;
@@ -22,7 +21,6 @@ import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
@@ -35,6 +33,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.jws.WebParam;
 import java.util.*;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;

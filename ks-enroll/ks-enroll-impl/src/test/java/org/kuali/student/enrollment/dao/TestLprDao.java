@@ -26,7 +26,7 @@ import org.kuali.student.enrollment.class1.lpr.dao.LprDao;
 import org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.class1.lpr.service.utilities.Constants;
-import org.kuali.student.r2.common.dao.StateDao;
+import org.kuali.student.r2.core.class1.state.dao.StateDao;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")

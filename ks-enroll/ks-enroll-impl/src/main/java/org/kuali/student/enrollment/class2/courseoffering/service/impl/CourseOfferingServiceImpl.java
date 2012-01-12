@@ -27,7 +27,6 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -38,7 +37,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.kuali.student.r2.common.service.TypeService;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.core.type.service.TypeService;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
@@ -319,7 +321,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
 	
 	private String getStateKey(String processKey, String defaultState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, 
-			MissingParameterException, OperationFailedException{
+			MissingParameterException, OperationFailedException, PermissionDeniedException{
         String stateKey = null;
         List<StateInfo> ivStates = stateService.getInitialValidStates(processKey, context);
         if(ivStates != null && ivStates.size() > 0) {
@@ -575,7 +577,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	@Override
 	public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+			OperationFailedException, PermissionDeniedException {
         try {
             return typeService.getTypesByRefObjectURI(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,context);
         } catch (DoesNotExistException e) {
@@ -587,7 +589,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	public List<TypeInfo> getActivityOfferingTypesForActivityType(
 			String activityTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+			MissingParameterException, OperationFailedException, PermissionDeniedException {
 //        TypeInfo activityType = luiService.getType(activityTypeKey, context);    
         
     	return typeService.getAllowedTypesForType(activityTypeKey, LuiServiceConstants.REF_OBJECT_URI_LUI, context);
@@ -721,7 +723,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		}
 	}
 	private LuiLuiRelationInfo initLuiLuiRelationInfo(String luiId, String relatedLuiId, String typeKey, ContextInfo context) throws InvalidParameterException, 
-			MissingParameterException, OperationFailedException{
+			MissingParameterException, OperationFailedException, PermissionDeniedException{
 		LuiLuiRelationInfo luiRel = new LuiLuiRelationInfo();
 		luiRel.setLuiId(luiId);
 		luiRel.setRelatedLuiId(relatedLuiId);

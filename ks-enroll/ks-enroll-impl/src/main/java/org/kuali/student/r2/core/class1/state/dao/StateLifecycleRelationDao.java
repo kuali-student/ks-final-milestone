@@ -1,14 +1,14 @@
-package org.kuali.student.r2.common.dao;
+package org.kuali.student.r2.core.class1.state.dao;
 
 import java.util.List;
 
 import javax.persistence.Query;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.model.StateProcessRelationEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity;
 
-public class StateProcessRelationDao extends GenericEntityDao<StateProcessRelationEntity>{
+public class StateLifecycleRelationDao extends GenericEntityDao<StateLifecycleRelationEntity>{
 	@SuppressWarnings("unchecked")
 	public List<StateEntity> getInitialValidStates(String processKey){
 		Query query = em.createNamedQuery("StateProcess.getInitialValidStates");

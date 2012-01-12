@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -15,9 +17,7 @@ import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -471,7 +471,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermState() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testGetTermState() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StateInfo result = acalService.getTermState(AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
 
         assertNotNull(result);
@@ -487,7 +487,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermStates() throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException {
+    public void testGetTermStates() throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
         List<StateInfo> result = acalService.getTermStates(callContext);
 
         assertNotNull(result);
@@ -507,7 +507,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testGetTermType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         TypeInfo result = acalService.getTermType(AtpServiceConstants.ATP_HALF_FALL_1_TYPE_KEY, callContext);
 
         assertNotNull(result);
@@ -523,7 +523,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermTypes() throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testGetTermTypes() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> result = acalService.getTermTypes(callContext);
 
         assertNotNull(result);
@@ -531,7 +531,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermTypesForAcademicCalendarType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testGetTermTypesForAcademicCalendarType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> results = acalService.getTermTypesForAcademicCalendarType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, callContext);
 
         assertNotNull(results);
@@ -556,7 +556,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermTypesForTermType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public void testGetTermTypesForTermType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO
         List<TypeInfo> results = acalService.getTermTypesForTermType(AtpServiceConstants.ATP_SPRING_TYPE_KEY, callContext);
 

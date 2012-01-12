@@ -1,9 +1,9 @@
-package org.kuali.student.r2.common.dao;
+package org.kuali.student.r2.core.class1.type.dao;
 
 import java.util.List;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.r2.common.entity.TypeTypeRelationEntity;
+import org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity;
 
 public class TypeTypeRelationDao extends GenericEntityDao<TypeTypeRelationEntity>{
 

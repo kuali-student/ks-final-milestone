@@ -18,7 +18,7 @@ import javax.persistence.EntityManager;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationAttributeEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationTypeEntity;
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 /**

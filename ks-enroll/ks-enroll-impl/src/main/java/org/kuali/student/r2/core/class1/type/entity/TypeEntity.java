@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.common.entity;
+package org.kuali.student.r2.core.class1.type.entity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,10 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.BaseAttributeEntity;
+import org.kuali.student.r2.common.entity.BaseTypeEntity;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 
 @MappedSuperclass

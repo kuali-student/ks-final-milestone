@@ -18,15 +18,12 @@ import org.kuali.student.enrollment.class1.lpr.model.*;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.lpr.dto.*;
-import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
-import org.kuali.student.r2.common.dao.StateDao;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.r2.core.class1.state.dao.StateDao;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,6 +31,8 @@ import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
 
 /**
  * @author sambit
@@ -442,7 +441,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         }
 
         if (lprRosterInfo.getStateKey() != null){
-            modifiedLprRoster.setLprRosterState(findState(LuiPersonRelationServiceConstants.LPRROSTER_GRADING_POCESS_KEY, lprRosterInfo.getStateKey(), context));
+            modifiedLprRoster.setLprRosterState(findState(lprRosterInfo.getStateKey(), context));
         }
 
         if (lprRosterInfo.getTypeKey() != null){
@@ -456,17 +455,17 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return info;
     }
 
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StateEntity state = null;
         try {
-            StateInfo stInfo = stateService.getState(processKey, stateKey, context);
+            StateInfo stInfo = stateService.getState(stateKey, context);
             if (stInfo != null) {
                 state = new StateEntity(stInfo);
                 return state;
             } else
-                throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+                throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
         } catch (DoesNotExistException e) {
-            throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
+            throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
         }
     }
 

@@ -12,10 +12,8 @@ import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingServiceDecorator;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
@@ -27,6 +25,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsPermissionService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingServiceDecorator implements HoldsPermissionService{
     public static final String ENRLLMENT_NAMESPACE = "KS-ENROLL";
@@ -257,7 +256,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().validateCourseOffering(validationType, courseOfferingInfo, context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new OperationFailedException ("Permission Denied");
         }
 	}
 
@@ -350,7 +349,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().validateCourseOfferingRestriction(validationType, restrictionInfo, context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new OperationFailedException ("Permission Denied");
         }
 	}
 
@@ -358,7 +357,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	public TypeInfo getActivityOfferingType(String activityOfferingTypeKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+			OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -367,14 +366,14 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().getActivityOfferingType(activityOfferingTypeKey, context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new PermissionDeniedException ();
         }
 	}
 
 	@Override
 	public List<TypeInfo> getAllActivityOfferingTypes(ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+			OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -383,7 +382,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().getAllActivityOfferingTypes(context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new PermissionDeniedException ();
         }
 	}
 
@@ -391,7 +390,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	public List<TypeInfo> getActivityOfferingTypesForActivityType(
 			String activityTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+			MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -400,7 +399,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().getActivityOfferingTypesForActivityType(activityTypeKey, context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new PermissionDeniedException ();
         }
 	}
 
@@ -546,7 +545,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().validateActivityOffering(validationType, activityOfferingInfo, context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new OperationFailedException ("Permission Denied");
         }
 	}
 
@@ -639,7 +638,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().validateActivityOfferingRestriction(validationType, restrictionInfo, context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new OperationFailedException ("Permission Denied");
         }
 	}
 
@@ -856,7 +855,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	        return getNextDecorator().validateRegistrationGroup(validationType, registrationGroupInfo, context);
         }
         else {
-        	throw new OperationFailedException("Permission Denied.");
+        	throw new OperationFailedException ("Permission Denied");
         }
 	}
 

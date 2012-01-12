@@ -1,4 +1,4 @@
-package org.kuali.student.r2.common.service.impl;
+package org.kuali.student.r2.core.class1.state.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,19 +6,19 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
-import org.kuali.student.r2.common.dao.StateDao;
-import org.kuali.student.r2.common.dao.StateProcessDao;
-import org.kuali.student.r2.common.dao.StateProcessRelationDao;
+import org.kuali.student.r2.core.class1.state.dao.StateDao;
+import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
+import org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.model.StateProcessEntity;
-import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.LifecycleEntity;
+import org.kuali.student.r2.core.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "StateService", serviceName = "StateService", portName = "StateService", targetNamespace = "http://student.kuali.org/wsdl/state")
@@ -26,8 +26,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class StateServiceImpl implements StateService{
 
 	private StateDao stateDao;
-	private StateProcessDao spDao;
-	private StateProcessRelationDao sprDao;
+	private LifecycleDao spDao;
+	private StateLifecycleRelationDao sprDao;
 	
 	public StateDao getStateDao() {
 		return stateDao;
@@ -36,55 +36,56 @@ public class StateServiceImpl implements StateService{
 		this.stateDao = stateDao;
 	}
 
-	public StateProcessDao getSpDao() {
+	public LifecycleDao getSpDao() {
 		return spDao;
 	}
-	public void setSpDao(StateProcessDao spDao) {
+	public void setSpDao(LifecycleDao spDao) {
 		this.spDao = spDao;
 	}
 
-	public StateProcessRelationDao getSprDao() {
+	public StateLifecycleRelationDao getSprDao() {
 		return sprDao;
 	}
-	public void setSprDao(StateProcessRelationDao sprDao) {
+	public void setSprDao(StateLifecycleRelationDao sprDao) {
 		this.sprDao = sprDao;
 	}
 	
 
 	@Override
-	public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) 
+	public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo context) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-	    StateProcessEntity sp = spDao.getProcessByKey(processKey);
+	    LifecycleEntity sp = spDao.getProcessByKey(lifecycleKey);
 	    if (null == sp) {
-		    throw new DoesNotExistException("This process does not exist: processKey=" + processKey);
+		    throw new DoesNotExistException("This process does not exist: processKey=" + lifecycleKey);
 		}
 		return sp.toDto();	    
 	}
 
+        
 	@Override
-	public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+	public List<String> getLifecyclesByObjectType(String objectTypeKey, ContextInfo context) 
+			throws InvalidParameterException, MissingParameterException, OperationFailedException {
 	    return new ArrayList<String>();
 	}	
 	
 	@Override
-	public StateInfo getState(String processKey, String stateKey, ContextInfo context) 
+	public StateInfo getState(String stateKey, ContextInfo context) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		StateEntity state = null;
 		try{	
-			state = stateDao.getState(processKey, stateKey);
+			state = stateDao.getState(stateKey);
 		}catch(NoResultException ex){
-			throw new DoesNotExistException("This state does not exist: processKey=" + processKey + ", stateKey=" + stateKey);
+			throw new DoesNotExistException("This state does not exist: stateKey=" + stateKey);
 		}
 		if (null == state) {
-		    throw new DoesNotExistException("This state does not exist: processKey=" + processKey + ", stateKey=" + stateKey);
+		    throw new DoesNotExistException("This state does not exist: stateKey=" + stateKey);
 		}
 		return state.toDto();
 	}
 
 	@Override
-	public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) 
+	public List<StateInfo> getStatesForLifecycle(String processKey, ContextInfo context) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<StateInfo> stateInfos = null;
@@ -93,7 +94,7 @@ public class StateServiceImpl implements StateService{
 		try{
 			states = stateDao.getStatesByProcess(processKey);
 		}catch(NoResultException ex){
-			throw new DoesNotExistException("No state exists for this process: " + processKey);
+			throw new DoesNotExistException("No state exists for this lifecycle: " + processKey);
 		}
 		
 		if(null != states && !states.isEmpty()){
@@ -103,22 +104,22 @@ public class StateServiceImpl implements StateService{
 			}
 		}			
 		else
-			throw new DoesNotExistException("No state exists for this process: " + processKey);
+			throw new DoesNotExistException("No state exists for this lifecycle: " + processKey);
 		
 		return stateInfos;			
 	}
 
 	@Override
-	public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) 
+	public List<StateInfo> getInitialValidStates(String lifecycle, ContextInfo context) 
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<StateInfo> stateInfos = null;
 		List<StateEntity> states;
 		
 		try{
-			states = sprDao.getInitialValidStates(processKey);
+			states = sprDao.getInitialValidStates(lifecycle);
 		}catch(NoResultException ex){
-			throw new DoesNotExistException("No valid initial state exists for this process: " + processKey);
+			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
 		}
 		
 		if(null != states && !states.isEmpty()){
@@ -128,7 +129,7 @@ public class StateServiceImpl implements StateService{
 			}
 		}			
 		else
-			throw new DoesNotExistException("No valid initial state exists for this process: " + processKey);
+			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
 		
 		return stateInfos;			
 	}

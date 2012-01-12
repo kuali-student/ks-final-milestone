@@ -6,12 +6,12 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpStateEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
+import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 public class AtpDataGenerator {
