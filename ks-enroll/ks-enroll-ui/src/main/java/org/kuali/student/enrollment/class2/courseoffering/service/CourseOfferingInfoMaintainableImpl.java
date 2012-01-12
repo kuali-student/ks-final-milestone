@@ -49,8 +49,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getDataObject();
 //        System.out.println(">>>>> in CourseOfferingInfoMaintainableImpl.saveDataObject method");
 
-        //get termId from the user input through UI
-        String termId = courseOfferingInfo.getTermId();
+        //get termKey from the user input through UI
+        String termKey = courseOfferingInfo.getTermKey();
         //get courseId from courseOfferingInfo, which is retrieved based on course Code that the user input through UI
         String courseId = courseOfferingInfo.getCourseId();
 
@@ -89,7 +89,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         CourseOfferingInfo coi = null;
         try {
             //create a CourseOfferingInfo coi
-            coi = getCourseOfferingService().createCourseOfferingFromCanonical(courseId, termId, formatIdList, ContextInfo.newInstance());
+            coi = getCourseOfferingService().createCourseOfferingFromCanonical(courseId, termKey, formatIdList, ContextInfo.newInstance());
         } catch (OperationFailedException ofe) {
             System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get OperationFailedException:  " + ofe.toString());
         } catch (InvalidParameterException ipe) {
@@ -111,7 +111,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         //If grading options not present in course, set a default one in CO
         if (coi.getGradingOptionKeys() == null || coi.getGradingOptionKeys().isEmpty()){
             List<String> gradingOptions = new ArrayList();
-            gradingOptions.add(LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE);
+            gradingOptions.add(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE);
             coi.setGradingOptionKeys(gradingOptions);
         }
 
@@ -156,8 +156,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             for (ActivityInfo activity : activities) {
                 ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
                 activityOfferingInfo.setInstructors(instructors);
-                //It looks like termId and activityId are required fields to create an ActivityOfferingInfo data entry
-                activityOfferingInfo.setTermId(termId);
+                //It looks like termKey and activityId are required fields to create an ActivityOfferingInfo data entry
+                activityOfferingInfo.setTermKey(termKey);
                 activityOfferingInfo.setActivityId(activity.getId());
                 try {
                     List<TypeInfo> activityOfferingTypes = getCourseOfferingService().getActivityOfferingTypesForActivityType(activity.getActivityType(), ContextInfo.newInstance());

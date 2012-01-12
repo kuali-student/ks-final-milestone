@@ -37,7 +37,7 @@ public class RegistrationForm extends UifFormBase {
 
     private static final long serialVersionUID = 2554632701931313545L;
 
-    private String termId;
+    private String termKey;
     private String subjectArea;
     private String courseOfferingCode;
     private List<CourseOfferingWrapper> courseOfferingWrappers;
@@ -53,12 +53,12 @@ public class RegistrationForm extends UifFormBase {
         this.registrationGroupWrappersById = new HashMap<String,RegistrationGroupWrapper>();
     }
 
-    public String getTermId() {
-        return termId;
+    public String getTermKey() {
+        return termKey;
     }
 
-    public void setTermId(String termId) {
-        this.termId = termId;
+    public void setTermKey(String termKey) {
+        this.termKey = termKey;
     }
 
     public String getSubjectArea() {

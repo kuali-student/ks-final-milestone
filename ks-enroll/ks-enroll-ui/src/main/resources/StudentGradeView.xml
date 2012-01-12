@@ -74,7 +74,7 @@ limitations under the License.
               <bean parent="SelectControl"/>
             </property>
             <property name="optionsFinder">
-                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermIdValues"/>
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
             </property>
           </bean>
         </list>
