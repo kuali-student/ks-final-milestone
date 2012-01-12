@@ -19,12 +19,12 @@ import org.kuali.student.r2.common.infc.KeyEntity;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 
 /**
- * Detailed Information about a State Process
+ * Detailed Information about a State in a Lifecycle.
  *
- * State Process are used in Kuali Student to define various process
- * keys that might be associated with objectTypes For example: A
- * course might have a lifecycle process or workflow process with
- * different states in each process
+ * States are used in Kuali Student to define various lifecycle keys
+ * that might be associated with objectTypes For example: A course
+ * might have a lifecycle or workflow process with different states in
+ * each lifecycle.
  *
  * @author Kuali Student Team (Kamal)
  */

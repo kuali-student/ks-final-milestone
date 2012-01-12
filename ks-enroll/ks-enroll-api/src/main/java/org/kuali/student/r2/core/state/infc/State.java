@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.infc.HasKey;
  * Describes the state of an object
  *
  * States are used in Kuali Student to decribe where the entity is
- * within a process
+ * within a lifecycle.
  *
  * For example: A new course may be created in a "draft" state, then
  * move to a "submitted" state for review until it is finally
