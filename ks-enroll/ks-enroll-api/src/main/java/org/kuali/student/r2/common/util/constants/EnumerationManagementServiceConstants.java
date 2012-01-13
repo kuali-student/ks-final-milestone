@@ -19,7 +19,7 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 
 /**
- * This class holds the constants used by the Room service
+ * This class holds the constants used by the Enumeration Management service
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
