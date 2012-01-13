@@ -689,4 +689,17 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
             PermissionDeniedException {
         return (getNextDecorator().getCurrentTerms(processKey, contextInfo));
     }
+
+    @Override
+    public List<AcademicCalendarInfo> getAcademicCalendarsForTerm(String termId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException {
+
+        return (getNextDecorator().getAcademicCalendarsForTerm(termId, contextInfo));
+    }
+
+    @Override
+    public List<HolidayInfo> getHolidaysByDateForAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().getHolidaysByDateForAcademicCalendar(academicCalendarId, startDate, endDate, contextInfo));
+    }
 }

@@ -235,7 +235,22 @@ public interface AcademicCalendarService {
      *         occurred
      */
     public List<AcademicCalendarInfo> getAcademicCalendarsByStartYear(@WebParam(name = "year") Integer year, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
+    
+    
+    /**
+     * 
+     * Gets the list of academic calendars that use this term.
+     * 
+     * @param termId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException 
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    public List<AcademicCalendarInfo> getAcademicCalendarsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     /**
      * Searches for AcademicCalendars that meet the given search
      * criteria.
@@ -2013,6 +2028,26 @@ public interface AcademicCalendarService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<HolidayInfo> getHolidaysForHolidayCalendarByDate(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+   
+    /**
+     * 
+     * Gets a list of holidays for a particular Academic Calendar further
+     * qualified by the dates. Can be used to get holidays for a term or 
+     * any time period within the specified dates
+     * 
+     * @param academicCalendarId
+     * @param startDate
+     * @param endDate
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException academicCalendarId is not found
+     * @throws InvalidParameterException If the academicCalendarId is invalid or the dates 
+     *         are out of the range
+     * @throws MissingParameterException Missing dates or academic Calendar Id
+     * @throws OperationFailedException unable to complete request for any reason
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<HolidayInfo> getHolidaysByDateForAcademicCalendar(@WebParam(name = "academicCalendarId") String academicCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate")  Date endDate,@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Gets a list of Holidays impacted by a change to a given

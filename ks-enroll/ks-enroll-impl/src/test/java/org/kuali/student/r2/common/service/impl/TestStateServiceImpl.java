@@ -66,7 +66,7 @@ public class TestStateServiceImpl {
     
     @Test
     public void testGetStatesByProcess()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-    	List<StateInfo> stateInfo = stateService.getStatesForLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+    	List<StateInfo> stateInfo = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
     	assertNotNull(stateInfo);
     	assertEquals(stateInfo.size(), 2);
     }

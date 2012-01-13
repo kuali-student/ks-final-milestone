@@ -375,7 +375,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public TypeInfo getTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo getTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         TypeInfo type = typeService.getType(termTypeKey, context);
 
         if (!checkTypeForTermType(termTypeKey, context)) {
@@ -422,14 +423,16 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TypeInfo> getTermTypesForTermType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         TypeInfo termType = getTermType(termTypeKey, context);
 
         return typeService.getAllowedTypesForType(termType.getKey(), AtpServiceConstants.REF_OBJECT_URI_ATP, context);
     }
 
     @Override
-    public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StateInfo getTermState(String termStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         StateInfo termState = stateService.getState(termStateKey, context);
 
@@ -441,7 +444,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         List<StateInfo> results;
         try {
-            results = stateService.getStatesForLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, context);
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, context);
         } catch (DoesNotExistException ex) {
             throw new OperationFailedException(AtpServiceConstants.ATP_PROCESS_KEY, ex);
         }
@@ -1920,17 +1923,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return newHolidayInfo;
     }
 
-    /*
-     * reg date groups removed from service
-     * @Override public List<ValidationResultInfo>
-     * validateRegistrationDateGroup(String validationTypeKey, String termId,
-     * RegistrationDateGroupInfo registrationDateGroupInfo, ContextInfo
-     * contextInfo) throws DataValidationErrorException, DoesNotExistException,
-     * InvalidParameterException, MissingParameterException,
-     * OperationFailedException { // TODO sambit - THIS METHOD NEEDS JAVADOCS
-     * return null; }
-     */
-
     @Override
     public String getAcademicCalendarData(String academicCalendarId, String calendarDataFormatTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1948,7 +1940,9 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         for (KeyDateInfo keyDate : keyDates) {
             if (keyDate.getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
+
                 instructionalPeriodKeyDate = new KeyDateInfo(keyDate);
+
             }
 
         }
@@ -1963,20 +1957,71 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         int totalDaysInTerm = totalDays.getDays();
 
-        return totalDaysInTerm - approxWeekends;
+        return totalDaysInTerm - (approxWeekends + getNumberOfHolidayDatesInTerm(termId, instructionalPeriodKeyDate, contextInfo));
 
     }
 
-    private List<HolidayInfo> getHolidaysInTerm(String termId, ContextInfo contextInfo) {
+    private Integer getNumberOfHolidayDatesInTerm(String termId, KeyDateInfo instructionalPeriodKeyDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AcademicCalendarInfo> acalsForTerm = getAcademicCalendarsForTerm(termId, contextInfo);
+        int numberOfHolidayDays = 0;
+        for (AcademicCalendarInfo acal : acalsForTerm) {
 
-        AcademicCalendarInfo academicCalendar = getAcademicCalendarForTerm(termId, contextInfo);
+            List<HolidayInfo> holidays = getHolidaysByDateForAcademicCalendar(acal.getId(), instructionalPeriodKeyDate.getStartDate(), instructionalPeriodKeyDate.getEndDate(), contextInfo);
 
-        return null;
+            for (HolidayInfo holiday : holidays) {
+
+                Period holidayPeriod = new Period(holiday.getStartDate().getTime(), holiday.getEndDate().getTime());
+
+                numberOfHolidayDays = numberOfHolidayDays + holidayPeriod.toStandardDays().getDays();
+
+            }
+        }
+        return numberOfHolidayDays;
 
     }
 
-    private AcademicCalendarInfo getAcademicCalendarForTerm(String termId, ContextInfo contextInfo) {
-        return new AcademicCalendarInfo();
+    @Override
+    public List<AcademicCalendarInfo> getAcademicCalendarsForTerm(String termId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, DoesNotExistException {
+
+        List<AtpAtpRelationInfo> atpAtpRelationsForTerm = this.atpService.getAtpAtpRelationsByAtps(termId, contextInfo);
+
+        List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
+
+        for (AtpAtpRelationInfo atpRelationForTerm : atpAtpRelationsForTerm) {
+            if (atpRelationForTerm.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY)) {
+                try {
+                    AtpInfo acalAtp = this.atpService.getAtp(atpRelationForTerm.getRelatedAtpId(), contextInfo);
+                    if (acalAtp.getTypeKey().equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY))
+                        academicCalendars.add(this.acalAssembler.assemble(acalAtp, contextInfo));
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException(e.getMessage());
+                }
+            }
+        }
+
+        return academicCalendars;
+    }
+
+    @Override
+    public List<HolidayInfo> getHolidaysByDateForAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        AcademicCalendarInfo acInfo = getAcademicCalendar(academicCalendarId, contextInfo);
+        List<HolidayInfo> holidaysForAcal = new ArrayList<HolidayInfo>();
+        for (String holidayCalendarId : acInfo.getHolidayCalendarIds()) {
+
+            List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(holidayCalendarId, contextInfo);
+
+            for (HolidayInfo holiday : holidays) {
+                if (holiday.getStartDate().after(startDate) && holiday.getEndDate().before(endDate)) {
+                    holidaysForAcal.add(holiday);
+                }
+            }
+
+        }
+
+        return holidaysForAcal;
     }
 
 }

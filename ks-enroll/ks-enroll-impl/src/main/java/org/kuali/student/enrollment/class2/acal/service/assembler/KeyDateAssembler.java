@@ -13,13 +13,38 @@ public class KeyDateAssembler implements DTOAssembler<KeyDateInfo, MilestoneInfo
         KeyDateInfo keyDateInfo = new KeyDateInfo();
         keyDateInfo.setDescr(baseDTO.getDescr());
         keyDateInfo.setEndDate(baseDTO.getEndDate());
+        keyDateInfo.setIsAllDay(baseDTO.getIsAllDay());
+        keyDateInfo.setIsDateRange(baseDTO.getIsDateRange());
+        keyDateInfo.setIsRelativeToKeyDate(baseDTO.getIsRelative());
+        keyDateInfo.setRelativeAnchirKeyDateId (baseDTO.getRelativeAnchorMilestoneId());
+        keyDateInfo.setMeta(baseDTO.getMeta());
+        keyDateInfo.setStateKey(baseDTO.getStateKey());
+        keyDateInfo.setTypeKey(baseDTO.getTypeKey());
+        keyDateInfo.setStartDate(baseDTO.getStartDate());
+        
+        
         return keyDateInfo;
     }
 
     @Override
     public MilestoneInfo disassemble(KeyDateInfo businessDTO, ContextInfo context) throws AssemblyException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        MilestoneInfo milestone = new MilestoneInfo();
+        
+        milestone.setAttributes(businessDTO.getAttributes());
+        milestone.setDescr(businessDTO.getDescr() );
+        milestone.setEndDate(businessDTO.getEndDate());
+        milestone.setId(businessDTO.getId());
+        milestone.setIsAllDay(businessDTO.getIsAllDay());
+        milestone.setIsDateRange(businessDTO.getIsDateRange());
+        milestone.setIsRelative(businessDTO.getIsRelativeToKeyDate()) ;
+        milestone.setMeta(businessDTO.getMeta());
+        milestone.setName(businessDTO.getName());
+        milestone.setRelativeAnchorMilestoneId(businessDTO.getRelativeAnchorKeyDateId());
+        milestone.setStartDate(businessDTO.getStartDate());
+        milestone.setStateKey(businessDTO.getStateKey());
+        milestone.setTypeKey(milestone.getTypeKey());
+        
+        return milestone;
     }
 
 }
