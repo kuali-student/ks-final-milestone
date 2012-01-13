@@ -48,7 +48,8 @@ import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
  * 
  * @author kamal
  */
-@WebService(name = "TypeService", targetNamespace = TypeServiceConstants.NAMESPACE)
+
+@WebService(name = "TypeService", serviceName = "TypeService", portName = "TypeService", targetNamespace = TypeServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
 public interface TypeService {

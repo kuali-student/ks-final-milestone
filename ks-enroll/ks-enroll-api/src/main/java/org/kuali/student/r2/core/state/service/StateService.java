@@ -49,7 +49,7 @@ import org.kuali.student.r2.common.util.constants.StateServiceConstants;
  * @author kamal
  */
 
-@WebService(name = "StateService", targetNamespace = StateServiceConstants.NAMESPACE)
+@WebService(name = "StateService", serviceName = "StateService", portName = "StateService", targetNamespace = StateServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface StateService {
       
