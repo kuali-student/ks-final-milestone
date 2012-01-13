@@ -1,8 +1,9 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the Educational
- * Community License, Version 2.0 (the "License"); you may not use
- * this file except in compliance with the License. You may obtain a
- * copy of the License at
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -19,25 +20,25 @@ package org.kuali.student.r2.common.infc;
  * A common interface pattern for service entities.
  *
  * @author tom
- * @Since Tue Apr 05 14:22:34 EDT 2011
+ * @since Tue Apr 05 14:22:34 EDT 2011
  */
 
 public interface Entity
     extends HasPrimaryKey,
-	   TypeStateEntity {
+            TypeStateEntity {
 
     /**
      * A display name for this entity.
+     *
      * @name Name
      */
-
     public String getName();
 
 
     /**
      * A description of the entity.
+     *
      * @name Description
      */
-
     public RichText getDescr();
 }

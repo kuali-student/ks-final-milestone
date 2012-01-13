@@ -1,18 +1,19 @@
 /*
  * Copyright 2011 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may	obtain a copy of the License at
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
  *
  * 	http://www.osedu.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.infc;
 
 public interface ValidationResult {
@@ -44,7 +45,10 @@ public interface ValidationResult {
      *
      * If an error it is an an error message.
      *
-     * TODO: decide if this is a key that then gets resolved into a real localized message using the message service or the final localized message itself
+     * TODO: decide if this is a key that then gets resolved into a
+     * real localized message using the message service or the final
+     * localized message itself
+     *
      * @name Message
      * @readOnly
      */
@@ -52,53 +56,76 @@ public interface ValidationResult {
   
 
     /**
-     * Identifies the element (field) that is the focus of the validation.
-     * Uses xpath (dot) notation to navigate to the field, for example:
-     * officialIdentifier.code
+     * Identifies the element (field) that is the focus of the
+     * validation.  Uses xpath (dot) notation to navigate to the
+     * field, for example: officialIdentifier.code
      *
-     * TODO: find out how repeating substructures are handled in this notation, with [n] occurrence brackets?
+     * TODO: find out how repeating substructures are handled in this
+     * notation, with [n] occurrence brackets?
+     *
      * @name Element
+     * @readOnly
      * @required
      */
     public String getElement();
    
 
     /**
-     * Indicates the severity of the validation error
+     * Indicates the severity of the validation error.
      *
      * 0=OK
      * 1=WARN
      * 2=ERROR
+     *
      * @name Level
+     * @readOnly
      * @required
      */
     public Integer getLevel();
  
 
     /**
-     * The actual data that caused the error or warning.  Used to help debug problems.
+     * The actual data that caused the error or warning.  Used to help
+     * debug problems.
      *
-     * Note: Since this is an "Object" it should be flagged as transient and is not remoted through the web service
+     * Note: Since this is an "Object" it should be flagged as
+     * transient and is not remoted through the web service
+     *
      * @name Invalid Data
+     * @readOnly
      */
     public Object getInvalidData();
 
 
     /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.OK
+     * Convenience method. Returns true if getErrorLevel() ==
+     * ErrorLevel.OK.
+     *
+     * @name Is OK
+     * @readOnly
+     * @required
      */
     public Boolean getIsOk();
 
     /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.WARN
+     * Convenience method. Returns true if getErrorLevel() ==
+     * ErrorLevel.WARN
+     *
+     * @name Is Warning
+     * @readOnly
+     * @required
      */
     public Boolean getIsWarn();
 
 
     /**
-     * Convenience method. Returns true if getErrorLevel() == ErrorLevel.ERROR
+     * Convenience method. Returns true if getErrorLevel() ==
+     * ErrorLevel.ERROR
+     *
+     * @name Is Error
+     * @readOnly
+     * @required
      */
     public Boolean getIsError();
-
 }
 
