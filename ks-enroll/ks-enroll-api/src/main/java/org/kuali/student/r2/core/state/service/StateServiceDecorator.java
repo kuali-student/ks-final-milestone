@@ -28,7 +28,7 @@ import org.kuali.student.r2.core.state.dto.StateInfo;
  *
  * @author nwright
  */
-public class StateServiceDecorator implements StateService {
+public abstract class StateServiceDecorator implements StateService {
     
     private StateService nextDecorator;
 
@@ -41,8 +41,8 @@ public class StateServiceDecorator implements StateService {
     }
 
     @Override
-    public List<StateInfo> getStatesForLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getStatesForLifecycle(lifecycleKey, contextInfo);
+    public List<StateInfo> getStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator ().getStatesByLifecycle(lifecycleKey, contextInfo);
     }
 
     @Override
@@ -56,8 +56,8 @@ public class StateServiceDecorator implements StateService {
     }
 
     @Override
-    public List<String> getLifecyclesByObjectType(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getLifecyclesByObjectType(refObjectUri, contextInfo);
+    public List<String> getLifecyclesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator ().getLifecyclesByRefObjectUri(refObjectUri, contextInfo);
     }
 
     @Override

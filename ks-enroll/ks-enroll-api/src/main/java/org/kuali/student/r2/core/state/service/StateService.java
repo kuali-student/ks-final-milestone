@@ -81,7 +81,8 @@ public interface StateService {
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of Lifecycles
-     * @throws DoesNotExistException a lifecycleId in the list not found
+     * @throws DoesNotExistException a lifecycleKey in the list not
+     *         found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException lifecycleKeys, a key in
      *         lifecycleKeys, or contextInfo is missing or null
@@ -97,8 +98,8 @@ public interface StateService {
      *        type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Lifecycle keys matching lifecycleTypeKey
-     *         or an empty list if none found
+     * @return a list of Lifecycle keys matching lifecycleTypeKey or
+     *         an empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException lifecycleTypeKey or
      *         contextInfo is missing or null
@@ -108,9 +109,8 @@ public interface StateService {
     public List<String> getLifecycleKeysByType(@WebParam(name = "lifecycleTypeKey") String lifecycleTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * This method retrieves the list of lifecycle keys associated
-     * with a type of object.  TODO: consider changing the name of
-     * this method to getLifecycleByRefObjectUri.
+     * This method retrieves the list of Lifecycle keys associated
+     * with a type of object.
      * 
      * @param refObjectUri unique name for an object that states are
      *        attached
@@ -123,20 +123,22 @@ public interface StateService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getLifecyclesByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getLifecyclesByRefObjectUri(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
     // Search methods for Lifecycle Key Entity Pattern.
     //
 
     /**
-     * Searches for Lifecycle keys that meet the given search criteria.
+     * Searches for Lifecycle keys that meet the given search
+     * criteria.
      * 
      * @param criteria the search criteria
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return list of Lifecycle identifiers matching the criteria
-     * @throws InvalidParameterException criteria or contextInfo is not valid
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
      * @throws MissingParameterException criteria or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
@@ -177,17 +179,21 @@ public interface StateService {
      * with the given data can be created.
      * 
      * @param validationTypeKey the identifier for the validation Type
-     * @param lifecycleTypeKey the identifier for the Lifecycle Type to be validated
-     * @param lifecycleInfo the identifier for the Lifecycle to be validated
+     * @param lifecycleTypeKey the identifier for the Lifecycle Type
+     *        to be validated
+     * @param lifecycleInfo the identifier for the Lifecycle to be
+     *        validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of validation results or an empty list if validation
-     *         succeeded
-     * @throws DoesNotExistException validationTypeKey or lifecycleTypeKey
-     *         is not found
-     * @throws InvalidParameterException lifecycleInfo or contextInfo is not valid
-     * @throws MissingParameterException validationTypeKey, lifecycleTypeKey
-     *         lifecycleInfo, or contextInfo is missing or null
+     * @return a list of validation results or an empty list if
+     *         validation succeeded
+     * @throws DoesNotExistException validationTypeKey or
+     *         lifecycleTypeKey is not found
+     * @throws InvalidParameterException lifecycleInfo or contextInfo
+     *         is not valid
+     * @throws MissingParameterException validationTypeKey,
+     *         lifecycleTypeKey lifecycleInfo, or contextInfo is
+     *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
@@ -198,14 +204,15 @@ public interface StateService {
      * information may not be set in the supplied data object.
      * 
      * @param lifecycleKey a unique for the new Lifecycle
-     * @param lifecycleInfo the data with which to create the Lifecycle
+     * @param lifecycleInfo the data with which to create the
+     *        Lifecycle
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the new Lifecycle
      * @throws AlreadyExistsException lifecycleKey already exists
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException lifecycleTypeKey does not exist or is
-     *         not supported
+     * @throws DoesNotExistException lifecycleTypeKey does not exist
+     *         or is not supported
      * @throws InvalidParameterException lifecycleInfo or contextInfo
      *         is not valid
      * @throws MissingParameterException lifecycleKey,
@@ -222,10 +229,11 @@ public interface StateService {
      * Updates an existing Lifecycle. The Lifecycle Key, Type, and
      * Meta information may not be changed.
      * 
-     * @param lifecycleKey the identifier for the Lifecycle to be updated
+     * @param lifecycleKey the identifier for the Lifecycle to be
+     *        updated
      * @param lifecycleInfo the new data for the Lifecycle
-     * @param contextInfo information containing the principalId and locale
-     *        information about the caller of service operation
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
      * @return the updated Lifecycle
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException lifecycleKey is not found
@@ -245,7 +253,8 @@ public interface StateService {
     /**
      * Deletes an existing Lifecycle.
      * 
-     * @param lifecycleKey the identifier for the Lifecycle to be deleted
+     * @param lifecycleKey the identifier for the Lifecycle to be
+     *        deleted
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the status of the operation. This must always be true.
@@ -370,8 +379,8 @@ public interface StateService {
      * created.
      * 
      * @param validationTypeKey the identifier for the validation Type
-     * @param lifecycleKey the identifier for the Lifecycle to which the
-     *        State belongs
+     * @param lifecycleKey the identifier for the Lifecycle to which
+     *        the State belongs
      * @param stateInfo the identifier for the State to be validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -379,7 +388,8 @@ public interface StateService {
      *         succeeded
      * @throws DoesNotExistException validationTypeKey or lifecycleKey
      *         is not found
-     * @throws InvalidParameterException stateInfo or contextInfo is not valid
+     * @throws InvalidParameterException stateInfo or contextInfo is
+     *         not valid
      * @throws MissingParameterException validationTypeKey,
      *         lifecycleKey stateInfo, or contextInfo is missing or
      *         null
@@ -402,7 +412,8 @@ public interface StateService {
      * @throws AlreadyExistsException stateKey already exists
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException lifecycleKey is not found
-     * @throws InvalidParameterException stateInfo or contextInfo is not valid
+     * @throws InvalidParameterException stateInfo or contextInfo is
+     *         not valid
      * @throws MissingParameterException lifecycleKey, stateKey,
      *         stateInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
@@ -418,12 +429,13 @@ public interface StateService {
      * 
      * @param stateKey the identifier for the State to be updated
      * @param stateInfo the new data for the State
-     * @param contextInfo information containing the principalId and locale
-     *        information about the caller of service operation
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
      * @return the updated State
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException stateKey is not found
-     * @throws InvalidParameterException stateInfo or contextInfo is not valid
+     * @throws InvalidParameterException stateInfo or contextInfo is
+     *         not valid
      * @throws MissingParameterException stateKey, stateInfo, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request

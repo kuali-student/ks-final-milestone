@@ -22,6 +22,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.core.state.infc.State;
 
@@ -37,31 +38,31 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     /**
      * Student states to courses
      */
-    PLANNED(LuiPersonRelationServiceConstants.PLANNED_STATE_KEY, "Planned", "The student plans on taking this course or program", asDate("20100101"), null, null),
-    REGISTERED(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, "Registered", "The student is officially registered for the course or section", asDate("20100101"), null, null),
-    WAITLISTED(LuiPersonRelationServiceConstants.WAITLISTED_STATE_KEY, "Waitlisted", "The student attempted to join but has been put on the waitlist", asDate("20100101"), null, null),
-    DROPPED(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY, "Dropped Early", "Student dropped the course before the normal deadline", asDate("20010101"), null, null),
-    DROPPED_LATE(LuiPersonRelationServiceConstants.DROPPED_LATE_STATE_KEY, "Dropped Late", "The student was registered but subsequently dropped the course or section past the normally allotted time period, typically resulting in a special grade or mark to so indicate", asDate("20010101"), null, null),
+    PLANNED(LuiPersonRelationServiceConstants.PLANNED_STATE_KEY, "Planned", "The student plans on taking this course or program", asDate("20100101"), null, null, null),
+        REGISTERED(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY, "Registered", "The student is officially registered for the course or section", asDate("20100101"), null, null, null),
+    WAITLISTED(LuiPersonRelationServiceConstants.WAITLISTED_STATE_KEY, "Waitlisted", "The student attempted to join but has been put on the waitlist", asDate("20100101"), null, null, null),
+    DROPPED(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY, "Dropped Early", "Student dropped the course before the normal deadline", asDate("20010101"), null, null, null),
+    DROPPED_LATE(LuiPersonRelationServiceConstants.DROPPED_LATE_STATE_KEY, "Dropped Late", "The student was registered but subsequently dropped the course or section past the normally allotted time period, typically resulting in a special grade or mark to so indicate", asDate("20010101"), null, null, null),
     /**
      * Instructor states
      */
-    TENATIVE(LuiPersonRelationServiceConstants.TENATIVE_STATE_KEY, "Tentative", "The instructor is proposed to teach this course or section but it has not yet been confirmed", asDate("20010101"), null, null),
-    ASSIGNED(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, "Assigned", "The instructor is assigned to teach this course or section.", asDate("20010101"), null, null),
-    UNASSIGNED(LuiPersonRelationServiceConstants.UNASSIGNED_STATE_KEY, "Unassigned", "The instructor had been assigned but then that assignment was removed", asDate("20010101"), null, null),
+    TENATIVE(LuiPersonRelationServiceConstants.TENATIVE_STATE_KEY, "Tentative", "The instructor is proposed to teach this course or section but it has not yet been confirmed", asDate("20010101"), null, null, null),
+    ASSIGNED(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, "Assigned", "The instructor is assigned to teach this course or section.", asDate("20010101"), null, null, null),
+    UNASSIGNED(LuiPersonRelationServiceConstants.UNASSIGNED_STATE_KEY, "Unassigned", "The instructor had been assigned but then that assignment was removed", asDate("20010101"), null, null, null),
     /**
      * Program states
      */
-    INQUIRED(LuiPersonRelationServiceConstants.INQUIRED_STATE_KEY, "Inquired", "The student took an active step in contacting the program indicating their plans", asDate("20100101"), null, null),
-    APPLIED(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY, "Applied", "The student has applied for the program", asDate("20100101"), null, null),
-    ADMITTED(LuiPersonRelationServiceConstants.ADMITTED_STATE_KEY, "Admitted", "The student has been admitted to the program ", asDate("20100101"), null, null),
-    DENIED(LuiPersonRelationServiceConstants.DENIED_STATE_KEY, "Denied", "The student was denied admission to the program", asDate("20100101"), null, null),
-    CONFIRMED(LuiPersonRelationServiceConstants.CONFIRMED_STATE_KEY, "Confirmed", "The student has confirmed that she plans to matriculate ", asDate("20100101"), null, null),
-    CANCELED(LuiPersonRelationServiceConstants.CANCELED_STATE_KEY, "Canceled", "The student canceled prior to matriculation", asDate("20100101"), null, null),
-    DEFERED(LuiPersonRelationServiceConstants.DEFERED_STATE_KEY, "Deferred", "The student defers matriculation to a different term", asDate("20100101"), null, null),
-    ENROLLED(LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY, "Enrolled", "The student is fully enrolled in the program ", asDate("20100101"), null, null),
-    TEMPORARY_ABSENCE(LuiPersonRelationServiceConstants.TEMPORARY_ABSENCE_STATE_KEY, "Temporary Absence", "The student has temporarily not matriculated but is expected to return", asDate("20100101"), null, null),
-    WITHDRAWN(LuiPersonRelationServiceConstants.WITHDRAWN_STATE_KEY, "Withdrawn", "The student was registered but then withdrew from the program", asDate("20100101"), null, null),
-    PROBATION(LuiPersonRelationServiceConstants.PROBATION_STATE_KEY, "Probation", "The student must fulfill certain requirements in order to stay in the program", asDate("20100101"), null, null);
+    INQUIRED(LuiPersonRelationServiceConstants.INQUIRED_STATE_KEY, "Inquired", "The student took an active step in contacting the program indicating their plans", asDate("20100101"), null, null, null),
+    APPLIED(LuiPersonRelationServiceConstants.APPLIED_STATE_KEY, "Applied", "The student has applied for the program", asDate("20100101"), null, null, null),
+    ADMITTED(LuiPersonRelationServiceConstants.ADMITTED_STATE_KEY, "Admitted", "The student has been admitted to the program ", asDate("20100101"), null, null, null),
+    DENIED(LuiPersonRelationServiceConstants.DENIED_STATE_KEY, "Denied", "The student was denied admission to the program", asDate("20100101"), null, null, null),
+    CONFIRMED(LuiPersonRelationServiceConstants.CONFIRMED_STATE_KEY, "Confirmed", "The student has confirmed that she plans to matriculate ", asDate("20100101"), null, null, null),
+    CANCELED(LuiPersonRelationServiceConstants.CANCELED_STATE_KEY, "Canceled", "The student canceled prior to matriculation", asDate("20100101"), null, null, null),
+    DEFERED(LuiPersonRelationServiceConstants.DEFERED_STATE_KEY, "Deferred", "The student defers matriculation to a different term", asDate("20100101"), null, null, null),
+    ENROLLED(LuiPersonRelationServiceConstants.ENROLLED_STATE_KEY, "Enrolled", "The student is fully enrolled in the program ", asDate("20100101"), null, null, null),
+    TEMPORARY_ABSENCE(LuiPersonRelationServiceConstants.TEMPORARY_ABSENCE_STATE_KEY, "Temporary Absence", "The student has temporarily not matriculated but is expected to return", asDate("20100101"), null, null, null),
+    WITHDRAWN(LuiPersonRelationServiceConstants.WITHDRAWN_STATE_KEY, "Withdrawn", "The student was registered but then withdrew from the program", asDate("20100101"), null, null, null),
+    PROBATION(LuiPersonRelationServiceConstants.PROBATION_STATE_KEY, "Probation", "The student must fulfill certain requirements in order to stay in the program", asDate("20100101"), null, null, null);
     /**
      * States used for isntructors of courses
      */
@@ -83,10 +84,11 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     private String descr;
     private Date effectiveDate;
     private Date expirationDate;
+    private Meta meta;
     private List<? extends Attribute> attributes;
     private String key;
 
-    LuiPersonRelationStateEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, List<? extends Attribute> attributes) {
+    LuiPersonRelationStateEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, Meta meta, List<? extends Attribute> attributes) {
         this.key = key;
         this.name = name;
         this.descr = descr;
@@ -115,14 +117,18 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
         return this.expirationDate;
     }
 
-    
-    public void setAttributes(List<? extends Attribute> attributes) {
-        this.attributes = attributes;
+    @Override
+    public Meta getMeta() {
+        return this.meta;
     }
 
     @Override
     public List<? extends Attribute> getAttributes() {
         return this.attributes;
+    }
+
+    public void setAttributes(List<? extends Attribute> attributes) {
+        this.attributes = attributes;
     }
 
     @Override
