@@ -323,45 +323,6 @@ public interface StateService {
      */
     public List<StateInfo> getStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /**
-     * This method returns a list of StateInfo objects that are valid
-     * initial states for a given lifecycle.
-     *
-     * Often there will be just a single initial valid state.
-     *
-     * @param lifecycleKey Lifecycle key 
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return the list of states are valid for the given lifecycle
-     * @throws DoesNotExistException lifecycleKey is not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException lifecycleKey or contextInfo
-     *         is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<StateInfo> getInitialValidStates(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * 
-     * This method retrieves the next happy state in a lifecycle given
-     * the current state.
-     * 
-     * @param lifecycleKey Lifecycle key 
-     * @param currentStateKey Current state key 
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return the next happy state in the lifecycle 
-     * @throws DoesNotExistException lifecycleKey or currentStateKey
-     *         is not found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException lifecycleKey,
-     *         currentStateKey, or contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public StateInfo getNextHappyState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
     //
     // Search methods for State Key Pattern.
     //

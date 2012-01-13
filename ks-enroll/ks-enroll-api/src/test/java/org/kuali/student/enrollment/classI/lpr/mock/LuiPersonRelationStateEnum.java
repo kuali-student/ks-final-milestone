@@ -23,7 +23,11 @@ import java.util.List;
 
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
+
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+
 import org.kuali.student.r2.core.state.infc.State;
 
 /**
@@ -81,7 +85,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     public static final LuiPersonRelationStateEnum[] PROGRAM_STUDENT_STATES = {PLANNED, INQUIRED, APPLIED, WAITLISTED, DENIED, CONFIRMED, CANCELED, DEFERED, ENROLLED, TEMPORARY_ABSENCE, WITHDRAWN, PROBATION};
     private static final long serialVersionUID = 1L;
     private String name;
-    private String descr;
+    private RichTextInfo descr;
     private Date effectiveDate;
     private Date expirationDate;
     private Meta meta;
@@ -91,7 +95,8 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     LuiPersonRelationStateEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, Meta meta, List<? extends Attribute> attributes) {
         this.key = key;
         this.name = name;
-        this.descr = descr;
+        this.descr = new RichTextInfo();
+        this.descr.setPlain(descr);
         this.effectiveDate = effectiveDate;
         this.expirationDate = expirationDate;
         this.attributes = attributes;
@@ -108,7 +113,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     }
 
     @Override
-    public String getDescr() {
+    public RichText getDescr() {
         return this.descr;
     }
 
@@ -172,7 +177,7 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
         this.name = name;
     }
 
-    public void setDescr(String descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 }

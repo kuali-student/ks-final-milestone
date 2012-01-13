@@ -16,32 +16,47 @@
 
 package org.kuali.student.r2.core.state.infc;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.HasKey;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
- * Detailed Information about a State in a Lifecycle.
- *
- * States are used in Kuali Student to define various lifecycle keys
- * that might be associated with objectTypes For example: A course
- * might have a lifecycle or workflow process with different states in
- * each lifecycle.
+ * Detailed Information about a Lifecycle. A Lifecycle represents a
+ * collection of States.
  *
  * @author Kuali Student Team (Kamal)
  */
 
 public interface Lifecycle 
-    extends KeyEntity, HasEffectiveDates {
+    extends HasKey, HasAttributesAndMeta {
+
+    /**
+     * Friendly name of the Lifecycle.
+     *
+     * @name Name
+     * @required
+     */
+    public String getName();
+
+    /**
+     * Narrative description of the Lifecycle.
+     *
+     * @name Description
+     */
+    public RichText getDescr();
 
     /**
      * The reference to the Object URI to which the lifecycle is associated.
      *
      * E.g http://student.kuali.org/luService/wsdl/CluInfo will be the
      *          //objectTypeURI for type 'kuali.lu.type.CreditCourse'
-     * The refObjectURI has three parts:<ol>
-     * <li>http://student.kuali.org/wsdl -- which is fixed
-     * <li>luService -- which should match the namespace of the service in which the object is defined
-     * <li>CluInfo -- which should match the java class's simple name
+
+     * The refObjectURI has three parts:
+     * <ol>
+     *    <li>http://student.kuali.org/wsdl -- which is fixed
+     *    <li>luService -- which should match the namespace of the service 
+     *                     in which the object is defined
+     *    <li>CluInfo -- which should match the java class's simple name
      * </ol>
      * @name Ref Object URI
      */

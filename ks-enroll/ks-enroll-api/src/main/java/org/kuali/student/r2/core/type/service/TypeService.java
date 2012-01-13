@@ -75,7 +75,7 @@ public interface TypeService {
      * list may be in any order and if duplicate ids are supplied, a
      * unique set may or may not be returned.
      * 
-     * @param atpIds a list of Type keys
+     * @param typeKeys a list of Type keys
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of Types
@@ -173,7 +173,7 @@ public interface TypeService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public TypeInfo createType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "typeInfo") TypeInfo typeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeInfo createType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "typeInfo") TypeInfo typeInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Type. The Type Key and Meta information may
@@ -215,41 +215,41 @@ public interface TypeService {
     public StatusInfo deleteType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Gets the TypeTypeRelation identified by Key.
+     * Gets the TypeTypeRelation identified by TypeTypeRelation Id.
      * 
-     * @param typeTypeRelationKey Key of the type
+     * @param typeTypeRelationId an identifier of the TypeTypeRelation
      * @param contextInfo Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return the type type relation requested
-     * @throws DoesNotExistException typeTypeRelationKey not found
+     * @throws DoesNotExistException typeTypeRelationId not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException typeTypeRelationKey or
+     * @throws MissingParameterException typeTypeRelationId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public TypeTypeRelationInfo getTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public TypeTypeRelationInfo getTypeTypeRelation(@WebParam(name = "typeTypeRelationId") String typeTypeRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of TypeTypeRelations from a list of keys. The
+     * Retrieves a list of TypeTypeRelations from a list of idss. The
      * returned list may be in any order and if duplicate ids are
      * supplied, a unique set may or may not be returned.
      * 
-     * @param atpIds a list of TypeTypeRelation keys
+     * @param typeTypeRelationIds a list of TypeTypeRelation Ids
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of TypeTypeRelations
-     * @throws DoesNotExistException a typeTypeRelationKey in the list
+     * @throws DoesNotExistException a typeTypeRelationId in the list
      *         not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException typeTypeRelationKeys, a key
-     *         in typeTypeRelationKeys, or contextInfo is missing or
+     * @throws MissingParameterException typeTypeRelationIds, a id
+     *         in typeTypeRelationIds, or contextInfo is missing or
      *         null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<TypeTypeRelationInfo> getTypeTypeRelationsByKeys(@WebParam(name = "typeTypeRelationKeys") List<String> typeTypeRelationKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(@WebParam(name = "typeTypeRelationIds") List<String> typeTypeRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method retrieves all the TypeTypeRelation objects for a
@@ -308,9 +308,11 @@ public interface TypeService {
      * Creates a new TypeTypeRelation. The TypeTypeRelation Type
      * indicates the type of relation between the two peer Types.
      * 
-     * @param typeTypeRelationKey the identifier for the new TypeTypeRelation
+     * @param typeTypeRelationId the identifier for the new TypeTypeRelation
      * @param typeKey a peer of the relationship
      * @param typePeerKey a peer of the relationship
+     * @param typeTypeRelationTypeKey the identifier for the Type of
+     *        TypeTypeRelation to be created
      * @param typeTypeRelationInfo the relationship to be created
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -320,30 +322,30 @@ public interface TypeService {
      *         typeTypeRelationTypeKey is not found
      * @throws InvalidParameterException typeTypeRelationInfo or contextInfo is
      *         not valid
-     * @throws MissingParameterException typeTypeRelationKey, typeKey,
+     * @throws MissingParameterException typeTypeRelationId, typeKey,
      *         typePeer, typeTypeRelationTypeKey,
      *         typeTypeRelationInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
-     */
-    public TypeTypeRelationInfo createTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "typeKey") String typeKey, @WebParam(name = "typePeerKey") String typePeerKey, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+     */ 
+    public TypeTypeRelationInfo createTypeTypeRelation(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "typePeerKey") String typePeerKey, @WebParam(name = "typeTypeRelationTypeKey") String typeTypeRelationTypeKey, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-     * Updates a type Milestone Relationship. The TypeTypeRelation Key,
+     * Updates a type Milestone Relationship. The TypeTypeRelation Id,
      * Type, Type Keys, and Meta information may not be changed.
      * 
-     * @param typeTypeRelationKey the identifier for the TypeTypeRelation updated
+     * @param typeTypeRelationId the identifier for the TypeTypeRelation updated
      * @param typeTypeRelationInfo the new data for the TypeTypeRelation
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
      * @return the updated TypeTypeRelation
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException typeTypeRelationKey is not found
+     * @throws DoesNotExistException typeTypeRelationId is not found
      * @throws InvalidParameterException typeTypeRelationInfo or
      *         contextInfo is not valid
-     * @throws MissingParameterException typeTypeRelationKey,
+     * @throws MissingParameterException typeTypeRelationId,
      *         typeTypeRelationInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -352,22 +354,22 @@ public interface TypeService {
      * @throws VersionMismatchException optimistic locking failure or the action
      *         was attempted on an out of date version
      */
-    public TypeTypeRelationInfo updateTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+    public TypeTypeRelationInfo updateTypeTypeRelation(@WebParam(name = "typeTypeRelationId") String typeTypeRelationId, @WebParam(name = "typeTypeRelationInfo") TypeTypeRelationInfo typeTypeRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
      * Deletes an existing TypeTypeRelation.
      * 
-     * @param typeTypeRelationKey the identifier for the TypeTypeRelation
+     * @param typeTypeRelationId the identifier for the TypeTypeRelation
      *        to be deleted
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return status of the delete operation. This must always be true.
-     * @throws DoesNotExistException typeTypeRelationKey is not found
+     * @throws DoesNotExistException typeTypeRelationId is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException typeTypeRelationKey or
+     * @throws MissingParameterException typeTypeRelationId or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public StatusInfo deleteTypeTypeRelation(@WebParam(name = "typeTypeRelationKey") String typeTypeRelationKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteTypeTypeRelation(@WebParam(name = "typeTypeRelationId") String typeTypeRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

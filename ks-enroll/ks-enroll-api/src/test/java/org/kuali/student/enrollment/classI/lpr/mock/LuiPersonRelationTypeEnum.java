@@ -7,7 +7,6 @@
  */
 package org.kuali.student.enrollment.classI.lpr.mock;
 
-
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,6 +16,9 @@ import java.util.List;
 
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.Meta;
+import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.core.type.infc.Type;
 
@@ -54,7 +56,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     public static final LuiPersonRelationTypeEnum[] COURSE_STUDENT_TYPES = {REGISTRANT};
     private static final long serialVersionUID = 1L;
     private String name;
-    private String descr;
+    private RichTextInfo descr;
     private Date effectiveDate;
     private Date expirationDate;
     private Meta meta;
@@ -64,7 +66,8 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     LuiPersonRelationTypeEnum(String key, String name, String descr, Date effectiveDate, Date expirationDate, Meta meta, List<Attribute> attributes) {
         this.key = key;
         this.name = name;
-        this.descr = descr;
+        this.descr = new RichTextInfo();
+        this.descr.setPlain(descr);
         this.effectiveDate = effectiveDate;
         this.expirationDate = expirationDate;
         this.meta = meta;
@@ -77,7 +80,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     }
 
     @Override
-    public String getDescr() {
+    public RichText getDescr() {
         return this.descr;
     }
 
@@ -149,7 +152,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     }
 
     
-    public void setDescr(String descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 

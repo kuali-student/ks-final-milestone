@@ -20,7 +20,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,21 +34,15 @@ import org.w3c.dom.Element;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeTypeRelationInfo", propOrder = {
-                "key", "typeKey", "stateKey", "name", "descr", 
+                "id", "typeKey", "stateKey",
                 "effectiveDate", "expirationDate", "ownerTypeKey", 
                 "relatedTypeKey", "rank", 
                 "attributes", "meta", "_futureElements"})
 
 public class TypeTypeRelationInfo 
-    extends KeyEntityInfo 
+    extends RelationshipInfo
     implements TypeTypeRelation, Serializable {
-	
-    @XmlElement
-    private Date effectiveDate;
-    
-    @XmlElement
-    private Date expirationDate;
-    
+	    
     @XmlElement
     private String ownerTypeKey;
     
@@ -75,31 +69,12 @@ public class TypeTypeRelationInfo
      */
     public TypeTypeRelationInfo(TypeTypeRelation typeTypeRel) {
         super(typeTypeRel);
-    	this.effectiveDate = null != typeTypeRel.getEffectiveDate() ? new Date(typeTypeRel.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != typeTypeRel.getExpirationDate() ? new Date(typeTypeRel.getExpirationDate().getTime()) : null;
     	this.ownerTypeKey = typeTypeRel.getOwnerTypeKey();
     	this.relatedTypeKey = typeTypeRel.getRelatedTypeKey();
+        this.rank = typeTypeRel.getRank();
     	this.rank = typeTypeRel.getRank();
     }
 	
-    @Override
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = new Date(effectiveDate.getTime());
-    }
-
-    @Override
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = new Date(expirationDate.getTime());
-    }
-
     @Override
     public String getOwnerTypeKey() {
         return ownerTypeKey;

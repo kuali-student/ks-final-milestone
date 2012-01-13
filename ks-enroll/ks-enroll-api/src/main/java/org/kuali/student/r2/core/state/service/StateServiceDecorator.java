@@ -51,11 +51,6 @@ public abstract class StateServiceDecorator implements StateService {
     }
 
     @Override
-    public StateInfo getNextHappyState(String lifecycleKey, String currentStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getNextHappyState(lifecycleKey, currentStateKey, contextInfo);
-    }
-
-    @Override
     public List<String> getLifecyclesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator ().getLifecyclesByRefObjectUri(refObjectUri, contextInfo);
     }
@@ -64,12 +59,4 @@ public abstract class StateServiceDecorator implements StateService {
     public LifecycleInfo getLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator ().getLifecycle(lifecycleKey, contextInfo);
     }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator ().getInitialValidStates(lifecycleKey, contextInfo);
-    }
-    
-    
-    
 }

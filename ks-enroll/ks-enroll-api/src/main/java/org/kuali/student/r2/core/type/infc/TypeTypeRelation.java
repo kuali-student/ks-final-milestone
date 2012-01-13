@@ -16,12 +16,10 @@
 
 package org.kuali.student.r2.core.type.infc;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
-
+import org.kuali.student.r2.common.infc.Relationship;
 
 public interface TypeTypeRelation 
-    extends KeyEntity, HasEffectiveDates {
+    extends Relationship {
     
     /**
      * The key for the type that is the controlling or "main" type in

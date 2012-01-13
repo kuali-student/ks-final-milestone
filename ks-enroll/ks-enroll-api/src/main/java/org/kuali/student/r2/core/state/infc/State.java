@@ -19,6 +19,7 @@ package org.kuali.student.r2.core.state.infc;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.HasKey;
+import org.kuali.student.r2.common.infc.RichText;
 
 
 /**
@@ -41,15 +42,6 @@ public interface State
     extends HasKey, HasAttributesAndMeta, HasEffectiveDates {
     
     /**
-     * The Lifecycle key to which this State belongs.
-     *
-     * @name Lifecycle Key
-     * @readOnly
-     * @required
-     */
-    public String getLifecycleKey();
-
-    /**
      * Friendly name of the State.
      *
      * @name Name
@@ -62,5 +54,14 @@ public interface State
      *
      * @name Description
      */
-    public String getDescr();
+    public RichText getDescr();
+
+    /**
+     * The Lifecycle key to which this State belongs.
+     *
+     * @name Lifecycle Key
+     * @readOnly
+     * @required
+     */
+    public String getLifecycleKey();
 }

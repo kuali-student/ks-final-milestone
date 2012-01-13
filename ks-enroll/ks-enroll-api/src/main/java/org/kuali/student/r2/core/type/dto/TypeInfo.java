@@ -21,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -49,7 +50,7 @@ public class TypeInfo
     private String name;
     
     @XmlElement
-    private String descr;
+    private RichTextInfo descr;
     
     @XmlElement
     private Date effectiveDate;
@@ -77,12 +78,17 @@ public class TypeInfo
      */	
     public TypeInfo(Type type) {
         super(type);
-        this.key = type.getKey();
-        this.name = type.getName();
-        this.descr = type.getDescr();
-    	this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
-    	this.refObjectURI = type.getRefObjectURI();
+        
+        if (type != null) {
+            this.key = type.getKey();
+            this.name = type.getName();
+            if (type.getDescr() != null) {
+                this.descr = new RichTextInfo(type.getDescr());
+            }
+            this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
+            this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
+            this.refObjectURI = type.getRefObjectURI();
+        }
     }
 	
     @Override
@@ -104,11 +110,11 @@ public class TypeInfo
     }
 
     @Override
-    public String getDescr() {
+    public RichTextInfo getDescr() {
         return descr;
     }
     
-    public void setDescr(String descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 

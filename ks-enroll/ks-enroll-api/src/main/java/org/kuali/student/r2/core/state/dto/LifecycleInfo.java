@@ -28,29 +28,33 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.state.infc.Lifecycle;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;
 
-@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LifecycleInfo", propOrder = {
                 "key", "name", "descr", "refObjectUri",
-                "effectiveDate", "expirationDate", 
                 "meta", "attributes", "_futureElements"})
 
 public class LifecycleInfo 
-    extends KeyEntityInfo
+    extends HasAttributesAndMetaInfo
     implements Lifecycle, Serializable {
-	    
+
+    private static final long serialVersionUID = 1L;
+    
+    @XmlElement
+    private String key;
+
+    @XmlElement
+    private String name;
+
+    @XmlElement
+    private RichTextInfo descr;
+
     @XmlElement
     private String refObjectUri;
 
-    @XmlElement
-    private Date effectiveDate;
-    
-    @XmlElement
-    private Date expirationDate;
-    
     @XmlAnyElement
     private List<Element> _futureElements;    
     
@@ -70,11 +74,45 @@ public class LifecycleInfo
 		
     public LifecycleInfo(Lifecycle lifecycle) {
         super(lifecycle);
+
+        this.key = lifecycle.getKey();
+        if (lifecycle != null) {
+            this.name = lifecycle.getName();
+            if (lifecycle.getDescr() != null) {
+                this.descr = new RichTextInfo(lifecycle.getDescr());
+            }
+        }
+
         this.refObjectUri = lifecycle.getRefObjectUri();
-        this.effectiveDate = null != lifecycle.getEffectiveDate() ? new Date(lifecycle.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != lifecycle.getExpirationDate() ? new Date(lifecycle.getExpirationDate().getTime()) : null;
     }
 	
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+
     @Override
     public String getRefObjectUri() {
         return refObjectUri;
@@ -82,23 +120,5 @@ public class LifecycleInfo
 	
     public void setRefObjectUri(String refObjectUri) {
         this.refObjectUri = refObjectUri;
-    }
-
-    @Override
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-	
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    @Override
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-	
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
     }
 }

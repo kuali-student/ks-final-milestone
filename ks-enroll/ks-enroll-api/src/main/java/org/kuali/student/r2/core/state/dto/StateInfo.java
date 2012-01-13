@@ -29,9 +29,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.state.infc.State;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.w3c.dom.Element;
 
-@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateInfo", propOrder = {
                 "key", "name", "descr", "lifecycleKey",
@@ -42,17 +42,19 @@ public class StateInfo
     extends HasAttributesAndMetaInfo 
     implements State, Serializable {
 
-    @XmlAttribute
-    private String key;
+    private static final long serialVersionUID = 1L;
 
     @XmlAttribute
-    private String lifecycleKey;
+    private String key;
 
     @XmlElement
     private String name;
 
     @XmlElement
-    private String descr;
+    private RichTextInfo descr;
+
+    @XmlAttribute
+    private String lifecycleKey;
 
     @XmlElement
     private Date effectiveDate;
@@ -76,11 +78,15 @@ public class StateInfo
      */    
     public StateInfo(State state) {
         super(state);
-        if(state != null){
+
+        if(state != null) {
             this.key = state.getKey();
-            this.lifecycleKey = state.getLifecycleKey();
             this.name = state.getName();
-            this.descr = state.getDescr();
+            if (state.getDescr() != null) {
+                this.descr = new RichTextInfo(state.getDescr());
+            }
+
+            this.lifecycleKey = state.getLifecycleKey();
             this.effectiveDate = null != state.getEffectiveDate() ? new Date(state.getEffectiveDate().getTime()) : null;
             this.expirationDate = null != state.getExpirationDate() ? new Date(state.getExpirationDate().getTime()) : null;
         }
@@ -96,15 +102,6 @@ public class StateInfo
     }
 
     @Override
-    public String getLifecycleKey() {
-        return lifecycleKey;
-    }
-
-    public void setLifecycleKey(String lifecycleKey) {
-        this.lifecycleKey = lifecycleKey;
-    }
-
-    @Override
     public String getName() {
         return name;
     }
@@ -114,12 +111,21 @@ public class StateInfo
     }
 
     @Override
-    public String getDescr() {
+    public RichTextInfo getDescr() {
         return descr;
     }
 
-    public void setDescr(String descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
+    }
+
+    @Override
+    public String getLifecycleKey() {
+        return lifecycleKey;
+    }
+
+    public void setLifecycleKey(String lifecycleKey) {
+        this.lifecycleKey = lifecycleKey;
     }
 
     @Override

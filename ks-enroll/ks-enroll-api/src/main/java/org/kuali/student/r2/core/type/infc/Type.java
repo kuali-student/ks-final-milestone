@@ -19,6 +19,7 @@ package org.kuali.student.r2.core.type.infc;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.HasKey;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Detailed Information about a Type
@@ -52,7 +53,7 @@ public interface Type
      * @name Description
      * @readOnly
      */
-    public String getDescr();        
+    public RichText getDescr();        
         
     /**
      * The reference to the Object URI to which the Type belongs.
