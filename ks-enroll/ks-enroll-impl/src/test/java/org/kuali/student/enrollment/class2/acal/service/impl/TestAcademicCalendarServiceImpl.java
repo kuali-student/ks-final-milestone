@@ -49,7 +49,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-//@Ignore
+@Ignore
 public class TestAcademicCalendarServiceImpl {
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
