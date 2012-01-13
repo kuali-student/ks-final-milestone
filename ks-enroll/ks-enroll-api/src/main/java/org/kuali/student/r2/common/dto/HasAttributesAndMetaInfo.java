@@ -16,31 +16,32 @@ import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 
 @SuppressWarnings("serial")
 @XmlTransient
-public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
-		implements HasAttributesAndMeta, Serializable {
-
-	@XmlElement
-	private MetaInfo meta;
-
-	public HasAttributesAndMetaInfo() {
-		meta = null;
-	}
-
-	public HasAttributesAndMetaInfo(HasAttributesAndMeta hasAttsAndMeta) {
-		super(hasAttsAndMeta);
-
-		if (null != hasAttsAndMeta) {
-			this.meta = null != hasAttsAndMeta.getMeta() ? MetaInfo
-					.getInstance(hasAttsAndMeta.getMeta()) : null;
-		}
-	}
-
-	@Override
-	public MetaInfo getMeta() {
-		return this.meta;
-	}
-
-	public void setMeta(MetaInfo metaInfo) {
-		this.meta = metaInfo;
-	}
+public abstract class HasAttributesAndMetaInfo 
+    extends HasAttributesInfo
+    implements HasAttributesAndMeta, Serializable {
+    
+    @XmlElement
+    private MetaInfo meta;
+    
+    public HasAttributesAndMetaInfo() {
+        meta = null;
+    }
+    
+    public HasAttributesAndMetaInfo(HasAttributesAndMeta hasAttsAndMeta) {
+        super(hasAttsAndMeta);
+        
+        if (null != hasAttsAndMeta) {
+            this.meta = null != hasAttsAndMeta.getMeta() ? MetaInfo
+                .getInstance(hasAttsAndMeta.getMeta()) : null;
+        }
+    }
+    
+    @Override
+    public MetaInfo getMeta() {
+        return this.meta;
+    }
+    
+    public void setMeta(MetaInfo metaInfo) {
+        this.meta = metaInfo;
+    }
 }

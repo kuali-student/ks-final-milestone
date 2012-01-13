@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.dto.HasAttributesInfo;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,10 +35,10 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeInfo", propOrder = {
                  "key", "name", "descr", "effectiveDate", "expirationDate", 
-                 "refObjectURI", "attributes", "_futureElements"})
+                 "refObjectURI", "meta", "attributes", "_futureElements"})
 
 public class TypeInfo 
-    extends HasAttributesInfo 
+    extends HasAttributesAndMetaInfo 
     implements Type, Serializable {
 	
     @XmlAttribute

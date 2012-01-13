@@ -16,7 +16,7 @@
 
 package org.kuali.student.r2.core.type.infc;
 
-import org.kuali.student.r2.common.infc.HasAttributes;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.HasKey;
 
@@ -34,7 +34,7 @@ import org.kuali.student.r2.common.infc.HasKey;
  *
  */
 public interface Type 
-    extends HasKey, HasAttributes, HasEffectiveDates {
+    extends HasKey, HasAttributesAndMeta, HasEffectiveDates {
 
     /**
      * Friendly name of the Type.
