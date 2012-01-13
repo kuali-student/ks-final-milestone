@@ -1,12 +1,12 @@
-package org.kuali.student.r2.lum.program.infc;
+package org.kuali.student.lum.program.infc;
 
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.common.infc.RichText;
+import org.kuali.student.common.infc.TimeAmount;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.program.dto.CoreProgramInfo;
 
 import java.util.Date;
 import java.util.List;

@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.CurrencyAmount;
-import org.kuali.student.r2.lum.course.infc.CourseFee;
+import org.kuali.student.common.dto.CurrencyAmountInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.infc.CurrencyAmount;
+import org.kuali.student.lum.course.infc.CourseFee;
 import org.w3c.dom.Element;
 
 @XmlType(name = "CourseFeeInfo", propOrder = {"id", "name", "typeKey", "stateKey", "feeType", "rateType", "feeAmounts", "meta", "attributes", "_futureElements"})

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.lum.lu.dto;
+package org.kuali.student.lum.lu.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -26,8 +26,8 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.w3c.dom.Element;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.lum.lu.infc.LuCode;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.lum.lu.infc.LuCode;
 
 /**
  * Detailed information about learning unit codes.

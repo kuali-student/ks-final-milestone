@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 
@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.lum.course.infc.CourseCrossListing;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill

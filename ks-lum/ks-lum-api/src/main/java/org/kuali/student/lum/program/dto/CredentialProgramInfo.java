@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.program.dto;
+package org.kuali.student.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -20,10 +20,10 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.course.infc.LoDisplay;
-import org.kuali.student.r2.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.r2.lum.program.infc.CredentialProgram;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.infc.LoDisplay;
+import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.program.infc.CredentialProgram;
 import org.w3c.dom.Element;
 
 /**

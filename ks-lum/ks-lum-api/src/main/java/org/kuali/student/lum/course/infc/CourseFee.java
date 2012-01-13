@@ -1,9 +1,9 @@
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.lum.course.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.CurrencyAmount;
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.common.infc.CurrencyAmount;
+import org.kuali.student.common.infc.IdEntity;
 
 /**
  * Information about a fee related to a course.

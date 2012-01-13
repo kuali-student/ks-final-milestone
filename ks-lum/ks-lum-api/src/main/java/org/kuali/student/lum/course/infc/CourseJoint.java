@@ -1,6 +1,6 @@
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.lum.course.infc;
 
-import org.kuali.student.r2.common.infc.Entity;
+import org.kuali.student.common.infc.Entity;
 
 /**
  * * Information about course joints.

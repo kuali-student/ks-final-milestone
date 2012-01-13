@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.lu.infc;
+package org.kuali.student.lum.lu.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.common.infc.IdEntity;
 
 /**
  * Detailed information about an LU Code.

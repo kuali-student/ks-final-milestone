@@ -1,6 +1,6 @@
-package org.kuali.student.r2.lum.program.infc;
+package org.kuali.student.lum.program.infc;
 
-import org.kuali.student.r2.lum.lu.infc.AdminOrg;
+import org.kuali.student.lum.lu.infc.AdminOrg;
 
 import java.util.List;
 

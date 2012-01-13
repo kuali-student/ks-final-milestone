@@ -9,10 +9,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.lum.lo.dto;
+package org.kuali.student.lum.lo.dto;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.lum.lo.infc.LoCategory;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.lum.lo.infc.LoCategory;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;

@@ -8,11 +8,11 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.lu.infc;
+package org.kuali.student.lum.lu.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.common.infc.IdNamelessEntity;
 
 /**
  * Detailed information about the distribution of revenue by organization.

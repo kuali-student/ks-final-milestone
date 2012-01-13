@@ -1,6 +1,6 @@
-package org.kuali.student.r2.lum.program.infc;
+package org.kuali.student.lum.program.infc;
 
-import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.common.infc.TimeAmount;
 
 import java.util.Date;
 import java.util.List;

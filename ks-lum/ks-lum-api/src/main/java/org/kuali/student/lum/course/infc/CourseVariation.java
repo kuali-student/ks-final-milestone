@@ -1,6 +1,6 @@
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.lum.course.infc;
 
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.common.infc.IdNamelessEntity;
 
 public interface CourseVariation extends IdNamelessEntity {
 

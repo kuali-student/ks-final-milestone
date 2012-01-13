@@ -8,12 +8,12 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.lum.course.infc.LoDisplay;
-import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.lum.course.infc.LoDisplay;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoInfo;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;

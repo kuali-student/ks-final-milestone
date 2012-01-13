@@ -1,9 +1,9 @@
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.lum.course.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
+import org.kuali.student.common.infc.IdNamelessEntity;
+import org.kuali.student.lum.lu.infc.AffiliatedOrg;
 
 public interface CourseRevenue extends IdNamelessEntity {
     /**

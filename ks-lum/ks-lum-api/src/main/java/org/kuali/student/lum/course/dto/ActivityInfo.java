@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,10 +21,10 @@ import javax.xml.bind.annotation.XmlType;
 
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.lum.course.infc.Activity;
+import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.lum.course.infc.Activity;
 import org.w3c.dom.Element;
 
 @XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes",

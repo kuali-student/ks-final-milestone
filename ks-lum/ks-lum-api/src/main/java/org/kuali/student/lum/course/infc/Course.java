@@ -1,15 +1,15 @@
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.lum.course.infc;
 
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.Amount;
-import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.common.versionmanagement.infc.Version;
+import org.kuali.student.common.infc.Amount;
+import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.common.infc.RichText;
+import org.kuali.student.common.infc.TimeAmount;
+import org.kuali.student.common.versionmanagement.infc.Version;
 
-import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import org.kuali.student.lum.lu.infc.CluInstructor;
 
 /**
  * Detailed information about a single course. For specific usage, check the

@@ -1,6 +1,6 @@
-package org.kuali.student.r2.lum.lo.infc;
+package org.kuali.student.lum.lo.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.common.infc.IdEntity;
 
 import java.util.Date;
 

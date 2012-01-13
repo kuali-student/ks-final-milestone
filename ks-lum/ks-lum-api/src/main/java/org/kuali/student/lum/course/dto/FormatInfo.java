@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -19,10 +19,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.lum.course.infc.Activity;
-import org.kuali.student.r2.lum.course.infc.Format;
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.lum.course.infc.Activity;
+import org.kuali.student.lum.course.infc.Format;
 
 @XmlType(name = "FormatInfo", propOrder = {"id", "typeKey", "stateKey", "activities", "termsOffered", "duration", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)

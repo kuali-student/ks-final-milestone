@@ -1,8 +1,8 @@
-package org.kuali.student.r2.lum.program.infc;
+package org.kuali.student.lum.program.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.common.infc.IdEntity;
 
 /**
  * Detailed information about a single honors program

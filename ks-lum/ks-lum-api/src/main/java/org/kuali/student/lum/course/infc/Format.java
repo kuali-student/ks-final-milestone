@@ -1,10 +1,10 @@
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.lum.course.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
-import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.common.infc.IdNamelessEntity;
+import org.kuali.student.common.infc.TimeAmount;
+import org.kuali.student.lum.course.dto.ActivityInfo;
 
 /**
  * Detailed information about a single course.

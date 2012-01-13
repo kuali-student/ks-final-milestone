@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.lu.infc;
+package org.kuali.student.lum.lu.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.CurrencyAmount;
-import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
-import org.kuali.student.r2.common.infc.HasId;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.common.infc.CurrencyAmount;
+import org.kuali.student.common.infc.HasAttributesAndMeta;
+import org.kuali.student.common.infc.HasId;
+import org.kuali.student.common.infc.RichText;
 
 /**
  * Information about a fee related to an learning unit

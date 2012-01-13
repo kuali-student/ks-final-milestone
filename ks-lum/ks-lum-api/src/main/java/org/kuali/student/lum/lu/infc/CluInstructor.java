@@ -1,6 +1,6 @@
-package org.kuali.student.r2.lum.lu.infc;
+package org.kuali.student.lum.lu.infc;
 
-import org.kuali.student.r2.common.infc.HasAttributes;
+import org.kuali.student.common.infc.HasAttributes;
 
 /**
  * Information about a potential instructor for a clu.

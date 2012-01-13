@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,20 +21,20 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.AmountInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.r2.lum.course.infc.Course;
-import org.kuali.student.r2.lum.course.infc.CourseCrossListing;
-import org.kuali.student.r2.lum.course.infc.CourseFee;
-import org.kuali.student.r2.lum.course.infc.CourseJoint;
-import org.kuali.student.r2.lum.course.infc.CourseRevenue;
-import org.kuali.student.r2.lum.course.infc.Format;
-import org.kuali.student.r2.lum.course.infc.LoDisplay;
-import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.lum.course.infc.Course;
+import org.kuali.student.lum.course.infc.CourseCrossListing;
+import org.kuali.student.lum.course.infc.CourseFee;
+import org.kuali.student.lum.course.infc.CourseJoint;
+import org.kuali.student.lum.course.infc.CourseRevenue;
+import org.kuali.student.lum.course.infc.Format;
+import org.kuali.student.lum.course.infc.LoDisplay;
+import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.lum.lu.infc.CluInstructor;
 import org.w3c.dom.Element;
 
 /**

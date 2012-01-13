@@ -8,9 +8,10 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.lu.dto;
+package org.kuali.student.lum.lu.dto;
 
-import com.google.gwt.dom.client.Element;
+// TODO kscm-129
+import org.w3c.dom.Element;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -21,8 +22,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.lum.lu.infc.AffiliatedOrg;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "meta", "attributes", "orgId", "percentage", "effectiveDate", "expirationDate", "typeKey", "stateKey", "_futureElements"})

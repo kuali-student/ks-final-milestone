@@ -1,10 +1,10 @@
-package org.kuali.student.r2.lum.course.infc;
+package org.kuali.student.lum.course.infc;
 
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.lum.lo.infc.Lo;
-import org.kuali.student.r2.lum.lo.infc.LoCategory;
+import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.lum.lo.infc.Lo;
+import org.kuali.student.lum.lo.infc.LoCategory;
 
 import java.util.ArrayList;
 import java.util.List;

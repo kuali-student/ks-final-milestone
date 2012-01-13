@@ -9,7 +9,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.lum.lu.dto;
+package org.kuali.student.lum.lu.dto;
 
 import java.io.Serializable;
 
@@ -17,8 +17,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.r2.common.dto.HasAttributesInfo;
-import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import org.kuali.student.common.dto.HasAttributesInfo;
+import org.kuali.student.lum.lu.infc.CluInstructor;
 
 /**
  * 

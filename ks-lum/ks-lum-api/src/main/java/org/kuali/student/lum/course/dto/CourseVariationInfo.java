@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.List;
@@ -20,8 +20,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.lum.course.infc.CourseVariation;
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.lum.course.infc.CourseVariation;
 import org.w3c.dom.Element;
 
 @XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "variationTitle", "subjectArea", "courseNumberSuffix", "variationCode", "meta", "attributes", "_futureElements"})

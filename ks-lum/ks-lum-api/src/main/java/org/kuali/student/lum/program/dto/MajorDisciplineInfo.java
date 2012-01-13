@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.program.dto;
+package org.kuali.student.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -23,11 +23,11 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.program.infc.MajorDiscipline;
 import org.w3c.dom.Element;
 
 /**
@@ -549,7 +549,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     @Override
-    public org.kuali.student.r2.common.dto.TimeAmountInfo getStdDuration() {
+    public org.kuali.student.common.dto.TimeAmountInfo getStdDuration() {
         return stdDuration;
     }
 
