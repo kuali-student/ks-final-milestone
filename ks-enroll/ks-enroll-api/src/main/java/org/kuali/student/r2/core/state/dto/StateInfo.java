@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.state.infc.State;
-import org.kuali.student.r2.common.dto.HasAttributesInfo;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
@@ -28,10 +28,10 @@ import org.w3c.dom.Element;
 @XmlType(name = "StateInfo", propOrder = {
                 "key", "name", "descr", 
                 "effectiveDate", "expirationDate", 
-                "attributes", "_futureElements"})
+                "meta", "attributes", "_futureElements"})
 
 public class StateInfo 
-    extends HasAttributesInfo 
+    extends HasAttributesAndMetaInfo 
     implements State, Serializable {
 
     @XmlAttribute

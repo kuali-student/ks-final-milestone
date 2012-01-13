@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.core.state.infc;
 
-import org.kuali.student.r2.common.infc.HasAttributes;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.HasKey;
 
@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.infc.HasKey;
  */
 
 public interface State 
-    extends HasKey, HasAttributes, HasEffectiveDates {
+    extends HasKey, HasAttributesAndMeta, HasEffectiveDates {
     
     /**
      * Friendly name of the State.
