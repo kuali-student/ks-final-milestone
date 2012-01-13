@@ -17,6 +17,13 @@ package org.kuali.student.r2.common.versionmanagement.infc;
 
 import java.util.Date;
 
+/**
+ * Version object
+ *
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
+ */
+
 public interface Version {
 
     /**
@@ -54,9 +61,8 @@ public interface Version {
     public String getVersionComment();
 
     /**
-     * Versioned From Id
+     * Version from which this version was created
      *
-     * TODO: Understand and document what is really is
      * @name Versioned From Id
      */
     public String getVersionedFromId();

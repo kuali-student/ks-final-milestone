@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
  * License, Version 2.0 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -11,27 +11,23 @@
 
 package org.kuali.student.r2.common.versionmanagement.dto;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.r2.common.versionmanagement.infc.VersionDisplay;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
-import org.kuali.student.r2.common.versionmanagement.infc.VersionDisplay;
-import org.w3c.dom.Element;
-
-@XmlType(name = "VersionDisplayInfo", propOrder = {"versionIndId", "objectTypeURI", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId",
-        "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "VersionDisplayInfo", propOrder = {"versionIndId", "objectTypeURI", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId", "_futureElements"})
 public class VersionDisplayInfo implements VersionDisplay, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    public VersionDisplayInfo() {}
 
     @XmlElement
     private String versionIndId;
@@ -57,15 +53,21 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    public VersionDisplayInfo() {
+
+    }
+
     public VersionDisplayInfo(VersionDisplay versionDisplay) {
         super();
 
-        this.versionIndId = versionDisplay.getVersionIndId();
-        this.sequenceNumber = versionDisplay.getSequenceNumber();
-        this.currentVersionStart = versionDisplay.getCurrentVersionStart();
-        this.currentVersionEnd = versionDisplay.getCurrentVersionEnd();
-        this.versionComment = versionDisplay.getVersionComment();
-        this.versionedFromId = versionDisplay.getVersionedFromId();
+        if (null != versionDisplay) {
+            this.versionIndId = versionDisplay.getVersionIndId();
+            this.sequenceNumber = versionDisplay.getSequenceNumber();
+            this.currentVersionStart = (null != versionDisplay.getCurrentVersionStart()) ? new Date(versionDisplay.getCurrentVersionStart().getTime()) : null;
+            this.currentVersionEnd = (null != versionDisplay.getCurrentVersionEnd()) ? new Date(versionDisplay.getCurrentVersionEnd().getTime()) : null;
+            this.versionComment = versionDisplay.getVersionComment();
+            this.versionedFromId = versionDisplay.getVersionedFromId();
+        }
     }
 
     @Override
@@ -86,9 +88,6 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.objectTypeURI = objectTypeURI;
     }
 
-    /*
-     * Version independent Id that remains the same across all versions
-     */
     @Override
     public String getVersionIndId() {
         return versionIndId;
@@ -98,9 +97,6 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.versionIndId = versionIndId;
     }
 
-    /**
-     * The sequence number of the version
-     */
     @Override
     public Long getSequenceNumber() {
         return sequenceNumber;
@@ -110,9 +106,6 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.sequenceNumber = sequenceNumber;
     }
 
-    /**
-     * The date and time this version became current.
-     */
     @Override
     public Date getCurrentVersionStart() {
         return currentVersionStart;
@@ -122,9 +115,6 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.currentVersionStart = currentVersionStart;
     }
 
-    /**
-     * The date and time when this version stopped being current.
-     */
     @Override
     public Date getCurrentVersionEnd() {
         return currentVersionEnd;
@@ -134,9 +124,6 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.currentVersionEnd = currentVersionEnd;
     }
 
-    /**
-     * Comments associated with the verison
-     */
     @Override
     public String getVersionComment() {
         return versionComment;
