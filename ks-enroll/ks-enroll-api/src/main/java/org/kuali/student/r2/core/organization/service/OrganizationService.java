@@ -133,7 +133,7 @@ public interface OrganizationService {
      * @return a list of OrgHierarchies
      * @throws DoesNotExistException an orgHierarchyId in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException orgHierarchyIds, a id in
+     * @throws MissingParameterException orgHierarchyIds, an id in
      *         orgHierarchyIds, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
@@ -312,10 +312,11 @@ public interface OrganizationService {
     public List<ValidationResultInfo> validateOrg(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "orgTypeKey") String orgTypeKey, @WebParam(name = "orgInfo") OrgInfo orgInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a new Org. The Org Type and Meta
-     * information may not be set in the supplied data object.
+     * Creates a new Org. The Org Id, Type and Meta information may
+     * not be set in the supplied data object.
      * 
-     * @param orgId a unique for the new Org
+     * @param orgTypeKey a unique identifier for the Type of the new
+     *        Org
      * @param orgInfo the data with which to create the Org
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -637,6 +638,7 @@ public interface OrganizationService {
      * 
      * @param orgId a peer of the relationship
      * @param orgPeerId a peer of the relationship
+     * @param orgOrgRelationTypeKey the identifier for the Type of OrgOrgRelation
      * @param orgOrgRelationInfo the relationship to be created
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -654,7 +656,7 @@ public interface OrganizationService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public OrgOrgRelationInfo createOrgOrgRelation(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgPeerId") String orgPeerId, @WebParam(name = "orgOrgRelationInfo") OrgOrgRelationInfo orgOrgRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public OrgOrgRelationInfo createOrgOrgRelation(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgPeerId") String orgPeerId, @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey, @WebParam(name = "orgOrgRelationInfo") OrgOrgRelationInfo orgOrgRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an Org Milestone Relationship. The OrgOrgRelation Id,
@@ -1009,6 +1011,8 @@ public interface OrganizationService {
      * 
      * @param orgId a peer of the relationship
      * @param personId a peer of the relationship
+     * @param orgPersonRelationTypeKey the identifier for the Type of
+     *        OrgPersonRelation
      * @param orgPersonRelationInfo the relationship to be created
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
@@ -1026,7 +1030,7 @@ public interface OrganizationService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public OrgPersonRelationInfo createOrgPersonRelation(@WebParam(name = "orgId") String orgId, @WebParam(name = "personId") String personId, @WebParam(name = "orgPersonRelationInfo") OrgPersonRelationInfo orgPersonRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public OrgPersonRelationInfo createOrgPersonRelation(@WebParam(name = "orgId") String orgId, @WebParam(name = "personId") String personId, @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgPersonRelationInfo") OrgPersonRelationInfo orgPersonRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an Org Milestone Relationship. The OrgPersonRelation Id,
