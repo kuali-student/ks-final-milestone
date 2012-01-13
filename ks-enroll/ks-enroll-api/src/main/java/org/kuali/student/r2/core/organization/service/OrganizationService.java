@@ -458,7 +458,7 @@ public interface OrganizationService {
     /** 
      * Retrieves a single OrgOrgRelation by OrgOrgRelation Id.
      *
-     * @param orgOrgRelationId the identifier for orgorgRelation to be
+     * @param orgOrgRelationId the identifier for OrgOrgRelation to be
      *        retrieved
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
@@ -547,7 +547,8 @@ public interface OrganizationService {
      * backwards).
      * 
      * @param orgId the identifier for an Org
-     * @param orgRelationTypeKey the identifier for an OrgOrgRelationType
+     * @param orgOrgRelationTypeKey the identifier for an
+     *        OrgOrgRelation Type
      * @param contextInfo information containing the principalId and locale
      *        information about the caller of service operation
      * @return a list of OrgOrgRelations of the specified OrgOrgRelationType for
@@ -558,7 +559,7 @@ public interface OrganizationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<OrgOrgRelationInfo> getOrgOrgRelationsByTypeAndOrg(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgRelationTypeKey") String orgRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<OrgOrgRelationInfo> getOrgOrgRelationsByTypeAndOrg(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgOrgRelationTypeKey") String orgOrgRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
     // Search methods for OrgOrgRelation Symmetrical Relationship Pattern.
@@ -761,7 +762,7 @@ public interface OrganizationService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public Boolean hasOrgPersonRelation(@WebParam(name="orgId")String orgId, @WebParam(name="personId")String personId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public Boolean hasOrgPersonRelation(@WebParam(name="orgId") String orgId, @WebParam(name="personId") String personId, @WebParam(name="orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
     // Lookup methods for OrgPersonRelation Asymmetrical Relationship
@@ -1315,8 +1316,8 @@ public interface OrganizationService {
      * @param orgId identifier of the "ancestor" organization
      * @param descendantOrgId identifier of the organization to be
      *        checked if it is a descendant
-     * @param orgHierarchy identifier of the organization hierarchy to
-     *        be checked against
+     * @param orgHierarchyId the identifier of the organization
+     *        hierarchy to be checked against
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return true if the organization is a descendant of the other
@@ -1324,11 +1325,11 @@ public interface OrganizationService {
      *         or does not exist
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException orgId, descendantOrgId,
-     *         orgHierarchy, or contextInfo is missing or null
+     *         orgHierarchyId, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public Boolean isDescendant(@WebParam(name = "orgId") String orgId, @WebParam(name = "descendantOrgId") String descendantOrgId, @WebParam(name = "orgHierarchy") String orgHierarchy, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public Boolean isDescendant(@WebParam(name = "orgId") String orgId, @WebParam(name = "descendantOrgId") String descendantOrgId, @WebParam(name = "orgHierarchyId") String orgHierarchyId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /** 
      * Retrieves the list of identifiers for all "descendant"

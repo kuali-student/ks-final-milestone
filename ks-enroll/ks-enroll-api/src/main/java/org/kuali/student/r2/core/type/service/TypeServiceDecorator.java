@@ -27,8 +27,7 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 
 /**
- *
- * @author nwright
+ * @author tom
  */
 public class TypeServiceDecorator implements TypeService {
     
