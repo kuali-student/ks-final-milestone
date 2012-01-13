@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeInfo", propOrder = {
                  "key", "name", "descr", "effectiveDate", "expirationDate", 
-                 "refObjectURI", "meta", "attributes", "_futureElements"})
+                 "refObjectUri", "meta", "attributes", "_futureElements"})
 
 public class TypeInfo 
     extends HasAttributesAndMetaInfo 
@@ -59,7 +59,7 @@ public class TypeInfo
     private Date expirationDate;
     
     @XmlElement
-    private String refObjectURI;
+    private String refObjectUri;
     
     @XmlAnyElement
     private List<Element> _futureElements;    
@@ -87,7 +87,7 @@ public class TypeInfo
             }
             this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
             this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
-            this.refObjectURI = type.getRefObjectURI();
+            this.refObjectUri = type.getRefObjectUri();
         }
     }
 	
@@ -137,11 +137,11 @@ public class TypeInfo
     }
     
     @Override
-    public String getRefObjectURI() {
-        return refObjectURI;
+    public String getRefObjectUri() {
+        return refObjectUri;
     }
     
-    public void setRefObjectURI(String refObjectURI) {
-        this.refObjectURI = refObjectURI;
+    public void setRefObjectUri(String refObjectUri) {
+        this.refObjectUri = refObjectUri;
     }
 }

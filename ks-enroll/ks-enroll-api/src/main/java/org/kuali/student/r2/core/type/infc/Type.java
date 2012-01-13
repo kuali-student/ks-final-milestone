@@ -65,8 +65,8 @@ public interface Type
      * <li>CluInfo -- which should match the java class's simple name
      * </ol>
      *
-     * @name Reference Object URI
+     * @name Reference Object Uri
      * @readOnly
      */
-    public String getRefObjectURI();
+    public String getRefObjectUri();
 }

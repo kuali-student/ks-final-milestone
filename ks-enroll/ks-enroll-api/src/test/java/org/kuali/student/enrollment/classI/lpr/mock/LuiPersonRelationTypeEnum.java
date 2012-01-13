@@ -95,7 +95,7 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     }
 
     @Override
-    public String getRefObjectURI() {
+    public String getRefObjectUri() {
         return REF_OBJECT_URI;        
     }
 
@@ -157,6 +157,6 @@ public enum LuiPersonRelationTypeEnum implements Type, Serializable {
     }
 
     
-    public void setRefObjectURI(String refObjectURI) {
+    public void setRefObjectUri(String refObjectUri) {
     }
 }

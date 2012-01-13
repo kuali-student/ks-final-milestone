@@ -93,23 +93,6 @@ public interface StateService {
     public List<LifecycleInfo> getLifecyclesByKeys(@WebParam(name = "lifecycleKeys") List<String> lifecycleKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of Lifecycle keys by Lifecycle Type.
-     * 
-     * @param lifecycleTypeKey an identifier for the Lifecycle
-     *        type
-     * @param contextInfo information containing the principalId and
-     *        locale information about the caller of service operation
-     * @return a list of Lifecycle keys matching lifecycleTypeKey or
-     *         an empty list if none found
-     * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException lifecycleTypeKey or
-     *         contextInfo is missing or null
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     */
-    public List<String> getLifecycleKeysByType(@WebParam(name = "lifecycleTypeKey") String lifecycleTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
      * This method retrieves the list of Lifecycle keys associated
      * with a type of object.
      * 
@@ -180,25 +163,21 @@ public interface StateService {
      * with the given data can be created.
      * 
      * @param validationTypeKey the identifier for the validation Type
-     * @param lifecycleTypeKey the identifier for the Lifecycle Type
-     *        to be validated
      * @param lifecycleInfo the identifier for the Lifecycle to be
      *        validated
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of validation results or an empty list if
      *         validation succeeded
-     * @throws DoesNotExistException validationTypeKey or
-     *         lifecycleTypeKey is not found
+     * @throws DoesNotExistException validationTypeKey is not found
      * @throws InvalidParameterException lifecycleInfo or contextInfo
      *         is not valid
      * @throws MissingParameterException validationTypeKey,
-     *         lifecycleTypeKey lifecycleInfo, or contextInfo is
-     *         missing or null
+     *         lifecycleInfo, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateLifecycle(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "lifecycleTypeKey") String lifecycleTypeKey, @WebParam(name = "lifecycleInfo") LifecycleInfo lifecycleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateLifecycle(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "lifecycleInfo") LifecycleInfo lifecycleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new Lifecycle. The Lifecycle Type and Meta
@@ -212,19 +191,16 @@ public interface StateService {
      * @return the new Lifecycle
      * @throws AlreadyExistsException lifecycleKey already exists
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException lifecycleTypeKey does not exist
-     *         or is not supported
      * @throws InvalidParameterException lifecycleInfo or contextInfo
      *         is not valid
-     * @throws MissingParameterException lifecycleKey,
-     *         lifecycleTypeKey, lifecycleInfo, or contextInfo is
-     *         missing or null
+     * @throws MissingParameterException lifecycleKey, lifecycleInfo,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public LifecycleInfo createLifecycle(@WebParam(name = "lifecycleKey") String lifeycleKey, @WebParam(name = "lifecycleTypeKey") String lifecycleTypeKey, @WebParam(name = "lifecycleInfo") LifecycleInfo lifecycleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public LifecycleInfo createLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "lifecycleInfo") LifecycleInfo lifecycleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Lifecycle. The Lifecycle Key, Type, and
