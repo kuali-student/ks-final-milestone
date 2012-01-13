@@ -362,6 +362,42 @@ public interface StateService {
     public StateInfo getNextHappyState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     //
+    // Search methods for State Key Pattern.
+    //
+
+    /**
+     * Searches for State keys that meet the given search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of State identifiers matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> searchForStateKeys(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for States that meet the given search criteria.
+     * 
+     * @param criteria the search criteria
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return list of States matching the criteria
+     * @throws InvalidParameterException criteria or contextInfo is
+     *         not valid
+     * @throws MissingParameterException criteria or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StateInfo> searchForStates(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
     // CRUD methods for Dependent Key Pattern. States do not have
     // Types or States so they are not complete entities.
     //
