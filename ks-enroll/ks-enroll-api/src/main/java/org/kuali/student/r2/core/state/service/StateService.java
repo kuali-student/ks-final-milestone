@@ -26,6 +26,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -167,13 +168,13 @@ public interface StateService {
      * Validates a Lifecycle. Depending on the value of
      * validationType, this validation could be limited to tests on
      * just the current object and its directly contained sub-objects
-     * or expanded to perform all tests related to this Lifecycle. If an
-     * identifier is present for the Lifecycle (and/or one of its contained
-     * sub-objects) and a record is found for that identifier, the
-     * validation checks if the Lifecycle can be shifted to the new
-     * values. If a an identifier is not present or a record does not
-     * exist, the validation checks if the Lifecycle with the given data can
-     * be created.
+     * or expanded to perform all tests related to this Lifecycle. If
+     * an identifier is present for the Lifecycle (and/or one of its
+     * contained sub-objects) and a record is found for that
+     * identifier, the validation checks if the Lifecycle can be
+     * shifted to the new values. If a an identifier is not present or
+     * a record does not exist, the validation checks if the Lifecycle
+     * with the given data can be created.
      * 
      * @param validationTypeKey the identifier for the validation Type
      * @param lifecycleTypeKey the identifier for the Lifecycle Type to be validated
@@ -201,6 +202,7 @@ public interface StateService {
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the new Lifecycle
+     * @throws AlreadyExistsException lifecycleKey already exists
      * @throws DataValidationErrorException supplied data is invalid
      * @throws DoesNotExistException lifecycleTypeKey does not exist or is
      *         not supported
@@ -214,7 +216,7 @@ public interface StateService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public LifecycleInfo createLifecycle(@WebParam(name = "lifecycleKey") String lifeycleKey, @WebParam(name = "lifecycleTypeKey") String lifecycleTypeKey, @WebParam(name = "lifecycleInfo") LifecycleInfo lifecycleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public LifecycleInfo createLifecycle(@WebParam(name = "lifecycleKey") String lifeycleKey, @WebParam(name = "lifecycleTypeKey") String lifecycleTypeKey, @WebParam(name = "lifecycleInfo") LifecycleInfo lifecycleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Lifecycle. The Lifecycle Key, Type, and
@@ -256,6 +258,11 @@ public interface StateService {
      */
     public StatusInfo deleteLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    //
+    // Lookup Methods for States. States are not full entities because
+    // they do not have Types and States.
+    //
+
     /**
      * This method returns information about a state.
      * 
@@ -263,7 +270,7 @@ public interface StateService {
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the requested State
-     * @throws DoesNotExistException stateKey not found
+     * @throws DoesNotExistException stateKey is not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException stateKey or contextInfo is
      *         missing or null
@@ -273,20 +280,38 @@ public interface StateService {
     public StateInfo getState(@WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of States from a list of State
+     * keys. The returned list may be in any order and if duplicate
+     * keys are supplied, a unique set may or may not be returned.
+     * 
+     * @param stateKeys a list of State keys
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of States
+     * @throws DoesNotExistException a stateId in the list not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException stateKeys, a key in
+     *         stateKeys, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<StateInfo> getStatesByKeys(@WebParam(name = "stateKeys") List<String> stateKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * This method returns a list of States that belong to a
-     * lifecycle. For e.g Clu states for clu proposal lifecycle
+     * lifecycle. For e.g Clu states for clu proposal lifecycle.
      * 
      * @param lifecycleKey Key identifying the lifecycle
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the list of StateInfo objects associated with the lifecycle
-     * @throws DoesNotExistException lifecycleKey not found
+     * @throws DoesNotExistException lifecycleKey is not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException lifecycleKey is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<StateInfo> getStatesForLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StateInfo> getStatesByLifecycle(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * This method returns a list of StateInfo objects that are valid
@@ -298,7 +323,7 @@ public interface StateService {
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the list of states are valid for the given lifecycle
-     * @throws DoesNotExistException lifecycleKey not found
+     * @throws DoesNotExistException lifecycleKey is not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException lifecycleKey or contextInfo
      *         is missing or null
@@ -317,12 +342,112 @@ public interface StateService {
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the next happy state in the lifecycle 
-     * @throws DoesNotExistException lifecycleKey or currentStateKey not found
+     * @throws DoesNotExistException lifecycleKey or currentStateKey
+     *         is not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException lifecycleKey, currentStateKey, or
-     *         contextInfo is missing or null
+     * @throws MissingParameterException lifecycleKey,
+     *         currentStateKey, or contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StateInfo getNextHappyState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //
+    // CRUD methods for Dependent Key Pattern. States do not have
+    // Types or States so they are not complete entities.
+    //
+
+    /**
+     * Validates a State. Depending on the value of validationType,
+     * this validation could be limited to tests on just the current
+     * object and its directly contained sub-objects or expanded to
+     * perform all tests related to this State. If an identifier is
+     * present for the State (and/or one of its contained sub-objects)
+     * and a record is found for that identifier, the validation
+     * checks if the State can be shifted to the new values. If a an
+     * identifier is not present or a record does not exist, the
+     * validation checks if the State with the given data can be
+     * created.
+     * 
+     * @param validationTypeKey the identifier for the validation Type
+     * @param lifecycleKey the identifier for the Lifecycle to which the
+     *        State belongs
+     * @param stateInfo the identifier for the State to be validated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of validation results or an empty list if validation
+     *         succeeded
+     * @throws DoesNotExistException validationTypeKey or lifecycleKey
+     *         is not found
+     * @throws InvalidParameterException stateInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey,
+     *         lifecycleKey stateInfo, or contextInfo is missing or
+     *         null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateState(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "stateInfo") StateInfo stateInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new State. The State key and Meta information may not
+     * be set in the supplied data object.
+     * 
+     * @param lifecycleKeye the identifier for the Lifecycle to which the
+     *        State belongs
+     * @param stateKey a unique identifier for the new State
+     * @param stateInfo the data with which to create the State
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the new State
+     * @throws AlreadyExistsException stateKey already exists
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException lifecycleKey is not found
+     * @throws InvalidParameterException stateInfo or contextInfo is not valid
+     * @throws MissingParameterException lifecycleKey, stateKey,
+     *         stateInfo, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     */
+    public StateInfo createState(@WebParam(name = "lifecycleKey") String lifecycleKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "stateInfo") StateInfo stateInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing State. The State key and Meta information
+     * may not be changed.
+     * 
+     * @param stateKey the identifier for the State to be updated
+     * @param stateInfo the new data for the State
+     * @param contextInfo information containing the principalId and locale
+     *        information about the caller of service operation
+     * @return the updated State
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException stateKey is not found
+     * @throws InvalidParameterException stateInfo or contextInfo is not valid
+     * @throws MissingParameterException stateKey, stateInfo, or
+     *         contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     * @throws VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
+     */
+    public StateInfo updateState(@WebParam(name = "stateKey") String stateKey, @WebParam(name = "stateInfo") StateInfo stateInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing State.
+     * 
+     * @param stateKey the identifier for the State to be deleted
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException stateKey is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException stateKey or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public StatusInfo deleteState(@WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
