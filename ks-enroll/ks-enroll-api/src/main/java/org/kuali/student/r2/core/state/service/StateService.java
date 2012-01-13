@@ -392,8 +392,8 @@ public interface StateService {
      * Creates a new State. The State key and Meta information may not
      * be set in the supplied data object.
      * 
-     * @param lifecycleKeye the identifier for the Lifecycle to which the
-     *        State belongs
+     * @param lifecycleKey the identifier for the Lifecycle to which
+     *        the State belongs
      * @param stateKey a unique identifier for the new State
      * @param stateInfo the data with which to create the State
      * @param contextInfo information containing the principalId and
