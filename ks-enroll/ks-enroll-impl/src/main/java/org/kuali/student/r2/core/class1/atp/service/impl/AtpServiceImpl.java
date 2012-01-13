@@ -5,6 +5,8 @@ import java.util.*;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import org.kuali.rice.core.api.criteria.CriteriaLookupService;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
@@ -54,6 +56,7 @@ public class AtpServiceImpl implements AtpService {
     private StateService stateService;
     private TypeService typeService;
     private DataDictionaryService dataDictionaryService;
+    private CriteriaLookupService criteriaLookupService;
 
     public AtpDao getAtpDao() {
         return atpDao;
@@ -126,13 +129,19 @@ public class AtpServiceImpl implements AtpService {
         this.typeService = typeService;
     }
 
-    
-    
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+    
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
     }
 
     @Override
@@ -404,7 +413,16 @@ public class AtpServiceImpl implements AtpService {
 	throws InvalidParameterException, MissingParameterException, 
 	       OperationFailedException, PermissionDeniedException {
 
-	return new ArrayList<AtpInfo>();
+        List<AtpInfo> atpInfos = new ArrayList<AtpInfo>();
+        GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
+        
+        if (null != results && results.getResults().size() > 0) {
+            for (AtpEntity atp : results.getResults()) {
+                atpInfos.add(atp.toDto());
+            }
+        }
+        
+        return atpInfos;
     }
 
     @Override
@@ -531,7 +549,16 @@ public class AtpServiceImpl implements AtpService {
 	throws InvalidParameterException, MissingParameterException, 
 	       OperationFailedException, PermissionDeniedException {
 
-	return new ArrayList<MilestoneInfo>();
+        List<MilestoneInfo> milestoneInfos = new ArrayList<MilestoneInfo>();
+        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
+        
+        if (null != results && results.getResults().size() > 0) {
+            for (MilestoneEntity atp : results.getResults()) {
+                milestoneInfos.add(atp.toDto());
+            }
+        }
+        
+        return milestoneInfos;
     }
 
     @Override

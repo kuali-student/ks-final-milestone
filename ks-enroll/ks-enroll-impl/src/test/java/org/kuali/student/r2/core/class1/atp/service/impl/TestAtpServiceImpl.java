@@ -7,6 +7,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -18,12 +19,13 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
@@ -238,6 +240,25 @@ public class TestAtpServiceImpl {
         }
         if (!requiredKeys.isEmpty()) {
             fail("Failed to find key '"+ requiredKeys.get(0) +"' in returned list");
+        }
+    }
+    
+    @Test
+    public void testSearchForAtps() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<AtpInfo> atpInfos = atpService.searchForAtps(qbc, callContext);
+            assertNotNull(atpInfos);
+            assertEquals(1, atpInfos.size());
+            AtpInfo atpInfo = atpInfos.get(0);
+            assertEquals("testAtpId1", atpInfo.getId());
+            assertEquals("testAtp1", atpInfo.getName());
+            assertEquals("Desc 101", atpInfo.getDescr().getPlain());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
         }
     }
 
@@ -514,6 +535,40 @@ public class TestAtpServiceImpl {
         
     }
     
+    @Test
+    public void testSearchForMilestones()throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
+            assertNotNull(milestoneInfos);
+            assertEquals(1, milestoneInfos.size());
+            MilestoneInfo milestoneInfo = milestoneInfos.get(0);
+            assertEquals("testId2", milestoneInfo.getId());
+            assertEquals("testId2", milestoneInfo.getName());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2011, 5, 1);
+        Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
+        calendar.set(2011, 11, 30);
+        Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
+        qbcBuilder.setPredicates(startPredicate, endPredicate);
+        qbc = qbcBuilder.build();
+        try {
+            List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
+            assertNotNull(milestoneInfos);
+            assertEquals(2, milestoneInfos.size());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
 
 //    @Test
 //    public void testGetType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
