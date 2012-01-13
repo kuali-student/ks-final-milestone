@@ -55,7 +55,7 @@ public interface Type
     public String getDescr();        
         
     /**
-     * The Object URI to which the Type belongs.
+     * The reference to the Object URI to which the Type belongs.
      * E.g http://student.kuali.org/luService/wsdl/CluInfo will be the
      *          //objectTypeURI for type 'kuali.lu.type.CreditCourse'
      * The refObjectURI has three parts:<ol>
