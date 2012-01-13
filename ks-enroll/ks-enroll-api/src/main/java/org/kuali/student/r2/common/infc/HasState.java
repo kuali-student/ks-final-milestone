@@ -40,5 +40,5 @@ public interface HasState  {
      * @name State
      */
     @Deprecated
-    public String getState ();
+    public String getState();
 }

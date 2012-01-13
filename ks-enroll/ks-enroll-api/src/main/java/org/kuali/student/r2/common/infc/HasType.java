@@ -42,5 +42,5 @@ public interface HasType  {
      * @readOnly
      */
     @Deprecated
-    public String getType ();
+    public String getType();
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright 2007 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation
  *
  * Licensed under the Educational Community License, Version 1.0 (the
  * "License"); you may not use this file except in compliance with the
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
@@ -32,11 +33,11 @@ import org.kuali.student.r2.common.infc.Locale;
 import org.w3c.dom.Element;
 
 /**
- * @author Kamal
+ * The DTO for a Context.
  *
- * @Version 2.0
- * @Author Sri komandur@uw.edu
+ * @author Kamal
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ContextInfo", propOrder = {
                 "authenticatedPrincipalId", "principalId", 
@@ -66,41 +67,35 @@ public class ContextInfo
 
     @XmlAnyElement
     private List<Element> _futureElements;
-
-    public static ContextInfo newInstance() {
-        ContextInfo contextInfo = new ContextInfo();
-        UserSession userSession = GlobalVariables.getUserSession();
-        if (userSession != null) {
-            contextInfo.setPrincipalId(userSession.getPrincipalId());
-        }
-
-        return contextInfo;
-    }
-
-    public static ContextInfo getInstance(ContextInfo callContext) {
-        return new ContextInfo(callContext);
-    }
     
-    public static ContextInfo getInstance(String principalId, Locale locale) {
-        ContextInfo ctx = new ContextInfo();
-        ctx.setAuthenticatedPrincipalId(principalId);
-        ctx.setPrincipalId(principalId);
-        ctx.locale = (null != locale) ? new LocaleInfo(locale) : null;
-        return ctx;
-    }
 
+    @Deprecated
     public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
         LocaleInfo localeInfo = new LocaleInfo();
         localeInfo.setLocaleLanguage(localeLanguage);
         localeInfo.setLocaleRegion(localeRegion);
-        return ContextInfo.getInstance(principalId, localeInfo);
+
+        ContextInfo ctx = new ContextInfo();
+        ctx.setAuthenticatedPrincipalId(principalId);
+        ctx.setPrincipalId(principalId);
+        ctx.setLocale(localeInfo);
+
+        return ctx;
     }
-    
+
+    /**
+     * Constructs a new ContextInfo.
+     */
     public ContextInfo() {
         this.locale = new LocaleInfo();
         this.currentDate = new Date();
     }
 
+    /**
+     * Constructs a new ContextInfo from another Context.
+     *
+     * @param context the context to copy
+     */
     public ContextInfo(Context context) {
         super(context);
 

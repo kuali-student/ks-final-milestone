@@ -28,11 +28,12 @@ public interface Amount {
      * The kind of units associated with the quantity, such as
      * hours/week. It is expected that in usage in other structures,
      * this value will always be enumerated based on that context.
+     * Key
      *
-     * @name Unit Type
+     * @name Unit Type Key
      * @required
      */
-    public String getUnitType();
+    public String getUnitTypeKey();
 
     /**
      * The amount of units. Allowed values consist of numeric values
@@ -42,4 +43,13 @@ public interface Amount {
      * @required
      */
     public String getUnitQuantity();
+
+
+    // Compatibility
+
+    /**
+     * Use getUnitTypeKey() instead.
+     */
+    @Deprecated
+    public String getUnitType();
 }
