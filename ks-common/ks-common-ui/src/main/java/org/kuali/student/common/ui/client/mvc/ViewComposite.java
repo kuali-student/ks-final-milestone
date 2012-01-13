@@ -134,4 +134,10 @@ public abstract class ViewComposite extends Composite implements View {
     public boolean isExportButtonActive() {
         return false;
     }
+
+	@Override
+	public void showExport(boolean show) {
+		// Needs to be implemented on subclass where applicable
+	}
+    
 }

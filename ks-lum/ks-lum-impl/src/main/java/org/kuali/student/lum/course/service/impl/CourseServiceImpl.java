@@ -1,15 +1,13 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.apache.commons.collections.CollectionUtils.isEmpty;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
@@ -30,15 +28,13 @@ import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -46,10 +42,8 @@ import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
@@ -72,7 +66,6 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Kuali Student Team
  */
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseServiceImpl implements CourseService {
     final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
 
@@ -84,14 +77,14 @@ public class CourseServiceImpl implements CourseService {
     private StatementService statementService;
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 
         checkForMissingParameter(courseInfo, "CourseInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -107,20 +100,25 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
         checkForMissingParameter(courseInfo, "CourseInfo");
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
         try {
 
             return processCourseInfo(courseInfo, NodeOperation.UPDATE);
+            
+        }
+          catch (VersionMismatchException vme){
+             // Re-instantiate this exception with more descriptive error.
+            throw new VersionMismatchException("Course to be updated is not the current version.");
 
         } catch (AssemblyException e) {
             LOG.error("Error disassembling course", e);
@@ -129,7 +127,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
         try {
@@ -148,6 +146,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public CourseInfo getCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         CluInfo clu = luService.getClu(courseId);
@@ -165,21 +164,25 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ActivityInfo> getCourseActivities(String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseActivities");
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<FormatInfo> getCourseFormats(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseFormats");
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<LoDisplayInfo> getCourseLos(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseLos");
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
 
@@ -200,6 +203,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
@@ -209,14 +213,14 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -240,7 +244,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
 	@Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
@@ -257,14 +261,14 @@ public class CourseServiceImpl implements CourseService {
 	}
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -276,6 +280,7 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
@@ -361,7 +366,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CourseInfo createNewCourseVersion(String versionIndCourseId,
 			String versionComment) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
@@ -378,26 +383,26 @@ public class CourseServiceImpl implements CourseService {
 		try {
 	        BaseDTOAssemblyNode<CourseInfo, CluInfo> results;
 
+			//Clear Ids from the original course
+			CourseServiceUtils.resetIds(originalCourse);
+	        
 	        //Integrate changes into the original course. (should this just be just the id?)
 			courseAssembler.assemble(newVersionClu, originalCourse, true);
 
-			//Clear Ids from the original course
-			resetIds(originalCourse);
-
+			//Clear dates since they need to be set anyway
+			originalCourse.setStartTerm(null);
+			originalCourse.setEndTerm(null);
+			
 			//Disassemble the new course
 			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);
 
 			// Use the results to make the appropriate service calls here
 			courseServiceMethodInvoker.invokeServiceCalls(results);
 
-			//copy statements
-			List<StatementTreeViewInfo> statementTreeViews = getCourseStatements(currentVersion.getId(),null,null);
-			
-			clearStatementTreeViewIds(statementTreeViews);
-			
-			for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-				createCourseStatement(results.getBusinessDTORef().getId(), statementTreeView);
-			}
+			// copy statements
+			CourseServiceUtils.copyStatements(currentVersion.getId(), results
+					.getBusinessDTORef().getId(), results.getBusinessDTORef().getState(), statementService, luService,
+					this);
 			
 			return results.getBusinessDTORef();
 		} catch (AlreadyExistsException e) {
@@ -418,72 +423,11 @@ public class CourseServiceImpl implements CourseService {
 
 	}
 
-	private void clearStatementTreeViewIds(
-			List<StatementTreeViewInfo> statementTreeViews) throws OperationFailedException {
-		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			clearStatementTreeViewIdsRecursively(statementTreeView);
-		}
-	}
 
-	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
-		statementTreeView.setId(null);
-		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
-			reqComp.setId(null);
-			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
-				field.setId(null);
-				//copy any clusets that are adhoc'd and set the field value to the new cluset
-				if(ReqComponentFieldTypes.COURSE_CLUSET_KEY.getId().equals(field.getType())||
-				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
-				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
-					try {
-						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
-						cluSet.setId(null);
-						//Clear clu ids if membership info exists, they will be re-added based on membership info 
-						if (cluSet.getMembershipQuery() != null){
-							cluSet.getCluIds().clear();
-							cluSet.getCluSetIds().clear();
-						}
-						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
-						field.setValue(cluSet.getId());
-					} catch (Exception e) {
-						throw new OperationFailedException("Error copying clusets.", e);
-					}
-				}
-				
-			}
-		}
-		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
-			clearStatementTreeViewIdsRecursively(child);
-		}
-	}
 
-	private void resetIds(CourseInfo course) {
-		//Clear/Reset Joint info ids
-		for(CourseJointInfo joint:course.getJoints()){
-			joint.setRelationId(null);
-		}
-		//Clear Los
-		for(LoDisplayInfo lo:course.getCourseSpecificLOs()){
-			resetLoRecursively(lo);
-		}
-		//Clear format/activity ids
-		for(FormatInfo format:course.getFormats()){
-			format.setId(null);
-			for(ActivityInfo activity:format.getActivities()){
-				activity.setId(null);
-			}
-		}
-	}
-
-	private void resetLoRecursively(LoDisplayInfo lo){
-		lo.getLoInfo().setId(null);
-		for(LoDisplayInfo nestedLo:lo.getLoDisplayInfoList()){
-			resetLoRecursively(nestedLo);
-		}
-	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentCourseVersion(String courseVersionId,
 			Date currentVersionStart) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -493,6 +437,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -504,6 +449,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
 			String refObjectId, Date date) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -515,6 +461,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -527,6 +474,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -539,6 +487,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getVersionBySequenceNumber(
 			String refObjectTypeURI, String refObjectId, Long sequence)
 			throws DoesNotExistException, InvalidParameterException,
@@ -551,6 +500,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -562,6 +512,7 @@ public class CourseServiceImpl implements CourseService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersionsInDateRange(
 			String refObjectTypeURI, String refObjectId, Date from, Date to)
 			throws DoesNotExistException, InvalidParameterException,

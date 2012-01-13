@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Constraint extends BaseConstraint {
 	public static final String UNBOUNDED = "unbounded";
@@ -32,6 +34,8 @@ public class Constraint extends BaseConstraint {
 	protected Integer minOccurs;	
 	@XmlElement
 	protected String maxOccurs;
+	@XmlElement
+	protected ErrorLevel errorLevel = ErrorLevel.ERROR;
 	
 	@XmlElement
     protected CaseConstraint caseConstraint;
@@ -178,4 +182,12 @@ public class Constraint extends BaseConstraint {
 	public void setCustomValidatorClass(String customValidatorClass) {
 		this.customValidatorClass = customValidatorClass;
 	}
+
+	public ErrorLevel getErrorLevel() {
+		return errorLevel;
+	}
+
+	public void setErrorLevel(ErrorLevel errorLevel) {
+		this.errorLevel = errorLevel;
+	}	
 }

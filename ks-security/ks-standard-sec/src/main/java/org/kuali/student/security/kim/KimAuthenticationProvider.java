@@ -16,6 +16,7 @@
 package org.kuali.student.security.kim;
 
 import org.kuali.student.security.spring.KSRiceDefaultUserDetailsService;
+
 import org.springframework.dao.DataAccessException;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.AuthenticationServiceException;
@@ -30,6 +31,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.util.Assert;
+
 
 /**
  * An {@link AuthenticationProvider} implementation that retrieves user details
@@ -55,7 +57,6 @@ public class KimAuthenticationProvider extends AbstractUserDetailsAuthentication
     protected void additionalAuthenticationChecks(UserDetails userDetails,
             UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
         Object salt = null;
-
         if (this.saltSource != null) {
             salt = this.saltSource.getSalt(userDetails);
         }

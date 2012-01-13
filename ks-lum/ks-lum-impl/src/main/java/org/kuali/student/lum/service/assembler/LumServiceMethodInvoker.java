@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;
@@ -20,7 +20,6 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
@@ -44,7 +43,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	private LuService luService;
 	private StatementService statementService;
 	private LearningObjectiveService loService;
-	private OrganizationService orgService;
 	private AtpService atpService;
 	private LrcService lrcService;
 
@@ -353,14 +351,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 
 	public void setLoService(LearningObjectiveService loService) {
 		this.loService = loService;
-	}
-
-	public OrganizationService getOrgService() {
-		return orgService;
-	}
-
-	public void setOrgService(OrganizationService orgService) {
-		this.orgService = orgService;
 	}
 
 	public AtpService getAtpService() {

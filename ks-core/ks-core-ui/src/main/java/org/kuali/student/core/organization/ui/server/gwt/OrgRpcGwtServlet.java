@@ -30,13 +30,14 @@ import javax.xml.bind.Unmarshaller;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
@@ -479,13 +480,12 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
 
     @Override
     public Map<String, MembershipInfo> getNamesForPersonIds(List<String> personIds) {
-
         QueryByCriteria.Builder builder = QueryByCriteria.Builder.create();
         builder.setPredicates(and(in("id", personIds.toArray()),
                                   equal("active", "Y"),
                                   and(
-                                    equal("names.active", "Y"),
-                                    equal("names.defaultValue", "Y"))));
+                                  equal("names.active", "Y"),
+                                  equal("names.defaultValue", "Y"))));
         EntityDefaultQueryResults qr = identityServiceNonCached.findEntityDefaults(builder.build());
 
         Map<String, MembershipInfo> identities = new HashMap<String, MembershipInfo>();
@@ -524,5 +524,10 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     protected String getDefaultWorkflowDocumentType() {
         return null;
     }
+
+	@Override
+	public List<ValidationResultInfo> validate(Data data) throws OperationFailedException {
+		return null;
+	}
     
 }

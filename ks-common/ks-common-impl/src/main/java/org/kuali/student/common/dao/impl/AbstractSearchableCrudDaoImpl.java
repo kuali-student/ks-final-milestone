@@ -15,6 +15,8 @@
 
 package org.kuali.student.common.dao.impl;
 
+import java.math.BigDecimal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -40,7 +42,12 @@ import org.kuali.student.common.search.dto.SortDirection;
 public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
 	final Logger LOG = Logger.getLogger(AbstractSearchableCrudDaoImpl.class);
-    private static SimpleDateFormat df = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
+	
+	private static ThreadLocal<DateFormat> df = new ThreadLocal<DateFormat>() {
+		protected DateFormat initialValue() {
+			return new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy");
+		}
+	};
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest,	Map<String, String> queryMap, SearchTypeInfo searchTypeInfo) {
@@ -74,6 +81,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 					
 					//if optional query parameter has only a column name then create proper search expression
 					String condition = queryMap.get(searchParam.getKey());
+					if(condition==null){
+						throw new RuntimeException("Optional Param "+searchParam.getKey()+" must have a queryMap definition");
+					}
 					if (condition.trim().startsWith("!!")) {
 					    String substitutionType = condition.trim().substring("!!".length());
 					    // to detect queryMap value in the form of !!____ ___
@@ -115,9 +125,10 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 						//and each word within text
 						//FIXME SQL injection can occur here - or NOT if we need to assemble SQL to cover various ways one can compare criteria to a text
 						optionalQueryString += 
-							"(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER('" + searchParam.getValue() + "') || '%' OR " +
-							"LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER('" + searchParam.getValue() + "') || '%')"; 
-						internalQueryParms.remove(searchParam);
+                                "(LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE LOWER(:"
+                                        + searchParam.getKey().replace(".", "_") + ") || '%' OR " +
+                                        "LOWER(" + queryMap.get(searchParam.getKey()) + ") LIKE '% ' || LOWER(:"
+                                        + searchParam.getKey().replace(".", "_") + ") || '%')";
 					}
 				}
 			}
@@ -147,7 +158,12 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 				String[] jpqlResultColumns = queryString.substring(selectIndex, fromIndex).replaceAll("\\s", "").split(",");
 				for(ResultColumnInfo results : searchTypeInfo.getSearchResultTypeInfo().getResultColumns()){
 					if(results.getKey().equals(searchRequest.getSortColumn())){
-						orderByClause = " ORDER BY "+jpqlResultColumns[i]+" ";
+                        if(results.getDataType()!=null && "string".equals(results.getDataType().toLowerCase())){
+                        	orderByClause = " ORDER BY LOWER(" + jpqlResultColumns[i] + ") ";
+                        }else{
+                        	//Don't sort dates or numbers in alphabetic order or weirdness happens
+                        	orderByClause = " ORDER BY " + jpqlResultColumns[i] + " ";
+                        }
 						if(searchRequest.getSortDirection()!=null && searchRequest.getSortDirection()==SortDirection.DESC){
 							orderByClause += "DESC ";
 						}else{
@@ -200,10 +216,30 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
                 Object queryParamValue = null;
 			    if ("date".equals(paramDataType) && searchParam.getValue() instanceof String) {
 			        try {
-                        queryParamValue = df.parse((String)searchParam.getValue());
+                        queryParamValue = df.get().parse((String)searchParam.getValue());
                     } catch (ParseException e) {
-                        throw new RuntimeException("Failed to parse date value " + searchParam.getValue());
+                        throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
                     }
+			    } if ("long".equals(paramDataType)){
+			    	if(searchParam.getValue() instanceof String) {
+			            try{
+				        	queryParamValue = Long.valueOf((String)searchParam.getValue());
+		                } catch (NumberFormatException e) {
+		                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
+		                }
+			    	}else if(searchParam.getValue() instanceof Collection){
+			    		try{
+			    			List<Long> longList = new ArrayList<Long>();
+			    			if(searchParam.getValue()!=null){
+			    				for(String value:(Collection<String>)searchParam.getValue()){
+			    					longList.add(Long.parseLong(value));
+			    				}
+			    			}
+				        	queryParamValue = longList;
+		                } catch (NumberFormatException e) {
+		                    throw new RuntimeException("Failed to parse date value " + searchParam.getValue(),e);
+		                }
+			    	}
 			    } else {
 			        queryParamValue = searchParam.getValue();
 			    }
@@ -225,8 +261,9 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		searchResult.setStartAt(searchRequest.getStartAt());
 		if(searchRequest.getNeededTotalResults()!=null && searchRequest.getNeededTotalResults()){
 			//Get count of total rows if needed
-			String regex = "^\\s*[Ss][Ee][Ll][Ee][Cc][Tt]\\s+([^,\\s]+)(.|[\r\n])*?\\s+[Ff][Rr][Oo][Mm]\\s+";
-			String replacement = "SELECT COUNT($1) FROM ";
+            String regex = "^\\s*[Ss][Ee][Ll][Ee][Cc][Tt]\\s+([^,\\s]+)(.|[\r\n])*?\\s+[Ff][Rr][Oo][Mm]\\s+";
+            String replacement = "SELECT COUNT(DISTINCT $1) FROM ";
+            queryString = queryString.replaceAll("([Dd][Ii][Ss][Tt][Ii][Nn][Cc][Tt])", "");
 			String countQueryString = (queryString + optionalQueryString).replaceFirst(regex, replacement);
 
 			LOG.info("Executing query: "+countQueryString);
@@ -239,8 +276,14 @@ public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 			for (SearchParam searchParam : internalQueryParms) {
 				countQuery.setParameter(searchParam.getKey().replace(".", "_"), searchParam.getValue());
 			}
-			Long totalResults = (Long) countQuery.getSingleResult();
-			searchResult.setTotalResults(totalResults.intValue());
+            Integer totalRecords = 0;
+            Object resultObject = countQuery.getSingleResult();
+            if (resultObject instanceof BigDecimal) {
+                totalRecords = ((BigDecimal) resultObject).intValue();
+            } else if (resultObject instanceof Long) {
+                totalRecords = ((Long) resultObject).intValue();
+            }
+            searchResult.setTotalResults(totalRecords);
 		}
 
 		return searchResult;

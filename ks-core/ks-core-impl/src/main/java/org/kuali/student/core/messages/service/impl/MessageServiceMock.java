@@ -98,7 +98,7 @@ public class MessageServiceMock implements MessageService {
 		}
 		localeMessages.putMessage(messageInfo.getGroupName(), messageInfo
 				.getId(), messageInfo.getValue());
-
+		this.messages.put(messageInfo.getLocale(), localeMessages);
 		return messageInfo;
 	}
 
@@ -126,14 +126,13 @@ public class MessageServiceMock implements MessageService {
 			String messageKey) {
 
 		Message m = null;
-		LocaleMessages lMsgs = this.messages.get(localeKey);
-		if (null != lMsgs && null != lMsgs.getMessages(messageGroupKey)) {
-			m = new Message();
-			m.setGroupName(messageGroupKey);
-			m.setLocale(localeKey);
-			m.setId(messageKey);
-			m.setValue(lMsgs.getMessages(messageGroupKey).get(messageKey));
-		}
+		m = new Message();
+		m.setGroupName(messageGroupKey);
+		m.setLocale(localeKey);
+		m.setId(messageKey);
+		m.setValue(this.messages.get(localeKey).getMessages(messageGroupKey)
+				.get(messageKey));
+
 		return m;
 	}
 

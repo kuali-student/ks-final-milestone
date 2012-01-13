@@ -21,11 +21,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.DataValue;
 import org.kuali.student.common.assembly.data.Data.StringValue;
 import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.application.Application;
@@ -53,9 +53,9 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
-import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
@@ -95,9 +95,9 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
     private List<Callback<String>> basicSelectionTextChangeCallbacks =
         new ArrayList<Callback<String>>();
     private CachingSearchService cachingSearchService = CachingSearchService.getSearchService();
-    
+        
     private SearchRequestWrapper searchRequestWrapper = new SearchRequestWrapper();
-    
+        
     public KSPicker(WidgetConfigInfo config) {
         this.config = config;
 		init(config.lookupMeta, config.additionalLookups);
@@ -145,13 +145,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	    			break;
 	    		case DROP_DOWN:
 	    		case CHECKBOX_LIST:
-	    			setupListWidget(inLookupMetadata);
-	    			break;
 	    		case RADIO:
 	    			setupListWidget(inLookupMetadata);
 	    			break;
 	    		case NO_WIDGET:
-	                if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
+	    			if(getMessage(inLookupMetadata.getId()+"-name")!=null){
+	    			   advSearchLink.setText(getMessage(inLookupMetadata.getId()+"-name"));
+	    			}   
+	    			else
+	    			if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
 	                    advSearchLink.setText(inLookupMetadata.getName().trim());
 	                }
 	                basicWidget = new BasicWidget(new SelectionContainerWidget());
@@ -186,7 +188,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
                     @Override
                     public void onSelectionChange(SelectionChangeEvent event) {
-                        IdableSuggestion currentSuggestion = suggestBox.getSelectedSuggestion();
+                    	IdableSuggestion currentSuggestion = suggestBox.getSelectedSuggestion();
                         SelectedResults selectedResults = new SelectedResults(
                                 currentSuggestion.getReplacementString(), currentSuggestion.getId());
                         for(Callback<SelectedResults> basicSelectionCallback: basicSelectionCallbacks){
@@ -243,15 +245,28 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         List<LookupMetadata> advancedLightboxLookupdata = getLookupMetadataBasedOnWidget(additionalLookupMetadata, LookupMetadata.Widget.ADVANCED_LIGHTBOX);
         if ((advancedLightboxLookupdata != null) && config.canEdit) {
 
+        	//Title for advanced search window
+        	String advSearchTitle;
+        	advSearchTitle = getMessage(advancedLightboxLookupdata.get(0).getId()+"-title");
+        	if (basicWidget.get() instanceof SelectionContainerWidget){
+        		if(advSearchTitle==null)
+        		   advSearchTitle = advancedLightboxLookupdata.get(0).getTitle();
+        	} else {
+        		if(advSearchTitle==null)
+        		   advSearchTitle = "Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle();
+        		else
+        		   advSearchTitle = "Advanced Search: " + advSearchTitle; 
+        	}
+        	
             //for multiple searches, show a drop down for user to select from
             if (advancedLightboxLookupdata.size() == 1) {
                 String actionLabel = advancedLightboxLookupdata.get(0).getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_ACTION_LABEL);
                 searchPanel = new SearchPanel(advancedLightboxLookupdata.get(0));
                 searchPanel.setActionLabel(actionLabel);
-                advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                advSearchWindow = new AdvancedSearchWindow(advSearchTitle, searchPanel);
             } else {
                 searchPanel = new SearchPanel(advancedLightboxLookupdata);
-                advSearchWindow = new AdvancedSearchWindow("Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle(), searchPanel);
+                advSearchWindow = new AdvancedSearchWindow(advSearchTitle, searchPanel);
                 searchPanel.addLookupChangedCallback(new Callback<LookupMetadata>() {
                     @Override
                     public void exec(LookupMetadata selectedLookup) {
@@ -266,14 +281,6 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 searchPanel.setActionLabel(actionLabel);
             }
             searchPanel.setMultiSelect(true);
-
-            /*
-            advSearchWindow.addActionCompleteCallback(new Callback<Boolean>() {
-                @Override
-                public void exec(Boolean result) {
-                    searchPanel.getActionCompleteCallback().exec(true);
-                }
-            }); */
 
             String previewMode = additionalLookupMetadata.get(0).getWidgetOptionValue(LookupMetadata.WidgetOption.ADVANCED_LIGHTBOX_PREVIEW_MODE);
             if (previewMode != null && previewMode.equals("true")) {
@@ -370,6 +377,7 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
                 IdableSuggestion theSuggestion = new IdableSuggestion();
                 theSuggestion.setReplacementString(results.get(0).getDisplayKey());
                 theSuggestion.setId(results.get(0).getReturnKey());
+                theSuggestion.setAttrMap(results.get(0).getResultRow().getColumnValues());
 				((KSSuggestBox) basicWidget).setValue(theSuggestion);
 			}
 		}
@@ -512,6 +520,8 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 		public void addSelectionChangeHandler(SelectionChangeHandler handler) {
 		    if (basicWidget instanceof KSSelectItemWidgetAbstract)  {
 				((KSSelectItemWidgetAbstract) basicWidget).addSelectionChangeHandler(handler);
+			}else if(config!=null&&!config.isRepeating&&basicWidget instanceof KSSuggestBox){
+				((KSSuggestBox) basicWidget).addSelectionChangeHandler(handler);
 			}
 		}
 
@@ -590,6 +600,12 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
     }
 
+    /**
+     * An empty widget used to contain selections from an Advanced Search window, when NO_WIDGET has been
+     * specified for initial lookup definition. This is mostly used for creating a link to advanced search
+     * window.
+     * 
+     */
     private class SelectionContainerWidget extends Widget implements HasValueChangeHandlers<List<String>> {
     	private List<String> selections = new ArrayList<String>();
 
@@ -699,5 +715,19 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
         SearchUtils.initializeSearchRequest(config.lookupMeta, searchRequestWrapper);
         populateListWidget(searchRequestWrapper.getSearchRequest());
 	}
+
+	public Callback<List<SelectedResults>> getAdvancedSearchCallback() {
+		return advancedSearchCallback;
+	}
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        Widget basicInputWidget = getInputWidget();
+        if (basicInputWidget != null) {
+            basicInputWidget.ensureDebugId(baseID + "-KSPicker-widget");
+        }
+        advSearchLink.ensureDebugId(baseID + "-Advanced-Search-anchor");
+    }
 
 }

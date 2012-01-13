@@ -32,6 +32,7 @@ package org.kuali.rice.student.core.config.spring;
  */
 
 import java.util.List;
+import java.util.Properties;
 
 import org.kuali.rice.core.api.config.ConfigurationException;
 import org.kuali.rice.core.api.config.property.ConfigContext;

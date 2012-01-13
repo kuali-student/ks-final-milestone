@@ -3,12 +3,7 @@
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
@@ -115,7 +110,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
         List<SearchResultRow> results = null;
         if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
+            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(3);
             SearchParam qpRelType = new SearchParam();
             qpRelType.setKey("org.queryParam.relationType");
             qpRelType.setValue(relationType);
