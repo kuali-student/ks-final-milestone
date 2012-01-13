@@ -13,8 +13,8 @@ import org.kuali.student.r2.common.entity.MetaEntity;
 @Entity
 @Table(name = "KSEN_STATEPROCESS_RELTN")
 @NamedQueries({
-	@NamedQuery(name="StateProcess.getInitialValidStates", query="select spr.nextState from StateProcessRelationEntity spr where spr.priorState.id is null and spr.process.id=:processKey"),
-	@NamedQuery(name="StateProcess.getNextHappyState", query="select spr.nextState from StateProcessRelationEntity spr where spr.priorState.id=:stateKey and spr.process.id=:processKey")
+	@NamedQuery(name="StateProcess.getInitialValidStates", query="select spr.nextState from StateLifecycleRelationEntity spr where spr.priorState.id is null and spr.process.id=:processKey"),
+	@NamedQuery(name="StateProcess.getNextHappyState", query="select spr.nextState from StateLifecycleRelationEntity spr where spr.priorState.id=:stateKey and spr.process.id=:processKey")
 })
 public class StateLifecycleRelationEntity extends MetaEntity {
 	@ManyToOne
