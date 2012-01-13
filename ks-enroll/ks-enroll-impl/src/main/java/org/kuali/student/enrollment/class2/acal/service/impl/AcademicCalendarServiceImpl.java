@@ -1,7 +1,5 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Days;
 import org.joda.time.Period;
@@ -1232,16 +1230,36 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        List<AcademicCalendarInfo> acalInfos = new ArrayList<AcademicCalendarInfo>();
-
-        return acalInfos;
+        List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
+        List<AtpInfo> atps = atpService.searchForAtps(criteria, context);
+        
+        for (AtpInfo atp : atps) {
+            try {
+                academicCalendars.add(acalAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+        
+        return academicCalendars;
     }
 
     @Override
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        return new ArrayList<TermInfo>();
+        List<AtpInfo> results = atpService.searchForAtps(criteria, context);
+        List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
+
+        for (AtpInfo atp : results) {
+            try {
+                terms.add(termAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+
+        return terms;
     }
 
     @Override
@@ -1254,8 +1272,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<HolidayInfo> searchForHolidays(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<HolidayInfo>();
+        
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, context);
+        List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
+
+        for (MilestoneInfo milestoneInfo : milestoneInfos) {
+            try {
+                holidayInfos.add(holidayAssembler.assemble(milestoneInfo, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error assembling holiday with Id " + milestoneInfo.getId(), e);
+            }
+        }
+
+        return holidayInfos;
     }
 
     private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -1648,8 +1677,19 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public List<AcalEventInfo> searchForAcalEvents(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, contextInfo);
+        List<AcalEventInfo> acalEventInfos = new ArrayList<AcalEventInfo>();
+
+        for (MilestoneInfo milestoneInfo : milestoneInfos) {
+            try {
+                acalEventInfos.add(acalEventAssembler.assemble(milestoneInfo, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error assembling AcalEvent", e);
+            }
+        }
+
+        return acalEventInfos;
     }
 
     @Override

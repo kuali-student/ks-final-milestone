@@ -1,7 +1,12 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
+
+import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -11,6 +16,8 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
@@ -42,7 +49,7 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-@Ignore
+//@Ignore
 public class TestAcademicCalendarServiceImpl {
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
@@ -469,6 +476,25 @@ public class TestAcademicCalendarServiceImpl {
             assertNull(fakeResults);
         }
     }
+    
+    @Test
+    public void testSearchForTerms() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<TermInfo> terms = acalService.searchForTerms(qbc, callContext);
+            assertNotNull(terms);
+            assertEquals(1, terms.size());
+            TermInfo term = terms.get(0);
+            assertEquals("testAtpId1", term.getId());
+            assertEquals("testAtp1", term.getName());
+            assertEquals("Desc 101", term.getDescr().getPlain());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
     @Test
     public void testGetTermState() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -833,6 +859,26 @@ public class TestAcademicCalendarServiceImpl {
             fail("Expected DoesNotExistException.");
         } catch (DoesNotExistException e) {}
     }
+    
+    @Test
+    public void testSearchForAcademicCalendars() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+        PermissionDeniedException, ParseException {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<AcademicCalendarInfo> calendars = acalService.searchForAcademicCalendars(qbc, callContext);
+            assertNotNull(calendars);
+            assertEquals(1, calendars.size());
+            AcademicCalendarInfo calendar = calendars.get(0);
+            assertEquals("testAtpId1", calendar.getId());
+            assertEquals("testAtp1", calendar.getName());
+            assertEquals("Desc 101", calendar.getDescr().getPlain());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+    }
 
     @Test
     public void testCopyAcademicCalendar() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -925,6 +971,76 @@ public class TestAcademicCalendarServiceImpl {
         census = acalService.getKeyDate(censusId, callContext);
         // TODO should the milestone be saved in the calculation method or is that a seperate call?
         assertFalse("KeyDate was saved after calculation.", censusExpectedStartDate.equals(census.getStartDate()));
+    }
+    
+    @Test
+    public void testSearchForAcalEvents() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<AcalEventInfo> acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
+            assertNotNull(acalEventInfos);
+            assertEquals(1, acalEventInfos.size());
+            AcalEventInfo acalEventInfo = acalEventInfos.get(0);
+            assertEquals("testId2", acalEventInfo.getId());
+            assertEquals("testId2", acalEventInfo.getName());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2011, 5, 1);
+        Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
+        calendar.set(2011, 11, 30);
+        Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
+        qbcBuilder.setPredicates(startPredicate, endPredicate);
+        qbc = qbcBuilder.build();
+        try {
+            List<AcalEventInfo> acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
+            assertNotNull(acalEventInfos);
+            assertEquals(2, acalEventInfos.size());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+    
+    @Test
+    public void testSearchForHolidays() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
+            assertNotNull(holidayInfos);
+            assertEquals(1, holidayInfos.size());
+            HolidayInfo holidayInfo = holidayInfos.get(0);
+            assertEquals("testId2", holidayInfo.getId());
+            assertEquals("testId2", holidayInfo.getName());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(2011, 5, 1);
+        Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
+        calendar.set(2011, 11, 30);
+        Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
+        qbcBuilder.setPredicates(startPredicate, endPredicate);
+        qbc = qbcBuilder.build();
+        try {
+            List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
+            assertNotNull(holidayInfos);
+            assertEquals(2, holidayInfos.size());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
     }
 
 }
