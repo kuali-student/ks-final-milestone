@@ -26,7 +26,7 @@ import org.w3c.dom.Element;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateInfo", propOrder = {
-                "key", "name", "descr", 
+                "key", "name", "descr", "lifecycleKey",
                 "effectiveDate", "expirationDate", 
                 "meta", "attributes", "_futureElements"})
 
@@ -36,6 +36,9 @@ public class StateInfo
 
     @XmlAttribute
     private String key;
+
+    @XmlAttribute
+    private String lifecycleKey;
 
     @XmlElement
     private String name;
@@ -67,6 +70,7 @@ public class StateInfo
         super(state);
         if(state != null){
             this.key = state.getKey();
+            this.lifecycleKey = state.getLifecycleKey();
             this.name = state.getName();
             this.descr = state.getDescr();
             this.effectiveDate = null != state.getEffectiveDate() ? new Date(state.getEffectiveDate().getTime()) : null;
@@ -81,6 +85,15 @@ public class StateInfo
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    @Override
+    public String getLifecycleKey() {
+        return lifecycleKey;
+    }
+
+    public void setLifecycleKey(String lifecycleKey) {
+        this.lifecycleKey = lifecycleKey;
     }
 
     @Override

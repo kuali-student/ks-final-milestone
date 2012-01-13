@@ -40,6 +40,15 @@ public interface State
     extends HasKey, HasAttributesAndMeta, HasEffectiveDates {
     
     /**
+     * The Lifecycle key to which this State belongs.
+     *
+     * @name Lifecycle Key
+     * @readOnly
+     * @required
+     */
+    public String getLifecycleKey();
+
+    /**
      * Friendly name of the State.
      *
      * @name Name

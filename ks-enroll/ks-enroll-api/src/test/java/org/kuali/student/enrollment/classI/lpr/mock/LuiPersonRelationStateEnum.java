@@ -98,6 +98,11 @@ public enum LuiPersonRelationStateEnum implements State, Serializable {
     }
 
     @Override
+    public String getLifecycleKey() {
+        return "norm";
+    }
+
+    @Override
     public String getName() {
         return this.name;
     }
