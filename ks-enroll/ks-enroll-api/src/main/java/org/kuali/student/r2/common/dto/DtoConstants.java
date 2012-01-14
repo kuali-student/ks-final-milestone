@@ -18,9 +18,11 @@ package org.kuali.student.r2.common.dto;
 
 /**
  * These constants should be in the Constants files for their
- * respective services.
+ * respective services. This is used quite a bit in lum so left here
+ * for compatibility.
  */
 
+@Deprecated
 public class DtoConstants {
  
     public final static String STATE_DRAFT = "Draft"; 
@@ -42,8 +44,8 @@ public class DtoConstants {
     public enum DtoState {
         DRAFT, SUBMITTED, APPROVED, ACTIVE, INACTIVE, RETIRED, SUPERSEDED, SAVED, ENROUTE;
         
-        public boolean equalsString(String state){
-            if (state != null){
+        public boolean equalsString(String state) {
+            if (state != null) {
                 return this.toString().equals(state.toUpperCase());
             }
             
@@ -53,13 +55,14 @@ public class DtoConstants {
         /**
          * This is used to determine the next state.
          * 
-         * TODO: Ideally this method should not be hardcoded here.  Also determining next state may
-         * be a more complicated and not just be a simple sequence.
+         * TODO: Ideally this method should not be hardcoded here.
+         * Also determining next state may be a more complicated and
+         * not just be a simple sequence.
          * 
          * @param state
          * @return the next state
          */
-        public static DtoState getNextState(String state){
+        public static DtoState getNextState(String state) {
             // Element States
             if (DRAFT.equalsString(state)) {
                 return SUBMITTED;
@@ -82,9 +85,9 @@ public class DtoConstants {
             return null;
         }
 	
-        public static String getNextStateAsString(String state){
+        public static String getNextStateAsString(String state) {
             DtoState dtoState = getNextState(state);
-            if (dtoState == null){
+            if (dtoState == null) {
                 return null;
             } else {
                 return dtoState.toString();
