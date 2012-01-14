@@ -17,6 +17,7 @@
 package org.kuali.student.r2.common.messages.infc;
 
 import org.kuali.student.r2.common.infc.HasKey;
+import org.kuali.student.r2.common.infc.Locale;
 
 /**
  * Information about a message
@@ -28,12 +29,12 @@ public interface Message
     extends HasKey {
 
     /**
-     * Unique identifier for a locale
+     * The Locale.
      *
      * @name Locale
      * @required
      */
-    String getLocale();
+    Locale getLocale();
 
     /**
      * Unique identifier for a message group

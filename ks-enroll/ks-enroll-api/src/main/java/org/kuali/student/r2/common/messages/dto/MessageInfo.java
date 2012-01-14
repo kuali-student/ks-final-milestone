@@ -25,6 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.messages.infc.Message;
 import org.w3c.dom.Element;
 
@@ -51,13 +52,13 @@ public class MessageInfo
     private String key;
 
     @XmlElement
-    protected String locale;
+    private LocaleInfo locale;
 
     @XmlElement
-    protected String groupName;
+    private String groupName;
 
     @XmlElement
-    protected String value;
+    private String value;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -75,8 +76,11 @@ public class MessageInfo
      * @param message the Message to copy
      */
     public MessageInfo(Message message) {
-        if(null != message) {
-            this.locale = message.getLocale();
+        if(message != null) {
+            if (message.getLocale() != null) {
+                this.locale = new LocaleInfo(message.getLocale());
+            }
+
             this.groupName = message.getGroupName();
             this.value = message.getValue();
         }
@@ -92,11 +96,11 @@ public class MessageInfo
     }
 
     @Override
-    public String getLocale() {
+    public LocaleInfo getLocale() {
         return this.locale;
     }
 
-    public void setLocale(String locale) {
+    public void setLocale(LocaleInfo locale) {
         this.locale = locale;
     }
 
