@@ -60,10 +60,6 @@ public final class AttributeInfo
      * Constructs a new AttributeInfo.
      */
     public AttributeInfo() {
-        this.id = null;
-        this.key = null;
-        this.value = null;
-        this._futureElements = null;
     }
 
     /**

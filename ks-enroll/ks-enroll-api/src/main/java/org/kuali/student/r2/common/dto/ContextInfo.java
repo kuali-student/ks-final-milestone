@@ -69,20 +69,6 @@ public class ContextInfo
     private List<Element> _futureElements;
     
 
-    @Deprecated
-    public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
-        LocaleInfo localeInfo = new LocaleInfo();
-        localeInfo.setLocaleLanguage(localeLanguage);
-        localeInfo.setLocaleRegion(localeRegion);
-
-        ContextInfo ctx = new ContextInfo();
-        ctx.setAuthenticatedPrincipalId(principalId);
-        ctx.setPrincipalId(principalId);
-        ctx.setLocale(localeInfo);
-
-        return ctx;
-    }
-
     /**
      * Constructs a new ContextInfo.
      */
@@ -158,5 +144,22 @@ public class ContextInfo
     
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
+    }
+
+
+    // Compatibility methods
+
+    @Deprecated
+    public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
+        LocaleInfo localeInfo = new LocaleInfo();
+        localeInfo.setLocaleLanguage(localeLanguage);
+        localeInfo.setLocaleRegion(localeRegion);
+
+        ContextInfo ctx = new ContextInfo();
+        ctx.setAuthenticatedPrincipalId(principalId);
+        ctx.setPrincipalId(principalId);
+        ctx.setLocale(localeInfo);
+
+        return ctx;
     }
 }

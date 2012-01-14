@@ -1,15 +1,16 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -32,47 +33,57 @@ import org.w3c.dom.Element;
  * 
  * @author nwright
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message", "_futureElements"})
-public class StatusInfo implements Status, Serializable {
-	private static final long serialVersionUID = 1L;
+
+public class StatusInfo 
+    implements Status, Serializable {
+
+    private static final long serialVersionUID = 1L;
 	
-	@XmlElement
-	private Boolean isSuccess;
-	
-	@XmlElement
-	private String message;
-	
+    @XmlElement
+    private Boolean isSuccess;
+    
+    @XmlElement
+    private String message;
+    
     @XmlAnyElement
     private List<Element> _futureElements;	
 
-  
+    
+    /**
+     * Constructs a new StatusInfo.
+     */
     public StatusInfo() {
-		isSuccess = Boolean.valueOf(true);
-		message = "";
-		_futureElements = null;
-	}
+        isSuccess = Boolean.valueOf(true);
+        message = "";
+    }
 	
-    public StatusInfo(Status builder) {
-		this.isSuccess = new Boolean(builder.getIsSuccess().booleanValue());
-		this.message = builder.getMessage();
-		this._futureElements = null;
-	}
-
-    @Override
-	public Boolean getIsSuccess(){
-		return isSuccess;
-	}
-
-    public void setSuccess(Boolean success) {
-        this.isSuccess = success;
+    /**
+     * Constructs a new StatusInfo from another Status.
+     *
+     * @param status the Status to copy
+     */
+    public StatusInfo(Status status) {
+        this.isSuccess = status.getIsSuccess();
+        this.message = status.getMessage();
     }
 
     @Override
-	public String getMessage() {
-		return message;
-	}
-
+    public Boolean getIsSuccess(){
+        return isSuccess;
+    }
+    
+    public void setSuccess(Boolean success) {
+        this.isSuccess = success;
+    }
+    
+    @Override
+    public String getMessage() {
+        return message;
+    }
+    
     public void setMessage(String message) {
         this.message = message;
     }
