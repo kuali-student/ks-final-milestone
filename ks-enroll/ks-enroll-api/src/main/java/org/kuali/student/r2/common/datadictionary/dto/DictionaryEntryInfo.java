@@ -1,18 +1,19 @@
 /*
  * Copyright 2011 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Educational Community License, Version 1.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl1.php
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.datadictionary.dto;
 
 import java.io.Serializable;
@@ -28,49 +29,61 @@ import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
 
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class DictionaryEntryInfo implements DictionaryEntry, Serializable {
+public class DictionaryEntryInfo 
+    implements DictionaryEntry, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String objectClass;
+
     @XmlElement
     private String name;
+
     @XmlElement
     private String objectLabel;
+
     @XmlElement
     private String objectDescription;
+
     @XmlElement
     private String titleAttribute;
+
     @XmlElement
     private List<String> primaryKeys;
+
     @XmlElement
     private List<AttributeDefinitionInfo> attributes;
 
+
+    /**
+     * Constructs a new DictionaryEntryInfo.
+     */
     public DictionaryEntryInfo() {
-        this.objectClass = null;
-        this.name = null;
-        this.objectLabel = null;
-        this.objectDescription = null;
-        this.titleAttribute = null;
-        this.primaryKeys = null;
-        this.attributes = null;
     }
 
-    private DictionaryEntryInfo(DictionaryEntry infc) {
-        this.objectClass = infc.getObjectClass();
-        this.name = infc.getName();
-        this.objectLabel = infc.getObjectLabel();
-        this.objectDescription = infc.getObjectDescription();
-        this.titleAttribute = infc.getTitleAttribute();
-        if (infc.getPrimaryKeys() != null) {
-            this.primaryKeys = Collections.unmodifiableList(infc.getPrimaryKeys());
-        }
-        if (infc.getAttributes() != null) {
-            List<AttributeDefinitionInfo> list = new ArrayList(infc.getAttributes().size());
-            for (AttributeDefinitionInfc ad : infc.getAttributes()) {
-                list.add(new AttributeDefinitionInfo.Builder(ad).build());
+    /**
+     * Constructs a new DictionaryEntryInfo from a DictionaryEntry.
+     * 
+     * @param entry the DictionaryEntry to copy
+     */
+    public DictionaryEntryInfo(DictionaryEntry entry) {
+        if (entry != null) {
+            this.objectClass = entry.getObjectClass();
+            this.name = entry.getName();
+            this.objectLabel = entry.getObjectLabel();
+            this.objectDescription = entry.getObjectDescription();
+            this.titleAttribute = entry.getTitleAttribute();
+            if (entry.getPrimaryKeys() != null) {
+                this.primaryKeys = Collections.unmodifiableList(entry.getPrimaryKeys());
             }
-            this.attributes = Collections.unmodifiableList(list);
+            if (entry.getAttributes() != null) {
+                List<AttributeDefinitionInfo> list = new ArrayList(entry.getAttributes().size());
+                for (AttributeDefinitionInfc ad : entry.getAttributes()) {
+                    list.add(new AttributeDefinitionInfo.Builder(ad).build());
+                }
+                this.attributes = Collections.unmodifiableList(list);
+            }
         }
     }
 
@@ -122,14 +135,14 @@ public class DictionaryEntryInfo implements DictionaryEntry, Serializable {
         public Builder() {
         }
 
-        public Builder(DictionaryEntry infc) {
-            this.objectClass = infc.getObjectClass();
-            this.name = infc.getName();
-            this.objectLabel = infc.getObjectLabel();
-            this.objectDescription = infc.getObjectDescription();
-            this.titleAttribute = infc.getTitleAttribute();
-            this.primaryKeys = new ArrayList(infc.getPrimaryKeys());
-            this.attributes = new ArrayList(infc.getAttributes());
+        public Builder(DictionaryEntry entry) {
+            this.objectClass = entry.getObjectClass();
+            this.name = entry.getName();
+            this.objectLabel = entry.getObjectLabel();
+            this.objectDescription = entry.getObjectDescription();
+            this.titleAttribute = entry.getTitleAttribute();
+            this.primaryKeys = new ArrayList(entry.getPrimaryKeys());
+            this.attributes = new ArrayList(entry.getAttributes());
         }
 
         public DictionaryEntryInfo build() {

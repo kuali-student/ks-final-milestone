@@ -1,9 +1,9 @@
 /*
  * Copyright 2011 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Educational Community License, Version 1.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl1.php
  *
@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.student.r2.common.datadictionary.dto;
 
 import java.io.Serializable;
@@ -24,72 +25,110 @@ import org.kuali.student.r2.common.datadictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.r2.common.datadictionary.infc.ValidCharactersConstraintInfc;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Serializable {
+public class AttributeDefinitionInfo 
+    implements AttributeDefinitionInfc, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String name;
+
     @XmlElement
     private String childEntryName;
+
     @XmlElement
     private DataType dataType;
+
     @XmlElement
     private Boolean isRequired;
+
     @XmlElement
     private Integer minOccurs;
+
     @XmlElement
     private Integer maxOccurs;
+
     @XmlElement
     private Integer minLength;
+
     @XmlElement
     private Integer maxLength;
+
     @XmlElement
     private Boolean isForceUppercase;
+
     @XmlElement
     private String shortLabel;
+
     @XmlElement
     private String summary;
+
     @XmlElement
     private String label;
+
     @XmlElement
     private String description;
+
     @XmlElement
     private String exclusiveMin;
+
     @XmlElement
     private String inclusiveMax;
+
     @XmlElement
     private String displayLabelAttribute;
+
     @XmlElement
     private Boolean isUnique;
+
     @XmlElement
     private String customValidatorClass;
+
     @XmlElement
     private String formatterClass;
+
     @XmlElement
     private ValidCharactersConstraintInfo validCharactersConstraint;
 
+    
+    /** 
+     * Constructs a new AttributeDefinitionInfo.
+     */
     public AttributeDefinitionInfo() {
-        this.name = null;
-        this.childEntryName = null;
-        this.dataType = null;
-        this.isRequired = null;
-        this.minOccurs = null;
-        this.maxOccurs = null;
-        this.minLength = null;
-        this.maxLength = null;
-        this.isForceUppercase = null;
-        this.shortLabel = null;
-        this.summary = null;
-        this.label = null;
-        this.description = null;
-        this.exclusiveMin = null;
-        this.inclusiveMax = null;
-        this.displayLabelAttribute = null;
-        this.isUnique = null;
-        this.customValidatorClass = null;
-        this.formatterClass = null;
-        this.validCharactersConstraint = null;
+    }
 
+    /** 
+     * Constructs a new AttributeDefinitionInfo from an
+     * AttributeDefinition.
+     *
+     * @param attrDef the AttributeDefinition to copy
+     */
+    public AttributeDefinitionInfo(AttributeDefinitionInfc attrDef) {
+        
+        if (attrDef != null) {
+            this.name = attrDef.getName();
+            this.childEntryName = attrDef.getChildEntryName();
+            this.dataType = attrDef.getDataType();
+            this.isRequired = attrDef.getIsRequired();
+            this.minOccurs = attrDef.getMinOccurs();
+            this.maxOccurs = attrDef.getMaxOccurs();
+            this.minLength = attrDef.getMinLength();
+            this.maxLength = attrDef.getMaxLength();
+            this.isForceUppercase = attrDef.getIsForceUppercase();
+            this.shortLabel = attrDef.getShortLabel();
+            this.summary = attrDef.getSummary();
+            this.label = attrDef.getLabel();
+            this.description = attrDef.getDescription();
+            this.exclusiveMin = attrDef.getExclusiveMin();
+            this.inclusiveMax = attrDef.getInclusiveMax();
+            this.displayLabelAttribute = attrDef.getDisplayLabelAttribute();
+            this.isUnique = attrDef.getIsUnique();
+            this.customValidatorClass = attrDef.getCustomValidatorClass();
+            this.formatterClass = attrDef.getFormatterClass();
+            if (attrDef.getValidCharactersConstraint() != null) {
+                this.validCharactersConstraint = new ValidCharactersConstraintInfo.Builder(attrDef.getValidCharactersConstraint()).build();
+            }
+        }
     }
 
     @Override
@@ -192,30 +231,6 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         return this.validCharactersConstraint;
     }
 
-    private AttributeDefinitionInfo(AttributeDefinitionInfc infc) {
-        this.name = infc.getName();
-        this.childEntryName = infc.getChildEntryName();
-        this.dataType = infc.getDataType();
-        this.isRequired = infc.getIsRequired();
-        this.minOccurs = infc.getMinOccurs();
-        this.maxOccurs = infc.getMaxOccurs();
-        this.minLength = infc.getMinLength();
-        this.maxLength = infc.getMaxLength();
-        this.isForceUppercase = infc.getIsForceUppercase();
-        this.shortLabel = infc.getShortLabel();
-        this.summary = infc.getSummary();
-        this.label = infc.getLabel();
-        this.description = infc.getDescription();
-        this.exclusiveMin = infc.getExclusiveMin();
-        this.inclusiveMax = infc.getInclusiveMax();
-        this.displayLabelAttribute = infc.getDisplayLabelAttribute();
-        this.isUnique = infc.getIsUnique();
-        this.customValidatorClass = infc.getCustomValidatorClass();
-        this.formatterClass = infc.getFormatterClass();
-        if (infc.getValidCharactersConstraint() != null) {
-            this.validCharactersConstraint = new ValidCharactersConstraintInfo.Builder(infc.getValidCharactersConstraint()).build();
-        }
-    }
 
     public static class Builder implements AttributeDefinitionInfc {
 
@@ -243,27 +258,27 @@ public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Seriali
         public Builder() {
         }
 
-        public Builder(AttributeDefinitionInfc infc) {
-            this.name = infc.getName();
-            this.childEntryName = infc.getChildEntryName();
-            this.dataType = infc.getDataType();
-            this.required = infc.getIsRequired();
-            this.minOccurs = infc.getMinOccurs();
-            this.maxOccurs = infc.getMaxOccurs();
-            this.minLength = infc.getMinLength();
-            this.maxLength = infc.getMaxLength();
-            this.forceUppercase = infc.getIsForceUppercase();
-            this.shortLabel = infc.getShortLabel();
-            this.summary = infc.getSummary();
-            this.label = infc.getLabel();
-            this.description = infc.getDescription();
-            this.exclusiveMin = infc.getExclusiveMin();
-            this.inclusiveMax = infc.getInclusiveMax();
-            this.displayLabelAttribute = infc.getDisplayLabelAttribute();
-            this.unique = infc.getIsUnique();
-            this.customValidatorClass = infc.getCustomValidatorClass();
-            this.formatterClass = infc.getFormatterClass();
-            this.validCharactersConstraint = infc.getValidCharactersConstraint();
+        public Builder(AttributeDefinitionInfc attrDef) {
+            this.name = attrDef.getName();
+            this.childEntryName = attrDef.getChildEntryName();
+            this.dataType = attrDef.getDataType();
+            this.required = attrDef.getIsRequired();
+            this.minOccurs = attrDef.getMinOccurs();
+            this.maxOccurs = attrDef.getMaxOccurs();
+            this.minLength = attrDef.getMinLength();
+            this.maxLength = attrDef.getMaxLength();
+            this.forceUppercase = attrDef.getIsForceUppercase();
+            this.shortLabel = attrDef.getShortLabel();
+            this.summary = attrDef.getSummary();
+            this.label = attrDef.getLabel();
+            this.description = attrDef.getDescription();
+            this.exclusiveMin = attrDef.getExclusiveMin();
+            this.inclusiveMax = attrDef.getInclusiveMax();
+            this.displayLabelAttribute = attrDef.getDisplayLabelAttribute();
+            this.unique = attrDef.getIsUnique();
+            this.customValidatorClass = attrDef.getCustomValidatorClass();
+            this.formatterClass = attrDef.getFormatterClass();
+            this.validCharactersConstraint = attrDef.getValidCharactersConstraint();
         }
 
         public AttributeDefinitionInfo build() {
