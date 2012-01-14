@@ -163,4 +163,109 @@ public class OrgTreeInfo
     public void setRelationTypeKey(String relationTypeKey) {
         this.relationTypeKey = relationTypeKey;
     }    
+
+
+    /*
+     * The hashCode() and equals() methodos are here because the
+     * current Organization service implementation uses a HashSet for
+     * assembling OrgTrees. It isn't really a tree of Orgs but more of
+     * a denormalized mash of information.
+     */
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((displayName == null) ? 0 : displayName.hashCode());
+        result = prime * result + ((orgHierarchyId == null) ? 0 : orgHierarchyId.hashCode());
+        result = prime * result + ((orgId == null) ? 0 : orgId.hashCode());
+        result = prime * result + ((parentId == null) ? 0 : parentId.hashCode());
+        result = prime * result + ((positions == null) ? 0 : positions.hashCode());
+        result = prime * result + ((positionId == null) ? 0 : positionId.hashCode());
+        result = prime * result + ((personId == null) ? 0 : personId.hashCode());
+        result = prime * result + ((relationTypeKey == null) ? 0 : relationTypeKey.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null) {
+            return false;
+        }
+
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+
+        OrgTreeInfo other = (OrgTreeInfo) obj;
+        
+        if (displayName == null) {
+            if (other.getDisplayName() != null) {
+                return false;
+            }
+        } else if (!displayName.equals(other.getDisplayName())) {
+            return false;
+        }
+        
+        if (orgHierarchyId == null) {
+            if (other.getOrgHierarchyId() != null) {
+                return false;
+            }
+        } else if (!orgHierarchyId.equals(other.getOrgHierarchyId())) {
+            return false;
+        }
+
+        if (orgId == null) {
+            if (other.getOrgId() != null) {
+                return false;
+            }
+        } else if (!orgId.equals(other.getOrgId())) {
+            return false;
+        }
+
+        if (parentId == null) {
+            if (other.getParentId() != null) {
+                return false;
+            }
+        } else if (!parentId.equals(other.getParentId())) {
+            return false;
+        }
+
+        if (positions == null) {
+            if (other.getPositions() != null) {
+                return false;
+            }
+        } else if (!positions.equals(other.getPositions())) {
+            return false;
+        }
+
+        if (positionId == null) {
+            if (other.getPositionId() != null) {
+                return false;
+            }
+        } else if (!positionId.equals(other.getPositionId())) {
+            return false;
+        }
+
+        if (personId == null) {
+            if (other.getPersonId() != null) {
+                return false;
+            }
+        } else if (!personId.equals(other.getPersonId())) {
+            return false;
+        }
+
+        if (relationTypeKey == null) {
+            if (other.getRelationTypeKey() != null) {
+                return false;
+            }
+        } else if (!relationTypeKey.equals(other.getRelationTypeKey())) {
+            return false;
+        }
+        
+        return true;
+    }
 }
