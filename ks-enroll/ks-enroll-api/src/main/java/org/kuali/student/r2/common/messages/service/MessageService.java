@@ -1,8 +1,9 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -15,9 +16,12 @@
 
 package org.kuali.student.r2.common.messages.service;
 
+import java.util.List;
+
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
+
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -25,16 +29,17 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.util.constants.MessageServiceConstants;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-import java.util.List;
 
 /**
- * The Message Service allows for the creation and management of messages.
+ * The Message Service allows for the creation and management of
+ * messages.
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
@@ -45,12 +50,11 @@ import java.util.List;
 public interface MessageService {
 
     /**
-     * Retrieves the list of locales supported by this service
+     * Retrieves the list of locales supported by this service.
      *
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return locales supported by this service
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of locales supported by this service
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
@@ -61,10 +65,9 @@ public interface MessageService {
     /**
      * Retrieves the list of message group keys known by the service
      *
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return message group keys
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of message group keys
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
@@ -73,108 +76,124 @@ public interface MessageService {
     public List<String> getMessageGroupKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves message information
+     * Retrieves message information.
      *
-     * @param localeInfo      Identifier for the locale
-     * @param messageGroupKey group to which the message belongs
-     * @param messageKey      message key
-     * @param contextInfo     Context information containing the principalId and
-     *                        locale information about the caller of service
-     *                        operation
-     * @return message information
-     * @throws DoesNotExistException     messageGroupKey, messageKey is not found
+     * @param localeInfo the locale information
+     * @param messageGroupKey an identifier for the message group to
+     *        which the message belongs
+     * @param messageKey the identifier for the requested message
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the requested message
+     * @throws DoesNotExistException messageGroupKey or messageKey is
+     *         not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException messageGroupKey, messageKey, contextInfo is missing or null
+     * @throws MissingParameterException localeInfo, messageGroupKey,
+     *         messageKey, or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public MessageInfo getMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve messages associated with a locale and group
+     * Retrieve messages associated with a locale and group.
      *
-     * @param localeInfo      locale information
-     * @param messageGroupKey group to which the messages belong
-     * @param contextInfo     Context information containing the principalId and
-     *                        locale information about the caller of service
-     *                        operation
-     * @return information about the messages
-     * @throws DoesNotExistException     messageGroupKey is not found
-     * @throws InvalidParameterException messageGroupKey is not valid
-     * @throws MissingParameterException messageGroupKey, contextInfo is missing or null
+     * @param localeInfo the locale information
+     * @param messageGroupKey an identifier for the message group to
+     *        which the messages belong
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of Messages
+     * @throws DoesNotExistException messageGroupKey is not found
+     * @throws InvalidParameterException loacleInfo or contextInfo is
+     *         not valid
+     * @throws MissingParameterException localeInfo, messageGroupKey,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<MessageInfo> getMessages(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve messages associated with a locale and specified groups
+     * Retrieve messages associated with a locale from a specified
+     * list of groups.
      *
-     * @param localeInfo       locale information
-     * @param messageGroupKeys groups to which the messages belong
-     * @param contextInfo      Context information containing the principalId and
-     *                         locale information about the caller of service
-     *                         operation
-     * @return information about the messages
-     * @throws DoesNotExistException     specified localeKey, any of messageGroupKeys not found
-     * @throws InvalidParameterException invalid localeKey, messageGroupKeys
-     * @throws MissingParameterException localeKey, messageGroupKeys, contextInfo not specified
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @param localeInfo the locale information
+     * @param messageGroupKeys a list of identifiers for the message
+     *        groups
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the list of Messages belonging to the list of message groups
+     * @throws DoesNotExistException localeInfo or a messageGroupKey
+     *         in messageGroupKeys is not found
+     * @throws InvalidParameterException localeInfo or contextInfo is
+     *          not valid
+     * @throws MissingParameterException localeInfo, messageGroupKeys,
+     *         a messageGroupKey in messagegroupKey, or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<MessageInfo> getMessagesByGroups(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKeys") List<String> messageGroupKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Update message associated with a locale and group
+     * Update message associated with a locale and group.
      *
-     * @param localeInfo  locale information
-     * @param messageKey  message key
-     * @param messageInfo message information
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
+     * @param localeInfo the locale information
+     * @param messageKey the indentifier for the message
+     * @param messageInfo the message information to be updated
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
      * @return message information
-     * @throws DoesNotExistException     specified messageKey not found
-     * @throws InvalidParameterException invalid messageKey, messageInfo
-     * @throws MissingParameterException messageKey, messageInfo, contextInfo not specified
+     * @throws DoesNotExistException messageKey is not found
+     * @throws InvalidParameterException localeInfo, messageInfo, or
+     *         contextInfo is not valid
+     * @throws MissingParameterException localeInfo, messageKey, messageInfo, 
+     *         or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws ReadOnlyException         attempted update of readonly data
-     * @throws VersionMismatchException  action was attempted on an out of date version
+     * @throws PermissionDeniedException an authorization failure occurred
+     * @throws ReadOnlyException an attempt at supplying information
+     *         designated as read only
+     * @throws VersionMismatchException an optimistic locking failure
+     *         or the action was attempted on an out of date version
      */
     public MessageInfo updateMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
 
     /**
-     * Delete the message associated with a locale and group
+     * Deletes the message associated with a locale and group for a
+     * message key
      *
-     * @param localeInfo  locale information
-     * @param messageKey  message key
-     * @param contextInfo Context information containing the principalId and
-     *                    information about the caller of service operation
-     * @return status of the operation
-     * @throws DoesNotExistException     specified messageKey not found
-     * @throws InvalidParameterException invalid messageKey
-     * @throws MissingParameterException messageKey not specified
+     * @param localeInfo the locale information
+     * @param messageKey an identifier for the Message to be deleted
+     * @param contextInfo information containing the principalId and
+     *        information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException messageKey not found for locale
+     * @throws InvalidParameterException localeInfo or contextInfo is 
+     *         not valid
+     * @throws MissingParameterException localeInfo, messageKey, or
+     *         contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo deleteMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Add a message to the locale and group
+     * Adds a message to the locale and group.
      *
-     * @param localeInfo locale information
-     * @param messageGroupKey message group
-     * @param messageInfo     message information
-     * @param contextInfo     Context information containing the principalId and locale
-     *                        information about the caller of service operation
-     * @return status of the operation
-     * @throws DoesNotExistException     specified localeKey, messageGroupKey not found
-     * @throws InvalidParameterException invalid localeKey, messageGroupKey
-     * @throws MissingParameterException localeKey, messageGroupKey, contextInfo not specified
+     * @param localeInfo the locale information
+     * @param messageGroupKey an identifier for the message group
+     * @param messageInfo the message information to be added
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return the status of the operation. This must always be true.
+     * @throws DoesNotExistException messageGroupKey is not found
+     * @throws InvalidParameterException localeInfo or contetInfo is
+     *         not valid
+     * @throws MissingParameterException localeInfo, messageGroupKey,
+     *         or contextInfo is missing or null
      * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException authorization failure
+     * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo addMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
 }

@@ -15,15 +15,18 @@
 
 package org.kuali.student.r2.common.messages.dto;
 
-import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.common.infc.HasKey;
-import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.r2.common.messages.infc.Message;
 import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
-import java.io.Serializable;
-import java.util.List;
 
 /**
  *
@@ -33,9 +36,15 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  *
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MessageInfo", propOrder = { "key", "locale", "groupName", "value", "_futureElements" })
-public class MessageInfo implements Message, Serializable {
+@XmlType(name = "MessageInfo", propOrder = { 
+                "key", "locale", "groupName", "value", 
+                "_futureElements" })
+
+public class MessageInfo 
+    implements Message, Serializable {
+
     private static final long serialVersionUID = 1L;
 
     @XmlElement
@@ -53,9 +62,18 @@ public class MessageInfo implements Message, Serializable {
     @XmlAnyElement
     private List<Element> _futureElements;
 
+
+    /**
+     * Constructs a new MessageInfo.
+     */
     public MessageInfo() {
     }
 
+    /**
+     * Constructs a new MessageInfo from a Message.
+     *
+     * @param message the Message to copy
+     */
     public MessageInfo(Message message) {
         if(null != message) {
             this.locale = message.getLocale();
@@ -99,5 +117,4 @@ public class MessageInfo implements Message, Serializable {
     public void setValue(String value) {
         this.value = value;
     }
-
 }
