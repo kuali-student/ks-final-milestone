@@ -91,12 +91,12 @@ public class TestLuiPersonRelationServiceImpl {
     private final static String LUI_ID = "Lui-1";
     private final static int MAX_CPTY = 10;
 
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
 
     
     @Before
     public void setUp() {
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo ();
         callContext.setPrincipalId(principalId);
     }
 
@@ -168,7 +168,7 @@ public class TestLuiPersonRelationServiceImpl {
     @Test
     public void testGetLuiPersonRelationsForLui() throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationInfo> lprInfoList = lprServiceValidationDecorator.getLprsByLui(LUIID1, ContextInfo.newInstance());
+        List<LuiPersonRelationInfo> lprInfoList = lprServiceValidationDecorator.getLprsByLui(LUIID1, callContext);
         assertNotNull(lprInfoList);
         assertEquals(1, lprInfoList.size());
 

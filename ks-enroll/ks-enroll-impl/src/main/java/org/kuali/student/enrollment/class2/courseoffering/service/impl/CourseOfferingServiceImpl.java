@@ -320,17 +320,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     	return true;
     }
 	
-	private String getStateKey(String processKey, String defaultState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, 
+	private String getStateKey(String lifecycleKey, String defaultState, ContextInfo context) throws DoesNotExistException, InvalidParameterException, 
 			MissingParameterException, OperationFailedException, PermissionDeniedException{
         String stateKey = null;
-        List<StateInfo> ivStates = stateService.getInitialValidStates(processKey, context);
-        if(ivStates != null && ivStates.size() > 0) {
-        	stateKey = ivStates.get(0).getKey();
-        }
-        else {
+//        List<StateInfo> ivStates = stateService.getInitialValidStates(lifecycleKey, context);
+//        if(ivStates != null && ivStates.size() > 0) {
+//        	stateKey = ivStates.get(0).getKey();
+//        }
+//        else {
         	stateKey = defaultState;
-        }
-        
+//        }
+//        
         return stateKey;
 	}
 	
@@ -579,7 +579,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         try {
-            return typeService.getTypesByRefObjectURI(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,context);
+            return typeService.getTypesByRefObjectUri(CourseOfferingServiceConstants.REF_OBJECT_URI_ACTIVITY_OFFERING,context);
         } catch (DoesNotExistException e) {
             throw new OperationFailedException("Error getting Lui Types",e);
         }

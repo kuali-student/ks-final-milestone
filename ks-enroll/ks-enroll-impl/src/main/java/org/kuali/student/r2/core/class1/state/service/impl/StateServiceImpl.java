@@ -89,61 +89,65 @@ public class StateServiceImpl implements StateService{
 
 	
 
-	@Override
-	public List<StateInfo> getInitialValidStates(String lifecycle, ContextInfo context) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-		List<StateInfo> stateInfos = null;
-		List<StateEntity> states;
-		
-		try{
-			states = sprDao.getInitialValidStates(lifecycle);
-		}catch(NoResultException ex){
-			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
-		}
-		
-		if(null != states && !states.isEmpty()){
-			stateInfos = new ArrayList<StateInfo>();
-			for(StateEntity se : states){
-				stateInfos.add(se.toDto());
-			}
-		}			
-		else
-			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
-		
-		return stateInfos;			
-	}
-
-	@Override
-	public StateInfo getNextHappyState(String processKey,
-			String currentStateKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-		StateEntity state = null;
-		
-		try{
-			state = sprDao.getNextHappyState(processKey, currentStateKey);
-		}catch(NoResultException ex){
-			throw new DoesNotExistException("No next state: processKey=" + processKey + ", stateKey=" + currentStateKey);
-		}
-
-		if (null == state) {
-		    throw new DoesNotExistException("No next state: processKey=" + processKey + ", stateKey=" + currentStateKey);
-		}
-		return state.toDto();
-	}
+//	@Override
+//	public List<StateInfo> getInitialValidStates(String lifecycle, ContextInfo context) 
+//			throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+//			OperationFailedException {
+//		List<StateInfo> stateInfos = null;
+//		List<StateEntity> states;
+//		
+//		try{
+//			states = sprDao.getInitialValidStates(lifecycle);
+//		}catch(NoResultException ex){
+//			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
+//		}
+//		
+//		if(null != states && !states.isEmpty()){
+//			stateInfos = new ArrayList<StateInfo>();
+//			for(StateEntity se : states){
+//				stateInfos.add(se.toDto());
+//			}
+//		}			
+//		else
+//			throw new DoesNotExistException("No valid initial state exists for this lifecycle: " + lifecycle);
+//		
+//		return stateInfos;			
+//	}
+//
+//	@Override
+//	public StateInfo getNextHappyState(String processKey,
+//			String currentStateKey, ContextInfo context)
+//			throws DoesNotExistException, InvalidParameterException,
+//			MissingParameterException, OperationFailedException {
+//		StateEntity state = null;
+//		
+//		try{
+//			state = sprDao.getNextHappyState(processKey, currentStateKey);
+//		}catch(NoResultException ex){
+//			throw new DoesNotExistException("No next state: processKey=" + processKey + ", stateKey=" + currentStateKey);
+//		}
+//
+//		if (null == state) {
+//		    throw new DoesNotExistException("No next state: processKey=" + processKey + ", stateKey=" + currentStateKey);
+//		}
+//		return state.toDto();
+//	}
+        
     @Override
     public List<LifecycleInfo> getLifecyclesByKeys(List<String> lifecycleKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
-    @Override
-    public List<String> getLifecycleKeysByType(String lifecycleTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+    
+    
+//    @Override
+//    public List<String> getLifecycleKeysByType(String lifecycleTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+//            PermissionDeniedException {
+//        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+    
     @Override
     public List<String> getLifecyclesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -162,16 +166,16 @@ public class StateServiceImpl implements StateService{
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
-    public List<ValidationResultInfo> validateLifecycle(String validationTypeKey, String lifecycleTypeKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+    public List<ValidationResultInfo> validateLifecycle(String validationTypeKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+               // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
     @Override
-    public LifecycleInfo createLifecycle(String lifeycleKey, String lifecycleTypeKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) throws AlreadyExistsException,
-            DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+    public LifecycleInfo createLifecycle(String lifecycleKey, LifecycleInfo lifecycleInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+            // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
     }
     @Override

@@ -52,7 +52,7 @@ public class TestCourseRegistrationServiceImpl {
     
 
     public static String principalId = "123";
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
 
     private RegRequestInfo createDummyRegRequest() {
         RegRequestInfo regRequest = new RegRequestInfo();
@@ -79,7 +79,7 @@ public class TestCourseRegistrationServiceImpl {
 
     @Before
     public void setUp() throws Exception {
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo ();
         callContext.setPrincipalId(principalId);
     }
 

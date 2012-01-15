@@ -28,7 +28,7 @@ public class TestLearningResultRecordServiceImpl {
     @Autowired
     private LearningResultRecordService lrrService;
 
-    public ContextInfo context = ContextInfo.newInstance();
+    public ContextInfo context = new ContextInfo ();
 
     public LearningResultRecordService getLrrService() {
         return lrrService;

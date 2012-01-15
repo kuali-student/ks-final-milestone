@@ -16,6 +16,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.state.dto.LifecycleInfo;
 import org.kuali.student.r2.core.state.infc.Lifecycle;
 
@@ -89,8 +90,8 @@ public class LifecycleEntity extends MetaEntity implements AttributeOwner<StateA
                         // TODO: change this entity to handle a rich text description
 //			this.setDescription(lifecycle.getDescr());
 			this.setVersionNumber((long) 0);
-			this.setEffectiveDate(lifecycle.getEffectiveDate());
-	        this.setExpirationDate(lifecycle.getExpirationDate());
+//			this.setEffectiveDate(lifecycle.getEffectiveDate());
+//	                this.setExpirationDate(lifecycle.getExpirationDate());
 			this.setAttributes(new ArrayList<StateAttributeEntity>());
 			if(null != lifecycle.getAttributes()){
 				for (Attribute att : lifecycle.getAttributes()) {
@@ -108,9 +109,9 @@ public class LifecycleEntity extends MetaEntity implements AttributeOwner<StateA
 		lifecycle.setKey(getId());
 		lifecycle.setName(name);
                 // TODO: make this entity handle rich text descriptions
-//		lifecycle.setDescr(description);
-		lifecycle.setEffectiveDate(effectiveDate);
-		lifecycle.setExpirationDate(expirationDate);
+		lifecycle.setDescr(new RichTextHelper ().fromPlain(description));
+//		lifecycle.setEffectiveDate(effectiveDate);
+//		lifecycle.setExpirationDate(expirationDate);
 		
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (StateAttributeEntity att : getAttributes()) {

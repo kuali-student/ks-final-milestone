@@ -56,12 +56,12 @@ public class TestAcademicCalendarServiceImpl {
     private AcademicCalendarService acalService;
 
     public static String principalId = "123";
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
 
     @Before
     public void setUp() {
         principalId = "123";
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo ();
         callContext.setPrincipalId(principalId);
     }
 

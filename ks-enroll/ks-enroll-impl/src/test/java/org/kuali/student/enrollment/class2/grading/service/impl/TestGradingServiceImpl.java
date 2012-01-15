@@ -31,7 +31,7 @@ public class TestGradingServiceImpl {
     private GradingService gradingService;
 
     public static String principalId = "123";
-    public ContextInfo contextInfo = ContextInfo.newInstance();
+    public ContextInfo contextInfo = null;
 
     @Autowired
 	public void setAcalServiceValidation(GradingService gradingService) {
@@ -41,7 +41,7 @@ public class TestGradingServiceImpl {
     @Before
     public void setUp() {
         principalId = "123";    
-        contextInfo = ContextInfo.getInstance(contextInfo);
+        contextInfo = new ContextInfo();
         contextInfo.setPrincipalId(principalId);
     }
     

@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.infc.TypeTypeRelation;
@@ -66,7 +67,7 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     
     public TypeTypeRelationEntity(TypeTypeRelation typeTypeRel){
         super(typeTypeRel);
-        this.setId(typeTypeRel.getKey());
+        this.setId(typeTypeRel.getId());
         this.setEffectiveDate(typeTypeRel.getEffectiveDate());
         this.setExpirationDate(typeTypeRel.getExpirationDate());
         this.setAttributes(new ArrayList<TypeTypeRelationAttributeEntity>());
@@ -198,12 +199,12 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     public TypeTypeRelationInfo toDto() {
         TypeTypeRelationInfo typeTypeRel = new TypeTypeRelationInfo();
         
-        typeTypeRel.setDescr(null != descr ? descr.toDto() : null);
+//        typeTypeRel.setDescr(new RichTextHelper ().fromPlain(descr));
         typeTypeRel.setRank(rank);
         typeTypeRel.setEffectiveDate(new Date(effectiveDate.getTime()));
         typeTypeRel.setExpirationDate(new Date(expirationDate.getTime()));
-        typeTypeRel.setKey(getId());
-        typeTypeRel.setName(name);
+        typeTypeRel.setId(getId());
+//        typeTypeRel.setName(name);
         typeTypeRel.setOwnerTypeKey(ownerTypeId);
         typeTypeRel.setRelatedTypeKey(relatedTypeId);
         typeTypeRel.setMeta(super.toDTO());

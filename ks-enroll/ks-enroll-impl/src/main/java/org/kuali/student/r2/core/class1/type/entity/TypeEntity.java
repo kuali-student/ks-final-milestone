@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.entity.BaseTypeEntity;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 
@@ -71,8 +72,9 @@ public abstract class TypeEntity<T extends BaseAttributeEntity<?>> extends BaseT
 		TypeInfo typeInfo = new TypeInfo();
 		typeInfo.setName(this.getName());
 		typeInfo.setKey(this.getId());
-		typeInfo.setRefObjectURI(getRefObjectURI());
-		typeInfo.setDescr(this.getDescr());
+		typeInfo.setRefObjectUri(getRefObjectURI());
+                // TODO: handle formatted
+		typeInfo.setDescr(new RichTextHelper ().fromPlain (this.getDescr()));
 		typeInfo.setEffectiveDate(this.getEffectiveDate());
 		typeInfo.setExpirationDate(this.getExpirationDate());
 		typeInfo.setAttributes(new ArrayList<AttributeInfo>());

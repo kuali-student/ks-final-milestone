@@ -61,11 +61,11 @@ public class TestAtpServiceValidationDecorator {
 
     //public ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"acal-test-context.xml"});
     public static String principalId = "123";
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
     
     @Before
     public void setUp() {
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);        
         //atpService = appContext.getBean(AtpServiceValidationDecorator.class);
     }

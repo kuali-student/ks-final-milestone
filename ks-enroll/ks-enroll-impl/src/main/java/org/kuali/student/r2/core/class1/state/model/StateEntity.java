@@ -16,6 +16,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.infc.State;
 
@@ -97,7 +98,9 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
 		try{
 			this.setId(state.getKey());
 			this.setName(state.getName());
-			this.setDescription(state.getDescr());
+                        if (state.getDescr() != null) {
+			 this.setDescription(state.getDescr().getPlain());
+                        }
 			this.setVersionNumber((long) 0);
 			this.setEffectiveDate(state.getEffectiveDate());
 	        this.setExpirationDate(state.getExpirationDate());
@@ -117,7 +120,7 @@ public class StateEntity extends MetaEntity implements AttributeOwner<StateAttri
 		StateInfo state = new StateInfo ();
 		state.setKey(getId());
 		state.setName(name);
-		state.setDescr(description);
+		state.setDescr(new RichTextHelper ().fromPlain(description));
 		state.setEffectiveDate(effectiveDate);
 		state.setExpirationDate(expirationDate);
 		

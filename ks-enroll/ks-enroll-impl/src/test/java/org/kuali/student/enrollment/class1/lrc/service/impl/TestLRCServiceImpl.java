@@ -29,14 +29,14 @@ import java.util.List;
 @Transactional
 public class TestLRCServiceImpl {
 
-    public ContextInfo contextInfo = ContextInfo.newInstance();
+    public ContextInfo contextInfo = null;
 
     @Autowired
     public LRCService lrcService;
 
     @Before
     public void setUp() throws Exception {
-        contextInfo = ContextInfo.newInstance();
+        contextInfo = new ContextInfo ();
         contextInfo.setPrincipalId("123");
     }
 

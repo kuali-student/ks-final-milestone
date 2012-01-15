@@ -46,12 +46,12 @@ public class TestAtpServiceImpl {
 
     public static String principalId = "123";
 
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
 
     
     @Before
     public void setUp() {
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
     }
 
