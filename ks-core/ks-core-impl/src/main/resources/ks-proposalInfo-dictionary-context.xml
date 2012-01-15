@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<import resource="classpath:ks-base-dictionary-context.xml" />
 
 	<!-- Generic ProposalInfo-->
@@ -120,11 +120,7 @@
 				        <property name="whenConstraint">
 							<list>
 								<bean parent="whenConstraint">
-									<property name="values">
-										<list>
-											<value>Publication Review</value>
-										</list>
-									</property>
+									<property name="values" ref="proposalInfo.prevEndTerm.requiredByNode" />
 									<property name="constraint">
 								        <bean parent="baseKualiType">
 								         <property name="minOccurs" value="1" />
@@ -143,6 +139,15 @@
 		   </bean>
 	  </property>
 	</bean>
+	
+	<bean id="proposalInfo.prevEndTerm.requiredByNode" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<value>Publication Review</value>
+			</list>
+		</constructor-arg>
+	</bean>
+	
    	<bean id="courseProposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
 	<bean id="programProposalInfo.prevEndTerm" parent="proposalInfo.prevEndTerm-parent" />
     <bean id="programProposalInfo.prevEndInstAdmitTerm" parent="proposalInfo.prevEndTerm-parent" >
@@ -204,6 +209,52 @@
 		<property name="name" value="name" />
 		<property name="minOccurs" value="1" />
 		<property name="maxLength" value="150"/>
+		<property name="caseConstraint">
+		   <bean parent="caseConstraint">
+		    <property name="operator" value="EQUALS"/>
+		    <property name="fieldPath" value="state"/>
+		    <property name="caseSensitive" value="false"/>
+		    <property name="whenConstraint">
+		     <list>
+		      <bean parent="whenConstraint">
+		       <property name="values">
+		        <list>
+		         <value>DRAFT</value>
+		        </list>
+		       </property>
+		       <property name="constraint">
+		        <bean parent="baseKualiName">
+		         <property name="maxLength" value="150"/>
+		         <!-- <property name="caseConstraint">
+		            <bean parent="caseConstraint">
+	           		    <property name="operator" value="EQUALS"/>
+		    			<property name="caseSensitive" value="false"/>
+		        		<property name="fieldPath" value="proposal/workflowNode"/>
+				        <property name="whenConstraint">
+							<list>
+								<bean parent="whenConstraint">
+									<property name="values">
+										<list>
+											<value>PreRoute</value>
+										</list>
+									</property>
+									<property name="constraint">
+								        <bean parent="baseKualiName">
+								         <property name="maxLength" value="150"/>
+								        </bean>
+									</property>
+								</bean>
+							</list>
+						</property>
+				    </bean>
+				    </property> -->
+		        </bean>
+		       </property>
+		      </bean>
+		     </list>
+		    </property>
+		   </bean>
+	  </property>
 	</bean>
 	<bean id="proposalInfo.name" parent="proposalInfo.name-parent" />
 
@@ -265,18 +316,7 @@
 				        <property name="whenConstraint">
 							<list>
 								<bean parent="whenConstraint">
-									<property name="values">
-										<list>
-											<value>PreRoute</value>
-											<value>Document Organization Review</value>
-											<value>Publication Decision Review</value>
-											<value>Department Review</value>
-											<value>Division Review</value>
-											<value>College Review</value>
-											<value>Senate Review</value>
-											<value>Publication Review</value>
-										</list>
-									</property>
+									<property name="values" ref="proposalInfo.rationale.requiredByNode"/>
 									<property name="constraint">
 						                <bean parent="baseKualiDescription">
 							              <property name="maxOccurs" value="1" />
@@ -313,6 +353,21 @@
 	   </property>
 	</bean>
 	<bean id="proposalInfo.rationale" parent="proposalInfo.rationale-parent" />
+	
+	<bean id="proposalInfo.rationale.requiredByNode" class="java.util.ArrayList">
+	    <constructor-arg>
+			<list>
+				<value>PreRoute</value>
+				<value>Document Organization Review</value>
+				<value>Publication Decision Review</value>
+				<value>Department Review</value>
+				<value>Division Review</value>
+				<value>College Review</value>
+				<value>Senate Review</value>
+				<value>Publication Review</value>
+			</list>
+	    </constructor-arg>
+	</bean>
 
 	<bean id="proposalInfo.state-parent" abstract="true"
 		parent="baseKualiState">

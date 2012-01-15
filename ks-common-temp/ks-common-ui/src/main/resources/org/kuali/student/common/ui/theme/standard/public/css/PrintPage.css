@@ -1,0 +1,39 @@
+.printPage{
+}
+
+
+.printPage .ks-menu-layout-leftColumn{
+	display: none;
+}
+
+.printPage .ks-button-primary{
+	display: none;
+}
+
+.printPage .ks-link-large{
+	display: none;
+}
+
+.printPage .contentHeader-utilities{
+	display: none;
+}
+
+.printPage .header-innerDiv{
+	display: none;
+}
+
+.printPage .header-appTitle{
+	display: none;
+}
+
+.printPage .standard-content-padding{
+	padding: 0;
+}
+
+.printPage .ks-menu-layout-rightColumn{
+	padding: 0;
+}
+
+.printPage .sectionEditLink{
+	display: none;
+}

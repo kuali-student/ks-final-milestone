@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
  <import resource="classpath:common-lookup-context.xml"/>
  <bean id="objectStructureDefinition"
@@ -187,6 +187,11 @@
        abstract="true">
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="255" />
+ </bean>
+ <bean id="baseKualiAuth" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="22" />
  </bean>
  <bean id="baseStringRequired" parent="baseString"
        abstract="true">

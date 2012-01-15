@@ -15,12 +15,14 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.dto.DocumentDetailDTO;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.webservice.DocumentResponse;
-import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
-import org.kuali.rice.kew.webservice.StandardResponse;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.DocumentActionParameters;
+import org.kuali.rice.kew.api.action.DocumentActionResult;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kew.api.document.DocumentContentUpdate;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kew.api.document.DocumentUpdate;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.Data.StringKey;
@@ -62,8 +64,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
     final Logger LOG = Logger.getLogger(ProposalWorkflowFilter.class);
     
     //Services used by this filter
-    private WorkflowUtility workflowUtilityService;
-	private SimpleDocumentActionsWebService simpleDocService;
+    private WorkflowDocumentService workflowDocumentService;
+	private WorkflowDocumentActionsService workflowDocumentActionsService;
 	private ProposalService proposalService;
 	private MetadataServiceImpl metadataService;
 	private final DataBeanMapper mapper = DefaultDataBeanMapper.INSTANCE;
@@ -193,82 +195,82 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 	 * Using a newly created/updated proposal and data object and initiates a workflow, or submits/approves 
 	 * the workflow document for the object. 
 	 */
-	public ProposalInfo updateWorkflow(ProposalInfo proposalInfo, Data data, Map<String, Object> properties) throws Exception {
-        if(simpleDocService==null){
+    	public ProposalInfo updateWorkflow(ProposalInfo proposalInfo, Data data, Map<String, Object> properties) throws Exception {
+        if(workflowDocumentActionsService==null){
         	throw new Exception("Workflow Service is unavailable");
         }
-		
+
         //Get the doc type & config info for doc type
-        String docType = proposalInfo.getType();       
+        String docType = proposalInfo.getType();
         DocumentTypeConfiguration docTypeConfig = getDocTypeConfig(docType);
 
         //get a user name
         String username = (String)properties.get(WORKFLOW_USER);
-        	        
-        //Setting the app id to proposal id        
-        String appId = proposalInfo.getId(); 
-        
+
+        //Setting the app id to proposal id
+        String appId = proposalInfo.getId();
+
         //Get the workflow id
         String workflowId = proposalInfo.getWorkflowId();
-                
+
         //Get the document title
         if (proposalInfo.getName() == null){
         	proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
         }
-        String docTitle = proposalInfo.getName(); 
-        
+        String docTitle = proposalInfo.getName();
+
         //Get the workflow document or create one if workflow document doesn't exist
-        DocumentDetailDTO docDetail;
+        DocumentDetail docDetail;
         if (workflowId != null){
-        	docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+        	docDetail = workflowDocumentService.getDocumentDetail(workflowId);
         } else  {
             LOG.info("Creating Workflow Document.");
-                        
-            DocumentResponse docResponse = simpleDocService.create(username, appId, docType, docTitle);
-            if (StringUtils.isNotBlank(docResponse.getErrorMessage())) {
-            	throw new RuntimeException("Error found creating document: " + docResponse.getErrorMessage());
-            }
-            
-            workflowId = docResponse.getDocId();
+            DocumentUpdate.Builder builder = DocumentUpdate.Builder.create();
+            builder.setTitle(docTitle);
+            builder.setApplicationDocumentId(appId);
+            DocumentUpdate docHeader = builder.build();
+
+            // TODO: RICE-R2.0 UPGRADE we can now supply the proposal status to the document here and we should be
+            //          This will allow implementors to define workflow based on proposal state
+            org.kuali.rice.kew.api.document.Document docResponse = workflowDocumentActionsService.create(docType, username, docHeader, null);
+
+            workflowId = docResponse.getDocumentId();
             proposalInfo.setWorkflowId(workflowId);
-            
-            //Set the node attribute on the proposal to preroute as an initial value
-            proposalInfo.getAttributes().put("workflowNode", "PreRoute");
-            
+
             //Lookup the workflow document detail to see if create was successful
 			try {
-				docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
+				docDetail = workflowDocumentService.getDocumentDetail(workflowId);
 			} catch (Exception e) {
-            	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
-			}			
+            	throw new RuntimeException("Error found gettting document for newly created object with id " + appId, e);
+			}
 		}
 
         //Generate the document content xml
         String docContent = getDocumentContent(data, docTypeConfig);
-        
+
+        DocumentActionParameters.Builder dapBuilder = DocumentActionParameters.Builder.create(docDetail.getDocument().getDocumentId(), username);
+        DocumentUpdate.Builder duBuilder = DocumentUpdate.Builder.create();
+        duBuilder.setApplicationDocumentId(appId);
+        duBuilder.setTitle(docTitle);
+        dapBuilder.setDocumentUpdate(duBuilder.build());
+        DocumentContentUpdate.Builder dcuBuilder = DocumentContentUpdate.Builder.create();
+        dcuBuilder.setApplicationContent(docContent);
+        dapBuilder.setDocumentContentUpdate(dcuBuilder.build());
+        DocumentActionParameters docActionParams = dapBuilder.build();
+
         //Save
-        StandardResponse stdResp;
-        if ( (KEWConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocRouteStatus())) ||
-        	 (KEWConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocRouteStatus())) ) {
+        DocumentActionResult stdResp;
+        if ( (KewApiConstants.ROUTE_HEADER_INITIATED_CD.equals(docDetail.getDocument().getStatus())) ||
+        	 (KewApiConstants.ROUTE_HEADER_SAVED_CD.equals(docDetail.getDocument().getStatus())) ) {
         	//if the route status is initial, then save initial
-        	stdResp = simpleDocService.save(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent, "");
+            stdResp = workflowDocumentActionsService.save(docActionParams);
         } else {
         	//Otherwise just update the doc content
-        	stdResp = simpleDocService.saveDocumentContent(docDetail.getRouteHeaderId().toString(), username, docTitle, docContent);
+        	stdResp = workflowDocumentActionsService.saveDocumentData(docActionParams);
         }
 
-        //Check if there were errors saving
-        if(stdResp==null||StringUtils.isNotBlank(stdResp.getErrorMessage())){
-        	if(stdResp==null){
-        		throw new RuntimeException("Error found updating document");
-        	}else{
-        		throw new RuntimeException("Error found updating document: " + stdResp.getErrorMessage());
-        	}
-    	}
-        
         return proposalInfo;
 	}
-	
 	
 	public String getDefaultDocumentTitle(DocumentTypeConfiguration docTypeConfig, Data data){
         String docTitle = docTypeConfig.getDefaultDocumentTitle();
@@ -412,22 +414,16 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 		this.proposalObjectType = proposalDefinition;
 	}
 
-
-	/**
-	 * Used to set the workflow utility service required by this filter
-	 * 
-	 * @param workflowUtilityService
-	 */
-	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
-		this.workflowUtilityService = workflowUtilityService;
+	public void setWorkflowDocumentService(WorkflowDocumentService workflowDocumentService) {
+		this.workflowDocumentService = workflowDocumentService;
 	}
-	
+
 	/**
 	 * Used to set the simple doc service required by this filter
 	 * @param simpleDocService
 	 */
-	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
-		this.simpleDocService = simpleDocService;
+	public void setSimpleDocService(WorkflowDocumentActionsService simpleDocService) {
+		this.workflowDocumentActionsService = simpleDocService;
 	}
 
 	public void setProposalService(ProposalService proposalService) {

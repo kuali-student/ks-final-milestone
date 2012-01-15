@@ -1,16 +1,12 @@
 package org.kuali.student.common.assembly.transform;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.UUID;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.role.dto.KimPermissionInfo;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.permission.Permission;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
@@ -28,30 +24,30 @@ import org.kuali.student.common.util.security.SecurityUtils;
  *
  */
 public class AuthorizationFilter extends AbstractDataFilter implements MetadataFilter{
-    protected IdentityManagementService permissionService;
+    protected PermissionService permissionService;
         
     public static final String DOC_LEVEL_PERM_CHECK = "AuthorizationFilter.DocLevelPermCheck";
     	
 	final Logger LOG = Logger.getLogger(AuthorizationFilter.class);
     
-    public enum Permission {
+    public enum PermissionEnum {
         EDIT("edit"), VIEW("view"), UNMASK("unmask"), PARTIAL_UNMASK("partialunmask");
         final String kimName;
-        private Permission(String kimName) {
+        private PermissionEnum(String kimName) {
             this.kimName = kimName;
         }
         @Override
         public String toString() {
             return kimName;
         }
-        public static Permission kimValueOf(String kimName) {
-            for(Permission p : values()) {
+        public static PermissionEnum kimValueOf(String kimName) {
+            for(PermissionEnum p : values()) {
                 if(p.kimName.equals(kimName)) {
                     return p;
                 }
             }
             //fall through
-            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in Permission"); 
+            throw new IllegalArgumentException("The value " + kimName + " is not enumerated in PermissionEnum");
         }
     }
 	
@@ -149,8 +145,8 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         //See if user is allowed to edit the document.  
         if (checkDocumentLevelPermissions(docLevelPerm) && StringUtils.isNotBlank(id)) {
         	//If doc level permissions are enabled, lookup "Edit Document" permission for this object for this user. 
-            AttributeSet qualification = getQualification(idType, id, docType);
-        	String currentUser = SecurityUtils.getCurrentUserId();
+            Map<String, String> qualification = getQualification(idType, id, docType);
+        	String currentUser = SecurityUtils.getCurrentPrincipalId();
         	editDocumentAllowed = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
 	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
 			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
@@ -180,13 +176,13 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
 	                    fieldMetadata = fieldMetadata.getProperties().get(fieldPathTokens[i]);
 	                }
 	                if (fieldMetadata != null) {
-	                    Permission perm = Permission.kimValueOf(fieldAccessLevel);
-	                    if (Permission.EDIT.equals(perm)) {
+	                    PermissionEnum perm = PermissionEnum.kimValueOf(fieldAccessLevel);
+	                    if (PermissionEnum.EDIT.equals(perm)) {
 	                        setReadOnly(fieldMetadata, false);
-	                    } else if (Permission.PARTIAL_UNMASK.equals(perm)){
+	                    } else if (PermissionEnum.PARTIAL_UNMASK.equals(perm)){
 	                    	fieldMetadata.setCanEdit(false);
 	                    	fieldMetadata.setMaskFormatter("");
-	                    } else if (Permission.UNMASK.equals(perm)){
+	                    } else if (PermissionEnum.UNMASK.equals(perm)){
 	                    	fieldMetadata.setMaskFormatter("");
 	                    	fieldMetadata.setPartialMaskFormatter("");	                    	
 	                    }
@@ -200,19 +196,24 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id, String docType) {
         try {
             //get permissions and turn into a map of fieldName=>access
-            String principalId = SecurityUtils.getCurrentUserId();
-            AttributeSet qualification = getQualification(idType, id, docType);
-            AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
-            
-            List<? extends KimPermissionInfo> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
-            		PermissionType.FIELD_ACCESS.getPermissionNamespace(), PermissionType.FIELD_ACCESS.getPermissionTemplateName(), permissionDetails, qualification);
+            String principalId = SecurityUtils.getCurrentPrincipalId();
+            Map<String, String> qualification = getQualification(idType, id, docType);
+            Map<String, String> permissionDetails = new LinkedHashMap<String, String>();
+            permissionDetails.put ("dtoName", dtoName);
+
+            List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(principalId,
+            		PermissionType.FIELD_ACCESS.getPermissionNamespace(),
+                        PermissionType.FIELD_ACCESS.getPermissionTemplateName(),
+                        permissionDetails,
+                        qualification);
             Map<String, String> permMap = new HashMap<String, String>();
             if (permissions != null) {
-                for (KimPermissionInfo permission : permissions) {
-                    String dtoFieldKey = permission.getDetails().get("dtoFieldKey");
-                    String fieldAccessLevel = permission.getDetails().get("fieldAccessLevel");
+                for (Permission permission : permissions) {
+                    String dtoFieldKey = permission.getAttributes().get("dtoFieldKey");
+                    String fieldAccessLevel = permission.getAttributes().get("fieldAccessLevel");
                     permMap.put(dtoFieldKey, fieldAccessLevel);
                 }
+
             }
             return permMap;
         } catch (Exception e) {
@@ -246,8 +247,8 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
 
-    protected AttributeSet getQualification(String idType, String id, String docType) {
-        AttributeSet qualification = new AttributeSet();
+    protected Map<String, String> getQualification(String idType, String id, String docType) {
+        Map<String, String> qualification = new LinkedHashMap<String, String>();
         qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
         qualification.put(idType, id);
         //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
@@ -255,11 +256,11 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         return qualification;
     }
 
-	public IdentityManagementService getPermissionService() {
+	public PermissionService getPermissionService() {
 		return permissionService;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 }
