@@ -57,6 +57,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Will
  */
 public class CollaboratorSectionView extends SectionView {
+
+	protected static final String COLLAB_PERSON_SUGGEST_NAME_LABEL_KEY = "collaboratorNameSuggest";
+	
+	
     private WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
 
     private QueryPath collabPath = QueryPath.parse("collaboratorInfo/collaborators");
@@ -299,10 +303,8 @@ public class CollaboratorSectionView extends SectionView {
         // Retrieve permission and action meta data.
         Metadata permissionMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/permission"));
         Metadata actionMeta = model.getMetadata(QueryPath.parse("collaboratorInfo/collaborators/*/action"));
-
-        // TODO use real keys here
-        // person = new FieldDescriptor("collaboratorInfo", generateMessageInfo("Name"), personIdMeta);
-        person = new FieldDescriptor(null, generateMessageInfo("Name"), personIdMeta);
+        
+        person = new FieldDescriptor(null, new MessageKeyInfo("course", null, getController().getViewContext().getState(), COLLAB_PERSON_SUGGEST_NAME_LABEL_KEY), personIdMeta);
         final KSPicker personPicker = (KSPicker) person.getFieldElement().getFieldWidget();
         personPicker.addFocusLostCallback(new Callback<Boolean>() {
             @Override
