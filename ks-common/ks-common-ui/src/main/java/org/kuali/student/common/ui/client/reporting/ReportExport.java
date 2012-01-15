@@ -1,6 +1,5 @@
 package org.kuali.student.common.ui.client.reporting;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.DataModel;

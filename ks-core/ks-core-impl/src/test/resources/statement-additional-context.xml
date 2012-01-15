@@ -21,9 +21,9 @@
     xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
 	http://www.springframework.org/schema/beans
-	http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
     http://www.springframework.org/schema/aop
-    http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
     <bean id="lumSearchDispatcher"
           class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">

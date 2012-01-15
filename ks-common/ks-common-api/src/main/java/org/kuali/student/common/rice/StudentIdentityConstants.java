@@ -24,7 +24,7 @@ import java.util.Set;
  */
 public class StudentIdentityConstants {
 
-    public static final String SYSTEM_USER_PRINCIPAL_NAME = "KS";
+    public static final String SYSTEM_USER_PRINCIPAL_NAME = "ks";
 
     public static final String QUALIFICATION_KS_PROPOSAL_ID = "ksProposalIdQualificationKey";
 
@@ -55,5 +55,11 @@ public class StudentIdentityConstants {
     public static final String QUALIFICATION_DATA_ID = "dataId";
 
     public static final String SCREEN_COMPONENT = "screenComponent";
+    
+    public static final String KSCM_ADMIN_ROLE_NAME = "Kuali Student CM Admin";
+    
+    public static final String KSCM_USER_ROLE_NAME = "Kuali Student CM User";
+    
+    public static final String KS_NAMESPACE_CD = "KS-SYS";
 
 }

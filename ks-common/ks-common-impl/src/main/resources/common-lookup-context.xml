@@ -1,7 +1,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!--  TODO: This is a list of cleanup tasks that should take place
 		1) Lookups defined here should not have the word "suggest" in id name, that is a very UI specific term
@@ -236,6 +236,27 @@
 			<list>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalShortName" />
+					<property name="name" value="Abbreviation" />
+					<property name="desc" value="Short organization name." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="false" />
+					<property name="usage" value="ADVANCED_CUSTOM" />
+					<property name="widget" value="SUGGEST_BOX" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
+					<property name="key" value="org.queryParam.orgOptionalId" />
+					<property name="name" value="Id" />
+					<property name="desc" value="Unique identifier for an organization." />
+					<property name="dataType" value="STRING" />
+					<property name="writeAccess" value="ALWAYS" />
+					<property name="caseSensitive" value="true" />
+					<property name="usage" value="CUSTOM" />
+				</bean>
+				<bean parent="param" autowire-candidate="default"
+					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLongName" />
 					<property name="name" value="Name" />
 					<property name="desc" value="Long organization name." />
@@ -258,27 +279,6 @@
 					<property name="widget" value="TEXT_BOX" />
 				</bean>
 				 -->
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="org.queryParam.orgOptionalShortName" />
-					<property name="name" value="Abbreviation" />
-					<property name="desc" value="Short organization name." />
-					<property name="dataType" value="STRING" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="caseSensitive" value="false" />
-					<property name="usage" value="ADVANCED_CUSTOM" />
-					<property name="widget" value="SUGGEST_BOX" />
-				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
-					<property name="key" value="org.queryParam.orgOptionalId" />
-					<property name="name" value="Id" />
-					<property name="desc" value="Unique identifier for an organization." />
-					<property name="dataType" value="STRING" />
-					<property name="writeAccess" value="ALWAYS" />
-					<property name="caseSensitive" value="true" />
-					<property name="usage" value="CUSTOM" />
-				</bean>
 				<bean parent="param" autowire-candidate="default"
 					dependency-check="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalType" />

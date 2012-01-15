@@ -318,7 +318,9 @@ public class RuleExpressionParser {
                 StatementInfo statementInfo = new StatementInfo();
                 statementInfo.setOperator(op);
                 statementInfo.setType(statementType);
-                statementInfo.setId(oldStatementVO.getStatementInfo().getId());    
+                statementInfo.setId(oldStatementVO.getStatementInfo().getId());
+                //Need to copy the metadata here to ensure that the statement can be updated correctly.
+                statementInfo.setMetaInfo(oldStatementVO.getStatementInfo().getMetaInfo());
                 subS.setStatementInfo(statementInfo);
                 Token right = conditionStack.pop().getUserObject();
                 Token left = conditionStack.pop().getUserObject();

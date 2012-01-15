@@ -14,8 +14,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.exception.RiceRuntimeException;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
@@ -23,16 +25,15 @@ import org.kuali.rice.kew.engine.node.Branch;
 import org.kuali.rice.kew.engine.node.DynamicNode;
 import org.kuali.rice.kew.engine.node.DynamicResult;
 import org.kuali.rice.kew.engine.node.NodeState;
-import org.kuali.rice.kew.engine.node.Process;
+import org.kuali.rice.kew.engine.node.ProcessDefinitionBo;
 import org.kuali.rice.kew.engine.node.RoleNode;
 import org.kuali.rice.kew.engine.node.RouteNode;
 import org.kuali.rice.kew.engine.node.RouteNodeInstance;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.role.RoleRouteModule;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.XmlHelper;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -179,8 +180,7 @@ public class OrganizationDynamicNode implements DynamicNode {
                 orgIds.add(attributeValue);
             }
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:");
-                XmlHelper.printDocumentStructure(xmlContent);
+                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:" + XmlJotter.jotDocument(xmlContent));
             }
             return orgIds;
         } catch (XPathExpressionException e) {
@@ -272,12 +272,11 @@ public class OrganizationDynamicNode implements DynamicNode {
      */
     protected RouteNodeInstance generateNextNodeInstance(String orgId, RouteNode routeNodeDefinition, RouteContext context, Branch branch, RouteHelper helper) {
         LOG.debug("Adding new node with name '" + routeNodeDefinition.getRouteNodeName() + "'");
-        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getRouteHeaderId(), routeNodeDefinition);
+        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getDocumentId(), routeNodeDefinition);
         actualRouteNodeInstance.setBranch(branch);
         actualRouteNodeInstance.addNodeState(new NodeState(NODE_STATE_ORG_ID_KEY, orgId));
         return actualRouteNodeInstance;
     }
-
     /**
      * Method verifies that the Organization Hierarchy Review node exists on the document type. If it does not exist it
      * will add it and save the document type. This node is required because it will be used as a prototype for any
@@ -314,18 +313,18 @@ public class OrganizationDynamicNode implements DynamicNode {
         RouteNode roleNode = new RouteNode();
         roleNode.setFinalApprovalInd(Boolean.FALSE);
         roleNode.setMandatoryRouteInd(Boolean.FALSE);
-        roleNode.setActivationType(KEWConstants.ROUTE_LEVEL_PARALLEL);
+        roleNode.setActivationType(KewApiConstants.ROUTE_LEVEL_PARALLEL);
         roleNode.setDocumentType(dynamicNodeInstance.getRouteNode().getDocumentType());
         roleNode.setNodeType(RoleNode.class.getName());
         roleNode.setRouteMethodName(RoleRouteModule.class.getName());
-        roleNode.setRouteMethodCode(KEWConstants.ROUTE_LEVEL_ROUTE_MODULE);
+        roleNode.setRouteMethodCode(KewApiConstants.ROUTE_LEVEL_ROUTE_MODULE);
         roleNode.setRouteNodeName(routeNodeName);
         roleNode.setContentFragment("<" + QUALIFIER_RESOLVER_CLASS_ELEMENT + ">" + OrganizationCurriculumCommitteeQualifierResolver.class.getName() + "</" + QUALIFIER_RESOLVER_CLASS_ELEMENT + ">");
         return roleNode;
     }
 
-    protected Process getPrototypeProcess(RouteNode node, DocumentType documentType) {
-        Process process = new Process();
+    protected ProcessDefinitionBo getPrototypeProcess(RouteNode node, DocumentType documentType) {
+        ProcessDefinitionBo process = new ProcessDefinitionBo();
         process.setDocumentType(documentType);
         process.setInitial(false);
         process.setInitialRouteNode(node);

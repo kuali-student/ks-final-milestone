@@ -1,21 +1,17 @@
 package org.kuali.student.common.ui.server.gwt;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.transform.AuthorizationFilter;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
-import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.common.assembly.transform.TransformationManager;
+import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -41,7 +37,7 @@ public abstract class AbstractDataService implements DataService{
 
 	private TransformationManager transformationManager;
 	
-	private IdentityManagementService permissionService;
+	private PermissionService permissionService;
 
     //TODO: why do we have this reference in the base class????
 	private ProposalService proposalService;
@@ -177,7 +173,7 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
-		String user = SecurityUtils.getCurrentUserId();
+        String user = SecurityUtils.getCurrentUserId();
 		boolean result = false;
 		if (checkDocumentLevelPermissions()) {
 			if (type == null) {
@@ -185,9 +181,9 @@ public abstract class AbstractDataService implements DataService{
 			}
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
-			
-			AttributeSet roleQuals = new AttributeSet();
-			if (attributes != null) {				
+
+			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
+			if (attributes != null) {
 				if (proposalService != null){
 					ProposalInfo proposalInfo = null;
 					try {
@@ -205,9 +201,6 @@ public abstract class AbstractDataService implements DataService{
 						LOG.error("Could not retrieve proposal to determine permission qualifiers.");
 					}
 				}
-		        //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
-				attributes.put("RAND_NO_CACHE", UUID.randomUUID().toString());
-
 				roleQuals.putAll(attributes);
 			}
 			if (StringUtils.isNotBlank(namespaceCode) && StringUtils.isNotBlank(permissionTemplateName)) {
@@ -230,7 +223,7 @@ public abstract class AbstractDataService implements DataService{
 	public Map<String, Object> getDefaultFilterProperties(){
 		Map<String, Object> filterProperties = new HashMap<String,Object>();
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
-		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
+		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentPrincipalId());
 		
 		return filterProperties;
 	}
@@ -266,11 +259,11 @@ public abstract class AbstractDataService implements DataService{
 		this.transformationManager = transformationManager;
 	}
 
-	public IdentityManagementService getPermissionService() {
+	public PermissionService getPermissionService() {
 		return permissionService;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 	

@@ -5,7 +5,7 @@
 	xsi:schemaLocation="
     http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
     http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<!-- Statement dependency analysis -->
 	<search:searchType id="stmt.search.dependencyAnalysis" parent="stmt.search.dependencyAnalysis-parent" />

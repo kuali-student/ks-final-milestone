@@ -22,7 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.common.messages.dto.MessageList;

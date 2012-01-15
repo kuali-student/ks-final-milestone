@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.kuali.rice.core.config.ConfigContext;
+import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 public class IndexPageServlet extends HttpServlet {
@@ -48,7 +48,7 @@ public class IndexPageServlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		
 		//Get the username
-		String username = SecurityUtils.getPrincipalUserName();
+		String username = SecurityUtils.getCurrentPrincipalName();
 		
 		//Get the Rice Application Url
 		String riceUrl = ConfigContext.getCurrentContextConfig().getProperty("ks.rice.url");

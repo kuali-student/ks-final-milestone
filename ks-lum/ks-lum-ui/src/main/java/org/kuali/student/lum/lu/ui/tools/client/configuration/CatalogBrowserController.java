@@ -113,7 +113,7 @@ public class CatalogBrowserController extends TabMenuController
 	}
 
 	private void configure (DataModelDefinition modelDefinition)	{
-		CatalogBrowserConfigurer cfg = new CatalogBrowserConfigurer ();
+		CatalogBrowserConfigurer cfg = GWT.create(CatalogBrowserConfigurer.class);
 		cfg.setModelDefinition (modelDefinition);
 		cfg.setController (controller);
 		cfg.configureCatalogBrowser (this);

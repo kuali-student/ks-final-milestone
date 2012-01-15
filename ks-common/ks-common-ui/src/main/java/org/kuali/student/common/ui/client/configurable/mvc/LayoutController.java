@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuSectionController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
@@ -143,37 +144,41 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
     }
     
     private void validate(DataModel model, final ValidateRequestEvent event) {
-    	if(event.validateSingleField()){
-    		model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
+        if(event.validateSingleField()){
+            model.validateField(event.getFieldDescriptor(), new Callback<List<ValidationResultInfo>>() {
                 @Override
                 public void exec(List<ValidationResultInfo> result) {
-                	if(event.getFieldDescriptor() != null){
-                		//We dont need to traverse since it is single field, so don't do isValid call here
-                		//instead add the error messages directly
-                		FieldElement element = event.getFieldDescriptor().getFieldElement();
-                		if(element != null){
-	                		element.clearValidationErrors();
-	                		for(int i = 0; i < result.size(); i++){
-	                    		ValidationResultInfo vr = result.get(i);
-	                    		if(vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) 
-	                    				&& event.getFieldDescriptor().hasHadFocus()){
-	    							element.processValidationResult(vr);
-	                    		}
-	                    	}
-                		}
-                	}
-                	
+                    if(event.getFieldDescriptor() != null) {
+                        // We dont need to traverse since it is single field, so don't do isValid call here
+                        // instead add the error messages directly
+                        FieldElement element = event.getFieldDescriptor().getFieldElement();
+                        Widget w = event.getFieldDescriptor().getFieldWidget();
+                        if(element != null) {
+                            element.clearValidationErrors();
+
+                            if ((w instanceof CanProcessValidationResults) && ((CanProcessValidationResults) w).doesOnTheFlyValidation()) {
+                                ((CanProcessValidationResults) w).Validate(event, result);
+                            } else {
+                                for(int i = 0; i < result.size(); i++) {
+                                    ValidationResultInfo vr = result.get(i);
+                                    if (vr.getElement().equals(event.getFieldDescriptor().getFieldKey()) && event.getFieldDescriptor().hasHadFocus()) {
+                                        element.processValidationResult(vr);
+                                    }
+                                }
+                            }
+                        }
+                    }
+
                 }
-    		});
-    	}
-    	else{
+            });
+        } else {
             model.validate(new Callback<List<ValidationResultInfo>>() {
                 @Override
                 public void exec(List<ValidationResultInfo> result) {
                     isValid(result, false, true);
                 }
             });
-    	}
+        }
     }
     
     /**
@@ -502,6 +507,7 @@ public abstract class LayoutController extends Controller implements ViewLayoutC
 
 	/**
 	 * Shows warnings stored to the application context
+	 * (i.e: dark-yellow highlighting of conflicts during review of a Course Proposal)
 	 */
 	protected void showWarnings(){		
 		if (!Application.getApplicationContext().getValidationWarnings().isEmpty()){
