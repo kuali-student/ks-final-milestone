@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="CluAccreditation" parent="CluAccreditation-parentBean" />
+  <bean id="CluAccreditation-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.student.lum.lu.bo.CluAccreditation" />
+    <property name="titleAttribute" value="id" />
+    <property name="objectLabel" value="Accreditation" />
+    <property name="lookupDefinition">
+      <ref bean="CluAccreditation-lookupDefinition" />
+    </property>
+    <property name="inquiryDefinition">
+      <ref bean="CluAccreditation-inquiryDefinition" />
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="CluAccreditation-id" />
+        <ref bean="CluAccreditation-createId" />
+        <ref bean="CluAccreditation-createDate" />
+        <ref bean="CluAccreditation-updateId" />
+        <ref bean="CluAccreditation-updateDate" />
+        <ref bean="CluAccreditation-activeFromDate" />
+        <ref bean="CluAccreditation-activeToDate" />
+        <ref bean="CluAccreditation-active" />        
+        <ref bean="CluAccreditation-orgId" />
+      </list>
+    </property>
+  </bean>
+
+  <alias alias="CluAccreditation-id" name="CoreAttributeReference-id" />
+  <alias alias="CluAccreditation-createId" name="CoreAttributeReference-createId" />
+  <alias alias="CluAccreditation-createDate" name="CoreAttributeReference-createDate" />
+  <alias alias="CluAccreditation-updateId" name="CoreAttributeReference-updateId" />
+  <alias alias="CluAccreditation-updateDate" name="CoreAttributeReference-updateDate" />
+  <alias alias="CluAccreditation-activeFromDate" name="CoreAttributeReference-activeFromDate" />
+  <alias alias="CluAccreditation-activeToDate" name="CoreAttributeReference-activeToDate" />
+  <alias alias="CluAccreditation-active" name="CoreAttributeReference-active" />
+      
+  <alias alias="CluAccreditation-orgId" name="CoreAttributeReference-orgId" />
+
+
+  <bean id="CluAccreditation-lookupDefinition" parent="CluAccreditation-lookupDefinition-parentBean" />
+  <bean id="CluAccreditation-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="CLU Accreditation Lookup" />
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="orgId" />
+        <bean parent="FieldDefinition" p:attributeName="active" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="orgId" />
+        <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+        <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CluAccreditation-inquiryDefinition" parent="CluAccreditation-inquiryDefinition-parentBean" />
+  <bean id="CluAccreditation-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="CLU Accreditation Inquiry" />
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="Accreditation" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+              <bean parent="FieldDefinition" p:attributeName="activeFromDate" />
+              <bean parent="FieldDefinition" p:attributeName="activeToDate" />
+            </list>
+          </property>
+        </bean>
+        <ref bean="CluAccreditation-inquirySection-metaInformation" />
+      </list>
+    </property>
+  </bean>
+  
+  <alias alias="CluAccreditation-inquirySection-metaInformation" name="CoreAttributeReference-inquirySection-metaInformation" />
+
+</beans>
