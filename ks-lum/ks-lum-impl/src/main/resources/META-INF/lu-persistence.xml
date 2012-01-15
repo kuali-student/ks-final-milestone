@@ -48,7 +48,6 @@
 		<class>org.kuali.student.lum.lu.entity.CluCampusLocation</class>
 		<class>org.kuali.student.lum.lu.entity.CluCluRelation</class>
 		<class>org.kuali.student.lum.lu.entity.CluCluRelationAttribute</class>
-		<class>org.kuali.student.lum.lu.entity.CluCredit</class>
 		<class>org.kuali.student.lum.lu.entity.CluFee</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeAmount</class>
 		<class>org.kuali.student.lum.lu.entity.CluFeeAttribute</class>

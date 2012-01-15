@@ -41,7 +41,6 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
     private ApplicationContext applicationContext;
     private ServletContext servletContext;
 
-
     public void setApplicationContext(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
@@ -49,137 +48,110 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
-    
     @Override
     public boolean containsBean(String name) {
         return applicationContext.containsBean(name);
     }
-
     @Override
     public boolean containsBeanDefinition(String beanName) {
         return applicationContext.containsBeanDefinition(beanName);
     }
-
     @Override
     public boolean containsLocalBean(String name) {
         return applicationContext.containsLocalBean(name);
     }
-
     @Override
     public String[] getAliases(String name) {
         return applicationContext.getAliases(name);
     }
-
     @Override
     public AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException {
         return applicationContext.getAutowireCapableBeanFactory();
     }
-
     @Override
-    public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
+    public<T> T  getBean(String name, Class<T> requiredType) throws BeansException {
         return applicationContext.getBean(name, requiredType);
     }
-
     @Override
     public Object getBean(String name, Object[] args) throws BeansException {
         return applicationContext.getBean(name, args);
     }
-
     @Override
     public Object getBean(String name) throws BeansException {
         return applicationContext.getBean(name);
     }
-
     @Override
     public int getBeanDefinitionCount() {
         return applicationContext.getBeanDefinitionCount();
     }
-
     @Override
     public String[] getBeanDefinitionNames() {
         return applicationContext.getBeanDefinitionNames();
     }
-
     @Override
     public String[] getBeanNamesForType(Class type, boolean includeNonSingletons, boolean allowEagerInit) {
         return applicationContext.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
     }
-
     @Override
     public String[] getBeanNamesForType(Class type) {
         return applicationContext.getBeanNamesForType(type);
     }
-
     @Override
-    public <T> Map<String, T> getBeansOfType(Class<T> type, boolean includeNonSingletons, boolean allowEagerInit) throws BeansException {
+    public Map getBeansOfType(Class type, boolean includeNonSingletons, boolean allowEagerInit) throws BeansException {
         return applicationContext.getBeansOfType(type, includeNonSingletons, allowEagerInit);
     }
-
     @Override
-    public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
+    public Map getBeansOfType(Class type) throws BeansException {
         return applicationContext.getBeansOfType(type);
     }
-
     @Override
     public ClassLoader getClassLoader() {
         return applicationContext.getClassLoader();
     }
-
     @Override
     public String getDisplayName() {
         return applicationContext.getDisplayName();
     }
-
     @Override
     public String getId() {
         return applicationContext.getId();
     }
-
     @Override
     public String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException {
         return applicationContext.getMessage(resolvable, locale);
     }
-
     @Override
     public String getMessage(String code, Object[] args, Locale locale) throws NoSuchMessageException {
         return applicationContext.getMessage(code, args, locale);
     }
-
     @Override
     public String getMessage(String code, Object[] args, String defaultMessage, Locale locale) {
         return applicationContext.getMessage(code, args, defaultMessage, locale);
     }
-
     @Override
     public ApplicationContext getParent() {
         return applicationContext.getParent();
     }
-
     @Override
     public BeanFactory getParentBeanFactory() {
         return applicationContext.getParentBeanFactory();
     }
-
     @Override
     public Resource getResource(String location) {
         return applicationContext.getResource(location);
     }
-
     @Override
     public Resource[] getResources(String locationPattern) throws IOException {
         return applicationContext.getResources(locationPattern);
     }
-
     @Override
     public ServletContext getServletContext() {
         return this.servletContext;
     }
-
     @Override
     public long getStartupDate() {
         return applicationContext.getStartupDate();
     }
-
     @Override
     public Class getType(String name) throws NoSuchBeanDefinitionException {
         return applicationContext.getType(name);
@@ -213,7 +185,7 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
 	public <T> T getBean(Class<T> requiredType) throws BeansException {
 		return getBean(requiredType.getSimpleName(), requiredType);
 	}
-	
+
     /*
      * Adapted from StaticListableBeanFactory
      * TODO - is there a refactor candidacy here?
@@ -229,7 +201,7 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
 		}
 		return results;
 	}
-	
+
     /*
      * Stolen from StaticListableBeanFactory
      * TODO - is there a refactor candidacy here?
@@ -239,8 +211,10 @@ public class RiceWebApplicationContextProxy implements WebApplicationContext {
 		return AnnotationUtils.findAnnotation(getType(beanName), annotationType);
 	}
 
+
     @Override
     public Environment getEnvironment() {
         return applicationContext.getEnvironment();
     }
+
 }

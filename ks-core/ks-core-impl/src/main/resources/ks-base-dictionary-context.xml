@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
  <import resource="classpath:common-lookup-context.xml"/>
  <bean id="objectStructureDefinition"
@@ -188,6 +188,15 @@
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="255" />
  </bean>
+ <bean id="baseKualiAuth" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="22" />
+ </bean>
+ <bean id="baseStringRequired" parent="baseString"
+       abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
  <bean id="baseStringLong" parent="baseFieldDefinition"
        abstract="true">
   <property name="dataType" value="STRING" />
@@ -205,6 +214,10 @@
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseComplexRepeating" parent="baseComplex" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseComplexRepeatingRequired" parent="baseComplexRepeating">
+  <property name="minOccurs" value="1" />
   <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="baseKualiId" parent="baseString" abstract="true">
@@ -254,6 +267,9 @@
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseKualiOrgIdRepeating" parent="baseKualiOrgId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiOrgIdRepeatingRequired" parent="baseKualiOrgIdRequired" abstract="true">
   <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="baseKualiCluIdRepeating" parent="baseKualiCluId" abstract="true">

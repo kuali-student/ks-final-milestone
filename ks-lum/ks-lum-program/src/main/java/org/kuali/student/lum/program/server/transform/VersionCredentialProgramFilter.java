@@ -32,29 +32,7 @@ public class VersionCredentialProgramFilter extends VersionProgramFilter {
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENTRY_TERM, previousVersionCoreInfo.getEndProgramEntryTerm());
 				previousVersionData.set(ProgramConstants.END_PROGRAM_ENROLL_TERM, previousVersionCoreInfo.getEndTerm());
 				previousVersionData.set(ProgramConstants.STATE, previousVersionCoreInfo.getState());
-			} else {
-				//This is a save operation. Check state field change for previous version state, indicating an "Activate" action,
-				//which requires updating previous program with new states and end terms and setting activated program
-				//to be the current version.
-				
-				String state = previousVersionData.get(ProgramConstants.STATE);
-				if (state!= null && !state.equals(previousVersionCoreInfo.getState())){
-					//Update previous program version with new state and terms
-					String endEntryTerm = previousVersionData.get(ProgramConstants.END_PROGRAM_ENTRY_TERM); 
-					String endEnrollTerm = previousVersionData.get(ProgramConstants.END_PROGRAM_ENROLL_TERM);
-
-					previousVersionCoreInfo.setState(state);
-					previousVersionCoreInfo.setEndProgramEntryTerm(endEntryTerm);
-					previousVersionCoreInfo.setEndTerm(endEnrollTerm);
-					
-					programService.updateCredentialProgram(previousVersionCoreInfo);
-							        
-					//Set "activated" program to be the current version
-					String activatedCoreId = data.get(ProgramConstants.ID);
-					programService.setCurrentCredentialProgramVersion(activatedCoreId, null);
-				}
-
-			}
+			} 
 			
 			data.set(PREVIOUS_VERSION_INFO, previousVersionData);
 		}		

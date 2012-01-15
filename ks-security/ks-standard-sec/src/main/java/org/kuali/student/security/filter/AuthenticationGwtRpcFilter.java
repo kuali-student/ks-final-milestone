@@ -27,39 +27,34 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.filter.GenericFilterBean;
 
 /**
- * This is a description of what this class does - Rich don't forget to fill
- * this in.
+ * This is a description of what this class does - Rich don't forget to fill this in. 
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
- * 
+ *
  */
 public class AuthenticationGwtRpcFilter extends GenericFilterBean {
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+        if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+            doFilterHttp((HttpServletRequest) request,
+                    (HttpServletResponse) response, chain);
+        } else {
+            // TODO: handle this
+        }
+    }
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
-			doFilterHttp((HttpServletRequest) request,
-					(HttpServletResponse) response, chain);
-		} else {
-			// TODO: handle this
-		}
-	}
+    public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException{
+        
+        String URI = request.getRequestURI();
+        
+        if(URI.endsWith(".html") && !URI.endsWith(".cache.html")){
+            response.setHeader("Cache-Control", "no-cache");
+            response.setHeader("Cache-Control", "no-store");
+        }
+        filterChain.doFilter(request, response);
+    }
 
-	public void doFilterHttp(HttpServletRequest request,
-			HttpServletResponse response, FilterChain filterChain)
-			throws IOException, ServletException {
-
-		String URI = request.getRequestURI();
-
-		if (URI.endsWith(".html") && !URI.endsWith(".cache.html")) {
-			response.setHeader("Cache-Control", "no-cache");
-			response.setHeader("Cache-Control", "no-store");
-		}
-		filterChain.doFilter(request, response);
-	}
-
-	/* I don't think we need this
-	public int getOrder() {
-		return FilterChainOrder.CAS_PROCESSING_FILTER + 1;
-	}*/
+//    public int getOrder(){
+//        return FilterChainOrder.CAS_PROCESSING_FILTER + 1;
+//    }
 }

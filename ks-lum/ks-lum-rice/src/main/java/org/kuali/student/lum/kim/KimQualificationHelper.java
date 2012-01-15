@@ -14,7 +14,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.student.lum.kim;
 
@@ -65,9 +65,9 @@ public class KimQualificationHelper {
 		}
 		// if attributes are null or empty, they're all missing
 		if ( receivedAttributes == null || receivedAttributes.isEmpty() ) {
-			return;		
+			return;
 		}
-		
+
 		Set<List<String>> totalMissingAttributes = new HashSet<List<String>>();
 		for (List<String> currentReqAttributes : requiredAttributes) {
 			List<String> missingAttributes = new ArrayList<String>();
@@ -203,11 +203,11 @@ public class KimQualificationHelper {
 		else {
 			LOG.warn("Could not find KEW document instance for qualifications: " + qualifications);
 			// add KS object type code if necessary
-			if ((!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) && 
+			if ((!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) &&
 					qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
 				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(qualifications.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)));
 			}
-			else if ((!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) && 
+			else if ((!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) &&
 					qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) {
 				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, translationMap.get(qualifications.get(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)));
 			}

@@ -34,6 +34,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.xpath.XPathAPI;
 import org.jasig.cas.client.validation.Assertion;
 import org.kuali.student.security.exceptions.KSSecurityException;
 import org.kuali.student.security.trust.dto.RequestSecurityTokenResponseType;
@@ -49,12 +50,12 @@ import org.springframework.web.filter.GenericFilterBean;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+
 public class ProxyTicketRetrieverFilterSTS extends GenericFilterBean {
     
     private String proxyTargetService = null;
     private SecurityTokenService stsClient;
     private boolean useCasProxyMechanism = false;
-    
 
     public void doFilter(ServletRequest request, ServletResponse response,
 			FilterChain chain) throws IOException, ServletException {
@@ -65,7 +66,7 @@ public class ProxyTicketRetrieverFilterSTS extends GenericFilterBean {
 			// TODO: handle this
 		}
 	}
-    
+
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
         CasAuthenticationToken cat = (CasAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -223,11 +224,10 @@ public class ProxyTicketRetrieverFilterSTS extends GenericFilterBean {
         return element;
     }
     
-    /* I don't think we need this anymore
-    @Override
-    public int getOrder() {
-        return FilterChainOrder.CAS_PROCESSING_FILTER + 2;
-    }*/
+//    @Override
+//    public int getOrder() {
+//        return FilterChainOrder.CAS_PROCESSING_FILTER + 2;
+//    }
 
     public String getProxyTargetService() {
         return proxyTargetService;

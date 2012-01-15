@@ -1361,7 +1361,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setExpirationDate(expDate.getTime());
     	refInfo.setRefObjectId("123");
     	refInfo.setRefObjectTypeKey("clu");
-    	refInfo.setState("INACTIVE");
+    	refInfo.setState("SUSPENDED");
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("clu.corequisites");
 
@@ -1388,7 +1388,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setExpirationDate(expDate.getTime());
     	refInfo.setRefObjectId("123");
     	refInfo.setRefObjectTypeKey("x.invalid.clu.key.x");
-    	refInfo.setState("INACTIVE");
+    	refInfo.setState("SUSPENDED");
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("clu.corequisites");
 
@@ -1407,7 +1407,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setExpirationDate(expDate.getTime());
     	refInfo.setRefObjectId("123");
     	refInfo.setRefObjectTypeKey("clu");
-    	refInfo.setState("INACTIVE");
+    	refInfo.setState("SUSPENDED");
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("x.invalid.type.x");
 

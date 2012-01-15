@@ -33,7 +33,7 @@ import org.kuali.rice.core.framework.persistence.jdbc.datasource.XAPoolDataSourc
 public class DerbyXAPoolDataSource extends XAPoolDataSource{
 
     private static final long serialVersionUID = 1L;  
-    
+   
     public void afterPropertiesSet() throws Exception {
         super.afterPropertiesSet();
         //If client connection fails, use embedded driver

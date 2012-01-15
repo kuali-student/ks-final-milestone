@@ -18,20 +18,21 @@ package org.kuali.student.common.ui.client.widgets.search;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.CachingSearchService;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
@@ -48,20 +49,22 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class SearchResultsTable extends Composite{
 
-    private final int PAGE_SIZE = 10;
+    protected final int PAGE_SIZE = 10;
     
-    private SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
+    protected SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
     
-    private VerticalPanel layout = new VerticalPanel();
+    protected VerticalPanel layout = new VerticalPanel();
     
     private DefaultTableModel tableModel;
-    private String resultIdColumnKey;
-    private SearchRequest searchRequest;
+    protected String resultIdColumnKey;
+    protected String resultDisplayKey;  
+    protected SearchRequest searchRequest;
     private Table table = new Table();
-	private boolean isMultiSelect = true;
-	private boolean withMslable = true;
-    private KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
+    protected boolean isMultiSelect = true;
+    protected boolean withMslable = true;
+    protected KSButton mslabel = new KSButton("Modify your search?", ButtonStyle.DEFAULT_ANCHOR);
     
+    protected List<Callback<List<SelectedResults>>> selectedCompleteCallbacks = new ArrayList<Callback<List<SelectedResults>>>();
 	
     public KSButton getMslabel() {
 		return mslabel;
@@ -71,8 +74,8 @@ public class SearchResultsTable extends Composite{
 		this.mslabel = mslabel;
 	}
 
-	public Table getContentTable(){
-		return table;
+    public void removeContent() {
+        table.removeContent();
 	}
 	public SearchResultsTable(){
         super();
@@ -94,13 +97,13 @@ public class SearchResultsTable extends Composite{
 	}
 
 	//FIXME do we really need to recreate the table for every refresh?
-    public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey){ 
+    public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){ 
     	
-    	if(table == null){
-    		table = new Table();
-    	}
+    	//creating a new table because stale data was corrupting new searches
+    	table = new Table();
     	table.removeAllRows();
         this.resultIdColumnKey = resultIdKey;
+        this.resultDisplayKey = resultDisplayKey;
         
         tableModel = new DefaultTableModel();
         tableModel.setMultipleSelectable(isMultiSelect);
@@ -109,8 +112,13 @@ public class SearchResultsTable extends Composite{
         for (LookupResultMetadata r: listResultMetadata){
             if(!r.isHidden()){
                 Column col1 = new Column();
-                col1.setId(r.getKey());
-                String header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
+                col1.setId(r.getKey());                
+                String header = "";                
+                if (Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
+                    header = Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY);
+                } else {
+                    header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
+                }                
                 col1.setName(header);
                 col1.setId(r.getKey());
                 col1.setWidth("100px");                    
@@ -144,9 +152,9 @@ public class SearchResultsTable extends Composite{
         layout.add(table);
   }   
     
-    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
         this.searchRequest = searchRequest;
-        initializeTable(listResultMetadata, resultIdKey);
+        initializeTable(listResultMetadata, resultIdKey, resultDisplayKey);
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
             //FIXME Do we still need this if condition?
             // Added an else to the if(pagedResults) line to prevent searches being executed
@@ -159,13 +167,17 @@ public class SearchResultsTable extends Composite{
         else{
         	performOnDemandSearch(0, 0);
         }
+    }
+    
+    public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, boolean pagedResults){
+        this.performSearch(searchRequest, listResultMetadata, resultIdKey, null, true);
     }    
     
     public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey){
         this.performSearch(searchRequest, listResultMetadata, resultIdKey, true);
     }    
     
-    private void performOnDemandSearch(int startAt, int size) {
+    protected void performOnDemandSearch(int startAt, int size) {
                 
     	table.displayLoading(true);
         searchRequest.setStartAt(startAt);
@@ -213,7 +225,7 @@ public class SearchResultsTable extends Composite{
 	                	table.getScrollPanel().add(noResultsPanel);
                 	}
                 }
-                tableModel.selectFirstRow();
+//                tableModel.selectFirstRow();
                 tableModel.fireTableDataChanged();
                 table.displayLoading(false);
             }
@@ -234,36 +246,40 @@ public class SearchResultsTable extends Composite{
             ids.add(((SearchResultsRow)row).getResultRow().getId());
         }                
         return ids;
-    }        
+    }
+    
+    public void addSelectionCompleteCallback(Callback<List<SelectedResults>> callback){
+        selectedCompleteCallbacks.add(callback);
+    }
 }
 
 class SearchResultsRow extends Row {
-    
+
     ResultRow row;
-    
-    public SearchResultsRow(ResultRow row){
-       this.row = row;
+
+    public SearchResultsRow(ResultRow row) {
+        this.row = row;
     }
-    
+
     @Override
     public Object getCellData(String columnId) {
-        return row.getValue(columnId);        
+        return row.getValue(columnId);
     }
-    
+
     @Override
     public void setCellData(String columnId, Object newValue) {
         row.setValue(columnId, newValue.toString());
     }
-    
+
     @Override
-    public String toString(){
+    public String toString() {
         return row.toString();
     }
-    
+
     public ResultRow getResultRow() {
         return row;
     }
-}   
+}
 
 class FieldAscendingRowComparator extends RowComparator{
     

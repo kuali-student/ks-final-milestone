@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -88,7 +89,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class LOCategoryBuilder extends Composite implements HasValue<List<LoCategoryInfo>> {
+public class LOCategoryBuilder extends Composite implements HasValue<List<LoCategoryInfo>> {	//KSLAB-2091:  One instance for each LO entry box
 
     private String type;
     private String state;
@@ -107,7 +108,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     private KSButton addButton = new KSButton("Add", ButtonStyle.SECONDARY);
 
     private KSLightBox createCategoryWindow;
-    Anchor browseCategoryLink = new Anchor("Browse for categories");
+    Anchor browseCategoryLink;
     private final BlockingTask saving = new BlockingTask("Saving");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
@@ -132,12 +133,16 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 addEnteredCategory();
             }
         });
+        browseCategoryLink = new Anchor(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_LABEL_KEY));
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                // Filter out any categories already in the picker
                 List<LoCategoryInfo> categoriesInPicker = categoryList.getValue();
-                final CategoryManagement categoryManagement = new CategoryManagement(true, true, categoriesInPicker);
+                /*Category Management has a CategoryManagementTable -> has a DefaultTableModel -> has rowList 
+                 * 															   							of category rows that go in mainPanel FlowPanel
+                 * 																												 in 'Select Categories' pop KSLightBox*/
+                final CategoryManagement categoryManagement = new CategoryManagement(true, true, categoriesInPicker);	
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);
@@ -150,8 +155,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 pop.addButton(addButton);
                 pop.addButton(cancelButton);
 
+                pop.setNonCaptionHeader(SectionTitle.generateH2Title(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_POPUP_LABEL_KEY)));
                 FlowPanel mainPanel = new FlowPanel();
-                mainPanel.add(SectionTitle.generateH2Title("Select Categories"));
                 mainPanel.add(categoryManagement);
 
                 addButton.addClickHandler(new ClickHandler() {
@@ -159,7 +164,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                     public void onClick(ClickEvent event) {
                         List<LoCategoryInfo> list = categoryManagement.getSelectedCategoryList();
                         for (LoCategoryInfo info : list) {
-                            addCategory(info);
+                            addCategory(info);	//I think this adds categories selected from choices in 'Select Categories' pop KSLightBox to an LO
                         }
                         pop.hide();
                     }
@@ -275,7 +280,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
         SectionTitle sectionTitle = SectionTitle.generateH2Title("Create New Category");
         //KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category");
-        main.add(sectionTitle);
+        createCategoryWindow.setNonCaptionHeader(sectionTitle);
         main.add(layoutTable);
 
         loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
@@ -310,6 +315,12 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                                     @Override
                                     public void handleFailure(Throwable caught) {
                                         Window.alert("Create LO Category failed: " + caught.getMessage());
+                                    }
+                                    
+                                    @Override
+                                    public void handleVersionMismatch(Throwable caught) {
+                                        super.handleVersionMismatch(caught);
+                                        KSBlockingProgressIndicator.removeTask(saving);
                                     }
 
                                     @Override
@@ -531,6 +542,13 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
             return suggestBox.addSelectionChangeHandler(handler);
         }
+
+        @Override
+        protected void onEnsureDebugId(String baseID) {
+            super.onEnsureDebugId(baseID);
+            suggestBox.getTextBox().ensureDebugId(baseID);
+        }
+        
     }
 
     private class LOCategoryTypeInfoList implements ListItems {
@@ -797,4 +815,14 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             return null;
         }
     }
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        picker.ensureDebugId(baseID);
+        addButton.ensureDebugId(baseID + "-Add");
+        browseCategoryLink.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + browseCategoryLink.getText()));
+    }
+    
+    
 }

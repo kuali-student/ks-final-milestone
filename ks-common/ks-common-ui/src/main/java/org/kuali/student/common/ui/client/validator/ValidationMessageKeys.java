@@ -20,7 +20,7 @@ public enum ValidationMessageKeys {
 	MIN_OCCURS("validation.minOccurs", "minOccurs"),
 	MAX_OCCURS("validation.maxOccurs", "maxOccurs"),
 	REQUIRES_FIELD("validation.requiresField"),
-	VALID_CHARS("validation.validCharsFailed"),
+	VALID_CHARS("validation.validCharsFailed", "validChars"),
 	OCCURS("validation.occurs"),
 	BOOLEAN("validation.mustBeBoolean"),
 	DOUBLE("validation.mustBeDouble"),

@@ -22,8 +22,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-//import org.kuali.rice.kew.actionrequest.ActionRequestValue;
-//import org.kuali.rice.kew.actiontaken.ActionTakenValue;
 import org.kuali.rice.kew.api.KewApiServiceLocator;
 import org.kuali.rice.kew.api.WorkflowDocument;
 import org.kuali.rice.kew.api.WorkflowDocumentFactory;
@@ -40,7 +38,6 @@ import org.kuali.rice.kew.framework.postprocessor.DocumentRouteStatusChange;
 import org.kuali.rice.kew.framework.postprocessor.IDocumentEvent;
 import org.kuali.rice.kew.framework.postprocessor.PostProcessor;
 import org.kuali.rice.kew.framework.postprocessor.ProcessDocReport;
-import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
@@ -69,7 +66,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 /*		ActionTakenValue actionTaken = KEWServiceLocator.getActionTakenService().findByActionTakenId(actionTakenEvent.getActionTaken().getActionTakenId());
 		if (actionTaken == null) {
 		    if (LOG.isInfoEnabled()) {
-		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getDocumentId() + "'" + 
+		        LOG.info("Could not find valid ActionTakenValue for doc id '" + actionTakenEvent.getDocumentId() + "'" +
 		                ((actionTakenEvent.getActionTaken() == null) ? "" : " for action: " + actionTakenEvent.getActionTaken().getActionTakenLabel()));
 		    }
 		    actionTaken = actionTakenEvent.getActionTaken();
@@ -88,7 +85,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     	        // the custom method below is needed for the unique problem of the states being set for a Withdraw action in KS
     	        processSuperUserDisapproveActionTaken(actionTakenEvent, actionTaken, proposalInfo);
     	    }
-            // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation 
+            // only attempt to remove the adhoc permission if the action taken was not an adhoc revocation
     	    else if (!StringUtils.equals(KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD, actionTakeCode)) {
                 List<ActionRequest> actionRequests = getWorkflowDocumentService().getRootActionRequests(actionTakenEvent.getDocumentId());
      			for (ActionRequest actionRequest : actionRequests) {
@@ -144,7 +141,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
 	        WorkflowDocument doc = WorkflowDocumentFactory.createDocument(getPrincipalIdForSystemUser(), documentRouteLevelChange.getDocumentId());
                 // TODO: evaluate group or role level changes by not using isUserRequest()
 			for (ActionRequest actionRequest : doc.getRootActionRequests()) {
-				if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest() && 
+				if (actionRequest.isAdHocRequest() && actionRequest.isUserRequest() &&
 						StringUtils.equals(documentRouteLevelChange.getOldNodeName(),actionRequest.getNodeName())) {
 					LOG.info("Clearing EDIT permissions added via adhoc requests to principal id: " + actionRequest.getPrincipalId());
 					removeEditAdhocPermissions(actionRequest.getPrincipalId(), doc);
@@ -172,7 +169,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             success = processCustomRouteStatusSavedStatusChange(statusChangeEvent);
 	    } else {
             ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(statusChangeEvent.getDocumentId());
-            
+
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
             String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), statusChangeEvent.getNewRouteStatus());
             updateProposal(statusChangeEvent, proposalState, proposalInfo);
@@ -252,7 +249,7 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         Map<String,String> qualifications = new LinkedHashMap<String,String>();
         qualifications.put(KualiStudentKimAttributes.DOCUMENT_TYPE_NAME,doc.getDocumentTypeName());
         qualifications.put(KualiStudentKimAttributes.QUALIFICATION_DATA_ID,doc.getApplicationDocumentId());
-        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);       
+        KimApiServiceLocator.getRoleService().removePrincipalFromRole(principalId, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, qualifications);
     }
 
     protected void removeCommentAdhocPermissions(String roleNamespace, String roleName, String principalId, WorkflowDocument doc) {

@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
@@ -63,6 +64,7 @@ public class RuleNodeWidget extends FocusPanel {
             super.setWidget(html);
             html.setHTML(node.getUserObject().toString());
             checkBox.setHTML(node.getUserObject().toString());
+            checkBox.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(checkBox.getHTML()));
             return;
         }
 
@@ -79,6 +81,10 @@ public class RuleNodeWidget extends FocusPanel {
             }
             toggle.setText(userObject.getType() == Token.Or ? Token.createOrToken().value.toUpperCase() : Token.createAndToken().value.toUpperCase());
             toggle.addStyleName("KS-Rules-Table-Cell-ANDOR");
+            if (userObject instanceof StatementVO) {
+                StatementVO statementVO = (StatementVO)userObject;
+                checkBox.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(toggle.getText() + "-" + statementVO.getReqComponentVOCount()));
+            }
             checkBoxAndToggle.add(toggle);
             if (ruleTable != null) {
                 ruleTable.getCellFormatter().setStyleName(rowIndex, columnIndex, selectionStyle);
@@ -99,9 +105,11 @@ public class RuleNodeWidget extends FocusPanel {
             if (showCheckbox) {
                 checkBoxAndEdit.add(checkBox);
                 checkBox.setHTML(node.getUserObject().toString());
+                checkBox.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(checkBox.getHTML()));
             } else {
                 checkBoxAndEdit.add(new KSLabel(node.getUserObject().toString()));
             }
+            edit.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(node.getUserObject().toString() + "-Edit"));
             edit.addStyleName("KS-Rules-URL-Link");
             checkBoxAndEdit.add(edit);
             if (ruleTable != null) {

@@ -28,16 +28,16 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  */
 public class AttributeSetAdapter extends
         XmlAdapter<JaxbAttributeList, Map<String, String>> {
-    public Map<String,String> unmarshal(JaxbAttributeList value) {
+    public Map<String, String> unmarshal(JaxbAttributeList value) {
         if(value == null) return null;
-        Map<String,String> result = new LinkedHashMap<String, String>();
+        Map<String, String> result = new LinkedHashMap<String, String>();
         for (JaxbAttribute a : value.getAttribute()) {
             result.put(a.key, a.value);
         }
         return result;
     }
 
-    public JaxbAttributeList marshal(Map<String,String> value) {
+    public JaxbAttributeList marshal(Map<String, String> value) {
         if(value == null) return null;
         JaxbAttributeList attributes = new JaxbAttributeList();
         for (Map.Entry<String, String> e : value.entrySet()) {

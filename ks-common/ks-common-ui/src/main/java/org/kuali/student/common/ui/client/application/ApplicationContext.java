@@ -23,15 +23,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
 import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
+import org.kuali.student.common.ui.client.validator.ValidationMessageKeys;
+import org.kuali.student.common.util.MessageUtils;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * The application contains information about who is currently logged in, the security context, and access
@@ -42,12 +48,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public class ApplicationContext {
-	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
-	
-	private boolean loggedIn = true;
-	private String userId = "testuser";
+	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);			
 	private String version = "KS";
-	private List<String> roles = new ArrayList<String>();
 	
 	private Map<String, Map<String, String>> messages = new HashMap<String, Map<String,String>>();
 	private Map<String, String> flatMessages = new HashMap<String, String>();
@@ -60,16 +62,21 @@ public class ApplicationContext {
 	private String parentPath = "";
 	private HashMap<String,HashMap<String,FieldDescriptor>> pathToFieldMapping = new HashMap<String,HashMap<String,FieldDescriptor>>();
 	private HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>> crossConstraints = new HashMap<String,HashMap<String,HashSet<HasCrossConstraints>>>();
-//	private HashMap<String,HashMap<FieldDescriptor, String>> defaultValueMapping = new HashMap<String,HashMap<FieldDescriptor, String>>();
+	private List<ValidationResultInfo> validationWarnings = new ArrayList<ValidationResultInfo>();
+
 	/**
 	 * This constructor should only be visible to the common application package. If ApplicationContext is 
 	 * required outside this package do Application.getApplicationContext();
 	 */
-	protected ApplicationContext() {
-		roles.add("role1");
-		roles.add("role2");
-		
-		serverPropertiesRpcService.getContextPath(new AsyncCallback<String>(){
+	protected ApplicationContext() {		
+	}
+
+	/**
+	 * This makes server side calls to initialize the application and application security context.
+	 * 
+	 */
+	public void initializeContext(final Callback<Boolean> contextIntializedCallback){
+		serverPropertiesRpcService.getContextPath(new KSAsyncCallback<String>(){
 
 			@Override
 			public void onFailure(Throwable caught) {
@@ -79,35 +86,13 @@ public class ApplicationContext {
 			@Override
 			public void onSuccess(String result) {
 				applicationContextUrl = result;
+				securityContext = new SecurityContext();
+				securityContext.initializeSecurityContext(contextIntializedCallback);
 			}			
 		});
 	}
-
-	public void setLoggedIn(boolean loggedIn) {
-		this.loggedIn = loggedIn;
-	}
-
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-
-	public void setRoles(List<String> roles) {
-		this.roles = roles;
-	}
-
-	public boolean isLoggedIn() {
-		return loggedIn;
-	}
-
-	public String getUserId() {
-		return userId;
-	}
-
-	public List<String> getRoles() {
-		return roles;
-	}
-
-    /**
+	
+	/**
      * Adds the messages in the list of messages to the map of the messages
      * @param messages
      */
@@ -197,6 +182,42 @@ public class ApplicationContext {
 	        return label;
 	        
 	}
+	
+    public String getUILabel(String groupName, String type, String state, String fieldId, Metadata metadata) {
+
+        String label = getMessage(groupName, type + ":" + state + ":" + fieldId);
+
+        if (label == null)
+            label = getMessage(groupName, fieldId);
+
+        if (label == null)
+            label = fieldId;
+
+        return MessageUtils.interpolate(label, getConstraintInfo(metadata, label));
+
+    }
+	
+    public String getUILabel(String groupName, String fieldId, Metadata metadata) {
+
+        String label = getMessage(groupName, fieldId);
+
+        if (label == null)
+            label = fieldId;
+
+        return MessageUtils.interpolate(label, getConstraintInfo(metadata, label));
+
+    }
+	
+    public String getUILabel(String groupName, String fieldId, Map<String, Object> parameters) {
+
+        String label = getMessage(groupName, fieldId);
+
+        if (label == null)
+            label = fieldId;
+
+        return MessageUtils.interpolate(label, parameters);
+
+    }
 
     /**
      * Get the security context for the app
@@ -342,7 +363,6 @@ public class ApplicationContext {
 			}
 		}
 	}
-
 	
 	public HashSet<HasCrossConstraints> getCrossConstraints(String namespace) {
 		if(namespace==null){
@@ -358,6 +378,30 @@ public class ApplicationContext {
 		return results;
 	}
 
+	
+	public List<ValidationResultInfo> getValidationWarnings() {
+		return validationWarnings;
+	}
+
+	/**
+	 * Adds warnings from the validationResults to the application context.
+	 * 
+	 * @param validationResults
+	 */
+	public void addValidationWarnings(List<ValidationResultInfo> validationResults) {
+		if (validationResults != null){
+			for (ValidationResultInfo vr:validationResults){
+				if (vr.getErrorLevel() == ErrorLevel.WARN){
+					this.validationWarnings.add(vr);
+				}
+			}
+		}
+	}
+
+	public void clearValidationWarnings(){
+		validationWarnings.clear();
+	}
+	
 	public String getParentPath() {
 		return parentPath;
 	}
@@ -365,35 +409,45 @@ public class ApplicationContext {
 	public void setParentPath(String parentPath) {
 		this.parentPath = parentPath;
 	}
-
-//	public void putDefaultValueMapping(String namespace,
-//			FieldDescriptor fieldDescriptor, String defaultValuePath) {
-//		if(namespace==null){
-//			namespace="_default";
-//		}
-//		HashMap<FieldDescriptor, String> defaultValueMap = defaultValueMapping.get(namespace);
-//		if(defaultValueMap==null){
-//			defaultValueMap = new HashMap<FieldDescriptor, String>();
-//			defaultValueMapping.put(namespace, defaultValueMap);
-//		}
-//		defaultValueMap.put(fieldDescriptor, defaultValuePath);
-//	}
-//
-//	public HashMap<FieldDescriptor, String> getDefaultValueMapping(String namespace) {
-//		if(namespace==null){
-//			namespace="_default";
-//		}
-//		HashMap<FieldDescriptor, String> result = defaultValueMapping.get(namespace);
-//		if(result==null){
-//			result = new HashMap<FieldDescriptor, String>();
-//		}
-//		return result;
-//	}
-//	public void clearDefaultValueMapping(String namespace){
-//		if(namespace==null){
-//			namespace="_default";
-//		}
-//		defaultValueMapping.remove(namespace);
-//	}
-
+	
+    private Map<String, Object> getConstraintInfo(Metadata metadata, String label) {
+        Map<String, Object> constraintInfo = new HashMap<String, Object>();
+        
+        if (metadata != null) {
+            for (ValidationMessageKeys vKey : ValidationMessageKeys.values()) {
+                if (!vKey.getProperty().isEmpty() && label.contains("${" + vKey.getProperty() + "}")) {
+                    switch (vKey) {
+                        case MIN_OCCURS:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getLargestMinOccurs(metadata));
+                            break;
+                        case MAX_OCCURS:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getSmallestMaxOccurs(metadata));
+                            break;
+                        case MAX_VALUE:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getSmallestMaxValue(metadata));
+                            break;
+                        case MIN_VALUE:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getLargestMinValue(metadata));
+                            break;
+                        case MAX_LENGTH:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getSmallestMaxLength(metadata));
+                            break;
+                        case MIN_LENGTH:
+                            constraintInfo.put(vKey.getProperty(), MetadataInterrogator.getLargestMinLength(metadata));
+                            break;                         
+                        case VALID_CHARS:
+                            String validChars = metadata.getConstraints().get(0).getValidChars();
+                            if (validChars.startsWith("regex:")) {
+                                validChars = validChars.substring(6);
+                            }
+                            constraintInfo.put(vKey.getProperty(), validChars);
+                        default :
+                            break;
+                    }
+                }
+            }
+        }
+        return constraintInfo;
+    }
+	
 }

@@ -31,8 +31,10 @@ import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.CourseRevenueInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.utils.ActiveDatesValidator;
+import org.kuali.student.lum.course.service.utils.ActivityTypeValidator;
 import org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator;
 import org.kuali.student.lum.course.service.utils.RevenuePercentValidator;
+import org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.springframework.context.ApplicationContext;
@@ -74,11 +76,17 @@ public class TestCourseInfoDictionary {
 		System.out.println("h1. Test Validation");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
 		ValidatorFactory vf = new ValidatorFactory();
+		SubjectAreaUnitOwnerValidator saVal = new SubjectAreaUnitOwnerValidator();
+		
 		List<Validator> vList = new ArrayList<Validator>();
+		
+		saVal.setSearchDispatcher(new MockSearchDispatcher());
 		
 		vList.add(new RevenuePercentValidator() );
 		vList.add(new ExpenditurePercentValidator());
+		vList.add(saVal);
 		vList.add(getActiveDatesValidator());
+		vList.add(new ActivityTypeValidator());
 		vf.setValidatorList(vList);
 		
 		val.setValidatorFactory(vf);
@@ -122,7 +130,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(2, validationResults.size());
+		assertEquals(3, validationResults.size());
 
 		System.out.println("test validation on dynamic attributes");
 		info.getAttributes().put("finalExamStatus", "123");
@@ -130,7 +138,7 @@ public class TestCourseInfoDictionary {
 		for (ValidationResultInfo vr : validationResults) {
 			System.out.println(vr.getElement() + " " + vr.getMessage());
 		}
-		assertEquals(3, validationResults.size());
+		assertEquals(5, validationResults.size());
 
 		LoDisplayInfo loInfo = new LoDisplayInfo();
 		LoCategoryInfo loCatInfo = new LoCategoryInfo();
@@ -151,7 +159,7 @@ public class TestCourseInfoDictionary {
 ///descr validation.required
 ///finalExamStatus validation.validCharsFailed
 ///finalExamRationale validation.required
-		assertEquals(5, validationResults.size());
+		assertEquals(7, validationResults.size());
 
 		
 		// Test custom validation 
