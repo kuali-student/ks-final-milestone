@@ -59,10 +59,9 @@ public class AdvancedSearchWindow {
 	    dialog = new KSLightBox();	 
 	    layout.addStyleName("KS-Advanced-Search-Window");
 	    SectionTitle sectionTitle = SectionTitle.generateH2Title(title);
-	    layout.add(sectionTitle);
+	    dialog.setNonCaptionHeader(sectionTitle);
 		layout.add(panel);
 		layout.add(actionCancelButtons);
-		//dialog.setWidget(layout);
 		dialog.setMaxHeight(620);
 		ButtonGroup buttons = panel.getButtons();
 		buttons.removeFromParent();

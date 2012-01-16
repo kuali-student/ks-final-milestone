@@ -60,6 +60,7 @@ import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.dto.SortDirection;
 import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.search.service.SearchManager;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -156,6 +157,8 @@ public class LuServiceImpl implements LuService {
 	private static final String SEARCH_KEY_PROPOSALS_BY_COURSE_CODE = "lu.search.proposalsByCourseCode";
 	private static final String SEARCH_KEY_BROWSE_VERSIONS = "lu.search.clu.versions";
 	private static final String SEARCH_KEY_LU_RESULT_COMPONENTS = "lu.search.resultComponents";
+	private static final String SEARCH_KEY_CLUSET_SEARCH_GENERIC = "cluset.search.generic";
+	private static final String SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS = "cluset.search.genericWithClus";
 	
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
@@ -2579,25 +2582,30 @@ public class LuServiceImpl implements LuService {
 
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-		checkCluAlreadyAdded(cluSet, cluId);
-		
-		try{
-			luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
-		}catch(NoResultException e){
-			throw new DoesNotExistException();
-		}
-		
-		CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
-		join.setCluSet(cluSet);
-		join.setCluVersionIndId(cluId);
-		
-		cluSet.getCluVerIndIds().add(join);
-
-		luDao.update(cluSet);
-
 		StatusInfo statusInfo = new StatusInfo();
-		statusInfo.setSuccess(true);
 
+		//If the clu already exists return false but dont throw an exception
+		if(!checkCluAlreadyAdded(cluSet, cluId)){
+			statusInfo.setSuccess(Boolean.FALSE);
+			statusInfo.setMessage("CluSet already contains Clu (id='" + cluId + "')");
+		}else{
+			try{
+				luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
+			}catch(NoResultException e){
+				throw new DoesNotExistException();
+			}
+			
+			CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+			join.setCluSet(cluSet);
+			join.setCluVersionIndId(cluId);
+			
+			cluSet.getCluVerIndIds().add(join);
+	
+			luDao.update(cluSet);
+	
+	
+			statusInfo.setSuccess(true);
+		}
 		return statusInfo;
 	}
 
@@ -2954,13 +2962,14 @@ public class LuServiceImpl implements LuService {
 		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
-	private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
+	private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
 			throws OperationFailedException {
 		for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
 			if (join.getCluVersionIndId().equals(cluId)) {
-				throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
+				return false;
 			}
 		}
+		return true;
 	}
 
 	private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd)
@@ -3121,6 +3130,14 @@ public class LuServiceImpl implements LuService {
         	return doBrowseVersionsSearch(searchRequest);
         }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
         	return doResultComponentTypesForCluSearch(searchRequest);
+        }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequest.getSearchKey())){
+    		//If any clu specific params are set, use a search key that has the clu defined in the JPQL 
+        	for(SearchParam param:searchRequest.getParams()){
+    			if(param.getKey().contains("queryParam.luOptional")){
+    				searchRequest.setSearchKey(SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS);
+    				break;
+    			}
+    		}
         }
         return searchManager.search(searchRequest, luDao);
 	}
@@ -3232,7 +3249,10 @@ public class LuServiceImpl implements LuService {
 
 	private SearchResult doBrowseProgramSearch() throws MissingParameterException {
 		//This is our main result
-		SearchResult programSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM), luDao);
+		SearchRequest request = new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM);
+		request.setSortDirection(SortDirection.ASC);
+		request.setSortColumn("lu.resultColumn.luOptionalLongName");
+		SearchResult programSearchResults = searchManager.search(request, luDao);
 		
 		//These variations need to be mapped back to the program search results
 		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao);
@@ -3462,6 +3482,31 @@ public class LuServiceImpl implements LuService {
 				}
 			}
 		}
+		
+		Collections.sort(programSearchResults.getRows(),new Comparator<SearchResultRow>(){
+            
+			@Override
+			public int compare(SearchResultRow row1, SearchResultRow row2) {
+				int i = 0,index =0;
+				SearchResultCell cell1 = null,cell2 = null,cell3 = null,cell4 = null;
+				
+				for(SearchResultCell cell : row1.getCells()){				  
+				  if("lu.resultColumn.luOptionalLongName".equals(cell.getKey()))
+				  {
+				   cell1 = cell; cell2 = row2.getCells().get(index);
+				  }
+				  else if("lu.resultColumn.resultComponentId".equals(cell.getKey()))
+				  {
+					cell3 = cell; cell4 = row2.getCells().get(index);
+				  }
+				  index++;
+				}
+				if(cell1.getValue().equalsIgnoreCase(cell2.getValue()))
+					i = cell3.getValue().compareToIgnoreCase(cell4.getValue());
+				return i;
+			}
+			
+		});
 
 		return programSearchResults;
 	}
@@ -3843,18 +3888,23 @@ public class LuServiceImpl implements LuService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, UnsupportedActionException {
 
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(Boolean.TRUE);
+		
 		checkForMissingParameter(cluIdList, "cluIdList");
 		checkForMissingParameter(cluSetId, "cluSetId");
 		
 		for(String cluId : cluIdList) {
 			StatusInfo status = addCluToCluSet(cluId, cluSetId);
 			if (!status.getSuccess()) {
-				return status;
+				//One or more clus already existed
+				if(statusInfo.getMessage().isEmpty()){
+					statusInfo.setMessage(status.getMessage());
+				}else{
+					statusInfo.setMessage(statusInfo.getMessage()+"\n"+status.getMessage());	
+				}
 			}
 		}
-
-		StatusInfo statusInfo = new StatusInfo();
-		statusInfo.setSuccess(true);
 
 		return statusInfo;
 	}

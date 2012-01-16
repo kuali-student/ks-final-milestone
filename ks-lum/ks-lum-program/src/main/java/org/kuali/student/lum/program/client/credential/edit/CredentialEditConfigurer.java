@@ -10,13 +10,13 @@ import org.kuali.student.lum.program.client.major.edit.LearningObjectivesEditCon
 public class CredentialEditConfigurer extends AbstractProgramConfigurer {
 
     public CredentialEditConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(new CredentialInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CredentialManagingBodiesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CredentialCatalogDetailsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CredentialRequirementsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CredentialDocsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CredentialSummaryConfiguration());
+        programSectionConfigManager = new ConfigurationManager();
+        programSectionConfigManager.registerConfiguration(new CredentialInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CredentialManagingBodiesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CredentialCatalogDetailsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CredentialRequirementsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CredentialDocsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CredentialSummaryConfiguration(this));
     }
 }

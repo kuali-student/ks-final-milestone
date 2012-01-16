@@ -16,7 +16,9 @@
 package org.kuali.student.common.rice.authorization;
 
 /**
- * Enum to be used for Permission constants
+ * Enum to be used for Permission types. Permission Type is analagous to a permission template.
+ * 
+ * When using permission types, permission checks will be performed using template names. 
  *
  */
 public enum PermissionType {
@@ -32,7 +34,7 @@ public enum PermissionType {
 	REMOVE_ADHOC_REVIEWERS("Remove Reviewers","KS-SYS","Remove Reviewers"), 
 	BLANKET_APPROVE("Blanket Approve","KS-SYS","Blanket Approve"),
 	UPLOAD_DOCUMENTS("Upload","KS-SYS","Upload to Document"),
-	KS_ADMIN_SCREEN("KS Admin Screen","KS-SYS","KS Admin Screens");
+	USE_SCREEN("Use Screen","KS-SYS","Use Screen");
 
 	private String label = "";
 	private String permissionNamespace = "";

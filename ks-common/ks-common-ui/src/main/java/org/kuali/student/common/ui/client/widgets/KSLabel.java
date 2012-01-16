@@ -15,6 +15,8 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
+
 import com.google.gwt.user.client.ui.Label;
 
 /**
@@ -41,6 +43,7 @@ public class KSLabel extends Label{
      */
     public KSLabel(String text){
         super(text);
+        ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(text));
         setupDefaultStyle();
     }
 
@@ -53,6 +56,7 @@ public class KSLabel extends Label{
      */
     public KSLabel(String text, boolean wordWrap){
         super(text, wordWrap);
+        ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(text));
         setupDefaultStyle();
     }
 

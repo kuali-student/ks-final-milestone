@@ -429,7 +429,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         buttonPanel.setVisible(false);
 
         SectionTitle sectionTitle = SectionTitle.generateH2Title("Upload Status");
-        progressPanel.add(sectionTitle);
+        progressWindow.setNonCaptionHeader(sectionTitle);
         progressPanel.add(progressLabel);
         progressPanel.add(progressBar);
         progressPanel.add(fileProgressTable);

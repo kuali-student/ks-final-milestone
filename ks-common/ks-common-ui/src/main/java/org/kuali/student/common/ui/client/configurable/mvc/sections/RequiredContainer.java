@@ -130,7 +130,7 @@ public class RequiredContainer extends WarnContainer {
                 hasComponents = true;
             }
         }
-
+        
         for (Section innerSection : section.getSections()) {
             if (processInnerSection(innerSection, showAll)) {
                 hasComponents = true;
@@ -177,6 +177,8 @@ public class RequiredContainer extends WarnContainer {
                 }
             }
         }
+       if(section instanceof CollapsableSection)
+    	((CollapsableSection) section).getLayout().setVisible(visibility);
     }
 
     /**
