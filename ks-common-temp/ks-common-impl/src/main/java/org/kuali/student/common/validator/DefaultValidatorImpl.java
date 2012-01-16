@@ -121,7 +121,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return validateObject(data, objStructure, elementStack, data, objStructure, true);
     }
 
-    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot, CallContext context) {
+    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot, ContextInfo context) {
 
        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -174,7 +174,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return results;
     }
 
-    public List<ValidationResultInfo> validateField(FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjectStructure, CallContext context) {
+    public List<ValidationResultInfo> validateField(FieldDefinition field, ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjectStructure, ContextInfo context) {
 
         Object value = dataProvider.getValue(field.getName());
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
@@ -350,7 +350,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected ValidationResultInfo processRequireConstraint(String element, RequiredConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider, CallContext context) {
+    protected ValidationResultInfo processRequireConstraint(String element, RequiredConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider, ContextInfo context) {
 
         ValidationResultInfo val = null;
 
@@ -468,7 +468,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return null;
     }
 
-    public ValidationResultInfo processValidCharConstraint(String element, ValidCharsConstraint vcConstraint, ConstraintDataProvider dataProvider, Object value, CallContext context) {
+    public ValidationResultInfo processValidCharConstraint(String element, ValidCharsConstraint vcConstraint, ConstraintDataProvider dataProvider, Object value, ContextInfo context) {
 
         ValidationResultInfo val = null;
 
@@ -512,7 +512,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param dataProvider
      * @return
      */
-    protected ValidationResultInfo processOccursConstraint(String element, MustOccurConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider, CallContext context) {
+    protected ValidationResultInfo processOccursConstraint(String element, MustOccurConstraint constraint, FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider, ContextInfo context) {
 
         boolean result = false;
         int trueCount = 0;
@@ -539,7 +539,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     // TODO: Implement lookup constraint
-    protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider, CallContext context) {
+    protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint, FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider, ContextInfo context) {
         if (lookupConstraint == null) {
             return;
         }
@@ -588,7 +588,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, DataType dataType, String name, Object value, Stack<String> elementStack, CallContext context) {
+    protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint, DataType dataType, String name, Object value, Stack<String> elementStack, ContextInfo context) {
 
         if (value == null || "".equals(value.toString().trim())) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
@@ -618,7 +618,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateBoolean(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, CallContext context) {
+    protected void validateBoolean(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo context) {
         if (!(value instanceof Boolean)) {
             try {
                 Boolean.valueOf(value.toString());
@@ -630,7 +630,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateDouble(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, CallContext context) {
+    protected void validateDouble(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo context) {
         Double v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -670,7 +670,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateFloat(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, CallContext context) {
+    protected void validateFloat(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo context) {
         Float v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -709,7 +709,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateLong(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, CallContext context) {
+    protected void validateLong(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo context) {
         Long v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -749,7 +749,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     }
 
-    protected void validateInteger(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, CallContext context) {
+    protected void validateInteger(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo context) {
         Integer v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -789,7 +789,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateDate(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, DateParser dateParser, CallContext context) {
+    protected void validateDate(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, DateParser dateParser, ContextInfo context) {
         ValidationResultInfo val = new ValidationResultInfo(element, value);
 
         Date v = null;
@@ -829,7 +829,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateString(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, CallContext context) {
+    protected void validateString(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo context) {
 
         if (value == null) {
             value = "";
