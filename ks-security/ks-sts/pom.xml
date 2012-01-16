@@ -17,7 +17,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+	        <version>${ks-temp-project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>

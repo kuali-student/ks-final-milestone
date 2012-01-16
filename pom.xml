@@ -187,6 +187,7 @@
     <ks.contractdoc.phase>site</ks.contractdoc.phase>
     <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
     <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
+    <ks-temp-project.version>0.0.1-SNAPSHOT</ks-temp-project.version>
   </properties>
   <build>
     <pluginManagement>
@@ -1181,4 +1182,7 @@
       <artifactId>junit</artifactId>
     </dependency>
   </dependencies>
+  <modules>
+  	<module>ks13-services</module>
+  </modules>
 </project>
