@@ -12,6 +12,7 @@ import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.ContextInfo;
 
 /**
  * This is a sample Validator used for customized validation. Inject this validator into ValidatorFactory.
@@ -25,7 +26,7 @@ public class SampCustomValidator implements Validator {
 
 	@Override
 	public List<ValidationResultInfo> validateObject(Object o,
-			ObjectStructureDefinition objStructure) {
+			ObjectStructureDefinition objStructure, ContextInfo context) {
 		return null;
 	}
 
@@ -39,7 +40,7 @@ public class SampCustomValidator implements Validator {
 
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,
-			Object o, ObjectStructureDefinition objStructure,Stack<String> elementStack) {
+			Object o, ObjectStructureDefinition objStructure,Stack<String> elementStack, ContextInfo context) {
 		 List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 		ConstraintDataProvider dataProvider = new BeanConstraintDataProvider();
 		dataProvider.initialize(o);
