@@ -84,10 +84,10 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public List<ValidationResultInfo> validate(Data data)
-			throws OperationFailedException {
+	public List<ValidationResultInfo> validate(Data data)throws OperationFailedException {
 		try{
-			return dataService.validateData(data);
+		    List<ValidationResultInfo> result= dataService.validateData(data);    //result info loaded with info about conflicts [KSCM-250]
+		    return result;
 		} catch (Exception e) {
 			LOG.error("Could not validate data ", e);
 			throw new OperationFailedException("Failed to  data");

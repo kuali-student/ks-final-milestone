@@ -63,7 +63,7 @@ public class CatalogBrowserConfigurer {
 		layout.setDefaultView(Sections.BROWSE_BY_SUBJECT_AREA);
 	}
 
-	private SectionView createBrowseBySubjectAreaSection() {
+	protected SectionView createBrowseBySubjectAreaSection() {
 		//constructor sets the attributes of the browse subject area tab
 		VerticalSectionView nestedSectionView = 
 			new VerticalSectionView(Sections.BROWSE_BY_SUBJECT_AREA, "Browse by Subject Area", CATALOG_BROWSER_MODEL);
@@ -72,7 +72,7 @@ public class CatalogBrowserConfigurer {
 		return nestedSectionView;
 	}
 
-	private SectionView createBrowseBySchoolSection() {
+	protected SectionView createBrowseBySchoolSection() {
 		//constructor sets the attributes of the browse school tab
 		VerticalSectionView nestedSectionView = 
 			new VerticalSectionView(Sections.BROWSE_BY_SCHOOL, "Browse by School", CATALOG_BROWSER_MODEL);

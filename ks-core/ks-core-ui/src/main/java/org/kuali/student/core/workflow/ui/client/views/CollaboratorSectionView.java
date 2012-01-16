@@ -1,6 +1,8 @@
 package org.kuali.student.core.workflow.ui.client.views;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -9,7 +11,7 @@ import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestEnum;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -59,11 +61,11 @@ public class CollaboratorSectionView extends SectionView {
 
     private QueryPath collabPath = QueryPath.parse("collaboratorInfo/collaborators");
 
-    private final GroupSection section;
+    private GroupSection section;
     private FieldDescriptor person;
     private FieldDescriptor permissions;
     private FieldDescriptor actionRequests;
-    private FieldDescriptor authorNotation;
+    protected FieldDescriptor authorNotation;
     private KSButton addButton = new KSButton("Add Collaborator", ButtonStyle.SECONDARY);
     private SimpleWidgetTable table;
     private VerticalSection tableSection;
@@ -83,7 +85,11 @@ public class CollaboratorSectionView extends SectionView {
     private int numCollabs = 0;
 
     List<Data> newCollaborators = new ArrayList<Data>();
-
+    
+    public CollaboratorSectionView(){
+    	
+    }
+    
     public CollaboratorSectionView(Enum<?> viewEnum, String name, String modelId) {
         this(viewEnum, name, modelId, true);
     }
@@ -101,6 +107,24 @@ public class CollaboratorSectionView extends SectionView {
         section.addStyleName("KS-Add-Collaborator-Box");
         this.add(layout);
     }
+    
+   public void init(Enum<?> viewEnum, String name, String modelId){
+    	init(viewEnum, name, modelId, true);
+    }
+    
+    public void init(Enum<?> viewEnum, String name, String modelId, boolean showTitle){
+    	init(viewEnum, name);
+        this.modelId = modelId;
+        if (name != null && !name.isEmpty() && showTitle) {
+            SectionTitle sectionTitle = SectionTitle.generateH2Title(getName());
+            layout = new GroupFieldLayout(sectionTitle);
+        } else {
+            layout = new GroupFieldLayout();
+        }
+        section = new GroupSection();
+        section.addStyleName("KS-Add-Collaborator-Box");
+        this.add(layout);
+    } 
 
     public void init() {
         createAddCollabSection();
@@ -265,7 +289,7 @@ public class CollaboratorSectionView extends SectionView {
         // Add current logged on user to initial lookup data.
         LookupParamMetadata param = new LookupParamMetadata();
         param.setKey("person.queryParam.excludedUserId");
-        param.setDefaultValueString(Application.getApplicationContext().getUserId());
+        param.setDefaultValueString(Application.getApplicationContext().getSecurityContext().getUserId());
         param.setWriteAccess(WriteAccess.NEVER);
         personIdMeta.getInitialLookup().getParams().add(param); // Added for the suggestbox.
         if (personIdMeta.getAdditionalLookups().size() > 0) {
@@ -319,16 +343,17 @@ public class CollaboratorSectionView extends SectionView {
 
     private void refreshActionRequestListItems() {
         actionRequestListItems.clear();
-        if (isDocumentPreRoute()) {
-            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(), ActionRequestType.FYI.getActionRequestLabel());
-        } else {
-            actionRequestListItems.addItem(ActionRequestType.APPROVE.getActionRequestCode(), ActionRequestType.APPROVE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestType.ACKNOWLEDGE.getActionRequestCode(), ActionRequestType.ACKNOWLEDGE.getActionRequestLabel());
-            actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(), ActionRequestType.FYI.getActionRequestLabel());
+        if (isDocumentPreRoute()){
+            actionRequestListItems.addItem(ActionRequestEnum.FYI.getActionRequestCode(), ActionRequestEnum.FYI.getActionRequestLabel());
+		} else {
+            actionRequestListItems.addItem(ActionRequestEnum.APPROVE.getActionRequestCode(), ActionRequestEnum.APPROVE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestEnum.ACKNOWLEDGE.getActionRequestCode(), ActionRequestEnum.ACKNOWLEDGE.getActionRequestLabel());
+            actionRequestListItems.addItem(ActionRequestEnum.FYI.getActionRequestCode(), ActionRequestEnum.FYI.getActionRequestLabel());
 
-        }
+		}
+
         actionRequestList.setListItems(actionRequestListItems);
-        refreshPermissionList(ActionRequestType.FYI.getActionRequestCode());
+        refreshPermissionList(ActionRequestEnum.FYI.getActionRequestCode());
     }
 
     /**
@@ -340,7 +365,7 @@ public class CollaboratorSectionView extends SectionView {
     private void refreshPermissionList(String selectedAction) {
         permissionListItems.clear();
         // SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
-        if (selectedAction != null && selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()) {
+        if (selectedAction != null && selectedAction.equals(ActionRequestEnum.APPROVE.getActionRequestCode()) || isDocumentPreRoute()) {
             permissionListItems.addItem(PermissionType.EDIT.getCode(), "Edit, Comment, View");
         }
 
@@ -442,6 +467,23 @@ public class CollaboratorSectionView extends SectionView {
         Map<QueryPath, Object> collabs = model.query("collaboratorInfo/collaborators/*");
 
         table.clear();
+        Collections.sort(newCollaborators, new Comparator<Data>() {
+          
+            @Override
+            public int compare(Data personData1, Data personData2) {
+            	 return personName(personData1).compareToIgnoreCase(personName(personData2));
+            }
+            
+            String personName(Data personData){
+        	   String personName = "";
+               if (personData.query("lastName") != null) {
+                   personName = personData.query("lastName") + ", " + personData.query("firstName");
+               } else {
+                   personName = personData.query("principalId");
+               }
+               return personName;
+           }
+        });
         numCollabs = 0;
         for (int i = 0; i < newCollaborators.size(); i++) {
             addPersonRow(newCollaborators.get(i), new Integer(i));
@@ -465,27 +507,27 @@ public class CollaboratorSectionView extends SectionView {
 
     private void addPersonRow(final Data personData, final Integer deleteIndex) {
         final String personName;
-        if (personData.query("lastName") != null) {
-            personName = personData.query("lastName") + ", " + personData.query("firstName");
-        } else {
-            personName = personData.query("principalId");
-        }
+		if (personData.query("lastName") != null){
+			personName = personData.query("lastName") + ", " + personData.query("firstName");
+		} else {
+			personName = personData.query("principalId");
+		}
 
-        Boolean isAuthor = personData.query("author");
-        Boolean canRevokeRequest = personData.query("canRevokeRequest");
+		Boolean isAuthor = personData.query("author");
+		Boolean canRevokeRequest = personData.query("canRevokeRequest");
 
-        // Add person to table widget
-        List<Widget> rowWidgets = new ArrayList<Widget>();
-        rowWidgets.add(new KSLabel(personName + (isAuthor != null && isAuthor ? " (Author)" : "")));
-        rowWidgets.add(new KSLabel(translatePermissionCode((String) personData.query("permission"))));
-        rowWidgets.add(new KSLabel(ActionRequestType.getByCode((String) personData.query("action")).getActionRequestLabel()));
-        rowWidgets.add(new KSLabel((String) personData.get("actionRequestStatus")));
+		//Add person to table widget
+    	List<Widget> rowWidgets = new ArrayList<Widget>();
+		rowWidgets.add(new KSLabel(personName + (isAuthor!=null && isAuthor?" (Author)":"")));
+		rowWidgets.add(new KSLabel(translatePermissionCode((String)personData.query("permission"))));
+		rowWidgets.add(new KSLabel(ActionRequestEnum.getByCode((String) personData.query("action")).getActionRequestLabel()));
+		rowWidgets.add(new KSLabel((String)personData.get("actionRequestStatus")));
 
-        if (canRemoveCollaborators && (canRevokeRequest == null || canRevokeRequest)) {
-            // Add delete widget
+		if (canRemoveCollaborators && (canRevokeRequest == null || canRevokeRequest)) {
+            //Add delete widget
             AbbrButton removeButton = new AbbrButton(AbbrButtonType.DELETE);
             rowWidgets.add(removeButton);
-            // Register remove click handler
+            //Register remove click handler
             if (deleteIndex != null) {
                 // Handler for newly added collaborators
                 removeButton.addClickHandler(new ClickHandler() {
@@ -511,12 +553,13 @@ public class CollaboratorSectionView extends SectionView {
                     }
                 });
             }
-        } else {
-            // add a dummy label for table placeholder
-            rowWidgets.add(new KSLabel());
-        }
+	    } else {
+	        // add a dummy label for table placeholder
+              rowWidgets.add(new KSLabel());
+	    }
 
-        table.addRow(rowWidgets);
+		table.addRow(rowWidgets);
+
     }
 
     @Override

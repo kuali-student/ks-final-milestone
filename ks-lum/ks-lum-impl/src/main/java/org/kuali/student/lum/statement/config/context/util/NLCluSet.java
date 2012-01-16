@@ -89,21 +89,32 @@ public class NLCluSet {
 	 * @return Comma separated list of CLUs' official identifier short name 
 	 */
 	public String getCluSetAsShortName() {
-		StringBuilder sb = new StringBuilder();
-		if (this.cluList.size() > 1) {
-		    sb.append("(");
-		}
-		for(CluInfo clu : this.cluList) {
-			sb.append(clu.getOfficialIdentifier().getShortName());
+		return getCluSetAsShortName(",");
+	}
+	
+	/**
+     * Gets all the CLUs' official identifier short name in the CLU set 
+     * as a list of values separated by the specified separator.
+     * 
+     * @param The string value that is used to separate the values in the list.
+     * @return Character separated list of CLUs' official identifier short name 
+     */
+	public String getCluSetAsShortName(String separator) {
+        StringBuilder sb = new StringBuilder();
+        if (this.cluList.size() > 1) {
+            sb.append("(");
+        }
+        for(CluInfo clu : this.cluList) {
+            sb.append(clu.getOfficialIdentifier().getShortName());
             if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
-                sb.append(", ");
+                sb.append(separator + " ");
             }
-		}
+        }
         if (this.cluList.size() > 1) {
             sb.append(")");
-        }		
-		return getString(sb);
-	}
+        }       
+        return getString(sb);
+    }
 
 	/**
 	 * Gets all the CLUs' official identifier long name in the CLU set 
@@ -112,20 +123,31 @@ public class NLCluSet {
 	 * @return Comma separated list of CLUs' official identifier long name 
 	 */
 	public String getCluSetAsLongName() {
-		StringBuilder sb = new StringBuilder();
+		return getCluSetAsLongName(",");
+	}
+	
+	/**
+	 * Gets all the CLUs' official identifier long name in the CLU set 
+     * as a list of values separated by the specified separator.
+	 * 	  
+	 * @param separator The string value that is used to separate the values in the list.
+	 * @return Character separated list of CLUs' official identifier long name 
+	 */
+	public String getCluSetAsLongName(String separator) {
+	    StringBuilder sb = new StringBuilder();
         if (this.cluList.size() > 1) {
             sb.append("(");
-        }		
-		for(CluInfo clu : this.cluList) {
-			sb.append(clu.getOfficialIdentifier().getLongName());
+        }       
+        for(CluInfo clu : this.cluList) {
+            sb.append(clu.getOfficialIdentifier().getLongName());
             if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
-                sb.append(", ");
+                sb.append(separator + " ");
             }
-		}
+        }
         if (this.cluList.size() > 1) {
             sb.append(")");
-        }		
-		return getString(sb);
+        }       
+        return getString(sb);
 	}
 
 	/**
@@ -135,21 +157,32 @@ public class NLCluSet {
 	 * @return Comma separated list of CLUs' official identifier code 
 	 */
 	public String getCluSetAsCode() {
-		StringBuilder sb = new StringBuilder();
+		return getCluSetAsCode(",");
+	}
+	
+	/**
+     * Gets all the CLUs' official identifier code in the CLU set 
+     * as a list of values separated by the specified separator.
+     * 
+     * @param separator The string value that is used to separate the values in the list.
+     * @return Character separated list of CLUs' official identifier code 
+     */
+    public String getCluSetAsCode(String separator) {
+        StringBuilder sb = new StringBuilder();
         if (this.cluList.size() > 1) {
             sb.append("(");
-        }		
-		for(CluInfo clu : this.cluList) {
-			sb.append(clu.getOfficialIdentifier().getCode());
-			if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
-			    sb.append(", ");
-			}
-		}
+        }       
+        for(CluInfo clu : this.cluList) {
+            sb.append(clu.getOfficialIdentifier().getCode());
+            if (this.cluList.indexOf(clu) < (this.cluList.size() - 1)) {
+                sb.append(separator + " ");
+            }
+        }
         if (this.cluList.size() > 1) {
             sb.append(")");
-        }		
-		return getString(sb);
-	}
+        }       
+        return getString(sb);
+    }
 
 	private String getString(StringBuilder sb) {
 		return (sb.length() == 0 ? "No CLUs available in CluSet" : sb.toString());
