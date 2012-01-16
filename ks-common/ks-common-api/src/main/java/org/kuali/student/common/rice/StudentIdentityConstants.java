@@ -62,9 +62,5 @@ public class StudentIdentityConstants {
 
     // KSCM-144
     public static final String KS_NAMESPACE_CD = "KS-SYS";
-    // KSCM-144
-    public static final String KSCM_ADMIN_ROLE_NAME = "Kuali Student CM Admin";
-    // KSCM-144
-    public static final String KSCM_USER_ROLE_NAME = "Kuali Student CM User";
 
 }
