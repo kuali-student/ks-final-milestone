@@ -32,8 +32,12 @@ import org.kuali.student.common.dictionary.dto.RequiredConstraint;
 import org.kuali.student.common.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.common.dictionary.dto.WhenConstraint;
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.LocaleInfo;
+import org.kuali.student.common.exceptions.*;
+import org.kuali.student.common.infc.Locale;
 
 import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageInfo;
 import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
@@ -49,7 +53,8 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     private SearchDispatcher searchDispatcher;
 
-    private String messageLocaleKey = "en";
+    // TODO KSCM-141
+    private LocaleInfo messageLocaleKey = null;
 
     private String messageGroupKey = "validation";
 
@@ -114,14 +119,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param objStructure
      * @return
      */
-    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
+    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, ContextInfo context) {
 
         Stack<String> elementStack = new Stack<String>();
 
-        return validateObject(data, objStructure, elementStack, data, objStructure, true);
+        return validateObject(data, objStructure, elementStack, data, objStructure, true, context);
     }
 
-    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot, ContextInfo context) {
+    private List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack, Object rootData, ObjectStructureDefinition rootObjStructure, boolean isRoot, ContextInfo context) {
 
        List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -144,7 +149,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
 
         for (FieldDefinition f : objStructure.getAttributes()) {
-            List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack, rootData, rootObjStructure);
+            List<ValidationResultInfo> l = validateField(f, objStructure, dataProvider, elementStack, rootData, rootObjStructure, context);
 
             results.addAll(l);
 
@@ -154,7 +159,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             	if(customValidator==null){
             		throw new RuntimeException("Custom Validator "+f.getCustomValidatorClass()+" was not configured in this context");
             	}
-            	l = customValidator.validateObject(f,data, objStructure,elementStack);
+            	l = customValidator.validateObject(f, data, objStructure, elementStack, context);
             	results.addAll(l);
             }
         }
@@ -181,7 +186,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         // Handle null values in field
         if (value == null || "".equals(value.toString().trim())) {
-            processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure);
+            processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure, context);
             return results;
         }
 
@@ -244,14 +249,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (value instanceof Collection) {
 
                 if(((Collection<?>)value).isEmpty()){
-                    processConstraint(results, field, objStruct, "", dataProvider, elementStack, rootData, rootObjectStructure);
+                    processConstraint(results, field, objStruct, "", dataProvider, elementStack, rootData, rootObjectStructure, context);
                 }
 
             	int i = 0;
                 for (Object o : (Collection<?>) value) {
                 	elementStack.push(Integer.toBinaryString(i));
 //                	beanPathStack.push(!beanPathStack.isEmpty()?beanPathStack.pop():""+"["+i+"]");
-                    processConstraint(results, field, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure);
+                    processConstraint(results, field, objStruct, o, dataProvider, elementStack, rootData, rootObjectStructure, context);
 //                    beanPathStack.pop();
 //                    beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
                     elementStack.pop();
@@ -272,7 +277,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     results.add(valRes);
                 }
             } else {
-                processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure);
+                processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData, rootObjectStructure, context);
             }
 
         }
@@ -291,13 +296,13 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         return result;
     }
 
-    protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
+    protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value, ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, ContextInfo context) {
 
-        results.addAll(validateObject(value, nestedObjStruct, elementStack, rootData, rootObjStructure, false));
+        results.addAll(validateObject(value, nestedObjStruct, elementStack, rootData, rootObjStructure, false, context));
 
     }
 
-    protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure) {
+    protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field, ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider, Stack<String> elementStack,  Object rootData, ObjectStructureDefinition rootObjStructure, ContextInfo context) {
 
         // Process Case Constraint
         // Case Constraint are only evaluated on the field. Nested case constraints are currently ignored
@@ -305,7 +310,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         Constraint constraint = (null != caseConstraint) ? caseConstraint : field;
 
-        processBaseConstraints(valResults, constraint, field.getDataType(), field.getName(), value, elementStack);
+        processBaseConstraints(valResults, constraint, field.getDataType(), field.getName(), value, elementStack, context);
 
         // Stop other checks if value is null
         if (value == null || "".equals(value.toString().trim())) {
@@ -316,7 +321,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         // Process Valid Chars
         if (null != constraint.getValidChars()) {
-            ValidationResultInfo val = processValidCharConstraint(elementPath, constraint.getValidChars(), dataProvider, value);
+            ValidationResultInfo val = processValidCharConstraint(elementPath, constraint.getValidChars(), dataProvider, value, context);
             if (null != val) {
                 valResults.add(val);
             }
@@ -326,7 +331,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if (value != null && !"".equals(value.toString().trim())) {
             if (null != constraint.getRequireConstraint() && constraint.getRequireConstraint().size() > 0) {
                 for (RequiredConstraint rc : constraint.getRequireConstraint()) {
-                    ValidationResultInfo val = processRequireConstraint(elementPath, rc, field, objStructure, dataProvider);
+                    ValidationResultInfo val = processRequireConstraint(elementPath, rc, field, objStructure, dataProvider, context);
                     if (null != val) {
                         valResults.add(val);
                     }
@@ -337,7 +342,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // Process Occurs Constraint
         if (null != constraint.getOccursConstraint() && constraint.getOccursConstraint().size() > 0) {
             for (MustOccurConstraint oc : constraint.getOccursConstraint()) {
-                ValidationResultInfo val = processOccursConstraint(elementPath, oc, field, objStructure, dataProvider);
+                ValidationResultInfo val = processOccursConstraint(elementPath, oc, field, objStructure, dataProvider, context);
                 if (null != val) {
                     valResults.add(val);
                 }
@@ -346,7 +351,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
         // Process lookup Constraint
         if (null != constraint.getLookupDefinition()) {
-            processLookupConstraint(valResults, constraint.getLookupDefinition(), field, elementStack, dataProvider);
+            processLookupConstraint(valResults, constraint.getLookupDefinition(), field, elementStack, dataProvider, context);
         }
     }
 
@@ -520,11 +525,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         ValidationResultInfo val = null;
 
         for (RequiredConstraint rc : constraint.getRequiredFields()) {
-            trueCount += (processRequireConstraint("", rc, field, objStructure, dataProvider) != null) ? 1 : 0;
+            trueCount += (processRequireConstraint("", rc, field, objStructure, dataProvider, context) != null) ? 1 : 0;
         }
 
         for (MustOccurConstraint oc : constraint.getOccurs()) {
-            trueCount += (processOccursConstraint("", oc, field, objStructure, dataProvider) != null) ? 1 : 0;
+            trueCount += (processOccursConstraint("", oc, field, objStructure, dataProvider, context) != null) ? 1 : 0;
         }
 
         result = (trueCount >= constraint.getMin() && trueCount <= constraint.getMax()) ? true : false;
@@ -602,19 +607,19 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         String elementPath = getElementXpath(elementStack) + "/" + name;
 
         if (DataType.STRING.equals(dataType)) {
-            validateString(value, constraint, elementPath, valResults);
+            validateString(value, constraint, elementPath, valResults, context);
         } else if (DataType.INTEGER.equals(dataType)) {
-            validateInteger(value, constraint, elementPath, valResults);
+            validateInteger(value, constraint, elementPath, valResults, context);
         } else if (DataType.LONG.equals(dataType)) {
-            validateLong(value, constraint, elementPath, valResults);
+            validateLong(value, constraint, elementPath, valResults, context);
         } else if (DataType.DOUBLE.equals(dataType)) {
-            validateDouble(value, constraint, elementPath, valResults);
+            validateDouble(value, constraint, elementPath, valResults, context);
         } else if (DataType.FLOAT.equals(dataType)) {
-            validateFloat(value, constraint, elementPath, valResults);
+            validateFloat(value, constraint, elementPath, valResults, context);
         } else if (DataType.BOOLEAN.equals(dataType)) {
-            validateBoolean(value, constraint, elementPath, valResults);
+            validateBoolean(value, constraint, elementPath, valResults, context);
         } else if (DataType.DATE.equals(dataType)) {
-            validateDate(value, constraint, elementPath, valResults, dateParser);
+            validateDate(value, constraint, elementPath, valResults, dateParser, context);
         }
     }
 
@@ -863,7 +868,22 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             return messageId;
         }
 
-        Message msg = messageService.getMessage(messageLocaleKey, messageGroupKey, messageId, context);
+
+        MessageInfo msg = null;
+        // TODO KSCM-142
+        try {
+            msg = messageService.getMessage(messageLocaleKey, messageGroupKey, messageId, context);
+        } catch (DoesNotExistException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (InvalidParameterException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (MissingParameterException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (OperationFailedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (PermissionDeniedException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
 
         return msg.getValue();
     }
