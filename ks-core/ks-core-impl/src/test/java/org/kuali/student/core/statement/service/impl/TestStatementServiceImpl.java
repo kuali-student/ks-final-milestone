@@ -33,32 +33,33 @@ import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.student.common.dictionary.old.dto.FieldDescriptor;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularReferenceException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.TypeInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.statement.config.context.lu.CluInfo;
-import org.kuali.student.core.statement.config.context.lu.CluSetInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.core.statement.config.context.lu.MockCluInfo;
+import org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
 import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
@@ -73,7 +74,6 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 @Daos({@Dao(value = "org.kuali.student.core.statement.dao.impl.StatementDaoImpl")})
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
@@ -88,25 +88,25 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 	@BeforeClass
 	public static void beforeClass() {
 		// Add test data
-		CluInfo clu1 = new CluInfo("CLU-NL-1", "MATH152", "MATH 152", "MATH 152 Linear Systems");
-		CluInfo clu2 = new CluInfo("CLU-NL-3", "MATH180", "MATH 180", "MATH 180 Differential Calculus with Physical Applications");
-		CluInfo clu3 = new CluInfo("CLU-NL-2", "MATH221", "MATH 221", "MATH 221 Matrix Algebra");
+		MockCluInfo clu1 = new MockCluInfo("CLU-NL-1", "MATH152", "MATH 152", "MATH 152 Linear Systems");
+		MockCluInfo clu2 = new MockCluInfo("CLU-NL-3", "MATH180", "MATH 180", "MATH 180 Differential Calculus with Physical Applications");
+		MockCluInfo clu3 = new MockCluInfo("CLU-NL-2", "MATH221", "MATH 221", "MATH 221 Matrix Algebra");
 
 		// Add CLUs
 		// Clu list order is important for natural language translation
 		// Adding clu2, clu1 doesn't work for method testGetNaturalLanguageForStatement(), testGetNaturalLanguageForReqComponent
-		List<CluInfo> cluList1 = new ArrayList<CluInfo>();
+		List<MockCluInfo> cluList1 = new ArrayList<MockCluInfo>();
 		cluList1.add(clu1);
 		cluList1.add(clu2);
 
 		// Clu list order is important for natural language translation
 		// Adding clu1, clu2, clu3 doesn't work for method testGetNaturalLanguageForStatement()
-		List<CluInfo> cluList2 = new ArrayList<CluInfo>();
+		List<MockCluInfo> cluList2 = new ArrayList<MockCluInfo>();
 		cluList2.add(clu1);
 		cluList2.add(clu3);
 		cluList2.add(clu2);
 
-		List<CluInfo> cluListAll = new ArrayList<CluInfo>();
+		List<MockCluInfo> cluListAll = new ArrayList<MockCluInfo>();
 		cluListAll.add(clu1);
 		cluListAll.add(clu2);
 		cluListAll.add(clu3);
@@ -114,9 +114,9 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
 		CourseListContextImpl.setCluInfo(cluListAll);
 
 		// Add CLU Sets
-		List<CluSetInfo> cluSetList = new ArrayList<CluSetInfo>();
-		CluSetInfo cluSet1 = new CluSetInfo("CLUSET-NL-1", cluList1);
-		CluSetInfo cluSet2 = new CluSetInfo("CLUSET-NL-2", cluList2);
+		List<MockCluSetInfo> cluSetList = new ArrayList<MockCluSetInfo>();
+		MockCluSetInfo cluSet1 = new MockCluSetInfo("CLUSET-NL-1", cluList1);
+		MockCluSetInfo cluSet2 = new MockCluSetInfo("CLUSET-NL-2", cluList2);
 		cluSetList.add(cluSet1);
 		cluSetList.add(cluSet2);
 
@@ -1361,7 +1361,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setExpirationDate(expDate.getTime());
     	refInfo.setRefObjectId("123");
     	refInfo.setRefObjectTypeKey("clu");
-    	refInfo.setState("INACTIVE");
+    	refInfo.setState("SUSPENDED");
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("clu.corequisites");
 
@@ -1388,7 +1388,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setExpirationDate(expDate.getTime());
     	refInfo.setRefObjectId("123");
     	refInfo.setRefObjectTypeKey("x.invalid.clu.key.x");
-    	refInfo.setState("INACTIVE");
+    	refInfo.setState("SUSPENDED");
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("clu.corequisites");
 
@@ -1407,7 +1407,7 @@ public class TestStatementServiceImpl extends AbstractServiceTest {
     	refInfo.setExpirationDate(expDate.getTime());
     	refInfo.setRefObjectId("123");
     	refInfo.setRefObjectTypeKey("clu");
-    	refInfo.setState("INACTIVE");
+    	refInfo.setState("SUSPENDED");
     	refInfo.setStatementId("STMT-101");
     	refInfo.setType("x.invalid.type.x");
 

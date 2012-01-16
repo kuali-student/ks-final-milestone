@@ -15,27 +15,27 @@
 
 package org.kuali.student.common.ui.server.gwt.old;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.service.WorkflowUtility;
-import org.kuali.rice.kew.webservice.SimpleDocumentActionsWebService;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.rice.kim.service.PermissionService;
+
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.old.Assembler;
+import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.assembly.Assembler;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -57,8 +57,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 	private Assembler<Data, Void> assembler;
 
-    private SimpleDocumentActionsWebService simpleDocService;
-    private WorkflowUtility workflowUtilityService;
+    private WorkflowDocumentActionsService simpleDocService;
 	private PermissionService permissionService;
 	private IdentityService identityService;
 
@@ -104,7 +103,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 
 
 	protected String getCurrentUser() {
-		String username = SecurityUtils.getCurrentUserId();
+		String username = SecurityUtils.getCurrentPrincipalId();
 		//backdoorId is only for convenience
 		if(username==null&&this.getThreadLocalRequest().getSession().getAttribute("backdoorId")!=null){
 			username=(String)this.getThreadLocalRequest().getSession().getAttribute("backdoorId");
@@ -125,7 +124,8 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 			}
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
-			AttributeSet roleQuals = new AttributeSet(StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
+			Map<String, String> roleQuals = new LinkedHashMap<String, String>();
+                        roleQuals.put (StudentIdentityConstants.DOCUMENT_TYPE_NAME, getDefaultWorkflowDocumentType());
 			if (attributes != null) {
 				roleQuals.putAll(attributes);
 			}
@@ -173,25 +173,16 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
     	this.identityService = identityService;
     }
 
-	public void setSimpleDocService(SimpleDocumentActionsWebService simpleDocService) {
+	public void setSimpleDocService(WorkflowDocumentActionsService simpleDocService) {
 		this.simpleDocService = simpleDocService;
-	}
-
-	public void setWorkflowUtilityService(WorkflowUtility workflowUtilityService) {
-		this.workflowUtilityService = workflowUtilityService;
 	}
 
 	protected Assembler<Data, Void> getAssembler() {
 		return assembler;
 	}
 
-	protected SimpleDocumentActionsWebService getSimpleDocService() {
+	protected WorkflowDocumentActionsService getSimpleDocService() {
 		return simpleDocService;
 	}
-
-	protected WorkflowUtility getWorkflowUtilityService() {
-		return workflowUtilityService;
-	}
-
 
 }

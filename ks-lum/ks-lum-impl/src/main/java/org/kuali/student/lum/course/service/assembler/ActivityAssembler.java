@@ -15,11 +15,11 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -41,6 +41,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		}
 		
 		ActivityInfo activityInfo = (null != activity) ? activity : new ActivityInfo();
+	    
 		activityInfo.setId(clu.getId());
 		activityInfo.setActivityType(clu.getType());
 		activityInfo.setState(clu.getState());
@@ -48,7 +49,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		activityInfo.setDuration(clu.getStdDuration());
 		activityInfo.setContactHours(clu.getIntensity());
 		activityInfo.setMetaInfo(clu.getMetaInfo());
-		
+        activityInfo.setAttributes(clu.getAttributes());
 		return activityInfo;
 	}
 
@@ -80,6 +81,7 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setStdDuration(activity.getDuration());
 		clu.setIntensity(activity.getContactHours());
 		clu.setMetaInfo(activity.getMetaInfo());
+		clu.setAttributes(activity.getAttributes());
 				
 		//Add the Clu to the result 
 		result.setNodeData(clu);

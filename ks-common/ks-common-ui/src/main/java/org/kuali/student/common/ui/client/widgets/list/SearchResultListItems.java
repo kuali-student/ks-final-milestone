@@ -16,11 +16,12 @@
 package org.kuali.student.common.ui.client.widgets.list;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.search.dto.ResultColumnInfo;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.search.dto.ResultColumnInfo;
+import org.kuali.student.common.search.dto.SearchResultRow;
 
 /**
  * This is a ListItems adapter for search results returned by the search service.
@@ -193,7 +194,10 @@ public class SearchResultListItems implements ListItems{
      */
     @Override
     public String getItemText(String id) {
-        return getListItem(id).getCells().get(itemTextAttrNdx).getValue();
+    	if(getListItem(id)!=null){
+    		return getListItem(id).getCells().get(itemTextAttrNdx).getValue();
+    	}
+    	return "";
     }
     
     private SearchResultRow getListItem(String id) {
@@ -205,4 +209,13 @@ public class SearchResultListItems implements ListItems{
         return null;
     }
     
+    /**
+     * 
+     * This method returns an unmodifiable view of the SearchResultRow list
+     * 
+     * @return
+     */
+    public List<SearchResultRow> getReadOnlyResults() {
+        return Collections.unmodifiableList(resultDataMap);
+    }
 }

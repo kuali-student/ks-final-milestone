@@ -10,15 +10,16 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -68,7 +69,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 	}
 
 	@Override
-	//Creation of categories is done in the LoRpcGwtServlet
+	//Creation of categories is done in the LoCategoryRpcGwtServlet
 	public BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> disassemble(
 			LoDisplayInfo loDisplay, NodeOperation operation)
 			throws AssemblyException {
@@ -194,13 +195,19 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		
 		// Loop through all the activities in this format
 		for (LoDisplayInfo childDisplay : loDisplay.getLoDisplayInfoList()) {
-
+		    
+		    // Set the state of the child LO to match the state of the parent
+		    // LO. This end up propagating the program state to all of the LOs,
+		    // since we set parent LO state to program state earlier in the code
+		    childDisplay.getLoInfo().setState(loDisplay.getLoInfo().getState());
+		    
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentLoRelations.containsKey(childDisplay.getLoInfo().getId()))) {
-		        
+		        		    
                 // the lo does not exist, so create
                 // Assemble and add the lo
+		    	childDisplay.getLoInfo().setId(null);
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this
                         .disassemble(childDisplay, NodeOperation.CREATE);
                 results.add(loNode);
@@ -210,7 +217,11 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
                 relation.setLoId(loDisplay.getLoInfo().getId());
                 relation.setRelatedLoId(loNode.getNodeData().getId());
                 relation.setType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
-                relation.setState(loDisplay.getLoInfo().getState());
+                
+                // Relations can only have states of Active or SUSPENDED
+                // DO NOT use states like Approve, Draft, etc on relations
+                // Will default to Active
+                relation.setState(DtoConstants.STATE_ACTIVE);
                 
 
                 BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, LoLoRelationInfo>(

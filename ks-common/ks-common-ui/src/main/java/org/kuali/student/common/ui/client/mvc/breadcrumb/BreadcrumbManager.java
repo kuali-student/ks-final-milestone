@@ -14,6 +14,12 @@ import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Manages breadcrumbs for the application
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class BreadcrumbManager extends Composite{
 	
 	public static List<Hyperlink> links = new ArrayList<Hyperlink>();
@@ -36,11 +42,26 @@ public class BreadcrumbManager extends Composite{
 		}
 	}
 	
+	/**
+	 * Binds the controller as the top level controller to call collectBreadcrumbNames on.
+	 * 
+	 * @param controller
+	 */
 	public static void bind(Controller controller){
 		root = controller;
 	}
 	
+	/**
+	 * Updates the breadcrumb panel with the current breadcrumb by walking the controller hierarchy by calling
+	 * collectBreadcrumbNames on the root controller bound to the BreadcrumbManager.
+	 * 
+	 * @param historyStack
+	 */
 	public static void updateLinks(String historyStack){
+	    if (root == null){
+	        return;
+	    }
+	    
 		links.clear();
 		panel.clear();
 		panelEmpty = true;
@@ -133,6 +154,10 @@ public class BreadcrumbManager extends Composite{
 		}
 	}
 	
+	/** 
+	 * @return the breadcrumb panel which contains the breadcrumb links dynamically updated by the 
+	 * BreadcrumbManager
+	 */
 	public static ComplexPanel getBreadcrumbPanel(){
 		return panel;
 	}

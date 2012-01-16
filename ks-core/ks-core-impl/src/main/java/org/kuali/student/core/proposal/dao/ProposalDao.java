@@ -19,9 +19,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dao.SearchableDao;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
@@ -45,4 +45,5 @@ public interface ProposalDao extends CrudDao, SearchableDao {
     public ProposalOrg getProposalOrg(String orgId);
     public ProposalReference getObjectReference(String objectReferenceId, String objectReferenceType);
     public EntityManager getEm();
+	public List<Proposal> getProposalsByRefernceIds(List<String> referenceIds);
 }

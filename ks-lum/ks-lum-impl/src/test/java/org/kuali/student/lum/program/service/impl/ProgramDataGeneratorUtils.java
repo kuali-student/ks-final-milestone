@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 
@@ -124,6 +125,10 @@ public class ProgramDataGeneratorUtils {
         if("programRequirements".equals(name)){
         	return "REQ-200";
         }
+
+        if("catalogPublicationTargets".equals(name)){
+			return ProgramAssemblerConstants.CATALOG;
+		}
         
 		if("type".equals(name)){
 			
@@ -144,7 +149,7 @@ public class ProgramDataGeneratorUtils {
 			}
 
 			if("divisionsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_DIVISION;
+				return ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_DIVISION;
 			}
 			
 			if("divisionsStudentOversight".equals(parentPropertyName)){
@@ -152,7 +157,7 @@ public class ProgramDataGeneratorUtils {
 			}
 			
 			if("unitsContentOwner".equals(parentPropertyName)){
-				return ProgramAssemblerConstants.CONTENT_OWNER_UNIT;
+				return ProgramAssemblerConstants.CURRICULUM_OVERSIGHT_UNIT;
 			}
 			
 			if("unitsStudentOversight".equals(parentPropertyName)){
@@ -165,7 +170,7 @@ public class ProgramDataGeneratorUtils {
 		}
 
 		if("state".equals(name)){
-			return ProgramAssemblerConstants.DRAFT;
+			return DtoConstants.STATE_DRAFT;
 		}
 
 		if("credentialProgramType".equals(name)){

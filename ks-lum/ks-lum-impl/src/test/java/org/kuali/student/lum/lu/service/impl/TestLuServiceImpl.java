@@ -33,35 +33,35 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.CurrencyAmountInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.CurrencyAmountInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
@@ -490,9 +490,14 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluInfo clu = createCluInfo();
 
 		clu.getOfficialIdentifier().setCode("offId-divisionoffId-suffixcode");
+		clu.getOfficialIdentifier().getAttributes().put("OfficialIdentKey", "OfficialIdentValue");
+		
 		clu.getAlternateIdentifiers().get(0).setCode("cluId1-divisioncluId1-suffixcode");
+		clu.getAlternateIdentifiers().get(0).getAttributes().put("AltIdentKey", "AltIdentValue");
 		clu.getAlternateIdentifiers().get(1).setCode("cluId2-divisioncluId2-suffixcode");
-
+		clu.getAlternateIdentifiers().get(1).getAttributes().put("AltIdentKey", "AltIdentValue");
+        
+		
 		// Do the actual create call
 		CluInfo createdClu = client.createClu("luType.shell.course", clu);
 		createdClu = client.getClu(createdClu.getId());
@@ -523,7 +528,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getSuffixCode());
 		assertEquals("offId-orgid", createdClu.getOfficialIdentifier()
 				.getOrgId());
-
+		assertEquals("OfficialIdentValue", createdClu.getOfficialIdentifier().getAttributes().get("OfficialIdentKey"));
+		
+		
 		assertEquals("cluId1-divisioncluId1-suffixcode", createdClu
 				.getAlternateIdentifiers().get(0).getCode());
 		assertEquals("cluId1-division", createdClu.getAlternateIdentifiers()
@@ -544,7 +551,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.get(0).getSuffixCode());
 		assertEquals("cluId1-orgid", createdClu.getAlternateIdentifiers()
 				.get(0).getOrgId());
-
+		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(0).getAttributes().get("AltIdentKey"));
+        
+		
 		assertEquals("cluId2-divisioncluId2-suffixcode", createdClu
 				.getAlternateIdentifiers().get(1).getCode());
 		assertEquals("cluId2-division", createdClu.getAlternateIdentifiers()
@@ -565,7 +574,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.get(1).getSuffixCode());
 		assertEquals("cluId2-orgid", createdClu.getAlternateIdentifiers()
 				.get(1).getOrgId());
-
+		assertEquals("AltIdentValue", createdClu.getAlternateIdentifiers().get(1).getAttributes().get("AltIdentKey"));
+		
 		assertEquals("cluAttrValue1", createdClu.getAttributes().get(
 				"cluAttrKey1"));
 		assertEquals("cluAttrValue2", createdClu.getAttributes().get(
@@ -708,7 +718,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getOfficialIdentifier().setState("UPoffId-state");
 		createdClu.getOfficialIdentifier().setType("UPoffId-type");
 		createdClu.getOfficialIdentifier().setVariation("UPoffId-variation");
-
+		createdClu.getOfficialIdentifier().getAttributes().put("OfficialIdentKeyUptd", "OfficialIdentValueUptd");
+		
+		
 		createdClu.getAlternateIdentifiers().get(0).setCode("UPcluId1-code");
 		createdClu.getAlternateIdentifiers().get(0).setDivision(
 				"UPcluId1-division");
@@ -723,7 +735,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		createdClu.getAlternateIdentifiers().get(0).setType("UPcluId1-type");
 		createdClu.getAlternateIdentifiers().get(0).setVariation(
 				"UPcluId1-variation");
-
+		createdClu.getAlternateIdentifiers().get(0).getAttributes().put("AltIdentKeyUptd", "AltIdentValueUptd");
+		
 		createdClu.getAlternateIdentifiers().remove(1);
 
 		CluIdentifierInfo cluId3 = new CluIdentifierInfo();
@@ -736,6 +749,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		cluId3.setState("cluId3-state");
 		cluId3.setType("cluId3-type");
 		cluId3.setVariation("cluId3-variation");
+		
+		
 		createdClu.getAlternateIdentifiers().add(cluId3);
 
 		createdClu.getAttributes().put("cluAttrKey1", "cluAttrValue1");
@@ -879,7 +894,10 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				.getType());
 		assertEquals("UPoffId-variation", updatedClu.getOfficialIdentifier()
 				.getVariation());
-
+		assertEquals(2, updatedClu.getOfficialIdentifier().getAttributes().size());
+        assertEquals("OfficialIdentValueUptd", updatedClu.getOfficialIdentifier().getAttributes().get("OfficialIdentKeyUptd"));
+		
+				
 		assertEquals("UPcluId1-code", updatedClu
 				.getAlternateIdentifiers().get(0).getCode());
 		assertEquals("UPcluId1-division", updatedClu.getAlternateIdentifiers()
@@ -898,7 +916,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 				0).getType());
 		assertEquals("UPcluId1-variation", updatedClu.getAlternateIdentifiers()
 				.get(0).getVariation());
-
+        assertEquals(2, updatedClu.getAlternateIdentifiers().get(0).getAttributes().size());
+        assertEquals("AltIdentValueUptd", createdClu.getAlternateIdentifiers().get(0).getAttributes().get("AltIdentKeyUptd"));
+		
 		assertEquals("cluId3-code", updatedClu
 				.getAlternateIdentifiers().get(1).getCode());
 		assertEquals("cluId3-division", updatedClu.getAlternateIdentifiers()
@@ -1043,6 +1063,9 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		assertEquals("luType.shell.program", updatedClu.getType());
 
+		assertEquals(false,updatedClu.isEnrollable());
+		assertEquals(false,updatedClu.isHazardousForDisabledStudents());
+		
 		assertNotNull(updatedClu.getMetaInfo());
 		assertNotNull(updatedClu.getMetaInfo().getVersionInd());
 		assertNotNull(updatedClu.getMetaInfo().getCreateTime());
@@ -1515,7 +1538,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 			ParseException, AlreadyExistsException, MissingParameterException,
 			DependentObjectsExistException {
 		try {
-			client.updateLuiState(null, "Inactive");
+			client.updateLuiState(null, "Suspended");
 			fail("LuService.updateLuiState() did not throw MissingParameterException for null Lui ID");
 		} catch (MissingParameterException e) {
 		}
@@ -2048,12 +2071,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		StatusInfo status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
 		assertTrue(status.getSuccess());
 
-		try {
-			client.addCluToCluSet("CLU-1", createdCluSet.getId());
-			fail("Adding the same CLU more than once should have failed");
-		} catch(OperationFailedException e) {
-			assertTrue(true);
-		}
+		status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
+		assertFalse(status.getSuccess());
 	}
 
 	@Test
@@ -2099,12 +2118,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-2", "CLU-4"});
 
-		try {
-			client.addClusToCluSet(cluIdList, createdCluSet.getId());
-			fail("Adding a duplicate CLU (id='CLU-2') to CluSet should have failed");
-		} catch(OperationFailedException e) {
-			assertTrue(true);
-		}
+		StatusInfo status = client.addClusToCluSet(cluIdList, createdCluSet.getId());
+		assertEquals("CluSet already contains Clu (id='CLU-2')", status.getMessage());
 	}
 
 	@Test
@@ -2285,7 +2300,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		assertEquals(query.getSearchTypeKey(), createdCluSet.getMembershipQuery().getSearchTypeKey());
 		assertNotNull(createdCluSet.getMembershipQuery().getQueryParamValueList());
 		assertNotNull(createdCluSet.getCluIds());
-        assertEquals(111, createdCluSet.getCluIds().size());
+        assertEquals(107, createdCluSet.getCluIds().size());
 	}
 
 	private MembershipQueryInfo getMembershipQueryInfo() {
@@ -2721,7 +2736,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		desc1.setPlain("Plain description");
 		dto.setDesc(desc1);
 		dto.setCluId("CLU-1");
-		dto.setState("inactive");
+		dto.setState("Suspended");
 		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
@@ -2735,7 +2750,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		option.setExpirationDate(new Date());
 		option.setResultComponentId("kuali.resultComponent.grade.letter");
 		option.setResultUsageTypeKey(null);
-		option.setState("inactive");
+		option.setState("Suspended");
 		resultOptions.add(option);
 
         dto.setResultOptions(resultOptions);
@@ -2789,7 +2804,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		desc1.setPlain("Plain description");
 		dto.setDesc(desc1);
 		dto.setCluId("CLU-1");
-		dto.setState("inactive");
+		dto.setState("Suspended");
 		dto.setType("kuali.resultType.gradeCourseResult");
 		dto.setEffectiveDate(new Date());
 		dto.setExpirationDate(new Date());
@@ -2803,7 +2818,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		option.setExpirationDate(new Date());
 		option.setResultComponentId("kuali.resultComponent.grade.letter");
 		//option.setResultUsageTypeKey("lrType.finalGrade");
-		option.setState("inactive");
+		option.setState("Suspended");
 		resultOptions.add(option);
 
         dto.setResultOptions(resultOptions);
@@ -2829,20 +2844,12 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		CluInfo clu = createCluInfo();
 		clu.setType("luType.shell.course");
 		CluInfo cluV1 = client.createClu(clu.getType(), clu);
-		try{
-			//Try to make a new version when there is no current version
-			client.createNewCluVersion(cluV1.getVersionInfo().getVersionIndId(),"foo");
-			assertTrue(false);
-		}catch(Exception e){}
 
 		try{
 			//Try to set the start date in the past
 			client.setCurrentCluVersion(cluV1.getId(), DF.parse("19000101"));
 			assertTrue(false);
 		}catch(Exception e){}
-		
-		//Make the current version
-		client.setCurrentCluVersion(cluV1.getId(), null);
 		
 		CluInfo justMadeCurrentClu = client.getClu(cluV1.getId());
 		assertTrue(justMadeCurrentClu.getVersionInfo().getCurrentVersionStart().compareTo(new Date())<1);
@@ -2951,7 +2958,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		clu.setExpirationDate(DF.parse("21001231"));
 
 		clu.setEnrollable(true);
-
+		clu.setHazardousForDisabledStudents(true);
+		
 		AffiliatedOrgInfo aforg = new AffiliatedOrgInfo();
 		aforg.setOrgId("AFF-ORG1");
 		aforg.setPercentage(35l);
@@ -3400,7 +3408,7 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		List<SearchParam> queryParamValues = new ArrayList<SearchParam>();
         SearchParam searchParam = new SearchParam();
-        searchParam.setKey("lu.queryParam.luOptionalId");
+        searchParam.setKey("cluset.queryParam.luOptionalId");
         searchParam.setValue("CLU-5");
         queryParamValues.add(searchParam);
 

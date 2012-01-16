@@ -4,14 +4,14 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.springframework.context.ApplicationContext;
@@ -102,7 +102,7 @@ public class TestCluInfoDictionary
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
 //  }
-  assertEquals (5, validationResults.size ());
+  assertEquals (6, validationResults.size ());
 
   // test that we can put completely blank timeAmountInfo structures
   info.setIntensity (new AmountInfo ());
@@ -112,7 +112,7 @@ public class TestCluInfoDictionary
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
 //  }
-  assertEquals (5, validationResults.size ());
+  assertEquals (6, validationResults.size ());
 
   // test the requires constraint
   // that requires a unity if we have a unitQuantity
@@ -123,7 +123,7 @@ public class TestCluInfoDictionary
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
 //  }
-  assertEquals (6, validationResults.size ());
+  assertEquals (8, validationResults.size ());
 
 
  }

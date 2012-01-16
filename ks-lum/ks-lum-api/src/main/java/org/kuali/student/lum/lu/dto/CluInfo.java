@@ -28,14 +28,14 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionInfo;
+import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.HasTypeState;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -138,8 +138,8 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private MetaInfo metaInfo;
 
     @XmlElement
-    private VersionInfo versionInfo; 
-    
+    private VersionInfo versionInfo;
+
     @XmlAttribute
     private String type;
 
@@ -469,7 +469,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.metaInfo = metaInfo;
     }
 
-       
+
     public VersionInfo getVersionInfo() {
         return versionInfo;
     }
@@ -537,7 +537,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @Override
     public String toString() {
-    	return "CluInfo[id=" + id + "]";
+    	return "CluInfo[id=" + id + ", type=" + type + "]";
     }
 
 }

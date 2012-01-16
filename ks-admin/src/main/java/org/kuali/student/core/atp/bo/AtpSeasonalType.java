@@ -18,11 +18,11 @@ package org.kuali.student.core.atp.bo;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.bo.TypeBusinessObjectBase;
+import org.kuali.student.core.bo.KsTypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_ATP_SEASONAL_TYPE")
-public class AtpSeasonalType extends TypeBusinessObjectBase {
+public class AtpSeasonalType extends KsTypeBusinessObjectBase {
     
 	private static final long serialVersionUID = 4888800541957749096L;
 

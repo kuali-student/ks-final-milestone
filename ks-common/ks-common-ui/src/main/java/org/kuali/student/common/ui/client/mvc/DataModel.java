@@ -24,31 +24,38 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.ModelDefinition;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.common.assembly.data.Data.Key;
+import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.assembly.data.HasChangeCallbacks.ChangeCallback;
+import org.kuali.student.common.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
+import org.kuali.student.common.assembly.data.HasChangeCallbacks.ChangeType;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
 import org.kuali.student.common.ui.client.validator.DataModelValidator;
-import org.kuali.student.common.validator.old.DateParser;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.ModelDefinition;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Key;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallback;
-import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeCallbackRegistration;
-import org.kuali.student.core.assembly.data.HasChangeCallbacks.ChangeType;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validator.DateParser;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
- * @author wilj
+ * The data model for Kuali Student.  Data is stored in a map of maps and is accessed through a QueryPath.
+ * 
+ * @author Kuali Student Team
+ * @see QueryPath
+ */
+/**
+ * @author Kuali Student Team
+ *
  */
 @SuppressWarnings("unchecked")
 public class DataModel implements Model {
@@ -56,11 +63,8 @@ public class DataModel implements Model {
         void onResult(QueryPath path, T result);
     }
 
-    /**
-     *
-     */
     private static final long serialVersionUID = 1L;
-    
+
     private String modelName = "";
     private ModelDefinition definition;
     private DataModelValidator validator = new DataModelValidator();
@@ -70,10 +74,12 @@ public class DataModel implements Model {
 
     private Data root;
 
+    private String parentPath;    //Set this if DataModel's root element is nested in another data element.
+
     public DataModel() {
         // do nothing
     }
-    
+
     public DataModel(String name) {
         this.modelName = name;
     }
@@ -85,14 +91,14 @@ public class DataModel implements Model {
     }
 
     public String getModelName() {
-		return modelName;
-	}
+        return modelName;
+    }
 
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
-	}
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
 
-	public <T> T get(final QueryPath path) {
+    public <T> T get(final QueryPath path) {
         return (T) root.query(path);
     }
 
@@ -128,12 +134,22 @@ public class DataModel implements Model {
         }
     }
 
+    /** 
+     * @param path The path in the data model
+     * @return A map containing the path/value pairs for all matching elements, or an empty
+     * map if no matching values found.
+     */
     public Map<QueryPath, Object> query(final QueryPath path) {
         Map<QueryPath, Object> result = new HashMap<QueryPath, Object>();
         queryRelative(root, path, result);
         return result;
     }
 
+    /** 
+     * @param path The path in the data model
+     * @return A map containing the path/value pairs for all matching elements, or an empty
+     * map if no matching values found.
+     */
     public Map<QueryPath, Object> query(final String path) {
         return query(QueryPath.parse(path));
     }
@@ -184,8 +200,22 @@ public class DataModel implements Model {
             } else {
                 final QueryPath resultPath = d.getQueryPath();
                 resultPath.add(key);
+
                 Object resultValue = d.get(key);
-                result.put(resultPath, resultValue);
+
+                //If query is against DataModel whose root element is child of another data object, 
+                //need to strip of the parent path so result path is relative to root of child element
+                if (parentPath != null) {
+                    String relativePath = resultPath.toString();
+                    if (relativePath.contains("/")) {
+                        relativePath = relativePath.substring(parentPath.length());
+                        result.put(QueryPath.parse(relativePath), resultValue);
+                    }else{
+                       result.put(resultPath, resultValue); 
+                    }
+                } else {
+                    result.put(resultPath, resultValue);
+                }
             }
         }
     }
@@ -246,6 +276,7 @@ public class DataModel implements Model {
     }
 
     /**
+     * Set the top level data for this DataModel
      * @param root the root to set
      */
     public void setRoot(final Data root) {
@@ -283,21 +314,68 @@ public class DataModel implements Model {
         this.definition = definition;
     }
 
+
+    public String getParentPath() {
+        return parentPath;
+    }
+
+
+    /**
+     * If the root element for this is a child of another data object, then the parent
+     * path must be set to the path where this child data object can be found.
+     *
+     * @param parentPath
+     */
+    public void setParentPath(String parentPath) {
+        this.parentPath = parentPath;
+    }
+
+    /**
+     * Validates this data model against its ModelDefinition/Metadata and returns the result
+     * to the callback
+     * @param callback
+     */
     public void validate(final Callback<List<ValidationResultInfo>> callback) {
         List<ValidationResultInfo> result = validator.validate(this);
         callback.exec(result);
     }
 
+    /**
+     * Validates this data model against the next state in its ModelDefinition and returns the result
+     * to the callback
+     * @param callback
+     */
     public void validateNextState(final Callback<List<ValidationResultInfo>> callback) {
-        List<ValidationResultInfo> result = validator.validateNextState(this);
+        List<ValidationResultInfo> result = validator.validateNextState(this);  // loads missingField result info [KSCM-250]
         callback.exec(result);
     }
 
+    /**
+     * Validates this data model against the given metadata and returns the result
+     * to the callback
+     * @param metadata
+     * @param callback
+     */
+    public void validateForMetadata(Metadata metadata, final Callback<List<ValidationResultInfo>> callback) {
+        List<ValidationResultInfo> result = validator.validateForMetadata(metadata, this);
+        callback.exec(result);
+    }
+    
+    /**
+     * Validates a single field
+     * @param fd
+     * @param callback
+     */
     public void validateField(FieldDescriptor fd, final Callback<List<ValidationResultInfo>> callback) {
         List<ValidationResultInfo> result = validator.validate(fd, this);
         callback.exec(result);
     }
 
+    /**
+     * Checks to see if data exists for the path passed in
+     * @param sPath
+     * @return
+     */
     public boolean isValidPath(String sPath) {
         QueryPath path = QueryPath.parse(sPath);
         boolean result = false;

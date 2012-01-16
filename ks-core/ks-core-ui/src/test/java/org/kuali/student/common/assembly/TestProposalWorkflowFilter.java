@@ -8,11 +8,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.student.core.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.common.assembly.transform.DocumentTypeConfiguration;
 import org.kuali.student.core.assembly.data.MockProposal;
-import org.kuali.student.core.assembly.transform.DataBeanMapper;
-import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
-import org.kuali.student.core.assembly.transform.DocumentTypeConfiguration;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 
 public class TestProposalWorkflowFilter {
@@ -43,7 +43,7 @@ public class TestProposalWorkflowFilter {
 		
 		DataBeanMapper mapper = new DefaultDataBeanMapper();
 		
-		Data data = mapper.convertFromBean(proposal);
+		Data data = mapper.convertFromBean(proposal, null);
 		assertEquals("Proposal Name: Test Proposal", workflowFilter.getDefaultDocumentTitle(docTypeConfig, data));
 		
 		String docContent = workflowFilter.getDocumentContent(data, docTypeConfig);

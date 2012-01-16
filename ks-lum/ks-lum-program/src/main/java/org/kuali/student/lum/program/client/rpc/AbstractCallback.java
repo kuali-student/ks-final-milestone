@@ -1,11 +1,10 @@
 package org.kuali.student.lum.program.client.rpc;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor

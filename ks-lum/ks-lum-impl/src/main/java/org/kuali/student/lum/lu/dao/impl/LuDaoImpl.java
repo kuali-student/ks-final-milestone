@@ -22,8 +22,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluCluRelation;
@@ -198,6 +198,20 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		return relatedClus;
 	}
 
+    @Override
+	public List<Clu> getClusByRelatedCluId(String relatedCluId,
+			String luLuRelationTypeId) {
+		Query query = em
+				.createNamedQuery("CluCluRelation.getClusByRelatedCluId");
+		query.setParameter("relatedCluId", relatedCluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		@SuppressWarnings("unchecked")
+		List<Clu> relatedClus = query.getResultList();
+		return relatedClus;
+	}
+    
+    
+    
 	@Override
 	public List<String> getRelatedLuiIdsByLuiId(String luiId,
 			String luLuRelationTypeId) {
@@ -233,6 +247,29 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		return resultList;
 	}
 
+	@Override
+	public List<Clu> getClusByRelationSt(String cluId, String luLuRelationTypeId, List<String> luStateList) {
+		Query query = em.createNamedQuery("CluCluRelation.getRelatedClusByCluIdSt");
+		query.setParameter("cluId", cluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		query.setParameter("luStateList", luStateList);
+		@SuppressWarnings("unchecked")
+		List<Clu> resultList = query.getResultList();
+		
+		query = em.createNamedQuery("CluCluRelation.getClusByRelatedCluIdSt");
+		query.setParameter("relatedCluId", cluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		query.setParameter("luStateList", luStateList);		
+		List<Clu> resultListRel = query.getResultList();
+		if(resultListRel != null)
+			for(Clu clu:resultListRel) {
+				if (!resultList.contains(clu))
+					resultList.add(clu);
+			}
+		
+		return resultList;
+	}
+	
 	@Override
 	public List<CluLoRelation> getCluLoRelationsByClu(String cluId) {
 		Query query = em
@@ -421,6 +458,16 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 	}
 
 	@Override
+	public VersionDisplayInfo getLatestVersion(String versionIndId,
+			String objectTypeURI) {
+        Query query = em.createNamedQuery("Clu.findLatestVersion");
+        query.setParameter("versionIndId", versionIndId);
+        VersionDisplayInfo versionDisplayInfo = (VersionDisplayInfo)query.getSingleResult();
+        versionDisplayInfo.setObjectTypeURI(objectTypeURI);
+        return versionDisplayInfo;
+	}
+
+	@Override
 	public VersionDisplayInfo getVersionBySequenceNumber(String versionIndId,
 			String objectTypeURI, Long sequenceNumber) {
         Query query = em.createNamedQuery("Clu.findVersionBySequence");
@@ -493,6 +540,32 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
         query.setParameter("cluId", cluId);
         List<CluPublication> cluPublications = query.getResultList();
         return cluPublications;
+	}
+
+	@Override
+	public List<CluSet> getCluSetsByCluVersionIndId(List<String> cluVersionIndIds) {
+        Query query = em.createNamedQuery("CluSet.findCluSetsByCluVersionIndIds");
+        query.setParameter("cluVersionIndIds", cluVersionIndIds);
+        List<CluSet> cluSetIds = query.getResultList();
+        return cluSetIds;
+	}
+
+	@Override
+	public List<CluSet> getAllDynamicCluSets() {
+        Query query = em.createNamedQuery("CluSet.findAllDynamicCluSets");
+        List<CluSet> cluSetIds = query.getResultList();
+        return cluSetIds;
+	}
+
+	@Override
+	public List<Clu> getCrossListedClusByCodes(List<String> crossListedCodes) {
+		if(crossListedCodes!=null && crossListedCodes.isEmpty()){
+			crossListedCodes.add(""); //Add a blank param value because jpql IN(:var) has problems with empty lists
+		}
+        Query query = em.createNamedQuery("Clu.getCrossListedClusByCodes");
+        query.setParameter("crossListedCodes", crossListedCodes);
+        List<Clu> clus = query.getResultList();
+        return clus;
 	}
 	
 }

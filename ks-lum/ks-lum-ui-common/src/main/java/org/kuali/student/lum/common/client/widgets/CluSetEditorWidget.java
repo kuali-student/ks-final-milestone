@@ -6,6 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -30,15 +39,6 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 
 import com.google.gwt.dom.client.Style;
@@ -49,6 +49,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -161,6 +162,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             clusetRangeLabel = new KSItemLabel(true, true, clusetRangeModelHelper);
             final KSItemLabel theClusetRangeLabel = clusetRangeLabel;
             clusetRangeLabel.getElement().getStyle().setProperty("border", "solid 1px #cdcdcd");
+            clusetRangeLabel.getElement().getStyle().setProperty("width", "354px");
             final FieldDescriptor cluRangeFieldDescriptor = addField(
                     cluRangeSection, 
                     CommonWidgetConstants.CLU_SET_CLU_SET_RANGE_FIELD, 
@@ -175,11 +177,9 @@ public class CluSetEditorWidget extends VerticalSectionView {
 //                  ((ModelWidgetBinding)cluRangeFieldDescriptor.getModelWidgetBinding()).setWidgetValue(widget, model, path)
 //                  CluSetHelper cluSetHelper = CluSetHelper.wrap(model.getRoot());
 //                  cluSetHelper.setCluRangeParams(value)
-                    final SearchRequest searchRequest = cluSetRangePicker.getSearchWindow()
-                    .getSearchRequest();
+                    final SearchRequest searchRequest = cluSetRangePicker.getSearchWindow().getSearchRequest();
                     String selectedSearchKey = searchRequest.getSearchKey();
-                    Data searchRequestData = CluSetRangeModelUtil.INSTANCE.
-                    toData(searchRequest, null);
+                    Data searchRequestData = CluSetRangeModelUtil.INSTANCE.toData(searchRequest, null);
                     LookupMetadata lookupMetadata = null;
 
                     // look for the lookupMetaData corresponding to the searchRequest
@@ -287,6 +287,17 @@ public class CluSetEditorWidget extends VerticalSectionView {
         }
         
         final VerticalSection choosingSection = new VerticalSection();
+        HTML prompt;
+        if(cluSetType.equals("kuali.cluSet.type.Program")){
+            choosingSection.addWidget(new HTML("<b>Add a program or program set</b>"));
+            prompt = new HTML("Add program or program sets. You may  <br/>"
+                    + "add any combination of programs or program sets.");
+        }
+        else{
+            choosingSection.addWidget(new HTML("<b>Add a course, course set, or course range</b>"));
+            prompt = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+                "add any combination of courses, dynamic course ranges, or Course sets.");
+        }
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
         chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -301,6 +312,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             }
         });
         
+        this.addWidget(prompt);
         this.addSection(choosingSection);
         this.addWidget(selectedValuesPanel);
     }

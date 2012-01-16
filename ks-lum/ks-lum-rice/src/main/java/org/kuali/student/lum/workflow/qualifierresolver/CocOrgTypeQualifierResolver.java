@@ -3,34 +3,26 @@
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.XmlHelper;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.student.bo.KualiStudentKimAttributes;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+//TODO: The following annotation needs to be udpated on role definition.
 /**
  * A QualifierResolver class that will use configuration elements from the Route Node xml configuration to get a list of
  * organizations related to the organization(s) that are set in the document content xml for a particular document
@@ -48,7 +40,6 @@ import org.w3c.dom.NodeList;
  *   <useNonDerivedRoles>true</useNonDerivedRoles>
  *   <organizationTypeCode>orgId</organizationTypeCode>
  *   <organizationIdQualifierKey>orgId</organizationIdQualifierKey>
- *   <organizationShortNameQualifierKey>orgId</organizationShortNameQualifierKey>
  *   <organizationIdDocumentContentKey>orgId</organizationIdDocumentContentKey>
  * </role>
  * }
@@ -76,7 +67,6 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
 
     protected static final String ROUTE_NODE_DOCUMENT_CONTENT_XML_ORG_TYPE_CODE = "organizationTypeCode";
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";
-    protected static final String ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY = "organizationShortNameQualifierKey";
     protected static final String ROUTE_NODE_XML_USE_NON_DERIVED_ROLES = "useNonDerivedRoles";
 
     public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
@@ -84,18 +74,17 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
     public static final String KUALI_ORG_COC = "kuali.org.COC";
 
     // below string MUST match
-    // org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    // org.kuali.student.common.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME = "info";
 
     /**
      * @see org.kuali.rice.kew.role.QualifierResolver#resolve(org.kuali.rice.kew.engine.RouteContext)
      */
     @Override
-    public List<AttributeSet> resolve(RouteContext context) {
-        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+    public List<Map<String,String>> resolve(RouteContext context) {
+        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
-            attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationShortNameAttributeSetKey(context),
-                    getNodeSpecificOrganizationIdAttributeSetKey(context)));
+              attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationIdAttributeSetKey(context)));
         }
         return attributeSets;
     }
@@ -117,16 +106,6 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
             }
         }
         return organizationIdFieldKey;
-    }
-
-    public String getNodeSpecificOrganizationShortNameAttributeSetKey(RouteContext context) {
-        String organizationShortNameFieldKey = RouteNodeUtils.getValueOfCustomProperty(context.getNodeInstance().getRouteNode(), ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY);
-        if (StringUtils.isBlank(organizationShortNameFieldKey)) {
-            if (usesNonDerivedOrganizationRoles(context)) {
-                throw new RuntimeException("Cannot find required XML element '" + ROUTE_NODE_XML_ORG_SHORT_NAME_QUALIFIER_KEY + "' on the Route Node XML configuration.");
-            }
-        }
-        return organizationShortNameFieldKey;
     }
 
     public Boolean usesNonDerivedOrganizationRoles(RouteContext context) {
@@ -157,15 +136,14 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
      *         KS code)
      */
     protected Set<String> getOrganizationIdsFromDocumentContent(RouteContext context) {
-        String baseXpathExpression = "/" + KEWConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KEWConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
+        String baseXpathExpression = "/" + KewApiConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KewApiConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
         String orgXpathExpression = "./" + getOrganizationIdDocumentContentFieldKey(context);
         Document xmlContent = context.getDocumentContent().getDocument();
         XPath xPath = XPathHelper.newXPath();
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:");
-                XmlHelper.printDocumentStructure(xmlContent);
+                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:" + XmlJotter.jotDocument(xmlContent));
             }
             Set<String> distinctiveOrganizationIds = new HashSet<String>();
             for (int i = 0; i < baseElements.getLength(); i++) {
@@ -182,71 +160,10 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         }
     }
 
-    protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
-        List<SearchResultRow> results = null;
-        if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
-            SearchParam qpRelType = new SearchParam();
-            qpRelType.setKey("org.queryParam.relationType");
-            qpRelType.setValue(relationType);
-            queryParamValues.add(qpRelType);
+    protected List<Map<String,String>> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
 
-            SearchParam qpOrgId = new SearchParam();
-            qpOrgId.setKey("org.queryParam.orgId");
-            qpOrgId.setValue(orgId);
-            queryParamValues.add(qpOrgId);
-
-            SearchParam qpRelOrgType = new SearchParam();
-            qpRelOrgType.setKey("org.queryParam.relatedOrgType");
-            qpRelOrgType.setValue(relatedOrgType);
-            queryParamValues.add(qpRelOrgType);
-
-            SearchRequest searchRequest = new SearchRequest();
-            searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
-            searchRequest.setParams(queryParamValues);
-            try {
-                SearchResult result = getOrganizationService().search(searchRequest);
-                results = result.getRows();
-            } catch (Exception e) {
-                LOG.error("Error calling org service");
-                throw new RuntimeException(e);
-            }
-        }
-        return results;
-    }
-
-    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgShortNameKey, String orgIdKey) {
-        List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
-        if (results != null) {
-            for (SearchResultRow result : results) {
-                AttributeSet attributeSet = new AttributeSet();
-                String resolvedOrgId = "";
-                String resolvedOrgShortName = "";
-                for (SearchResultCell resultCell : result.getCells()) {
-                    if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
-                        resolvedOrgId = resultCell.getValue();
-                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        resolvedOrgShortName = resultCell.getValue();
-                    }
-                }
-                if (orgShortNameKey != null) {
-                    attributeSet.put(orgShortNameKey, resolvedOrgShortName);
-                }
-                if (orgIdKey != null) {
-                    attributeSet.put(orgIdKey, resolvedOrgId);
-                }
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, resolvedOrgId);
-                returnAttrSetList.add(attributeSet);
-            }
-        }
-        return returnAttrSetList;
-    }
-
-    protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgShortNameKey, String orgIdKey) {
-        List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
+        List<Map<String,String>> returnAttributeSets = new ArrayList<Map<String,String>>();
         List<OrgInfo> orgsForRouting = null;
-
         if (orgId != null) {
             try {
                 List<String> orgIds = new ArrayList<String>();
@@ -262,7 +179,7 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
                 for (OrgInfo orgForRouting : orgsForRouting) {
                     if (orgType != null && orgType.equals(orgForRouting.getType())) {
                         List<SearchResultRow> results = relatedOrgsFromOrgId(orgForRouting.getId(), getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());
-                        returnAttributeSets.addAll(attributeSetFromSearchResult(results, orgShortNameKey, orgIdKey));
+                        returnAttributeSets.addAll(attributeSetFromSearchResult(results, orgIdKey));
                     }
                 }
             }

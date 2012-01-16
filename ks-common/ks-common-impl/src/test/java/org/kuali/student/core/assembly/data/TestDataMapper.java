@@ -11,8 +11,10 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.core.assembly.transform.DataBeanMapper;
-import org.kuali.student.core.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
 
 
 public class TestDataMapper {
@@ -62,7 +64,7 @@ public class TestDataMapper {
 	public void testConverDTOtoData() throws Exception {
 		DataBeanMapper dataMapper = new DefaultDataBeanMapper();
 		
-		Data data = dataMapper.convertFromBean(person);
+		Data data = dataMapper.convertFromBean(person, null);
 		Metadata metadata = new Metadata();
 		MockPerson convertedPerson = (MockPerson)dataMapper.convertFromData(data, MockPerson.class,metadata);
 

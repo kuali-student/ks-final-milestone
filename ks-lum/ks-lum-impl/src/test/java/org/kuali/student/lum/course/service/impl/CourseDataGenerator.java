@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
@@ -39,7 +40,10 @@ public class CourseDataGenerator {
         CourseInfo testData = generateTestData(CourseInfo.class, 0, 0, null);
         testData.getAttributes().put("proposalTitle", "proposalTitle-1");
         testData.getAttributes().put("proposalRationale", "proposalRationale");
-
+        testData.getCreditOptions().get(0).getResultValues().set(0, "1");
+        testData.getCreditOptions().get(0).getResultValues().set(1, "2");
+        testData.getCreditOptions().get(1).getResultValues().set(0, "3");
+        testData.getCreditOptions().get(1).getResultValues().set(1, "4");
         for (ResultComponentInfo resultComponent : testData.getCreditOptions()) {
             resultComponent.getAttributes().put("minCreditValue", "2");
             resultComponent.getAttributes().put("maxCreditValue", "5");
@@ -190,7 +194,7 @@ public class CourseDataGenerator {
             return activities[generator.nextInt(activities.length)];
         }
         if ("state".equals(name)) {
-            return "draft";
+            return DtoConstants.STATE_DRAFT;
         }
         if ("contactHours".equals(parentPropertyName) && "unitType".equals(name)) {
             return "kuali.atp.duration.day";
@@ -225,6 +229,12 @@ public class CourseDataGenerator {
         // TODO: make it return A, B, C...
         if ("variationCode".equals(name)) {
             return "A";
+        }
+        if("startTerm".equals(name)){
+        	return "atp.2009FallSemester";
+        }
+        if("endTerm".equals(name)){
+        	return "atp.2009FallSemester";
         }
         // Default
         return name + "-" + propertyIndex;

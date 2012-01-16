@@ -18,6 +18,9 @@ package org.kuali.student.common.ui.client.configurable.mvc.views;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.ModelDefinition;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -31,17 +34,34 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 
+/**
+ * A view implementation of a section.  A section view is used to add sections as views to a controller.
+ * 
+ * @author Kuali Student
+ *
+ */
 public abstract class SectionView extends BaseSection implements View {
 
     protected String modelId;
     protected DataModel model;
 
     private Enum<?> viewEnum;
-	private String viewName;
+    private String viewName;
 
     private List<View> views = new ArrayList<View>();
 
+    public SectionView() {}
+
+    /**
+     * @param viewEnum Enumeration of this view - id used for navigation, history, and showing a view
+     * @param viewName Name of this view - what this view is called in the breadcrumb
+     */
     public SectionView(Enum<?> viewEnum, String viewName) {
+        this.viewEnum = viewEnum;
+        this.viewName = viewName;
+    }
+    
+    public void init(Enum<?> viewEnum, String viewName) {
         this.viewEnum = viewEnum;
         this.viewName = viewName;
     }
@@ -55,29 +75,34 @@ public abstract class SectionView extends BaseSection implements View {
     public Enum<?> getViewEnum() {
         return viewEnum;
     }
+
     public void setViewEnum(Enum<?> viewEnum) {
-		this.viewEnum = viewEnum;
-	}
-    
+        this.viewEnum = viewEnum;
+    }
+
 
     /**
      * Called by controller before the view is displayed to allow lazy initialization or any other preparatory work to be
      * done.
+     * In SectionView, the section is cleared of all validation errors, the model is requested from its parent
+     * controller, the widgets are updated with the latest data, and beforeShow is called on all of its potential child
+     * views.
      */
     @Override
     public void beforeShow(final Callback<Boolean> onReadyCallback) {
 
-        super.clearValidation();
+        super.clearValidationErrors();
+        
         if (getController() != null) {
             getController().requestModel(modelId, new ModelRequestCallback<DataModel>() {
 
                 @Override
-                public void onRequestFail(Throwable cause) {
-                    Window.alert("Failed to get model: " + getName());
+                public void onRequestFail(Throwable cause) {	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
+                    Window.alert("Failed to get model: "  + modelId + " for SectionView " + getName());
                     onReadyCallback.exec(false);
                 }
 
-                @Override
+                @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                 public void onModelReady(DataModel m) {
                     model = m;
                     updateWidgetData(m);
@@ -91,7 +116,7 @@ public abstract class SectionView extends BaseSection implements View {
         for (Section section : sections) {
             if (section instanceof SectionView) {
                 ((SectionView) section).beforeShow(new Callback<Boolean>() {
-                    @Override
+                    @Override	//Don't place a breakpoint here:  It will stall debugging for some unknown reason!
                     public void exec(Boolean result) {
                     }
                 });
@@ -104,14 +129,14 @@ public abstract class SectionView extends BaseSection implements View {
     }
 
     public String getModelId() {
-		return modelId;
-	}
+        return modelId;
+    }
 
-	public void setModelId(String modelId) {
-		this.modelId = modelId;
-	}
+    public void setModelId(String modelId) {
+        this.modelId = modelId;
+    }
 
-	/**
+    /**
      * Called by the controller before the view is hidden to allow the view to perform cleanup or request confirmation from
      * the user, etc. Can cancel the action by returning false.
      *
@@ -141,7 +166,7 @@ public abstract class SectionView extends BaseSection implements View {
     public String getName() {
         return viewName;
     }
-    
+
     public void setName(String name) {
         this.viewName = name;
     }
@@ -154,6 +179,9 @@ public abstract class SectionView extends BaseSection implements View {
         }
     }
 
+    /**
+     * Update the fields on the screen with the model received back from requestModel on the parent controller
+     */
     public void updateView() {
         getController().requestModel(modelId, new ModelRequestCallback<DataModel>() {
             @Override
@@ -172,32 +200,87 @@ public abstract class SectionView extends BaseSection implements View {
 
     }
 
+    /**
+     * Force an update of fields on this section with the model passed in
+     * @param m
+     */
     public void updateView(DataModel m) {
         this.model = m;
         updateWidgetData(m);
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.View#asWidget()
+     */
     public Widget asWidget() {
         return this.getLayout();
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.history.HistorySupport#collectHistory(java.lang.String)
+     */
     @Override
     public String collectHistory(String historyStack) {
         return null;
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.history.HistorySupport#onHistoryEvent(java.lang.String)
+     */
     @Override
     public void onHistoryEvent(String historyStack) {
 
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbSupport#collectBreadcrumbNames(java.util.List)
+     */
     @Override
     public void collectBreadcrumbNames(List<String> names) {
         names.add(this.getName());
     }
 
+    /**
+     * Add a view as a widget to this section
+     * @param view
+     */
     public void addView(View view) {
         views.add(view);
         addWidget(view.asWidget());
     }
+
+    public DataModel getModel() {
+        return model;
+    }
+
+    public void updateMetadata(ModelDefinition modelDefinition) {
+        updateMetadata(modelDefinition, this);
+    }
+
+    private void updateMetadata(ModelDefinition modelDefinition, Section topSection) {
+        for (Section section : topSection.getSections()) {
+            updateMetadata(modelDefinition, section);
+        }
+        for (FieldDescriptor field : topSection.getFields()) {
+            Metadata newMetadata = modelDefinition.getMetadata(field.getFieldKey());
+            if (newMetadata != null) {
+                field.setMetadata(newMetadata);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return viewName;
+    }
+    
+    public boolean isExportButtonActive() {
+        return false;
+    }
+
+	@Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
+	}
 }

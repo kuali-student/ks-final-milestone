@@ -13,16 +13,17 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataFormatter;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataFormatter;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
 
 public class TestMetadataServiceImpl {
 
@@ -58,12 +59,35 @@ public class TestMetadataServiceImpl {
 		// Check requiredness for default state of draft
 		ConstraintMetadata gpaConstraints = properties.get("gpa").getConstraints().get(0);
 		assertTrue(gpaConstraints.isRequiredForNextState());
+		assertEquals("ACTIVE", gpaConstraints.getNextState());
 
 		// Check requiredness for state of RETIRED (there should be no next state)
 		metadata = metadataService.getMetadata(SIMPLE_STUDENT, "RETIRED");
 		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
 		assertFalse(gpaConstraints.isRequiredForNextState());
+		assertNull(gpaConstraints.getNextState());
 
+
+		//Check requiredness by workflow Node
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE A", null);
+		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
+		assertFalse(gpaConstraints.isRequiredForNextState());
+		assertNull(gpaConstraints.getNextState());
+		assertEquals(0, gpaConstraints.getMinOccurs().intValue());
+		
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE B", null);
+		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
+		assertTrue(gpaConstraints.isRequiredForNextState());
+		assertEquals("APPROVED", gpaConstraints.getNextState());
+		assertTrue(gpaConstraints.getMinOccurs()==0);
+
+		metadata = metadataService.getMetadataByWorkflowNode(SIMPLE_STUDENT, "NODE C", null);
+		gpaConstraints = metadata.getProperties().get("gpa").getConstraints().get(0);
+		assertFalse(gpaConstraints.isRequiredForNextState());
+		assertNull(gpaConstraints.getNextState());
+		assertTrue(gpaConstraints.getMinOccurs()==1);
+		
+		
 		// Check type and nested state
 		metadata = metadataService.getMetadata(ADDRESS_INFO);
 		ConstraintMetadata addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
@@ -71,7 +95,7 @@ public class TestMetadataServiceImpl {
 		assertEquals(1, addrLineConstraint.getMinOccurs().intValue());
 		assertEquals(30, addrLineConstraint.getMaxLength().intValue());
 
-		metadata = metadataService.getMetadata(ADDRESS_INFO, US_ADDRESS_TYPE, "SUBMITTED");
+		metadata = metadataService.getMetadata(ADDRESS_INFO, US_ADDRESS_TYPE, "ACTIVE");
 		addrLineConstraint = metadata.getProperties().get("line1").getConstraints().get(0);
 		assertEquals(2, addrLineConstraint.getMinLength().intValue());
 		assertEquals(1, addrLineConstraint.getMinOccurs().intValue());

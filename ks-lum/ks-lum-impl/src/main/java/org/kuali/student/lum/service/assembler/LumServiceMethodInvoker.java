@@ -3,24 +3,23 @@ package org.kuali.student.lum.service.assembler;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularReferenceException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
@@ -35,6 +34,7 @@ import org.kuali.student.lum.lrc.service.LrcService;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
+import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
@@ -43,7 +43,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	private LuService luService;
 	private StatementService statementService;
 	private LearningObjectiveService loService;
-	private OrganizationService orgService;
 	private AtpService atpService;
 	private LrcService lrcService;
 
@@ -102,6 +101,11 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 		if (nodeData == null) {
 			return;
 		}
+
+		if (LOG.isDebugEnabled()) {
+			LOG.debug(results.getOperation() + ": " + nodeData);
+		}
+
 		if(nodeData instanceof CluInfo){
 			CluInfo clu = (CluInfo) nodeData;
 			switch(results.getOperation()){
@@ -160,12 +164,10 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			switch(results.getOperation()){
 			case CREATE:
 				loService.addLoCategoryToLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId());
-				LOG.debug("added category " + loCategoryRelation.getCategoryId() + " to lo " + loCategoryRelation.getLoId());
 				break;
 			case UPDATE:
 				throw new UnsupportedOperationException("Can't call update on lo category relations, just add and remove");
 			case DELETE:
-				LOG.debug("removing category " + loCategoryRelation.getCategoryId() + " to lo " + loCategoryRelation.getLoId());
 				loService.removeLoCategoryFromLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId());
 				break;
 			}
@@ -177,7 +179,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				if(null != results.getBusinessDTORef()) {
 					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true);
 				}
-				LOG.debug("created Lo "+lo.getId());
 				break;
 			case UPDATE:
 				LoInfo updatedLo = loService.updateLo(lo.getId(), lo);
@@ -186,7 +187,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				}
 				break;
 			case DELETE:
-				LOG.debug("deleting Lo "+lo.getId());
 				loService.deleteLo(lo.getId());
 				break;
 			}
@@ -195,14 +195,11 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			switch(results.getOperation()){
 			case CREATE:
 				loService.createLoLoRelation(loRelation.getLoId(), loRelation.getRelatedLoId(), loRelation.getType(), loRelation);
-				LOG.debug("created lo relation "+loRelation.getLoId()+ " => " + loRelation.getRelatedLoId());
 				break;
 			case UPDATE:
 				loService.updateLoLoRelation(loRelation.getId(), loRelation);
-				LOG.debug("updated lo relation "+loRelation.getLoId()+ " => " + loRelation.getRelatedLoId());
-				break;
+ 				break;
 			case DELETE:
-				LOG.debug("deleting lo relation "+loRelation.getLoId()+ " => " + loRelation.getRelatedLoId() +" with id " +loRelation.getId());
 				loService.deleteLoLoRelation(loRelation.getId());
 				break;
 			}
@@ -313,9 +310,23 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 				statementService.deleteStatementTreeView(treeView.getId());
 				break;
 			}
+   		}else if(nodeData instanceof CluPublicationInfo){
+			CluPublicationInfo cluPublication = (CluPublicationInfo) nodeData;
+			switch(results.getOperation()){
+			case CREATE:
+				luService.createCluPublication(cluPublication.getCluId(), cluPublication.getType(), cluPublication);
+				break;
+			case UPDATE:
+				luService.updateCluPublication(cluPublication.getId(), cluPublication);
+				break;
+			case DELETE:
+				luService.deleteCluPublication(cluPublication.getId());
+				break;
+			}
 		}else{
 			throw new UnsupportedActionException("This service invoker does not know how to handle nodeData for "+nodeData.getClass().getName());
 		}
+
 	}
 
 	public LuService getLuService() {
@@ -340,14 +351,6 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 
 	public void setLoService(LearningObjectiveService loService) {
 		this.loService = loService;
-	}
-
-	public OrganizationService getOrgService() {
-		return orgService;
-	}
-
-	public void setOrgService(OrganizationService orgService) {
-		this.orgService = orgService;
 	}
 
 	public AtpService getAtpService() {

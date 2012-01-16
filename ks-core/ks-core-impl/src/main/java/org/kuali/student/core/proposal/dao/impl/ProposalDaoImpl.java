@@ -22,8 +22,8 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.proposal.dao.ProposalDao;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
@@ -126,5 +126,13 @@ public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements Pr
         ProposalReference objectReference = (ProposalReference)query.getSingleResult();
         return objectReference;
     }
+
+	@Override
+	public List<Proposal> getProposalsByRefernceIds(List<String> referenceIds) {
+		Query query = em.createNamedQuery("Proposal.getProposalsByRefernceIds");
+		query.setParameter("referenceIds", referenceIds);
+		List<Proposal> proposals = query.getResultList();
+		return proposals;
+	}
 
 }

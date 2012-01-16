@@ -24,6 +24,7 @@ import com.google.gwt.event.dom.client.MouseOutEvent;
 import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -179,6 +180,7 @@ public class KSTextBox extends TextBox implements HasWatermark{
 			else{
 				super.setValue(value);
 				removeStyleName("watermark-text");
+				watermarkShowing = false;
 			}
 		}
 		else{
@@ -188,7 +190,8 @@ public class KSTextBox extends TextBox implements HasWatermark{
 	
 	@Override
 	public void setText(String text) {
-		if(hasWatermark){
+	    String oldValue = super.getText();
+	    if(hasWatermark){
 			if(text == null || (text != null && text.isEmpty())){
 				super.setText(watermarkText);
 				addStyleName("watermark-text");
@@ -197,10 +200,13 @@ public class KSTextBox extends TextBox implements HasWatermark{
 			else{
 				super.setText(text);
 				removeStyleName("watermark-text");
+                watermarkShowing = false;
 			}
 		}
 		else{
 			super.setText(text);
 		}
+	    ValueChangeEvent.fireIfNotEqual(this, oldValue, text);
+
 	}
 }

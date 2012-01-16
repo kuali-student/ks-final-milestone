@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- StatementInfo-->
@@ -24,7 +24,7 @@
 
  <bean id="statementInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="statementInfo.desc" parent="statementInfo.desc-parent"/>
 
@@ -93,7 +93,7 @@
 
  <bean id="reqComponentInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="reqComponentInfo.desc" parent="reqComponentInfo.desc-parent"/>
 
@@ -389,7 +389,11 @@
  </bean>
  <bean id="reqCompFieldInfo.value.gradeType.id" parent="reqCompFieldInfo.value.gradeType.id-parent"/>
 
- <bean id="reqCompFieldInfo.value.grade.id-parent" abstract="true" parent="baseKualiType" >
+<!--
+ Note: the grade.id is really a key so it should coform to the baseKualiType BUT in R1.1 we are displaying the value
+ and the client wants to see percent sign in it so changed this to baseKualiName
+ -->
+ <bean id="reqCompFieldInfo.value.grade.id-parent" abstract="true" parent="baseKualiName" >
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="reqCompFieldInfo.value.grade.id" parent="reqCompFieldInfo.value.grade.id-parent"/>
@@ -436,7 +440,7 @@
 
  <bean id="statementTreeViewInfo.desc-parent" abstract="true" parent="statementInfo.desc-parent">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="statementTreeViewInfo.desc" parent="statementTreeViewInfo.desc-parent"/>
 

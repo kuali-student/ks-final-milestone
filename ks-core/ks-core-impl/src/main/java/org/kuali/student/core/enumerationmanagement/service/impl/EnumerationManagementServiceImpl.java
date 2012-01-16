@@ -22,8 +22,21 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.enumerationmanagement.EnumerationException;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationManagementDAO;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
@@ -32,25 +45,11 @@ import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
 import org.kuali.student.core.enumerationmanagement.service.impl.util.EnumerationAssembler;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchManager;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService", serviceName = "EnumerationManagementService", portName = "EnumerationManagementService", targetNamespace = "http://student.kuali.org/wsdl/EnumerationManagementService")
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class EnumerationManagementServiceImpl implements EnumerationManagementService{
     
@@ -67,11 +66,14 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     }
      
 	@Override
+    @Transactional(readOnly=true)
 	public EnumerationInfo getEnumeration(String enumerationKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
         
-        Enumeration enumerationMetaEntity = enumDAO.fetch(Enumeration.class, enumerationKey);
+        Enumeration enumerationMetaEntity = null;
+        if (enumerationKey != null)
+        	enumerationMetaEntity = enumDAO.fetch(Enumeration.class, enumerationKey);
         EnumerationInfo enumerationMeta = null;
         if(enumerationMetaEntity != null){
         	enumerationMeta = new EnumerationInfo();
@@ -81,6 +83,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<EnumerationInfo> getEnumerations()
 			throws OperationFailedException {
         List<Enumeration> entities =  this.enumDAO.findEnumerations();
@@ -91,6 +94,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 	
 	@Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public EnumeratedValueInfo addEnumeratedValue(String enumerationKey,
 			EnumeratedValueInfo enumeratedValue) throws AlreadyExistsException,
 			InvalidParameterException, MissingParameterException,
@@ -125,6 +129,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey,
 			String contextType, String contextValue, Date contextDate)
 			throws DoesNotExistException, InvalidParameterException,
@@ -150,6 +155,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 
 
 	@Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public EnumeratedValueInfo updateEnumeratedValue(String enumerationKey,
 			String code, EnumeratedValueInfo enumeratedValue)
 			throws DoesNotExistException, InvalidParameterException,
@@ -184,7 +190,8 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 	
 	@Override
-    public StatusInfo removeEnumeratedValue(String enumerationKey, String code) {
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public StatusInfo removeEnumeratedValue(String enumerationKey, String code) {
         enumDAO.removeEnumeratedValue(enumerationKey, code);
         return new StatusInfo();
     }

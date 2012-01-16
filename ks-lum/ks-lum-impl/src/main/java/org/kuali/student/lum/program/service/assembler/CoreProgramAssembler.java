@@ -18,11 +18,11 @@ package org.kuali.student.lum.program.service.assembler;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.service.LuService;
@@ -50,15 +50,18 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
         // Copy all the data from the clu to the coreprogram
         programAssemblerUtils.assembleBasics(clu, cpInfo);
         programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
-        programAssemblerUtils.assembleAdminOrgIds(clu, cpInfo);
+        programAssemblerUtils.assembleBasicAdminOrgs(clu, cpInfo);
         programAssemblerUtils.assembleAtps(clu, cpInfo);
         programAssemblerUtils.assembleLuCodes(clu, cpInfo);
-        programAssemblerUtils.assembleRequirements(clu, cpInfo);
-        programAssemblerUtils.assemblePublicationInfo(clu, cpInfo);
-
-        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
+        programAssemblerUtils.assemblePublications(clu, cpInfo);
 
         cpInfo.setDescr(clu.getDescr());
+        cpInfo.setVersionInfo(clu.getVersionInfo());
+        
+        if (!shallowBuild) {
+        	programAssemblerUtils.assembleRequirements(clu, cpInfo);
+        	cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
+        }
         
         return cpInfo;
     }
@@ -81,17 +84,19 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
         
-        programAssemblerUtils.disassembleBasics(clu, core, operation);
+        boolean stateChanged = NodeOperation.UPDATE == operation && core.getState() != null && !core.getState().equals(core.getState());
+        
+        programAssemblerUtils.disassembleBasics(clu, core);
         if (core.getId() == null)
         	core.setId(clu.getId());
         programAssemblerUtils.disassembleIdentifiers(clu, core, operation);
         programAssemblerUtils.disassembleAdminOrgs(clu, core, operation);
         programAssemblerUtils.disassembleAtps(clu, core, operation);    
         programAssemblerUtils.disassembleLuCodes(clu, core, operation);
-        programAssemblerUtils.disassemblePublicationInfo(clu, core, operation);
+        programAssemblerUtils.disassemblePublications(clu, core, operation, result);
         
         if(core.getProgramRequirements() != null && !core.getProgramRequirements().isEmpty()) {
-        	programAssemblerUtils.disassembleRequirements(clu, core, operation, result);
+        	programAssemblerUtils.disassembleRequirements(clu, core, operation, result, stateChanged);
         }
         
         if (core.getLearningObjectives() != null) {

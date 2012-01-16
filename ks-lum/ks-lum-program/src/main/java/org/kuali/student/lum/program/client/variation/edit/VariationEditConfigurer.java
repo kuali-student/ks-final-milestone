@@ -1,12 +1,12 @@
 package org.kuali.student.lum.program.client.variation.edit;
 
-import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
-import org.kuali.student.lum.program.client.major.edit.*;
-
-import com.google.gwt.core.client.GWT;
-import org.kuali.student.lum.program.client.variation.view.VariationInformationViewConfiguration;
+import org.kuali.student.lum.program.client.major.edit.CatalogInformationEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.LearningObjectivesEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.ManagingBodiesEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.ProgramRequirementsEditConfiguration;
+import org.kuali.student.lum.program.client.major.edit.SupportingDocsEditConfiguration;
 
 /**
  * @author Igor
@@ -14,13 +14,13 @@ import org.kuali.student.lum.program.client.variation.view.VariationInformationV
 public class VariationEditConfigurer extends AbstractProgramConfigurer {
 
     public VariationEditConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(new VariationInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new VariationSummaryConfiguration());
+        programSectionConfigManager = new ConfigurationManager();
+        programSectionConfigManager.registerConfiguration(new VariationInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new VariationSummaryConfiguration(this));
     }
 }

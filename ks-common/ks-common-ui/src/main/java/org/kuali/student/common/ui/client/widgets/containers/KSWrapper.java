@@ -126,7 +126,7 @@ public class KSWrapper extends Composite{
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
-	                    
+	                    Application.getApplicationContext().setVersion(appVersion);
 	                    if (result.get(CODE_SERVER) != null){
 	                    	codeServer		= result.get(CODE_SERVER);
 	                    }
@@ -144,7 +144,7 @@ public class KSWrapper extends Composite{
 		createUserDropDown();
 		//headerBottomLinks.add(userDropDown);
 		ksHeader.setHiLabelText("Hi,");
-		ksHeader.setUserName(Application.getApplicationContext().getUserId());
+		ksHeader.setUserName(Application.getApplicationContext().getSecurityContext().getUserId());
 		Anchor logoutLink = new Anchor(getMessage("wrapperPanelLogout"));
 		logoutLink.addClickHandler(new WrapperNavigationHandler("j_spring_security_logout"));
 		ksHeader.addLogout(logoutLink);
@@ -157,6 +157,7 @@ public class KSWrapper extends Composite{
 		
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
+		//FIXME does this do anything?
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
 		setHeaderCustomLinks(topLinks);
 
@@ -223,7 +224,7 @@ public class KSWrapper extends Composite{
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getRiceIcon(),
     			new WrapperNavigationHandler(
-    					appUrl+"/portal.do?selectedTab=main"))
+    					riceURL+"/portal.do?selectedTab=main"))
     	);
 
 		navDropDown.setShowSelectedItem(true);

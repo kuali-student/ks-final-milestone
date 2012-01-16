@@ -25,6 +25,10 @@ import com.google.gwt.resources.client.ImageResource;
 public interface KSClientBundle extends ClientBundleWithLookup{
 	public static final KSClientBundle INSTANCE =  GWT.create(KSClientBundle.class);
 
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/KSFooter.css")
+    @CssResource.NotStrict
+    public CssResource footerCss();
+
     @Source("org/kuali/student/common/ui/theme/standard/public/css/KSSummaryTable.css")
     @CssResource.NotStrict
     public CssResource summaryTableCss();
@@ -95,6 +99,9 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     @Source("org/kuali/student/common/ui/theme/standard/public/css/CommentTool.css")
     @CssResource.NotStrict
 	public CssResource commentToolCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/DocumentTool.css")
+    @CssResource.NotStrict
+    public CssResource documentToolCss();   
     @Source("org/kuali/student/common/ui/theme/standard/public/css/KSSectionTitle.css")
     @CssResource.NotStrict
 	public CssResource sectionTitleCss();
@@ -149,6 +156,9 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     @Source("org/kuali/student/common/ui/theme/standard/public/css/PrintPage.css")
     @CssResource.NotStrict
     public CssResource printPageCss();
+    @Source("org/kuali/student/common/ui/theme/standard/public/css/RuleLogicView.css")
+    @CssResource.NotStrict
+    public CssResource ruleLogicViewCss();    
 
 	//Reset Css
 	@Source("org/kuali/student/common/ui/theme/standard/public/css/Reset.css")
@@ -326,6 +336,9 @@ public interface KSClientBundle extends ClientBundleWithLookup{
     
     @Source("org/kuali/student/common/ui/theme/standard/public/images/common/printer.png")
     public ImageResource print();
+
+    @Source("org/kuali/student/common/ui/theme/standard/public/images/common/icon_export.png")
+    public ImageResource printExport();
 
     @Source("org/kuali/student/common/ui/theme/standard/public/images/common/rice-mark-icon.png")
     public ImageResource riceIcon();

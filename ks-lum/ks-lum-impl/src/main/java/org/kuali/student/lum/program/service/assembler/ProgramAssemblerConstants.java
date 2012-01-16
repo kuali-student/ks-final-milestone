@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.kuali.student.common.dto.DtoConstants;
+
 /**
  * These are the constants that are used in the programs.
  * 
@@ -55,14 +57,7 @@ public class ProgramAssemblerConstants {
 	public static final String PROGRAM_REQUIREMENT = "kuali.lu.type.Requirement";
 
 	// clu states
-	public static final String DRAFT = "draft";
-	public static final String ACTIVE = "Active"; // also use for identifiers
-													// and relations
-	public static final String INACTIVE = "Inactive";
-	public static final String SUPERSEDED = "superseded";
-	public static final String SUSPENDED = "suspended";
-	public static final String RETIRED = "retired";
-	public static final String[] LATEST_STATES = { ACTIVE, SUSPENDED, RETIRED };
+	public static final String[] LATEST_STATES = { DtoConstants.STATE_ACTIVE, DtoConstants.STATE_SUSPENDED, DtoConstants.STATE_RETIRED };
 
 	// clu identifier types
 	public static final String OFFICIAL = "kuali.lu.type.program.identifier.official";
@@ -83,15 +78,15 @@ public class ProgramAssemblerConstants {
 	public static final String SELECTIVE_ENROLLMENT = "kuali.lu.code.SelectiveEnrollment";
 
 	// publication types
-	public static final String CATALOG = "kuali,lu.publication.Catalog";
+	public static final String CATALOG = "kuali.lu.publication.Catalog";
+	public static final String CATALOG_DESCR = "cluInfo.descr";
 
     // adminorg types
-	public static final String CONTENT_OWNER_DIVISION = "kuali.adminOrg.type.ContentOwnerDivision";
     public static final String CURRICULUM_OVERSIGHT_DIVISION = "kuali.adminOrg.type.CurriculumOversightDivision";
     public static final String STUDENT_OVERSIGHT_DIVISION = "kuali.adminOrg.type.StudentOversightDivision";
     public static final String DEPLOYMENT_DIVISION = "kuali.adminOrg.type.DeploymentDivision";
     public static final String FINANCIAL_RESOURCES_DIVISION = "kuali.adminOrg.type.FinancialResourcesDivision";
-    public static final String FINANCIAL_OVERSIGHT_DIVISION = "kuali.adminOrg.type.FinancialOversightDivision";
+//    public static final String FINANCIAL_OVERSIGHT_DIVISION = "kuali.adminOrg.type.FinancialOversightDivision";
     public static final String FINANCIAL_CONTROL_DIVISION = "kuali.adminOrg.type.FinancialControlDivision";
     public static final String CURRICULUM_OVERSIGHT_UNIT = "kuali.adminOrg.type.CurriculumOversightUnit";
     public static final String STUDENT_OVERSIGHT_UNIT = "kuali.adminOrg.type.StudentOversightUnit";
@@ -99,8 +94,7 @@ public class ProgramAssemblerConstants {
     public static final String FINANCIAL_RESOURCES_UNIT = "kuali.adminOrg.type.FinancialResourcesUnit";
     public static final String FINANCIAL_CONTROL_UNIT = "kuali.adminOrg.type.FinancialControlUnit";
     public static final String INSTITUTION = "kuali.adminOrg.type.Institution";
-    public static final String CONTENT_OWNER_UNIT = "kuali.adminOrg.type.ContentOwnerUnit";
-    public static final String FINANCIAL_OVERSIGHT_UNIT = "kuali.adminOrg.type.FinancialOversightUnit";
+//    public static final String FINANCIAL_OVERSIGHT_UNIT = "kuali.adminOrg.type.FinancialOversightUnit";
 
     // cluResult Types
     public static final String DEGREE_RESULTS = "kuali.resultType.degree";
