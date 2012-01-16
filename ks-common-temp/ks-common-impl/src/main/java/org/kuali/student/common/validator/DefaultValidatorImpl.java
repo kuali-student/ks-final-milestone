@@ -70,11 +70,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         this.messageService = messageService;
     }
 
-    public String getMessageLocaleKey() {
+    public LocaleInfo getMessageLocaleKey() {
         return messageLocaleKey;
     }
 
-    public void setMessageLocaleKey(String messageLocaleKey) {
+    public void setMessageLocaleKey(LocaleInfo messageLocaleKey) {
         this.messageLocaleKey = messageLocaleKey;
     }
 
@@ -211,7 +211,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 for (Object o : (Collection<?>) value) {
                 	elementStack.push(Integer.toString(i));
 //                	beanPathStack.push(!beanPathStack.isEmpty()?beanPathStack.pop():""+"["+i+"]");
-                    processNestedObjectStructure(results, o, nestedObjStruct, field, elementStack, rootData, rootObjectStructure);
+                    processNestedObjectStructure(results, o, nestedObjStruct, field, elementStack, rootData, rootObjectStructure, context);
 //                    beanPathStack.pop();
 //                    beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
                     elementStack.pop();
@@ -231,7 +231,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 }
             } else {
                 if (null != value) {
-                    processNestedObjectStructure(results, value, nestedObjStruct, field, elementStack, rootData, rootObjectStructure);
+                    processNestedObjectStructure(results, value, nestedObjStruct, field, elementStack, rootData, rootObjectStructure,context);
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
                         ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack), value);
@@ -944,7 +944,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
 	@Override
 	public List<ValidationResultInfo> validateObject(FieldDefinition field,
-			Object o, ObjectStructureDefinition objStructure,Stack<String> elementStack) {
+			Object o, ObjectStructureDefinition objStructure,Stack<String> elementStack, ContextInfo context) {
 		return null;
 	}
 }
