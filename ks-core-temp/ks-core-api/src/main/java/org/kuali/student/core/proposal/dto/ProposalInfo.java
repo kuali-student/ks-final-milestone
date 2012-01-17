@@ -85,7 +85,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
 
     }
 
-    @Override
+    //@Override
     public List<String> getProposerPerson() {
         if (proposerPerson == null) {
             proposerPerson = new ArrayList<String>(0);
@@ -97,7 +97,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposerPerson = proposerPerson;
     }
 
-    @Override
+    //@Override
     public List<String> getProposerOrg() {
         if (proposerOrg == null) {
             proposerOrg = new ArrayList<String>(0);
@@ -109,7 +109,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposerOrg = proposerOrg;
     }
 
-    @Override
+   // @Override
     public String getProposalReferenceType() {
         return proposalReferenceType;
     }
@@ -118,7 +118,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposalReferenceType = proposalReferenceType;
     }
 
-    @Override
+    //@Override
     public List<String> getProposalReference() {
         if (proposalReference == null) {
             proposalReference = new ArrayList<String>(0);
@@ -130,7 +130,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.proposalReference = proposalReference;
     }
 
-    @Override
+    //@Override
     public String getRationale() {
         return rationale;
     }
@@ -139,7 +139,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.rationale = rationale;
     }
 
-    @Override
+    //@Override
     public RichTextInfo getDetailDesc() {
         return detailDesc;
     }
@@ -148,7 +148,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.detailDesc = detailDesc;
     }
 
-    @Override
+    //@Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -157,7 +157,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.effectiveDate = effectiveDate;
     }
 
-    @Override
+    //@Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -166,7 +166,7 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
         this.expirationDate = expirationDate;
     }
 
-    @Override
+    //@Override
     public String getWorkflowId() {
         return workflowId;
     }
