@@ -58,8 +58,8 @@ public class CommentTool implements HasReferenceId {
     private KSLightBox commentLightBox;
     private HTML loggedInUserNameHTML = new HTML();
     private String loggedInUserId;
-    private KSTextArea commentTextArea = new KSTextArea();
-    private KSButton cancelEditButton = new KSButton("Cancel");
+    protected KSTextArea commentTextArea = new KSTextArea();
+    protected KSButton cancelEditButton = new KSButton("Cancel");
     private KSButton submitCommentButton = new KSButton("Submit");
     private FlexTable commentsTableLayout = new FlexTable();
     //private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
@@ -69,20 +69,20 @@ public class CommentTool implements HasReferenceId {
     VerticalFlowPanel loggedInLabelsPanel = new VerticalFlowPanel();
     VerticalFlowPanel commentEditPanel = new VerticalFlowPanel();
     KSLabel notAuthorizedToAddComments = new KSLabel("The document must be saved before Comments can be added.");
-    private EditMode editMode = EditMode.ADD_COMMENT;
+    protected EditMode editMode = EditMode.ADD_COMMENT;
     private CommentInfo selectedComment;
-    private List<Callback<EditMode>> editControlsCallbacks = new ArrayList<Callback<EditMode>>();
+    protected List<Callback<EditMode>> editControlsCallbacks = new ArrayList<Callback<EditMode>>();
     private String commentTypeKey;
     private Map<String, String> referenceAttributes;
     private KSLabel proposalTitle = new KSLabel();
     private String title;
-    private HTML htmlLabel;
-    private SectionTitle leaveACommentTitle;
-    private HorizontalPanel commentSectionPanel;
+    protected HTML htmlLabel;
+    protected SectionTitle leaveACommentTitle;
+    protected HorizontalPanel commentSectionPanel;
     private KSButton editButton;
     private KSButton deleteButton;
-    private Map<Integer, KSButton> editButtonMap = new HashMap<Integer, KSButton>();
-    private Map<Integer, KSButton> deleteButtonMap = new HashMap<Integer, KSButton>();
+    protected Map<Integer, KSButton> editButtonMap = new HashMap<Integer, KSButton>();
+    protected Map<Integer, KSButton> deleteButtonMap = new HashMap<Integer, KSButton>();
 
     public enum EditMode {
         ADD_COMMENT, UPDATE_COMMENT, VIEW_COMMENT
@@ -301,7 +301,7 @@ public class CommentTool implements HasReferenceId {
         });
     }
     
-    private void redrawCommentsTable(List<CommentInfo> commentInfos) {
+    protected void redrawCommentsTable(List<CommentInfo> commentInfos) {
         commentsTableLayout.clear();
         editControlsCallbacks.clear();
         
