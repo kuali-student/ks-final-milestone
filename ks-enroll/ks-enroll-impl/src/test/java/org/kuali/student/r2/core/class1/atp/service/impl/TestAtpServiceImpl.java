@@ -63,30 +63,26 @@ public class TestAtpServiceImpl {
     @Test
     public void testGetAtp() throws DoesNotExistException, InvalidParameterException,
 								    MissingParameterException, OperationFailedException, PermissionDeniedException {
-		try{
-			AtpInfo atpInfo = atpService.getAtp("testAtpId1", callContext);
-			assertNotNull(atpInfo);
-			assertEquals("testAtpId1", atpInfo.getId());
-			assertEquals("testAtp1", atpInfo.getName());
-			assertEquals("Desc 101", atpInfo.getDescr().getPlain());
-			assertEquals("kuali.atp.state.Draft", atpInfo.getStateKey());
-			assertEquals("kuali.atp.type.AcademicCalendar", atpInfo.getTypeKey());
-			try {
-			    atpService.getAtp("totallyBogusAtpId999", callContext);
-			    fail("AtpService did not throw DoesNotExistException on getAtp() of nonexistent ATP");
-			}
-			catch (DoesNotExistException dnee) {}
-		} catch (Exception ex) {
-			fail("exception from service call :" + ex.getMessage());
-		}
+        AtpInfo atpInfo = atpService.getAtp("testAtpId1", callContext);
+        assertNotNull(atpInfo);
+        assertEquals("testAtpId1", atpInfo.getId());
+        assertEquals("testAtp1", atpInfo.getName());
+        assertEquals("Desc 101", atpInfo.getDescr().getPlain());
+        assertEquals("kuali.atp.state.Draft", atpInfo.getStateKey());
+        assertEquals("kuali.atp.type.AcademicCalendar", atpInfo.getTypeKey());
+        try {
+            atpService.getAtp("totallyBogusAtpId999", callContext);
+            fail("AtpService did not throw DoesNotExistException on getAtp() of nonexistent ATP");
+        } catch (DoesNotExistException dnee) {
+            // expected
+        }
     }
 
     @Test
-    public void testAtpCrud()throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testAtpCrud() throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException, AlreadyExistsException {
         // test create
         AtpInfo atpInfo = new AtpInfo();
-        atpInfo.setId("newId");
         atpInfo.setName("newId");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
         atpInfo.setStateKey("kuali.atp.state.Draft");
@@ -96,20 +92,14 @@ public class TestAtpServiceImpl {
         atpInfo.setDescr(rt);
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         AtpInfo created = null;
-        try {
-            created = atpService.createAtp("newId", atpInfo, callContext);
-            assertNotNull(created);
-            assertEquals("newId", created.getId());
-        } catch (AlreadyExistsException e) {
-            fail(e.getMessage());
-        } catch (DataValidationErrorException e) {
-            fail(e.getMessage());
-        }
-        
+        created = atpService.createAtp(null, atpInfo, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
+
         // test read
-		AtpInfo fetched = atpService.getAtp("newId", callContext);
+		AtpInfo fetched = atpService.getAtp(created.getId(), callContext);
 		assertNotNull(fetched);
-		assertEquals("newId", fetched.getId());
+		assertEquals(created.getId(), fetched.getId());
 		assertEquals("newId", fetched.getName());
 		assertEquals("TestDesc1", fetched.getDescr().getPlain());
 		assertEquals("kuali.atp.state.Draft", fetched.getStateKey());
@@ -120,11 +110,7 @@ public class TestAtpServiceImpl {
         AtpInfo modified = new AtpInfo(fetched);
         modified.setName(atpNameOrig + "updated");
         AtpInfo updated = null;
-        try {
-	        updated = atpService.updateAtp(fetched.getId(), modified, callContext);
-        } catch (Exception e) {
-            fail("Exception thrown when updating ATP: " + e.getMessage());
-        }
+        updated = atpService.updateAtp(fetched.getId(), modified, callContext);
         assertNotNull(updated);
         assertEquals(atpNameOrig + "updated", updated.getName());
         
@@ -133,31 +119,23 @@ public class TestAtpServiceImpl {
         assertNotNull(atpInfo);
         assertEquals("testDeleteAtpId1", atpInfo.getId());
         
-        try{
-	        atpService.deleteAtp("testDeleteAtpId1", callContext);
-	        try {
-		        atpService.getAtp("testDeleteAtpId1", callContext);
-		        fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
-	        } catch (DoesNotExistException dnee) {}
-        } catch (Exception e){
-            fail(e.getMessage());
-        }
+        atpService.deleteAtp("testDeleteAtpId1", callContext);
+        try {
+            atpService.getAtp("testDeleteAtpId1", callContext);
+            fail("Did not receive DoesNotExistException when attempting to get already-deleted AtpEntity");
+        } catch (DoesNotExistException dnee) {}
         // undo the update done above
         updated = atpService.getAtp(updated.getId(), callContext);
         updated.setName(atpNameOrig);
         
-        try {
-	        updated = atpService.updateAtp(updated.getId(), updated, callContext);
-        } catch (Exception e) {
-            fail("Exception thrown when updating ATP: " + e.getMessage());
-        }
+        updated = atpService.updateAtp(updated.getId(), updated, callContext);
         assertNotNull(updated);
         assertEquals(atpNameOrig, updated.getName());
     }
     
     @Test
-    public void testUpdateAtp()throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
+    public void testUpdateAtp() throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
         AtpInfo atpInfo = atpService.getAtp("testAtpId1", callContext);
         assertNotNull(atpInfo);
         assertEquals("testAtpId1", atpInfo.getId());
@@ -166,11 +144,7 @@ public class TestAtpServiceImpl {
         AtpInfo modified = new AtpInfo(atpInfo);
         modified.setName(atpNameOrig + "updated");
         AtpInfo updated = null;
-        try {
-            updated = atpService.updateAtp(atpInfo.getId(), modified, callContext);
-        } catch (ReadOnlyException e) {
-            fail(e.getMessage());
-        }
+        updated = atpService.updateAtp(atpInfo.getId(), modified, callContext);
         assertNotNull(updated);
         assertEquals(atpNameOrig + "updated", updated.getName());
     }
@@ -178,26 +152,27 @@ public class TestAtpServiceImpl {
     @Test
     public void testCreateAtp()throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException, PermissionDeniedException{
+        String atpId = null;
         AtpInfo atpInfo = new AtpInfo();
-        atpInfo.setId("newId2");
         atpInfo.setName("newId2");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
         atpInfo.setStateKey("kuali.atp.state.Draft");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         try {
-            AtpInfo created = atpService.createAtp("newId2", atpInfo, callContext);
+            AtpInfo created = atpService.createAtp(null, atpInfo, callContext);
+            atpId = created.getId();
             assertNotNull(created);
-            assertEquals("newId2", created.getId());
+            assertNotNull(created.getId());
         } catch (Exception e) {
             fail(e.getMessage());
         }
         
         // attempt to get
-        AtpInfo retrieved = atpService.getAtp("newId2", callContext);
+        AtpInfo retrieved = atpService.getAtp(atpId, callContext);
         
         assertNotNull(retrieved);
-        assertEquals("newId2", retrieved.getId());
+        assertNotNull(retrieved.getId());
     }
    
     @Test
@@ -721,7 +696,7 @@ public class TestAtpServiceImpl {
     @Test
     public void testCreatAtpAtpRelation()
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+            OperationFailedException, PermissionDeniedException, DataValidationErrorException, DoesNotExistException, ReadOnlyException {
         AtpAtpRelationInfo atpRel = new AtpAtpRelationInfo();
         atpRel.setId(UUIDHelper.genStringUUID());
         atpRel.setAtpId("testAtpId1");
@@ -730,37 +705,26 @@ public class TestAtpServiceImpl {
         atpRel.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
         atpRel.setEffectiveDate(new Date());
 
-        try{
-            atpService.createAtpAtpRelation("testAtpId1","testAtpId2",atpRel, callContext);
-        } catch (DoesNotExistException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        } catch (ReadOnlyException e) {
-            fail(e.getMessage());
-        }
+        atpService.createAtpAtpRelation("testAtpId1","testAtpId2",atpRel, callContext);
 
-        try{
-            AtpInfo atpInfo = new AtpInfo();
-            atpInfo.setId("testAtpId1-newCC");
-            atpInfo.setName("testAtpId1 to new holiday calendar");
-            atpInfo.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
-            atpInfo.setStateKey("kuali.atp.state.Draft");
-            atpInfo.setStartDate(Calendar.getInstance().getTime());
-            atpInfo.setEndDate(Calendar.getInstance().getTime());
-            AtpInfo cc = null;
-            cc = atpService.createAtp("testAtpId1-newCC", atpInfo, callContext);
-            assertNotNull(cc);
+        AtpInfo atpInfo = new AtpInfo();
+        atpInfo.setName("testAtpId1 to new holiday calendar");
+        atpInfo.setTypeKey(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY);
+        atpInfo.setStateKey("kuali.atp.state.Draft");
+        atpInfo.setStartDate(Calendar.getInstance().getTime());
+        atpInfo.setEndDate(Calendar.getInstance().getTime());
+        AtpInfo cc = null;
+        cc = atpService.createAtp(null, atpInfo, callContext);
+        assertNotNull(cc);
 
-            atpRel.setRelatedAtpId("testAtpId1-newCC");
-            AtpAtpRelationInfo created = atpService.createAtpAtpRelation("testAtpId1","testAtpId1-newCC",atpRel, callContext);
-            assertNotNull(created);
+        atpRel.setRelatedAtpId(cc.getId());
+        AtpAtpRelationInfo created = atpService.createAtpAtpRelation("testAtpId1",cc.getId(),atpRel, callContext);
+        assertNotNull(created);
 
-            AtpAtpRelationInfo retrieved = atpService.getAtpAtpRelation(created.getId(), callContext);
-            assertEquals("testAtpId1", retrieved.getAtpId());
-            assertEquals("testAtpId1-newCC", retrieved.getRelatedAtpId());
-            assertEquals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, retrieved.getTypeKey());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        AtpAtpRelationInfo retrieved = atpService.getAtpAtpRelation(created.getId(), callContext);
+        assertEquals("testAtpId1", retrieved.getAtpId());
+        assertEquals(cc.getId(), retrieved.getRelatedAtpId());
+        assertEquals(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY, retrieved.getTypeKey());
     }
 //
 //    @Test
