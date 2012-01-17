@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -15,87 +15,41 @@
 
 package org.kuali.student.core.enumerationmanagement.dto;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.common.dto.KeyEntityInfo;
+import org.kuali.student.core.enumerationmanagement.infc.Enumeration;
 
+import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.kuali.student.common.dto.TypeInfo;
-
-
-/**
- *Descriptive information about an enumeration, including field constraints and supported contexts.
- */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EnumerationInfo extends TypeInfo {
+@XmlType(name = "EnumerationInfo", propOrder = {"key", "typeKey", "stateKey",
+        "name", "descr", "contextDescriptors", "meta", "attributes", "_futureElements"})
+public class EnumerationInfo extends KeyEntityInfo implements Enumeration, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute(name="key")
-    private String id;
-    
-    @XmlElement
-    private String name;
-    
-    @XmlElement(name ="desc")
-    private String descr;
-
-    @XmlElement
-    private Date effectiveDate;
-    
-    @XmlElement
-    private Date expirationDate;
-    
     @XmlElement
     private List<String> contextDescriptors;
-    
-    public String getId() {
-        return id;
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public EnumerationInfo() {
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public EnumerationInfo(Enumeration enumeration) {
+        if (null != enumeration) {
+            this.contextDescriptors = new ArrayList<String>(enumeration.getContextDescriptors());
+        }
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescr() {
-        return descr;
-    }
-
-    public void setDescr(String descr) {
-        this.descr = descr;
-    }
-
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    /**
-     * List of contexts supported by this enumeration
-     */
+    @Override
     public List<String> getContextDescriptors() {
         if (contextDescriptors == null) {
             contextDescriptors = new ArrayList<String>();

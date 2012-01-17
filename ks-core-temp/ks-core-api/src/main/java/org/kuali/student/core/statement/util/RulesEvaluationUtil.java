@@ -1,14 +1,28 @@
 package org.kuali.student.core.statement.util;
 
 import org.joda.time.DateTime;
-import org.kuali.rice.krms.api.engine.*;
-import org.kuali.rice.krms.framework.engine.*;
+import org.kuali.rice.krms.api.engine.Engine;
+import org.kuali.rice.krms.api.engine.EngineResults;
+import org.kuali.rice.krms.api.engine.ExecutionFlag;
+import org.kuali.rice.krms.api.engine.ExecutionOptions;
+import org.kuali.rice.krms.api.engine.ResultEvent;
+import org.kuali.rice.krms.api.engine.SelectionCriteria;
+import org.kuali.rice.krms.api.engine.TermResolver;
+import org.kuali.rice.krms.framework.engine.Agenda;
+import org.kuali.rice.krms.framework.engine.BasicContext;
+import org.kuali.rice.krms.framework.engine.Context;
+import org.kuali.rice.krms.framework.engine.ContextProvider;
+import org.kuali.rice.krms.framework.engine.Proposition;
+import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
 import org.kuali.student.common.util.krms.ManualContextProvider;
-import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author alubbers

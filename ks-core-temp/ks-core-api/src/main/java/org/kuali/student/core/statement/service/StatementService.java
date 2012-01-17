@@ -15,639 +15,934 @@
 
 package org.kuali.student.core.statement.service;
 
-import java.util.List;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-
-import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.CircularReferenceException;
-import org.kuali.student.common.exceptions.CircularRelationshipException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.search.service.SearchService;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.common.util.constants.StatementServiceConstants;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 
-@WebService(name = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+import java.util.List;
+import org.kuali.student.core.type.dto.TypeInfo;
+
+
+/**
+ * Statement Service
+ *
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
+ */
+@WebService(name = "StatementService", targetNamespace = StatementServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface StatementService extends DictionaryService, SearchService {
-
-	/**
-	 * Retrieves the list of base types which can be connected to a document.
-	 * 
-	 * @return The list of types which can be connected to a document
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public List<String> getRefObjectTypes() throws OperationFailedException;
-
-	/**
-	 * Retrieves the list of types for a given base type which can be connected to a document.
-	 * 
-	 * @param objectTypeKey Reference Type Identifier
-	 * @return The list of types for the given base type which can be connected to a document
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public List<String> getRefObjectSubTypes(@WebParam(name="objectTypeKey")String objectTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-	
-	/**
-	 * Retrieves the list of natural language usage types known by the service.
-	 * 
-	 * @return List of natural language usage type information
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public List<NlUsageTypeInfo> getNlUsageTypes() throws OperationFailedException;
-
-	/**
-	 * Retrieves information about the specified natural language usage type.
-	 * 
-	 * @param nlUsageTypeKey Natural language usage type identifier
-	 * @return Information about a type of natural language usage
-	 * @throws DoesNotExistException nlUsageType not found
-	 * @throws InvalidParameterException Invalid nlUsageTypeKey
-	 * @throws MissingParameterException Missing nlUsageTypeKey
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public NlUsageTypeInfo getNlUsageType(@WebParam(name="nlUsageTypeKey")String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-	/**
-	 * Creates a relationship between a statement and an object.
-	 * 
-	 * @param refStatementRelationInfo
-	 * @return New object statement relationship
-	 * @throws AlreadyExistsException connection between object and statement already exists
-	 * @throws DoesNotExistException E.g. cluId, statementId, refStatementRelationType not found
-	 * @throws InvalidParameterException One or more parameters invalid
-	 * @throws MissingParameterException One or more parameters not specified
-	 * @throws OperationFailedException Unable to complete request
-	 * @throws PermissionDeniedException Authorization failure
-	 */
-	public RefStatementRelationInfo createRefStatementRelation(@WebParam(name="refStatementRelationInfo")RefStatementRelationInfo refStatementRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-	/**
-	 * 	Updates a relationship between an object and statement.
-	 * 
-	 * @param refStatementRelationId Identifier of the object statement relationship to be updated
-	 * @param refStatementRelationInfo Information about the object statement relationship to be updated
-	 * @return Updated object statement relationship information
-	 * @throws DataValidationErrorException One or more values invalid for this operation
-	 * @throws DoesNotExistException refStatementRelation not found
-	 * @throws InvalidParameterException One or more parameters invalid
-	 * @throws MissingParameterException One or more parameters missing
-	 * @throws OperationFailedException Unable to complete request
-	 * @throws PermissionDeniedException Authorization failure
-	 * @throws VersionMismatchException The action was attempted on an out of date version.
-	 */
-	public RefStatementRelationInfo updateRefStatementRelation(@WebParam(name="refStatementRelationId")String refStatementRelationId, @WebParam(name="refStatementRelationInfo")RefStatementRelationInfo refStatementRelationInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-	/**
-	 * Removes a relationship between a statement and an object.
-	 * 
-	 * @param refStatementRelationId Object Statement Relationship identifier
-	 * @return Status
-	 * @throws DoesNotExistException RefStatementRelation not found
-	 * @throws InvalidParameterException Invalid refStatementRelationId
-	 * @throws MissingParameterException RefStatementRelationId not specified
-	 * @throws OperationFailedException Unable to complete request
-	 * @throws PermissionDeniedException Authorization failure
-	 */
-	public StatusInfo deleteRefStatementRelation(@WebParam(name="refStatementRelationId")String refStatementRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-	/**
-	 * Validates a refStatementRelation. Depending on the value of 
-	 * validationType, this validation could be limited to tests on just 
-	 * the current object and its directly contained sub-objects or expanded 
-	 * to perform all tests related to this object. If an identifier is 
-	 * present for the relationship (and/or one of its contained sub-objects) 
-	 * and a record is found for that identifier, the validation checks if 
-	 * the relationship can be shifted to the new values. If an identifier is 
-	 * not present or a record cannot be found for the identifier, it is 
-	 * assumed that the record does not exist and as such, the checks 
-	 * performed will be much shallower, typically mimicking those performed 
-	 * by setting the validationType to the current object.
-	 * 
-	 * @param validationType Identifier of the extent of validation
-	 * @param refStatementRelationInfo Object statement relationship information to be tested
-	 * @return Results from performing the validation
-	 * @throws DoesNotExistException validationTypeKey not found
-	 * @throws InvalidParameterException Invalid validationTypeKey, refStatementRelationInfo
-	 * @throws MissingParameterException Missing validationTypeKey, refStatementRelationInfo
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public List<ValidationResultInfo> validateRefStatementRelation(@WebParam(name="validationType")String validationType, @WebParam(name="refStatementRelationInfo")RefStatementRelationInfo refStatementRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-	
-	/**
-	 * Retrieves a object statement relationship by its identifier.
-	 * 
-	 * @param refStatementRelationId Object statement relationship identifier
-	 * @return Object statement relationship information
-	 * @throws DoesNotExistException RefStatementRelation not found
-	 * @throws InvalidParameterException Invalid refStatementRelationId
-	 * @throws MissingParameterException RefStatementRelationId not specified
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public RefStatementRelationInfo getRefStatementRelation(@WebParam(name="refStatementRelationId")String refStatementRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-	/**
-	 * Retrieves a list of object statement relationships for a particular object.
-	 * 
-	 * @param refObjectTypeKey Reference type
-	 * @param refObjectId Reference identifier
-	 * @return List of object statement relationships for a particular object
-	 * @throws DoesNotExistException Object not found
-	 * @throws InvalidParameterException One or more parameters invalid
-	 * @throws MissingParameterException One or more parameters not specified
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(@WebParam(name="refObjectTypeKey")String refObjectTypeKey, @WebParam(name="refObjectId")String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-	/**
-	 * Retrieves a list of object statement relationships for a particular statement.
-	 * 
-	 * @param statementId Statement identifier
-	 * @return List of object statement relationships for a particular statement
-	 * @throws DoesNotExistException Statement not found
-	 * @throws InvalidParameterException One or more parameters invalid
-	 * @throws MissingParameterException One or more parameters not specified
-	 * @throws OperationFailedException Unable to complete request
-	 */
-	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-	/**
-	 * <p>Translates and retrieves a statement for a specific usuage type 
-	 * (context) and language into natural language.</p>
-	 * 
-	 * <p>If <code>language</code> is null default language is used.</p>
-	 * 
-	 * <p>An <code>StatementInfo</code> can either have a list of
-	 * <code>StatementInfo</code>s as children or a list of
-	 * <code>ReqComponentInfo</code>s but not both. This means that all leaf 
-	 * nodes must be <code>ReqComponentInfo</code>s.</p>
-	 * 
-	 * @param statementId Statement to translate
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @param language Translation language
-     * @throws DoesNotExistException Statement not found
-     * @throws InvalidParameterException Invalid nlUsageTypeKey 
-     * @throws MissingParameterException Missing statementId or nlUsageTypeKey
-     * @throws OperationFailedException Unable to complete request
-     * @throws VersionMismatchException The action was attempted on an out of date version.
-     */
-    public String getNaturalLanguageForStatement(@WebParam(name="statementId")String statementId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+public interface StatementService {
 
     /**
-     * Retrieves the natural language translation for a particular object 
-     * statement relationship in a particular context for a particular language.
-     * 
-     * @param refStatementRelationId Object statement relationship identifier
-     * @param nlUsageTypeKey Context for the natural language translation
-     * @param language Language to use for the natural language translation
-     * @return Natural language translation for a particular object statement relationship in a particular context
-     * @throws DoesNotExistException Object statement relationship not found
-     * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters not specified
-     * @throws OperationFailedException Unable to complete request
+     * Retrieves the list of base types which can be connected to a document.
+     *
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return Object statement relationship information
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public String getNaturalLanguageForRefStatementRelation(@WebParam(name="refStatementRelationId")String refStatementRelationId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    /**
-	 * <p>Translates and retrieves a requirement component for a specific 
-	 * usuage type (context) and language into natural language.</p>
-	 * 
-	 * <p>If <code>language</code> is null default language is used.</p>
-	 * 
-	 * @param reqComponentId Requirement component to translate
-	 * @param nlUsageTypeKey Natural language usage type key (context)
-	 * @param language Translation language
-     * @throws DoesNotExistException ReqComponent not found
-     * @throws InvalidParameterException Invalid nlUsageTypeKey 
-     * @throws MissingParameterException Missing reqComponentId or nlUsageTypeKey
-     * @throws OperationFailedException Unable to complete request
-     * @throws VersionMismatchException The action was attempted on an out of date version.
-     */
-    public String getNaturalLanguageForReqComponent(@WebParam(name="reqComponentId")String reqComponentId, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<TypeInfo> getRefObjectTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Translates a statement tree view to natural language for a 
-     * particular context in a particular language. This may include 
-     * statements and/or requirement components which have not yet been 
-     * persisted to the service.
-     * 
-     * @param statementTreeViewInfo Statement tree view
-     * @param nlUsageTypeKey Context for the natural language translation
-     * @param language Language to use for the natural language translation
-     * @return Natural language translation for a particular statement in a particular context
-     * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters not specified
-     * @throws OperationFailedException Unable to complete request
+     * Retrieves the list of types for a given base type which can be connected
+     * to a document.
+     *
+     * @param refObjectTypeKey reference Type Identifier
+     * @param contextInfo      context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return List of types for the given base type which can be connected to a
+     *         document
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing refObjectTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public String translateStatementTreeViewToNL(@WebParam(name="statementTreeViewInfo")StatementTreeViewInfo statementTreeViewInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<TypeInfo> getRefObjectSubTypes(@WebParam(name = "refObjectTypeKey") ContextInfo refObjectTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Translates a particular requirement component to natural language for 
-     * a particular context in a given language. This may be used for 
-     * requirement components which have not yet been persisted through 
-     * the service.
-     * 
-     * @param reqComponentInfo Requirement component
-     * @param nlUsageTypeKey Context for the natural language translation
-     * @param language Language to use for the natural language translation
-     * @return Natural language translation for a particular requirement component in a particular context
-     * @throws InvalidParameterException One or more parameters invalid
-     * @throws MissingParameterException One or more parameters not specified
-     * @throws OperationFailedException Unable to complete request
+     * Retrieves a object statement relationship by its identifier.
+     *
+     * @param refStatementRelationId object statement relationship identifier
+     * @param contextInfo            context information containing the
+     *                               principalId and locale information about
+     *                               the caller of service operation
+     * @return Object statement relationship information
+     * @throws DoesNotExistException     refStatementRelationId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing refStatementRelationId or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public String translateReqComponentToNL(@WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo, @WebParam(name="nlUsageTypeKey")String nlUsageTypeKey, @WebParam(name="language")String language) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    /** 
-     * Validates a ReqComponent. Depending on the value of validationType, 
-     * this validation could be limited to tests on just the current object and 
-     * its directly contained sub-objects or expanded to perform all tests 
-     * related to this object. If an identifier is present for the 
-     * organization (and/or one of its contained sub-objects) and a record 
-     * is found for that identifier, the validation checks if the organization 
-     * can be shifted to the new values. If an identifier is not present or 
-     * a record cannot be found for the identifier, it is assumed that the 
-     * record does not exist and as such, the checks performed will be much 
-     * shallower, typically mimicking those performed by setting the 
-     * validationType to the current object.
-     * 
-     * @param validationType identifier of the extent of validation
-     * @param reqComponentInfo reqComponent information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, reqComponentInfo
-     * @throws MissingParameterException missing validationTypeKey, reqComponentInfo
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ValidationResultInfo> validateReqComponent(@WebParam(name="validationType")String validationType, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public RefStatementRelationInfo getRefStatementRelation(@WebParam(name = "refStatementRelationId") String refStatementRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Validates a statement. Depending on the value of validationType, 
-     * this validation could be limited to tests on just the current object 
-     * and its directly contained sub-objects or expanded to perform all 
-     * tests related to this object. If an identifier is present for the 
-     * statement (and/or one of its contained sub-objects) and a record is 
-     * found for that identifier, the validation checks if the statement can 
-     * be shifted to the new values. If an identifier is not present or 
-     * a record cannot be found for the identifier, it is assumed that the 
-     * record does not exist and as such, the checks performed will be much 
-     * shallower, typically mimicking those performed by setting the 
-     * validationType to the current object.
-     * 
-     * @param validationType identifier of the extent of validation
-     * @param statementInfo statement information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, statementInfo
-     * @throws MissingParameterException missing validationTypeKey, statementInfo
-     * @throws OperationFailedException unable to complete request
+    /**
+     * Retrieves a list of object statement relationships for a particular
+     * object.
+     *
+     * @param refStatementRelationIds object statement relationship identifiers
+     * @param contextInfo             context information containing the
+     *                                principalId and locale information about
+     *                                the caller of service operation
+     * @return List of object statement relationships
+     * @throws DoesNotExistException     a refStatementRelationId in the list
+     *                                   was not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException missing refStatementRelationId, a
+     *                                   refStatementRelationId in the
+     *                                   refStatementRelationIds or contextInfo
+     *                                   is missing
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ValidationResultInfo> validateStatement(@WebParam(name="validationType")String validationType, @WebParam(name="statementInfo")StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<RefStatementRelationInfo> getRefStatementRelationsByIds(@WebParam(name = "refStatementRelationIds") List<String> refStatementRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
+    /**
+     * Retrieves a list of object statement relationships for a particular
+     * object.
+     *
+     * @param refStatementRelationTypeKey type of statement relation
+     * @param contextInfo                 context information containing the
+     *                                    principalId and locale information
+     *                                    about the caller of service operation
+     * @return List of object statement relationships for a particular object
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing refStatementRelationTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<RefStatementRelationInfo> getRefStatementRelationsByType(@WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves a list of object statement relationships for a particular
+     * statement.
+     *
+     * @param statementId Statement identifier
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return List of object statement relationships for a particular
+     *         statement
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementId or contextInfo
+     * @throws OperationFailedException  Unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a refStatementRelation. Depending on the value of
+     * validationTypeKey, this validation could be limited to tests on just the
+     * current object and its directly contained sub-objects or expanded to
+     * perform all tests related to this object. If an identifier is present for
+     * the relationship (and/or one of its contained sub-objects) and a record
+     * is found for that identifier, the validation checks if the relationship
+     * can be shifted to the new values. If an identifier is not present or a
+     * record cannot be found for the identifier, it is assumed that the record
+     * does not exist and as such, the checks performed will be much shallower,
+     * typically mimicking those performed by setting the validationTypeKey to
+     * the current object.
+     *
+     * @param validationTypeKey           identifier of the extent of
+     *                                    validation
+     * @param statementId                 statement identifier
+     * @param refStatementRelationTypeKey type of statement relation
+     * @param refStatementRelationInfo    object statement relationship
+     *                                    information to be validated
+     * @param contextInfo                 context information containing the
+     *                                    principalId and locale information
+     *                                    about the caller of service operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException     statementId or refStatementRelationId
+     *                                   not found
+     * @throws InvalidParameterException invalid refStatementRelationInfo or
+     *                                   contextInfo
+     * @throws MissingParameterException missing validationTypeKey, statementId,
+     *                                   refStatementRelationId, refStatementRelationTypeKey,
+     *                                   refStatementRelationInfo or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateRefStatementRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "statementId") String statementId, @WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "refStatementRelationInfo") RefStatementRelationInfo refStatementRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a relationship between a statement and an object.
+     *
+     * @param refObjectId              object statement relation identifier
+     * @param statementId              statement identifier
+     * @param refObjectTypeKey         type of statement relation
+     * @param refStatementRelationInfo information about the object statement
+     *                                 relationship
+     * @param contextInfo              context information containing the
+     *                                 principalId and locale information about
+     *                                 the caller of service operation
+     * @return New object statement relationship
+     * @throws AlreadyExistsException       connection between object and
+     *                                      statement already exists
+     * @throws DataValidationErrorException one or more values invalid for this
+     *                                      operation
+     * @throws DoesNotExistException        refStatementRelationId, statementId,
+     *                                      refStatementRelationTypeKey not
+     *                                      found
+     * @throws InvalidParameterException    invalid refStatementRelationInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    missing refStatementRelationId,
+     *                                      statementId, refStatementRelationTypeKey,
+     *                                      refStatementRelationInfo or
+     *                                      contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     */
+    public RefStatementRelationInfo createRefStatementRelation(@WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "statementId") String statementId, @WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "refStatementRelationInfo") RefStatementRelationInfo refStatementRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates a relationship between an object and statement.
+     *
+     * @param refStatementRelationId   identifier of the object statement
+     *                                 relationship to be updated
+     * @param refStatementRelationInfo information about the object statement
+     *                                 relationship to be updated
+     * @param contextInfo              context information containing the
+     *                                 principalId and locale information about
+     *                                 the caller of service operation
+     * @return updated object statement relationship information
+     * @throws DataValidationErrorException one or more values invalid for this
+     *                                      operation
+     * @throws DoesNotExistException        refStatementRelationId not found
+     * @throws InvalidParameterException    invalid refStatementRelationInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    missing refStatementRelationId,
+     *                                      refStatementRelationInfo or
+     *                                      contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     the action was attempted on an out
+     *                                      of date version.
+     */
+    public RefStatementRelationInfo updateRefStatementRelation(@WebParam(name = "refStatementRelationId") String refStatementRelationId, @WebParam(name = "refStatementRelationInfo") RefStatementRelationInfo refStatementRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Removes a relationship between a statement and an object.
+     *
+     * @param refStatementRelationId object Statement Relationship identifier
+     * @param contextInfo            context information containing the
+     *                               principalId and locale information about
+     *                               the caller of service operation
+     * @return status of the operation (success, failed)
+     * @throws DoesNotExistException     refStatementRelationId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing refStatementRelationId or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteRefStatementRelation(@WebParam(name = "refStatementRelationId") String refStatementRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves information about the specified natural language usage type.
+     *
+     * @param nlUsageTypeKey natural language usage type identifier
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return Information about a type of natural language usage
+     * @throws DoesNotExistException     nlUsageTypeKey not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing nlUsageTypeKey or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public TypeInfo getNlUsageByType(@WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * <p>Translates and retrieves a statement for a specific usage type
+     * (context) and language into natural language.</p> <p/> <p>If
+     * <code>language</code> is null default language is used.</p> <p/> <p>An
+     * <code>StatementInfo</code> can either have a list of
+     * <code>StatementInfo</code>s as children or a list of
+     * <code>ReqComponentInfo</code>s but not both. This means that all leaf
+     * nodes must be <code>ReqComponentInfo</code>s.</p>
+     *
+     * @param statementId    identifier of the statement to be translated
+     * @param nlUsageTypeKey natural language usage type key (context)
+     * @param language       translation language
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return Natural language translation for a specific usage type and
+     *         language
+     * @throws DoesNotExistException     statementId or nlUsageTypeKey not
+     *                                   found
+     * @throws InvalidParameterException invalid language or contextInfo
+     * @throws MissingParameterException missing statementId, nlUsageTypeKey,
+     *                                   language or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public String getNlByStatementId(@WebParam(name = "statementId") String statementId, @WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "language") String language, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the natural language translation for a particular object
+     * statement relationship in a particular context for a particular
+     * language.
+     *
+     * @param refStatementRelationId object statement relationship identifier
+     * @param nlUsageTypeKey         context for the natural language
+     *                               translation
+     * @param language               language to use for the natural language
+     *                               translation
+     * @param contextInfo            context information containing the
+     *                               principalId and locale information about
+     *                               the caller of service operation
+     * @return Natural language translation for a particular object statement
+     *         relationship in a particular context
+     * @throws DoesNotExistException     refStatementRelationId or nlUsageTypeKey
+     *                                   not found
+     * @throws InvalidParameterException invalid language or contextInfo
+     * @throws MissingParameterException missing refStatementRelationId,
+     *                                   nlUsageTypeKey, language or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public String getNlByRefStatementRelation(@WebParam(name = "refStatementRelationId") String refStatementRelationId, @WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "language") String language, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * <p>Translates and retrieves a requirement component for a specific usuage
+     * type (context) and language into natural language.</p> <p/> <p>If
+     * <code>language</code> is null, default language is used.</p>
+     *
+     * @param reqComponentId requirement component to translate
+     * @param nlUsageTypeKey natural language usage type key (context)
+     * @param language       language to use for the natural language
+     *                       translation
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return Natural language translation for a particular object statement
+     *         relationship in a particular context
+     * @throws DoesNotExistException     reqComponentId or nlUsageTypeKey not
+     *                                   found
+     * @throws InvalidParameterException invalid language or contextInfo
+     * @throws MissingParameterException missing reqComponentId, nlUsageTypeKey,
+     *                                   language or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public String getNlByReqComponent(@WebParam(name = "reqComponentId") String reqComponentId, @WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "language") String language, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Translates a statement tree view to natural language for a particular
+     * context in a particular language. This may include statements and/or
+     * requirement components which have not yet been persisted to the service.
+     *
+     * @param statementTreeViewInfo statement tree view
+     * @param nlUsageTypeKey        context for the natural language
+     *                              translation
+     * @param language              language to use for the natural language
+     *                              translation
+     * @param contextInfo           context information containing the
+     *                              principalId and locale information about the
+     *                              caller of service operation
+     * @return Natural language translation for a particular statement in a
+     *         particular context
+     * @throws DoesNotExistException     nlUsageTypeKey not found
+     * @throws InvalidParameterException invalid statementTreeViewInfo, language
+     *                                   or contextInfo
+     * @throws MissingParameterException missing statementTreeViewInfo,
+     *                                   nlUsageTypeKey, language or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public String translateStatementTreeViewToNL(@WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo, @WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "language") String language, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Translates a particular requirement component to natural language for a
+     * particular context in a given language. This may be used for requirement
+     * components which have not yet been persisted through the service.
+     *
+     * @param reqComponentInfo requirement component
+     * @param nlUsageTypeKey   context for the natural language translation
+     * @param language         language to use for the natural language
+     *                         translation
+     * @param contextInfo      context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return Natural language translation for a particular requirement
+     *         component in a particular context
+     * @throws DoesNotExistException     nlUsageTypeKey not found
+     * @throws InvalidParameterException invalid reqComponentInfo, language or
+     *                                   contextInfo
+     * @throws MissingParameterException missing reqComponentInfo, nlUsageTypeKey,
+     *                                   language or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public String translateReqComponentToNL(@WebParam(name = "reqComponentInfo") ReqComponentInfo reqComponentInfo, @WebParam(name = "nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name = "language") String language, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a statement by its identifier
-     * @param  statementId statement identifier
-     * @return statementInfo statement information
-     * @throws DoesNotExistException statement not found
-     * @throws InvalidParameterException invalid statementId
-     * @throws MissingParameterException statementId not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public StatementInfo getStatement(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    /** 
-     * Retrieves a list of statements of a particular Type
-     * @param statementTypeKey statementType identifier
-     * @return list of statements using the specified type
-     * @throws DoesNotExistException statementTypeKey  not found
-     * @throws InvalidParameterException invalid statementTypeKey 
-     * @throws MissingParameterException statementTypeKey  not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<StatementInfo> getStatementsByType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves a requirement component by its identifier
-     * @param reqComponentId requirement component identifier
-     * @return reqComponentInfo requirement component information
-     * @throws DoesNotExistException reqComponent not found
-     * @throws InvalidParameterException invalid reqComponentId
-     * @throws MissingParameterException reqComponentId not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public ReqComponentInfo getReqComponent(@WebParam(name="reqComponentId")String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves a list of requirement components of a particular type.
-     * @param reqComponentTypeKey identifier for a type of requirement component
-     * @return reqComponentInfoList A list of requirementComponents
-     * @throws DoesNotExistException reqComponentTypeKey not found
-     * @throws InvalidParameterException invalid reqComponentTypeKey
-     * @throws MissingParameterException reqComponentTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ReqComponentInfo> getReqComponentsByType(@WebParam(name="reqComponentTypeKey")String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves a list of statements that use a particular requirement component. Note: The reference may not be direct, but through an intermediate object definition (ex. nested statements).
-     * @param reqComponentId requirement component identifier
-     * @return statementInfoList list of statements using the specified requirement component
-     * @throws DoesNotExistException reqComponentId not found
-     * @throws InvalidParameterException invalid reqComponentId
-     * @throws MissingParameterException reqComponentId not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<StatementInfo> getStatementsUsingReqComponent(@WebParam(name="reqComponentId")String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of child statements that include a particular statement. 
-     * Note: The reference may not be direct, but through an 
-     * intermediate object definition (e.g. nested statements).
-     * 
+     *
      * @param statementId statement identifier
-     * @return List of child statements using the specified statement
-     * @throws DoesNotExistException Statement not found
-     * @throws InvalidParameterException Invalid statementId
-     * @throws MissingParameterException statementId not specified
-     * @throws OperationFailedException Unable to complete request
-     */
-    public List<StatementInfo> getStatementsUsingStatement(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    /** 
-     * Creates a requirement component.
-     * @param reqComponentType identifier of the type of requirement component
-     * @param reqComponentInfo information about the requirement component
-     * @return information about the newly created requirement component
-     * @throws AlreadyExistsException Requirement Component already exists
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException reqComponentType not found
-     * @throws InvalidParameterException invalid reqComponentType, reqComponentInfo
-     * @throws MissingParameterException missing reqComponentType, reqComponentInfo
-     * @throws OperationFailedException unable to complete request
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return statementInfo                statement information
+     * @throws DoesNotExistException     statementId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementId or contextInfo
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public ReqComponentInfo createReqComponent(@WebParam(name="reqComponentType")String reqComponentType, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-    /** 
-     * Deletes a requirement component
-     * @param reqComponentId identifier of the requirement component to delete
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException reqComponentId not found
-     * @throws InvalidParameterException invalid reqComponentId
-     * @throws MissingParameterException missing reqComponentId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public StatusInfo deleteReqComponent(@WebParam(name="reqComponentId")String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatementInfo getStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Create a statement.
-     * @param statementType identifier of the type of statement
-     * @param statementInfo information about the statement
-     * @return information about the newly created statement
-     * @throws AlreadyExistsException statement already exists
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException statementType not found
-     * @throws InvalidParameterException invalid statementType, statementInfo
-     * @throws MissingParameterException missing statementType, statementInfo
-     * @throws OperationFailedException unable to complete request
+    /**
+     * Retrieves a list of statements that use a particular requirement
+     * component. Note: The reference may not be direct, but through an
+     * intermediate object definition (ex. nested statements).
+     *
+     * @param reqComponentId requirement component identifier
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return List of statements using the specified requirement component
+     * @throws DoesNotExistException     reqComponentId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentId or contextInfo
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatementInfo createStatement(@WebParam(name="statementType")String statementType, @WebParam(name="statementInfo")StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<StatementInfo> getStatementsByReqComponentId(@WebParam(name = "reqComponentId") String reqComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Updates a statement
-     * @param statementId identifier of the statement to be updated
-     * @param statementInfo information about the statement to be updated
-     * @return the updated statement information
-     * @throws CircularReferenceException included statement references the current statement
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException statement not found
-     * @throws InvalidParameterException invalid statementId, statementInfo
-     * @throws MissingParameterException missing statementId, statementInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
-     */
-    public StatementInfo updateStatement(@WebParam(name="statementId")String statementId, @WebParam(name="statementInfo")StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /** 
-     * Deletes a statement
-     * @param statementId identifier of the Statement to delete
-     * @return statusInfo status of the operation (success or failure)
-     * @throws DoesNotExistException statement not found
-     * @throws InvalidParameterException invalid statementId
-     * @throws MissingParameterException missing statementId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     */
-    public StatusInfo deleteStatement(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Retrieves information for a specified type of statement
+    /**
+     * Retrieves a list of statements of a particular Type
+     *
      * @param statementTypeKey statement type identifier
-     * @return statement type information
-     * @throws DoesNotExistException statementTypeKey not found
-     * @throws InvalidParameterException invalid statementTypeKey
-     * @throws MissingParameterException missing statementTypeKey
-     * @throws OperationFailedException unable to complete request
+     * @param contextInfo      context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return List of statements using the specified type
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public StatementTypeInfo getStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StatementInfo> getStatementsByType(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * 	Retrieves the list of all types of statements.
-     * 
+     * Retrieves a list of child statements that include a particular statement.
+     * Note: The reference may not be direct, but through an intermediate object
+     * definition (e.g. nested statements).
+     *
+     * @param statementId statement identifier
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return List of child statements using the specified statement
+     * @throws DoesNotExistException     statementId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<StatementInfo> getStatementsForStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of all types of statements.
+     *
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
      * @return List of types of statements
-     * @throws OperationFailedException Unable to complete request
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<StatementTypeInfo> getStatementTypes() throws OperationFailedException;
+    public List<TypeInfo> getStatementTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
     /**
-     * Retrieves the list of statement types which are allowed to be used in 
-     * a statement type. This controls the nesting of statements.
-     * 
+     * Retrieves the list of statement types which are allowed to be used in a
+     * statement type. This controls the nesting of statements.
+     *
      * @param statementTypeKey Identifier for a type of statement
-     * @return List of statement type
-     * @throws DoesNotExistException statementTypeKey not found
-     * @throws InvalidParameterException Invalid statementTypeKey
-     * @throws MissingParameterException Missing statementTypeKey
-     * @throws OperationFailedException Unable to complete request
+     * @param contextInfo      context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return List of statement type info
+     * @throws DoesNotExistException     statementTypeKey not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getStatementTypesForStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    /** 
-     * Retrieves the list of requirement component types known by this service.
-     * @return list of requirement component types
-     * @throws OperationFailedException unable to complete request
-     */
-    public List<ReqComponentTypeInfo> getReqComponentTypes() throws OperationFailedException;
+    public List<TypeInfo> getStatementTypesForStatementType(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Retrieves information for a specified fetchReqComponent Types
-     * @param reqComponentTypeKey reqComponent Type Key
+    /**
+     * Retrieves the list of statement types which are allowed to be used for a
+     * specified type of object statement relationship.
+     *
+     * @param refStatementRelationTypeKey identifier for a type of object
+     *                                    statement relationship
+     * @param contextInfo                 context information containing the
+     *                                    principalId and locale information
+     *                                    about the caller of service operation
+     * @return List of statement type info
+     * @throws DoesNotExistException     refStatementRelationTypeKey not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing refStatementRelationTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getStatementTypesForRefStatementRelationType(@WebParam(name = "refStatementRelationTypeKey") String refStatementRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of type infos for object statement relationships which
+     * are allowed to be used for a subtype of object.
+     *
+     * @param refSubTypeKey identifier for the subtype of object
+     * @param contextInfo   context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return List of type infos for object statement relationships which are
+     *         allowed to be used for a subtype of object
+     * @throws DoesNotExistException     refSubTypeKey not found
+     * @throws InvalidParameterException invalid refSubTypeKey
+     * @throws MissingParameterException missing refSubTypeKey or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getRefStatementRelationTypesForRefObjectSubType(@WebParam(name = "refSubTypeKey") String refSubTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a statement. Depending on the value of validationTypeKey, this
+     * validation could be limited to tests on just the current object and its
+     * directly contained sub-objects or expanded to perform all tests related
+     * to this object. If an identifier is present for the statement (and/or one
+     * of its contained sub-objects) and a record is found for that identifier,
+     * the validation checks if the statement can be shifted to the new values.
+     * If an identifier is not present or a record cannot be found for the
+     * identifier, it is assumed that the record does not exist and as such, the
+     * checks performed will be much shallower, typically mimicking those
+     * performed by setting the validationTypeKey to the current object.
+     *
+     * @param validationTypeKey identifier of the extent of validation
+     * @param statementTypeKey  identifier for the statement Type to be
+     *                          validated
+     * @param statementInfo     statement information to be validated
+     * @param contextInfo       context information containing the principalId
+     *                          and locale information about the caller of
+     *                          service operation
+     * @return Results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey or statementTypeKey
+     *                                   not found
+     * @throws InvalidParameterException invalid statementInfo or contextInfo
+     * @throws MissingParameterException missing validationTypeKey, statementTypeKey,
+     *                                   statementInfo or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ValidationResultInfo> validateStatement(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "statementInfo") StatementInfo statementInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Create a statement.
+     *
+     * @param statementTypeKey identifier of the type of statement
+     * @param statementInfo    information about the statement
+     * @param contextInfo      context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
+     * @return Information about the newly created statement
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        statementTypeKey not found
+     * @throws InvalidParameterException    invalid statementInfo or contextInfo
+     * @throws MissingParameterException    missing statementTypeKey,
+     *                                      statementInfo or contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     */
+    public StatementInfo createStatement(@WebParam(name = "statementTypeKey") String statementTypeKey, @WebParam(name = "statementInfo") StatementInfo statementInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates a statement
+     *
+     * @param statementId   identifier of the statement to be updated
+     * @param statementInfo information about the statement to be updated
+     * @param contextInfo   context information containing the principalId and
+     *                      locale information about the caller of service
+     *                      operation
+     * @return the updated statement information
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        statementId not found
+     * @throws InvalidParameterException    invalid statementInfo or contextInfo
+     * @throws MissingParameterException    missing statementId, statementInfo
+     *                                      or contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     an optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public StatementInfo updateStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "statementInfo") StatementInfo statementInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes a statement
+     *
+     * @param statementId identifier of the Statement to delete
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return statusInfo status of the operation (success or failure)
+     * @throws DoesNotExistException     statementId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteStatement(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of ReqCompField types which are allowed to be used in
+     * an ReqComponent type
+     *
+     * @param reqComponentTypeKey identifier for a type of requirement
+     *                            component
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return A list of required components
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getReqCompFieldTypesForReqComponentType(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+
+    /**
+     * Retrieves a requirement component by its identifier
+     *
+     * @param reqComponentId required component identifier
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return Required component information
+     * @throws DoesNotExistException     reqComponentId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ReqComponentInfo getReqComponent(@WebParam(name = "reqComponentId") String reqComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of requirement components of a particular type.
+     *
+     * @param reqComponentTypeKey identifier for a type of requirement
+     *                            component
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return A list of required components
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ReqComponentInfo> getReqComponentsByType(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves type information for a specified ReqComponent Type
+     *
+     * @param reqComponentTypeKey reqComponent type key
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
      * @return Requirement component type information
-     * @throws DoesNotExistException reqComponentTypeKey not found
-     * @throws InvalidParameterException invalid reqComponentTypeKey
-     * @throws MissingParameterException missing reqComponentTypeKey
-     * @throws OperationFailedException unable to complete request
+     * @throws DoesNotExistException     reqComponentTypeKey not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public ReqComponentTypeInfo getReqComponentType(@WebParam(name="reqComponentTypeKey")String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public TypeInfo getReqComponentType(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Retrieves the list of types of requirement components which are allowed to be used in a type of statement.
+    /**
+     * Retrieves the list of all types of ReqComponent.
+     *
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return List of types of ReqComponent
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<TypeInfo> getReqComponentTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of types of requirement components which are allowed
+     * to be used in a type of statement.
+     *
      * @param statementTypeKey identifier for a type of statement
      * @return list of types of requirement components
-     * @throws DoesNotExistException statementTypeKey not found
-     * @throws InvalidParameterException invalid statementTypeKey
-     * @throws MissingParameterException missing statementTypeKey
-     * @throws OperationFailedException unable to complete request
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(@WebParam(name="statementTypeKey")String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<TypeInfo> getReqComponentTypesForStatementType(@WebParam(name = "statementTypeKey") String statementTypeKey) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
 
     /**
-     * Retrieves the list of all types of relationships between statements and 
-     * other objects.
-     * 
-     * @return List of object statement relation types
-     * @throws OperationFailedException Unable to complete request
+     * Validates a ReqComponent. Depending on the value of validationTypeKey,
+     * this validation could be limited to tests on just the current object and
+     * its directly contained sub-objects or expanded to perform all tests
+     * related to this object. If an identifier is present for the organization
+     * (and/or one of its contained sub-objects) and a record is found for that
+     * identifier, the validation checks if the organization can be shifted to
+     * the new values. If an identifier is not present or a record cannot be
+     * found for the identifier, it is assumed that the record does not exist
+     * and as such, the checks performed will be much shallower, typically
+     * mimicking those performed by setting the validationTypeKey to the current
+     * object.
+     *
+     * @param validationTypeKey   identifier of the extent of validation
+     * @param reqComponentTypeKey identifier for the ReqComponent Type to be
+     *                            validated
+     * @param reqComponentInfo    reqComponent information to be tested
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return results from performing the validation
+     * @throws DoesNotExistException     validationTypeKey or reqComponentTypeKey
+     *                                   not found
+     * @throws InvalidParameterException invalid reqComponentInfo or
+     *                                   contextInfo
+     * @throws MissingParameterException missing validationTypeKey, reqComponentTypeKey,
+     *                                   reqComponentInfo or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
-    public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes() throws OperationFailedException;
+    public List<ValidationResultInfo> validateReqComponent(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "reqComponentInfo") ReqComponentInfo reqComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves information for a specified type of relationship between 
-     * a statement and object.
-     * 
-     * @param refStatementRelationTypeKey Object statement relation type identifier
-     * @return Object statement relation type information
-     * @throws DoesNotExistException refStatementRelationTypeKey not found
-     * @throws InvalidParameterException Invalid refStatementRelationTypeKey
-     * @throws MissingParameterException Missing refStatementRelationTypeKey
-     * @throws OperationFailedException Unable to complete request
+     * Creates a requirement component.
+     *
+     * @param reqComponentTypeKey identifier of the type of requirement
+     *                            component
+     * @param reqComponentInfo    information about the requirement component
+     * @param contextInfo         context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return information about the newly created requirement component
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        reqComponentTypeKey not found
+     * @throws InvalidParameterException    invalid reqComponentInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    missing reqComponentTypeKey,
+     *                                      reqComponentInfo or contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
      */
-    public RefStatementRelationTypeInfo getRefStatementRelationType(@WebParam(name="refStatementRelationTypeKey")String refStatementRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public ReqComponentInfo createReqComponent(@WebParam(name = "reqComponentTypeKey") String reqComponentTypeKey, @WebParam(name = "reqComponentInfo") ReqComponentInfo reqComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
 
     /**
-     * Retrieves the list of statement types which are allowed to be used for 
-     * a specified type of object statement relationship.
-     * 
-     * @param refStatementRelationTypeKey Identifier for a type of object statement relationship
-     * @return List of statement types
-     * @throws DoesNotExistException refStatementRelationTypeKey not found
-     * @throws InvalidParameterException Invalid refStatementRelationTypeKey
-     * @throws MissingParameterException Missing refStatementRelationTypeKey
-     * @throws OperationFailedException Unable to complete request
-     */
-    public List<String> getStatementTypesForRefStatementRelationType(@WebParam(name="refStatementRelationTypeKey")String refStatementRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves the list of types of object statement relationships which 
-     * are allowed to be used for a subtype of object.
-     * 
-     * @param refSubTypeKey Identifier for the subtype of object
-     * @return
-     * @throws DoesNotExistException refSubType not found
-     * @throws InvalidParameterException Invalid refSubTypeKey
-     * @throws MissingParameterException Missing refSubTypeKey
-     * @throws OperationFailedException Unable to complete request
-     */
-    public List<String> getRefStatementRelationTypesForRefObjectSubType(@WebParam(name="refSubTypeKey")String refSubTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
      * Updates a requirement component
-     * @param reqComponentId identifier of the requirement component to be updated
-     * @param reqComponentInfo information about the requirement component to be updated
+     *
+     * @param reqComponentId   identifier of the requirement component to be
+     *                         updated
+     * @param reqComponentInfo information about the requirement component to be
+     *                         updated
+     * @param contextInfo      context information containing the principalId
+     *                         and locale information about the caller of
+     *                         service operation
      * @return the updated requirement component information
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException Requirement Component not found
-     * @throws InvalidParameterException invalid reqComponentId, reqComponentInfo
-     * @throws MissingParameterException missing reqComponentId, reqComponentInfo
-     * @throws OperationFailedException unable to complete request
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        reqComponentId not found
+     * @throws InvalidParameterException    invalid reqComponentInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    missing reqComponentId, reqComponentInfo
+     *                                      or contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     an optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public ReqComponentInfo updateReqComponent(@WebParam(name = "reqComponentId") String reqComponentId, @WebParam(name = "reqComponentInfo") ReqComponentInfo reqComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /**
+     * Deletes a requirement component
+     *
+     * @param reqComponentId identifier of the requirement component to delete
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return status of the operation (success or failure)
+     * @throws DoesNotExistException     reqComponentId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing reqComponentId or contextInfo
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
      */
-    public ReqComponentInfo updateReqComponent(@WebParam(name="reqComponentId")String reqComponentId, @WebParam(name="reqComponentInfo")ReqComponentInfo reqComponentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public StatusInfo deleteReqComponent(@WebParam(name = "reqComponentId") String reqComponentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a view of a statement by its identifier with its referenced statements and requirement components expanded
+     * Retrieves a view of a statement by its identifier with its referenced
+     * statements and requirement components expanded
+     *
      * @param statementId statement identifier
-     * @return view of statement information with the referenced statements and requirement components expanded
-     * @throws DoesNotExistException statement not found
-     * @throws InvalidParameterException invalid statementId
-     * @throws MissingParameterException statementId not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public StatementTreeViewInfo getStatementTreeView(@WebParam(name="statementId")String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    /**
-     * Retrieves a view of a statement by its identifier with its referenced statements and requirement components expanded and translated
-     * @param statementId statement identifier
-	 * @param nlUsageTypeKey Natural language usage type identifier
-	 * @param language Translation language
-     * @return view of statement information with the referenced statements and requirement components expanded
-     * @throws DoesNotExistException statement not found
-     * @throws InvalidParameterException invalid statementId
-     * @throws MissingParameterException statementId not specified
-     * @throws OperationFailedException unable to complete request
-     */
-    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-    
-    /**
-     * Updates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else
-     * @param statementId identifier of the statement to be updated
-     * @param statementTreeViewInfo The StatementTreeInfo to be updated
-     * @return the updated StatementTree information
-     * @throws CircularRelationshipException    included statement references the current statement
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException Statement not found
-     * @throws InvalidParameterException invalid statementId, statementTreeViewInfo
-     * @throws MissingParameterException missing statementId, statementTreeViewInfo
-     * @throws OperationFailedException unable to complete request
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return view of statement information with the referenced statements and
+     *         requirement components expanded
+     * @throws DoesNotExistException     statementId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementId or contextInfo
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
      */
-    public StatementTreeViewInfo updateStatementTreeView(@WebParam(name="statementId")String statementId, @WebParam(name="statementTreeViewInfo")StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+    public StatementTreeViewInfo getStatementTreeView(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-	/**
-	 * Creates an entire Statement Tree. Fails unless everything can be done. Updates Statements, RequirementComponents and any relations between them. If there are "deletes", the relations are removed, but the object is not deleted unless used no where else 
-	 * @param statementTreeViewInfo
-	 * @return Statement tree view
-	 * @throws CircularReferenceException included statement references the current statement
-	 * @throws AlreadyExistsException
-	 * @throws DataValidationErrorException
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-	public StatementTreeViewInfo createStatementTreeView(@WebParam(name="statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-	
-	/**
-	 * Deletes the entire statement tree
-	 * @param statementId
-	 * @return Status of delete
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 */
-	public StatusInfo deleteStatementTreeView(@WebParam(name="statementId") String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    /**
+     * Retrieves a view of a statement by its identifier with its referenced
+     * statements and requirement components expanded and translated
+     *
+     * @param statementId    statement identifier
+     * @param nlUsageTypeKey natural language usage type identifier
+     * @param language       Translation language
+     * @param contextInfo    context information containing the principalId and
+     *                       locale information about the caller of service
+     *                       operation
+     * @return view of statement information with the referenced statements and
+     *         requirement components expanded
+     * @throws DoesNotExistException     statementId or nlUsageTypeKey not
+     *                                   found
+     * @throws InvalidParameterException invalid language or contextInfo
+     * @throws MissingParameterException missing statementId, nlUsageTypeKey or
+     *                                   contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, String language, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Creates an entire Statement Tree. Fails unless everything can be done.
+     * Updates Statements, RequirementComponents and any relations between them.
+     * If there are "deletes", the relations are removed, but the object is not
+     * deleted unless used nowhere else
+     *
+     * @param statementTreeViewInfo view of statement information with the
+     *                              referenced statements and requirement
+     *                              components expanded
+     * @param contextInfo           context information containing the
+     *                              principalId and locale information about the
+     *                              caller of service operation
+     * @return Statement tree view
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws InvalidParameterException    invalid statementTreeViewInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    missing statementTreeViewInfo or
+     *                                      contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     */
+    public StatementTreeViewInfo createStatementTreeView(@WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an entire Statement Tree. Fails unless everything can be done.
+     * Updates Statements, RequirementComponents and any relations between them.
+     * If there are "deletes", the relations are removed, but the object is not
+     * deleted unless used no where else
+     *
+     * @param statementId           identifier of the statement to be updated
+     * @param statementTreeViewInfo he StatementTreeInfo to be updated
+     * @param contextInfo           context information containing the
+     *                              principalId and locale information about the
+     *                              caller of service operation
+     * @return The updated StatementTree information
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        statementId not found
+     * @throws InvalidParameterException    invalid statementTreeViewInfo or
+     *                                      contextInfo
+     * @throws MissingParameterException    missing statementId, statementTreeViewInfo
+     *                                      or contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read-only
+     * @throws VersionMismatchException     an optimistic locking failure or the
+     *                                      action was attempted on an out of
+     *                                      date version
+     */
+    public StatementTreeViewInfo updateStatementTreeView(@WebParam(name = "statementId") String statementId, @WebParam(name = "statementTreeViewInfo") StatementTreeViewInfo statementTreeViewInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes the entire statement tree
+     *
+     * @param statementId identifier of the statement to be deleted
+     * @param contextInfo context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return Status of the operation (success or failure)
+     * @throws DoesNotExistException     statementId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException missing statementId or contextInfo
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteStatementTreeView(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

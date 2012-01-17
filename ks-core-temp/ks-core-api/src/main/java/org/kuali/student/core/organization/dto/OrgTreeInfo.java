@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -13,72 +13,131 @@
  * permissions and limitations under the License.
  */
 
-/*
- *  OrgTreeInfo is not defined in the service contract. This is currently
- *  an implementation-specific class.
- */
-
 package org.kuali.student.core.organization.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.core.organization.infc.OrgTree;
+import org.w3c.dom.Element;
+
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OrgTreeInfo implements Serializable {
+@XmlType(name = "OrgTreeInfo", propOrder = {
+                "displayName", "orgHierarchyId", "orgId", "parentId",
+                "positions", "positionId", "personId", "relationTypeKey",
+                "_futureElements" })
 
-	private static final long serialVersionUID = 7315439355073246895L;
+public class OrgTreeInfo 
+    implements OrgTree, Serializable {
 
-	@XmlAttribute
-	private String orgId;
-	@XmlAttribute
-	private String parentId;
-	@XmlAttribute
-	private String displayName;
+    private static final long serialVersionUID = 7315439355073246895L;
+    
+    @XmlElement
+    private String displayName;
 
-	private String positionId;
+    @XmlElement
+    private String orgHierarchyId;
 	
-	private String personId;
+    @XmlElement
+    private String orgId;
 	
-	private String relationType;
+    @XmlElement
+    private String parentId;
 	
-	private String orgHierarchyId;
+    @XmlElement
+    private Long positions;
+
+    @XmlElement
+    private String positionId;
 	
-	private long positions=0;
+    @XmlElement
+    private String personId;
 	
+    @XmlElement
+    private String relationTypeKey;
 	
-	public OrgTreeInfo() {
-		super();
-	}
-	public OrgTreeInfo(String orgId, String parentId, String displayName) {
-		super();
-		this.orgId = orgId;
-		this.parentId = parentId;
-		this.displayName = displayName;
-	}	
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+
+    /**
+     * Constructs a new OrgTreeInfo.
+     */
+    public OrgTreeInfo() {
+    }
+    
+    /**
+     * Constructs a new OrgTreeInfo from another OrgTree
+     *
+     * @param orgTree the org tree to copy
+     */
+    public OrgTreeInfo(OrgTree tree) {
+        if (tree != null) {
+            this.displayName = tree.getDisplayName();
+            this.orgHierarchyId = tree.getOrgHierarchyId();
+            this.orgId = tree.getOrgId();
+            this.parentId = tree.getParentId();
+            this.positions = tree.getPositions();
+            this.positionId = tree.getPositionId();
+            this.personId = tree.getPersonId();
+            this.relationTypeKey = tree.getRelationTypeKey();
+        }
+    }	
+        
+    @Override
+    public String getDisplayName() {
+        return displayName;
+    }
+    
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    @Override
+    public String getOrgHierarchyId() {
+        return orgHierarchyId;
+    }
+    
+    public void setOrgHierarchyId(String orgHierarchyId) {
+        this.orgHierarchyId = orgHierarchyId;
+    }
+
+    @Override
+    public String getOrgId() {
+        return orgId;
+    }
 	
-	public String getOrgId() {
-		return orgId;
-	}
-	public void setOrgId(String orgId) {
-		this.orgId = orgId;
-	}
-	public String getParentId() {
-		return parentId;
-	}
-	public void setParentId(String parentId) {
-		this.parentId = parentId;
-	}
-	public String getDisplayName() {
-		return displayName;
-	}
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-	
-	public String getPositionId() {
+    public void setOrgId(String orgId) {
+        this.orgId = orgId;
+    }
+
+    @Override
+    public String getParentId() {
+        return parentId;
+    }
+    
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+    
+    @Override
+    public Long getPositions(){
+        return positions;
+    }
+    
+    public void setPositions(Long positions){
+        this.positions = positions;
+    }
+
+    @Override
+    public String getPositionId() {
         return positionId;
     }
 
@@ -86,79 +145,21 @@ public class OrgTreeInfo implements Serializable {
         this.positionId = positionId;
     }
     
+    @Override
     public String getPersonId() {
         return personId;
     }
-
+    
     public void setPersonId(String personId) {
         this.positionId = personId;
     }
     
-    public String getRelationType() {
-        return relationType;
+    @Override
+    public String getRelationTypeKey() {
+        return relationTypeKey;
     }
 
-    public void setRelationType(String relationType) {
-        this.relationType = relationType;
-    }
-    
-    public long getPositions(){
-        return positions;
-    }
-    
-    public void setPositions(long positions){
-        this.positions=positions;
-    }
-    
-    
-	public String getOrgHierarchyId() {
-        return orgHierarchyId;
-    }
-    public void setOrgHierarchyId(String orgHierarchyId) {
-        this.orgHierarchyId = orgHierarchyId;
-    }
-    /* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result
-				+ ((displayName == null) ? 0 : displayName.hashCode());
-		result = prime * result + ((orgId == null) ? 0 : orgId.hashCode());
-		result = prime * result
-				+ ((parentId == null) ? 0 : parentId.hashCode());
-		return result;
-	}
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		OrgTreeInfo other = (OrgTreeInfo) obj;
-		if (displayName == null) {
-			if (other.displayName != null)
-				return false;
-		} else if (!displayName.equals(other.displayName))
-			return false;
-		if (orgId == null) {
-			if (other.orgId != null)
-				return false;
-		} else if (!orgId.equals(other.orgId))
-			return false;
-		if (parentId == null) {
-			if (other.parentId != null)
-				return false;
-		} else if (!parentId.equals(other.parentId))
-			return false;
-		return true;
-	}
-	
+    public void setRelationTypeKey(String relationTypeKey) {
+        this.relationTypeKey = relationTypeKey;
+    }    
 }

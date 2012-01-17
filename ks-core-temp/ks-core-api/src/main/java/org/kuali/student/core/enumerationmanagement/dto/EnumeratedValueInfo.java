@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -15,51 +15,68 @@
 
 package org.kuali.student.core.enumerationmanagement.dto;
 
+import org.kuali.student.core.enumerationmanagement.infc.EnumContextValue;
+import org.kuali.student.core.enumerationmanagement.infc.EnumeratedValue;
+
+import javax.xml.bind.Element;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-
 /**
- *Value associated with a particular enumeration.
- */ 
+ * Value associated with a particular enumeration.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EnumeratedValueInfo implements Serializable {
+@XmlType(name = "EnumeratedValueInfo", propOrder = {"code", "abbrevValue", "value", "sortKey", "contexts", "enumerationKey", "effectiveDate", "expirationDate", "_futureElements"})
+public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String code;
-
     @XmlElement
     private String abbrevValue;
-
     @XmlElement
     private String value;
-
-    @XmlElement
-    private Date effectiveDate;
-
-    @XmlElement
-    private Date expirationDate;
-
     @XmlElement
     private String sortKey;
-
     @XmlElement
     private List<EnumContextValueInfo> contexts;
-
     @XmlAttribute
-    private String enumerationKey;    
-    
-    /**
-     * Typically coincides with a code representation. Likely the key if this is a reference to another object.
-     */
+    private String enumerationKey;
+    @XmlElement
+    private Date effectiveDate;
+    @XmlElement
+    private Date expirationDate;
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public EnumeratedValueInfo() {
+    }
+
+    public EnumeratedValueInfo(EnumeratedValue enumeratedValue) {
+        if (null != enumeratedValue) {
+            this.code = enumeratedValue.getCode();
+            this.abbrevValue = enumeratedValue.getAbbrevValue();
+            this.value = enumeratedValue.getValue();
+            this.sortKey = enumeratedValue.getSortKey();
+            this.contexts = new ArrayList<EnumContextValueInfo>();
+            for (EnumContextValue enumContextValue : enumeratedValue.getContexts()) {
+                this.contexts.add(new EnumContextValueInfo(enumContextValue));
+            }
+            this.effectiveDate = (null != enumeratedValue.getEffectiveDate()) ? new Date(enumeratedValue.getEffectiveDate().getTime()) : null;
+            this.expirationDate = (null != enumeratedValue.getExpirationDate()) ? new Date(enumeratedValue.getExpirationDate().getTime()) : null;
+        }
+    }
+
+    @Override
     public String getCode() {
         return code;
     }
@@ -68,9 +85,7 @@ public class EnumeratedValueInfo implements Serializable {
         this.code = code;
     }
 
-    /**
-     * Typically coincides with a shortened name. May be equal to the code or value fields.
-     */
+    @Override
     public String getAbbrevValue() {
         return abbrevValue;
     }
@@ -79,9 +94,7 @@ public class EnumeratedValueInfo implements Serializable {
         this.abbrevValue = abbrevValue;
     }
 
-    /**
-     * Typically coincides with a name for display.
-     */
+    @Override
     public String getValue() {
         return value;
     }
@@ -90,9 +103,7 @@ public class EnumeratedValueInfo implements Serializable {
         this.value = value;
     }
 
-    /**
-     * Date that this enumerated value became effective. If referring to another object, this may correspond with the effective date, created date, date of a state transition, or some arbitrarily defined date. For code/value pairs with no dates, the current date may be returned.
-     */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -101,9 +112,7 @@ public class EnumeratedValueInfo implements Serializable {
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date that this enumerated value expires. If referring to another object, this may correspond with the expiration date, date of a state transition, or some arbitrarily defined date. If this field is not specified, then no expiration date has been currently defined. For code/value pairs with no dates, this date may not be specified.
-     */
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -112,9 +121,7 @@ public class EnumeratedValueInfo implements Serializable {
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * Default position for the enumerated value. This might or might not exist, particularly in cases where the enumeration consists solely of a view.
-     */
+    @Override
     public String getSortKey() {
         return sortKey;
     }
@@ -123,9 +130,7 @@ public class EnumeratedValueInfo implements Serializable {
         this.sortKey = sortKey;
     }
 
-    /**
-     * Indicates which context types and values this particular enumerated value participates in.
-     */
+    @Override
     public List<EnumContextValueInfo> getContexts() {
         if (contexts == null) {
             contexts = new ArrayList<EnumContextValueInfo>();
@@ -137,6 +142,7 @@ public class EnumeratedValueInfo implements Serializable {
         this.contexts = contexts;
     }
 
+    @Override
     public String getEnumerationKey() {
         return enumerationKey;
     }
@@ -145,5 +151,5 @@ public class EnumeratedValueInfo implements Serializable {
         this.enumerationKey = enumerationKey;
     }
 
-    
+
 }

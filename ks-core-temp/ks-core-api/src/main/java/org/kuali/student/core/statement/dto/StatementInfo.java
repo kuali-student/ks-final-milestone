@@ -15,45 +15,75 @@
 
 package org.kuali.student.core.statement.dto;
 
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.core.statement.infc.Statement;
+import org.w3c.dom.Element;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlElement;
-
-/**
- *Detailed information about a single LU statement.
- */
-public class StatementInfo extends AbstractStatementInfo {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "StatementInfo", propOrder = {"id", "typeKey", "stateKey",
+        "name", "descr", "operator", "statementIds", "reqComponentIds", "meta", "attributes", "_futureElements"})
+public class StatementInfo extends IdEntityInfo implements Statement, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
+    private StatementOperator operator;
+    @XmlElement
     private List<String> statementIds;
-
     @XmlElement
     private List<String> reqComponentIds;
-    /**
-     * List of LU statement identifiers.
-     */
-    public List<String> getStatementIds() {
-        if (statementIds == null) {
-            statementIds = new ArrayList<String>(0);
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public StatementInfo() {
+    }
+
+    public StatementInfo(Statement statement) {
+        super(statement);
+        if (null != statement) {
+            // shallow copy is fine here
+            this.operator = statement.getOperator();
+            this.statementIds = new ArrayList<String>(statement.getStatementIds());
+            this.reqComponentIds = new ArrayList<String>(statement.getReqComponentIds());
         }
-        return statementIds;
+    }
+
+    @Override
+    public StatementOperator getOperator() {
+        return this.operator;
+    }
+
+    public void setOperator(StatementOperator operator) {
+        this.operator = operator;
+    }
+
+    @Override
+    public List<String> getStatementIds() {
+        if (this.statementIds == null) {
+            this.statementIds = new ArrayList<String>(0);
+        }
+        return this.statementIds;
     }
 
     public void setStatementIds(List<String> statementIds) {
         this.statementIds = statementIds;
     }
 
-    /**
-     * List of requirement component identifiers.
-     */
+    @Override
     public List<String> getReqComponentIds() {
-        if (reqComponentIds == null) {
-            reqComponentIds = new ArrayList<String>(0);
+        if (this.reqComponentIds == null) {
+            this.reqComponentIds = new ArrayList<String>(0);
         }
-        return reqComponentIds;
+        return this.reqComponentIds;
     }
 
     public void setReqComponentIds(List<String> reqComponentIds) {
@@ -61,8 +91,8 @@ public class StatementInfo extends AbstractStatementInfo {
     }
 
     @Override
-	public String toString() {
-		return "StatementInfo[id=" + getId() + (getDesc() == null ? "" : ", desc=" + getDesc().getPlain()) + ", operator=" + getOperator() + ", type="
-				+ getType() + ", state=" + getState() + "]";
-	}
+    public String toString() {
+        return "StatementInfo[id=" + getId() + "]";
+    }
+
 }

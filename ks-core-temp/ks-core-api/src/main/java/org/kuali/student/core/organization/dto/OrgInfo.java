@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -18,32 +18,36 @@ package org.kuali.student.core.organization.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.HasTypeState;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.core.organization.infc.Org;
+import org.kuali.student.core.organization.infc.OrgCode;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.w3c.dom.Element;
 
 /**
- *Detailed information about a single organization.
+ * Detailed information about a single organization.
+ *
+ * @author tom
  */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+@XmlType(name = "OrgInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr",
+                "shortName", "sortName", "shortDescr", "orgCodes",
+                "effectiveDate", "expirationDate",
+                "meta", "attributes", "_futureElements" })
+
+public class OrgInfo 
+    extends IdEntityInfo
+    implements Org, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String longName;
 
     @XmlElement
     private String shortName;
@@ -52,10 +56,7 @@ public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private String sortName;
 
     @XmlElement
-    private String shortDesc;
-
-    @XmlElement
-    private String longDesc;
+    private String shortDescr;
 
     @XmlElement
     private Date effectiveDate;
@@ -66,36 +67,45 @@ public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttribute
     @XmlElement
     private List<OrgCodeInfo> orgCodes;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute
-    private String id;
 
     /**
-     * Full name of the organization.
+     * Constructs a new OrgInfo.
      */
-    public String getLongName() {
-        return longName;
-    }
-
-    public void setLongName(String longName) {
-        this.longName = longName;
+    public OrgInfo() {
     }
 
     /**
-     * Shortened format or abbreviation of the organization's name.
+     * Constructs a new OrgInfo from an Org.
+     *
+     * @param org the Org to copy
      */
+    public OrgInfo(Org org) {
+        super(org);
+
+        if (org != null) {
+            this.shortName = org.getShortName();
+            this.sortName = org.getSortName();
+            this.shortDescr= org.getShortDescr();
+            
+            if (org.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(org.getEffectiveDate().getTime());
+            }
+            
+            if (org.getExpirationDate() != null) {
+                this.expirationDate = new Date(org.getExpirationDate().getTime());
+            }
+            
+            this.orgCodes = new ArrayList<OrgCodeInfo>();
+            for (OrgCode code : org.getOrgCodes()) {
+                this.orgCodes.add(new OrgCodeInfo(code));
+            }
+        }
+    }
+
+    @Override
     public String getShortName() {
         return shortName;
     }
@@ -104,9 +114,7 @@ public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.shortName = shortName;
     }
 
-    /**
-     * The name used for sorting, for cases when alphabetical sorting by shortName or longName is undesirable.
-     */
+    @Override
     public String getSortName() {
         return sortName;
     }
@@ -115,31 +123,16 @@ public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.sortName = sortName;
     }
 
-    /**
-     * A brief description of the organization.
-     */
-    public String getShortDesc() {
-        return shortDesc;
+    @Override
+    public String getShortDescr() {
+        return shortDescr;
     }
 
-    public void setShortDesc(String shortDesc) {
-        this.shortDesc = shortDesc;
+    public void setShortDescr(String shortDescr) {
+        this.shortDescr = shortDescr;
     }
 
-    /**
-     * Narrative description of the organization.
-     */
-    public String getLongDesc() {
-        return longDesc;
-    }
-
-    public void setLongDesc(String longDesc) {
-        this.longDesc = longDesc;
-    }
-
-    /**
-     * Date and time that this organization became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -148,9 +141,7 @@ public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date and time that this organization expires. This is a similar concept to the expiration date on enumerated values. If specified, this must be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -159,9 +150,7 @@ public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * List of organization code info structures. These are structures so that many different types of codes can be associated with the org. This allows them to be put into categories.
-     */
+    @Override
     public List<OrgCodeInfo> getOrgCodes() {
         if (orgCodes == null) {
             orgCodes = new ArrayList<OrgCodeInfo>();
@@ -171,63 +160,5 @@ public class OrgInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     public void setOrgCodes(List<OrgCodeInfo> orgCodes) {
         this.orgCodes = orgCodes;
-    }
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Unique identifier for an organization type.
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the organization. The values for this field are constrained to those in the orgState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for an organization. This is optional, due to the identifier being set at the time of creation. Once the organization has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 }

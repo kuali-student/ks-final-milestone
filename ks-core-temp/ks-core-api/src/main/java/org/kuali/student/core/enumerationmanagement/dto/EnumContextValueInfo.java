@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -15,30 +15,42 @@
 
 package org.kuali.student.core.enumerationmanagement.dto;
 
-import java.io.Serializable;
+import org.kuali.student.core.enumerationmanagement.infc.EnumContextValue;
 
+import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.List;
 
 
-/**
- *Provides information about a supported type/value pair for a context.
- */ 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class EnumContextValueInfo implements Serializable {
+@XmlType(name = "EnumContextValueInfo", propOrder = {"key", "value", "_futureElements"})
+public class EnumContextValueInfo implements EnumContextValue, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String key;
-
     @XmlElement
     private String value;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-    /**
-     * Identifier for the context modifier for an enumeration.
-     */
+    public EnumContextValueInfo() {
+    }
+
+    public EnumContextValueInfo(EnumContextValue enumContextValue) {
+        if (null != enumContextValue) {
+            this.key = enumContextValue.getKey();
+            this.value = enumContextValue.getValue();
+        }
+    }
+
+    @Override
     public String getKey() {
         return key;
     }
@@ -47,9 +59,7 @@ public class EnumContextValueInfo implements Serializable {
         this.key = key;
     }
 
-    /**
-     * Value for the enumeration context
-     */
+    @Override
     public String getValue() {
         return value;
     }

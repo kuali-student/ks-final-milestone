@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -15,26 +15,64 @@
 
 package org.kuali.student.core.organization.dto;
 
+import java.io.Serializable;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.core.organization.infc.OrgHierarchy;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.w3c.dom.Element;
 
 /**
- *Information for an organization hierarchy.
+ * Information for an organization hierarchy.
+ *
+ * @author tom
  */ 
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OrgHierarchyInfo extends TypeInfo {
+@XmlType(name = "OrgHierarchyInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr",
+                "rootOrgId",
+                "meta", "attributes", "_futureElements" })
+
+public class OrgHierarchyInfo 
+    extends IdEntityInfo
+    implements OrgHierarchy, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String rootOrgId;
     
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+
     /**
-     * Root organization for the hierarchy.
+     * Constructs a new OrgHierarchyInfo.
      */
+    public OrgHierarchyInfo() {
+    }
+
+    /**
+     * Constructs a new OrgHierarchyInfo from an OrgHierarchy.
+     *
+     * @param orgHierarchy the OrgHierarchy to copy
+     */
+    public OrgHierarchyInfo(OrgHierarchy orgHierarchy) {
+        super(orgHierarchy);
+
+        if (orgHierarchy != null) {
+            this.rootOrgId = orgHierarchy.getRootOrgId();
+        }
+    }
+
+    @Override
     public String getRootOrgId() {
         return rootOrgId;
     }

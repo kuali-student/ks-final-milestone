@@ -1,15 +1,11 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
+ * agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -18,38 +14,26 @@ package org.kuali.student.core.proposal.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.HasTypeState;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 
-/**
- * Detailed information about a proposal.
- *
- * @Author KSContractMojo
- * @Author Neerav Agrawal
- * @Since Thu May 28 10:25:28 EDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/proposalInfo+Structure">ProposalInfo</>
- *
- */
+import org.kuali.student.core.proposal.infc.Proposal;
+import org.w3c.dom.Element;
+
+@XmlType(name = "ProposalInfo", propOrder = {"id", "typeKey", "stateKey", "proposerPerson", "proposerOrg", "proposalReferenceType", "proposalReference", "rationale", "detailDesc", "effectiveDate",
+        "expirationDate", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlElement
-    private String name;
 
     @XmlElement
     private List<String> proposerPerson;
@@ -67,47 +51,41 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
     private String rationale;
 
     @XmlElement
-    private String detailDesc;
+    private RichTextInfo detailDesc;
 
     @XmlElement
     private Date effectiveDate;
 
     @XmlElement
     private Date expirationDate;
-    
+
     @XmlElement
     private String workflowId;
 
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-    @XmlElement
-    private MetaInfo metaInfo;
+    public ProposalInfo() {
 
-    @XmlAttribute
-    private String type;
-
-    @XmlAttribute
-    private String state;
-
-    @XmlAttribute
-    private String id;
-
-    /**
-     * The name or title of the proposal. Any finite sequence of characters with letters, numerals, symbols and punctuation marks. The length can be any natural number between zero or any positive integer.
-     */
-    public String getName() {
-        return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public ProposalInfo(Proposal proposal) {
+        super(proposal);
+        if (proposal != null) {
+            this.proposerPerson = new ArrayList<String>(proposal.getProposerPerson());
+            this.proposerOrg = new ArrayList<String>(proposal.getProposerOrg());
+            this.proposalReferenceType = proposal.getProposalReferenceType();
+            this.proposalReference = new ArrayList<String>(proposal.getProposalReference());
+            this.rationale = proposal.getRationale();
+            this.detailDesc = new RichTextInfo(proposal.getDetailDesc());
+            this.effectiveDate = new Date(proposal.getEffectiveDate().getTime());
+            this.expirationDate = new Date(proposal.getExpirationDate().getTime());
+            this.workflowId = proposal.getWorkflowId();
+        }
+
     }
 
-    /**
-     * List of person identifiers. Structure should contain a proposerPerson OR a proposerOrg.
-     */
+    @Override
     public List<String> getProposerPerson() {
         if (proposerPerson == null) {
             proposerPerson = new ArrayList<String>(0);
@@ -119,9 +97,7 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         this.proposerPerson = proposerPerson;
     }
 
-    /**
-     * List of organization identifiers. Structure should contain a proposerPerson OR a proposerOrg
-     */
+    @Override
     public List<String> getProposerOrg() {
         if (proposerOrg == null) {
             proposerOrg = new ArrayList<String>(0);
@@ -133,9 +109,7 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         this.proposerOrg = proposerOrg;
     }
 
-    /**
-     * Unique identifier for a reference type.
-     */
+    @Override
     public String getProposalReferenceType() {
         return proposalReferenceType;
     }
@@ -144,9 +118,7 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         this.proposalReferenceType = proposalReferenceType;
     }
 
-    /**
-     * List of reference identifiers.
-     */
+    @Override
     public List<String> getProposalReference() {
         if (proposalReference == null) {
             proposalReference = new ArrayList<String>(0);
@@ -158,9 +130,7 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         this.proposalReference = proposalReference;
     }
 
-    /**
-     * Brief explanation of the reason for the proposal
-     */
+    @Override
     public String getRationale() {
         return rationale;
     }
@@ -169,20 +139,16 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         this.rationale = rationale;
     }
 
-    /**
-     * Detailed description of the proposed changes.
-     */
-    public String getDetailDesc() {
+    @Override
+    public RichTextInfo getDetailDesc() {
         return detailDesc;
     }
 
-    public void setDetailDesc(String detailDesc) {
+    public void setDetailDesc(RichTextInfo detailDesc) {
         this.detailDesc = detailDesc;
     }
 
-    /**
-     * Date and time that this proposal became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
-     */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -191,9 +157,7 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         this.effectiveDate = effectiveDate;
     }
 
-    /**
-     * Date and time that this proposal expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
-     */
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -202,75 +166,13 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
         this.expirationDate = expirationDate;
     }
 
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
+    @Override
+    public String getWorkflowId() {
+        return workflowId;
     }
 
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
+    public void setWorkflowId(String workflowId) {
+        this.workflowId = workflowId;
     }
 
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Unique identifier for a proposal type.
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the proposal. The values for this field are constrained to those in the proposalState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for a Proposal. This is optional, due to the identifier being set at the time of creation. Once the proposal has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * The workflow document associated with this proposal.
-     * @return
-     */
-	public String getWorkflowId() {
-		return workflowId;
-	}
-
-	public void setWorkflowId(String workflowId) {
-		this.workflowId = workflowId;
-	}
-    
-    
 }
