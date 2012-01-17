@@ -15,6 +15,7 @@
  */
 package org.kuali.student.core.util.constants;
 
+import org.kuali.student.common.util.constants.CommonServiceConstants;
 import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.lum.lrc.infc.ResultValuesGroup;
