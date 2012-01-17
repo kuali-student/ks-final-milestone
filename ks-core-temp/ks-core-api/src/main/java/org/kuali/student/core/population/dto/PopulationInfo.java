@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.dto.KeyEntityInfo;
+import org.kuali.student.common.dto.KeyEntityInfo;
 import org.kuali.student.core.population.infc.Population;
 
 import org.w3c.dom.Element;

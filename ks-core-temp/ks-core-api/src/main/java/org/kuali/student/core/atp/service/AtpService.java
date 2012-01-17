@@ -19,9 +19,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.core.dto.ContextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 
 import org.kuali.student.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;

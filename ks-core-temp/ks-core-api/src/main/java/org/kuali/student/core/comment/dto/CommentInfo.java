@@ -16,8 +16,8 @@
 package org.kuali.student.core.comment.dto;
 
 import org.kuali.student.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.core.dto.IdNamelessEntityInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.comment.infc.Comment;
 import org.w3c.dom.Element;
 

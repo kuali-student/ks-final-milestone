@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.dto.IdEntityInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.core.exemption.infc.Exemption;
 
 import org.w3c.dom.Element;

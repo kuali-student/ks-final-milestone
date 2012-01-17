@@ -15,7 +15,7 @@
 package org.kuali.student.core.state.service;
 
 import java.util.List;
-import org.kuali.student.core.dto.ContextInfo;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.exceptions.DoesNotExistException;
 import org.kuali.student.core.exceptions.InvalidParameterException;
 import org.kuali.student.core.exceptions.MissingParameterException;

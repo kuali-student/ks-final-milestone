@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.core.state.infc.Lifecycle;
-import org.kuali.student.core.dto.KeyEntityInfo;
+import org.kuali.student.common.dto.KeyEntityInfo;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")

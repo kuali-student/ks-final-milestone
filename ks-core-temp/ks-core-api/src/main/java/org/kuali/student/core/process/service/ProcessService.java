@@ -28,9 +28,9 @@ import org.kuali.student.core.process.dto.ProcessInfo;
 import org.kuali.student.core.process.dto.CheckInfo;
 import org.kuali.student.core.process.dto.InstructionInfo;
 
-import org.kuali.student.core.dto.ContextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 
 
 import org.kuali.student.core.exceptions.AlreadyExistsException;

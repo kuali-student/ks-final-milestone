@@ -18,9 +18,9 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import org.kuali.student.core.dto.ContextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.core.exceptions.AlreadyExistsException;
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DependentObjectsExistException;
@@ -41,7 +41,7 @@ import org.kuali.student.core.proposal.dto.ProposalInfo;
  */
 @WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-@XmlSeeAlso({org.kuali.student.core.dto.ReferenceTypeInfo.class})
+@XmlSeeAlso({org.kuali.student.common.dto.ReferenceTypeInfo.class})
 public interface ProposalService {
 
     /**

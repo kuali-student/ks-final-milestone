@@ -26,9 +26,9 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.core.population.dto.PopulationInfo;
 import org.kuali.student.core.population.dto.PopulationRuleInfo;
 
-import org.kuali.student.core.dto.ContextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 
 
 import org.kuali.student.core.exceptions.AlreadyExistsException;

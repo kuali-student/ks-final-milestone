@@ -22,10 +22,10 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.core.dto.TypeInfo;
-import org.kuali.student.core.dto.ContextInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 
 import org.kuali.student.core.exceptions.DataValidationErrorException;
 import org.kuali.student.core.exceptions.DoesNotExistException;

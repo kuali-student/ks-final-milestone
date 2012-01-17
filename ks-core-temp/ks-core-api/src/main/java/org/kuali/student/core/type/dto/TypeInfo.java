@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.core.dto.HasAttributesInfo;
+import org.kuali.student.common.dto.HasAttributesInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

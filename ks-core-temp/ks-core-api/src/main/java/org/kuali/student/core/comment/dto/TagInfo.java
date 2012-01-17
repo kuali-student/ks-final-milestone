@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.comment.dto;
 
-import org.kuali.student.core.dto.IdNamelessEntityInfo;
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.core.comment.infc.Tag;
 import org.w3c.dom.Element;
 

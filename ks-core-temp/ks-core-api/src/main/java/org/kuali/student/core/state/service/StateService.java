@@ -21,7 +21,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.core.dto.ContextInfo;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.state.dto.StateInfo;
 import org.kuali.student.core.state.dto.LifecycleInfo;
 

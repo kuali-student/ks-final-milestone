@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.statement.dto;
 
-import org.kuali.student.core.dto.RelationshipInfo;
+import org.kuali.student.common.dto.RelationshipInfo;
 import org.kuali.student.core.statement.infc.RefStatementRelation;
 import org.w3c.dom.Element;
 

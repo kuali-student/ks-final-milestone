@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.core.organization.infc.OrgHierarchy;
-import org.kuali.student.core.dto.IdEntityInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 /**
