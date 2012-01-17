@@ -17,8 +17,8 @@ package org.kuali.student.core.scheduling.infc;
 
 import java.util.List;
 
-import org.kuali.student.common.infc.IdEntity;
-import org.kuali.student.common.infc.DateRange;
+import org.kuali.student.core.infc.IdEntity;
+import org.kuali.student.core.infc.DateRange;
 
 
 /**

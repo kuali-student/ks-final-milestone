@@ -1,6 +1,6 @@
 package org.kuali.student.core.room.dto;
 
-import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.core.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.core.room.infc.RoomUsage;
 import org.w3c.dom.Element;
 

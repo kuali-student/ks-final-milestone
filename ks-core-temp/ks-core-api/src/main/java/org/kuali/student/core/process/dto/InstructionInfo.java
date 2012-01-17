@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.dto.RelationshipInfo;
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.core.dto.RelationshipInfo;
+import org.kuali.student.core.dto.RichTextInfo;
 import org.kuali.student.core.process.infc.Instruction;
 
 import org.w3c.dom.Element;

@@ -16,9 +16,9 @@
 
 package org.kuali.student.core.type.infc;
 
-import org.kuali.student.common.infc.HasAttributes;
-import org.kuali.student.common.infc.HasEffectiveDates;
-import org.kuali.student.common.infc.HasKey;
+import org.kuali.student.core.infc.HasAttributes;
+import org.kuali.student.core.infc.HasEffectiveDates;
+import org.kuali.student.core.infc.HasKey;
 
 /**
  * Detailed Information about a Type

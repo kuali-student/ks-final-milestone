@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.enumerationmanagement.dto;
 
-import org.kuali.student.common.dto.KeyEntityInfo;
+import org.kuali.student.core.dto.KeyEntityInfo;
 import org.kuali.student.core.enumerationmanagement.infc.Enumeration;
 
 import javax.xml.bind.Element;

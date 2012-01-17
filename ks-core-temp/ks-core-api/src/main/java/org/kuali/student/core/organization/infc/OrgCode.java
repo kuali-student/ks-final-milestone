@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.organization.infc;
 
-import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.core.infc.IdEntity;
 
 /**
  * Detailed information about organization codes.

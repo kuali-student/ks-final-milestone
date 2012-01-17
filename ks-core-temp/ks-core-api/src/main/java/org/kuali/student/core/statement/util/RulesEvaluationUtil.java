@@ -14,7 +14,7 @@ import org.kuali.rice.krms.framework.engine.Context;
 import org.kuali.rice.krms.framework.engine.ContextProvider;
 import org.kuali.rice.krms.framework.engine.Proposition;
 import org.kuali.rice.krms.framework.engine.ProviderBasedEngine;
-import org.kuali.student.common.util.krms.ManualContextProvider;
+import org.kuali.student.core.util.krms.ManualContextProvider;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 
 import java.util.ArrayList;

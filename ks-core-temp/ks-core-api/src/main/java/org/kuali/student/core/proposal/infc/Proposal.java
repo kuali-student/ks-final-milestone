@@ -17,9 +17,9 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
-import org.kuali.student.common.infc.IdEntity;
-import org.kuali.student.common.infc.IdNamelessEntity;
-import org.kuali.student.common.infc.RichText;
+import org.kuali.student.core.infc.IdEntity;
+import org.kuali.student.core.infc.IdNamelessEntity;
+import org.kuali.student.core.infc.RichText;
 
 /**
  * Detailed information about a proposal.

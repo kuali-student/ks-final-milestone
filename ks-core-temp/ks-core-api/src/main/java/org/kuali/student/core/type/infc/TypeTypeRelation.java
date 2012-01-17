@@ -16,8 +16,8 @@
 
 package org.kuali.student.core.type.infc;
 
-import org.kuali.student.common.infc.KeyEntity;
-import org.kuali.student.common.infc.HasEffectiveDates;
+import org.kuali.student.core.infc.KeyEntity;
+import org.kuali.student.core.infc.HasEffectiveDates;
 
 
 public interface TypeTypeRelation 

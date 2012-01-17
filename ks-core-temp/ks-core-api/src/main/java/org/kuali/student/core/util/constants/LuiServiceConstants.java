@@ -15,7 +15,7 @@
  */
 package org.kuali.student.core.util.constants;
 
-import org.kuali.student.common.util.constants.CommonServiceConstants;
+import org.kuali.student.core.util.constants.CommonServiceConstants;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 

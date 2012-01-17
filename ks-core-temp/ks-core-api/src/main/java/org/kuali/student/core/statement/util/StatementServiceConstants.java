@@ -18,7 +18,7 @@ package org.kuali.student.core.statement.util;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.common.util.constants.CommonServiceConstants;
+import org.kuali.student.core.util.constants.CommonServiceConstants;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
 /**

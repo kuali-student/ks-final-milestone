@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.hold.infc;
 
-import org.kuali.student.common.infc.KeyEntity;
+import org.kuali.student.core.infc.KeyEntity;
 
 
 /**

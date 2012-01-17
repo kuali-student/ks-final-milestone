@@ -19,7 +19,7 @@ package org.kuali.student.core.util.constants;
 // TODO kscm-123 import org.kuali.student.core.population.dto.PopulationRuleInfo;
 
 
-import org.kuali.student.common.util.constants.CommonServiceConstants;
+import org.kuali.student.core.util.constants.CommonServiceConstants;
 
 /**
  * This class holds the constants used by the Population service.

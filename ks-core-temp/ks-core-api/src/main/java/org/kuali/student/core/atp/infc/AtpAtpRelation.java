@@ -16,7 +16,7 @@
 
 package org.kuali.student.core.atp.infc;
 
-import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.core.infc.Relationship;
 
 
 /**

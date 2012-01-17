@@ -17,7 +17,7 @@ package org.kuali.student.core.scheduling.infc;
 
 import java.util.List;
 
-import org.kuali.student.common.infc.HasId;
+import org.kuali.student.core.infc.HasId;
 
 
 /**

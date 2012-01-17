@@ -17,8 +17,8 @@ package org.kuali.student.core.organization.infc;
 
 import java.util.List;
 
-import org.kuali.student.common.infc.IdEntity;
-import org.kuali.student.common.infc.HasEffectiveDates;
+import org.kuali.student.core.infc.IdEntity;
+import org.kuali.student.core.infc.HasEffectiveDates;
 
 /**
  * Information about a single organization. 

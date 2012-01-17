@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.process.infc;
 
-import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.core.infc.IdEntity;
 
 
 /**

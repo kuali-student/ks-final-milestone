@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.core.dto.IdEntityInfo;
 import org.kuali.student.core.population.infc.PopulationRule;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;

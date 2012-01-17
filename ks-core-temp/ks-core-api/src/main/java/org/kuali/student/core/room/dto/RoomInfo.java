@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.room.dto;
 
-import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.core.dto.IdEntityInfo;
 import org.kuali.student.core.room.infc.Room;
 import org.kuali.student.core.room.infc.RoomUsage;
 import org.kuali.student.core.room.infc.RoomFixedResource;

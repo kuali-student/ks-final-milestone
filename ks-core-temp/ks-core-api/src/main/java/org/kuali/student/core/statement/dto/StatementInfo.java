@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.statement.dto;
 
-import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.core.dto.IdEntityInfo;
 import org.kuali.student.core.statement.infc.Statement;
 import org.w3c.dom.Element;
 

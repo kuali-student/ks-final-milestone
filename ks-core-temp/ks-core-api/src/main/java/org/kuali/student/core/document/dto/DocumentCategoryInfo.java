@@ -15,7 +15,7 @@
  */
 package org.kuali.student.core.document.dto;
 
-import org.kuali.student.common.dto.KeyEntityInfo;
+import org.kuali.student.core.dto.KeyEntityInfo;
 import org.kuali.student.core.document.infc.DocumentCategory;
 import org.w3c.dom.Element;
 

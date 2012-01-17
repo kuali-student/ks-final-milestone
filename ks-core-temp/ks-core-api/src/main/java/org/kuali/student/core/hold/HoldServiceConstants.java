@@ -12,8 +12,9 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.common.util.constants;
+package org.kuali.student.core.util.constants;
 
+import org.kuali.student.core.util.constants.CommonServiceConstants;
 import org.kuali.student.core.hold.dto.HoldInfo;
 import org.kuali.student.core.hold.dto.IssueInfo;
 

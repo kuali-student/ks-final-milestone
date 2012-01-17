@@ -28,22 +28,22 @@ import org.kuali.student.core.process.dto.ProcessInfo;
 import org.kuali.student.core.process.dto.CheckInfo;
 import org.kuali.student.core.process.dto.InstructionInfo;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.core.dto.ContextInfo;
+import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.core.dto.ValidationResultInfo;
 
 
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.core.exceptions.AlreadyExistsException;
+import org.kuali.student.core.exceptions.DataValidationErrorException;
+import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.exceptions.InvalidParameterException;
+import org.kuali.student.core.exceptions.MissingParameterException;
+import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.core.exceptions.PermissionDeniedException;
+import org.kuali.student.core.exceptions.ReadOnlyException;
+import org.kuali.student.core.exceptions.VersionMismatchException;
 
-import org.kuali.student.common.util.constants.ProcessServiceConstants;
+import org.kuali.student.core.util.constants.ProcessServiceConstants;
 
 /**
  * Process Service Description and Assumptions.

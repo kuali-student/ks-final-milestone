@@ -14,7 +14,7 @@
  */
 package org.kuali.student.core.util.constants;
 
-import org.kuali.student.common.util.constants.CommonServiceConstants;
+import org.kuali.student.core.util.constants.CommonServiceConstants;
 import org.kuali.student.core.exemption.dto.ExemptionInfo;
 import org.kuali.student.core.exemption.dto.ExemptionRequestInfo;
 

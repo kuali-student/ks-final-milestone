@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.core.state.infc.State;
-import org.kuali.student.common.dto.HasAttributesInfo;
+import org.kuali.student.core.dto.HasAttributesInfo;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")

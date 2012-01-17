@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.organization.infc;
 
-import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.core.infc.Relationship;
 
 /**
  * Detailed information about a single organization to organization

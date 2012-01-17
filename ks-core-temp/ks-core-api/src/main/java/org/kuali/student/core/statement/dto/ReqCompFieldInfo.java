@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.statement.dto;
 
-import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.core.dto.IdNamelessEntityInfo;
 import org.kuali.student.core.statement.infc.ReqCompField;
 import org.w3c.dom.Element;
 

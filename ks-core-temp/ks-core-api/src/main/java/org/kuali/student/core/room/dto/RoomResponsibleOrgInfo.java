@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.room.dto;
 
-import org.kuali.student.common.dto.RelationshipInfo;
+import org.kuali.student.core.dto.RelationshipInfo;
 import org.kuali.student.core.room.infc.RoomResponsibleOrg;
 import org.w3c.dom.Element;
 

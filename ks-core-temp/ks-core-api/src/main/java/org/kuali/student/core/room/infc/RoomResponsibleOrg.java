@@ -15,8 +15,8 @@
 
 package org.kuali.student.core.room.infc;
 
-import org.kuali.student.common.infc.HasId;
-import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.core.infc.HasId;
+import org.kuali.student.core.infc.Relationship;
 
 /**
  * Room Responsible Org
