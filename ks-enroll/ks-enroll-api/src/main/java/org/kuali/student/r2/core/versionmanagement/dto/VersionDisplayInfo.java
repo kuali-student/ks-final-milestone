@@ -9,7 +9,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.common.versionmanagement.dto;
+package org.kuali.student.r2.core.versionmanagement.dto;
 
 import org.kuali.student.r2.common.versionmanagement.infc.VersionDisplay;
 import org.w3c.dom.Element;
@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "VersionDisplayInfo", propOrder = {"versionIndId", "objectTypeURI", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId", "_futureElements"})
+@XmlType(name = "VersionDisplayInfo", propOrder = {"versionIndId", "refObjectUri", "sequenceNumber", "currentVersionEnd", "currentVersionStart", "versionComment", "versionedFromId", "_futureElements"})
 public class VersionDisplayInfo implements VersionDisplay, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,7 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
     private String versionIndId;
 
     @XmlElement
-    private String objectTypeURI;
+    private String refObjectUri;
 
     @XmlElement
     private Long sequenceNumber;
@@ -80,12 +80,12 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
     }
 
     @Override
-    public String getObjectTypeURI() {
-        return objectTypeURI;
+    public String getRefObjectUri() {
+        return refObjectUri;
     }
 
-    public void setObjectTypeURI(String objectTypeURI) {
-        this.objectTypeURI = objectTypeURI;
+    public void setRefObjectUri(String refObjectUri) {
+        this.refObjectUri = refObjectUri;
     }
 
     @Override

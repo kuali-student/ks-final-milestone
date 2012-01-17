@@ -1,4 +1,4 @@
-package org.kuali.student.r2.common.versionmanagement.infc;
+package org.kuali.student.r2.core.versionmanagement.infc;
 
 import java.util.Date;
 
@@ -25,7 +25,7 @@ public interface VersionDisplay {
      * @required
      */
 
-    public String getObjectTypeURI();
+    public String getRefObjectUri();
 
     /**
      * Version independent Id that remains the same across all versions

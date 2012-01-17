@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.common.versionmanagement.service;
+package org.kuali.student.r2.core.versionmanagement.service;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -21,7 +21,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 
 import java.util.Date;
 import java.util.List;
@@ -43,37 +43,37 @@ public class VersionManagementServiceDecorator implements VersionManagementServi
     }
 
     @Override
-    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getVersions(refObjectTypeURI, refObjectId, contextInfo);
+    public List<VersionDisplayInfo> getVersions(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getVersions(refObjectUri, refObjectId, contextInfo);
     }
 
     @Override
-    public VersionDisplayInfo getFirstVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getFirstVersion(refObjectTypeURI, refObjectId, contextInfo);
+    public VersionDisplayInfo getFirstVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getFirstVersion(refObjectUri, refObjectId, contextInfo);
     }
 
     @Override
-    public VersionDisplayInfo getLatestVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getLatestVersion(refObjectTypeURI, refObjectId, contextInfo);
+    public VersionDisplayInfo getLatestVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getLatestVersion(refObjectUri, refObjectId, contextInfo);
     }
 
     @Override
-    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getCurrentVersion(refObjectTypeURI, refObjectId, contextInfo);
+    public VersionDisplayInfo getCurrentVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getCurrentVersion(refObjectUri, refObjectId, contextInfo);
     }
 
     @Override
-    public VersionDisplayInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getVersionBySequenceNumber(refObjectTypeURI, refObjectId, sequence, contextInfo);
+    public VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getVersionBySequenceNumber(refObjectUri, refObjectId, sequence, contextInfo);
     }
 
     @Override
-    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getCurrentVersionOnDate(refObjectTypeURI, refObjectId, date, contextInfo);
+    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getCurrentVersionOnDate(refObjectUri, refObjectId, date, contextInfo);
     }
 
     @Override
-    public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return nextDecorator.getVersionsInDateRange(refObjectTypeURI, refObjectId, from, to, contextInfo);
+    public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectUri, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return nextDecorator.getVersionsInDateRange(refObjectUri, refObjectId, from, to, contextInfo);
     }
 }

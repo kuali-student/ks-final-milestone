@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.common.versionmanagement.infc;
+package org.kuali.student.r2.core.versionmanagement.infc;
 
 import java.util.Date;
 
@@ -64,6 +64,7 @@ public interface Version {
      * Version from which this version was created
      *
      * @name Versioned From Id
+     * @readOnly
      */
     public String getVersionedFromId();
 }
