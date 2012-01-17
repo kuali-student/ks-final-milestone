@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.common.messages.dto.MessageList;
@@ -66,7 +67,7 @@ public class MessageRPCPreloader {
             MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
-            MessageList messageList = getMessageService().getMessagesByGroups(locale,messageGroupKeyList);
+            MessageList messageList = getMessageService().getMessagesByGroups(locale, messageGroupKeyList, ContextInfo.newInstance());
 
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);

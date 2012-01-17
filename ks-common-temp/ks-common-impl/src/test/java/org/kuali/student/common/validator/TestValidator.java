@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -41,7 +42,7 @@ public class TestValidator {
 	@Test     
     public void testRequired() {
     	    	
-    	List<ValidationResultInfo> results = val.validateObject( buildTestPerson1(), getSimpleStudentObjectStructure());
+    	List<ValidationResultInfo> results = val.validateObject(buildTestPerson1(), getSimpleStudentObjectStructure(), ContextInfo.getInstance(new ContextInfo()));
     	assertEquals(results.size(), 1);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -55,7 +56,7 @@ public class TestValidator {
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("thisisaveryveryverylo");
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, getSimpleStudentObjectStructure());
+    	List<ValidationResultInfo> results = val.validateObject( p, getSimpleStudentObjectStructure(),new ContextInfo());
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -71,7 +72,7 @@ public class TestValidator {
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	o1.getAttributes().get(0).setMaxLength(null);
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateObject(p, o1, new ContextInfo());
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -86,7 +87,7 @@ public class TestValidator {
     	p.setDob(sp.parseDate("1960-01-01"));
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());    
     	assertEquals(results.size(), 1);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -102,7 +103,7 @@ public class TestValidator {
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	o1.getAttributes().get(0).setMinLength(0);
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -117,7 +118,7 @@ public class TestValidator {
 
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -133,7 +134,7 @@ public class TestValidator {
 
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1);    
+    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());
     	assertEquals(results.size(), 1);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -146,7 +147,7 @@ public class TestValidator {
 
     	ObjectStructureDefinition o = getStudentWithAddressObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o);
+    	List<ValidationResultInfo> results = val.validateObject( p, o,new ContextInfo());
 //     ERROR address/0/line1 validation.required
 //     ERROR address/0/line2 validation.validCharsFailed
 //     ERROR address/0/line2 validation.requiresField
@@ -171,7 +172,7 @@ public class TestValidator {
     	
     	val.setSearchDispatcher(searchDispatcher);
     	p.getAddress().get(0).setLine1("something");
-    	results = val.validateObject( p, o);
+    	results = val.validateObject( p, o,new ContextInfo());
      System.out.println (results.size () + " errors found");
      for (ValidationResultInfo vri : results)
      {
@@ -180,7 +181,7 @@ public class TestValidator {
     	assertEquals(6, results.size());
 
     	p.getAddress().get(0).setLine2("notrightlookupvalue");
-    	results = val.validateObject( p, o); 
+    	results = val.validateObject( p, o,new ContextInfo());
      System.out.println (results.size () + " errors found");
      for (ValidationResultInfo vri : results)
      {
