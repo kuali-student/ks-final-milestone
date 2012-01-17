@@ -16,7 +16,7 @@
 package org.kuali.student.core.scheduling.infc;
 
 import org.kuali.student.common.infc.IdEntity;
-import org.kuali.student.core.infc.TimeAmount;
+import org.kuali.student.common.infc.TimeAmount;
 
 
 /**
