@@ -30,19 +30,17 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
         TermInfo termInfo = (TermInfo)getDataObject();
         String termKey = getTermInfoKey (termInfo);
         System.out.println(">>>termKey = "+termKey);
-        termInfo.setKey(termKey);
+        termInfo.setId(termKey);
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
 
         try{
         	if(getMaintenanceAction().equals(KRADConstants.MAINTENANCE_NEW_ACTION) ||
                 getMaintenanceAction().equals(KRADConstants.MAINTENANCE_COPY_ACTION)) {   
-        		getAcademicCalendarService().createTerm(termKey, termInfo, ContextInfo.newInstance());
+        		getAcademicCalendarService().createTerm(termKey, termInfo, new ContextInfo());
         	}
         	else {
-        		getAcademicCalendarService().updateTerm(termKey, termInfo, ContextInfo.newInstance());
+        		getAcademicCalendarService().updateTerm(termKey, termInfo, new ContextInfo());
         	}
-        }catch (AlreadyExistsException aee){
-            
         }catch (DataValidationErrorException dvee){
             
         }catch (InvalidParameterException ipe){
@@ -52,6 +50,8 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
         }catch (OperationFailedException ofe){
            
         }catch (PermissionDeniedException pde){
+
+        }catch (ReadOnlyException roe){
             
         }catch (DoesNotExistException dee){
             
@@ -63,7 +63,7 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
 
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
     	try{
     		return getAcademicCalendarService().getTerm(dataObjectKeys.get("key"), context);
             

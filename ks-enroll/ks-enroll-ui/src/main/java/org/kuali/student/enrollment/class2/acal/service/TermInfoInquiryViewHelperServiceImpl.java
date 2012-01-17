@@ -27,7 +27,7 @@ public class TermInfoInquiryViewHelperServiceImpl extends InquirableImpl {
 	    	TermInfo termInfo = null;
 	    		    	
 	    	String termKey = parameters.get(TERM_KEY);
-	    	ContextInfo context = ContextInfo.newInstance();
+	    	ContextInfo context = new ContextInfo();
 	    	try{
 	    		termInfo = getAcademicCalendarService().getTerm(termKey, context);	    		
 	    		return termInfo;

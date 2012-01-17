@@ -47,7 +47,7 @@ public class AcademicCalendarInfoLookupableImpl extends LookupableImpl {
 	    	List<AcademicCalendarInfo> academicCalendarInfoList = new ArrayList<AcademicCalendarInfo>();
 	    	
 	    	String academicCalendarKey = fieldValues.get(ACADEMIC_CALENDAR_KEY);
-	    	ContextInfo context = ContextInfo.newInstance();
+	    	ContextInfo context = new ContextInfo();
 	    	try{
 	    		academicCalendarInfo = getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context);
 	    		academicCalendarInfoList.add(academicCalendarInfo);

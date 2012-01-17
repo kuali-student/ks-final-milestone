@@ -22,7 +22,7 @@ public class CourseOfferingInfoLookupableImpl extends LookupableImpl {
     @Override
     protected List<?> getSearchResults(LookupForm lookupForm, Map<String, String> fieldValues, boolean unbounded) {
 
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
         String termKey = fieldValues.get(TERM_FIELD_NAME);
         String subjectArea = fieldValues.get(SUBJECT_AREA_FIELD_NAME);
 

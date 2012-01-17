@@ -36,7 +36,7 @@ public class TermWrapperLookupableImpl extends LookupableImpl {
     	List<TermWrapper> termWrapperList = new ArrayList<TermWrapper>();
 
     	String termKey = fieldValues.get(TERM_WRAPPER_KEY);
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
     	try{
     		termInfo = getAcademicCalendarService().getTerm(termKey, context);
             TermWrapper termWrapper = new TermWrapper();

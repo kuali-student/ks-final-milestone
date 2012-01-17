@@ -28,7 +28,7 @@ public class TermWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
         TermWrapper termWrapper = new TermWrapper();
 
     	String termKey = parameters.get(TERM_WRAPPER_KEY);
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
     	try{
     		termInfo = getAcademicCalendarService().getTerm(termKey, context);
             termWrapper.setTermInfo(termInfo);

@@ -12,7 +12,8 @@ import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
@@ -36,7 +37,7 @@ public class TermInfoTypeKeyValues extends KeyValuesBase implements Serializable
 //        keyValues.add(new ConcreteKeyValue("kuali.atp.type.Summer", "Summer"));
 /*
         try {
-        	List<TypeInfo> typeInfoList = getAcademicCalendarService().getTermTypesForAcademicCalendarType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, ContextInfo.newInstance());
+        	List<TypeInfo> typeInfoList = getAcademicCalendarService().getTermTypesForAcademicCalendarType(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY, new ContextInfo());
         	for (TypeInfo typeInfo : typeInfoList){
         		String typeKey = typeInfo.getKey();
         		if (typeKey.equalsIgnoreCase(FALL_TERM_TYPE_KEY)){
@@ -65,7 +66,7 @@ public class TermInfoTypeKeyValues extends KeyValuesBase implements Serializable
 */      
         //pull out data from KSEN_TYPETYPE_RELTN 
         try {
-        	List<TypeInfo> typeInfoList = getAcademicCalendarService().getTermTypes(ContextInfo.newInstance());
+        	List<TypeInfo> typeInfoList = getAcademicCalendarService().getTermTypes(new ContextInfo());
         	for (TypeInfo typeInfo : typeInfoList){
         		String typeKey = typeInfo.getKey();
         		if (typeKey.equalsIgnoreCase(FALL_TERM_TYPE_KEY)){
@@ -87,7 +88,8 @@ public class TermInfoTypeKeyValues extends KeyValuesBase implements Serializable
         }catch (MissingParameterException mpe){
             
         }catch (OperationFailedException ofe){
-            
+
+        }catch (PermissionDeniedException pde){
         }
         return keyValues;
     }
