@@ -29,8 +29,8 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 
 /**
@@ -143,7 +143,7 @@ public interface ProposalService {
      * provides the identifier in the create statement instead of the server
      * assigning an identifier.
      * 
-     * @param validationType Identifier of the extent of validation
+     * @param validationTypeKey Identifier of the extent of validation
      * @param proposalInfo The proposal information to be tested.
      * @return Results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found
