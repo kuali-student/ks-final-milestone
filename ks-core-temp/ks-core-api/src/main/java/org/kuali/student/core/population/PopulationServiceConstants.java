@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.util.constants;
+package org.kuali.student.core.population;
 
 import org.kuali.student.common.util.constants.CommonServiceConstants;
 import org.kuali.student.core.population.dto.PopulationInfo;
