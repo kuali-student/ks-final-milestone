@@ -80,6 +80,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         this.acalEventAssembler = acalEventAssembler;
     }
 
+    public KeyDateAssembler getKeyDateAssembler() {
+        return keyDateAssembler;
+    }
+
+    public void setKeyDateAssembler(KeyDateAssembler keyDateAssembler) {
+        this.keyDateAssembler = keyDateAssembler;
+    }
+
     public HolidayAssembler getHolidayAssembler() {
         return holidayAssembler;
     }
@@ -102,6 +110,22 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
+    }
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
+
+    public void setTypeService(TypeService typeService) {
+        this.typeService = typeService;
+    }
+
+    public StateService getStateService() {
+        return stateService;
+    }
+
+    public void setStateService(StateService stateService) {
+        this.stateService = stateService;
     }
 
     @Override
@@ -231,7 +255,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         try {
             AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
-            AtpInfo createdAtp = atpService.createAtp(academicCalendarTypeKey, toCreate, context);
+            AtpInfo createdAtp = atpService.createAtp(null, toCreate, context);
 
             processAcalToCcalRelation(createdAtp.getId(), academicCalendarInfo.getHolidayCalendarIds(), context);
             return acalAssembler.assemble(createdAtp, context);
@@ -339,7 +363,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             atpInfo = holidayCalendarAssembler.disassemble(holidayCalendarInfo, context);
 
-            atpInfo = atpService.createAtp(atpInfo.getId(), atpInfo, context);
+            atpInfo = atpService.createAtp(null, atpInfo, context);
 
             newHolidayCalendar = holidayCalendarAssembler.assemble(atpInfo, context);
 
@@ -607,13 +631,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
 
             try {
-                AtpInfo newAtp = atpService.createAtp(termTypeKey, atp, context);
+                AtpInfo newAtp = atpService.createAtp(null, atp, context);
                 termInfo = termAssembler.assemble(newAtp, context);
             } catch (AssemblyException e) {
                 throw new OperationFailedException("Error assembling term", e);
             } catch (AlreadyExistsException e) {
                 e.printStackTrace();
             }
+        } else {
+            throw new InvalidParameterException("Term type not found: '" + termTypeKey + "'");
         }
 
         return termInfo;

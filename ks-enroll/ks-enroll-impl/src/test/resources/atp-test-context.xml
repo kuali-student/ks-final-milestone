@@ -111,6 +111,7 @@
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
     	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     	<property name="stateService" ref="stateService"/>
+        <property name="typeService" ref="typeService" />
     	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
     	<property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
@@ -192,6 +193,8 @@
     	<property name="entityManager" ref="entityManager"/>
   	</bean>
               	   
+    <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+
 	<tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 		

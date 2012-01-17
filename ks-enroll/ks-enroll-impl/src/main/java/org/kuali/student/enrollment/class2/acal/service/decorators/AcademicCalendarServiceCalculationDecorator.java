@@ -36,7 +36,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         AcademicCalendarInfo templateAcademicCalendar = getAcademicCalendar(academicCalendarId, contextInfo);
         AcademicCalendarInfo academicCalendar = new AcademicCalendarInfo(templateAcademicCalendar);
 
-        academicCalendar.setId(UUIDHelper.genStringUUID());
+        academicCalendar.setId(null);
         academicCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         academicCalendar.setName(templateAcademicCalendar.getName());
         academicCalendar.setDescr(new RichTextInfo(templateAcademicCalendar.getDescr()));
@@ -46,7 +46,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         academicCalendar.setEndDate(endDate);
 
         try {
-            academicCalendar = createAcademicCalendar(academicCalendar.getId(), academicCalendar, contextInfo);
+            academicCalendar = createAcademicCalendar(academicCalendar.getTypeKey(), academicCalendar, contextInfo);
         } catch (DataValidationErrorException e) {
             throw new OperationFailedException("Could not create AcademicCalendar '" + academicCalendar.getId() + "'", e);
         } catch (ReadOnlyException e) {
@@ -86,7 +86,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
 
         for (HolidayCalendarInfo templateHolidayCalendar : holidayCalendarInfos) {
             HolidayCalendarInfo holidayCalendar = new HolidayCalendarInfo(templateHolidayCalendar);
-            holidayCalendar.setId(UUIDHelper.genStringUUID());
+            holidayCalendar.setId(null);
             holidayCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             holidayCalendar.setTypeKey(templateHolidayCalendar.getTypeKey());
             holidayCalendar.setDescr(new RichTextInfo(templateHolidayCalendar.getDescr()));
@@ -132,14 +132,14 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
 
         TermInfo term = new TermInfo(templateTerm);
         // TODO properly generate new key
-        term.setId(templateTerm.getId() + "." + RandomStringUtils.randomAlphanumeric(4));
+        term.setId(null);
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setName(templateTerm.getName());
         term.setDescr(new RichTextInfo(templateTerm.getDescr()));
         term.setTypeKey(templateTerm.getTypeKey());
 
         try {
-            term = createTerm(term.getId(), term, context);
+            term = createTerm(term.getTypeKey(), term, context);
         } catch (DataValidationErrorException e) {
             throw new OperationFailedException("Could not create Term '" + term.getId() + "'", e);
         } catch (ReadOnlyException e) {

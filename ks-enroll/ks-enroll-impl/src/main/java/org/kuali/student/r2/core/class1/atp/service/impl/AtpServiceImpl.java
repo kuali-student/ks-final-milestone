@@ -436,6 +436,12 @@ public class AtpServiceImpl implements AtpService {
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
+        // TODO remove atpId and AlreadyExistsException from method signiture
+        // TODO move to validation layer
+        if (atpId != null || atpInfo.getId() != null) {
+            throw new InvalidParameterException("ID cannot be supplied when creating an ATP.");
+        }
+
         AtpEntity atp = new AtpEntity(atpInfo);
         if (null != atpInfo.getStateKey()) {
         	atp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context));
@@ -447,17 +453,15 @@ public class AtpServiceImpl implements AtpService {
             atp.setDescr(new AtpRichTextEntity(atpInfo.getDescr()));
         }
 
-        AtpEntity existing = atpDao.find(atpId);
-        if (existing != null) {
-            throw new AlreadyExistsException();
-        }
         atpDao.persist(atp);
 
-		AtpEntity retrived = atpDao.find(atpId);
+		AtpEntity retrived = atpDao.find(atp.getId());
 		AtpInfo info = null;
 		if(retrived != null){
 			info = retrived.toDto();
-		}
+		} else {
+            throw new OperationFailedException("ATP not found after persisted. atpId: " + atpId);
+        }
 
         return info;
     }

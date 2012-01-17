@@ -49,7 +49,6 @@ import static org.junit.Assert.*;
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
-@Ignore
 public class TestAcademicCalendarServiceImpl {
     @Autowired
     @Qualifier("acalServiceAuthDecorator")
@@ -82,25 +81,20 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testGetAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setId("testAcalId");
         acal.setName("testAcal");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-        try {
-            AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcalId", acal, callContext);
-            assertNotNull(created);
-            assertEquals("testAcalId", created.getId());
+        AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
 
-            AcademicCalendarInfo existed = acalService.getAcademicCalendar("testAcalId", callContext);
+        AcademicCalendarInfo existed = acalService.getAcademicCalendar(created.getId(), callContext);
 
-            assertNotNull(existed);
-            assertEquals("testAcalId", existed.getId());
-            assertEquals("testAcal", existed.getName());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        assertNotNull(existed);
+        assertNotNull(existed.getId());
+        assertEquals("testAcal", existed.getName());
     }
 
     @Test
@@ -139,7 +133,6 @@ public class TestAcademicCalendarServiceImpl {
     public void testCreateAcademicCalendar() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException, ReadOnlyException {
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setId("testAcalId1");
         acal.setName("testAcal1");
         List<String> ccKeys = new ArrayList<String>();
         // Assume holidayCalendarIds picking up from dropdown and valid(already
@@ -148,58 +141,48 @@ public class TestAcademicCalendarServiceImpl {
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         try {
-            AcademicCalendarInfo created = acalService.createAcademicCalendar("testAcalId1", acal, callContext);
+            AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
             assertNotNull(created);
-            assertEquals("testAcalId1", created.getId());
+            assertNotNull(created.getId());
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
         }
-
-        acalService.createAcademicCalendar("testAcalId1", acal, callContext);
-        fail("AcademicCalendarService.createAcademicCalendar() did not throw expected AlreadyExistsException");
-
     }
 
     @Test
-    public void testUpdateAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testUpdateAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException, VersionMismatchException {
 
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setId("testNewAcalId");
         acal.setName("testNewAcal");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
-        try {
-            AcademicCalendarInfo created = acalService.createAcademicCalendar("testNewAcalId", acal, callContext);
-            assertNotNull(created);
-            assertEquals("testNewAcalId", created.getId());
+        AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
 
-            AcademicCalendarInfo existed = acalService.getAcademicCalendar("testNewAcalId", callContext);
+        AcademicCalendarInfo existed = acalService.getAcademicCalendar(created.getId(), callContext);
 
-            assertNotNull(existed);
+        assertNotNull(existed);
 
-            existed.setName("testUpdatedAcal");
-            // TODO - need actual ProgramTypeKey attribute in test database sql
-            AcademicCalendarInfo updated = acalService.updateAcademicCalendar("testNewAcalId", existed, callContext);
-            assertEquals("testUpdatedAcal", updated.getName());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        existed.setName("testUpdatedAcal");
+        // TODO - need actual ProgramTypeKey attribute in test database sql
+        AcademicCalendarInfo updated = acalService.updateAcademicCalendar(created.getId(), existed, callContext);
+        assertEquals("testUpdatedAcal", updated.getName());
     }
 
     @Test
     public void testDeleteAcademicCalendar() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         AcademicCalendarInfo acal = new AcademicCalendarInfo();
-        acal.setId("testDeletedAcalId");
         acal.setName("testDeletedAcal");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         try {
-            AcademicCalendarInfo created = acalService.createAcademicCalendar("testDeletedAcalId", acal, callContext);
+            AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
             assertNotNull(created);
-            assertEquals("testDeletedAcalId", created.getId());
+            assertNotNull(created.getId());
 
-            StatusInfo ret = acalService.deleteAcademicCalendar("testDeletedAcalId", callContext);
+            StatusInfo ret = acalService.deleteAcademicCalendar(created.getId(), callContext);
             assertTrue(ret.getIsSuccess());
 
             AcademicCalendarInfo existed = acalService.getAcademicCalendar("testDeletedAcalId", callContext);
@@ -265,30 +248,29 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testCreateAndGetTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testCreateAndGetTerm() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         TermInfo term = new TermInfo();
-        term.setId("testTermId2");
         term.setName("testNewTerm");
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
-        try {
-            TermInfo created;
 
-            created = acalService.createTerm("testTermId2", term, callContext);
+        TermInfo created;
 
-            term.setId("testNewTermId");
-            created = acalService.createTerm("testNewTermId", term, callContext);
-            assertNotNull(created);
-            assertEquals("testNewTermId", created.getId());
+        created = acalService.createTerm(AtpServiceConstants.ATP_FALL_TYPE_KEY, term, callContext);
+        TermInfo temp = acalService.getTerm(created.getId(), callContext);
+        assertNotNull(temp);
+        assertNotNull(temp.getId());
 
-            TermInfo existed = acalService.getTerm("testNewTermId", callContext);
+        term.setId(null);
+        created = acalService.createTerm(AtpServiceConstants.ATP_WINTER_TYPE_KEY, term, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
 
-            assertNotNull(existed);
-            assertEquals("testNewTermId", existed.getId());
-            assertEquals("testNewTerm", existed.getName());
-        } catch (Exception ex) {
-            fail("exception from service call :" + ex.getMessage());
-        }
+        TermInfo existed = acalService.getTerm(created.getId(), callContext);
+
+        assertNotNull(existed);
+        assertNotNull(existed.getId());
+        assertEquals("testNewTerm", existed.getName());
     }
 
     @Test
@@ -813,30 +795,22 @@ public class TestAcademicCalendarServiceImpl {
 
         KeyDateInfo created = acalService.createKeyDate("termRelationTestingTerm1", "new-keydate-Id", keyDate, callContext);
         assertNotNull(created);
-        assertEquals("new-keydate-Id", created.getId());
+        assertNotNull(created.getId());
         assertEquals("testCreate", created.getName());
 
-        try {
-            KeyDateInfo retrieved = acalService.getKeyDate("new-keydate-Id", callContext);
-            assertNotNull(retrieved);
-            assertEquals("new-keydate-Id", retrieved.getId());
-            assertEquals("testCreate", retrieved.getName());
-        } catch (DoesNotExistException e) {
-            fail(e.getMessage());
-        }
+        KeyDateInfo retrieved = acalService.getKeyDate(created.getId(), callContext);
+        assertNotNull(retrieved);
+        assertEquals(created.getId(), retrieved.getId());
+        assertEquals("testCreate", retrieved.getName());
 
-        try {
-            List<KeyDateInfo> kds = acalService.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
-            assertNotNull(kds);
-            assertTrue(!kds.isEmpty());
-            List<String> kdIds = new ArrayList<String>();
-            for (KeyDateInfo kd : kds) {
-                kdIds.add(kd.getId());
-            }
-            assertTrue(kdIds.contains("new-keydate-Id"));
-        } catch (DoesNotExistException e) {
-            fail(e.getMessage());
+        List<KeyDateInfo> kds = acalService.getKeyDatesForTerm(created.getId(), callContext);
+        assertNotNull(kds);
+        assertTrue(!kds.isEmpty());
+        List<String> kdIds = new ArrayList<String>();
+        for (KeyDateInfo kd : kds) {
+            kdIds.add(kd.getId());
         }
+        assertTrue(kdIds.contains("new-keydate-Id"));
 
     }
 
@@ -884,7 +858,7 @@ public class TestAcademicCalendarServiceImpl {
     public void testCopyAcademicCalendar() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ParseException {
         final String originalCalendarKey = "ACADEMICCALENDAR1990";
-        final String copiedCalendarKey = "ACADEMICCALENDAR1990COPY";
+        final String copiedCalendarKey = null;
 
         AcademicCalendar originalCalendar = acalService.getAcademicCalendar(originalCalendarKey, callContext);
         Date startDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2008-09-01");
@@ -892,8 +866,9 @@ public class TestAcademicCalendarServiceImpl {
         
         AcademicCalendar copiedCalendar = acalService.copyAcademicCalendar(originalCalendarKey, startDate, endDate, callContext);
 
-        assertEquals(originalCalendarKey, originalCalendar.getId());
-        assertEquals(copiedCalendarKey, copiedCalendar.getId());
+        assertNotNull(originalCalendar.getId());
+        assertNotNull(copiedCalendar.getId());
+        assertFalse(originalCalendar.getId().equals(copiedCalendar.getId()));
         assertNotNull(originalCalendar.getName());
         assertEquals(originalCalendar.getName(), copiedCalendar.getName());
         assertNotNull(originalCalendar.getTypeKey());
@@ -901,9 +876,9 @@ public class TestAcademicCalendarServiceImpl {
         assertNotNull(originalCalendar.getStateKey());
         assertEquals("kuali.atp.state.Draft", copiedCalendar.getStateKey());
         assertNotNull(originalCalendar.getStartDate());
-        assertEquals(originalCalendar.getStartDate(), copiedCalendar.getStartDate());
+        assertEquals(startDate, copiedCalendar.getStartDate());
         assertNotNull(originalCalendar.getEndDate());
-        assertEquals(originalCalendar.getEndDate(), copiedCalendar.getEndDate());
+        assertEquals(endDate, copiedCalendar.getEndDate());
         assertNotNull(originalCalendar.getDescr());
         assertEquals(originalCalendar.getDescr().getFormatted(), copiedCalendar.getDescr().getFormatted());
         assertEquals(originalCalendar.getDescr().getPlain(), copiedCalendar.getDescr().getPlain());
@@ -915,11 +890,11 @@ public class TestAcademicCalendarServiceImpl {
         assertFalse(originalHolidayCalendarsKeys.isEmpty());
         assertEquals(originalHolidayCalendarsKeys.size(), copiedHolidayCalendarsKeys.size());
         for (String holidayCalendarId : originalHolidayCalendarsKeys) {
-            assertTrue("holidayCalendarId not found: " + holidayCalendarId, copiedHolidayCalendarsKeys.contains(holidayCalendarId));
+            assertFalse("Holiday Calendar with same ID found: " + holidayCalendarId, copiedHolidayCalendarsKeys.contains(holidayCalendarId));
         }
 
         List<TermInfo> originalCalendarTerms = acalService.getTermsForAcademicCalendar(originalCalendarKey, callContext);
-        List<TermInfo> copiedCalendarTerms = acalService.getTermsForAcademicCalendar(copiedCalendarKey, callContext);
+        List<TermInfo> copiedCalendarTerms = acalService.getTermsForAcademicCalendar(copiedCalendar.getId(), callContext);
         assertNotNull(originalCalendarTerms);
         assertNotNull(copiedCalendarTerms);
         assertFalse(originalCalendarTerms.isEmpty());
