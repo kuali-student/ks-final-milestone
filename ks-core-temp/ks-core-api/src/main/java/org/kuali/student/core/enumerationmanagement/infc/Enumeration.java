@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
@@ -12,20 +12,22 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.core.state;
 
-import org.kuali.student.common.util.constants.CommonServiceConstants;
+package org.kuali.student.core.enumerationmanagement.infc;
+
+import org.kuali.student.common.infc.KeyEntity;
+
+import java.util.List;
 
 /**
- * This class holds the constants used by the type service
+ * Enumeration object
  *
- * @author tom
+ * @Version 2.0
+ * @Author Sri komandur@uw.edu
  */
-public class StateServiceConstants {
-
+public interface Enumeration extends KeyEntity{
     /**
-     * Reference Object URI's
+     * List of contexts supported by this enumeration
      */
-    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "state";
-   
+    List<String> getContextDescriptors();
 }

@@ -15,33 +15,19 @@
 
 package org.kuali.student.core.population.service;
 
-import java.util.List;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.exceptions.*;
+import org.kuali.student.core.population.PopulationServiceConstants;
+import org.kuali.student.core.population.dto.PopulationInfo;
+import org.kuali.student.core.population.dto.PopulationRuleInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
-import org.kuali.student.core.population.dto.PopulationInfo;
-import org.kuali.student.core.population.dto.PopulationRuleInfo;
-
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
-
-
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-
-import org.kuali.student.core.util.constants.PopulationServiceConstants;
+import java.util.List;
 
 /**
  * Population Service Description and Assumptions.
@@ -215,7 +201,7 @@ public interface PopulationService {
      * the create statement instead of the server assigning an
      * identifier.
      *
-     * @param validationTypeId the identifier of the extent of validation
+     * @param validationTypeKey the identifier of the extent of validation
      * @param populationInfo the Population information to be tested
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
@@ -353,7 +339,7 @@ public interface PopulationService {
      * Retrieves a list of PopulationRules in which the given
      * Population is related.
      *
-     * @param populationid a Population id
+     * @param populationKey a Population id
      * @param contextInfo Context information containing the
      *        principalId and locale information about the caller of
      *        service operation
