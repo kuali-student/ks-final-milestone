@@ -1,8 +1,8 @@
-package org.kuali.student.core.util.constants;
+package org.kuali.student.core.comment;
 
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
-
+import org.kuali.student.common.util.constants.CommonServiceConstants  ;
 /**
  * This class holds the constants used by the Comment service
  *
