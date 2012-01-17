@@ -11,7 +11,7 @@
 package org.kuali.student.lum.util.constants;
 
 import org.kuali.student.common.util.constants.CommonServiceConstants;
-import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+// TODO kscm-149  import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 
 /**
  * Constants used by for LuiPersonRelationService
@@ -24,8 +24,8 @@ public class LuiPersonRelationServiceConstants {
      * Reference Object URI's
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "lpr";
-    public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = NAMESPACE + "/"
-            + LuiPersonRelationInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_LUI_PERSON_RELATION = NAMESPACE + "/"; // TODO kscm-149
+    // TODO kscm-149 + LuiPersonRelationInfo.class.getSimpleName();
     /**
      * Types and known groups of types
      */

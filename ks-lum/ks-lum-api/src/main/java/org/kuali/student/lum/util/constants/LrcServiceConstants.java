@@ -16,9 +16,9 @@
 package org.kuali.student.lum.util.constants;
 
 import org.kuali.student.common.util.constants.CommonServiceConstants;
-import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
-import org.kuali.student.lum.lrc.dto.ResultValueInfo;
-import org.kuali.student.lum.lrc.infc.ResultValuesGroup;
+// TODO kscm-149 import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
+// TODO kscm-149 import org.kuali.student.lum.lrc.dto.ResultValueInfo;
+// TODO kscm-149 import org.kuali.student.lum.lrc.infc.ResultValuesGroup;
 
 /**
  * Grading Service Constants
@@ -26,9 +26,12 @@ import org.kuali.student.lum.lrc.infc.ResultValuesGroup;
 public class LrcServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "lrc";
-    public static final String REF_OBJECT_URI_RESULT_VALUE = NAMESPACE + "/" + ResultValueInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_RESULT_SCALE = NAMESPACE + "/" + ResultScaleInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_RESULT_VALUES_GROUP = NAMESPACE + "/" + ResultValuesGroup.class.getSimpleName();
+    public static final String REF_OBJECT_URI_RESULT_VALUE = NAMESPACE + "/"; // TODO kscm-149
+    // TODO kscm-149  // + ResultValueInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_RESULT_SCALE = NAMESPACE + "/"; // TODO kscm-149
+    // TODO kscm-149 // + ResultScaleInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_RESULT_VALUES_GROUP = NAMESPACE + "/"; // TODO kscm-149
+    // TODO kscm-149 // + ResultValuesGroup.class.getSimpleName();
     public static final String RESULT_VALUES_GROUP_PROCESS_KEY = "kuali.result.values.group.process";
     // result values group types
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_FIXED = "kuali.result.values.group.type.fixed";

@@ -16,9 +16,9 @@
 package org.kuali.student.lum.util.constants;
 
 import org.kuali.student.common.util.constants.CommonServiceConstants;
-import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
-import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
-import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
+// TODO kscm-149 import org.kuali.student.enrollment.grading.dto.GradeRosterEntryInfo;
+// TODO kscm-149 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
+// TODO kscm-149 import org.kuali.student.enrollment.grading.dto.GradeValuesGroupInfo;
 
 /**
  * Grading Service Constants
@@ -27,9 +27,12 @@ public class GradingServiceConstants {
 
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "grading";
     public static final String SERVICE_NAME_LOCAL_PART = "GradingService";
-    public static final String REF_OBJECT_URI_GRADE_ROSTER = NAMESPACE + "/" + GradeRosterInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_GRADE_ROSTER_ENTRY = NAMESPACE + "/" + GradeRosterEntryInfo.class.getSimpleName();
-    public static final String REF_OBJECT_URI_GRADE_VALUES_GROUP = NAMESPACE + "/" + GradeValuesGroupInfo.class.getSimpleName();    
+    public static final String REF_OBJECT_URI_GRADE_ROSTER = NAMESPACE + "/"; // TODO kscm-149
+    // TODO kscm-149 // + GradeRosterInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_GRADE_ROSTER_ENTRY = NAMESPACE + "/"; // TODO kscm-149
+    // TODO kscm-149 // + GradeRosterEntryInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_GRADE_VALUES_GROUP = NAMESPACE + "/"; // TODO kscm-149
+    // TODO kscm-149 // + GradeValuesGroupInfo.class.getSimpleName();
     // grade values group type keys
     public static final String  RESULT_VALUE_NUMBER_GRADE_TYPE = "kuali.lrc.type.number.grade";
     
