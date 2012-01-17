@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.kuali.student.core.exceptions.*;
+import org.kuali.student.common.exceptions.*;
 import org.kuali.student.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;

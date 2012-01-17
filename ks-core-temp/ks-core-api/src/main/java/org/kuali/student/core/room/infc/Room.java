@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.room.infc;
 
-import org.kuali.student.core.infc.IdEntity;
+import org.kuali.student.common.infc.IdEntity;
 import org.kuali.student.core.room.dto.RoomUsageInfo;
 
 import java.util.List;

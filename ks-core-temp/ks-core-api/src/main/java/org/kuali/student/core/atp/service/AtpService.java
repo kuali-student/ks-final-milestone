@@ -27,15 +27,15 @@ import org.kuali.student.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.ReadOnlyException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;

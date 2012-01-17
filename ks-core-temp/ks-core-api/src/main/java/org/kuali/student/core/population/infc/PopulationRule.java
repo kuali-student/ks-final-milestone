@@ -17,7 +17,7 @@ package org.kuali.student.core.population.infc;
 
 import java.util.List;
 
-import org.kuali.student.core.infc.IdEntity;
+import org.kuali.student.common.infc.IdEntity;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
 

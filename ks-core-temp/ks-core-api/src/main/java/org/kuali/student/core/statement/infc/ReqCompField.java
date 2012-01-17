@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.statement.infc;
 
-import org.kuali.student.core.infc.IdNamelessEntity;
+import org.kuali.student.common.infc.IdNamelessEntity;
 
 
 /**

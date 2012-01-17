@@ -17,7 +17,7 @@
 package org.kuali.student.core.type.infc;
 
 import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.core.infc.HasEffectiveDates;
+import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.core.infc.HasKey;
 
 /**

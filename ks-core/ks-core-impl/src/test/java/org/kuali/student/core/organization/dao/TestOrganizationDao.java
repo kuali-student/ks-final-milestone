@@ -224,7 +224,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 
 		try {
 			assertNull(dao.fetch(Org.class, orgID));
-			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.common.exceptions.DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
 		}
 
@@ -233,7 +233,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 			for (String id : attrIDs) {
 				assertNull(dao.fetch(OrgAttribute.class, id));
 			}
-			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.common.exceptions.DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
 		}
 	}
@@ -293,7 +293,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		try {
 			// assertNull(dao.fetch(Org.class, orgID));
 			dao.fetch(Org.class, orgID);
-			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+			fail("OrganizationDAO#fetch(Org.class, <id>) of a deleted Org did not throw org.kuali.student.common.exceptions.DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
 		}
 		// make sure Attrs were deleted
@@ -301,7 +301,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 			for (String id : attrIDs) {
 				assertNull(dao.fetch(OrgAttribute.class, id));
 			}
-			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.core.exceptions.DoesNotExistException");
+			fail("OrganizationDAO#fetch(OrgAttribute.class, <id> of a deleted OrgAttribute did not throw org.kuali.student.common.exceptions.DoesNotExistException");
 		} catch (DoesNotExistException dnee) {
 		}
 	}

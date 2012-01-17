@@ -17,7 +17,7 @@ package org.kuali.student.core.atp.infc;
 
 import java.util.Date;
 
-import org.kuali.student.core.infc.IdEntity;
+import org.kuali.student.common.infc.IdEntity;
 
 
 /**
