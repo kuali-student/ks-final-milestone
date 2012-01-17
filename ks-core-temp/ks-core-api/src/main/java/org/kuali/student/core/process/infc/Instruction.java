@@ -17,8 +17,8 @@ package org.kuali.student.core.process.infc;
 
 import java.util.List;
 
-import org.kuali.student.core.infc.Relationship;
-import org.kuali.student.core.infc.RichText;
+import org.kuali.student.common.infc.Relationship;
+import org.kuali.student.common.infc.RichText;
 
 
 /**

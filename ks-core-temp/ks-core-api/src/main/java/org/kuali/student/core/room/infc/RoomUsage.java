@@ -15,8 +15,8 @@
 
 package org.kuali.student.core.room.infc;
 
-import org.kuali.student.core.infc.HasAttributesAndMeta;
-import org.kuali.student.core.infc.HasId;
+import org.kuali.student.common.infc.HasAttributesAndMeta;
+import org.kuali.student.common.infc.HasId;
 
 import java.util.List;
 
