@@ -11,7 +11,7 @@
 
 package org.kuali.student.r2.core.versionmanagement.dto;
 
-import org.kuali.student.r2.common.versionmanagement.infc.VersionDisplay;
+import org.kuali.student.r2.core.versionmanagement.infc.VersionDisplay;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
