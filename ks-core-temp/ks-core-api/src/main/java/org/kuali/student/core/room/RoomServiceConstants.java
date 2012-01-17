@@ -13,8 +13,9 @@
  *  permissions and limitations under the License.
  */
 
-package org.kuali.student.core.util.constants;
+package org.kuali.student.core.room;
 
+import org.kuali.student.common.util.constants.CommonServiceConstants;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 import org.kuali.student.core.room.dto.BuildingInfo;
