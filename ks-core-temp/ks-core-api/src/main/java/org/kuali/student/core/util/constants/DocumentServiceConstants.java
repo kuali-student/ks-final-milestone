@@ -1,4 +1,4 @@
-package org.kuali.student.common.util.constants;
+package org.kuali.student.core.util.constants;
 
 import org.kuali.student.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.core.document.dto.DocumentInfo;

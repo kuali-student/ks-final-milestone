@@ -1,4 +1,4 @@
-package org.kuali.student.common.util.constants;
+package org.kuali.student.core.util.constants;
 
 
 import org.kuali.student.lum.course.dto.CourseInfo;

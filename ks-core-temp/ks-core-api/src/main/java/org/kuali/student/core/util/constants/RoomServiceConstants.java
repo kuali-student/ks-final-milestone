@@ -13,7 +13,7 @@
  *  permissions and limitations under the License.
  */
 
-package org.kuali.student.common.util.constants;
+package org.kuali.student.core.util.constants;
 
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.TagInfo;

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.util.constants;
+package org.kuali.student.core.util.constants;
 
 // TODO kscm-123 import org.kuali.student.core.population.dto.PopulationInfo;
 // TODO kscm-123 import org.kuali.student.core.population.dto.PopulationRuleInfo;
