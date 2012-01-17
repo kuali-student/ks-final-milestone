@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.util.constants;
 
+import org.kuali.student.common.util.constants.CommonServiceConstants;
 import org.kuali.student.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.core.process.dto.ProcessInfo;
 import org.kuali.student.core.process.dto.CheckInfo;

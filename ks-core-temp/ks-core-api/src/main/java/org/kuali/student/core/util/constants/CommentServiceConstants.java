@@ -1,5 +1,6 @@
 package org.kuali.student.core.util.constants;
 
+import org.kuali.student.common.util.constants.CommonServiceConstants;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.TagInfo;
 
