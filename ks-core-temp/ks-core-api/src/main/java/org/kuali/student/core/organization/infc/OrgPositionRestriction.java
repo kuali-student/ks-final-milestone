@@ -15,8 +15,8 @@
 
 package org.kuali.student.core.organization.infc;
 
-import org.kuali.student.core.infc.IdEntity;
-import org.kuali.student.core.infc.TimeAmount;
+import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.common.infc.TimeAmount;
 
 
 /**
