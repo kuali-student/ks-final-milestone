@@ -29,10 +29,10 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationRichTextEntity;
 
-@PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
+@PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 @Ignore
 public class TestEnumerationDao extends AbstractTransactionalDaoTest{
-    @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao")
+    @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao", testSqlFile = "classpath:ks-em.sql")
     public EnumerationDao enumerationDao;
 
     @Test

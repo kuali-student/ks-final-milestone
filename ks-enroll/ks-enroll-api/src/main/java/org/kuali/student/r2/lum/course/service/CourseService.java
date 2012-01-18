@@ -350,19 +350,4 @@ public interface CourseService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
             OperationFailedException, PermissionDeniedException;
 
-    
-    
-    public List<FormatInfo> getCourseFormats(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-    //TODO kscm-150 Use methods of List<FormatInfo> getCourseFormatsByCourse ?
-    
-    
-    public List<ActivityInfo> getCourseActivities(@WebParam(name = "formatId") String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-    
-    //TODO kscm-150 Use methods of List<ActivityInfo> getCourseActivitiesByCourseFormat ?
-    
-    
-    public List<LoDisplayInfo> getCourseLos(@WebParam(name = "courseId") String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-  /
-    //TODO kscm-150 Use methods of List<LoDisplayInfo> getCourseLearningObjectivesByCourse ?
 }

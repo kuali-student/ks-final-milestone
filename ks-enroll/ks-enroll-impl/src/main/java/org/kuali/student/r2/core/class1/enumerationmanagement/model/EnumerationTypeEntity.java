@@ -21,7 +21,7 @@ import javax.persistence.Table;
 import org.kuali.student.r2.core.class1.type.entity.TypeEntity;
 
 @Entity
-@Table(name = "KSEN_ENUM_TYPE")
+@Table(name = "KSEM_ENUM_TYPE")
 public class EnumerationTypeEntity extends TypeEntity<EnumerationAttributeEntity>{
 
 }

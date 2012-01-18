@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagemnet.service.impl;
+package org.kuali.student.r2.core.class1.enumerationmanagement.service.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
