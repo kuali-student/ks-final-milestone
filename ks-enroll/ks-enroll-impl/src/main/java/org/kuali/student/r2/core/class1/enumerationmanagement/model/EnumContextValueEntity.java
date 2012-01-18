@@ -15,35 +15,64 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+
+import org.kuali.student.r2.common.entity.BaseVersionEntity;
+import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 
 @Entity
-@Table(name = "KSEM_ENUM_VALUE_T")
-public class EnumContextValueEntity {
+@Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})
+public class EnumContextValueEntity extends BaseVersionEntity {
 
-    @Column(name = "KEY")
-    private String key;
+    @Column(name="CTX_KEY")
+    String contextKey;
     
-    @Column(name = "VALUE")
-    private String value;
+    @Column(name="CTX_VAL")
+    String contextValue;
 
-    public String getKey() {
-        return key;
+    @ManyToMany(mappedBy="contextEntityList", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    List<EnumeratedValueEntity> enumeratedValueList;
+    
+    public EnumContextValueEntity() {
     }
 
-    public void setKey(String key) {
-        this.key = key;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
+    public EnumContextValueEntity(EnumContextValue enumContextValue) {
+        //super(enumContextValue);
+        this.setContextKey(enumContextValue.getKey());
+        this.setContextValue(enumContextValue.getValue());
+        //this.setEnumeratedValueList(enumContextValue)
     }
     
+    public String getContextKey() {
+        return contextKey;
+    }
+
+    public void setContextKey(String type) {
+        this.contextKey = type;
+    }
+
+    public String getContextValue() {
+        return contextValue;
+    }
+
+    public void setContextValue(String value) {
+        this.contextValue = value;
+    }
+    
+	public List<EnumeratedValueEntity> getEnumeratedValueList() {
+		return enumeratedValueList;
+	}
+	public void setEnumeratedValueList(
+			List<EnumeratedValueEntity> enumeratedValueList) {
+		this.enumeratedValueList = enumeratedValueList;
+	}
     
 }
