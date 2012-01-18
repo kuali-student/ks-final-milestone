@@ -16,7 +16,7 @@
 package org.kuali.student.core.document.dto;
 
 import org.kuali.student.common.dto.KeyEntityInfo;
-import org.kuali.student.core.document.infc.DocumentCategory;
+import org.kuali.student.core.document.dto.DocumentCategory;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;

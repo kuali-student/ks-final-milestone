@@ -29,7 +29,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.core.util.constants.TypeServiceConstants;
+import org.kuali.student.common.util.constants.TypeServiceConstants;
 
 /**
  * Provide lookups of Types and TypeTypRelations as well as operations

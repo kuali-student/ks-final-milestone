@@ -13,8 +13,9 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.util.constants;
+package org.kuali.student.core.statement;
 
+import org.kuali.student.common.util.constants.CommonServiceConstants;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;

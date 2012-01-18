@@ -29,7 +29,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.core.room.RoomServiceConstants;
-import org.kuali.student.core.util.constants.RoomServiceConstants;
+import org.kuali.student.core.room.RoomServiceConstants;
 import org.kuali.student.core.room.dto.BuildingInfo;
 import org.kuali.student.core.room.dto.RoomInfo;
 import org.kuali.student.core.room.dto.RoomResponsibleOrgInfo;

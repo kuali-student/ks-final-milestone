@@ -1,7 +1,7 @@
 package org.kuali.student.core.util;
 
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.util.constants.AtpServiceConstants;
+import org.kuali.student.core.atp.AtpServiceConstants;
 import org.kuali.student.core.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.core.util.constants.LuiServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;

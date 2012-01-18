@@ -11,6 +11,7 @@ package org.kuali.student.core.state.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -19,6 +20,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.infc.HasAttributes;
 import org.kuali.student.core.state.infc.State;
 import org.kuali.student.common.dto.HasAttributesInfo;
 import org.w3c.dom.Element;
@@ -30,9 +32,13 @@ import org.w3c.dom.Element;
                 "effectiveDate", "expirationDate", 
                 "attributes", "_futureElements"})
 
-public class StateInfo 
-    extends HasAttributesInfo 
-    implements State, Serializable {
+//Please note I need help here to know how to resolve this one
+// StateInfo extends HasAttributesInfo, but HasAttributeInfo extends from HasAtrribute
+
+// Now here comes the problem State also extends from HasAttribute and HasAttributeInfo Override its methods....
+// this is why we have a problem here ... what is the right way of fixing this ?
+
+public class StateInfo      extends HasAttributesInfo implements State, Serializable {
 
     @XmlAttribute
     private String key;
@@ -64,7 +70,8 @@ public class StateInfo
      * another State.
      */    
     public StateInfo(State state) {
-        super(state);
+        super((HasAttributes)state); // I am worried here since the supper require HasAtrributeInfo I don't know if this cast
+                                     // will have a huge effect.
         if(state != null){
             this.key = state.getKey();
             this.name = state.getName();
@@ -74,7 +81,7 @@ public class StateInfo
         }
     }
 
-    @Override
+    //@Override
     public String getKey() {
         return key;
     }
@@ -83,7 +90,7 @@ public class StateInfo
         this.key = key;
     }
 
-    @Override
+    //@Override
     public String getName() {
         return name;
     }
@@ -92,7 +99,7 @@ public class StateInfo
         this.name = name;
     }
 
-    @Override
+    //@Override
     public String getDescr() {
         return descr;
     }
@@ -101,7 +108,7 @@ public class StateInfo
         this.descr = descr;
     }
 
-    @Override
+    //@Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -110,12 +117,16 @@ public class StateInfo
         this.effectiveDate = effectiveDate;
     }
 
-    @Override
+    //@Override
     public Date getExpirationDate() {
     	return expirationDate;
     }
     
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

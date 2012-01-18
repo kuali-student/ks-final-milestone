@@ -30,7 +30,7 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.core.util.constants.StateServiceConstants;
+import org.kuali.student.core.state.StateServiceConstants;
 
 /**
  * Provides a state management and state flow information.
