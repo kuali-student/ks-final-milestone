@@ -20,6 +20,7 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.*;
+import org.kuali.student.core.hold.HoldServiceConstants;
 import org.kuali.student.core.hold.dto.HoldInfo;
 import org.kuali.student.core.hold.dto.IssueInfo;
 
