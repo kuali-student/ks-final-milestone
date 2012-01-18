@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.impl.KSButtonImpl;
 
 import com.google.gwt.core.client.GWT;
@@ -24,93 +25,98 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 
 /**
- * KSButton wraps gwt Button.  This class provides most of the same functionality, but sets KS css styles
- * for its default look and a variety of button events (for improved browser compatibility and customizability).
- * An image can be also be added to a KSButton (an improvement over gwt Button).
+ * KSButton wraps gwt Button. This class provides most of the same functionality, but sets
+ * KS css styles for its default look and a variety of button events (for improved browser
+ * compatibility and customizability). An image can be also be added to a KSButton (an
+ * improvement over gwt Button).
  * 
  * @author Kuali Student Team
- *
+ * 
  */
-public class KSButton extends KSButtonAbstract{
-	
-	KSButtonAbstract button = GWT.create(KSButtonImpl.class);
-	
-	public boolean isEnabled() {
-		return button.isEnabled();
-	}
+public class KSButton extends KSButtonAbstract {
 
-	public void setEnabled(boolean enabled) {
-		button.setEnabled(enabled);
-	}
-	
-	public KSButton(){
-		this.init();
-		this.initWidget(button);
-	}
-	
-	public KSButton(String text, ClickHandler handler){
-		this.init(text, handler);
-		this.initWidget(button);
-	}	
-	
-	public KSButton(String text){
-		this.init(text);
-		this.initWidget(button);
-	}
-	
-	public KSButton(String text, ButtonStyle style){
-		this.init(text, style);
-		this.initWidget(button);
-	}
+    KSButtonAbstract button = GWT.create(KSButtonImpl.class);
 
-    public KSButton(String text, ButtonStyle style, ClickHandler handler){
+    public boolean isEnabled() {
+        return button.isEnabled();
+    }
+
+    public void setEnabled(boolean enabled) {
+        button.setEnabled(enabled);
+    }
+
+    public KSButton() {
+        this.init();
+        this.initWidget(button);
+    }
+
+    public KSButton(String text, ClickHandler handler) {
+        this.init(text, handler);
+        this.initWidget(button);
+        button.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(text));
+    }
+
+    public KSButton(String text) {
+        this.init(text);
+        this.initWidget(button);
+        button.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(text));
+    }
+
+    public KSButton(String text, ButtonStyle style) {
+        this.init(text, style);
+        this.initWidget(button);
+        button.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(text));
+    }
+
+    public KSButton(String text, ButtonStyle style, ClickHandler handler) {
         this.init(text, style, handler);
         this.initWidget(button);
-    }   
-    
-    public void setText(String text){
+        button.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(text));
+    }
+
+    public void setText(String text) {
         button.setText(text);
     }
-    
-	@Override
-	public HandlerRegistration addClickHandler(ClickHandler handler) {
-		return button.addClickHandler(handler);
-	}
 
-	@Override
-	public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
-		return button.addMouseOverHandler(handler);
-	}
+    @Override
+    public HandlerRegistration addClickHandler(ClickHandler handler) {
+        return button.addClickHandler(handler);
+    }
 
-	@Override
-	public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
-		return button.addMouseOutHandler(handler);
-	}
+    @Override
+    public HandlerRegistration addMouseOverHandler(MouseOverHandler handler) {
+        return button.addMouseOverHandler(handler);
+    }
+
+    @Override
+    public HandlerRegistration addMouseOutHandler(MouseOutHandler handler) {
+        return button.addMouseOutHandler(handler);
+    }
 
     @Override
     public void init() {
         button.init();
-    }	
-	
-	@Override
-	public void init(String text) {
-		button.init(text);
-	}
+    }
 
-	@Override
-	public void init(String text, ButtonStyle style) {
-		button.init(text, style);		
-	}
+    @Override
+    public void init(String text) {
+        button.init(text);
+    }
+
+    @Override
+    public void init(String text, ButtonStyle style) {
+        button.init(text, style);
+    }
 
     public void init(String text, ButtonStyle style, ClickHandler handler) {
-        button.init(text, style, handler);       
-    }	
-	
-	@Override
-	public void init(String text, ClickHandler handler) {
-		button.init(text, handler);
-	}
-	
+        button.init(text, style, handler);
+    }
+
+    @Override
+    public void init(String text, ClickHandler handler) {
+        button.init(text, handler);
+    }
+
     @Override
     public void addStyleName(String style) {
         button.addStyleName(style);
@@ -124,5 +130,13 @@ public class KSButton extends KSButtonAbstract{
     @Override
     public void setStyleName(String style) {
         button.setStyleName(style);
-    }	
+    }
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        button.ensureDebugId(baseID);
+    }
+    
+    
+
 }

@@ -28,7 +28,7 @@
 
 .KS-Rule-Preview-Subrule-header{
     font-weight: normal;
-    width: 600px;
+    width: 400px;
     border-bottom: 1px solid #a8a6a6;
     margin-top:10px;    
     margin-bottom: 5px;
@@ -50,4 +50,8 @@
 .KS-Rule-Preview-Subrule-ORAND{
     color: #DF7401;
     font-weight: bold;
+}
+
+.KS-Rule-Preview-Subrule-li {
+	padding-top: 5px;
 }

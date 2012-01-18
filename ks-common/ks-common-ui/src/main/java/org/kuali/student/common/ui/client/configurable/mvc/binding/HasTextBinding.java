@@ -17,14 +17,22 @@ package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
 import java.util.Date;
 
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataType;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.validator.ClientDateParser;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataType;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
 
+/**
+ * Model widget binding for HasText widgets which translates from string values to the necessary data
+ * type for the model and vice versa.  
+ * <br>Some standard GWT widgets which implement HasText are TextBox and TextArea.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
     public static HasTextBinding INSTANCE = new HasTextBinding();
 
@@ -37,73 +45,82 @@ public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
         try {
             QueryPath qPath = QueryPath.parse(path);
             DataType type = model.getType(qPath);
-            String newValue = object.getText().trim();
+            
+            String newValue = null;
+            if(object.getText() != null) {
+                newValue = object.getText().trim();
+            }
 
-            try {
-                switch (type) {
-                    case STRING:
-                        if (!nullsafeEquals(model.get(qPath), newValue)) {
-                            model.set(qPath, newValue);
-                            setDirtyFlag(model, qPath);
-                        }
-                        break;
-                    case INTEGER:
-                		if(newValue != null && newValue.isEmpty()){
-                			Integer value = null;
-                			model.set(qPath, value);
-                			setDirtyFlag(model, qPath);
-                		}
-                		else{
-                            int intValue = Integer.parseInt(newValue);
-                            if (!nullsafeEquals(model.get(qPath), intValue)) {
-                                model.set(qPath, intValue);
-                                setDirtyFlag(model, qPath);
-                            }
-                		}
-                        break;
-                    case LONG:
-                        long longValue = Long.parseLong(newValue);
-                        if (!nullsafeEquals(model.get(qPath), longValue)) {
-                            model.set(qPath, longValue);
-                            setDirtyFlag(model, qPath);
-                        }
-                        break;
-                    case FLOAT:
-                        float floatValue = Float.parseFloat(newValue);
-                        if (!nullsafeEquals(model.get(qPath), floatValue)) {
-                            model.set(qPath, floatValue);
-                            setDirtyFlag(model, qPath);
-                        }
-                        break;
-                    case DOUBLE:
-                        double doubleValue = Double.parseDouble(newValue);
-                        if (!nullsafeEquals(model.get(qPath), doubleValue)) {
-                            model.set(qPath, doubleValue);
-                            setDirtyFlag(model, qPath);
-                        }
-                        break;
-                    case BOOLEAN:
-                        if (newValue.equalsIgnoreCase("true") || newValue.equalsIgnoreCase("false")) {
-                            boolean booleanValue = Boolean.parseBoolean(newValue);
-                            if (!nullsafeEquals(model.get(qPath), booleanValue)) {
-                                model.set(qPath, booleanValue);
-                                setDirtyFlag(model, qPath);
-                            }
-                        } else {
-                            throw new UnsupportedOperationException("BooleanTypes can only be set with true or false");
-                        }
-                        break;
-                    case DATE:
-                        Date dateValue = dateParser.parseDate(newValue);
-                        if (!nullsafeEquals(model.get(qPath), dateValue)) {
-                            model.set(qPath, dateValue);
-                            setDirtyFlag(model, qPath);
-                        }
-                        break;
-                }
-            } catch (Exception e) {
-                GWT.log("Unable to coerce type for " + path + ", falling back to String", e);
-                model.set(qPath, newValue);
+            //If both model value is null and widget value is null or is empty no need to update model, so skip update
+            boolean skipUpdatingModel = model.get(qPath) == null && (newValue == null || newValue.isEmpty());
+
+            if (!skipUpdatingModel){
+	            try {
+	                switch (type) {
+	                    case STRING:
+	                        if (!nullsafeEquals(model.get(qPath), newValue)) {
+	                            model.set(qPath, newValue);
+	                            setDirtyFlag(model, qPath);
+	                        }
+	                        break;
+	                    case INTEGER:
+	                		if(newValue != null && newValue.isEmpty()){
+	                			Integer value = null;
+	                			model.set(qPath, value);
+	                			setDirtyFlag(model, qPath);
+	                		}
+	                		else{
+	                            int intValue = Integer.parseInt(newValue);
+	                            if (!nullsafeEquals(model.get(qPath), intValue)) {
+	                                model.set(qPath, intValue);
+	                                setDirtyFlag(model, qPath);
+	                            }
+	                		}
+	                        break;
+	                    case LONG:
+	                        long longValue = Long.parseLong(newValue);
+	                        if (!nullsafeEquals(model.get(qPath), longValue)) {
+	                            model.set(qPath, longValue);
+	                            setDirtyFlag(model, qPath);
+	                        }
+	                        break;
+	                    case FLOAT:
+	                        float floatValue = Float.parseFloat(newValue);
+	                        if (!nullsafeEquals(model.get(qPath), floatValue)) {
+	                            model.set(qPath, floatValue);
+	                            setDirtyFlag(model, qPath);
+	                        }
+	                        break;
+	                    case DOUBLE:
+	                        double doubleValue = Double.parseDouble(newValue);
+	                        if (!nullsafeEquals(model.get(qPath), doubleValue)) {
+	                            model.set(qPath, doubleValue);
+	                            setDirtyFlag(model, qPath);
+	                        }
+	                        break;
+	                    case BOOLEAN:
+	                        if (newValue.equalsIgnoreCase("true") || newValue.equalsIgnoreCase("false")) {
+	                            boolean booleanValue = Boolean.parseBoolean(newValue);
+	                            if (!nullsafeEquals(model.get(qPath), booleanValue)) {
+	                                model.set(qPath, booleanValue);
+	                                setDirtyFlag(model, qPath);
+	                            }
+	                        } else {
+	                            throw new UnsupportedOperationException("BooleanTypes can only be set with true or false");
+	                        }
+	                        break;
+	                    case DATE:
+	                        Date dateValue = dateParser.parseDate(newValue);
+	                        if (!nullsafeEquals(model.get(qPath), dateValue)) {
+	                            model.set(qPath, dateValue);
+	                            setDirtyFlag(model, qPath);
+	                        }
+	                        break;
+	                }
+	            } catch (Exception e) {
+	                GWT.log("Unable to coerce type for " + path + ", falling back to String", e);
+	                model.set(qPath, newValue);
+	            }
             }
         } catch (Exception e) {
             GWT.log("Error setting model value for: " + path, e);

@@ -1,12 +1,13 @@
 package org.kuali.student.lum.program.client.major.edit;
 
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.ProgramDocumentTool;
 
 /**
@@ -14,8 +15,9 @@ import org.kuali.student.lum.program.client.widgets.ProgramDocumentTool;
  */
 public class SupportingDocsEditConfiguration extends AbstractSectionConfiguration {
 
-    public SupportingDocsEditConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_EDIT, ProgramProperties.get().program_menu_sections_supportingDocuments(), ProgramConstants.PROGRAM_MODEL_ID);
+    public SupportingDocsEditConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        rootSection = new VerticalSectionView(ProgramSections.SUPPORTING_DOCUMENTS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_SUPPORTINGDOCUMENTS), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
     @Override

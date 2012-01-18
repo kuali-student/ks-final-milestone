@@ -21,18 +21,27 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupMetadata.Usage;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
@@ -40,22 +49,21 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.LookupMetadata.Usage;
-import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.HasValue;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -69,7 +77,7 @@ public class SearchPanel extends Composite{
     private CollapsablePanel modifySearchPanel;
     private String criteriaInstructions = getMessage("searchPanelEnterFields");
     private KSLabel enteredCriteriaHeading = new KSLabel(getMessage("searchPanelCriteria"));
-    private SearchResultsTable table;
+    protected SearchResultsTable table;
     private boolean isMultiSelect = true;
 
 	public static enum SearchStyle{ADVANCED, CUSTOM}; 
@@ -77,8 +85,10 @@ public class SearchPanel extends Composite{
 
     private String actionLabel = getMessage("search");  //set default action label
     private boolean resultsSelected = false;
+    private boolean hasSearchParams = false;			//indicates if there are any user supplied search parameters
+    													//if false will auto default search and not display modify search link.
     
-    //Search data
+	//Search data
     private List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
     private boolean multiSelect = false;
     private boolean resultsShown = false;    
@@ -91,7 +101,17 @@ public class SearchPanel extends Composite{
     private List<Callback<List<SelectedResults>>> selectedCompleteCallbacks = new ArrayList<Callback<List<SelectedResults>>>();  
     private List<Callback<Boolean>> actionCompletedCallbacks = new ArrayList<Callback<Boolean>>();    
 
-    
+	private Callback<ButtonEnumerations.ButtonEnum> actionCancelCallback = new Callback<ButtonEnumerations.ButtonEnum>(){
+
+		@Override
+        public void exec(ButtonEnum result) {
+            if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
+                table.removeContent();
+                getActionCompleteCallback().exec(true);                                 
+            }
+       }
+	};
+   
     interface SearchParametersWidget {
         public SearchRequest getSearchRequest();
         public LookupMetadata getLookupMetadata();
@@ -100,13 +120,11 @@ public class SearchPanel extends Composite{
 
     public SearchPanel(LookupMetadata meta){
         lookups.add(meta);
-   //     setupSearch();
         this.initWidget(layout);
     }
 
     public SearchPanel(List<LookupMetadata> metas){
         lookups = metas;       
-   //     setupSearch();
         this.initWidget(layout);
     }
 
@@ -122,22 +140,15 @@ public class SearchPanel extends Composite{
     public void setupButtons() {
         if (actionCancelButtons != null) {
             actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
-            actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
-                @Override
-               public void exec(ButtonEnum result) {
-                    if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
-                        getActionCompleteCallback().exec(true);                                 
-                    }
-               }
-           });            
+            actionCancelButtons.addCallback(actionCancelCallback);            
         }    	
     }
     
     public void setupSearch() {
-                
         resultsTablePanel.clear();
         layout.clear();
         resultsShown = false;
+    	hasSearchParams = false;
 
         //create search panel
         Widget searchParamPanel;        
@@ -176,20 +187,51 @@ public class SearchPanel extends Composite{
         searchSelectorPanel.setWidget(searchParamPanel);
         layout.add(searchSelectorPanel);
         
-        //create layout for results screen
-        enteredCriteriaHeading.addStyleName("ks-form-module-single-line-margin");
-        enteredCriteriaHeading.addStyleName("KS-Advanced-Search-Search-Criteria-Label");
-        resultsTablePanel.add(enteredCriteriaHeading);
-        resultsTablePanel.add(enteredCriteriaString);
-        resultsTablePanel.setVisible(false);        
-        table = new SearchResultsTable();
+        //Create layout for results screen
+        
+        //Entered criteria section
+        if (hasSearchParams){
+	        enteredCriteriaHeading.addStyleName("ks-form-module-single-line-margin");
+	        enteredCriteriaHeading.addStyleName("KS-Advanced-Search-Search-Criteria-Label");
+	        resultsTablePanel.add(enteredCriteriaHeading);
+	        resultsTablePanel.add(enteredCriteriaString);
+	        resultsTablePanel.setVisible(false);
+        }
+        
+        //Search Results table
+        table = GWT.create(SearchResultsTable.class);
         table.setMutipleSelect(isMultiSelect);
         table.addStyleName("KS-Advanced-Search-Results-Table");
+        for (Callback<List<SelectedResults>> selectionCompleteCallback : selectedCompleteCallbacks) {
+            table.addSelectionCompleteCallback(selectionCompleteCallback);
+        }
         resultsTablePanel.add(table);
         layout.add(resultsTablePanel); 
         
+        table.getMslabel().addClickHandler(new ClickHandler(){
+
+			@Override
+			public void onClick(ClickEvent event) {
+				if(modifySearchPanel.isOpen()){
+					modifySearchPanel.close();
+				}
+				else{
+					modifySearchPanel.open();
+				}
+				
+				resultsTablePanel.setVisible(false);
+				resultsSelected = false;
+				actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
+			}
+		});
+        
         resultsSelected = false;
         actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
+        
+        //Execute the search and display the results of there are no user supplied search parameters defined
+        if (!hasSearchParams){
+        	getActionCompleteCallback().exec(true);
+        }
     }
 
     private Widget createSearchParamPanel(LookupMetadata meta){
@@ -200,7 +242,11 @@ public class SearchPanel extends Composite{
 
         //check whether we need custom tab i.e. whether we have at least one parameter that should appear on custom tab
         for(LookupParamMetadata metaParam: meta.getParams()){
-            if ((metaParam.getUsage() == Usage.CUSTOM) || (metaParam.getUsage() == Usage.ADVANCED_CUSTOM)) {
+        	if (metaParam.getUsage() != null && metaParam.getUsage() != Usage.DEFAULT){
+        		hasSearchParams = true;   //Only set to true if this only has user supplied params (i.e. params without default values)
+        	}
+        	if ((metaParam.getUsage() == Usage.CUSTOM) || (metaParam.getUsage() == Usage.ADVANCED_CUSTOM)) {
+            	
                 final CustomizedSearch customizedSearch = new CustomizedSearch(meta, listItems);
                 KSButton button = panel.addLinkToPanel(SearchStyle.ADVANCED, getMessage("searchPanelCustomizeSearch"), SearchStyle.CUSTOM);
                 button.addClickHandler(new ClickHandler(){
@@ -336,6 +382,7 @@ public class SearchPanel extends Composite{
     private interface HasSearchParam{
         public SearchParam getSearchParam();
         public String getFieldName();
+        public String getSearchText();
     }
 
     private static class CustomLine extends Composite implements HasSearchParam{
@@ -357,6 +404,14 @@ public class SearchPanel extends Composite{
                     }                   
                 } 
             }
+            
+            for(LookupParamMetadata param:customParams){
+               String id = param.getKey()+"-name";
+               if(Application.getApplicationContext().getMessage(id)!=null)
+               {
+            	param.setName(Application.getApplicationContext().getMessage(id));  
+               }
+              }
             
             ParamListItems customParamList = new ParamListItems(customParams);
             
@@ -397,6 +452,11 @@ public class SearchPanel extends Composite{
             String id = paramSelector.getSelectedItem();
             return listItems.getItemText(id);
         }
+
+        @Override
+        public String getSearchText() {
+            return SearchPanel.getSearchText(widget);
+        }
     }
 
     private class AdvancedSearch extends Composite implements SearchParametersWidget {
@@ -430,7 +490,7 @@ public class SearchPanel extends Composite{
                         SearchField paramField = new SearchField(param);
                         searchFields.add(paramField);
                         panel.add(paramField);
-                        searchParams.add(paramField);
+                        searchParams.add(paramField); 
                     }
                 }
 
@@ -443,13 +503,27 @@ public class SearchPanel extends Composite{
             if ((searchFields.size() > 1) || (allFieldsRequired == false)) {
                 instrLabel.setText(criteriaInstructions);
             }    
-            
+            this.addKeyDownHandler(downHandler);
             this.initWidget(panel);
         }
+        
+        public HandlerRegistration addKeyDownHandler(KeyDownHandler handler) {
+    	    return addDomHandler(handler, KeyDownEvent.getType());
+    	}
         
         public LookupMetadata getLookupMetadata() {
             return meta;
         }        
+        
+        private KeyDownHandler downHandler = new KeyDownHandler(){
+
+    		@Override
+    		public void onKeyDown(KeyDownEvent event) {
+    			if(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER) 	// Enter button
+    				actionCancelCallback.exec(ButtonEnumerations.SearchCancelEnum.SEARCH);
+    		}
+    		
+    	};
 
         @Override
         public SearchRequest getSearchRequest() {
@@ -516,12 +590,12 @@ public class SearchPanel extends Composite{
         }
     }
 
-    private static class SearchField extends Composite implements HasSearchParam{
+    private class SearchField extends Composite implements HasSearchParam{
 
         private Widget widget = null;
         private LookupParamMetadata meta = null;
         private VerticalFlowPanel panel = new VerticalFlowPanel();
-        private String fieldName;
+        private String fieldName;    	
 
         public SearchParam getSearchParam(){
             return SearchPanel.getSearchParam(widget, meta.getKey());
@@ -530,7 +604,11 @@ public class SearchPanel extends Composite{
         public SearchField(LookupParamMetadata param){
             meta = param;
             //TODO use message call here
-            fieldName = param.getName();
+            if(getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY)!=null)
+            	fieldName = getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY);
+            else
+                fieldName = param.getName();
+            
             widget = DefaultWidgetFactory.getInstance().getWidget(param);
             if(param.getDefaultValueString() != null){
                 //TODO Add handling of default value lists here
@@ -545,13 +623,13 @@ public class SearchPanel extends Composite{
             //FIXME: remove because required field '*' indication will be part of FieldElement class
             if (param.getWriteAccess() == Metadata.WriteAccess.REQUIRED) {
                 fieldName += " *";
-            }
+            }            
 
             FieldElement fieldElement = new FieldElement(fieldName, widget);
             fieldElement.getTitleWidget().addStyleName("KS-Picker-Criteria-Text");
             panel.add(fieldElement);
-            panel.addStyleName("clear");
-
+            panel.addStyleName("clearfix");
+                                    
             this.initWidget(panel);
         }
 
@@ -561,6 +639,11 @@ public class SearchPanel extends Composite{
 
         public String getFieldName() {
             return fieldName;
+        }
+
+        @Override
+        public String getSearchText() {
+            return SearchPanel.getSearchText(widget);
         }
     }
 
@@ -584,7 +667,14 @@ public class SearchPanel extends Composite{
             }
         }
         else if (widget instanceof KSPicker){
-            param.setValue(((KSPicker)widget).getDisplayValue());
+        	KSPicker pickerWidget = (KSPicker)widget; 
+        	String pickerValue = pickerWidget.getValue().toString();
+        	if (UtilConstants.IMPOSSIBLE_CHARACTERS.equals(pickerValue)){
+        		SuggestBox suggestBox = (SuggestBox)pickerWidget.getInputWidget();
+        		pickerValue = suggestBox.getText();
+        	}
+        	
+            param.setValue(pickerValue);
         }
         else {
             param.setValue("");
@@ -592,16 +682,40 @@ public class SearchPanel extends Composite{
 
         return param;
     }
+    
+    private static String getSearchText(final Widget widget){
+        if(widget instanceof HasText){
+            return ((HasText) widget).getText();
+        }
+        else if(widget instanceof HasValue){
+            Object value = ((HasValue) widget).getValue();
+            if(value != null){
+            //TODO need to handle date and other types here, how they are converted for search, etc
+                if(value instanceof String){
+                    return (String)value;
+                }
+                else{
+                    GWT.log("Fields in search probably(?) shouldnt have values other than string", null);
+                    return value.toString();
+                }
+            }
+        }
+        else if (widget instanceof KSPicker){
+            return ((KSPicker)widget).getDisplayValue();
+        }
+        return "";
+    }
 
     private void showCriteriaChosen(List<HasSearchParam> fields){
         enteredCriteriaString.clear();
         boolean first = true;;
         for(HasSearchParam field: fields){
             String name = field.getFieldName();
-            //TODO Should be string only, needs type safety
-            String value = field.getSearchParam().getValue().toString();
+            String value = field.getSearchText();
+          if(!value.isEmpty()&&value.equals("$$##@@"))
+          	value = field.getSearchParam().getValue().toString().toUpperCase();
             if(!value.isEmpty()){
-                HTMLPanel label = new HTMLPanel(name + ": <b>" + value + "</b> ");
+                HTMLPanel label = new HTMLPanel(name + ": <b>" + value + "</b>&nbsp;");
                 if (!first) {
                     label.addStyleName("KS-Advanced-Search-Search-Criteria-Text");
                 }
@@ -718,6 +832,7 @@ public class SearchPanel extends Composite{
         lookupChangedCallbacks.add(callback);
     }
     
+    //FIXME: Is an action complete callback really necessary here, couldn't this simply be a method to perform the seach action.
     public Callback<Boolean> getActionCompleteCallback() {
         return new Callback<Boolean>() {
             
@@ -725,18 +840,23 @@ public class SearchPanel extends Composite{
             public void exec(Boolean result) {                               
                 
                 if (resultsSelected == true) {
-                    List<SelectedResults> selectedItems = getSelectedValues();
-                    for(Callback<List<SelectedResults>> callback: selectedCompleteCallbacks){
-                        callback.exec(selectedItems);
-                    }  
-                    return;
+                	List<SelectedResults> selectedItems = getSelectedValues();
+                	if (selectedItems.isEmpty())
+                		Window.alert("Please, select a value");
+                	else
+                	{	
+                		for(Callback<List<SelectedResults>> callback: selectedCompleteCallbacks){
+                			callback.exec(selectedItems);
+                		}  
+                		return;
+                	}	
                 }
                 
                 actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("select"));
                 resultsSelected = true;
                 
                 SearchRequest sr = getSearchRequest();
-                table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey());
+                table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey(), activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey(), true);
                 resultsTablePanel.setVisible(true);
                 List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
                 List<HasSearchParam> searchParams = activeSearchParametersWidget.getSearchParams();
@@ -754,20 +874,24 @@ public class SearchPanel extends Composite{
                 }
                 showCriteriaChosen(userCriteria);
 
-                if(!resultsShown){
-                    searchSelectorPanel.removeFromParent();
-                    modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
-                    modifySearchPanel.getLabel().addClickHandler(new ClickHandler(){
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            resultsTablePanel.setVisible(false);
-                            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
-                            resultsSelected = false;
-                        }});
-                    SearchPanel.this.layout.insert(modifySearchPanel, 0);
-                }
-                else{
-                    modifySearchPanel.close();
+                if (hasSearchParams){
+                	//Only display modify link if there are search parametes available.
+	                if(!resultsShown){
+	                    searchSelectorPanel.removeFromParent();
+	                    modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
+	                    modifySearchPanel.getLabel().addClickHandler(new ClickHandler(){
+	                        @Override
+	                        public void onClick(ClickEvent event) {
+	                            resultsTablePanel.setVisible(false);
+	                            actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getActionLabel());
+	                            resultsSelected = false;
+	                        }});
+	                    SearchPanel.this.layout.insert(modifySearchPanel, 0);
+	                    
+	                }
+	                else{
+	                    modifySearchPanel.close();
+	                }
                 }
                 resultsShown = true; 
                 
@@ -814,6 +938,5 @@ public class SearchPanel extends Composite{
             this.actionLabel = actionLabel;
         }
     }
-
 
 }

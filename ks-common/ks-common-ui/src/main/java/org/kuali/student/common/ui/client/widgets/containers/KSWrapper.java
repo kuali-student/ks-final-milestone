@@ -32,8 +32,8 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.NavigationHandler;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.headers.KSHeader;
-import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
+import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -126,7 +126,7 @@ public class KSWrapper extends Composite{
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
-	                    
+	                    Application.getApplicationContext().setVersion(appVersion);
 	                    if (result.get(CODE_SERVER) != null){
 	                    	codeServer		= result.get(CODE_SERVER);
 	                    }
@@ -144,7 +144,7 @@ public class KSWrapper extends Composite{
 		createUserDropDown();
 		//headerBottomLinks.add(userDropDown);
 		ksHeader.setHiLabelText("Hi,");
-		ksHeader.setUserName(Application.getApplicationContext().getUserId());
+		ksHeader.setUserName(Application.getApplicationContext().getSecurityContext().getUserId());
 		Anchor logoutLink = new Anchor(getMessage("wrapperPanelLogout"));
 		logoutLink.addClickHandler(new WrapperNavigationHandler("j_spring_security_logout"));
 		ksHeader.addLogout(logoutLink);

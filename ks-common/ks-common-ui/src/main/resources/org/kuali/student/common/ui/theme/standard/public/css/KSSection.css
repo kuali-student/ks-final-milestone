@@ -328,7 +328,11 @@ padding:4px 6px;
 
 /*** Forms_ Activity ***/
 
-.ks-form-course-format-activity { padding: 10px; margin-bottom: 10px; }
+.ks-form-course-format-activity { 
+	padding: 10px; 
+	margin-bottom: 10px;
+	max-width: 450px;
+}
 
 .ks-form-course-format-activity-header {
 border-bottom:1px dotted #CCCCCC;
@@ -346,8 +350,8 @@ position:relative;
                font-size:1.083em; 
                font-weight:bold; 
                height:1%; 
-               line-height: 1.7em; 
-
+               line-height: 1.7em;
+               text-transform:uppercase; 
 }
 .ks-form-course-format-activity-header-title h5 { margin-bottom: 0; color: #424242; }
 
@@ -414,12 +418,31 @@ position:relative;
 	/*padding: 5px 4px 5px 3px;*/
 }
 
+@if user.agent ie6 ie7 ie8 {
+	.ks-form-module-fields {
+		float: none;
+		/*padding: 5px 4px 5px 3px;*/
+}
+}
+
 .ks-form-module-elements {
+	min-width:140px;
     margin-bottom: 1px;
     float: left;
     margin-right: 20px;
     line-height: 1.4em;
 }
+
+@if user.agent ie6 ie7 ie8 {
+	.ks-form-module-elements {
+		min-width:415px;
+    	margin-bottom: 1px;
+    	float: none;
+    	margin-right: 20px;
+    	line-height: 1.4em;
+	}
+}
+
 .ks-form-required-for-submit {
 color:#999999;
 font-size:0.9em;
@@ -539,8 +562,14 @@ margin-left:4px;
 	margin-right: 10px;
 }
 
-.ks-form-module-validation-inline ul { 
+.ks-form-module-validation-errors ul { 
 	background: transparent url('images/common/exclamation-red.png') no-repeat scroll left;
+	margin: 0; 
+	padding-left: 20px; 
+}
+
+.ks-form-module-validation-warnings ul { 
+	background: transparent url('images/common/exclamation-diamond-frame.png') no-repeat scroll left;
 	margin: 0; 
 	padding-left: 20px; 
 }
@@ -598,7 +627,7 @@ label.ks-form-module-elements-top-margin, h6.ks-form-module-elements-top-margin 
 .ks-form-module-elements input[type="checkbox"] + label { 
     display:inline;
     font-weight:normal;
-    line-height:1.5em;
+    line-height: 2em;
     white-space:nowrap;
 } /* for label fields that follow a checkbox */
 .ks-form-module-elements input[type="radio"] + label { display: inline; white-space: nowrap; font-weight: normal; } /* for label fields that follow a radio */
@@ -686,13 +715,20 @@ span.disabled { background: #f3f3f3 url('../images/icons/plus_gray_13px.png') no
 .error { background-color: #ffe0e9;  }
 .error .ks-form-bordered-header { background-color: #f5d6df; }
 
+.warning { background-color: #F4E271}
+.warning .ks-form-bordered-header { background-color: #f5d6df; }
+
 .invalid label, .invalid h6, .invalid legend, .invalid .KS-Common-Title { color: red; }
 
 label.invalid{color: red;}
 h6.invalid{color: red;}
 legend.invalid{color: red;}
 
-.ks-form-validation-label{ color: red; };
+.ks-form-error-label{ color: red; };
+.ks-form-warn-label{
+	font-weight: normal; 
+	color: black; 
+};
 
 .highlighted { background-color: #fffdd4; }
 .highlighted .ks-form-bordered-header { background-color: #f2f0c9; }
@@ -960,6 +996,10 @@ a.ks-button-secondary-small:hover {
 	width: 250px;
 }
 
+.ks-example-popup{
+	width: 300px;
+}
+
 .ks-table-title-column-width{
 }
 
@@ -997,4 +1037,12 @@ a.ks-button-secondary-small:hover {
 	margin-bottom: 0; 
 	font-weight: bold; 
 	color: #000;
+}
+
+.test {
+  display:inline;
+   }
+   
+ .ks-bordered { 
+     border:1px solid #D2D8E3;   
 }

@@ -1,22 +1,36 @@
 package org.kuali.student.lum.program.client.widgets;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.ui.*;
+import java.util.List;
+
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramStatus;
-import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.StateChangeEvent;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
+
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasVerticalAlignment;
+import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Igor
@@ -25,11 +39,11 @@ public class SummaryActionPanel extends Composite {
 
     private final HorizontalPanel content = new HorizontalPanel();
 
-    private final KSButton approveButton = new KSButton(ProgramProperties.get().button_approve());
+    private final KSButton approveButton = new KSButton(getLabel(ProgramMsgConstants.BUTTON_APPROVE));
 
-    private final KSButton activateButton = new KSButton(ProgramProperties.get().button_activate(), ButtonStyle.SECONDARY);
+    private final KSButton activateButton = new KSButton(getLabel(ProgramMsgConstants.BUTTON_ACTIVATE), ButtonStyle.SECONDARY);
 
-    private final Anchor exitAnchor = new Anchor(ProgramProperties.get().link_backCurriculum());
+    private final Anchor exitAnchor = new Anchor(getLabel(ProgramMsgConstants.LINK_BACKCURRICULUM));
 
     private final KSLightBox activateDialog = new KSLightBox();
     private Section activateSection;
@@ -77,13 +91,13 @@ public class SummaryActionPanel extends Composite {
         exitAnchor.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                HistoryManager.navigate("/HOME/CURRICULUM_HOME");
+                HistoryManager.navigate(AppLocations.Locations.CURRICULUM_MANAGEMENT.getLocation());
             }
         });
     }
 
     private void processStatus() {
-        processStatus(ProgramStatus.of(dataModel.<String>get(ProgramConstants.STATE)));
+        processStatus(ProgramStatus.of(dataModel));
     }
 
     private void processButtonClick(ProgramStatus status) {
@@ -108,7 +122,7 @@ public class SummaryActionPanel extends Composite {
         } else if (programStatus == ProgramStatus.ACTIVE) {
             enableButtons(false, false);
         } else if (programStatus == ProgramStatus.SUPERSEDED) {
-            enableButtons(false, false);
+            content.setVisible(false);
         }
     }
 
@@ -130,17 +144,28 @@ public class SummaryActionPanel extends Composite {
 
         panel.add((Widget) activateSection);
 
-        KSButton activate = new KSButton("Activate", new ClickHandler() {
+        KSButton activate = new KSButton(getLabel(ProgramMsgConstants.BUTTON_ACTIVATE), new ClickHandler() {
             public void onClick(ClickEvent event) {
                 activateSection.updateModel(dataModel);
-                ProgramUtils.setPreviousStatus(dataModel, ProgramStatus.SUPERSEDED.getValue());
-                processButtonClick(ProgramStatus.ACTIVE);
-                activateDialog.hide();
+                dataModel.validate(new Callback<List<ValidationResultInfo>>(){
+					@Override
+					public void exec(List<ValidationResultInfo> results) {
+						// Process the results on the additional fields view
+                        if (ErrorLevel.OK.equals(activateSection.processValidationResults(results))) {
+                            // Call activate once the data is valid
+    						processButtonClick(ProgramStatus.ACTIVE);
+    		                activateDialog.hide();
+                        } else {
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
+                        }
+
+					}
+                });
             }
         });
         activateDialog.addButton(activate);
 
-        KSButton cancel = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler() {
+        KSButton cancel = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler() {
             public void onClick(ClickEvent event) {
                 activateDialog.hide();
             }
@@ -154,8 +179,8 @@ public class SummaryActionPanel extends Composite {
         approveButton.setEnabled(enableApprove);
         activateButton.setEnabled(enableActivate);
     }
-
-    private ProgramStatus getStatus() {
-        return ProgramStatus.of(dataModel.<String>get(ProgramConstants.STATE));
+    
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
     }
 }

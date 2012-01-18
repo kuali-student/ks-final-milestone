@@ -32,14 +32,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.KSEntityConstants;
-import org.kuali.student.core.entity.MetaEntity;
-
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.common.entity.MetaEntity;
 @Entity
 @Table(name="KSOR_ORG")
 @NamedQueries({
-	@NamedQuery(name="Org.getOrganizationsByIdList", query="SELECT o FROM Org o WHERE o.id IN (:orgIdList)")
+	@NamedQuery(name="Org.getOrganizationsByIdList", query="SELECT o FROM Org o WHERE o.id IN (:orgIdList)"),
+	@NamedQuery(name = "Org.getOrgByRelatedOrgAndType", query = "SELECT oor.org FROM OrgOrgRelation oor WHERE oor.relatedOrg.id = :relatedOrgId AND oor.type.id = :relationTypeKey")
 })
 public class Org extends MetaEntity implements AttributeOwner<OrgAttribute>{
 	

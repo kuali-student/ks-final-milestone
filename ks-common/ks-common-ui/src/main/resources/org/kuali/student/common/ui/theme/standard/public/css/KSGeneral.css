@@ -49,40 +49,40 @@ html, body {
 }
 
 .ks-lightbox {
-background-color:#FFFFFF;
-border:3px solid #54565C;
-color:#333333;
-overflow:visible;
-z-index:2;
-    -moz-border-radius:10px 10px 10px 10px;
+	background-color:#FFFFFF;
+	border:3px solid #54565C;
+	color:#333333;
+	overflow:visible;
+	z-index:2;
+	-moz-border-radius:10px 10px 10px 10px;
 }
 
 .ks-lightbox .Caption {
-background-color:#DFE2E9;
-color:#000000;
-cursor:move;
-font-size:1.2em;
-font-weight:bold;
-padding:10px 0 10px 16px;
-position:relative;
-text-align:left;
-text-shadow:0 2px 2px #FFFFFF;
--moz-border-radius:8px 8px 0px 0px;
+	background-color:#DFE2E9;
+	color:#000000;
+	cursor:move;
+	font-size:1.2em;
+	font-weight:bold;
+	padding:10px 0 10px 16px;
+	position:relative;
+	text-align:left;
+	text-shadow:0 2px 2px #FFFFFF;
+	-moz-border-radius:8px 8px 0px 0px;
+}
+
+.ks-lightbox .popupContent {
+    display: inline;
+    overflow: visible;
 }
 
 .ks-lightbox-mainPanel {
-    margin: 0 0 0 15px;
+	margin-left: 15px;
 }
 
 .ks-lightbox-titlePanel {
 }
 
-.ks-lightbox-titleLabel {
-    float: left;
-    font-wight: bold;
-}
-
-.ks-lightbox-title-closeLink {
+.ks-lightbox-closeLink {
     background: url('images/common/lightbox_close.png') no-repeat;
     width: 40px;
     height: 40px;
@@ -95,23 +95,25 @@ text-shadow:0 2px 2px #FFFFFF;
     float: right;
 }
 
-.ks-lightbox-title-scrollPanel {
-    clear: both;
+.ks-lightbox-closeLink-with-Caption {
+	top: -54px;
 }
 
-.ks-lightbox-layoutTable {
-    height: 100%;
-    width: 100%;
+.ks-lightbox-scrollPanel {
+	padding-right: 20px;
+	margin-bottom: 10px;
 }
 
-.ks-lightbox-contentRow {
-    height: 100%;
-    vertical-align: top;
+.ks-lightbox-buttonPanel {
+	padding-top: 5px;
 }
 
-.ks-lightbox-buttonRow {
-    height: 30px;
-    vertical-align: bottom;
+.ks-lightbox-buttonPanel .KS-Advanced-Search-Link{
+	margin-top: 0;
+}
+
+.ks-lightbox-buttonPanel .KS-Advanced-Search-Buttons{
+    margin-top: 0;
 }
 
 .KSBlockingDialog-mainPanel {
@@ -134,48 +136,6 @@ text-shadow:0 2px 2px #FFFFFF;
     filter: literal("alpha(opacity=45)");
 }
 
-.ks-lightbox .popupContent {
-    display: inline;
-    overflow: visible;
-}
-
-.ks-lightbox-title {
-    position: relative;
-    margin: 0.25em 0.25em 0.25em 0.25em;
-    font-size: 2em;
-    color: #940b07;
-}
-
-.ks-lightbox-content {
-    float: left;
-    margin: 0.25em 0.25em 0.25em 0.1em;
-}
-
-.ks-lightbox-close-panel {
-    overflow: visible;
-}
-
-.ks-lightbox-flowpanel {
-    overflow: visible;
-}
-
-.ks-lightbox-close {
-    background: url('images/common/lightbox_close.png') no-repeat;
-    width: 40px;
-    height: 40px;
-    display: block;
-    z-index: 9999;
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    cursor: pointer;
-    clear: both;
-}
-
-.ks-lightbox-close:hover {
-    background: url('images/common/lightbox_close_hover.png') no-repeat;
-}
-
 .ks-button-spacing {
     margin-right: 10px;
 }
@@ -187,11 +147,10 @@ text-shadow:0 2px 2px #FFFFFF;
     left: 400px;
 }
 
-.ks-notification-message {
+.ks-notification-message, .ks-notification-error {
     width: 300px;
     min-height: 20px;
     background-color: black;
-    background-image: url(images/common/tick-circle.png);
     background-position: 8px 8px;
     background-repeat: no-repeat;
     line-height: 1.35em;
@@ -208,6 +167,14 @@ text-shadow:0 2px 2px #FFFFFF;
     border-radius: 6px 6px;
     \-moz-border-radius: 6px 6px;
     \-webkit-border-radius: 6px 6px;
+}
+
+.ks-notification-message{
+    background-image: url(images/common/tick-circle.png);
+}
+
+.ks-notification-error {
+    background-image: url(images/common/exclamation-red.png);
 }
 
 .ks-notification-message p * {
@@ -272,6 +239,10 @@ ul.ks-selected-list {
          display: block;
          margin: 0;
          width: 30em;
+}
+
+.ks-selected-list .ks-form-module-validation-warnings li{
+	border-style:none;
 }
 
 .ks-selected-list-value {
@@ -356,4 +327,35 @@ position:relative;
 
 .bold{
 	font-weight: bold;
+}
+
+.table-row{
+	background-color: white;
+	color: black;
+}
+
+.table-row-hover{
+	background-color: #024FD0;
+	color: white;
+}
+
+.table-row-selected{
+	background-color: #C6D9FF;
+	color: black;
+}
+
+.ks-no-results-message{
+	margin:100px; 
+	padding:0;
+	text-align: center;
+	font-weight: bold;
+	font-size:10pt;
+}
+
+.KS-indented{
+	margin-left:40px;
+}
+
+.ks-documentHeader-widgetPanel {
+	float: left;
 }

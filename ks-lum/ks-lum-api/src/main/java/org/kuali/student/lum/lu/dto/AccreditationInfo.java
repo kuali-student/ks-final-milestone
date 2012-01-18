@@ -20,9 +20,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 

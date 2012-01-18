@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- AtpInfo-->
@@ -23,7 +23,7 @@
 
  <bean id="atpInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="atpInfo.desc" parent="atpInfo.desc-parent"/>
 
@@ -84,7 +84,7 @@
 
  <bean id="dateRangeInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="dateRangeInfo.desc" parent="dateRangeInfo.desc-parent"/>
 
@@ -144,7 +144,7 @@
 
  <bean id="milestoneInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="milestoneInfo.desc" parent="milestoneInfo.desc-parent"/>
 

@@ -15,24 +15,19 @@
  */
 package org.kuali.student.lum.course.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.kuali.student.common.dto.*;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-
-import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Detailed information about a single course activity.

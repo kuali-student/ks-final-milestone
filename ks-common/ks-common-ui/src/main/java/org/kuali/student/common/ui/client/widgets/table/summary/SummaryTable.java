@@ -15,6 +15,7 @@ public class SummaryTable  extends FlexTable{
     private SummaryTableModel model = new SummaryTableModel();
     private int rowIndex = 0;
     private HashMap<String, Integer> rowMap = new HashMap<String, Integer>();
+    
     public SummaryTable(){
         setStyleName("summaryTable");
 
@@ -22,13 +23,16 @@ public class SummaryTable  extends FlexTable{
         getColumnFormatter().setStyleName(1, "cell1Colunm");
         getColumnFormatter().setStyleName(2, "cell2Colunm");    
     }
+    
     public SummaryTableModel getModel() {
         return model;
     }
+    
     public void setModel(SummaryTableModel model) {
         this.model = model;
         doLayout();
     }
+    
     public void doLayout(){
         rowIndex = 0;
         this.removeAllRows();

@@ -86,7 +86,7 @@ public abstract class ViewComposite extends Composite implements View {
     }
 
     /**
-     * Used to clear view 
+     * Used to clear view - does nothing currently
      * 
      * @see org.kuali.student.common.ui.client.mvc.View#clear()
      */
@@ -130,4 +130,14 @@ public abstract class ViewComposite extends Composite implements View {
     	// TODO Auto-generated method stub
     	return this;
     }
+    
+    public boolean isExportButtonActive() {
+        return false;
+    }
+
+	@Override
+	public void showExport(boolean show) {
+		// Needs to be implemented on subclass where applicable
+	}
+    
 }

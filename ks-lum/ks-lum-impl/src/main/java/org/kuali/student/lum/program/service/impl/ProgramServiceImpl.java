@@ -1,53 +1,54 @@
 package org.kuali.student.lum.program.service.impl;
 
-import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
-
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dictionary.dto.DataType;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularReferenceException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.dictionary.dto.DataType;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.service.impl.CourseServiceUtils;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
@@ -70,7 +71,6 @@ import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class ProgramServiceImpl implements ProgramService {
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
@@ -89,7 +89,7 @@ public class ProgramServiceImpl implements ProgramService {
     
     
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CredentialProgramInfo createCredentialProgram(
             CredentialProgramInfo credentialProgramInfo)
             throws AlreadyExistsException, DataValidationErrorException,
@@ -100,7 +100,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -113,7 +113,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public HonorsProgramInfo createHonorsProgram(
             HonorsProgramInfo honorsProgramInfo) throws AlreadyExistsException,
             DataValidationErrorException, InvalidParameterException,
@@ -124,7 +124,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ProgramRequirementInfo createProgramRequirement(
             ProgramRequirementInfo programRequirementInfo)
             throws AlreadyExistsException, DataValidationErrorException,
@@ -134,7 +134,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo);
-        if (isNotEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -147,7 +147,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public MajorDisciplineInfo createMajorDiscipline(
             MajorDisciplineInfo majorDisciplineInfo)
             throws AlreadyExistsException, DataValidationErrorException,
@@ -158,7 +158,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -171,7 +171,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
     
     @Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public MajorDisciplineInfo createNewMajorDisciplineVersion(
 			String majorDisciplineVerIndId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
@@ -179,7 +179,7 @@ public class ProgramServiceImpl implements ProgramService {
 			PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
 		//step one, get the original
 		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, majorDisciplineVerIndId);
-		MajorDisciplineInfo originalMajorDicipline = getMajorDiscipline(currentVersion.getId());
+		MajorDisciplineInfo originalMajorDiscipline = getMajorDiscipline(currentVersion.getId());
 
 		//Version the Clu
 		CluInfo newVersionClu = luService.createNewCluVersion(majorDisciplineVerIndId, versionComment);
@@ -188,14 +188,19 @@ public class ProgramServiceImpl implements ProgramService {
 	        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDicipline, true);
+			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDiscipline, true);
 
 			//Clear Ids from the original so it will make a copy and do other processing
-			processCopy(originalMajorDicipline, currentVersion.getId());
-
-			//Disassemble the new
-			results = majorDisciplineAssembler.disassemble(originalMajorDicipline, NodeOperation.UPDATE);
-
+			processCopy(originalMajorDiscipline, currentVersion.getId());
+           
+            // Since we are creating a new version, update the requirements and statement
+			// tree and set the state to Draft
+            List<String> programRequirementIds = originalMajorDiscipline.getProgramRequirements();
+            updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT);
+            
+			//Disassemble the new major discipline
+			results = majorDisciplineAssembler.disassemble(originalMajorDiscipline, NodeOperation.UPDATE);
+			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
 
@@ -215,6 +220,79 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 	}
     
+    /**
+     * This method will update the requirement state.
+     * <p>
+     * Note that it uses StatementUtil to update the statement tree.
+     * 
+     * @param majorDisciplineInfo
+     * @param newState
+     * @throws Exception
+     */
+    private void updateRequirementsState(List<String> programRequirementIds, String newState) throws DoesNotExistException,
+        InvalidParameterException, MissingParameterException,
+        OperationFailedException, PermissionDeniedException,  VersionMismatchException, DataValidationErrorException  {
+
+        /*
+         * WARNING: This is an exact copy of the method from ProgramStateChangeServiceImpl.
+         * We had to copy it because we cannot reference classes in the 
+         * org.kuali.student.lum.program.server
+         * 
+         * TODO: find a place to put a shared StatementUtil 
+         */
+         
+        for (String programRequirementId : programRequirementIds) {
+
+            // Get program requirement from the program service
+            ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, null, null);
+
+            // Look in the requirement for the statement tree
+            StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
+
+            // And recursively update the entire tree with the new state
+            updateStatementTreeViewInfoState(newState, statementTree);
+
+            // Update the state of the requirement object
+            programRequirementInfo.setState(newState);
+
+            // The write the requirement back to the program service
+            updateProgramRequirement(programRequirementInfo);
+
+        }
+    }
+    
+    /**
+     * This method will recursively set the state of all statements in the tree.
+     * <p>
+     * WARNING: you must call the statement service in order to update statements.
+     * <p>
+     * 
+     * @param state is the state we should set all statements in the tree to
+     * @param statementTreeViewInfo the tree of statements
+     * @throws Exception
+     */
+    private static void updateStatementTreeViewInfoState(String state, StatementTreeViewInfo statementTreeViewInfo) {
+       /*
+        * WARNING: This is a copy of the method from StatementUtil.  We had to copy it because 
+        * we cannot reference the common.server package from this class.
+        * 
+        * TODO: find a place to put a shared StatementUtil 
+        */
+        
+        // Set the state on the statement tree itself
+        statementTreeViewInfo.setState(state);
+         
+        // Get all the requirements components for this statement
+        List<ReqComponentInfo> reqComponents = statementTreeViewInfo.getReqComponents();
+        
+        // Loop over requirements and set the state for each requirement
+        for(Iterator<ReqComponentInfo> it = reqComponents.iterator(); it.hasNext();)
+            it.next().setState(state);
+        
+        // Loop over each statement and set the state for each statement (recursively calling this method)
+        for(Iterator<StatementTreeViewInfo> itr = statementTreeViewInfo.getStatements().iterator(); itr.hasNext();)
+            updateStatementTreeViewInfoState(state, (StatementTreeViewInfo)itr.next());
+    }
     
 	/**
 	 * Recurses through the statement tree and clears out ids so the tree can be copied.
@@ -222,6 +300,7 @@ public class ProgramServiceImpl implements ProgramService {
 	 * 
 	 * @param statementTreeView
 	 * @throws OperationFailedException
+	 * @see CourseServiceUtils (This is duplicate code because of the weird dependencies cause by program being in its own module)
 	 */
 	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
 		if(statementTreeView!=null){
@@ -237,6 +316,11 @@ public class ProgramServiceImpl implements ProgramService {
 						try {
 							CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
 							cluSet.setId(null);
+							//Clear clu ids if membership info exists, they will be re-added based on membership info 
+							if (cluSet.getMembershipQuery() != null){
+								cluSet.getCluIds().clear();
+								cluSet.getCluSetIds().clear();
+							}
 							cluSet = luService.createCluSet(cluSet.getType(), cluSet);
 							field.setValue(cluSet.getId());
 						} catch (Exception e) {
@@ -269,7 +353,13 @@ public class ProgramServiceImpl implements ProgramService {
 	 * @throws CircularRelationshipException 
      */
     private void processCopy(MajorDisciplineInfo majorDiscipline,String originalId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException {
-		//Clear Los
+		//Clear Terms (needs to be set on new version anyway so this forces the issue)
+    	majorDiscipline.setStartTerm(null);
+    	majorDiscipline.setEndTerm(null);
+    	majorDiscipline.setEndProgramEntryTerm(null);
+    	majorDiscipline.getAttributes().remove("endInstAdmitTerm");
+    	
+    	//Clear Los
 		for(LoDisplayInfo lo:majorDiscipline.getLearningObjectives()){
 			resetLoRecursively(lo);
 		}
@@ -285,6 +375,12 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 		//Clear Variations
 		for(ProgramVariationInfo variation:majorDiscipline.getVariations()){
+			//Clear Terms (needs to be set on new version anyway so this forces the issue)
+	    	variation.setStartTerm(null);
+	    	variation.setEndTerm(null);
+	    	variation.setEndProgramEntryTerm(null);
+	    	variation.getAttributes().remove("endInstAdmitTerm");
+	    	
 			//Create new variation version
 			String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
 			CluInfo newVariationClu = luService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersionInfo().getSequenceNumber());	
@@ -294,7 +390,10 @@ public class ProgramServiceImpl implements ProgramService {
 	        relation.setCluId(majorDiscipline.getId());
 	        relation.setRelatedCluId(newVariationClu.getId());
 	        relation.setType(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
-	        relation.setState(ProgramAssemblerConstants.ACTIVE);
+	        
+	        // Relations can only be ACTIVE or Suspended
+	        // We will set to ACTIVE for now
+	        relation.setState(DtoConstants.STATE_ACTIVE);
 			luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
 	        
 			//Set variation id & versionInfo to new variation clu
@@ -311,7 +410,7 @@ public class ProgramServiceImpl implements ProgramService {
 			copyProgramRequirements(variation.getProgramRequirements(),majorDiscipline.getState());
 		}
 		
-		//Copy requirements for majorDicipline
+		//Copy requirements for majorDiscipline
 		copyProgramRequirements(majorDiscipline.getProgramRequirements(),majorDiscipline.getState());
 
 		//Copy documents(create new relations to the new version)
@@ -327,6 +426,11 @@ public class ProgramServiceImpl implements ProgramService {
 
 	private void processCopy(CredentialProgramInfo originaCredentialProgram,
 			String originalId) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+		//Clear Terms (needs to be set on new version anyway so this forces the issue)
+		originaCredentialProgram.setStartTerm(null);
+		originaCredentialProgram.setEndTerm(null);
+		originaCredentialProgram.setEndProgramEntryTerm(null);
+		
 		//Clear Los
 		if (originaCredentialProgram.getLearningObjectives() != null){
 			for(LoDisplayInfo lo:originaCredentialProgram.getLearningObjectives()){
@@ -334,7 +438,7 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 		}
 
-		//Copy requirements for majorDicipline
+		//Copy requirements for majorDiscipline
 		copyProgramRequirements(originaCredentialProgram.getProgramRequirements(),originaCredentialProgram.getState());
 
 		//Copy documents(create new relations to the new version)
@@ -349,11 +453,16 @@ public class ProgramServiceImpl implements ProgramService {
 	}
     
     private void processCopy(CoreProgramInfo originalCoreProgram, String originalId) throws OperationFailedException, AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-		//Clear Los
+		//Clear Terms (needs to be set on new version anyway so this forces the issue)
+    	originalCoreProgram.setStartTerm(null);
+    	originalCoreProgram.setEndTerm(null);
+    	originalCoreProgram.setEndProgramEntryTerm(null);
+		
+    	//Clear Los
 		for(LoDisplayInfo lo:originalCoreProgram.getLearningObjectives()){
 			resetLoRecursively(lo);
 		}
-		//Copy requirements for majorDicipline
+		//Copy requirements for majorDiscipline
 		copyProgramRequirements(originalCoreProgram.getProgramRequirements(),originalCoreProgram.getState());
 
 		//Copy documents(create new relations to the new version)
@@ -399,7 +508,7 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 			//Create the new copy
 			ProgramRequirementInfo createdProgramRequirement = createProgramRequirement(programRequirementInfo);
-			//add the copy's id back to the majorDicipline's list of requirements
+			//add the copy's id back to the majorDiscipline's list of requirements
 			originalProgramRequirementIds.add(createdProgramRequirement.getId());
 		}
     }
@@ -416,7 +525,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentMajorDisciplineVersion(
 			String majorDisciplineId, Date currentVersionStart)
 			throws DoesNotExistException, InvalidParameterException,
@@ -438,7 +547,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public MinorDisciplineInfo createMinorDiscipline(
             MinorDisciplineInfo minorDisciplineInfo)
             throws AlreadyExistsException, DataValidationErrorException,
@@ -449,7 +558,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteCredentialProgram(String credentialProgramId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -470,7 +579,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteHonorsProgram(String honorsProgramId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -480,7 +589,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteMajorDiscipline(String majorDisciplineId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -500,7 +609,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteMinorDiscipline(String minorDisciplineId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -510,7 +619,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteProgramRequirement(String programRequirementId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -531,6 +640,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public CredentialProgramInfo getCredentialProgram(String credentialProgramId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -594,6 +704,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public MajorDisciplineInfo getMajorDiscipline(String majorDisciplineId)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -648,6 +759,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public ProgramRequirementInfo getProgramRequirement(String programRequirementId, String nlUsageTypeKey, String language) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -660,10 +772,6 @@ public class ProgramServiceImpl implements ProgramService {
 		}
 		try {
 			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false);
-			StatementTreeViewInfo statement = progReqInfo.getStatement();
-//			if (nlUsageTypeKey != null && language != null) {
-//				statement.setNaturalLanguageTranslation(statementService.getNaturalLanguageForStatement(statement.getId(), nlUsageTypeKey, language));
-//			}
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
@@ -672,6 +780,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
 			String majorDisciplineId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -698,7 +807,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CredentialProgramInfo updateCredentialProgram(
             CredentialProgramInfo credentialProgramInfo)
             throws DataValidationErrorException, DoesNotExistException,
@@ -710,7 +819,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -725,7 +834,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public HonorsProgramInfo updateHonorsProgram(
             HonorsProgramInfo honorsProgramInfo)
             throws DataValidationErrorException, DoesNotExistException,
@@ -737,7 +846,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public MajorDisciplineInfo updateMajorDiscipline(
             MajorDisciplineInfo majorDisciplineInfo)
             throws DataValidationErrorException, DoesNotExistException,
@@ -749,7 +858,7 @@ public class ProgramServiceImpl implements ProgramService {
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -764,7 +873,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public MinorDisciplineInfo updateMinorDiscipline(
             MinorDisciplineInfo minorDisciplineInfo)
             throws DataValidationErrorException, DoesNotExistException,
@@ -776,7 +885,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ProgramRequirementInfo updateProgramRequirement(
             ProgramRequirementInfo programRequirementInfo)
             throws DataValidationErrorException, DoesNotExistException,
@@ -786,7 +895,7 @@ public class ProgramServiceImpl implements ProgramService {
     	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo);
-        if (isNotEmpty(validationResults)) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -804,11 +913,11 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(credentialProgramInfo, objStructure));
-        }
+//        }
 
         return validationResults;
     }
@@ -829,11 +938,11 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure));
-        }
+//        }
         validateMajorDisciplineAtps(majorDisciplineInfo,validationResults);
         return validationResults;
     }
@@ -1077,13 +1186,13 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CoreProgramInfo createCoreProgram(CoreProgramInfo coreProgramInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1096,7 +1205,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CoreProgramInfo createNewCoreProgramVersion(
 			String coreProgramId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1144,7 +1253,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 
 	@Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 //        try {
 //        	CoreProgramInfo coreProgramInfo = getCoreProgram(coreProgramId);
@@ -1161,6 +1270,7 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
+    @Transactional(readOnly=true)
     public CoreProgramInfo getCoreProgram(String coreProgramId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	CoreProgramInfo coreProgramInfo = null;
 
@@ -1185,13 +1295,13 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    @Transactional(readOnly=false)
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CoreProgramInfo updateCoreProgram(CoreProgramInfo coreProgramInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(coreProgramInfo, "CoreProgramInfo");
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1208,17 +1318,17 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public List<ValidationResultInfo> validateCoreProgram(String validationType, CoreProgramInfo coreProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
 	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
 	        Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(coreProgramInfo, objStructure));
-        }
+//        }
         return validationResults;
     }
         
         
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CredentialProgramInfo createNewCredentialProgramVersion(
 			String credentialProgramId, String versionComment)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1265,7 +1375,7 @@ public class ProgramServiceImpl implements ProgramService {
 
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentCoreProgramVersion(String coreProgramId,
 			Date currentVersionStart) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1277,7 +1387,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentCredentialProgramVersion(
 			String credentialProgramId, Date currentVersionStart)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1289,6 +1399,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1300,6 +1411,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
 			String refObjectId, Date date) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1311,6 +1423,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1323,6 +1436,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1335,6 +1449,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getVersionBySequenceNumber(
 			String refObjectTypeURI, String refObjectId, Long sequence)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1347,6 +1462,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1358,6 +1474,7 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 
 	@Override
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersionsInDateRange(
 			String refObjectTypeURI, String refObjectId, Date from, Date to)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1402,7 +1519,8 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 		}
 	}
-
+	
+	//FIXME, this validation should be moved into a custom validation class + configuration
 	private void validateVariationAtps(ProgramVariationInfo programVariationInfo, List<ValidationResultInfo> validationResults, int idx) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		
 		String startTerm = programVariationInfo.getStartTerm();
@@ -1421,9 +1539,12 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 	
 	private AtpInfo getAtpInfo(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		if(atpKey==null){
+			return null;
+		}
 		return atpService.getAtp(atpKey);
 	}
-	
+	//FIXME error should return using message service and not static text
 	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field, String path) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		AtpInfo atpInfo1 = null;
 		AtpInfo atpInfo2 = null;
@@ -1435,7 +1556,7 @@ public class ProgramServiceImpl implements ProgramService {
 		
 		if(atpInfo1 != null && atpInfo1 != null){
 			if(atpInfo1.getStartDate()!= null && atpInfo2.getStartDate() != null){			
-				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
+				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than_equal", true, new ServerDateParser());
 				if(!compareResult){
 					ValidationResultInfo vri = new ValidationResultInfo();
 					vri.setElement(path);

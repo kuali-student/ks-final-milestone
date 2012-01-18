@@ -7,7 +7,7 @@
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>
-    <version>1.1.0-SNAPSHOT</version>
+    <version>2.0.0-cm-SNAPSHOT</version>
   </parent>
   <properties>
     <ks.gwt.module.org>org.kuali.student.core.organization.ui.OrgEntry</ks.gwt.module.org>
@@ -170,7 +170,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
@@ -184,21 +184,21 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>

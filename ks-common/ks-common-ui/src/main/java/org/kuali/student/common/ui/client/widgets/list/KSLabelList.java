@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.ui.client.widgets.list;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -157,7 +158,13 @@ public class KSLabelList extends KSSelectItemWidgetAbstract {
         selectItemWidget.setInitialized(initialized);
     }
 	
-	
+    public List<String> getSelectedItemsForExport() {
+    	if (getWidget() != null && getWidget() instanceof KSLabelListImpl) {
+    		KSLabelListImpl ksLabelImpl = (KSLabelListImpl) getWidget();
+    		return ksLabelImpl.getSelectedItemsForExport();
+    	}
+    	return null;
+    }
 }
 
 
