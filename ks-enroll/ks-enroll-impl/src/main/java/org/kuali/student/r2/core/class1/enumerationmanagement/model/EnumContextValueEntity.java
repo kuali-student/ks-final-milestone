@@ -38,7 +38,7 @@ public class EnumContextValueEntity extends BaseVersionEntity {
     @Column(name="CTX_VAL")
     String contextValue;
 
-    @ManyToMany(mappedBy="contextEntityList", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy="contextValueEntities", fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     List<EnumeratedValueEntity> enumeratedValueList;
     
     public EnumContextValueEntity() {

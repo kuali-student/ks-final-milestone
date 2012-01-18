@@ -22,7 +22,7 @@ import javax.persistence.Table;
 import org.kuali.student.r2.common.entity.MetaEntity;
 
 @Entity
-@Table(name = "KSEN_ENUM_STATE")
+@Table(name = "KSEM_ENUM_STATE")
 public class EnumerationStateEntity extends MetaEntity {
     private String name;
 

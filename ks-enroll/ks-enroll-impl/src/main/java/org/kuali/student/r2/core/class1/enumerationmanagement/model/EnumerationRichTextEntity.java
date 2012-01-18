@@ -23,7 +23,7 @@ import org.kuali.student.r2.common.entity.RichTextEntity;
 import org.kuali.student.r2.common.infc.RichText;
 
 @Entity
-@Table(name = "KSEN_RICH_TEXT_T")
+@Table(name = "KSEM_RICH_TEXT_T")
 public class EnumerationRichTextEntity extends RichTextEntity {
 
     public EnumerationRichTextEntity(){}
