@@ -40,9 +40,9 @@ public class TestValidator {
 	}
 		
 	@Test     
-    public void testRequired() {
+    public void testRequired(ContextInfo context) {
     	    	
-    	List<ValidationResultInfo> results = val.validateObject(buildTestPerson1(), getSimpleStudentObjectStructure(), ContextInfo.getInstance(new ContextInfo()));
+    	List<ValidationResultInfo> results = val.validateObject( buildTestPerson1(), getSimpleStudentObjectStructure(), context);
     	assertEquals(results.size(), 1);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -51,12 +51,12 @@ public class TestValidator {
     
 
     @Test     
-    public void testLengthRange() {
+    public void testLengthRange(ContextInfo context) {
     	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("thisisaveryveryverylo");
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, getSimpleStudentObjectStructure(),new ContextInfo());
+    	List<ValidationResultInfo> results = val.validateObject( p, getSimpleStudentObjectStructure(), context);
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -64,7 +64,7 @@ public class TestValidator {
     }
     
     @Test     
-    public void testMinLength() {
+    public void testMinLength(ContextInfo context) {
     	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("t");
@@ -72,7 +72,7 @@ public class TestValidator {
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	o1.getAttributes().get(0).setMaxLength(null);
     	
-    	List<ValidationResultInfo> results = val.validateObject(p, o1, new ContextInfo());
+    	List<ValidationResultInfo> results = val.validateObject( p, o1, context);    
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -81,13 +81,13 @@ public class TestValidator {
     
 
     @Test
-    public void testMinDateValue() {
+    public void testMinDateValue(ContextInfo context) {
     	ConstraintMockPerson p = buildTestPerson1();
     	ServerDateParser sp = new ServerDateParser();
     	p.setDob(sp.parseDate("1960-01-01"));
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());    
+    	List<ValidationResultInfo> results = val.validateObject( p, o1, context);    
     	assertEquals(results.size(), 1);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -95,7 +95,7 @@ public class TestValidator {
     }
     
     @Test     
-    public void testMaxLength() {
+    public void testMaxLength(ContextInfo context) {
     	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("thisisaveryveryverylo");
@@ -103,7 +103,7 @@ public class TestValidator {
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	o1.getAttributes().get(0).setMinLength(0);
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());
+    	List<ValidationResultInfo> results = val.validateObject( p, o1, context);    
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -111,14 +111,14 @@ public class TestValidator {
     }
     
     @Test     
-    public void testValidChars() {
+    public void testValidChars(ContextInfo context) {
     	    	
     	ConstraintMockPerson p = buildTestPerson1();
     	p.setFirstName("in$#valid");
 
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());
+    	List<ValidationResultInfo> results = val.validateObject( p, o1, context);    
     	assertEquals(results.size(), 2);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -127,14 +127,14 @@ public class TestValidator {
 
 
     @Test     
-    public void testDoubleValueRange() {
+    public void testDoubleValueRange(ContextInfo context) {
     	
     	ConstraintMockPerson p = buildTestPerson2();
     	p.setGpa(5.0);
 
     	ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o1,new ContextInfo());
+    	List<ValidationResultInfo> results = val.validateObject( p, o1, context);    
     	assertEquals(results.size(), 1);
 
     	assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -142,12 +142,12 @@ public class TestValidator {
     }
     
     @Test
-    public void testNestedStructures() {    	
+    public void testNestedStructures(ContextInfo context) {    	
     	ConstraintMockPerson p = buildTestPerson3();
 
     	ObjectStructureDefinition o = getStudentWithAddressObjectStructure();
     	
-    	List<ValidationResultInfo> results = val.validateObject( p, o,new ContextInfo());
+    	List<ValidationResultInfo> results = val.validateObject( p, o, context);
 //     ERROR address/0/line1 validation.required
 //     ERROR address/0/line2 validation.validCharsFailed
 //     ERROR address/0/line2 validation.requiresField
@@ -172,7 +172,7 @@ public class TestValidator {
     	
     	val.setSearchDispatcher(searchDispatcher);
     	p.getAddress().get(0).setLine1("something");
-    	results = val.validateObject( p, o,new ContextInfo());
+    	results = val.validateObject( p, o, context);
      System.out.println (results.size () + " errors found");
      for (ValidationResultInfo vri : results)
      {
@@ -181,7 +181,7 @@ public class TestValidator {
     	assertEquals(6, results.size());
 
     	p.getAddress().get(0).setLine2("notrightlookupvalue");
-    	results = val.validateObject( p, o,new ContextInfo());
+    	results = val.validateObject( p, o, context); 
      System.out.println (results.size () + " errors found");
      for (ValidationResultInfo vri : results)
      {
