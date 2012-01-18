@@ -35,11 +35,18 @@ public interface Milestone
      * Tests if this Milestone is an all day event. An all-day event
      * does not have a meaningful time component in the date.
      *
-     * @return true if this is an all-day event, false otherwise
      * @name Is All Day
      * @required
      */
     public Boolean getIsAllDay();
+
+    /**
+     * Tests if this Milestone is an instructional day.
+     *
+     * @name Is Instructional Day
+     * @required
+     */
+    public Boolean getIsInstructionalDay();
 
     /**
      * Tests if this Milestone is relative to another Milestone.

@@ -146,6 +146,13 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
+    public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO
+        return new ArrayList<AtpInfo>();
+    }
+
+
+    @Override
     public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<AtpInfo> atpList = new ArrayList<AtpInfo>();

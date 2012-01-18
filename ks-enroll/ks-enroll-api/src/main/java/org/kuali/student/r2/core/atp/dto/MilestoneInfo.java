@@ -31,7 +31,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MilestoneInfo", propOrder = { 
                 "id", "typeKey", "stateKey", "name", "descr", 
-                "isAllDay", "isRelative", "relativeAnchorMilestoneId",
+                "isAllDay", "isInstructionalDay", 
+                "isRelative", "relativeAnchorMilestoneId",
                 "isDateRange", "startDate", "endDate",
 		"meta", "attributes", "_futureElements" })
 
@@ -43,6 +44,9 @@ public class MilestoneInfo
 
     @XmlElement
     private Boolean isAllDay;
+
+    @XmlElement
+    private Boolean isInstructionalDay;
 
     @XmlElement
     private Boolean isRelative;
@@ -79,6 +83,7 @@ public class MilestoneInfo
 
         if (milestone != null) {
             this.isAllDay = milestone.getIsAllDay();
+            this.isInstructionalDay = milestone.getIsInstructionalDay();
             this.isRelative = milestone.getIsRelative();
             this.relativeAnchorMilestoneId = milestone.getRelativeAnchorMilestoneId();
             this.isDateRange = milestone.getIsDateRange();
@@ -100,6 +105,15 @@ public class MilestoneInfo
     
     public void setIsAllDay(Boolean isAllDay) {
         this.isAllDay = isAllDay;
+    }
+
+    @Override
+    public Boolean getIsInstructionalDay() {
+        return isInstructionalDay;
+    }
+    
+    public void setIsInstructionalDay(Boolean isInstructionalDay) {
+        this.isInstructionalDay = isInstructionalDay;
     }
 
     @Override

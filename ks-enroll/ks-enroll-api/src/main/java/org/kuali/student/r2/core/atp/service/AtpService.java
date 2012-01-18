@@ -108,6 +108,22 @@ public interface AtpService {
      */
     public List<String> getAtpIdsByType(@WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Gets a list of ATPss by Code. Typically, an ATP Code is unique.
+     * 
+     * @param code an ATP Code
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return a list of ATPs with the given ATP Code
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException code or contextInfo is
+     *         missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure
+     *         occurred
+     */
+    public List<AtpInfo> getAtpsByCode(@WebParam(name = "code") String code, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     //
     // Special ATP lookup methods by date.
     //
