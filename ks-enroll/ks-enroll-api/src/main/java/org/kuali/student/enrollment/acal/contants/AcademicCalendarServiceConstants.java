@@ -47,6 +47,11 @@ public class AcademicCalendarServiceConstants {
     public static final String CAMPUS_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY;
 
     /**
+     * Dynamic Attributes Keys
+     */
+    public static final String CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY = "kuali.atp.attribute.campus.key";
+    
+    /**
      * Registration Date Groups
      */
     public static final String REGISTRATION_PERIOD_TYPE_KEY = AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY;

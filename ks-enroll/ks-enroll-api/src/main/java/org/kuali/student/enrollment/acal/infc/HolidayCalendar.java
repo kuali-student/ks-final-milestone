@@ -37,11 +37,13 @@ public interface HolidayCalendar
      * The campuses to which this calendar pertains.
      *
      * @name Campus Keys
+     * @impl campus keys should be stored as a set of dynamic attributes all with 
+     * CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY
      */
     public List<String> getCampusKeys();
 
     /**
-     * The adminsitrative organization responsible for maintaining
+     * The administrative organization responsible for maintaining
      * this calendar.
      *
      * @name AdminOrg Id
