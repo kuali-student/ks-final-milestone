@@ -1,15 +1,16 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -18,8 +19,10 @@ package org.kuali.student.core.type.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
-import org.kuali.student.common.dto.HasAttributesInfo;
+import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,80 +37,90 @@ import org.w3c.dom.Element;
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeInfo", propOrder = {
-                 "key", "name", "descr", "effectiveDate", "expirationDate", 
-                 "refObjectURI", "attributes", "_futureElements"})
+        "key", "name", "descr", "effectiveDate", "expirationDate",
+        "refObjectUri", "meta", "attributes", "_futureElements"})
 
-public class TypeInfo 
-    extends HasAttributesInfo 
-    implements Type, Serializable {
-	
+public class TypeInfo
+        extends HasAttributesAndMetaInfo
+        implements Type, Serializable {
+
     @XmlAttribute
     private String key;
-	
+
     @XmlElement
     private String name;
-    
+
     @XmlElement
-    private String descr;
-    
+    private RichTextInfo descr;
+
     @XmlElement
     private Date effectiveDate;
-    
+
     @XmlElement
     private Date expirationDate;
-    
+
     @XmlElement
-    private String refObjectURI;
-    
+    private String refObjectUri;
+
     @XmlAnyElement
-    private List<Element> _futureElements;    
-	
-    
+    private List<Element> _futureElements;
+
+
     /**
      * Constructs a new TypeInfo.
      */
     public TypeInfo() {
     }
-	
+
     /**
      * Constructs a new TypeInfo from another Type.
      *
      * @param type the type to copy
-     */	
+     */
     public TypeInfo(Type type) {
         super(type);
-        this.key = type.getKey();
-        this.name = type.getName();
-        this.descr = type.getDescr();
-    	this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
-    	this.refObjectURI = type.getRefObjectURI();
+
+        if (type != null) {
+            this.key = type.getKey();
+            this.name = type.getName();
+            if (type.getDescr() != null) {
+                this.descr = new RichTextInfo(type.getDescr());
+            }
+            this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
+            this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
+            this.refObjectUri = type.getRefObjectUri();
+        }
     }
-	
+
     @Override
     public String getKey() {
         return key;
     }
-    
+
     public void setKey(String key) {
         this.key = key;
     }
-    
+
     @Override
     public String getName() {
         return name;
     }
-    
+
     public void setName(String name) {
         this.name = name;
     }
 
     @Override
-    public String getDescr() {
+    public RichTextInfo getDescr() {
         return descr;
     }
-    
-    public void setDescr(String descr) {
+
+    @Override
+    public String getRefObjectURI() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 
@@ -115,7 +128,7 @@ public class TypeInfo
     public Date getEffectiveDate() {
         return effectiveDate;
     }
-	
+
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
@@ -124,17 +137,23 @@ public class TypeInfo
     public Date getExpirationDate() {
         return expirationDate;
     }
-	
+
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-    
+
     @Override
-    public String getRefObjectURI() {
-        return refObjectURI;
+    public String getRefObjectUri() {
+        return refObjectUri;
     }
-    
-    public void setRefObjectURI(String refObjectURI) {
-        this.refObjectURI = refObjectURI;
+
+    public void setRefObjectUri(String refObjectUri) {
+        this.refObjectUri = refObjectUri;
+    }
+
+    // TODO KSCM-151
+    @Override
+    public void setAttributes(Map<String, String> attributes) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
