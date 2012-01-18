@@ -64,6 +64,10 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="atpService" ref="atpService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
+    <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
+    <property name="holidayAssembler" ref="holidayAssembler" />
+    <property name="keyDateAssembler" ref="keyDateAssembler" />
+    <property name="acalEventAssembler" ref = "acalEventAssembler" />
   </bean>
 
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
@@ -71,6 +75,14 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
+
+ <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
+
+  <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
+  
+  <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
+
+ <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
   <bean id="regRequestAssembler" class="org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler">
   </bean>
