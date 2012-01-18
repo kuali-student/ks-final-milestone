@@ -199,8 +199,21 @@ public class StateServiceImpl implements StateService{
     @Override
     public List<StateInfo> getStatesByLifecycle(String lifecycleKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<StateEntity> states = null;
+        try{
+            states = stateDao.getStatesByProcess(lifecycleKey);
+        }catch(NoResultException ex){
+            throw new DoesNotExistException("No states found for lifecycle. lifecycleKey=" + lifecycleKey);
+        }
+        if (null == states || 0 == states.size() ) {
+            throw new DoesNotExistException("No states found for lifecycle. lifecycleKey=" + lifecycleKey);
+        }
+
+        List<StateInfo> stateInfos = new ArrayList<StateInfo>();
+        for (StateEntity state : states) {
+            stateInfos.add(state.toDto());
+        }
+        return stateInfos;
     }
     @Override
     public List<String> searchForStateKeys(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,

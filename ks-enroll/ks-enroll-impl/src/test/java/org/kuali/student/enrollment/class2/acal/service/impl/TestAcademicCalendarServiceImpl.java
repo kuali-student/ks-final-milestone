@@ -777,8 +777,9 @@ public class TestAcademicCalendarServiceImpl {
     @Test
     public void testCreateKeyDate() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, DoesNotExistException, ReadOnlyException {
+        String keyDateId = null;
         KeyDateInfo keyDate = new KeyDateInfo();
-        keyDate.setId("new-keydate-Id");
+        keyDate.setId(keyDateId);
         keyDate.setName("testCreate");
 
         Calendar cal = Calendar.getInstance();
@@ -793,24 +794,25 @@ public class TestAcademicCalendarServiceImpl {
         descr.setPlain("Test");
         keyDate.setDescr(descr);
 
-        KeyDateInfo created = acalService.createKeyDate("termRelationTestingTerm1", "new-keydate-Id", keyDate, callContext);
+        KeyDateInfo created = acalService.createKeyDate("termRelationTestingTerm1", keyDate.getTypeKey(), keyDate, callContext);
         assertNotNull(created);
-        assertNotNull(created.getId());
+        keyDateId = created.getId();
+        assertNotNull(keyDateId);
         assertEquals("testCreate", created.getName());
 
-        KeyDateInfo retrieved = acalService.getKeyDate(created.getId(), callContext);
+        KeyDateInfo retrieved = acalService.getKeyDate(keyDateId, callContext);
         assertNotNull(retrieved);
-        assertEquals(created.getId(), retrieved.getId());
+        assertEquals(keyDateId, retrieved.getId());
         assertEquals("testCreate", retrieved.getName());
 
-        List<KeyDateInfo> kds = acalService.getKeyDatesForTerm(created.getId(), callContext);
+        List<KeyDateInfo> kds = acalService.getKeyDatesForTerm("termRelationTestingTerm1", callContext);
         assertNotNull(kds);
         assertTrue(!kds.isEmpty());
         List<String> kdIds = new ArrayList<String>();
         for (KeyDateInfo kd : kds) {
             kdIds.add(kd.getId());
         }
-        assertTrue(kdIds.contains("new-keydate-Id"));
+        assertTrue(kdIds.contains(keyDateId));
 
     }
 

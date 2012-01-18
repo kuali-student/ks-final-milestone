@@ -11,17 +11,21 @@ public class KeyDateAssembler implements DTOAssembler<KeyDateInfo, MilestoneInfo
     @Override
     public KeyDateInfo assemble(MilestoneInfo baseDTO, ContextInfo context) throws AssemblyException {
         KeyDateInfo keyDateInfo = new KeyDateInfo();
+
+        keyDateInfo.setAttributes(baseDTO.getAttributes());
         keyDateInfo.setDescr(baseDTO.getDescr());
         keyDateInfo.setEndDate(baseDTO.getEndDate());
+        keyDateInfo.setId(baseDTO.getId());
         keyDateInfo.setIsAllDay(baseDTO.getIsAllDay());
         keyDateInfo.setIsDateRange(baseDTO.getIsDateRange());
         keyDateInfo.setIsRelativeToKeyDate(baseDTO.getIsRelative());
-        keyDateInfo.setRelativeAnchirKeyDateId (baseDTO.getRelativeAnchorMilestoneId());
         keyDateInfo.setMeta(baseDTO.getMeta());
+        keyDateInfo.setName(baseDTO.getName());
+        keyDateInfo.setRelativeAnchirKeyDateId (baseDTO.getRelativeAnchorMilestoneId());
+        keyDateInfo.setStartDate(baseDTO.getStartDate());
         keyDateInfo.setStateKey(baseDTO.getStateKey());
         keyDateInfo.setTypeKey(baseDTO.getTypeKey());
-        keyDateInfo.setStartDate(baseDTO.getStartDate());
-        
+
         
         return keyDateInfo;
     }

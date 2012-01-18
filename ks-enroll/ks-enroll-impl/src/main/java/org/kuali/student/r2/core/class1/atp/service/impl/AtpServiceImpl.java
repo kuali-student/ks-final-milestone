@@ -583,8 +583,8 @@ public class AtpServiceImpl implements AtpService {
     public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        if (milestoneDao.find(milestoneInfo.getId()) != null) {
-            throw new DataValidationErrorException(milestoneInfo.getId());
+        if (milestoneInfo.getId() != null) {
+            throw new InvalidParameterException("ID cannot be populated when creating milestone.");
         }
 
         MilestoneEntity entity = new MilestoneEntity(milestoneInfo);

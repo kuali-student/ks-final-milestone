@@ -1489,8 +1489,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     @Override
     public List<String> getTermIdsByType(String termTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // TODO validate type key is a valid term type
+        return atpService.getAtpIdsByType(termTypeKey, contextInfo);
     }
 
     @Override
@@ -1548,6 +1548,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public KeyDateInfo createKeyDate(String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        // TODO move to validation decorator
+        if (keyDateInfo.getId() != null) {
+            throw new InvalidParameterException("ID not allowed in create.");
+        }
+
+
         KeyDateInfo newKeyDateInfo = null;
         MilestoneInfo milestoneInfo = null;
 

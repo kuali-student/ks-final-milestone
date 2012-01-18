@@ -57,10 +57,8 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
 
         List<TermInfo> templateTerms = getTermsForAcademicCalendar(templateAcademicCalendar.getId(), contextInfo);
         for (TermInfo templateTerm : templateTerms) {
-            // TODO properly generate new key
-            String termId = templateTerm.getId() + "." + RandomStringUtils.randomAlphanumeric(4);
             TermInfo term;
-            term = copyTerm(templateTerm.getId(), termId, oldDatesToNewDates, contextInfo);
+            term = copyTerm(templateTerm.getId(), oldDatesToNewDates, contextInfo);
             try {
                 addTermToAcademicCalendar(academicCalendar.getId(), term.getId(), contextInfo);
             } catch (AlreadyExistsException e) {
@@ -106,7 +104,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
             List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(templateHolidayCalendar.getId(),contextInfo);
             for (HolidayInfo holidayInfo : holidays) {
                 HolidayInfo newHoliday = new HolidayInfo(holidayInfo);
-                newHoliday.setId(UUIDHelper.genStringUUID());
+                newHoliday.setId(null);
                 newHoliday.setDescr(new RichTextInfo(holidayInfo.getDescr()));
                 newHoliday.setName(holidayInfo.getName());
                 newHoliday.setTypeKey(newHoliday.getTypeKey());
@@ -126,12 +124,11 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         return newHolidayCalendarIds;
     }
 
-    private TermInfo copyTerm(String templateTermId, String newTermId, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws InvalidParameterException,
+    private TermInfo copyTerm(String templateTermId, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         TermInfo templateTerm = getTerm(templateTermId, context);
 
         TermInfo term = new TermInfo(templateTerm);
-        // TODO properly generate new key
         term.setId(null);
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setName(templateTerm.getName());
@@ -162,8 +159,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
 
             if (null == keyDate) {
                 keyDate = new KeyDateInfo(templateKeyDate);
-                // TODO properly generate new key
-                keyDate.setId(templateKeyDate.getId() + "." + RandomStringUtils.randomAlphanumeric(4));
+                keyDate.setId(null);
                 keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
                 keyDate.setName(templateKeyDate.getName());
                 keyDate.setDescr(new RichTextInfo(templateKeyDate.getDescr()));
@@ -171,7 +167,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
 
                 try {
                     // TODO Need a way to only create a KeyDate in order to associate it with multiple Terms
-                    createKeyDate(term.getId(), keyDate.getId(), keyDate, context);
+                    createKeyDate(term.getId(), keyDate.getTypeKey(), keyDate, context);
                     // TODO calculate keyDate effective dates
                     templateDatesToNewDates.put(templateKeyDate.getId(), keyDate);
                 } catch (DataValidationErrorException e) {
@@ -187,9 +183,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         // Recursive call to copy subTerms
         List<TermInfo> templateSubTerms = getContainingTerms(templateTermId, context);
         for (TermInfo templateSubTerm : templateSubTerms) {
-            // TODO properly generate new key
-            String subTermId = templateSubTerm.getId() + "." + RandomStringUtils.randomAlphanumeric(4);
-            TermInfo subTerm = copyTerm(templateSubTerm.getId(), subTermId, templateDatesToNewDates, context);
+            TermInfo subTerm = copyTerm(templateSubTerm.getId(), templateDatesToNewDates, context);
             try {
                 addTermToTerm(term.getId(), subTerm.getId(), context);
             } catch (AlreadyExistsException e) {
