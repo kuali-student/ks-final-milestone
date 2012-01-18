@@ -8,7 +8,7 @@ import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.core.util.constants.AtpServiceConstants;
+import org.kuali.student.core.atp.AtpServiceConstants;
 import org.kuali.student.core.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.core.util.constants.LuiServiceConstants;
 
