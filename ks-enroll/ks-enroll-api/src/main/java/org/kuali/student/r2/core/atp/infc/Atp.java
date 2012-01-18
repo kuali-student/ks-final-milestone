@@ -31,11 +31,11 @@ public interface Atp
     extends IdEntity {
 
     /**
-     * Code used to reference this Academic Time Period.
+     * Gets a display code for this ATP.
      * 
-     * The code is typically unique within some context. of this code may vary depending 
-     */
-    
+     * @name Code
+     */    
+    public String getCode();
     
     /**
      * Date and time the academic time period became effective. This

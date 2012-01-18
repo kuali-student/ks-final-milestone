@@ -32,7 +32,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
-                "startDate", "endDate", "adminOrgId", 
+                "code", "startDate", "endDate", "adminOrgId", 
                 "meta", "attributes", "_futureElements" })
 
 public class AtpInfo 
@@ -41,6 +41,9 @@ public class AtpInfo
 
     private static final long serialVersionUID = 1L;
 	
+    @XmlElement
+    private String code;
+
     @XmlElement
     private Date startDate;
 	
@@ -69,6 +72,8 @@ public class AtpInfo
         super(atp);
 
         if (atp != null) {
+            this.code = atp.getCode();
+
             if (atp.getStartDate() != null) {
                 this.startDate = new Date(atp.getStartDate().getTime());
             }
@@ -81,6 +86,15 @@ public class AtpInfo
         }
     }
     
+    @Override
+    public String getCode() {
+        return code;
+    }
+	
+    public void setCode(String code) {
+        this.code = code;
+    }
+
     @Override
     public Date getStartDate() {
         return startDate;
