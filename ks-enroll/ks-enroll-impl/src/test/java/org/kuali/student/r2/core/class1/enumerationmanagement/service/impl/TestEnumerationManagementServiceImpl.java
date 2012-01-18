@@ -21,11 +21,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -50,13 +51,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+@Ignore
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = {"classpath:atp-test-context.xml"})
+@ContextConfiguration(locations = {"classpath:em-test-context.xml"})
 @Transactional
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
-@Ignore
-public class TestEnumerationManagementServiceImpl extends AbstractTransactionalDaoTest{
+public class TestEnumerationManagementServiceImpl {
     
+    @Resource(name="enumServiceAuthDecorator")
     public EnumerationManagementService enumService;
     
     public static String principalId = "123";
