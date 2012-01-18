@@ -245,5 +245,11 @@
           <artifactId>rice-edl-impl</artifactId>
           <version>${kuali.rice.version}</version>
     </dependency>
+
+     <dependency>
+       <groupId>antlr</groupId>
+       <artifactId>antlr</artifactId>
+     </dependency>
+
   </dependencies>
 </project>
