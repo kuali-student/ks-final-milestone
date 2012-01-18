@@ -27,9 +27,10 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
             holidayCalendarInfo.setTypeKey(atp.getTypeKey());
             holidayCalendarInfo.setStateKey(atp.getStateKey());
             holidayCalendarInfo.setMeta(atp.getMeta());
+//            TODO: assemble CampusKeys as a dynamic attribute
+//            use AtpServiceConstants.CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY
             holidayCalendarInfo.setAttributes(atp.getAttributes());
-
-       
+      
             return holidayCalendarInfo;
         }
         else
@@ -49,6 +50,8 @@ public class HolidayCalendarAssembler implements DTOAssembler<HolidayCalendarInf
             atp.setStateKey(holidayCalendarInfo.getStateKey());
             atp.setMeta(holidayCalendarInfo.getMeta());
 
+//            TODO: disassemble CampusKeys as a dynamic attribute 
+//            use AtpServiceConstants.CAMPUS_KEY_DYNAMIC_ATTRIBUTE_KEY
             List<AttributeInfo> attributes = (null != holidayCalendarInfo.getAttributes() ? holidayCalendarInfo.getAttributes() : new ArrayList<AttributeInfo>());
 
          
