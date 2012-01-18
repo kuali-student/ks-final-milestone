@@ -31,6 +31,13 @@ public interface Atp
     extends IdEntity {
 
     /**
+     * Code used to reference this Academic Time Period.
+     * 
+     * The code is typically unique within some context. of this code may vary depending 
+     */
+    
+    
+    /**
      * Date and time the academic time period became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the

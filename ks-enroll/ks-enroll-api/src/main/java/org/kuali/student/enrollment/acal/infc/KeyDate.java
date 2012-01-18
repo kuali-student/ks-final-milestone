@@ -24,6 +24,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * Information about a key date. A key date may represent a single
  * point in time or a range depending on the value of isDateRange().
  *
+ * @impl maps to a Milestone with a type that is one of the key dates
  * @author tom
  * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
@@ -45,6 +46,7 @@ public interface KeyDate
      *
      * @name Is Relative To Key Date
      * @required
+     * @impl maps to isRelative
      */
     public Boolean getIsRelativeToKeyDate();
 
@@ -52,6 +54,7 @@ public interface KeyDate
      * Gets the anchor KeyDate to which this KeyDate is relative.
      *
      * @name Relative Anchor KeyDate Id
+     * @impl maps to relativeAnchorMilestoneId
      */
     public String getRelativeAnchorKeyDateId();
 
