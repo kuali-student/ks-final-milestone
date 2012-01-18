@@ -27,7 +27,8 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.core.util.constants.EnumerationManagementServiceConstants;
+import org.kuali.student.core.enumerationmanagement.EnumerationManagementServiceConstants;
+//import org.kuali.student.core.util.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 
