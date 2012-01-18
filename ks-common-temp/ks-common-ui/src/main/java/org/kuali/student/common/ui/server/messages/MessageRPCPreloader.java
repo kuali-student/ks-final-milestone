@@ -23,7 +23,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.common.messages.dto.MessageList;
@@ -31,7 +30,10 @@ import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
-
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.LocaleInfo;
+import java.util.List;
+import org.kuali.student.common.messages.dto.MessageInfo;
 import com.google.gwt.user.server.rpc.RPC;
 
 public class MessageRPCPreloader {
@@ -59,16 +61,20 @@ public class MessageRPCPreloader {
         this.messageService = serviceImpl;
     }
 
-    public String getMessagesByGroupsEncodingString(String locale, String[] keys){
+//    public String getMessagesByGroupsEncodingString(String locale, String[] keys)
+    public String getMessagesByGroupsEncodingString(LocaleInfo localeInfo, List<String> messageGroupKeys, ContextInfo contextInfo){
         Method serviceMethod;
         try {
             serviceMethod = MessagesRpcGwtServlet.class.getMethod("getMessagesByGroups", String.class,MessageGroupKeyList.class);
             
             MessageGroupKeyList messageGroupKeyList = new MessageGroupKeyList();
-            messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
+            messageGroupKeyList.setMessageGroupKeys(messageGroupKeys);
+//            messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
-            MessageList messageList = getMessageService().getMessagesByGroups(locale, messageGroupKeyList, ContextInfo.newInstance());
-
+            List<MessageInfo> messageList = getMessageService().getMessagesByGroups(localeInfo,messageGroupKeys,contextInfo);
+            
+           
+            
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);
             whitelist.put(MessageList.class, true);

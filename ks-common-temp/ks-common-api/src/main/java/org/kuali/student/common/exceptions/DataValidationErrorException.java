@@ -23,7 +23,7 @@ import javax.xml.ws.WebFault;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 @WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
