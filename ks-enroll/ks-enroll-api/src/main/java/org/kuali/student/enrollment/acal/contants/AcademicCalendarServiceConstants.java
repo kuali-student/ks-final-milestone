@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
  * This class holds the constants used by the Academic Calendar service

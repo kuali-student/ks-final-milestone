@@ -16,6 +16,7 @@
 
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgCodeInfo;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;

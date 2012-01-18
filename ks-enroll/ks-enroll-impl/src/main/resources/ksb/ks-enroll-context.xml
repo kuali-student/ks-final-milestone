@@ -95,6 +95,8 @@
     <property name="termAssembler" ref="termAssembler" />
     <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
     <property name="holidayAssembler" ref="holidayAssembler" />
+    <property name="keyDateAssembler" ref="keyDateAssembler" />
+    <property name="acalEventAssembler" ref = "acalEventAssembler" />
   </bean>
 
   <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -113,15 +115,19 @@
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     <property name="atpService" ref="atpEnrService" />
   </bean>
-
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
 
   <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
 
   <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
+  
+  <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
 
   <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
+  
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
+
+  <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
   <bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
