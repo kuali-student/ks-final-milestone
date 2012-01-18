@@ -4,15 +4,15 @@
 
     <import resource="classpath:enrollServices-commons.xml"/>
 
-    <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
+    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="stateProcessDao" class="org.kuali.student.r2.common.dao.StateProcessDao">
+    <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
-    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.common.dao.StateProcessRelationDao">
+    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>
             
@@ -60,7 +60,7 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 -->    
-    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
     	<property name="em" ref="enrollEntityManager"/>
     </bean>
  

@@ -15,7 +15,7 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestStateDao extends AbstractTransactionalDaoTest{
-	@Dao(value = "org.kuali.student.r2.common.dao.StateDao", testSqlFile = "classpath:ks-common.sql")
+	@Dao(value = "org.kuali.student.r2.core.class1.state.dao.StateDao", testSqlFile = "classpath:ks-common.sql")
     private StateDao dao;
 
 	@Test

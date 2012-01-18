@@ -54,7 +54,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="stateService" ref="stateService" />
   </bean>
 
-  <bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
     <property name="spDao" ref="stateProcessDao" />
     <property name="sprDao" ref="stateProcessRelationDao" />

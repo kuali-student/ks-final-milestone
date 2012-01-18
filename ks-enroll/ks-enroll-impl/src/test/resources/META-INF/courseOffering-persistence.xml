@@ -36,6 +36,8 @@
         <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
 	  	<class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
  		<class>org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.entity.AtpTypeAttributeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.entity.TypeEntity</class>
         <class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity</class>
         <class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationAttributeEntity</class>

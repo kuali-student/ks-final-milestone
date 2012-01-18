@@ -34,7 +34,7 @@ public class TestLprDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprDao", testSqlFile = "classpath:ks-lpr.sql")
     private LprDao dao;
 
-    @Dao(value = "org.kuali.student.r2.common.dao.StateDao")
+    @Dao(value = "org.kuali.student.r2.core.class1.state.dao.StateDao")
     private StateDao stateDao;
 
     @Dao(value = "org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao")

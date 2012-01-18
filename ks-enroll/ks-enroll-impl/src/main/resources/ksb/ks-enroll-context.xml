@@ -129,7 +129,7 @@
 
   <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
 
-  <bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
     <property name="spDao" ref="stateProcessDao" />
     <property name="sprDao" ref="stateProcessRelationDao" />
