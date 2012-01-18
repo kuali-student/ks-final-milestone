@@ -37,6 +37,7 @@ public interface AcademicCalendar
      * holiday calendar.
      *
      * @name Holiday Calendar Ids
+     * @impl Holiday Calendars are stored in the ATP service as an Associated ATP ATP relation
      */
     public List<String> getHolidayCalendarIds();
     
