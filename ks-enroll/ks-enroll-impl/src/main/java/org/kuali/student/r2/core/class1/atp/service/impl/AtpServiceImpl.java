@@ -219,6 +219,12 @@ public class AtpServiceImpl implements AtpService {
         return result;
     }
 
+    @Override
+    public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO
+        return new ArrayList<AtpInfo>();
+    }
+
   @Override
     public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpIds") List<String> atpIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
             List<AtpEntity> atps = atpDao.findByIds(atpIds);

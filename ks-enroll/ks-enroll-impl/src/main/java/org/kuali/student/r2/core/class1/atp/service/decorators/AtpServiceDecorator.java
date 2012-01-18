@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.service.decorators;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,6 +92,11 @@ public class AtpServiceDecorator implements AtpService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         return getNextDecorator().getAtpsByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey, context);
+    }
+
+    @Override
+    public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getAtpsByCode(code, contextInfo);
     }
 
     @Override
