@@ -4,11 +4,11 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.krms.api.engine.EngineResults;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.core.statement.util.PropositionBuilder;
-import org.kuali.student.core.statement.util.RulesEvaluationUtil;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r2.core.statement.util.PropositionBuilder;
+import org.kuali.student.r2.core.statement.util.RulesEvaluationUtil;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.CourseRegistrationAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegRequestAssembler;
 import org.kuali.student.enrollment.class2.courseregistration.service.assembler.RegResponseAssembler;
@@ -31,7 +31,6 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -59,6 +58,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.kuali.student.r2.lum.course.service.CourseService;
 
 public class CourseRegistrationServiceImpl implements CourseRegistrationService {
 
@@ -289,7 +289,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         try {
             // TODO fill in nlUsageType and language parameters once the implementation actually uses them
-            statements = courseService.getCourseStatements(courseOffering.getCourseId(), null, null);
+            statements = courseService.getCourseStatements(courseOffering.getCourseId(), null, null, context);
         } catch (Exception e) {
             throw new OperationFailedException(e.getMessage(), e);
         }
@@ -298,11 +298,11 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         // find and process statements that the PropositionBuilder can handle
         for(StatementTreeViewInfo statementTree : statements) {
-            if(PropositionBuilder.TRANSLATABLE_STATEMENT_TYPES.contains(statementTree.getType())) {
+            if(PropositionBuilder.TRANSLATABLE_STATEMENT_TYPES.contains(statementTree.getTypeKey())) {
                 PropositionBuilder.TranslationResults translationResults = null;
                 try {
                     translationResults = propositionBuilder.translateStatement(statementTree, null);
-                } catch (org.kuali.student.common.exceptions.InvalidParameterException e) {
+                } catch (InvalidParameterException e) {
                     throw new OperationFailedException("Exception thrown attempting statement translation for statement: " + statementTree.getId(), e);
                 }
 
@@ -321,7 +321,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                         resultInfo.setLevel(ValidationResult.ErrorLevel.ERROR.getLevel());
                         resultInfo.setElement(failedRequirement.getId());
                         try {
-                            resultInfo.setMessage(statementService.getNaturalLanguageForReqComponent(failedRequirement.getId(), "KUALI.RULE", "en"));
+                            resultInfo.setMessage(statementService.translateReqComponentToNL(failedRequirement, "KUALI.RULE", "en", context));
                         } catch (Exception e) {
                             throw new OperationFailedException(e.getMessage(), e);
                         }
