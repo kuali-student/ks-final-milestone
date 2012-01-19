@@ -83,6 +83,9 @@ public class AcademicCalendarInfo
             if (acal.getEndDate() != null) {
                 this.endDate = new Date(acal.getEndDate().getTime());
             }
+            this.adminOrgId = acal.getAdminOrgId();
+            
+            this.holidayCalendarIds = new ArrayList<String>(acal.getHolidayCalendarIds());
         }
     }
 

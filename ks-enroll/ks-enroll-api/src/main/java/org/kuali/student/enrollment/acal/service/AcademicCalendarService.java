@@ -409,7 +409,7 @@ public interface AcademicCalendarService {
      * @param endDate the end of the new calendar
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return status of the copy operation. This must always be true.
+     * @return new AcademicCalendarInfo created from the copy
      * @throws DoesNotExistException academicCalendarId is not found
      * @throws InvalidParameterException contextInfo is not valid
      * @throws MissingParameterException academicCalendarId, startYear,

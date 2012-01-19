@@ -24,7 +24,6 @@ import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 
-
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -38,10 +37,21 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 public class AcademicCalendarServiceDecorator implements AcademicCalendarService {
+
+    private AtpService atpService;
+
+    public AtpService getAtpService() {
+        return atpService;
+    }
+
+    public void setAtpService(AtpService atpService) {
+        this.atpService = atpService;
+    }
 
     private AcademicCalendarService nextDecorator;
 
@@ -234,7 +244,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public TypeInfo getTermType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo getTermType(String termTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getTermType(termTypeKey, contextInfo));
     }
 
@@ -256,7 +267,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public StateInfo getTermState(String termStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StateInfo getTermState(String termStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getTermState(termStateKey, contextInfo));
     }
 
@@ -366,7 +378,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo getKeyDateType(String keyDateTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getKeyDateType(keyDateTypeKey, contextInfo));
     }
 
@@ -382,8 +395,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public StateInfo getKeyDateState(String keyDateStateKey, ContextInfo contextInfo) 
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StateInfo getKeyDateState(String keyDateStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getKeyDateState(keyDateStateKey, contextInfo));
     }
 
@@ -471,7 +484,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public TypeInfo getAcalEventType(String acalEventTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo getAcalEventType(String acalEventTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getAcalEventType(acalEventTypeKey, contextInfo));
     }
 
@@ -487,7 +501,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public StateInfo getAcalEventState(String acalEventStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StateInfo getAcalEventState(String acalEventStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getAcalEventState(acalEventStateKey, contextInfo));
     }
 
@@ -575,7 +590,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getHolidayType(holidayTypeKey, contextInfo));
     }
 
@@ -591,7 +607,8 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     }
 
     @Override
-    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return (getNextDecorator().getHolidayState(holidayStateKey, contextInfo));
     }
 

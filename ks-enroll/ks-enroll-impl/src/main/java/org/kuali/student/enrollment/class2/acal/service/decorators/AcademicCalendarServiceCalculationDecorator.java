@@ -20,6 +20,8 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,18 +34,21 @@ import java.util.Map;
 public class AcademicCalendarServiceCalculationDecorator extends AcademicCalendarServiceDecorator {
 
     @Override
-    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public AcademicCalendarInfo copyAcademicCalendar(String academicCalendarId, Date startDate, Date endDate, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         AcademicCalendarInfo templateAcademicCalendar = getAcademicCalendar(academicCalendarId, contextInfo);
         AcademicCalendarInfo academicCalendar = new AcademicCalendarInfo(templateAcademicCalendar);
-
+        academicCalendar.setName(null);
         academicCalendar.setId(null);
         academicCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-        academicCalendar.setName(templateAcademicCalendar.getName());
-        academicCalendar.setDescr(new RichTextInfo(templateAcademicCalendar.getDescr()));
-        academicCalendar.setTypeKey(templateAcademicCalendar.getTypeKey());
-        academicCalendar.setHolidayCalendarIds(copyHolidayCalendars(templateAcademicCalendar, contextInfo));
-        academicCalendar.setStartDate(startDate);
-        academicCalendar.setEndDate(endDate);
+        try {
+            academicCalendar.setHolidayCalendarIds(copyHolidayCalendars(templateAcademicCalendar, contextInfo));
+        } catch (DataValidationErrorException dvEx) {
+            throw new OperationFailedException(dvEx.getMessage(), dvEx.getCause() );
+        } catch (ReadOnlyException roEx) {
+            throw new OperationFailedException();
+
+        }
 
         try {
             academicCalendar = createAcademicCalendar(academicCalendar.getTypeKey(), academicCalendar, contextInfo);
@@ -66,42 +71,42 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
             }
         }
 
-        copyAcalEvents(templateAcademicCalendar.getId(),academicCalendar.getId(),contextInfo);
+        copyAcalEvents(templateAcademicCalendar.getId(), academicCalendar.getId(), contextInfo);
 
         return academicCalendar;
     }
 
-    private List<String> copyHolidayCalendars(AcademicCalendarInfo academicCalendar,ContextInfo contextInfo)
-            throws OperationFailedException, InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException {
+    private List<String> copyHolidayCalendars(AcademicCalendarInfo academicCalendar, ContextInfo contextInfo) throws OperationFailedException, InvalidParameterException, MissingParameterException,
+            DoesNotExistException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
 
         List<String> newHolidayCalendarIds = new ArrayList<String>();
 
-        if (academicCalendar.getHolidayCalendarIds().isEmpty()){
+        if (academicCalendar.getHolidayCalendarIds().isEmpty()) {
             return newHolidayCalendarIds;
         }
 
-        List<HolidayCalendarInfo> holidayCalendarInfos = getHolidayCalendarsByIds(academicCalendar.getHolidayCalendarIds(),contextInfo);
+        List<HolidayCalendarInfo> holidayCalendarInfos = getHolidayCalendarsByIds(academicCalendar.getHolidayCalendarIds(), contextInfo);
 
         for (HolidayCalendarInfo templateHolidayCalendar : holidayCalendarInfos) {
             HolidayCalendarInfo holidayCalendar = new HolidayCalendarInfo(templateHolidayCalendar);
+            holidayCalendar.setName(null);
             holidayCalendar.setId(null);
             holidayCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-            holidayCalendar.setTypeKey(templateHolidayCalendar.getTypeKey());
-            holidayCalendar.setDescr(new RichTextInfo(templateHolidayCalendar.getDescr()));
-            holidayCalendar.setName(templateHolidayCalendar.getName());
 
-            try{
+            try {
                 try {
-                    holidayCalendar = createHolidayCalendar(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY,holidayCalendar,contextInfo);
+                    holidayCalendar = createHolidayCalendar(AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, holidayCalendar, contextInfo);
                 } catch (ReadOnlyException e) {
                     throw new OperationFailedException("Exception creating Holiday Calendar.", e);
                 }
                 newHolidayCalendarIds.add(holidayCalendar.getId());
-            }catch(DataValidationErrorException e){
-                throw new OperationFailedException("Could not create HolidayCalendar",e);
+            } catch (DataValidationErrorException e) {
+                throw new OperationFailedException("Could not create HolidayCalendar", e);
             }
 
-            List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(templateHolidayCalendar.getId(),contextInfo);
+            createHolidayCalendarToAcademicCalendarRelations(newHolidayCalendarIds, academicCalendar.getId(), contextInfo);
+
+            List<HolidayInfo> holidays = getHolidaysForHolidayCalendar(templateHolidayCalendar.getId(), contextInfo);
             for (HolidayInfo holidayInfo : holidays) {
                 HolidayInfo newHoliday = new HolidayInfo(holidayInfo);
                 newHoliday.setId(null);
@@ -110,19 +115,36 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
                 newHoliday.setTypeKey(newHoliday.getTypeKey());
                 newHoliday.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
 
-                try{
-                    newHoliday = createHoliday(holidayCalendar.getId(),holidayInfo.getTypeKey(),newHoliday,contextInfo);
+                try {
+                    newHoliday = createHoliday(holidayCalendar.getId(), holidayInfo.getTypeKey(), newHoliday, contextInfo);
                     calculateHolidayEffectiveDates(newHoliday, holidayCalendar, contextInfo);
                 } catch (DataValidationErrorException e) {
-                    throw new OperationFailedException("Error creating holiday",e);
+                    throw new OperationFailedException("Error creating holiday", e);
                 } catch (ReadOnlyException e) {
-                    throw new OperationFailedException("Error creating holiday",e);
+                    throw new OperationFailedException("Error creating holiday", e);
                 }
             }
         }
 
         return newHolidayCalendarIds;
     }
+
+    private void createHolidayCalendarToAcademicCalendarRelations(List<String> newHolidayCalendarIds, String academicCalendarId, ContextInfo contextInfo) throws DoesNotExistException,
+            DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+
+        for (String holidayCalendarId : newHolidayCalendarIds) {
+
+            AtpAtpRelationInfo atpRelationInfo = new AtpAtpRelationInfo();
+            atpRelationInfo.setAtpId(academicCalendarId);
+            atpRelationInfo.setRelatedAtpId(holidayCalendarId);
+            atpRelationInfo.setEffectiveDate(new Date());
+            atpRelationInfo.setExpirationDate(null);
+            getAtpService().createAtpAtpRelation(academicCalendarId, holidayCalendarId, atpRelationInfo, contextInfo);
+
+        }
+
+    }
+
 
     private TermInfo copyTerm(String templateTermId, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
@@ -166,7 +188,8 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
                 keyDate.setTypeKey(templateKeyDate.getTypeKey());
 
                 try {
-                    // TODO Need a way to only create a KeyDate in order to associate it with multiple Terms
+                    // TODO Need a way to only create a KeyDate in order to
+                    // associate it with multiple Terms
                     createKeyDate(term.getId(), keyDate.getTypeKey(), keyDate, context);
                     // TODO calculate keyDate effective dates
                     templateDatesToNewDates.put(templateKeyDate.getId(), keyDate);
@@ -194,28 +217,28 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         return term;
     }
 
-    private void copyAcalEvents(String templateAcalId,String newAcalId,ContextInfo contextInfo) throws OperationFailedException {
+    private void copyAcalEvents(String templateAcalId, String newAcalId, ContextInfo contextInfo) throws OperationFailedException {
 
         List<AcalEventInfo> acalEventInfos;
 
         try {
-            acalEventInfos = getAcalEventsForAcademicCalendar(templateAcalId,contextInfo);
+            acalEventInfos = getAcalEventsForAcademicCalendar(templateAcalId, contextInfo);
         } catch (Exception e) {
-            throw new OperationFailedException("Error getting Acal Events",e);
+            throw new OperationFailedException("Error getting Acal Events", e);
         }
 
         for (AcalEventInfo acalEventInfo : acalEventInfos) {
-             AcalEventInfo newAcalEventInfo = new AcalEventInfo(acalEventInfo);
+            AcalEventInfo newAcalEventInfo = new AcalEventInfo(acalEventInfo);
             newAcalEventInfo.setId(UUIDHelper.genStringUUID());
             newAcalEventInfo.setDescr(new RichTextInfo(acalEventInfo.getDescr()));
             newAcalEventInfo.setName(acalEventInfo.getName());
             newAcalEventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
             newAcalEventInfo.setTypeKey(acalEventInfo.getTypeKey());
 
-            try{
-                createAcalEvent(newAcalId,acalEventInfo.getTypeKey(),newAcalEventInfo,contextInfo);
-            }catch(Exception e){
-                throw new OperationFailedException("Error creating AcalEvent",e);
+            try {
+                createAcalEvent(newAcalId, acalEventInfo.getTypeKey(), newAcalEventInfo, contextInfo);
+            } catch (Exception e) {
+                throw new OperationFailedException("Error creating AcalEvent", e);
             }
 
         }
@@ -228,7 +251,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
             FastDateFormat format = FastDateFormat.getInstance("yyyy");
             int calStartYear = Integer.parseInt(format.format(holidayCalendar.getStartDate()));
             int calEndYear = Integer.parseInt(format.format(holidayCalendar.getEndDate()));
-            for (int i = calStartYear; i <= calEndYear; i ++) {
+            for (int i = calStartYear; i <= calEndYear; i++) {
                 years.add(i);
             }
 
@@ -249,13 +272,15 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
                     holiday.setIsAllDay(true);
                     holiday.setIsDateRange(false);
 
-                    // TODO the milestone is being populated with the first possible occurance - it is possible the ATP could span more than a years time
+                    // TODO the milestone is being populated with the first
+                    // possible occurance - it is possible the ATP could span
+                    // more than a years time
                     break;
                 }
             }
 
             if (!holidayFound) {
-                throw new OperationFailedException("Could not calculate holiday for ATP. Holiday: '" + typeKey +"' ATP: '" + holidayCalendar.getId() + "'");
+                throw new OperationFailedException("Could not calculate holiday for ATP. Holiday: '" + typeKey + "' ATP: '" + holidayCalendar.getId() + "'");
             }
         }
     }
@@ -271,7 +296,8 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
 
     private boolean timespanOccursDuringTimespan(Date startTime1, Date endTime1, Date startTime2, Date endTime2) {
         if (!startTime1.before(startTime2) && startTime1.before(endTime2)) {
-            // holiday starts as/after ATP starts (fully contained or extends past ATP end)
+            // holiday starts as/after ATP starts (fully contained or extends
+            // past ATP end)
             return true;
         }
         if (!endTime1.before(startTime2) && !endTime1.after(endTime2)) {
