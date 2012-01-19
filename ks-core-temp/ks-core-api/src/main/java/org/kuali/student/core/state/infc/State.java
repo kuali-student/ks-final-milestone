@@ -1,8 +1,9 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -15,9 +16,10 @@
 
 package org.kuali.student.core.state.infc;
 
-import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasKey;
+import org.kuali.student.common.infc.RichText;
 
 
 /**
@@ -36,9 +38,9 @@ import org.kuali.student.common.infc.HasKey;
  * @author nwright
  */
 
-public interface State 
-    extends HasKey, HasAttributes, HasEffectiveDates {
-    
+public interface State
+        extends HasKey, HasAttributesAndMeta, HasEffectiveDates {
+
     /**
      * Friendly name of the State.
      *
@@ -52,5 +54,14 @@ public interface State
      *
      * @name Description
      */
-    public String getDescr();
+    public RichText getDescr();
+
+    /**
+     * The Lifecycle key to which this State belongs.
+     *
+     * @name Lifecycle Key
+     * @readOnly
+     * @required
+     */
+    public String getLifecycleKey();
 }

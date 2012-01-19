@@ -1,9 +1,17 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may obtain a copy of the License at
- * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
- * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
- * implied. See the License for the specific language governing permissions and limitations under the License.
+ * Copyright 2010 The Kuali Foundation
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 
 package org.kuali.student.core.state.dto;
@@ -11,7 +19,6 @@ package org.kuali.student.core.state.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -20,25 +27,22 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.HasAttributes;
 import org.kuali.student.core.state.infc.State;
-import org.kuali.student.common.dto.HasAttributesInfo;
+import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.w3c.dom.Element;
 
-@SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateInfo", propOrder = {
-                "key", "name", "descr", 
-                "effectiveDate", "expirationDate", 
-                "attributes", "_futureElements"})
+        "key", "name", "descr", "lifecycleKey",
+        "effectiveDate", "expirationDate",
+        "meta", "attributes", "_futureElements"})
 
-//Please note I need help here to know how to resolve this one
-// StateInfo extends HasAttributesInfo, but HasAttributeInfo extends from HasAtrribute
+public class StateInfo
+        extends HasAttributesAndMetaInfo
+        implements State, Serializable {
 
-// Now here comes the problem State also extends from HasAttribute and HasAttributeInfo Override its methods....
-// this is why we have a problem here ... what is the right way of fixing this ?
-
-public class StateInfo      extends HasAttributesInfo implements State, Serializable {
+    private static final long serialVersionUID = 1L;
 
     @XmlAttribute
     private String key;
@@ -47,7 +51,10 @@ public class StateInfo      extends HasAttributesInfo implements State, Serializ
     private String name;
 
     @XmlElement
-    private String descr;
+    private RichTextInfo descr;
+
+    @XmlAttribute
+    private String lifecycleKey;
 
     @XmlElement
     private Date effectiveDate;
@@ -68,20 +75,24 @@ public class StateInfo      extends HasAttributesInfo implements State, Serializ
     /**
      * Constructs a new StateInfo from
      * another State.
-     */    
+     */
     public StateInfo(State state) {
-        super((HasAttributes)state); // I am worried here since the supper require HasAtrributeInfo I don't know if this cast
-                                     // will have a huge effect.
-        if(state != null){
+        super(state);
+
+        if(state != null) {
             this.key = state.getKey();
             this.name = state.getName();
-            this.descr = state.getDescr();
+            if (state.getDescr() != null) {
+                this.descr = new RichTextInfo(state.getDescr());
+            }
+
+            this.lifecycleKey = state.getLifecycleKey();
             this.effectiveDate = null != state.getEffectiveDate() ? new Date(state.getEffectiveDate().getTime()) : null;
             this.expirationDate = null != state.getExpirationDate() ? new Date(state.getExpirationDate().getTime()) : null;
         }
     }
 
-    //@Override
+    @Override
     public String getKey() {
         return key;
     }
@@ -90,7 +101,7 @@ public class StateInfo      extends HasAttributesInfo implements State, Serializ
         this.key = key;
     }
 
-    //@Override
+    @Override
     public String getName() {
         return name;
     }
@@ -99,34 +110,39 @@ public class StateInfo      extends HasAttributesInfo implements State, Serializ
         this.name = name;
     }
 
-    //@Override
-    public String getDescr() {
+    @Override
+    public RichTextInfo getDescr() {
         return descr;
     }
 
-    public void setDescr(String descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 
-    //@Override
+    @Override
+    public String getLifecycleKey() {
+        return lifecycleKey;
+    }
+
+    public void setLifecycleKey(String lifecycleKey) {
+        this.lifecycleKey = lifecycleKey;
+    }
+
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
-    
+
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
-    //@Override
+    @Override
     public Date getExpirationDate() {
-    	return expirationDate;
-    }
-    
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
+        return expirationDate;
     }
 
-    public void setAttributes(Map<String, String> attributes) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

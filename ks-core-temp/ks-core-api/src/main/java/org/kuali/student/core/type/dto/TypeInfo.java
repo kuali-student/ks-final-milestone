@@ -19,7 +19,6 @@ package org.kuali.student.core.type.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.kuali.student.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.common.dto.RichTextInfo;
@@ -115,11 +114,6 @@ public class TypeInfo
         return descr;
     }
 
-    @Override
-    public String getRefObjectURI() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
     public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
@@ -149,11 +143,5 @@ public class TypeInfo
 
     public void setRefObjectUri(String refObjectUri) {
         this.refObjectUri = refObjectUri;
-    }
-
-    // TODO KSCM-151
-    @Override
-    public void setAttributes(Map<String, String> attributes) {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

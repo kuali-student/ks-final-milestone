@@ -9,16 +9,17 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
 
 package org.kuali.student.core.type.infc;
 
-import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasEffectiveDates;
 import org.kuali.student.common.infc.HasKey;
+import org.kuali.student.common.infc.RichText;
 
 /**
  * Detailed Information about a Type
@@ -26,15 +27,15 @@ import org.kuali.student.common.infc.HasKey;
  * Types are used in Kuali Student to further refine the entity in
  * question.  For example: An organization type may be a "Department"
  * or a "College" or a "Student Group" or a "Thesis Committee".
- * 
+ *
  * Most of validation of the the fields on the entity should be based
  * on a combination of type and state.
  *
  * @author Kuali Student Team (Kamal)
  *
  */
-public interface Type 
-    extends HasKey, HasAttributes, HasEffectiveDates {
+public interface Type
+        extends HasKey, HasAttributesAndMeta, HasEffectiveDates {
 
     /**
      * Friendly name of the Type.
@@ -44,7 +45,7 @@ public interface Type
      * @required
      */
     public String getName();
-    
+
 
     /**
      * Narrative description of the type.
@@ -52,8 +53,8 @@ public interface Type
      * @name Description
      * @readOnly
      */
-    public String getDescr();        
-        
+    public RichText getDescr();
+
     /**
      * The reference to the Object URI to which the Type belongs.
      * E.g http://student.kuali.org/luService/wsdl/CluInfo will be the
@@ -64,8 +65,8 @@ public interface Type
      * <li>CluInfo -- which should match the java class's simple name
      * </ol>
      *
-     * @name Reference Object URI
+     * @name Reference Object Uri
      * @readOnly
      */
-    public String getRefObjectURI();
+    public String getRefObjectUri();
 }
