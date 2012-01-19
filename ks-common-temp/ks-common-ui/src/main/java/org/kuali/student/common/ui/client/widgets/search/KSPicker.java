@@ -58,7 +58,7 @@ import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
 
 import com.google.gwt.core.client.GWT;
-import org.w3c.dom.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;

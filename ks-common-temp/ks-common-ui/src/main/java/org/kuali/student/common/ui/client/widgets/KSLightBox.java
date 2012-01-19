@@ -1,4 +1,3 @@
-
 /**
  * Copyright 2010 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
@@ -21,7 +20,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 
-import org.w3c.dom.Element;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ClickEvent;
