@@ -202,8 +202,8 @@
                                 <className>AcalEventInfo</className>                                  
                                 <className>HolidayCalendarInfo</className>
                                 <className>HolidayInfo</className>
-                                <className>KeyDateInfo</className>
-                                <className>TermInfo</className>                               
+                                <className>TermInfo</className>    
+                                <className>KeyDateInfo</className>                           
 <!--                                LPR -->
                                 <className>LuiPersonRelationInfo</className>
                                 <className>LprRosterInfo</className>
@@ -254,7 +254,25 @@
                                 <!-- LRC -->
                                 <className>ResultValuesGroupInfo</className>
                                 <className>ResultValueInfo</className>
-                                <className>ResultScaleInfo</className>                                
+                                <className>ResultScaleInfo</className>      
+                                <!-- Course --> 
+                                <className>CourseInfo</className>  
+                                <className>FormatInfo</className>  
+                                <className>ActivityInfo</className>  
+                                <className>LoDisplayInfo</className> 
+                                <!-- Program -->
+                                <className>CoreProgramInfo</className>
+                                <className>CredentialProgramInfo</className> 
+                                <className>HonorsProgramInfo</className>  
+                                <className>MajorDisciplineInfo</className>  
+                                <className>ProgramRequirementInfo</className>  
+                                <className>ProgramVariationInfo</className> 
+                                <!-- Type -->
+                                <className>TypeInfo</className>
+                                <className>TypeTypeRelationInfo</className>
+                                <!-- State -->
+                                <className>StateInfo</className>
+                                <className>LifecycleInfo</className>                              
                             </classNames>                     
                         </configuration>
                     </execution>                  

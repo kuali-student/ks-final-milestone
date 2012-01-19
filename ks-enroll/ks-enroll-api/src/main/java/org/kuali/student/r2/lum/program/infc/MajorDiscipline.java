@@ -1,15 +1,15 @@
 package org.kuali.student.r2.lum.program.infc;
 
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
 
 import java.util.Date;
 import java.util.List;
+
 
 /**
  *
@@ -42,7 +42,7 @@ public interface MajorDiscipline extends IdEntity {
     /**
      * Program variations for the Major
      */
-    public List<String> getProgramVariationIds();
+    public List<? extends ProgramVariation> getVariations();
 
     /**
      * The composite string that is used to officially reference or publish the

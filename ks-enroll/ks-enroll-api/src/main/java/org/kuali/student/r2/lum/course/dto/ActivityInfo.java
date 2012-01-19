@@ -41,7 +41,7 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
     private List<String> unitsContentOwner;
 
     @XmlElement
-    private int defaultEnrollmentEstimate;
+    private Integer defaultEnrollmentEstimate;
 
     @XmlElement
     private AmountInfo contactHours;
@@ -83,11 +83,11 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
     }
 
     @Override
-    public int getDefaultEnrollmentEstimate() {
+    public Integer getDefaultEnrollmentEstimate() {
         return defaultEnrollmentEstimate;
     }
 
-    public void setDefaultEnrollmentEstimate(int defaultEnrollmentEstimate) {
+    public void setDefaultEnrollmentEstimate(Integer defaultEnrollmentEstimate) {
         this.defaultEnrollmentEstimate = defaultEnrollmentEstimate;
     }
 

@@ -22,12 +22,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
+import org.kuali.student.r2.lum.program.infc.ProgramVariation;
 import org.w3c.dom.Element;
 
 /**
@@ -36,7 +37,7 @@ import org.w3c.dom.Element;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
-@XmlType(name = "MajorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "publishedInstructors", "credentialProgramId", "programVariationIds", "code",
+@XmlType(name = "MajorDisciplineInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "intensity", "referenceURL", "publishedInstructors", "credentialProgramId", "variations", "code",
         "cip2000Code", "cip2010Code", "hegisCode", "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermId", "endTermId", "endProgramEntryTermId",
         "nextReviewPeriod", "effectiveDate", "shortTitle", "longTitle", "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations",
         "coreProgramId", "programRequirements", "accreditingAgencies", "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources",
@@ -59,7 +60,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     private String credentialProgramId;
 
     @XmlElement
-    private List<String> programVariationIds;
+    private List<ProgramVariationInfo> variations;
 
     @XmlElement
     private String code;
@@ -186,7 +187,14 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         }
         this.publishedInstructors = newPublishedInstructors;
         this.credentialProgramId = majorDiscipline.getCredentialProgramId();
-        this.programVariationIds = new ArrayList<String>(majorDiscipline.getProgramVariationIds());
+        if (majorDiscipline.getVariations() != null) {
+         this.variations = new ArrayList<ProgramVariationInfo>(majorDiscipline.getVariations().size());
+         for (ProgramVariation pv : majorDiscipline.getVariations()) {
+             ProgramVariationInfo info = new ProgramVariationInfo (pv);
+             this.variations.add(info);
+         }
+        }
+
         this.code = majorDiscipline.getCode();
         this.cip2000Code = majorDiscipline.getCip2000Code();
         this.cip2010Code = majorDiscipline.getCip2010Code();
@@ -289,15 +297,15 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
      * Program variations for the Major
      */
     @Override
-    public List<String> getProgramVariationIds() {
-        if (programVariationIds == null) {
-            programVariationIds = new ArrayList<String>(0);
+    public List<ProgramVariationInfo> getVariations() {
+        if (variations == null) {
+            variations = new ArrayList<ProgramVariationInfo>(0);
         }
-        return programVariationIds;
+        return variations;
     }
 
-    public void seProgramVariationIds(List<String> programVariationIds) {
-        this.programVariationIds = programVariationIds;
+    public void seVariations(List<ProgramVariationInfo> variations) {
+        this.variations = variations;
     }
 
     /**
@@ -549,7 +557,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     }
 
     @Override
-    public org.kuali.student.r2.common.dto.TimeAmountInfo getStdDuration() {
+    public TimeAmountInfo getStdDuration() {
         return stdDuration;
     }
 
