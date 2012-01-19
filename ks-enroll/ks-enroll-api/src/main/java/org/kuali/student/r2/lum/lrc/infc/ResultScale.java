@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.lrc.infc;
+package org.kuali.student.lum.lrc.infc;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
-import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import org.kuali.student.common.infc.KeyEntity;
+import org.kuali.student.common.infc.HasEffectiveDates;
 import java.util.List;
 
 /**
