@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.r2.lum.lrc.dto;
+package org.kuali.student.lum.lrc.dto;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,8 +25,8 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
+import org.kuali.student.common.dto.KeyEntityInfo;
+import org.kuali.student.lum.lrc.infc.ResultValuesGroup;
 import org.w3c.dom.Element;
 
 /**
