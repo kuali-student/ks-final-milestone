@@ -194,7 +194,7 @@ public abstract class ProgramAttributesInfo extends IdEntityInfo implements Prog
     }
 
     @Override
-    public RichText getCatalogDescr() {
+    public RichTextInfo getCatalogDescr() {
         return catalogDescr;
     }
 
@@ -204,7 +204,7 @@ public abstract class ProgramAttributesInfo extends IdEntityInfo implements Prog
     }
 
     @Override
-    public List<? extends LoDisplay> getLearningObjectives() {
+    public List<LoDisplayInfo> getLearningObjectives() {
         return learningObjectives;
     }
 

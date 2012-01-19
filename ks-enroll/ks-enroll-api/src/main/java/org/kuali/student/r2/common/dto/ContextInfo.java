@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
@@ -37,37 +36,28 @@ import org.w3c.dom.Element;
  *
  * @author Kamal
  */
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ContextInfo", propOrder = {
-                "authenticatedPrincipalId", "principalId", 
-                "currentDate", "locale", "timeZone", 
-                "attributes", "_futureElements"})
-
-public class ContextInfo 
-    extends HasAttributesInfo 
-    implements Context, Serializable {
+    "authenticatedPrincipalId", "principalId",
+    "currentDate", "locale", "timeZone",
+    "attributes", "_futureElements"})
+public class ContextInfo
+        extends HasAttributesInfo
+        implements Context, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String authenticatedPrincipalId;
-
     @XmlElement
     private String principalId;
-
     @XmlElement
     private Date currentDate;
-
     @XmlElement
     private LocaleInfo locale;
-
     @XmlElement
     private String timeZone;
-
     @XmlAnyElement
     private List<Element> _futureElements;
-    
 
     /**
      * Constructs a new ContextInfo.
@@ -105,7 +95,7 @@ public class ContextInfo
     public String getAuthenticatedPrincipalId() {
         return authenticatedPrincipalId;
     }
-    
+
     public void setAuthenticatedPrincipalId(String authenticatedPrincipalId) {
         this.authenticatedPrincipalId = authenticatedPrincipalId;
     }
@@ -114,7 +104,7 @@ public class ContextInfo
     public String getPrincipalId() {
         return principalId;
     }
-    
+
     public void setPrincipalId(String principalId) {
         this.principalId = principalId;
     }
@@ -123,16 +113,16 @@ public class ContextInfo
     public Date getCurrentDate() {
         return currentDate;
     }
-    
+
     public void setCurrentDate(Date currentDate) {
         this.currentDate = currentDate;
     }
 
     @Override
-    public Locale getLocale() {
+    public LocaleInfo getLocale() {
         return this.locale;
     }
-    
+
     public void setLocale(LocaleInfo locale) {
         this.locale = locale;
     }
@@ -141,14 +131,12 @@ public class ContextInfo
     public String getTimeZone() {
         return timeZone;
     }
-    
+
     public void setTimeZone(String timeZone) {
         this.timeZone = timeZone;
     }
 
-
     // Compatibility methods
-
     @Deprecated
     public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
         LocaleInfo localeInfo = new LocaleInfo();
