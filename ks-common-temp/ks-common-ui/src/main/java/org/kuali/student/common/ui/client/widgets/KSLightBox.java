@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 
-import com.google.gwt.dom.client.Element;
+import org.w3c.dom.Element;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.dom.client.NodeList;
 import com.google.gwt.event.dom.client.ClickEvent;

@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.util;
 
-import com.google.gwt.dom.client.Element;
+import org.w3c.dom.Element;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.DeferredCommand;
