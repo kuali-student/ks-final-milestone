@@ -141,10 +141,13 @@ public class AcademicCalendarServiceValidationDecorator extends AcademicCalendar
     }
 
     @Override
-    public TermInfo createTerm(String termId, TermInfo termInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public TermInfo createTerm(String termTypeKey, TermInfo termInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DoesNotExistException, ReadOnlyException {
         _termFullValidation(termInfo, context);
-        return this.getNextDecorator().createTerm(termId, termInfo, context);
+        if (termInfo.getId() != null) {
+            throw new ReadOnlyException("ID not allowed when creating term.");
+        }
+        return this.getNextDecorator().createTerm(termTypeKey, termInfo, context);
     }
 
     @Override

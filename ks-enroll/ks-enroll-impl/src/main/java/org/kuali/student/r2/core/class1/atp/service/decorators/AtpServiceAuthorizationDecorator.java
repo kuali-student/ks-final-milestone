@@ -321,16 +321,16 @@ public class AtpServiceAuthorizationDecorator extends AtpServiceDecorator implem
     }
 
     @Override
-    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context)
-    throws AlreadyExistsException, DataValidationErrorException,
-    InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
+    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context)
+            throws DataValidationErrorException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
         if (null == context) {
             throw new MissingParameterException();
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAtp", null, null)) {
-        	return getNextDecorator().createAtp(atpId, atpInfo, context);
+        	return getNextDecorator().createAtp(atpInfo, context);
         }
         else {
            throw new PermissionDeniedException();

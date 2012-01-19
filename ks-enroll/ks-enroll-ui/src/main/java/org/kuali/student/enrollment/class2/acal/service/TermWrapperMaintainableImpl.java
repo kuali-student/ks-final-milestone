@@ -46,7 +46,6 @@ public class TermWrapperMaintainableImpl extends MaintainableImpl {
         TermInfo termInfo = termWrapper.getTermInfo();
         String termKey = getTermInfoKey (termInfo);
         System.out.println(">>>termKey = "+termKey);
-        termInfo.setId(termKey);
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         
         KeyDateInfo classesMeetDates = termWrapper.getClassesMeetDates();

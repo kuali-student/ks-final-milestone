@@ -80,7 +80,7 @@ public class TestAtpServiceImpl {
 
     @Test
     public void testAtpCrud() throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException, AlreadyExistsException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException, ReadOnlyException {
         // test create
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("newId");
@@ -92,7 +92,7 @@ public class TestAtpServiceImpl {
         atpInfo.setDescr(rt);
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         AtpInfo created = null;
-        created = atpService.createAtp(null, atpInfo, callContext);
+        created = atpService.createAtp(atpInfo, callContext);
         assertNotNull(created);
         assertNotNull(created.getId());
 
@@ -150,8 +150,8 @@ public class TestAtpServiceImpl {
     }
     
     @Test
-    public void testCreateAtp()throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException, PermissionDeniedException{
+    public void testCreateAtp() throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, ReadOnlyException {
         String atpId = null;
         AtpInfo atpInfo = new AtpInfo();
         atpInfo.setName("newId2");
@@ -159,15 +159,12 @@ public class TestAtpServiceImpl {
         atpInfo.setStateKey("kuali.atp.state.Draft");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
-        try {
-            AtpInfo created = atpService.createAtp(null, atpInfo, callContext);
-            atpId = created.getId();
-            assertNotNull(created);
-            assertNotNull(created.getId());
-        } catch (Exception e) {
-            fail(e.getMessage());
-        }
-        
+
+        AtpInfo created = atpService.createAtp(atpInfo, callContext);
+        atpId = created.getId();
+        assertNotNull(created);
+        assertNotNull(created.getId());
+
         // attempt to get
         AtpInfo retrieved = atpService.getAtp(atpId, callContext);
         
@@ -705,7 +702,7 @@ public class TestAtpServiceImpl {
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
         AtpInfo cc = null;
-        cc = atpService.createAtp(null, atpInfo, callContext);
+        cc = atpService.createAtp(atpInfo, callContext);
         assertNotNull(cc);
 
         atpRel.setRelatedAtpId(cc.getId());

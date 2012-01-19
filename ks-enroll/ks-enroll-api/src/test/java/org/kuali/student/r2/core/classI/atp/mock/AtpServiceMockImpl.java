@@ -266,17 +266,13 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
+    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        AtpInfo existing = this.atpCache.get(atpId);
-        if (existing != null) {
-            throw new AlreadyExistsException(atpId);
-        }
-
         MockHelper helper = new MockHelper();
         AtpInfo atp = new AtpInfo(atpInfo);
         atp.setMeta(helper.createMeta(context));
-        this.atpCache.put(atpId, atp);
+        atp.setId(UUIDHelper.genStringUUID());
+        this.atpCache.put(atp.getId(), atp);
         return atp;
     }
 

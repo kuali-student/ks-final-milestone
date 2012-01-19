@@ -1015,7 +1015,7 @@ public interface AcademicCalendarService {
     public List<ValidationResultInfo> validateTerm(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "termTypeKey") String termTypeKey, @WebParam(name = "termInfo") TermInfo termInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a new Term. The Term Id, Type, and Meta information may
+     * Creates a new Term. The Term Type and Meta information may
      * not be set in the supplied data object.
      * 
      * @param termTypeKey the identifier for the Type of Term to be

@@ -165,10 +165,10 @@ public class AtpServiceDecorator implements AtpService {
     }
 
     @Override
-    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
-        return getNextDecorator().createAtp(atpId, atpInfo, context);
+        return getNextDecorator().createAtp(atpInfo, context);
     }
 
     @Override

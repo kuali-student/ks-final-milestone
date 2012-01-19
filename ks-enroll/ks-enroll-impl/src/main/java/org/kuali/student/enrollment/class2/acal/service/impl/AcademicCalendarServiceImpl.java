@@ -255,15 +255,17 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
         try {
             AtpInfo toCreate = acalAssembler.disassemble(academicCalendarInfo, context);
-            AtpInfo createdAtp = atpService.createAtp(null, toCreate, context);
+            AtpInfo createdAtp = atpService.createAtp(toCreate, context);
 
             processAcalToCcalRelation(createdAtp.getId(), academicCalendarInfo.getHolidayCalendarIds(), context);
             return acalAssembler.assemble(createdAtp, context);
 
         } catch (AlreadyExistsException e) {
-            throw new OperationFailedException(e.getMessage());
-        } catch (AssemblyException ex) {
-            throw new OperationFailedException(ex.getMessage());
+            throw new OperationFailedException("Error creating academic calendar.", e);
+        } catch (AssemblyException e) {
+            throw new OperationFailedException("Error creating academic calendar.", e);
+        } catch (ReadOnlyException e) {
+            throw new OperationFailedException("Error creating academic calendar.", e);
         }
 
     }
@@ -363,14 +365,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         try {
             atpInfo = holidayCalendarAssembler.disassemble(holidayCalendarInfo, context);
 
-            atpInfo = atpService.createAtp(null, atpInfo, context);
+            atpInfo = atpService.createAtp(atpInfo, context);
 
             newHolidayCalendar = holidayCalendarAssembler.assemble(atpInfo, context);
 
         } catch (AssemblyException e) {
-            e.printStackTrace();
-        } catch (AlreadyExistsException e) {
-            e.printStackTrace();
+            throw new OperationFailedException("Error creating holiday calendar.", e);
+        } catch (ReadOnlyException e) {
+            throw new OperationFailedException("Error creating holiday calendar.", e);
         }
         return newHolidayCalendar;
     }
@@ -631,12 +633,12 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             }
 
             try {
-                AtpInfo newAtp = atpService.createAtp(null, atp, context);
+                AtpInfo newAtp = atpService.createAtp(atp, context);
                 termInfo = termAssembler.assemble(newAtp, context);
             } catch (AssemblyException e) {
                 throw new OperationFailedException("Error assembling term", e);
-            } catch (AlreadyExistsException e) {
-                e.printStackTrace();
+            } catch (ReadOnlyException e) {
+                throw new OperationFailedException("Error assembling term", e);
             }
         } else {
             throw new InvalidParameterException("Term type not found: '" + termTypeKey + "'");
@@ -1548,12 +1550,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public KeyDateInfo createKeyDate(String termId, String keyDateTypeKey, KeyDateInfo keyDateInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // TODO move to validation decorator
-        if (keyDateInfo.getId() != null) {
-            throw new InvalidParameterException("ID not allowed in create.");
-        }
-
-
         KeyDateInfo newKeyDateInfo = null;
         MilestoneInfo milestoneInfo = null;
 

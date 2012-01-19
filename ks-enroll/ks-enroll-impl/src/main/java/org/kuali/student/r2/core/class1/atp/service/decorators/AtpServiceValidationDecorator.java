@@ -68,10 +68,15 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
         _atpFullValidation(atpInfo, context);
-        return getNextDecorator().createAtp(atpId, atpInfo, context);
+
+        if (atpInfo.getId() != null) {
+            throw new ReadOnlyException("ID cannot be supplied when creating an ATP.");
+        }
+
+        return getNextDecorator().createAtp(atpInfo, context);
     }
 
     @Override
@@ -171,6 +176,11 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException, ReadOnlyException {
         _milestoneFullValidation(milestoneInfo, context);
+
+        if (milestoneInfo.getId() != null) {
+            throw new ReadOnlyException("ID cannot be populated when creating milestone.");
+        }
+
         return getNextDecorator().createMilestone(milestoneInfo, context);
     }
 

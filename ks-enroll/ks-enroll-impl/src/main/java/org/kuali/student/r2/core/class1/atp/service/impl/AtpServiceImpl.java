@@ -438,15 +438,9 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     @Transactional
-    public AtpInfo createAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException,
+    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-
-        // TODO remove atpId and AlreadyExistsException from method signiture
-        // TODO move to validation layer
-        if (atpId != null || atpInfo.getId() != null) {
-            throw new InvalidParameterException("ID cannot be supplied when creating an ATP.");
-        }
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         AtpEntity atp = new AtpEntity(atpInfo);
         if (null != atpInfo.getStateKey()) {
@@ -466,7 +460,7 @@ public class AtpServiceImpl implements AtpService {
 		if(retrived != null){
 			info = retrived.toDto();
 		} else {
-            throw new OperationFailedException("ATP not found after persisted. atpId: " + atpId);
+            throw new OperationFailedException("ATP not found after persisted. atpId: " + atp.getId());
         }
 
         return info;
@@ -582,10 +576,6 @@ public class AtpServiceImpl implements AtpService {
     @Override
     public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-
-        if (milestoneInfo.getId() != null) {
-            throw new InvalidParameterException("ID cannot be populated when creating milestone.");
-        }
 
         MilestoneEntity entity = new MilestoneEntity(milestoneInfo);
 

@@ -319,15 +319,11 @@ public interface AtpService {
      * Creates a new Academic Time Period. The ATP Type and Meta
      * information may not be set in the supplied data object.
      * 
-     * @param atpId a unique for the new ATP
      * @param atpInfo the data with which to create the ATP
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return the new ATP
-     * @throws AlreadyExistsException atpId already exists
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException atpTypeKey does not exist or is
-     *         not supported
      * @throws InvalidParameterException atpInfo or contextInfo is not valid
      * @throws MissingParameterException atpId, atpTypeKey, atpInfo,
      *         or contextInfo is missing or null
@@ -336,7 +332,7 @@ public interface AtpService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public AtpInfo createAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public AtpInfo createAtp(@WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Academic Time Period. The ATP id, Type, and

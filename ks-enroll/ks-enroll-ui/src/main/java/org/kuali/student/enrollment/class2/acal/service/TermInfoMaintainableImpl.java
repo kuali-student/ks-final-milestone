@@ -30,7 +30,6 @@ public class TermInfoMaintainableImpl extends MaintainableImpl {
         TermInfo termInfo = (TermInfo)getDataObject();
         String termKey = getTermInfoKey (termInfo);
         System.out.println(">>>termKey = "+termKey);
-        termInfo.setId(termKey);
         termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
 
         try{
