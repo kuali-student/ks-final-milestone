@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.kuali.student.lum.lrc.infc;
+package org.kuali.student.r2.lum.lrc.infc;
 
 /**
  * Captures the legal value range for a numeric result.
