@@ -31,7 +31,7 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.util.constants.LrcServiceConstants;
+// TODO KSCM-158 import org.kuali.student.common.util.constants.LrcServiceConstants;
 import org.kuali.student.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.lum.lrc.dto.ResultValueInfo;
