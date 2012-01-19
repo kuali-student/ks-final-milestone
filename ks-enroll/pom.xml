@@ -35,12 +35,11 @@
     <profile>
       <id>skip-all-wars</id>
       <modules>
-        <module>ks-enroll-impl</module>
-        <module>ks-enroll-api</module>
-        <module>ks-enroll-ui</module>
-        <module>ks-enroll-web</module>
+          <module>ks-enroll-impl</module>
+          <module>ks-enroll-api</module>
+          <module>ks-enroll-ui</module>
       </modules>
-    </profile>
+  </profile>
   </profiles>
   <dependencyManagement>
     <dependencies>
