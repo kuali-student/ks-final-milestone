@@ -43,7 +43,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         try {
             academicCalendar.setHolidayCalendarIds(copyHolidayCalendars(templateAcademicCalendar, contextInfo));
         } catch (DataValidationErrorException dvEx) {
-            throw new OperationFailedException(dvEx.getMessage(), dvEx.getCause() );
+            throw new OperationFailedException(dvEx.getMessage(), dvEx.getCause());
         } catch (ReadOnlyException roEx) {
             throw new OperationFailedException();
 
@@ -144,9 +144,8 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
 
     }
 
-
-    private TermInfo copyTerm(String templateTermId, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
+    private TermInfo copyTerm(String templateTermId, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            DoesNotExistException, PermissionDeniedException, OperationFailedException {
         TermInfo templateTerm = getTerm(templateTermId, context);
 
         TermInfo term = new TermInfo(templateTerm);
@@ -160,7 +159,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         } catch (ReadOnlyException e) {
             throw new OperationFailedException("Could not create Term '" + term.getId() + "'", e);
         }
-            
+
         /*
          * Copy KeyDates of Term TODO Currently cannot reuse keydates in the
          * acal service, but the design concept was that a term and subterm may
@@ -169,6 +168,24 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
          * been created. However, it is not being used at this time and a new
          * KeyDate will be created for each relationship.
          */
+
+        copyKeyDates(term, templateTermId, templateDatesToNewDates, context);
+        // Recursive call to copy subTerms
+        List<TermInfo> templateSubTerms = getContainingTerms(templateTermId, context);
+        for (TermInfo templateSubTerm : templateSubTerms) {
+            TermInfo subTerm = copyTerm(templateSubTerm.getId(), templateDatesToNewDates, context);
+            try {
+                addTermToTerm(term.getId(), subTerm.getId(), context);
+            } catch (AlreadyExistsException e) {
+                throw new OperationFailedException("AlreadyExistsException : " + e.getMessage());
+            }
+        }
+
+        return term;
+    }
+
+    private void copyKeyDates(TermInfo createdTerm, String templateTermId, Map<String, KeyDateInfo> templateDatesToNewDates, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<KeyDateInfo> templateKeyDates = getKeyDatesForTerm(templateTermId, context);
         for (KeyDateInfo templateKeyDate : templateKeyDates) {
             KeyDateInfo keyDate = templateDatesToNewDates.get(templateKeyDate.getId());
@@ -186,7 +203,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
                 try {
                     // TODO Need a way to only create a KeyDate in order to
                     // associate it with multiple Terms
-                    createKeyDate(term.getId(), keyDate.getTypeKey(), keyDate, context);
+                    createKeyDate(createdTerm.getId(), keyDate.getTypeKey(), keyDate, context);
                     // TODO calculate keyDate effective dates
                     templateDatesToNewDates.put(templateKeyDate.getId(), keyDate);
                 } catch (DataValidationErrorException e) {
@@ -196,21 +213,8 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
                 }
 
             }
-            // TODO Need a way to associate a KeyDate with multiple Terms
         }
 
-        // Recursive call to copy subTerms
-        List<TermInfo> templateSubTerms = getContainingTerms(templateTermId, context);
-        for (TermInfo templateSubTerm : templateSubTerms) {
-            TermInfo subTerm = copyTerm(templateSubTerm.getId(), templateDatesToNewDates, context);
-            try {
-                addTermToTerm(term.getId(), subTerm.getId(), context);
-            } catch (AlreadyExistsException e) {
-                throw new OperationFailedException("AlreadyExistsException : " + e.getMessage());
-            }
-        }
-
-        return term;
     }
 
     private void copyAcalEvents(String templateAcalId, String newAcalId, ContextInfo contextInfo) throws OperationFailedException {
