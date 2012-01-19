@@ -238,9 +238,8 @@ public class TestAtpServiceImpl {
     }
 
     @Test
-    public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public void testCreateMilestone() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ReadOnlyException {
         MilestoneInfo milestone = new MilestoneInfo();
-        milestone.setId("newId");
         milestone.setName("testCreate");
         
         Calendar cal = Calendar.getInstance();
@@ -256,34 +255,25 @@ public class TestAtpServiceImpl {
         milestone.setDescr(descr);
        
         
-        try {
-            MilestoneInfo created = atpService.createMilestone(milestone, callContext);
-            assertNotNull(created);
-            assertEquals("newId", created.getId());
-            assertEquals("testCreate", created.getName());
-        } catch (ReadOnlyException e) {
-            fail(e.getMessage());
-        }
+        MilestoneInfo created = atpService.createMilestone(milestone, callContext);
+        assertNotNull(created);
+        assertNotNull(created.getId());
+        assertEquals("testCreate", created.getName());
 
         // try to get the just-created milestone
-        MilestoneInfo found = atpService.getMilestone("newId", callContext);
+        MilestoneInfo found = atpService.getMilestone(created.getId(), callContext);
         assertNotNull(found);
         
         // ensure we cannot create another of the same id
         MilestoneInfo dupeCreated = null;
-        try {
-            dupeCreated = atpService.createMilestone(milestone, callContext);
-            fail("Did not get an AlreadyExistsException when expected");
-        } catch (ReadOnlyException e) {
-            fail(e.getMessage());
-        } catch(DataValidationErrorException e){
-        }
+        dupeCreated = atpService.createMilestone(milestone, callContext);
+        assertFalse(created.getId().equals(dupeCreated.getId()));
     }
         
     @Test
     public void testUpdateMilestone() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException {
+        String milestoneId = null;
         MilestoneInfo milestone = new MilestoneInfo();
-        milestone.setId("newId2");
         milestone.setName("testCreate");
         
         Calendar cal = Calendar.getInstance();
@@ -303,13 +293,14 @@ public class TestAtpServiceImpl {
         try {
             MilestoneInfo created = atpService.createMilestone(milestone, callContext);
             assertNotNull(created);
-            assertEquals("newId2", created.getId());
+            milestoneId = created.getId();
+            assertNotNull(milestoneId);
             assertEquals("testCreate", created.getName());
         } catch (ReadOnlyException e) {
             fail(e.getMessage());
         }
 
-        MilestoneInfo updateData = atpService.getMilestone("newId2", callContext);
+        MilestoneInfo updateData = atpService.getMilestone(milestoneId, callContext);
         
         String updatedName = "updated " + updateData.getName();
         
@@ -317,18 +308,18 @@ public class TestAtpServiceImpl {
 
         MilestoneInfo updated = null;
         try {
-            updated = atpService.updateMilestone("newId2", updateData, callContext);
+            updated = atpService.updateMilestone(milestoneId, updateData, callContext);
         } catch (ReadOnlyException e) {
             fail(e.getMessage());
         }
         assertNotNull(updated);
-        assertEquals(updated.getId(), "newId2");
+        assertEquals(updated.getId(), milestoneId);
         assertEquals(updated.getName(), updatedName);
         
         // now fetch the updated milestone fresh, and check fields
-        updated = atpService.getMilestone("newId2", callContext);
+        updated = atpService.getMilestone(milestoneId, callContext);
         assertNotNull(updated);
-        assertEquals(updated.getId(), "newId2");
+        assertEquals(updated.getId(), milestoneId);
         assertEquals(updated.getName(), updatedName);
         
         
