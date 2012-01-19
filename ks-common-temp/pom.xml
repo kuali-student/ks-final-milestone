@@ -10,7 +10,7 @@
   <packaging>pom</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>KS Common</name>
-  <description>Kuali Student Common</description>
+  <description>Kuali Student Common Temp</description>
   <issueManagement>
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
