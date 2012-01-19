@@ -394,8 +394,22 @@ public class HoldServiceImpl implements HoldService {
     @Override
     public List<IssueInfo> getIssuesByIds(List<String> issueIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<IssueEntity> issues = issueDao.findByIds(issueIds);
+
+        if(issues == null) {
+            throw new DoesNotExistException();
+        }
+
+        List<IssueInfo> result = new ArrayList<IssueInfo>(issues.size());
+        for(IssueEntity entity : issues) {
+            if(entity == null) {
+                // if one of the entities from "findByIds" is returned as null, then one of the keys in the list was not found
+                throw new DoesNotExistException();
+            }
+            result.add(entity.toDto());
+        }
+
+        return result;
     }
 
   

@@ -57,7 +57,7 @@ public class TestStateServiceImpl {
 		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY);
 		
 		try{
-			StateInfo invalid = stateService.getState(AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+			StateInfo invalid = stateService.getState("invalid.state.key", callContext);
 			assertNull(invalid);
 		}catch(DoesNotExistException ex){
 			//expected

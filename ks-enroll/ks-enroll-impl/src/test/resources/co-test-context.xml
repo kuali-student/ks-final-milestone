@@ -217,8 +217,11 @@
     <property name="atpService" ref="atpService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
+    <property name="typeService" ref="typeService" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
   </bean>
+
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
 
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     <property name="atpService" ref="atpService" />
