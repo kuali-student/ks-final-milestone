@@ -139,11 +139,17 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
   </bean>
 
   <bean id="acalServiceValidation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceValidationDecorator">
-    <property name="nextDecorator" ref="acalService" />
+    <property name="nextDecorator" ref="acalServiceCalculationDecorator" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
     <property name="validator" ref="validator" />
   </bean>
-
+ <bean id="acalServiceDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceDecorator">
+    <property name="atpService" ref="atpService" />
+  </bean>
+  
+   <bean id="acalServiceCalculationDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
+    <property name="nextDecorator" ref="acalService" />
+  </bean>
 
   <!-- end of decorators -->
 

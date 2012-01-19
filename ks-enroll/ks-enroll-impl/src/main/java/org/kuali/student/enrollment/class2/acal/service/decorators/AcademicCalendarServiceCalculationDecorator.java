@@ -21,7 +21,6 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
-import org.kuali.student.r2.core.atp.service.AtpService;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -153,9 +152,6 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         TermInfo term = new TermInfo(templateTerm);
         term.setId(null);
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
-        term.setName(templateTerm.getName());
-        term.setDescr(new RichTextInfo(templateTerm.getDescr()));
-        term.setTypeKey(templateTerm.getTypeKey());
 
         try {
             term = createTerm(term.getTypeKey(), term, context);
@@ -164,7 +160,7 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         } catch (ReadOnlyException e) {
             throw new OperationFailedException("Could not create Term '" + term.getId() + "'", e);
         }
-
+            
         /*
          * Copy KeyDates of Term TODO Currently cannot reuse keydates in the
          * acal service, but the design concept was that a term and subterm may
