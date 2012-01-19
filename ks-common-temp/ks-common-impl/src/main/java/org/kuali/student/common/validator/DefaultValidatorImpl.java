@@ -53,9 +53,6 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     private SearchDispatcher searchDispatcher;
 
-    // TODO KSCM-141
-    private LocaleInfo messageLocaleKey = null;
-
     private String messageGroupKey = "validation";
 
     private DateParser dateParser = new ServerDateParser();
@@ -70,15 +67,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         this.messageService = messageService;
     }
 
-    public LocaleInfo getMessageLocaleKey() {
-        return messageLocaleKey;
-    }
-
-    public void setMessageLocaleKey(LocaleInfo messageLocaleKey) {
-        this.messageLocaleKey = messageLocaleKey;
-    }
-
-    public String getMessageGroupKey() {
+     public String getMessageGroupKey() {
         return messageGroupKey;
     }
 
@@ -872,7 +861,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         MessageInfo msg = null;
         // TODO KSCM-142
         try {
-            msg = messageService.getMessage(messageLocaleKey, messageGroupKey, messageId, context);
+            msg = messageService.getMessage(context.getLocale(), messageGroupKey, messageId, context);
         } catch (DoesNotExistException e) {
             e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
         } catch (InvalidParameterException e) {

@@ -16,6 +16,8 @@
 
 package org.kuali.student.common.infc;
 
+import org.kuali.student.common.dto.LocaleInfo;
+
 import java.util.Date;
 
 /*
@@ -84,7 +86,7 @@ public interface Context extends HasAttributes {
      *
      * @name Locale
      */
-    public Locale getLocale();
+    public LocaleInfo getLocale();
    
     /**
      * The time zone requested by the user.

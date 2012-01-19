@@ -14,6 +14,7 @@ import java.util.List;
 @XmlType(name = "LocaleInfo", propOrder = {"localeLanguage", "localeVariant", "localeRegion", "localeScript", "_futureElements"})
 public class LocaleInfo implements Locale {
 
+    private static final long serialVersionUID = 1L;
     @XmlElement
     private String localeLanguage;
 

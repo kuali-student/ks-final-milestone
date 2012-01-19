@@ -148,7 +148,7 @@ public class ContextInfo
     }
 
     @Override
-    public Locale getLocale() {
+    public LocaleInfo getLocale() {
         return this.locale;
     }
     
