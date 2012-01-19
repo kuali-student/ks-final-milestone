@@ -18,6 +18,11 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextValueEntity;
 
+/**
+ * Enumeration Context Value Dao class.
+ *
+ * @Version 2.0
+ */
 public class EnumContextValueDao extends GenericEntityDao<EnumContextValueEntity> {
 
 }

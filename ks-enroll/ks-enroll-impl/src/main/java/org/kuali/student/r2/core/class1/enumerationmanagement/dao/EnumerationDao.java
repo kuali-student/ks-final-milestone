@@ -15,16 +15,14 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
-import java.util.List;
-
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
 
+/**
+ * Enumeration Dao class.
+ *
+ * @Version 2.0
+ */
 public class EnumerationDao extends GenericEntityDao<EnumerationEntity> {
-
-    @SuppressWarnings("unchecked")
-    public List<EnumerationEntity> findEnumerations() {
-        return em.createQuery("from Enumeration e").getResultList();
-    }    
 
 }

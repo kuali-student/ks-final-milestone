@@ -44,6 +44,11 @@ import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.service.EnumerationManagementService;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Enumeration Management Service implementation class.
+ *
+ * @Version 2.0
+ */
 @WebService(name = "EnumerationManagementService", serviceName = "EnumerationManagementService", portName = "EnumerationManagementService", targetNamespace = EnumerationManagementServiceConstants.NAMESPACE)
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class EnumerationManagementServiceImpl implements EnumerationManagementService {
@@ -80,7 +85,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     @Transactional(readOnly=true)
     public List<EnumerationInfo> getEnumerations(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         
-        List<EnumerationEntity> enumEntities =  this.enumDao.findEnumerations();
+        List<EnumerationEntity> enumEntities =  this.enumDao.findAll();
         List<EnumerationInfo> enumInfos = new ArrayList<EnumerationInfo>(enumEntities.size());
         
         for (EnumerationEntity enumeration : enumEntities){

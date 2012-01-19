@@ -49,7 +49,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     @JoinColumn(name = "ENUM_TYPE_ID")
     private EnumerationTypeEntity enumerationType;
     
-    @ManyToOne(optional = false)
+    @ManyToOne
     @JoinColumn(name = "ENUM_STATE_ID")
     private StateEntity enumerationState;
 

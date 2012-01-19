@@ -16,11 +16,11 @@
 package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
@@ -29,8 +29,12 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationRichTextEntity;
 
+/**
+ * Enumeration Dao test class.
+ *
+ * @Version 2.0
+ */
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
-@Ignore
 public class TestEnumerationDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumerationDao", testSqlFile = "classpath:ks-em.sql")
     public EnumerationDao enumerationDao;
@@ -39,20 +43,24 @@ public class TestEnumerationDao extends AbstractTransactionalDaoTest{
     public void testFindEnumerations(){
         List<EnumerationEntity> list = enumerationDao.findAll();
         
-        assertEquals(list.size(),1);
+        assertEquals(11, list.size());
         
         EnumerationEntity returnedEntity = list.get(0);
         
-        assertEquals(returnedEntity.getName(), "name 1");
-        assertEquals(returnedEntity.getId(), "key 1");
-        assertEquals(returnedEntity.getDescr(), "desc 1");
+        assertEquals(returnedEntity.getName(), "Subject Area Enumeration");
+        assertEquals(returnedEntity.getId(), "kuali.lu.subjectArea");
+        assertEquals(returnedEntity.getDescr().getPlain(), "Subject Area Enumeration");
        
     }    
 
     @Test
-    public void testFetchEnumeration() throws DoesNotExistException{
+    public void testFindEnumeration() throws DoesNotExistException{
+        EnumerationEntity existingEntity = enumerationDao.find("kuali.lu.subjectArea");
+        
     	EnumerationEntity entity = new EnumerationEntity();
         entity.setName("Name3");
+        entity.setEnumerationState(existingEntity.getEnumerationState());
+        entity.setEnumerationType(existingEntity.getEnumerationType());
         entity.setId("Key3");
 
         entity.setDescr(new EnumerationRichTextEntity("desc3", "desc3"));
@@ -65,25 +73,16 @@ public class TestEnumerationDao extends AbstractTransactionalDaoTest{
         assertEquals(returnedEntity.getDescr(), entity.getDescr());
         
         returnedEntity = enumerationDao.find("Does not Exist");
-        assertTrue(false);
+        assertNull(returnedEntity);
     }
 
     @Test
     public void testRemoveEnumeration() throws DoesNotExistException{
-        EnumerationEntity entity = new EnumerationEntity();
-        entity.setName("Name4");
-        entity.setId("Key4");
-                
-        enumerationDao.persist(entity);
-        
-        enumerationDao.remove(entity);
-        List<EnumerationEntity> list = enumerationDao.findAll();
-        for(EnumerationEntity e: list){
-        	assertTrue("EnumerationMetaEntity still exists after remove", !e.getId().equals("Key4"));
-        }
-        
-        enumerationDao.find("Key4");
-        assertTrue("EnumerationMetaEntity still exists after remove",  false);
+        EnumerationEntity enumerationState = enumerationDao.find("kuali.state");
+        assertNotNull(enumerationState);
+        enumerationDao.remove(enumerationState);
+        enumerationState = enumerationDao.find("state.descr");
+        assertNull(enumerationState);
     }
     
 }
