@@ -8,7 +8,7 @@
  * KIND, either express or implied. See the License for the specific language
  * governing permissions and limitations under the License.
  */
-package org.kuali.student.r2.lum.course.dto;
+package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -18,7 +18,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import org.kuali.student.lum.course.dto.ActivityInfo;
 
 import org.kuali.student.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.common.dto.TimeAmountInfo;
@@ -47,9 +46,9 @@ public class FormatInfo extends IdNamelessEntityInfo implements Format, Serializ
     public FormatInfo(Format format) {
         super(format);
         if (format != null) {
-            List<org.kuali.student.lum.course.dto.ActivityInfo> activities = new ArrayList<org.kuali.student.lum.course.dto.ActivityInfo>();
+            List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
             for (Activity activity : format.getActivities()) {
-                activities.add(new org.kuali.student.lum.course.dto.ActivityInfo(activity));
+                activities.add(new ActivityInfo(activity));
             }
 
             this.activities = activities;
@@ -61,14 +60,14 @@ public class FormatInfo extends IdNamelessEntityInfo implements Format, Serializ
     }
 
     @Override
-    public List<org.kuali.student.lum.course.dto.ActivityInfo> getActivities() {
+    public List<ActivityInfo> getActivities() {
         if (activities == null) {
-            activities = new ArrayList<org.kuali.student.lum.course.dto.ActivityInfo>(0);
+            activities = new ArrayList<ActivityInfo>(0);
         }
         return activities;
     }
 
-    public void setActivities(List<org.kuali.student.lum.course.dto.ActivityInfo> activities) {
+    public void setActivities(List<ActivityInfo> activities) {
         this.activities = activities;
     }
 
