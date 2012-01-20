@@ -63,7 +63,7 @@
     <profile>
       <id>skip-ui</id>
       <modules>
-        <module>ks-common</module>
+          <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
         <module>ks-core</module>
@@ -76,7 +76,7 @@
     <profile>
       <id>skip-all-wars</id>
       <modules>
-        <module>ks-common</module>
+          <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
         <module>ks-core</module>
@@ -187,6 +187,7 @@
     <ks.contractdoc.phase>site</ks.contractdoc.phase>
     <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
     <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
+    <ks-temp-project.version>0.0.1-SNAPSHOT</ks-temp-project.version>
   </properties>
   <build>
     <pluginManagement>
@@ -221,6 +222,7 @@
                   <genWrapperbean>true</genWrapperbean>
                   <verbose>true</verbose>
                   <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+                  <className/>
               </configuration>
           </plugin>
 

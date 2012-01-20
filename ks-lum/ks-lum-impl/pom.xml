@@ -33,12 +33,12 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
@@ -64,7 +64,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <scope>test</scope>
     </dependency>
     <!-- This is a temp fix for SecurityContextHolder -->
@@ -73,20 +73,6 @@
     	<artifactId>spring-security-core</artifactId>
     	<scope>test</scope>
     </dependency>
-		<dependency>
-			<groupId>org.apache.openjpa</groupId>
-			<artifactId>openjpa</artifactId>
-			<version>2.0.1</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>antlr</groupId>
-			<artifactId>antlr</artifactId>
-			<version>2.7.7</version>
-			<scope>test</scope>
-		</dependency>
-
-
   </dependencies>
   <profiles>
     <profile>

@@ -31,7 +31,7 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <skipTests>true</skipTests>
+          <skipTests>false</skipTests>
         </configuration>
       </plugin>
     </plugins>
@@ -116,28 +116,28 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${project.version}</version>
+        <version>${ks-temp-project.version}</version>
     </dependency>
 
     <!-- required to compile the test case -->

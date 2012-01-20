@@ -12,8 +12,19 @@
         <dependency>
             <groupId>org.kuali.student.core</groupId>
             <artifactId>ks-core-api</artifactId>
-            <version>${project.version}</version>
+            <version>${ks-temp-project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.kuali.student.common</groupId>
+            <artifactId>ks-common-api</artifactId>
+	        <version>${ks-temp-project.version}</version>
+        </dependency>
+		<!-- TODO  -->
+<!--        <dependency>
+			<groupId>org.kuali.student.core</groupId>
+		    <artifactId>ks-core-api</artifactId>
+            <version>${ks-temp-project.version}</version>
+        </dependency> -->
         <dependency>
             <groupId>com.google.code.gwtx</groupId>
             <artifactId>gwtx</artifactId>
