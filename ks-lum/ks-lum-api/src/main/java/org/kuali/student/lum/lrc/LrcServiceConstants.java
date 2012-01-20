@@ -13,7 +13,7 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.lum.util.constants;
+package org.kuali.student.lum.lrc;
 
 import org.kuali.student.common.util.constants.CommonServiceConstants;
 // TODO kscm-149 import org.kuali.student.lum.lrc.dto.ResultScaleInfo;

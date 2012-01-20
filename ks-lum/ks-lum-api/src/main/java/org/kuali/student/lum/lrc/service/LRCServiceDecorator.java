@@ -17,18 +17,18 @@ import org.kuali.student.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.lum.lrc.dto.ResultValueInfo;
 
-public abstract class LRCServiceDecorator implements LRCService {
+public abstract class LRCServiceDecorator implements LrcService {
 
-    private LRCService nextDecorator;
+    private LrcService nextDecorator;
     
-    public LRCService getNextDecorator()
+    public LrcService getNextDecorator()
 			throws OperationFailedException {
 		if (null == nextDecorator) {
 			throw new OperationFailedException("Misconfigured application: nextDecorator is null");
 		}
         return nextDecorator;
     }
-    public void setNextDecorator(LRCService nextDecorator) {
+    public void setNextDecorator(LrcService nextDecorator) {
         this.nextDecorator = nextDecorator;
     }
 
