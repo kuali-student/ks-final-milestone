@@ -137,7 +137,7 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${project.version}</version>
+        <version>${ks-temp-project.version}</version>
     </dependency>
 
     <!-- required to compile the test case -->
