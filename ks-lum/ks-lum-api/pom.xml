@@ -20,11 +20,11 @@
 	        <version>${ks-temp-project.version}</version>
         </dependency>
 		<!-- TODO  -->
-        <dependency>
+<!--        <dependency>
 			<groupId>org.kuali.student.core</groupId>
 		    <artifactId>ks-core-api</artifactId>
             <version>${ks-temp-project.version}</version>
-        </dependency>
+        </dependency> -->
         <dependency>
             <groupId>com.google.code.gwtx</groupId>
             <artifactId>gwtx</artifactId>

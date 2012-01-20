@@ -33,6 +33,7 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 // TODO KSCM-159 import org.kuali.student.common.util.constants.CourseServiceConstants;
+import org.kuali.student.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -290,7 +291,7 @@ public interface CourseService {
      * Validates the Statement for a Course.
      * 
      * @param courseId Unique Id of the Course. Maps to cluId
-     * @param statementTreeViewInfoList a Statementree Structures
+     * @param statementTreeViewInfo a Statementree Structures
      * @return results from performing the validation
      * @throws DoesNotExistException Course or StementTreeView does not exist
      * @throws InvalidParameterException invalid courseId or stratement tree
