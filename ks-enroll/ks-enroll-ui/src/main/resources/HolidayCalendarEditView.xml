@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="KS-HolidayCalendar-EditView" parent="KSFormView">
+        <property name="id" value="holidayCalendarEditView"/>
+        <property name="title" value="Holiday Calendar"/>
+        <property name="singlePageView" value="true"/>
+        <property name="page">
+            <bean parent="Page"/>
+        </property>
+        <property name="header">
+          <bean parent="HeaderTwo"/>
+        </property>
+        <property name="footer">
+            <bean parent="Footer"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="HolidayCalendarEditView"/>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
+    </bean>
+
+    <bean id="HolidayCalendarEditView" parent="PageGroup" p:title="HolidayCalendar Information"
+        p:layoutManager.orientation="HORIZONTAL"
+        p:disclosure.render="false">
+    <property name="items">
+      <list>
+        <ref bean="HolidayCalendarEditView-Meta"/>
+      </list>
+    </property>
+    <property name="footer">
+      <bean parent="Footer">
+        <property name="items">
+          <list>
+            <bean parent="ActionField" p:actionLabel="Save" p:methodToCall="save"/>
+          </list>
+        </property>
+      </bean>
+    </property>
+  </bean>
+
+    <bean id="HolidayCalendarEditView-Meta" parent="Group" p:layoutManager.orientation="HORIZONTAL">
+        <property name="title" value="Calendar Information" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                 <bean parent="InputField_Form" p:label="Holiday Calendar Name"
+					p:labelPlacement="TOP" p:labelField.renderColon="false"
+					p:propertyName="holidayCalendarInfo.name">
+					<property name="control">
+						<bean parent="TextControl" p:size="30" />
+					</property>
+				</bean>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+
