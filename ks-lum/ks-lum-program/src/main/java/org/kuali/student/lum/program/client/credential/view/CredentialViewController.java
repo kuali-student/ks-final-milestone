@@ -116,7 +116,7 @@ public class CredentialViewController extends CredentialController implements Re
 	}
 	
 	@Override
-	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_VIEW_CREDENTIAL_PROGRAMS_SCREEN, new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {

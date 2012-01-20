@@ -46,7 +46,7 @@ public class BrowseProgramController extends BasicLayout implements RequiresAuth
 	}
 	
 	@Override
-	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_BROWSE_PROGRAM_SCREEN, new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {

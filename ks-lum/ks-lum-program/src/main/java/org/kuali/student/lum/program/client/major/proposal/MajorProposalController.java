@@ -966,7 +966,7 @@ public class MajorProposalController extends MajorController implements Workflow
 	}
 
 	@Override
-	public void checkAuthorization(final PermissionType permissionType,	final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
+	public void checkAuthorization(final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
 		
 		Map<String,String> attributes = new HashMap<String,String>();
 		GWT.log("Attempting Auth Check.", null);
@@ -980,7 +980,7 @@ public class MajorProposalController extends MajorController implements Workflow
 				attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 			}
 		}
-		programRemoteService.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+		programRemoteService.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -991,12 +991,12 @@ public class MajorProposalController extends MajorController implements Workflow
 
 			@Override
 			public void onSuccess(Boolean result) {
-				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+				GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionType().toString() + "' with result: " + result, null);
 				if (Boolean.TRUE.equals(result)) {
 					callbackLocatedOnBaseControllerClass.isAuthorized();
 				}
 				else {
-					callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + permissionType);
+					callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionType().toString());
 				}
 			}
     	});

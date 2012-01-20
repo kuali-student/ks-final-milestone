@@ -132,21 +132,10 @@ public abstract class Controller extends Composite implements HistorySupport, Br
 					 boolean requiresAuthz = (view instanceof RequiresAuthorization) && ((RequiresAuthorization)view).isAuthorizationRequired(); 
 						
 				        if (requiresAuthz){
-				        	ViewContext tempContext;
-				        	if(view instanceof LayoutController){
-				        		tempContext = ((LayoutController) view).getViewContext();
-				        	}                 
-				        	else{
-				        		tempContext = view.getController().getViewContext();
-				        	}
-				        	
-				        	PermissionType permType = (tempContext != null) ? tempContext.getPermissionType() : null;
-			        	 	if(permType==null){
-			        	 		permType=PermissionType.USE_SCREEN;
-			        	 	}
-			        		GWT.log("Checking permission type '" + permType.getPermissionTemplateName() + "' for view '" + view.toString() + "'", null);
+//				            GWT.log("Checking permission type '" + getViewContext().getPermissionType().getPermissionTemplateName() + "' for viewType '" + viewType.toString() + "'", null);
+
 			            	//A callback is required if async rpc call is required for authz check
-				        	((RequiresAuthorization)view).checkAuthorization(permType, new AuthorizationCallback(){
+				        	((RequiresAuthorization)view).checkAuthorization(new AuthorizationCallback(){
 								public void isAuthorized() {
 									finalizeShowView(view, viewType, onReadyCallback);
 								}

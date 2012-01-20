@@ -42,6 +42,10 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
     public static final String INITIATOR_OR_REVIEWER_ROLE_NAME = "Initiator or Reviewer";
     public static final String ROUTER_ROLE_NAME = "Router";
 
+    public static final String DERIVED_INITIATOR_ROLE_NAME = "Derived Role: Initiator";
+    public static final String DERIVED_INITIATOR_OR_REVIEWER_ROLE_NAME = "Derived Role: Initiator or Reviewer";
+    public static final String DERIVED_ROUTER_ROLE_NAME = "Derived Role: Router";
+    
     private boolean checkFutureRequests = false;
 	protected Set<List<String>> newRequiredAttributes = new HashSet<List<String>>();
 
@@ -143,10 +147,10 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
 		try {
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
-				if (INITIATOR_ROLE_NAME.equals(roleName)) {
+				if (INITIATOR_ROLE_NAME.equals(roleName)||DERIVED_INITIATOR_ROLE_NAME.equals(roleName)) {
 				    String principalId = getWorkflowUtility().getDocumentInitiatorPrincipalId(documentNumber);
 	                members.add( new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null) );
-				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
+				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)||DERIVED_INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)) {
 					String[] ids = getWorkflowUtility().getPrincipalIdsInRouteLog(documentNumber, isCheckFutureRequests());
 					if (ids != null) {
 					    for ( String id : ids ) {
@@ -155,7 +159,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
 					    	}
 					    }
 					}
-				} else if(ROUTER_ROLE_NAME.equals(roleName)) {
+				} else if(ROUTER_ROLE_NAME.equals(roleName)||DERIVED_ROUTER_ROLE_NAME.equals(roleName)) {
 				    String principalId = getWorkflowUtility().getDocumentRoutedByPrincipalId(documentNumber);
 	                members.add( new RoleMembershipInfo(null/*roleId*/, null, principalId, Role.PRINCIPAL_MEMBER_TYPE, null) );
 				}
@@ -180,11 +184,11 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends KimDerivedRoleTypeServ
 		try {
 			documentNumber = getDocumentNumber(qualification);
 			if (documentNumber != null) {
-				if (INITIATOR_ROLE_NAME.equals(roleName)){
+				if (INITIATOR_ROLE_NAME.equals(roleName)||DERIVED_INITIATOR_ROLE_NAME.equals(roleName)){
 					isUserInRouteLog = principalId.equals(getWorkflowUtility().getDocumentInitiatorPrincipalId(documentNumber));
-				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)){
+				} else if(INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)||DERIVED_INITIATOR_OR_REVIEWER_ROLE_NAME.equals(roleName)){
 					isUserInRouteLog = getWorkflowUtility().isUserInRouteLog(documentNumber, principalId, isCheckFutureRequests());
-				} else if(ROUTER_ROLE_NAME.equals(roleName)){
+				} else if(ROUTER_ROLE_NAME.equals(roleName)||DERIVED_ROUTER_ROLE_NAME.equals(roleName)){
 					isUserInRouteLog = principalId.equals(getWorkflowUtility().getDocumentRoutedByPrincipalId(documentNumber));
 				}
 			}

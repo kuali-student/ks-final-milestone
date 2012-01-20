@@ -117,7 +117,7 @@ public class CoreViewController extends CoreController implements RequiresAuthor
 	}
 	
 	@Override
-	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_VIEW_CORE_PROGRAMS_SCREEN, new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {

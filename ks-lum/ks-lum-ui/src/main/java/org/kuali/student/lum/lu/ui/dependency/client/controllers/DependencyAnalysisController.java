@@ -86,7 +86,7 @@ public class DependencyAnalysisController extends BasicLayout implements Require
 	}
 	
 	@Override
-	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_DEPENDENCY_ANALYSIS_SCREEN, new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {

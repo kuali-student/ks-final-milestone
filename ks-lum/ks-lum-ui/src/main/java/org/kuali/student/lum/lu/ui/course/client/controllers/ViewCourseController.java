@@ -513,7 +513,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	}
 	
 	@Override
-	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_FIND_COURSE_SCREEN, new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {

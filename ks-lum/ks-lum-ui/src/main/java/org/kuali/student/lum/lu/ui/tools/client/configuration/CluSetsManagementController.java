@@ -404,7 +404,7 @@ public class CluSetsManagementController extends BasicLayout implements Requires
 	}
 	
 	@Override
-	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS, new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {

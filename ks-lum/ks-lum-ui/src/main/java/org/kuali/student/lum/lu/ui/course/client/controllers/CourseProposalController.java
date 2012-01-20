@@ -181,6 +181,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
    		registerModelsAndHandlers();
    		
         addStyleName("courseProposal");
+        
+        setViewContext(getViewContext());
     }
     
     protected void registerModelsAndHandlers(){
@@ -983,9 +985,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	 * 
 	 *  FIXME: This method should not require a permissionType as a parameter
 	 */
-	public void checkAuthorization(final PermissionType permissionType, final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		GWT.log("Attempting Auth Check.", null);
-
+        
 		//Get attributes required for permission check
 		Map<String,String> attributes = new HashMap<String,String>();
 		addPermissionAttributes(attributes);
@@ -993,7 +995,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		//Note: Additional attributes required for permission check (eg. permission details and role qualifiers) will
 		//be determined server side in the AbstractDataService.isAuthorized method. All that is required here is
 		//id of the proposal object)
-		cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+		cluProposalRpcServiceAsync.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -1004,16 +1006,41 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 			@Override
 			public void onSuccess(Boolean result) {
-				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+				GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionType().toString() + "' with result: " + result, null);
 				if (Boolean.TRUE.equals(result)) {
 					authCallback.isAuthorized();
 				}
 				else {
-					authCallback.isNotAuthorized("User is not authorized: " + permissionType);
+					authCallback.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionType().toString());
 				}
 			}
     	});
 	}
+
+    @Override
+    public void setViewContext(ViewContext viewContext) {
+        //Determine the permission type being checked
+        
+//        viewContext.setPermissionType(PermissionType.MY_PERM);
+        
+        
+        
+        if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
+            if (viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID
+                    && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID) {
+                //Id provided, and not a copy id, so opening an existing proposal
+                viewContext.setPermissionType(PermissionType.OPEN);
+            } else {
+                //Copy id provided, so creating a proposal for modification
+                viewContext.setPermissionType(PermissionType.INITIATE);
+            }
+        } else {
+            //No id in view context, so creating new empty proposal
+            viewContext.setPermissionType(PermissionType.INITIATE);
+        }
+        
+        context = viewContext;
+    }
 
 	/**
 	 * This method adds any permission attributes required for checking permissions
@@ -1031,16 +1058,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
     		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
     			//Id provided, and not a copy id, so opening an existing proposal
-    			viewContext.setPermissionType(PermissionType.OPEN);
     			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);
     		} else{
     			//Copy id provided, so creating a proposal for modification
-    			viewContext.setPermissionType(PermissionType.INITIATE);
     			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
     		}
     	} else{
     		//No id in view context, so creating new empty proposal
-    		viewContext.setPermissionType(PermissionType.INITIATE);
 			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);    		
     	}    	
 	}

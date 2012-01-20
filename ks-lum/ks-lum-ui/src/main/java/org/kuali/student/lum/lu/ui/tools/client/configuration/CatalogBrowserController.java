@@ -164,7 +164,7 @@ public class CatalogBrowserController extends TabMenuController implements Requi
 	}
 	
 	@Override
-	public void checkAuthorization(PermissionType permissionType,final AuthorizationCallback authCallback) {
+	public void checkAuthorization(final AuthorizationCallback authCallback) {
 		Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_BROWSE_CATALOG_SCREEN, new Callback<Boolean>() {
 			@Override
 			public void exec(Boolean result) {
