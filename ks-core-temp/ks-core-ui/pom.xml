@@ -72,7 +72,7 @@
 					-->
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-cxf</artifactId>
-          <version>${project.version}</version>
+            <version>${ks-temp-project.version}</version>
           <type>pom</type>
           <scope>runtime</scope>
         </dependency>
@@ -86,7 +86,7 @@
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-impl</artifactId>
-          <version>${project.version}</version>
+            <version>${ks-temp-project.version}</version>
         </dependency>
         <dependency>
           <groupId>org.apache.derby</groupId>

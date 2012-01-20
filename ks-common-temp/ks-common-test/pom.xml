@@ -12,7 +12,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+        <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
