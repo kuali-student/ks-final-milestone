@@ -25,7 +25,8 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
 
-@XmlType(name = "LoInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+// KSCM-130:  changed name from "LoInfo" to "LoRepositoryInfo"
+@XmlType(name = "LoRepositoryInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Serializable {
 

@@ -16,6 +16,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.HasAttributesInfo;
 import org.kuali.student.lum.lu.infc.CluInstructor;
@@ -27,6 +28,8 @@ import org.kuali.student.lum.lu.infc.CluInstructor;
  * @author Kuali Student Team (sambitpa@kuali.org)
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "CluInstructorInfo", propOrder = {"orgId", "personId", "personInfoOverride"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInstructorInfo extends HasAttributesInfo implements CluInstructor, Serializable {
 

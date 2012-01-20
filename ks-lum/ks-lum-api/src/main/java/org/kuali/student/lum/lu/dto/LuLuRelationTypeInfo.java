@@ -15,15 +15,24 @@
 
 package org.kuali.student.lum.lu.dto;
 
+import java.util.Date;
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.TypeInfo;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  *Information about a LU to LU relationship type.
  */ 
+//KSCM-130:  Add @XmlType
+@XmlType(name = "LuLuRelationTypeInfo", propOrder = {"id", "revName", "revDesc", "name", "descr", "effectiveDate", "expirationDate", "attributes"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuLuRelationTypeInfo extends TypeInfo{
 
