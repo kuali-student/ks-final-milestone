@@ -57,12 +57,9 @@
                 <value>classpath:MeetingScheduleWrapper.xml</value>
                 <value>classpath:RegistrationUI.xml</value>
 
-				<!--
-				<value>classpath:AcademicCalendarWrapperMaintenance.xml</value>	
- 				<value>classpath:HoldInfo.xml</value>
- 				<value>classpath:IssueInfo.xml</value>
- 				<value>classpath:HoldInfoMaintenanceView.xml</value>
-				-->
+                <!-- M1 Section -->
+                <value>classpath:HolidayCalendarEditView.xml</value>
+
 			</list>
 		</property>
 		<property name="packagePrefixes">
