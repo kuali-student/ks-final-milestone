@@ -139,9 +139,9 @@
         <constructor-arg index="0" value="classpath:organization-search-config.xml"/>
     </bean>
 
-    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.organizationService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="orgServiceImpl"/>
                 <property name="serviceInterface"
@@ -182,9 +182,9 @@
         <constructor-arg index="0" value="classpath:atp-search-config.xml"/>
     </bean>
 
-    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.atpService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="atpServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.core.atp.service.AtpService"/>
@@ -197,8 +197,8 @@
 
     <!-- Kim identity service client -->
     <bean id="coreIdentityServiceClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.service.IdentityManagementService"/>
-        <property name="serviceQName" value="{http://rice.kuali.org/wsdl/kim}kimIdentityManagementServiceSOAP"/>
+        <property name="serviceEndpointInterface" value="org.kuali.rice.kim.api.identity.IdentityService"/>
+        <property name="serviceQName" value="{http://rice.kuali.org/kim/v2_0}identityService"/>
     </bean>
 
 
@@ -208,9 +208,9 @@
         <property name="identityService" ref="coreIdentityServiceClient"/>
     </bean>
 
-    <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.searchService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="personServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.common.search.service.SearchService"/>
@@ -248,9 +248,9 @@
         <property name="searchManager" ref="emSearchManager"/>
     </bean>
 
-    <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.enumerationManagementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="emServiceImpl"/>
                 <property name="serviceInterface"
@@ -302,9 +302,9 @@
         <property name="validatorFactory" ref="coreValidatorFactory"/>
     </bean>
 
-    <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.commentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="commentServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.core.comment.service.CommentService"/>
@@ -320,7 +320,7 @@
         <property name="persistenceUnitName" value="Statement"/>
         <property name="persistenceXmlLocation"
                   value="classpath:META-INF/statement-persistence.xml"/>
-        <property name="dataSource" ref="lumDataSource"/>
+        <property name="dataSource" ref="coreDataSource"/>
     </bean>
 
     <bean id="statementEntityManager"
@@ -349,15 +349,15 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="searchManager" ref="statementSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
+        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
         <property name="validatorFactory" ref="lumValidatorFactory"/>
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
     </bean>
 
-    <bean id="ks.exp.statementService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.statementService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="statementServiceImpl"/>
                 <property name="serviceInterface"
@@ -400,9 +400,9 @@
         <property name="validatorFactory" ref="coreValidatorFactory"/>
     </bean>
 
-    <bean id="ks.exp.documentService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.documentService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="documentServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.core.document.service.DocumentService"/>
@@ -435,9 +435,9 @@
         <property name="messageDAO" ref="messageDao"/>
     </bean>
 
-    <bean id="ks.exp.messageService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.messageService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="messageServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.common.messages.service.MessageService"/>
@@ -452,9 +452,9 @@
     <bean id="subjectCodeServiceImpl"
           class="org.kuali.student.core.subjectcode.service.impl.MockSubjectCodeServiceImpl"/>
 
-    <bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.subjectCodeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="subjectCodeServiceImpl"/>
                 <property name="serviceInterface"
@@ -496,9 +496,9 @@
         <constructor-arg index="0" value="classpath:proposal-search-config.xml"/>
     </bean>
 
-    <bean id="ks.exp.proposalService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.proposalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="proposalServiceImpl"/>
                 <property name="serviceInterface" value="org.kuali.student.core.proposal.service.ProposalService"/>
@@ -511,7 +511,8 @@
 
 
     <bean id="coreServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-        <property name="searchDispatcher" ref="coreSearchDispatcher"/>
+        <!--  TODO: Currently core services are not wired for lookup validation -->
+        <!--  <property name="searchDispatcher" ref="coreSearchDispatcher"/> -->
     </bean>
 
     <bean id="coreValidatorFactory-parent"
@@ -524,35 +525,18 @@
 
     <bean id="coreValidatorFactory" parent="coreValidatorFactory-parent"/>
 
-    <bean id="coreSearchDispatcher"
-          class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
-        <property name="services">
-            <list>
-                <ref bean="atpServiceClient"/>
-            </list>
-        </property>
-    </bean>
-
-    <bean id="atpServiceClient"
-          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface"
-                  value="org.kuali.student.core.atp.service.AtpService"/>
-        <property name="serviceQName"
-                  value="{http://student.kuali.org/wsdl/atp}AtpService"/>
-    </bean>
-
-
-    <bean id="mapExceptionAdvisor"
+    
+        <bean id="mapExceptionAdvisor"
           class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-                  value="org.kuali.student.core.exceptions.OperationFailedException"/>
+                  value="org.kuali.student.common.exceptions.OperationFailedException"/>
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                       value="org.kuali.student.core.exceptions.AlreadyExistsException"/>
+                       value="org.kuali.student.common.exceptions.AlreadyExistsException"/>
                 <entry
                         key="org.hibernate.exception.ConstraintViolationException"
-                        value="org.kuali.student.core.exceptions.AlreadyExistsException"/>
+                        value="org.kuali.student.common.exceptions.AlreadyExistsException"/>
             </map>
         </property>
     </bean>

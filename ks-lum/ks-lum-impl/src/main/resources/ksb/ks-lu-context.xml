@@ -159,9 +159,9 @@
 		<property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
-    <bean id="ks.exp.luService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.luService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="luServiceImpl"/>
                 <property name="serviceInterface"
@@ -237,8 +237,6 @@
                 <ref bean="enumServiceClient"/>
                 <ref bean="atpClient"/>
                 <ref bean="statementServiceClient"/>
-                <ref bean="subjectCodeClient"/>
-                <ref bean="proposalClient"/>
             </list>
         </property>
     </bean>
@@ -258,9 +256,9 @@
         <property name="validatorFactory" ref="lumValidatorFactory"/>                
     </bean>
 
-    <bean id="ks.exp.lrcService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.lrcService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="lrcServiceImpl"/>
                 <property name="serviceInterface"
@@ -288,9 +286,9 @@
         <property name="validatorFactory" ref="lumValidatorFactory"/>        
     </bean>
 
-    <bean id="ks.exp.loService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.loService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="loServiceImpl"/>
                 <property name="serviceInterface"
@@ -329,9 +327,9 @@
         <property name="statementService" ref="statementServiceClient"/>
     </bean>
 
-    <bean id="ks.exp.courseService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.courseService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="courseServiceImpl"/>
                 <property name="serviceInterface"
@@ -359,7 +357,6 @@
         <property name="luService" ref="luClient"/>
         <property name="lrcService" ref="lrcClient"/>
         <property name="cluAssemblerUtils" ref="cluAssemblerUtils"/>
-        <property name="atpService" ref="atpClient"/>
     </bean>
 
     <bean id="formatAssembler"
@@ -395,10 +392,6 @@
         <property name="validatorList">
         	<list>
 				<!--  Add Custom Validators Here -->
-				<bean class="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" >
-        			<property name="messageService" ref="ks.messageServiceMock"/>
-       				<property name="searchDispatcher" ref="lumSearchDispatcher"/>
-				</bean>
 				
 				<!--  Custom Validator for Revenue. Checks to see if the sum of all the orgs adds up to 100% -->
 			    <bean class="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
@@ -406,10 +399,9 @@
 				<bean class="org.kuali.student.lum.course.service.utils.ActiveDatesValidator">
 					<property name="atpService" ref="atpClient"/>
 				</bean>
-				<bean class="org.kuali.student.lum.course.service.utils.SubjectAreaUnitOwnerValidator">
-					<property name="searchDispatcher" ref="lumSearchDispatcher"/>
-				</bean>
-				<bean class="org.kuali.student.lum.course.service.utils.ActivityTypeValidator"/>
+				<!--<bean  class="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator">
+					<property name="courseService" ref="courseServiceImpl"/>
+				</bean>-->
 			</list>
         </property>
     </bean>
@@ -511,9 +503,9 @@
         <property name="documentService" ref="documentClient"/>
     </bean>
 
-    <bean id="ks.exp.programService" class="org.kuali.rice.ksb.messaging.KSBExporter">
+    <bean id="ks.exp.programService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
         <property name="serviceDefinition">
-            <bean class="org.kuali.rice.ksb.messaging.SOAPServiceDefinition">
+            <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
                 <property name="jaxWsService" value="true"/>
                 <property name="service" ref="programServiceImpl"/>
                 <property name="serviceInterface"
@@ -540,11 +532,6 @@
         <property name="serviceQName" value="{http://student.kuali.org/wsdl/document}DocumentService"/>
     </bean>
 
-    <bean id="subjectCodeClient" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
-        <property name="serviceEndpointInterface" value="org.kuali.student.core.subjectcode.service.SubjectCodeService"/>
-        <property name="serviceQName" value="{http://student.kuali.org/wsdl/subjectCode}SubjectCodeService"/>
-    </bean>
-    
     <bean id="statementServiceClient"
           class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
         <property name="serviceEndpointInterface"
