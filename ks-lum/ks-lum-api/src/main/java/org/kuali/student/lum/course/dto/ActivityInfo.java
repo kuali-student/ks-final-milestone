@@ -16,7 +16,9 @@
 package org.kuali.student.lum.course.dto;
 
 import org.kuali.student.common.dto.*;
+import org.kuali.student.common.infc.HasAttributes;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.lum.course.infc.Activity;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,6 +31,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 /**
  * Detailed information about a single course activity.
  *
@@ -38,8 +41,9 @@ import java.util.Map;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/activityInfo+Structure">ActivityInfo</>
  *
  */
+//org.kuali.student.common.infc.HasAttributes  org.kuali.student.common.dto.HasAttributes
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ActivityInfo implements Serializable, Idable, HasAttributes {
+public class ActivityInfo implements Serializable, Idable,org.kuali.student.common.infc.HasAttributes  {
 
     private static final long serialVersionUID = 1L;
 
@@ -54,7 +58,7 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
+    private List<Activity> attributes;
 
     @XmlElement
     private MetaInfo metaInfo;
@@ -70,6 +74,13 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
     
     @XmlElement
     private AmountInfo contactHours;
+
+    public ActivityInfo(Activity s){}
+    public ActivityInfo(List<Activity> s)
+    {
+
+        attributes = s;
+    }
 
     /**
      * The standard duration of the Course.
@@ -110,14 +121,14 @@ public class ActivityInfo implements Serializable, Idable, HasAttributes {
     /**
      * List of key/value pairs, typically used for dynamic attributes.
      */
-    public Map<String, String> getAttributes() {
+    public List<Activity> getAttributes() {
         if (attributes == null) {
-            attributes = new HashMap<String, String>();
+            attributes = new ArrayList<Activity>();
         }
         return attributes;
     }
 
-    public void setAttributes(Map<String, String> attributes) {
+    public void setAttributes(List<Activity> attributes) {
         this.attributes = attributes;
     }
 

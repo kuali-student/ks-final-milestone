@@ -3,6 +3,7 @@ package org.kuali.student.lum.course.infc;
 import java.util.List;
 
 import org.kuali.student.common.infc.Amount;
+import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.common.infc.IdEntity;
 import org.kuali.student.common.infc.TimeAmount;
 
@@ -11,7 +12,7 @@ import org.kuali.student.common.infc.TimeAmount;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-public interface Activity extends IdEntity {
+public interface Activity extends IdEntity, Attribute {
     /**
      * The standard duration of the Course.
      * 

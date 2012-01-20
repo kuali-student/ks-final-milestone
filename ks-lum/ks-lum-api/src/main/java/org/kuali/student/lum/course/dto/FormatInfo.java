@@ -47,8 +47,9 @@ public class FormatInfo extends IdNamelessEntityInfo implements Format, Serializ
         super(format);
         if (format != null) {
             List<ActivityInfo> activities = new ArrayList<ActivityInfo>();
-            for (Activity activity : format.getActivities()) {
-                activities.add(new ActivityInfo(activity));
+            for (ActivityInfo activityInf : format.getActivities()) {
+                //for (Activity activity : activityInf.getActivities()){}
+                activities.add(new ActivityInfo(activityInf.getAttributes()));
             }
 
             this.activities = activities;
