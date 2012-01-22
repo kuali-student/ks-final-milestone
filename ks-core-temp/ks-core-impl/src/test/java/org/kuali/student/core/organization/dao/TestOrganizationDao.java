@@ -51,6 +51,7 @@ import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
 
 
+// TODO KSCM-185
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 	@Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")

@@ -25,6 +25,7 @@ import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.naturallanguage.util.ReqComponentReference;
 
+// TODO KSCM-174
 public class StatementParserTest {
 	@Test
 	public void testBooleanExpressionAsStatement1() throws Exception {

@@ -44,6 +44,7 @@ import org.kuali.student.core.statement.naturallanguage.Context;
 import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
 
+// TODO KSCM-176
 public class NaturalLanguageTranslatorTest {
 
 	private static NaturalLanguageMessageBuilder englishMessageBuilder; 

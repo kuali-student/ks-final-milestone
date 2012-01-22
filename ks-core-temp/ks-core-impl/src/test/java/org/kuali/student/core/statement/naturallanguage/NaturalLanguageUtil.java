@@ -259,7 +259,8 @@ public class NaturalLanguageUtil {
 //		
 //		return headerList;
 //	}
-    
+
+// TODO KSCM-177
     public static ContextRegistry<Context<ReqComponentInfo>> getReqComponentContextRegistry() {
     	ContextRegistry<Context<ReqComponentInfo>> contextRegistry = new ContextRegistry<Context<ReqComponentInfo>>();
 

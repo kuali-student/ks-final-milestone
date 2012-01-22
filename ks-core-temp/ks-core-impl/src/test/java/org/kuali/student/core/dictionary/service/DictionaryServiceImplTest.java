@@ -15,8 +15,8 @@ import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.common.dictionary.service.jaxws.GetObjectStructureResponse;
 
+// TODO KSCM-180
 public class DictionaryServiceImplTest {
 	@Test
 	public void testMarshalling() throws JAXBException{

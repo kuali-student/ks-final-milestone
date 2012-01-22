@@ -27,6 +27,7 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.core.messages.entity.MessageEntity;
 
+// TODO KSCM-183
 @PersistenceFileLocation("classpath:META-INF/messages-persistence.xml")
 public class MessageManagementDAOImplTest extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml")

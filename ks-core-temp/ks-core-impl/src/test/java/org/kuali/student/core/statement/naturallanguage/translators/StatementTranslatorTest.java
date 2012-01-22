@@ -38,6 +38,7 @@ import org.kuali.student.core.statement.naturallanguage.Context;
 import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
 
+// TODO KSCM-173
 public class StatementTranslatorTest {
 
 	private static StatementTranslator englishTranslator = new StatementTranslator();
