@@ -59,6 +59,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @WebService(endpointInterface = "org.kuali.student.core.proposal.service.ProposalService", serviceName = "ProposalService", portName = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+// TODO KSCM-167
 public class ProposalServiceImpl implements ProposalService {
     private ProposalDao proposalDao;
 

@@ -28,7 +28,6 @@ import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanMessage
 import org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl;
 import org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder;
 import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderException;
-import org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
 
 public class NaturalLanguageMessageBuilderTest {
 	private static Map<String, MessageBuilder> messageBuilderMap;

@@ -32,7 +32,6 @@ import org.kuali.student.core.statement.entity.ReqComponentType;
 import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
 import org.kuali.student.core.statement.naturallanguage.Context;
-import org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 public class ReqComponentTranslatorTest {

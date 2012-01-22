@@ -66,6 +66,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+// TODO KSCM-170
 public class OrganizationServiceImpl implements OrganizationService {
 
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);

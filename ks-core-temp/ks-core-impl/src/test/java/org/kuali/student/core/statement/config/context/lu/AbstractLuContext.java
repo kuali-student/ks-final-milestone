@@ -125,7 +125,6 @@ public abstract class AbstractLuContext<T> extends AbstractContext<T> {
     /**
      * Gets a new CLU set from a CLU id.
      * 
-     * @param cluIds CLU id
      * @return A new CLU set
      * @throws OperationFailedException If building a custom CLU set fails
      */

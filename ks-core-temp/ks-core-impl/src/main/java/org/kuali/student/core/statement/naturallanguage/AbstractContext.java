@@ -92,7 +92,7 @@ public abstract class AbstractContext<T> implements Context<T> {
 
     /**
      * Gets the value of the ReqCompFieldInfo key. 
-     * See {@link ReqCompFieldInfo#getKey()} 
+     * See
      * 
      * @param reqComponent Requirement component
      * @param key <code>ReqCompFieldInfo</code> key
