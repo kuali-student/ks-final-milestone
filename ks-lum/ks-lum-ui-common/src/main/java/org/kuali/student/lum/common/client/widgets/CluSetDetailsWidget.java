@@ -39,7 +39,7 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
     private FlexTable detailsTable = new FlexTable();
     private boolean showClus;
     private Map<String, Boolean> showCluSetFlags = new HashMap<String, Boolean>();
-    private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
+    //private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
     private CluSetRetriever cluSetRetriever;
     // private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
     private BlockingTask retrievingTask = new BlockingTask("Retrieving details");
@@ -225,6 +225,7 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
                     Object value = searchParam.getValue();
                     String displayValue = "";
                     if (value instanceof Date) {
+                    	SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
                         displayValue = DT_FOMRAT.format((Date) value);
                     } else {
                         displayValue = value.toString();

@@ -1,16 +1,15 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
  *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable
+ * law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+ * CONDITIONS OF ANY KIND, either express or implied. See the License
+ * for the specific language governing permissions and limitations
+ * under the License.
  */
 
 package org.kuali.student.lum.lrc.service;
@@ -21,330 +20,342 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.search.service.SearchService;
-import org.kuali.student.lum.lrc.dto.CredentialInfo;
-import org.kuali.student.lum.lrc.dto.CredentialTypeInfo;
-import org.kuali.student.lum.lrc.dto.CreditInfo;
-import org.kuali.student.lum.lrc.dto.CreditTypeInfo;
-import org.kuali.student.lum.lrc.dto.GradeInfo;
-import org.kuali.student.lum.lrc.dto.GradeTypeInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.lum.lrc.dto.ScaleInfo;
+import org.kuali.student.lum.lrc.LrcServiceConstants;
+import org.kuali.student.lum.lrc.dto.ResultValuesGroupInfo;
+import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
+import org.kuali.student.lum.lrc.dto.ResultValueInfo;
 
 /**
- *
- * @Author KSContractMojo
- * @Author lindholm
- * @Since Tue Apr 21 14:09:46 PDT 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Learning+Result+Catalog+Service">LrcService</>
- *
+ * The Learning Result Catalog Service is a Class I service which
+ * gives a set of operations to manage a learning result. A learning
+ * result can be of various types e.g grades, credits etc. This
+ * service has basic CRUD operations to touch various concepts that
+ * exist to model learning results e.g Result Value, Result Value
+ * Group, and Result Value Range.
+ * 
+ * @Author sambit
+ * @Since Tue May 10 14:09:46 PDT 2011
  */
-@WebService(name = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
+@WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LrcService extends SearchService, DictionaryService {
-    /**
-     * Retrieves information on all credential types.
-     * @return list of credential type information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<CredentialTypeInfo> getCredentialTypes() throws OperationFailedException;
+
+public interface LrcService {
 
     /**
-     * Retrieves information on a specific credential type.
-     * @param credentialTypeKey identifier for the credential type
-     * @return information about a credential type
-     * @throws DoesNotExistException credentialTypeKey not found
-     * @throws InvalidParameterException invalid credentialTypeKey
-     * @throws MissingParameterException missing credentialTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public CredentialTypeInfo getCredentialType(@WebParam(name="credentialTypeKey")String credentialTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+     * Retrieves existing result component by an identifier.
+     * 
+     * @param resultValuesGroupId identifiers for resultValuesGroup to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return details of the results for these ids
+     * @throws DoesNotExistException  resultValuesGroupId not found
+     * @throws InvalidParameterException invalid resultValuesGroupId
+     * @throws MissingParameterException invalid resultValuesGroupId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves information on all credit types.
-     * @return list of credit type information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<CreditTypeInfo> getCreditTypes() throws OperationFailedException;
-
-    /**
-     * Retrieves information on a specific credit type.
-     * @param creditTypeKey identifier for the credit type
-     * @return information about a credit type
-     * @throws DoesNotExistException creditTypeKey not found
-     * @throws InvalidParameterException invalid creditTypeKey
-     * @throws MissingParameterException missing creditTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public CreditTypeInfo getCreditType(@WebParam(name="creditTypeKey")String creditTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information on all grade types.
-     * @return list of grade type information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<GradeTypeInfo> getGradeTypes() throws OperationFailedException;
-
-    /**
-     * Retrieves information on a specific grade type.
-     * @param gradeTypeKey identifier for the grade type
-     * @return information about a grade type
-     * @throws DoesNotExistException gradeTypeKey not found
-     * @throws InvalidParameterException invalid gradeTypeKey
-     * @throws MissingParameterException missing gradeTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public GradeTypeInfo getGradeType(@WebParam(name="gradeTypeKey")String gradeTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information on all result component types.
-     * @return list of result component type information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<ResultComponentTypeInfo> getResultComponentTypes() throws OperationFailedException;
-
-    /**
-     * Retrieves information on a specific result component type.
-     * @param resultComponentTypeKey result component type key
-     * @return information about a result component type
-     * @throws DoesNotExistException resultComponentTypeKey not found
-     * @throws InvalidParameterException invalid resultComponentTypeKey
-     * @throws MissingParameterException missing resultComponentTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public ResultComponentTypeInfo getResultComponentType(@WebParam(name="resultComponentTypeKey")String resultComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information on a specific credential by its identifier.
-     * @param credentialKey credential identifier
-     * @return information about a credential
-     * @throws DoesNotExistException credentialKey not found
-     * @throws InvalidParameterException invalid credentialKey
-     * @throws MissingParameterException missing credentialKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public CredentialInfo getCredential(@WebParam(name="credentialKey")String credentialKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of existing credentials by a list of identifiers.
-     * @param credentialKeyList identifiers for credentials to be retrieved
-     * @return details of the credentials for these ids
-     * @throws DoesNotExistException credentialKey not found
-     * @throws InvalidParameterException invalid credentialKeyList
-     * @throws MissingParameterException invalid credentialKeyList
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<CredentialInfo> getCredentialsByKeyList(@WebParam(name="credentialKeyList")List<String> credentialKeyList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of credential identifiers for a specified credential type.
-     * @param credentialTypeKey identifier for the credential type
-     * @return list of credential identifiers
-     * @throws DoesNotExistException credentialTypeKey not found
-     * @throws InvalidParameterException invalid credentialTypeKey
-     * @throws MissingParameterException missing credentialTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> getCredentialKeysByCredentialType(@WebParam(name="credentialTypeKey")String credentialTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information on a specific credit value by its identifier.
-     * @param creditKey credit identifier
-     * @return information about a credit value
-     * @throws DoesNotExistException creditKey not found
-     * @throws InvalidParameterException invalid creditKey
-     * @throws MissingParameterException missing creditKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public CreditInfo getCredit(@WebParam(name="creditKey")String creditKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of existing credit values by a list of identifiers.
-     * @param creditKeyList identifiers for credit values to be retrieved
-     * @return details of the credit values for these ids
-     * @throws DoesNotExistException creditKey not found
-     * @throws InvalidParameterException invalid creditKeyList
-     * @throws MissingParameterException invalid creditKeyList
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<CreditInfo> getCreditsByKeyList(@WebParam(name="creditKeyList")List<String> creditKeyList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of credit identifiers for a specified credit type.
-     * @param creditTypeKey identifier for the credit type
-     * @return list of credit identifiers
-     * @throws DoesNotExistException creditTypeKey not found
-     * @throws InvalidParameterException invalid creditTypeKey
-     * @throws MissingParameterException missing creditTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> getCreditKeysByCreditType(@WebParam(name="creditTypeKey")String creditTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information on a specific scale by its identifier.
-     * @param scaleKey scale identifier
-     * @return information about a scale
-     * @throws DoesNotExistException scaleKey not found
-     * @throws InvalidParameterException invalid scaleKey
-     * @throws MissingParameterException missing scaleKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public ScaleInfo getScale(@WebParam(name="scaleKey")String scaleKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information on a specific grade value by its identifier.
-     * @param gradeKey grade value identifier
-     * @return information about a grade value
-     * @throws DoesNotExistException gradeKey not found
-     * @throws InvalidParameterException invalid gradeKey
-     * @throws MissingParameterException missing gradeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public GradeInfo getGrade(@WebParam(name="gradeKey")String gradeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of existing grade values by a list of identifiers.
-     * @param gradeKeyList identifiers for grade values to be retrieved
-     * @return details of the grade values for these ids
-     * @throws DoesNotExistException gradeKey not found
-     * @throws InvalidParameterException invalid gradeKeyList
-     * @throws MissingParameterException invalid gradeKeyList
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<GradeInfo> getGradesByKeyList(@WebParam(name="gradeKeyList")List<String> gradeKeyList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of grade identifiers for a specified grade type.
-     * @param gradeTypeKey identifier for the grade type
-     * @return list of grade identifiers
-     * @throws DoesNotExistException gradeTypeKey not found
-     * @throws InvalidParameterException invalid gradeTypeKey
-     * @throws MissingParameterException missing gradeTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> getGradeKeysByGradeType(@WebParam(name="gradeTypeKey")String gradeTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of existing grade values for a particular scale.
-     * @param scale identifier for the scale
-     * @return details of the grade values for the specified scale
-     * @throws DoesNotExistException scaleKey not found
-     * @throws InvalidParameterException invalid scaleKey
-     * @throws MissingParameterException invalid scaleKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<GradeInfo> getGradesByScale(@WebParam(name="scale")String scale) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Translates a grade value in one scale to equivalent value(s) in another scale. This may return a single grade value, multiple grade values, or no grade values (in the case of no equivalent values).
-     * @param gradeKey identifier of the first grade
-     * @param scaleKey scale of the first grade
-     * @param translateScaleKey scale of the second grade
-     * @return equivalent grade values for the first grade value in the specified scale
-     * @throws InvalidParameterException invalid gradeKey, scaleKey, or translateScaleKey
-     * @throws MissingParameterException missing gradeKey, scaleKey, or translateScaleKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<GradeInfo> translateGrade(@WebParam(name="gradeKey")String gradeKey, @WebParam(name="scaleKey")String scaleKey, @WebParam(name="translateScaleKey")String translateScaleKey) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Compares a grade value in one scale to a grade value in another scale.
-     * @param gradeKey identifier of the first grade value
-     * @param scaleKey scale of the first grade value
-     * @param compareGradeKey identifier of the second grade value
-     * @param compareScaleKey scale of the second grade value
-     * @return status of the comparison (greater than, less than, equals, not applicable, etc.)
-     * @throws InvalidParameterException invalid gradeKey, scaleKey, compareGradeKey, or compareScaleKey
-     * @throws MissingParameterException missing gradeKey, scaleKey, compareGradeKey, or compareScaleKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public String compareGrades(@WebParam(name="gradeKey")String gradeKey, @WebParam(name="scaleKey")String scaleKey, @WebParam(name="compareGradeKey")String compareGradeKey, @WebParam(name="compareScaleKey")String compareScaleKey) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves information on a specific result component.
-     * @param resultComponentId result component identifier
-     * @return information about a result component
-     * @throws DoesNotExistException resultComponentId not found
-     * @throws InvalidParameterException invalid resultComponentId
-     * @throws MissingParameterException missing resultComponentId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public ResultComponentInfo getResultComponent(@WebParam(name="resultComponentId")String resultComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of result component identifiers for a specified result component type.
-     * @param resultComponentTypeKey identifier for the result component type
-     * @return list of result component identifiers
-     * @throws DoesNotExistException resultComponentTypeKey not found
-     * @throws InvalidParameterException invalid resultComponentTypeKey
-     * @throws MissingParameterException missing resultComponentTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> getResultComponentIdsByResultComponentType(@WebParam(name="resultComponentTypeKey")String resultComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Retrieves a list of result component identifiers for a specified result. The result component type is specified as well to provide an indication of the id space.
-     * @param resultValueId identifier for the result value
-     * @param resultComponentTypeKey identifier for the result component type
-     * @return list of result component identifiers
-     * @throws DoesNotExistException resultValueId, resultComponentTypeKey not found
-     * @throws InvalidParameterException invalid resultValueId, resultComponentTypeKey
-     * @throws MissingParameterException missing resultValueId, resultComponentTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> getResultComponentIdsByResult(@WebParam(name="resultValueId")String resultValueId, @WebParam(name="resultComponentTypeKey")String resultComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /**
-     * Creates a new result component.
-     * @param resultComponentTypeKey identifier of the result component type
-     * @param resultComponentInfo information about the result component being created
-     * @return create result component information
-     * @throws AlreadyExistsException result component already exists
-     * @throws DataValidationErrorException one or more values invalid for this operation
-     * @throws DoesNotExistException resultComponentTypeKey not found
-     * @throws InvalidParameterException invalid resultComponentTypeKey, resultComponentInfo
-     * @throws MissingParameterException missing resultComponentTypeKey, resultComponentInfo
+     * Retrieves result components by a list of identifiers.
+     * 
+     * @param resultValuesGroupIdList  identifiers for result component
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return result component list
+     * @throws DoesNotExistException resultValuesGroup not found
+     * @throws InvalidParameterException invalid resultValuesGroupIdList
+     * @throws MissingParameterException invalid resultValuesGroupIdList
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-	 */
-    public ResultComponentInfo createResultComponent(@WebParam(name="resultComponentTypeKey")String resultComponentTypeKey, @WebParam(name="resultComponentInfo")ResultComponentInfo resultComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+     */
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByIdList(@WebParam(name = "resultValuesGroupIdList") List<String> resultValuesGroupIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of existing result components that a result value is tied to.
+     * 
+     * @param resultValueId identifier for result value
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return details of the results for these ids
+     * @throws DoesNotExistException resultValue not found
+     * @throws InvalidParameterException invalid resultValueId
+     * @throws MissingParameterException invalid resultValueId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of result group identifiers for a specified
+     * result component type.
+     * 
+     * @param resultValueGroupTypeKey identifier for the result group type
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return list of result group identifiers
+     * @throws DoesNotExistException resultValuesGroupTypeKey not found
+     * @throws InvalidParameterException invalid resultValuesGroupTypeKey
+     * @throws MissingParameterException missing resultValuesGroupTypeKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure     
+     */
+    public List<String> getResultValuesGroupIdsByType(@WebParam(name = "resultValuesGroupTypeKey") String resultValuesGroupTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new result Component.
+     * 
+     * @param gradeValuesGroupInfo information about the result component 
+     *        being created
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return create result component information
+     * @throws AlreadyExistsException result component already exists
+     * @throws DataValidationErrorException one or more values invalid for 
+     *         this operation
+     * @throws InvalidParameterException invalid resultValuesGroupInfo
+     * @throws MissingParameterException missing resultValuesGroupInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ResultValuesGroupInfo createResultValuesGroup(@WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing result component.
-     * @param resultComponentId identifier of the result component to update
-     * @param resultComponentInfo updated information about the result component
+     * 
+     * @param resultValuesGroupId identifier of the result component to update
+     * @param resultGroupInfo updated information about the result component
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
      * @return updated result component information
-     * @throws DataValidationErrorException one or more values invalid for this operation
-     * @throws DoesNotExistException resultComponentId not found
-     * @throws InvalidParameterException invalid resultComponentId, resultComponentInfo
-     * @throws MissingParameterException missing resultComponentId, resultComponentInfo
+     * @throws DataValidationErrorException one or more values invalid for 
+     *                                      this operation
+     * @throws DoesNotExistException resultValuesGroupKey not found
+     * @throws InvalidParameterExceptioninvalid resultValuesGroupId or 
+     *                                          resultValuesGroupInfo
+     * @throws MissingParameterException missing resultValuesGroupId or
+     *                                   resultValuesGroupInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException action was attempted on an out of date version.
-	 */
-    public ResultComponentInfo updateResultComponent(@WebParam(name="resultComponentId")String resultComponentId, @WebParam(name="resultComponentInfo")ResultComponentInfo resultComponentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+     * @throws VersionMismatchException action was attempted on an out of 
+     *                                  date version
+     */
+    public ResultValuesGroupInfo updateResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "resultValuesGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
      * Deletes an existing result component.
-     * @param resultComponentId identifier of the result component to update
+     * 
+     * @param resultValuesGroupId identifier of the result component to update
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
      * @return status of the operation
-     * @throws DoesNotExistException resultComponentId not found
-     * @throws InvalidParameterException invalid resultComponentId
-     * @throws MissingParameterException missing resultComponentId
+     * @throws DoesNotExistException resultValuesGroupId not found
+     * @throws InvalidParameterException invalid resultValuesGroupId
+     * @throws MissingParameterException missing resultValuesGroupId
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-	 */
-    public StatusInfo deleteResultComponent(@WebParam(name="resultComponentId")String resultComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+     */
+    public StatusInfo deleteResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Validates a result component. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained sub-objects
+     * or expanded to perform all tests related to this object. 
+     * 
+     * @param validationType Identifier of the extent of validation
+     * @param gradeValuesGroupInfo Result component to be validated
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return
+     * @throws DoesNotExistException resultValuesGroupInfo does not exist
+     * @throws InvalidParameterException validationType or 
+     *                                   resultValuesGroupInfo does not exist
+     * @throws MissingParameterException missing validationType, resultValuesGroupInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateResultValuesGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultGroupInfo") ResultValuesGroupInfo gradeValuesGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves result value by its id.
+     * 
+     * @param resultValueId identifier for the result
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation      
+     * @return details about a result value
+     * @throws DoesNotExistException the resultValueId is not found
+     * @throws InvalidParameterException invalid resultValueId
+     * @throws MissingParameterException missing parameter
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure 
+     */
+    public ResultValueInfo getResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of result value objects for a list of identifiers. 
+     * 
+     * @param resultValueIdList identifier for the result
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation      
+     * @return list of result group identifiers
+     * @throws DoesNotExistException a resultValueId from the list is not found
+     * @throws InvalidParameterException invalid resultValueIdList
+     * @throws MissingParameterException missing resultValueIdList
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure 
+     */
+    public List<ResultValueInfo> getResultValuesByIdList(@WebParam(name = "resultValueIdList") List<String> resultValueIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of result value objects for a specified result
+     * component. It is sorted by the scale inside the component.
+     * 
+     * @param resultValuesGroupId identifier for the result component
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return list of result group identifiers
+     * @throws DoesNotExistException resultValueId not found
+     * @throws InvalidParameterException invalid resultValuesGroupId
+     * @throws MissingParameterException missing resultValuesGroupId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure     
+     */
+    public List<ResultValueInfo> getResultValuesForResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Create a new result value 
+     * @param resultValueInfo
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return newly created resultValue
+     * @throws AlreadyExistsException resultValue already exists
+     * @throws DataValidationErrorException one or more values invalid for 
+     *                                      this operation 
+     * @throws InvalidParameterException invalid resultValueInfo
+     * @throws MissingParameterException missing resultValueInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ResultValueInfo createResultValue(@WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Update a result value
+     * @param resultValueId resultValueId to be updated
+     * @param resultValueInfo update information for the result value
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return updated information about the result value
+     * @throws DataValidationErrorException one or more values invalid for 
+     *                                      this operation
+     * @throws DoesNotExistException resultValueId does not exist
+     * @throws InvalidParameterException invalid resultValueId, resultValueInfo
+     * @throws MissingParameterException missing resultValueId, resultValueInfo
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     * @throws VersionMismatchException action was attempted on an out of 
+     *                                  date version
+     */
+    public ResultValueInfo updateResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
+    /**
+     * Delete a result value. This should not be allowed if any result component is still referencing the result value.
+     * @param resultValueId result value to be deleted
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return status of the delete operation
+     * @throws DoesNotExistException resultValueId does not exist
+     * @throws InvalidParameterException  invalid resultValueId
+     * @throws MissingParameterException missing resultValueId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public StatusInfo deleteResultValue(@WebParam(name = "resultValueId") String resultValueId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates a Result Value. Depending on the value of
+     * validationType, this validation could be limited to tests on
+     * just the current object and its directly contained subobjects
+     * or expanded to perform all tests related to this object. If an
+     * identifier is present for the academic calendar and a record
+     * is found for that identifier, the validation checks if the
+     * academic calendar can be shifted to the new values. If a
+     * record cannot be found for the identifier, it is assumed that
+     * the record does not exist and as such, the checks performed
+     * will be much shallower, typically mimicking those performed by
+     * setting the validationType to the current object. This is a
+     * slightly different pattern from the standard validation as the
+     * caller provides the identifier in the create statement instead
+     * of the server assigning an identifier.
+     *
+     * @param validationType  Identifier of the extent of validation
+     * @param resultValueInfo Result value to be validated
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a ValidationResultInfo
+     * @throws DoesNotExistException resultValueInfo does not exist
+     * @throws InvalidParameterException validationType or resultValueInfo 
+     *                                   does not exist
+     * @throws MissingParameterException missing validationType or resultValueInfo
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<ValidationResultInfo> validateResultValue(@WebParam(name = "validationType") String validationType, @WebParam(name = "resultValueInfo") ResultValueInfo resultValueInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * Retrieves result scale by an identifier.
+     * 
+     * @param resultScaleId identifiers for result scale to be retrieved
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation     
+     * @return details of the result scale for the id
+     * @throws DoesNotExistException  resultValuesGroupId not found
+     * @throws InvalidParameterException invalid resultValuesGroupId
+     * @throws MissingParameterException invalid resultValuesGroupId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public ResultScaleInfo getResultScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * 
+     * Retrieves result values by result scale key.
+     * 
+     * @param resultScaleKey
+     * @param context Context information containing the principalId
+     *                and locale information about the caller of service
+     *                operation
+     * @return a list of result values for the scale
+     * @throws DoesNotExistException resultScaleKey is not found
+     * @throws InvalidParameterException invalid resultScaleKey
+     * @throws MissingParameterException null resultScaleKey
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

@@ -2071,12 +2071,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 		StatusInfo status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
 		assertTrue(status.getSuccess());
 
-		try {
-			client.addCluToCluSet("CLU-1", createdCluSet.getId());
-			fail("Adding the same CLU more than once should have failed");
-		} catch(OperationFailedException e) {
-			assertTrue(true);
-		}
+		status = client.addCluToCluSet("CLU-1", createdCluSet.getId());
+		assertFalse(status.getSuccess());
 	}
 
 	@Test
@@ -2122,12 +2118,8 @@ public class TestLuServiceImpl extends AbstractServiceTest {
 
 		List<String> cluIdList = Arrays.asList(new String[] {"CLU-1", "CLU-2", "CLU-2", "CLU-4"});
 
-		try {
-			client.addClusToCluSet(cluIdList, createdCluSet.getId());
-			fail("Adding a duplicate CLU (id='CLU-2') to CluSet should have failed");
-		} catch(OperationFailedException e) {
-			assertTrue(true);
-		}
+		StatusInfo status = client.addClusToCluSet(cluIdList, createdCluSet.getId());
+		assertEquals("CluSet already contains Clu (id='CLU-2')", status.getMessage());
 	}
 
 	@Test

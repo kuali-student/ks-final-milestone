@@ -63,10 +63,10 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
@@ -89,7 +89,6 @@ import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
-import org.kuali.student.lum.lu.ui.course.client.configuration.CourseAdminConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer.CourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
@@ -126,7 +125,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 	protected final DataModel cluProposalModel = new DataModel("Proposal");
 	protected final DataModel comparisonModel = new DataModel("Original Course");
 
-	CourseProposalConfigurer cfg;
+	protected CourseProposalConfigurer cfg;
 	
 	private WorkQueue modelRequestQueue;
 
@@ -155,22 +154,6 @@ public class CourseProposalController extends MenuEditableSectionController impl
     public CourseProposalController(){
         super();
         initializeController();
-    }
-
-    @Override
-    public void setViewContext(ViewContext viewContext) {
-    	super.setViewContext(viewContext);
-    	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
-    		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
-    			viewContext.setPermissionType(PermissionType.OPEN);
-    		} else{
-    			//they are trying to make a modification
-    			viewContext.setPermissionType(PermissionType.INITIATE);
-    		}
-    	}
-    	else{
-    		viewContext.setPermissionType(PermissionType.INITIATE);
-    	}
     }
 
     protected void initializeController() {
@@ -685,9 +668,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		        ViewContext docContext = new ViewContext();
 		        docContext.setId((String) cluProposalModel.get(cfg.getProposalPath()+"/id"));
 		        docContext.setIdType(IdType.KS_KEW_OBJECT_ID);
-		        RecentlyViewedHelper.addDocument(getProposalTitle(), 
-		        		HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
-		        		+ "/SUMMARY");
+		        //RecentlyViewedHelper.addDocument(getProposalTitle(), 
+		        //	HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), docContext)
+		        //		+ "/SUMMARY");
 		        getCourseComparisonModelAndReqs(callback, workCompleteCallback);
 		        
 		        // We need to update the current view context so that if the user clicks the back button it doesn't 
@@ -866,7 +849,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 	cluProposalModel.setRoot(result.getValue());
                 	String title = getProposalTitle();
     	            View currentView = getCurrentView();
-    				if (currentView instanceof SectionView){
+     				if (currentView instanceof SectionView){
     					((SectionView)currentView).updateView(cluProposalModel);
     					((SectionView) currentView).resetDirtyFlags();
     	            }
@@ -885,7 +868,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
     				setLastUpdated();
     				HistoryManager.logHistoryChange();
                		if(isNew){
-               			RecentlyViewedHelper.addCurrentDocument(title);
+               			RecentlyViewedHelper.addDocument(getProposalTitle(), 
+        		        	HistoryManager.appendContext(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), context)
+        		        		+ "/SUMMARY");
                		}
                		else if(!currentTitle.equals(title)){
                			RecentlyViewedHelper.updateTitle(currentTitle, title, (String)cluProposalModel.get(proposalPath+"/id"));
@@ -935,38 +920,47 @@ public class CourseProposalController extends MenuEditableSectionController impl
     // validation warnings after widget binding
     //This gets called twice which is not optimal
 	@Override
-	public <V extends Enum<?>> void showView(final V viewType,
-			final Callback<Boolean> onReadyCallback) {
+	public <V extends Enum<?>> void showView(final V viewType, final Callback<Boolean> onReadyCallback) {
 		Callback<Boolean> finalizeView = new Callback<Boolean>(){
-			public void exec(Boolean result) {
-				//Update cross constraints
+		    
+			public void exec(Boolean result) {   // Called from at least CourseSumamryConfigurer.generateProposalSummarySection.verticalSection.beforeShow.exec [KSCM-250]
+				
+			    //Update cross constraints
 				for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
 		        	crossConstraint.reprocessWithUpdatedConstraints();
-		        }
+		        }				
 				
 				//When showing summary section make sure data gets validated in case there are warnings.
 				//TODO: Is it possible to cut down on this validation so it doesn't have to validate every time.
 				if (viewType == CourseSections.SUMMARY){
+				    
 					KSBlockingProgressIndicator.addTask(initializingTask);
-					courseServiceAsync.validate(cluProposalModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+					
+					courseServiceAsync.validate(cluProposalModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){ // server-side call
+					    
 						@Override
 						public void onSuccess(List<ValidationResultInfo> result) {
+						    
 							Application.getApplicationContext().clearValidationWarnings();
 							Application.getApplicationContext().addValidationWarnings(result);
+							
 							showWarnings();
+							
 							KSBlockingProgressIndicator.removeTask(initializingTask);
 						}						
 					});					
 				} else {
+				    
 					showWarnings();					
 				}
 				
 				onReadyCallback.exec(result);
 			}
         };
+        
 		super.showView(viewType, finalizeView);
 	}
- 
+	
 
    @Override
    public void showDefaultView(Callback<Boolean> onReadyCallback) {
@@ -984,14 +978,21 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
 
 	@Override
+	/**
+	 * Override method to determine if user has access to screen and if they have permission to open or initiate the proposal.
+	 * 
+	 *  FIXME: This method should not require a permissionType as a parameter
+	 */
 	public void checkAuthorization(final PermissionType permissionType, final AuthorizationCallback authCallback) {
-		Map<String,String> attributes = new HashMap<String,String>();
-//		if (StringUtils.isNotBlank(getViewContext().getId())) {
 		GWT.log("Attempting Auth Check.", null);
-		if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) ) {
-			attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
-		}
 
+		//Get attributes required for permission check
+		Map<String,String> attributes = new HashMap<String,String>();
+		addPermissionAttributes(attributes);
+
+		//Note: Additional attributes required for permission check (eg. permission details and role qualifiers) will
+		//be determined server side in the AbstractDataService.isAuthorized method. All that is required here is
+		//id of the proposal object)
 		cluProposalRpcServiceAsync.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override
@@ -1014,6 +1015,36 @@ public class CourseProposalController extends MenuEditableSectionController impl
     	});
 	}
 
+	/**
+	 * This method adds any permission attributes required for checking permissions
+	 */
+	public void addPermissionAttributes(Map<String, String> attributes){
+		ViewContext viewContext = getViewContext();
+
+		//Get the id to use to check permissions, this could either be the proposal id or the workflow document id,
+		//will pass the id & id type as attributes to permission service.
+		if ( (viewContext.getId() != null) && (!"".equals(viewContext.getId())) ) {
+			attributes.put(viewContext.getIdType().toString(), viewContext.getId());
+		}
+		
+		//Determine the permission type being checked
+    	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+    		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
+    			//Id provided, and not a copy id, so opening an existing proposal
+    			viewContext.setPermissionType(PermissionType.OPEN);
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);
+    		} else{
+    			//Copy id provided, so creating a proposal for modification
+    			viewContext.setPermissionType(PermissionType.INITIATE);
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY);
+    		}
+    	} else{
+    		//No id in view context, so creating new empty proposal
+    		viewContext.setPermissionType(PermissionType.INITIATE);
+			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE);    		
+    	}    	
+	}
+	
 	@Override
 	public boolean isAuthorizationRequired() {
 		return true;
@@ -1254,8 +1285,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     }
     
     @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
-        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+    public List<ExportElement> getExportElementsFromView() {
+        List<ExportElement> exportElements = new ArrayList<ExportElement>();
         if (this.getCurrentViewEnum().equals(CourseSections.SUMMARY)) {      
             SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
             ExportElement heading = new ExportElement();
@@ -1263,7 +1294,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
             heading.setFieldValue(cluProposalModel.getModelName());
             heading.setFieldValue2(comparisonModel.getModelName());
             exportElements.add(heading);
-            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
+            exportElements.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));
         }
         return exportElements;
     }
@@ -1315,5 +1346,9 @@ public class CourseProposalController extends MenuEditableSectionController impl
      */
     protected  BaseDataOrchestrationRpcServiceAsync getCourseProposalRpcService(){
     	return cluProposalRpcServiceAsync;
+    }
+    
+    public CourseProposalConfigurer getCourseProposalConfigurer() {
+    	return cfg;
     }
 }

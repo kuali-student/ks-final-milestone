@@ -30,6 +30,7 @@ import org.kuali.student.lum.program.client.core.CoreManager;
 import org.kuali.student.lum.program.client.credential.CredentialManager;
 import org.kuali.student.lum.program.client.major.MajorManager;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Window;
 
@@ -81,6 +82,13 @@ public class CurriculumHomeController extends LayoutController {
         public void onFailure(Throwable reason) {
             Window.alert("Download failed.  Please try again.");
         }
+    }
+    
+    public CurriculumHomeController() {
+        super();
+        this.setDefaultView(LUMViews.DEFAULT);
+        this.initWidget(panel);
+        setupDefaultView();
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -354,39 +362,39 @@ public class CurriculumHomeController extends LayoutController {
     }
 
 
-    private View getCategoryManagementController() {
+   protected View getCategoryManagementController() {
         return new CategoryManagementView(this, "Learning Objective Categories", LUMViews.LO_CATEGORIES);
     }
 
     private CourseProposalController getCourseProposalController() {
-        courseProposalController = new CourseProposalController();
+        courseProposalController = GWT.create(CourseProposalController.class);
         return courseProposalController;
     }
 
     private CourseAdminController getCourseAdminController() {
-        courseAdminController = new CourseAdminController();
+        courseAdminController = GWT.create(CourseAdminController.class);
         return courseAdminController;
     }
     
     private CourseAdminWithoutVersionController getCourseAdminRetireController(){
-        courseAdminRetireController = new CourseAdminRetireController();
+        courseAdminRetireController = GWT.create(CourseAdminRetireController.class);
         return courseAdminRetireController;
     }
 
     private CourseAdminWithoutVersionController getCourseAdminWithoutVersionController(){
-        courseAdminWithoutVersionController = new CourseAdminWithoutVersionController();
+        courseAdminWithoutVersionController = GWT.create(CourseAdminWithoutVersionController.class);
         return courseAdminWithoutVersionController;
     }
 
     private LayoutController getViewCourseController() {
         if (viewCourseController == null) {
-            viewCourseController = new ViewCourseParentController();
+            viewCourseController = GWT.create(ViewCourseParentController.class);
         }
         return this.viewCourseController;
     }
 
     private LayoutController getCluSetsController() {
-        manageCluSetsController = new CluSetsManagementController();
+        manageCluSetsController = GWT.create(CluSetsManagementController.class);
         return manageCluSetsController;
     }
 
