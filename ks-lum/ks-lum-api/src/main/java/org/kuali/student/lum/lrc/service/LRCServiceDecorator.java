@@ -17,6 +17,9 @@ import org.kuali.student.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.lum.lrc.dto.ResultValueInfo;
 
+/**
+ *
+ */
 public abstract class LRCServiceDecorator implements LrcService {
 
     private LrcService nextDecorator;

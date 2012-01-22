@@ -45,7 +45,7 @@ import org.kuali.student.lum.lrc.dto.ResultValueInfo;
  * Group, and Result Value Range.
  * 
  * @Author sambit
- * @Since Tue May 10 14:09:46 PDT 2011
+ * @Since Tue May 10 14:09:46 PDT 2012
  */
 @WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
