@@ -30,7 +30,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <!--  other attributes not used by UI -->
                 <ref bean="ActivityOfferingInfo.activityId"/>
 		<ref bean="ActivityOfferingInfo.activityCode"/>
-		<ref bean="ActivityOfferingInfo.termKey"/>
+		<ref bean="ActivityOfferingInfo.termId"/>
 		<ref bean="ActivityOfferingInfo.isHonorsOffering"/>
 		<ref bean="ActivityOfferingInfo.finalExamStartTime"/>
 		<ref bean="ActivityOfferingInfo.finalExamEndTime"/>

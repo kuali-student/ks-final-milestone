@@ -30,7 +30,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="KeyDateInfoUI.endDate"/>
                 
    				<!--  other attributes not used by UI -->                  
-                <ref bean="KeyDateInfo.key"/>
+                <ref bean="KeyDateInfo.id"/>
                 <ref bean="KeyDateInfo.typeKey"/>
                 <ref bean="KeyDateInfo.stateKey"/>
                 <ref bean="KeyDateInfo.name"/>

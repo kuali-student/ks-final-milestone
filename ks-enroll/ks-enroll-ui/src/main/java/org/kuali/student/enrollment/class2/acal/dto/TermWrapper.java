@@ -8,7 +8,7 @@ import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 public class TermWrapper implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
-	String key;
+	String id;
     TermInfo termInfo;
     KeyDateInfo classesMeetDates;
     KeyDateInfo registrationPeriod;
@@ -26,16 +26,16 @@ public class TermWrapper implements Serializable {
 	}
 
     /**
-	 * @return the key
+	 * @return the id
 	 */
-	public String getKey() {
-		return key;
+	public String getId() {
+		return id;
 	}
 	/**
-	 * @param key the key to set. It equals to termInfo.getKey()
+	 * @param id the id to set. It equals to termInfo.getId()
 	 */
-	public void setKey(String key) {
-		this.key = key;
+	public void setId(String id) {
+		this.id = id;
 	}
 	/**
 	 * @return the termInfo
@@ -48,7 +48,7 @@ public class TermWrapper implements Serializable {
 	 */
 	public void setTermInfo(TermInfo termInfo) {
 		this.termInfo = termInfo;
-        this.key = termInfo.getId();
+        this.id = termInfo.getId();
 	}
 	/**
 	 * @return the classesMeetDates
