@@ -47,7 +47,8 @@ public class ContextRegistry<T extends Context<?>>  {
 
 	/**
 	 * Adds a context to the registry. Key is usually a 
-	 * <@link {@link ReqComponentType} key.
+	 * <@link {@link org.kuali.student.core.statement.entity.ReqComponentType} key. But the signature
+     * seems to be a string.
 	 * 
 	 * @param key Context key
 	 * @param context Context
@@ -64,7 +65,7 @@ public class ContextRegistry<T extends Context<?>>  {
 
 	/**
 	 * Gets a context from the registry. Key is usually a 
-	 * <@link {@link ReqComponentType} key.
+	 * <@link {@link org.kuali.student.core.statement.entity.ReqComponentType} key.
 	 * 
 	 * @param key Context key
 	 * @return A context
@@ -85,7 +86,7 @@ public class ContextRegistry<T extends Context<?>>  {
 
 	/**
 	 * Remove a context from the registry. Key is usually a 
-	 * <@link {@link ReqComponentType} key.
+	 * <@link {@link org.kuali.student.core.statement.entity.ReqComponentType} key.
 	 * 
 	 * @param key
 	 * @return
