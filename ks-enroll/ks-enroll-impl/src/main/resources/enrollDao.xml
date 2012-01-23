@@ -8,6 +8,10 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="typeDao" class="org.kuali.student.r2.core.class1.type.dao.TypeDao">
+        <property name="em" ref="enrollEntityManager"/>
+    </bean>
+
     <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
         <property name="em" ref="enrollEntityManager"/>
     </bean>

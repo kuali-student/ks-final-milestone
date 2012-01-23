@@ -91,6 +91,8 @@
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
+      <property name="stateService" ref="stateService" />
+      <property name="typeService" ref="typeService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
     <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
@@ -134,6 +136,9 @@
     <property name="spDao" ref="stateProcessDao" />
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
+
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

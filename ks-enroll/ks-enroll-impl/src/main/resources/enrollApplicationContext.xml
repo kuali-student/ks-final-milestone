@@ -60,8 +60,13 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
 
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+
+
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpService" />
+    <property name="stateService" ref="stateService" />
+    <property name="typeService" ref="typeService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
     <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
@@ -79,7 +84,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
  <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
 
   <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
-  
+
   <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
 
  <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
@@ -146,7 +151,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
  <bean id="acalServiceDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceDecorator">
     <property name="atpService" ref="atpService" />
   </bean>
-  
+
    <bean id="acalServiceCalculationDecorator" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
     <property name="nextDecorator" ref="acalService" />
   </bean>
