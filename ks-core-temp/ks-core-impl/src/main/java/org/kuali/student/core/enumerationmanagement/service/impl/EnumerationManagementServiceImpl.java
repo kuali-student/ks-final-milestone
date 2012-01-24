@@ -43,6 +43,7 @@ import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
 import org.springframework.transaction.annotation.Transactional;
+import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementServiceConstants;
 
 /**
  * Enumeration Management Service implementation class.
