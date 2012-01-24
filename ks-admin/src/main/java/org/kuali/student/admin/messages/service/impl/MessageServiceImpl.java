@@ -39,7 +39,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 
     @Override
     public StatusInfo addMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM123
+        // TODO KSCM-211
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -99,14 +99,14 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 
     @Override
     public StatusInfo deleteMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM123
+        // TODO KSCM-211
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
 
     @Override
     public List<String> getMessageGroupKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //TODO KSCM123
+        //TODO KSCM-211
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -178,7 +178,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 
     @Override
     public MessageInfo updateMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        // TODO KSCM123
+        // TODO KSCM-211
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
