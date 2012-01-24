@@ -13,7 +13,6 @@
  * implied.  See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.common.infc;
 
 public interface ValidationResult {
@@ -29,6 +28,19 @@ public interface ValidationResult {
 
         public int getLevel() {
             return level;
+        }
+
+        public static ErrorLevel fromInt(int level) {
+            switch (level) {
+                case 0:
+                    return OK;
+                case 1:
+                    return WARN;
+                case 2:
+                    return ERROR;
+                default:
+                    throw new IllegalArgumentException(level + "");
+            }
         }
 
         public static ErrorLevel min(ErrorLevel e1, ErrorLevel e2) {
@@ -53,7 +65,6 @@ public interface ValidationResult {
      * @readOnly
      */
     public String getMessage();
-  
 
     /**
      * Identifies the element (field) that is the focus of the
@@ -68,10 +79,9 @@ public interface ValidationResult {
      * @required
      */
     public String getElement();
-   
 
     /**
-     * Indicates the severity of the validation error.
+     * Indicates the severity of the validation result.
      *
      * 0=OK
      * 1=WARN
@@ -81,51 +91,9 @@ public interface ValidationResult {
      * @readOnly
      * @required
      */
-    public Integer getLevel();
- 
-
-    /**
-     * The actual data that caused the error or warning.  Used to help
-     * debug problems.
-     *
-     * Note: Since this is an "Object" it should be flagged as
-     * transient and is not remoted through the web service
-     *
-     * @name Invalid Data
-     * @readOnly
-     */
-    public Object getInvalidData();
+    public ErrorLevel getLevel();
 
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() ==
-     * ErrorLevel.OK.
-     *
-     * @name Is OK
-     * @readOnly
-     * @required
-     */
-    public Boolean getIsOk();
 
-    /**
-     * Convenience method. Returns true if getErrorLevel() ==
-     * ErrorLevel.WARN
-     *
-     * @name Is Warning
-     * @readOnly
-     * @required
-     */
-    public Boolean getIsWarn();
-
-
-    /**
-     * Convenience method. Returns true if getErrorLevel() ==
-     * ErrorLevel.ERROR
-     *
-     * @name Is Error
-     * @readOnly
-     * @required
-     */
-    public Boolean getIsError();
+    
 }
-

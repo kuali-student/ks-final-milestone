@@ -46,7 +46,7 @@ public class Rice2ValidationResultConverter {
                 case INAPPLICABLE:
                     continue;
                 case ERROR:
-                    ValidationResultInfo vrInfo= ValidationResultInfo.newInstance();
+                    ValidationResultInfo vrInfo= new ValidationResultInfo();
                     vrInfo.setElement(cvr.getAttributeName());
                     vrInfo.setError(cvr.getErrorKey());
                     vrs.add(vrInfo);

@@ -13,7 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
@@ -33,36 +32,47 @@ import org.w3c.dom.Element;
  *
  * @author nwright
  */
-
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidationResultInfo", propOrder = {
-                "element", "level", "message", 
-                "_futureElements"})
-
-public class ValidationResultInfo 
-    implements ValidationResult, Serializable {
+    "element", "level", "message",
+    "_futureElements"})
+public class ValidationResultInfo
+        implements ValidationResult, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String element;
-
     @XmlElement
-    private Integer level;
-
+    private ErrorLevel level;
     @XmlElement
     private String message;
-
+//  used to hold debugging information 
+//  not intended to be sent over the wire          
     private transient Object invalidData;
-
     @XmlAnyElement
-    private List<Element> _futureElements;    
-
+    private List<Element> _futureElements;
 
     /**
      * Constructs a new ValidationResultInfo.
      */
     public ValidationResultInfo() {
+      this.level = ErrorLevel.OK;
+    }
+    
+    /**
+     * convenience constructor carried over from R1
+     */
+    public ValidationResultInfo(String element) {
+        this();
+        this.element = element;
+    }
+    
+    /**
+     * convenience constructor carried over from R1
+     */
+    public ValidationResultInfo(String element, Object invalidData) {
+        this(element);
+        this.invalidData = invalidData;
     }
 
     /**
@@ -76,33 +86,49 @@ public class ValidationResultInfo
             this.level = result.getLevel();
             this.element = result.getElement();
             this.message = result.getMessage();
-            this.invalidData = result.getInvalidData();
         }
     }
 
-    @Override
-    public Boolean getIsOk() {
-        return getLevel() == ErrorLevel.OK.getLevel();
+    /**
+     * This is for compatibility with R1.
+     * Use getLevel instead
+     */
+    @Deprecated
+    public ErrorLevel getErrorLevel() {
+        return level;
     }
 
-    @Override
-    public Boolean getIsWarn() {
-        return getLevel() == ErrorLevel.WARN.getLevel();
+    public void setErrorLevel(ErrorLevel errorLevel) {
+        this.level = errorLevel;
     }
-    
+
+    /**
+     * Convenience method from R1 to check if this is ok
+     */
+    public boolean isOk() {
+        return this.level == ErrorLevel.OK;
+    }
+
+    /**
+     * convenience method carried over from R1
+     */
+    public boolean isWarn() {
+        return this.level == ErrorLevel.WARN;
+    }
+
+    /**
+     * convenience method carried over from R1
+     */
     public void setWarn(String message) {
-        this.level = ErrorLevel.WARN.getLevel();
+        this.level = ErrorLevel.WARN;
         this.message = message;
     }
-    
-    @Override
-    public Boolean getIsError() {
-        return getLevel() == ErrorLevel.ERROR.getLevel();
-    }
-    
-    public void setError(String message) {
-        this.level = ErrorLevel.ERROR.getLevel();
-        this.message = message;
+
+    /**
+     * convenience method carried over from R1
+     */
+    public boolean isError() {
+        return this.level == ErrorLevel.ERROR;
     }
 
     @Override
@@ -123,20 +149,30 @@ public class ValidationResultInfo
         this.element = element;
     }
 
+    /**
+     * convenience method carried over from R1
+     * Use getErrorLevel () instead
+     */
     @Override
-    public Integer getLevel() {
-        return level;
+    public ErrorLevel getLevel() {
+        return this.level;
     }
 
-    public void setLevel(int level) {
+    public void setLevel(ErrorLevel level) {
         this.level = level;
     }
 
-    @Override
+    
+    /**
+     * not part of the contract but carried over from r1
+     */
     public Object getInvalidData() {
         return invalidData;
     }
-    
+
+    /**
+     * not part of the contract but carried over from r1
+     */
     public void setInvalidData(Object invalidData) {
         this.invalidData = invalidData;
     }
@@ -146,11 +182,24 @@ public class ValidationResultInfo
         return "[" + level + "] Path: [" + element + "] - " + message + " data=[" + invalidData + "]";
     }
 
-
-    // Compatibility methods
-
-    @Deprecated
-    public static ValidationResultInfo newInstance() {
-        return new ValidationResultInfo();
+    /**
+     * Convenience method. Adds a message with an error level of WARN
+     *
+     * @param message the warning message 
+     */
+    public void setWarning(String message) {
+        this.level = ErrorLevel.WARN;
+        this.message = message;
     }
+
+    /**
+     * Convenience method. Adds a message with an error level of ERROR
+     *
+     * @param message the error message to add
+     */
+    public void setError(String message) {
+        this.level = ErrorLevel.ERROR;
+        this.message = message;
+    }
+
 }
