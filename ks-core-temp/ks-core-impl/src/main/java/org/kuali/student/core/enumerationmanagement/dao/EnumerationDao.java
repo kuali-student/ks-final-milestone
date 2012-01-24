@@ -13,10 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
+package org.kuali.student.core.enumerationmanagement.dao;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
+import org.kuali.student.core.enumerationmanagement.model.EnumerationEntity;
 
 /**
  * Enumeration Dao class.

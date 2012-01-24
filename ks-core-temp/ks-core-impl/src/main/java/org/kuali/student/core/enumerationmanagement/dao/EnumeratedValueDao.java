@@ -13,13 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
+package org.kuali.student.core.enumerationmanagement.dao;
 
 import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
+import org.kuali.student.core.enumerationmanagement.model.EnumeratedValueEntity;
 
 /**
  * Enumerated Value Dao class.
