@@ -30,16 +30,16 @@ public class MessageList implements java.io.Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement(name = "message", required = true)
-	protected List<Message> messages;
+	protected List<MessageInfo> messages;
 
-	public List<Message> getMessages() {
+	public List<MessageInfo> getMessages() {
 		if (messages == null) {
-			messages = new ArrayList<Message>();
+			messages = new ArrayList<MessageInfo>();
 		}
 		return this.messages;
 	}
 
-	public void setMessages(List<Message> l) {
+	public void setMessages(List<MessageInfo> l) {
 		messages = l;
 
 	}
