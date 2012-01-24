@@ -174,7 +174,7 @@ public class RegistrationProcessEvaluator implements ProcessEvaluator<CourseRegi
         if (!exemptions.isEmpty()) {
             ValidationResultInfo vr = new ValidationResultInfo();
             vr.setElement(processContext.getProcessKey() + "-" + instruction.getCheckKey());
-            vr.setLevel(ValidationResultInfo.ErrorLevel.OK.getLevel());
+            vr.setLevel(ValidationResultInfo.ErrorLevel.OK);
             vr.setMessage("exempted from check");
             return Arrays.asList(vr);
         }

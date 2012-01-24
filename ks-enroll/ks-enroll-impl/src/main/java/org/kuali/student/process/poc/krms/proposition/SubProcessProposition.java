@@ -72,7 +72,7 @@ public class SubProcessProposition extends AbstractLeafProposition {
         boolean propositionResult = true;
         for (ValidationResultInfo evalResult : results) {
             // if any result is an error, the entire proposition evaluation is false
-            if(evalResult.getIsError()) {
+            if(evalResult.isError()) {
                 propositionResult = false;
                 break;
             }

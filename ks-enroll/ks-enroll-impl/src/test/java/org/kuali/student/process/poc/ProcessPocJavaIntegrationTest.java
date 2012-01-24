@@ -102,9 +102,9 @@ public class ProcessPocJavaIntegrationTest {
     private List<ValidationResultInfo> getErrorsOrWarnings(List<ValidationResultInfo> results) {
         List<ValidationResultInfo> errors = new ArrayList<ValidationResultInfo>();
         for (ValidationResultInfo vr : results) {
-            if (vr.getIsError()) {
+            if (vr.isError()) {
                 errors.add(vr);
-            } else if (vr.getIsWarn()) {
+            } else if (vr.isWarn()) {
                 errors.add(vr);
             }
         }
@@ -133,7 +133,7 @@ public class ProcessPocJavaIntegrationTest {
         results = service.checkStudentEligibility(ProcessPocConstants.PERSON_ID_KARA_STONE_2272, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isError());
         assertEquals("A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.", results.get(0).getMessage());
     }
 
@@ -149,7 +149,7 @@ public class ProcessPocJavaIntegrationTest {
 
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isError());
         assertEquals("A key piece of data is wrong on your biographic record.  Please come to the Registrar's office to clear it up.", results.get(0).getMessage());
     }
 
@@ -164,7 +164,7 @@ public class ProcessPocJavaIntegrationTest {
                 ProcessPocConstants.SPRING_2012_TERM_KEY, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isError());
         assertEquals("Registration period for this term has not yet begun", errors.get(0).getMessage());
     }
 
@@ -179,7 +179,7 @@ public class ProcessPocJavaIntegrationTest {
                 ProcessPocConstants.SPRING_2011_TERM_KEY, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isError());
         assertEquals("Registration period for this term is closed", errors.get(0).getMessage());
     }
 
@@ -207,7 +207,7 @@ public class ProcessPocJavaIntegrationTest {
                 ProcessPocConstants.FALL_2011_TERM_KEY, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isError());
         assertEquals("You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter", errors.get(0).getMessage());
     }
 
@@ -222,8 +222,8 @@ public class ProcessPocJavaIntegrationTest {
                 ProcessPocConstants.FALL_2011_TERM_KEY, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsWarn());
-        assertFalse(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isWarn());
+        assertFalse(errors.get(0).isError());
         assertEquals("Please note: you have an overdue library book", errors.get(0).getMessage());
     }
 
@@ -238,10 +238,10 @@ public class ProcessPocJavaIntegrationTest {
                 ProcessPocConstants.FALL_2011_TERM_KEY, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(2, errors.size());
-        assertTrue(errors.get(0).getIsWarn());
-        assertFalse(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isWarn());
+        assertFalse(errors.get(0).isError());
         assertEquals("Please note: you have an overdue library book", errors.get(0).getMessage());
-        assertTrue(errors.get(1).getIsError());
+        assertTrue(errors.get(1).isError());
         assertEquals("You have unpaid tuition charges from last term, please contact the bursars office to resolve this matter", errors.get(1).getMessage());
     }
 
@@ -256,7 +256,7 @@ public class ProcessPocJavaIntegrationTest {
                 ProcessPocConstants.FALL_2011_TERM_KEY, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isError());
         assertEquals("Summer only students cannot register for fall, winter or spring terms", errors.get(0).getMessage());
     }
 
@@ -310,7 +310,7 @@ public class ProcessPocJavaIntegrationTest {
                 ProcessPocConstants.SPRING_2011_TERM_KEY, context);
         List<ValidationResultInfo> errors = getErrorsOrWarnings(results);
         assertEquals(1, errors.size());
-        assertTrue(errors.get(0).getIsError());
+        assertTrue(errors.get(0).isError());
         // TODO: Shouldn't this message say something about the fact that the student has an extention but it is even too late for that?
         assertEquals("Registration period for this term is closed", errors.get(0).getMessage());
     }

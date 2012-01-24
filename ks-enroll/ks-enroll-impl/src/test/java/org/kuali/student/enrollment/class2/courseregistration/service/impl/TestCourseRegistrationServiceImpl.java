@@ -161,7 +161,7 @@ public class TestCourseRegistrationServiceImpl {
 
             assertEquals(1, passedResults.size());
             ValidationResultInfo result = passedResults.get(0);
-            assertEquals(result.getLevel().intValue(), ValidationResult.ErrorLevel.OK.getLevel());
+            assertEquals(result.getLevel(), ValidationResult.ErrorLevel.OK);
         } catch (Exception e) {
             e.printStackTrace();
             fail("call to service method failed due to exception: " + e.getMessage());
@@ -176,7 +176,7 @@ public class TestCourseRegistrationServiceImpl {
 
             assertEquals(1, failedResults.size());
             ValidationResultInfo result = failedResults.get(0);
-            assertEquals(result.getLevel().intValue(), ValidationResult.ErrorLevel.ERROR.getLevel());
+            assertEquals(result.getLevel(), ValidationResult.ErrorLevel.ERROR);
         } catch (Exception e) {
             e.printStackTrace();
             fail("call to service method failed due to exception: " + e.getMessage());

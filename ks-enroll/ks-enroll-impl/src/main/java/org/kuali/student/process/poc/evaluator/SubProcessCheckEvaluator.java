@@ -41,10 +41,10 @@ public class SubProcessCheckEvaluator implements CheckEvaluator<SubProcessCheckC
 
     public static boolean hasErrors(List<ValidationResultInfo> vrs) {
         for (ValidationResultInfo vr : vrs) {
-            if (vr.getIsError()) {
+            if (vr.isError()) {
                 return true;
             }
-            if (vr.getIsWarn()) {
+            if (vr.isWarn()) {
                 return true;
             }
         }

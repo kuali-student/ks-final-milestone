@@ -226,7 +226,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         // if all instructions are skipped, and no propositions were generated, return one "success" message
         if(propositions.isEmpty()) {
             ValidationResultInfo success = new ValidationResultInfo();
-            success.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
+            success.setLevel(ValidationResult.ErrorLevel.OK);
             return Collections.singletonList(success);
         }
 
@@ -326,7 +326,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
                     }
                 }
                 if (e.getResult()) {
-                    result.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
+                    result.setLevel(ValidationResult.ErrorLevel.OK);
                     // add a message to an OK result only if an exemption was used
                     if(exemptionProp != null && exemptionProp.isExemptionUsed()) {
                         result.setMessage(message);

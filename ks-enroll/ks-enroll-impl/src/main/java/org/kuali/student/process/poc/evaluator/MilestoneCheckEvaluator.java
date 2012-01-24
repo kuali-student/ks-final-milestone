@@ -126,9 +126,9 @@ public class MilestoneCheckEvaluator implements CheckEvaluator<MilestoneCheckCon
         ValidationResultInfo vr = new ValidationResultInfo();
         vr.setElement(instruction.getProcessKey() + " - " + instruction.getCheckKey());
         if (instruction.getIsWarning()) {
-            vr.setLevel(ValidationResultInfo.ErrorLevel.WARN.getLevel());
+            vr.setLevel(ValidationResultInfo.ErrorLevel.WARN);
         } else {
-            vr.setLevel(ValidationResultInfo.ErrorLevel.ERROR.getLevel());
+            vr.setLevel(ValidationResultInfo.ErrorLevel.ERROR);
         }
         vr.setMessage(instruction.getMessage().getPlain());
         return vr;
@@ -137,7 +137,7 @@ public class MilestoneCheckEvaluator implements CheckEvaluator<MilestoneCheckCon
     public static ValidationResultInfo initInfo(InstructionInfo instruction) {
         ValidationResultInfo vr = new ValidationResultInfo();
         vr.setElement(instruction.getProcessKey() + " - " + instruction.getCheckKey());
-        vr.setLevel(ValidationResultInfo.ErrorLevel.OK.getLevel());
+        vr.setLevel(ValidationResultInfo.ErrorLevel.OK);
         vr.setMessage(instruction.getMessage().getPlain());
         return vr;
     }

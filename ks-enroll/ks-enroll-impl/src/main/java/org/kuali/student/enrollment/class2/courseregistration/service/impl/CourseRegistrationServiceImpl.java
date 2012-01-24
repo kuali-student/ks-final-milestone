@@ -339,7 +339,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 if (!failedRequirements.isEmpty()) {
                     for (ReqComponentInfo failedRequirement : failedRequirements) {
                         ValidationResultInfo resultInfo = new ValidationResultInfo();
-                        resultInfo.setLevel(ValidationResult.ErrorLevel.ERROR.getLevel());
+                        resultInfo.setLevel(ValidationResult.ErrorLevel.ERROR);
                         resultInfo.setElement(failedRequirement.getId());
                         try {
                             resultInfo.setMessage(statementService.getNaturalLanguageForReqComponent(failedRequirement.getId(), "KUALI.RULE", "en"));
@@ -355,7 +355,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         if (resultInfos.isEmpty()) {
             ValidationResultInfo resultInfo = new ValidationResultInfo();
-            resultInfo.setLevel(ValidationResult.ErrorLevel.OK.getLevel());
+            resultInfo.setLevel(ValidationResult.ErrorLevel.OK);
 
             resultInfos.add(resultInfo);
         }
@@ -521,7 +521,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             }
             List<ValidationResultInfo> verificationResultList = verifyRegRequest(storedRegRequest, context);
             for (ValidationResultInfo verificationResult : verificationResultList) {
-                if (!verificationResult.getIsOk()) {
+                if (!verificationResult.isOk()) {
                     throw new DataValidationErrorException("Error while verifying registration request: " + verificationResult.getMessage());
                 }
             }
@@ -537,7 +537,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 List<ValidationResultInfo> validations = checkStudentEligibiltyForCourseOffering(storedLprTransaction.getRequestingPersonId(), regGroup.getCourseOfferingId(), context);
                 List<String> errorMessages = new ArrayList<String>();
                 for (ValidationResultInfo validation : validations) {
-                    if (validation.getIsError()) {
+                    if (validation.isError()) {
                         errorMessages.add(validation.getMessage());
                     }
                 }
