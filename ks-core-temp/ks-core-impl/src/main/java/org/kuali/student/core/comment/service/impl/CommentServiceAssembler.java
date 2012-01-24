@@ -53,9 +53,9 @@ public class CommentServiceAssembler extends BaseAssembler {
                 new String[] { "commentText", "attributes", "type", "metaInfo" });
 
         dto.setCommentText(toRichTextInfo(entity.getCommentText()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setType(entity.getType().getId());
+     // TODO KSCM-213        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setTypeKey(entity.getType().getId());
 
         return dto;
     }
@@ -71,8 +71,8 @@ public class CommentServiceAssembler extends BaseAssembler {
     public static TagInfo toTagInfo(Tag entity) {
         TagInfo dto = new TagInfo();
         BeanUtils.copyProperties(entity, dto, new String[]{"attributes","type","reference"});
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setType(entity.getType().getId());
+     // TODO KSCM-213        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setTypeKey(entity.getType().getId());
         dto.setReferenceId(entity.getReferennce().getReferenceId());
         dto.setReferenceTypeKey(entity.getReferennce().getReferenceType().getId());
         return dto;
@@ -122,7 +122,7 @@ public class CommentServiceAssembler extends BaseAssembler {
 
         Comment entity = new Comment();
         BeanUtils.copyProperties(dto,entity,new String[]{"reference","commentText", "attributes", "type", "metaInfo"});
-        entity.setAttributes(toGenericAttributes(CommentAttribute.class,dto.getAttributes(),entity,dao));
+     // TODO KSCM-212        entity.setAttributes(toGenericAttributes(CommentAttribute.class,dto.getAttributes(),entity,dao));
         Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
         if (reference == null) {
             throw new InvalidParameterException(
@@ -136,15 +136,15 @@ public class CommentServiceAssembler extends BaseAssembler {
         }
         entity.setType(type);
         entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
-        entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, dao));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+     // TODO KSCM-212        entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, dao));
+		dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         return entity;
     }
     public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
 
         Tag entity = new Tag();
         BeanUtils.copyProperties(dto,entity,new String[]{"reference","type","attributes"});
-        entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
+     // TODO KSCM-212        entity.setAttributes(toGenericAttributes(TagAttribute.class,dto.getAttributes(),entity,dao));
 
         Reference reference = dao.getReference(dto.getReferenceId(), dto.getReferenceTypeKey());
         if (reference == null) {
@@ -176,15 +176,15 @@ public class CommentServiceAssembler extends BaseAssembler {
 				"commentText", "attributes", "type", "metaInfo" });
 		entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
 
-		entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto
-				.getAttributes(), entity, commentDao));
+		// TODO KSCM-212		entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto
+//				.getAttributes(), entity, commentDao));
 		CommentType type = commentDao.fetch(CommentType.class, dto.getType());
 		if (type == null) {
 			throw new InvalidParameterException(
 					"Tag Type does not exist for id: " + dto.getType());
 		}
 		entity.setType(type);
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+		dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		Reference reference = commentDao.getReference(referenceId,
 				referenceTypeKey);
