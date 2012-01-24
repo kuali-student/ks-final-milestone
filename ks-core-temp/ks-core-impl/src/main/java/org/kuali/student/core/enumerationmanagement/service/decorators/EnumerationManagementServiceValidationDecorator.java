@@ -1,26 +1,26 @@
-package org.kuali.student.r2.core.class1.enumerationmanagement.service.decorators;
+package org.kuali.student.core.enumerationmanagement.service.decorators;
 
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r2.common.exceptions.DoesNotExistException;
-import org.kuali.student.r2.common.exceptions.InvalidParameterException;
-import org.kuali.student.r2.common.exceptions.MissingParameterException;
-import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.exceptions.ReadOnlyException;
-import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
-import org.kuali.student.r2.common.infc.HoldsValidator;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
+import org.kuali.student.common.datadictionary.DataDictionaryValidator;
+import org.kuali.student.common.datadictionary.service.DataDictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.infc.HoldsDataDictionaryService;
+import org.kuali.student.common.infc.HoldsValidator;
+import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 
 public class EnumerationManagementServiceValidationDecorator extends EnumerationManagementServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
     
