@@ -29,12 +29,11 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.common.model.StateEntity;
 import org.kuali.student.core.atp.infc.AtpMilestoneRelation;
-import org.kuali.student.core.class1.state.model.StateEntity;
 import org.kuali.student.core.class1.type.model.AtpTypeEntity;
 
 @Entity

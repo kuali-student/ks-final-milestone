@@ -8,14 +8,14 @@ import javax.jws.WebService;
 import org.kuali.rice.core.api.criteria.CriteriaLookupService;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.model.StateEntity;
+import org.kuali.student.common.state.dto.StateInfo;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.type.dao.TypeTypeRelationDao;
-import org.kuali.student.common.datadictionary.service.DataDictionaryService;
+import org.kuali.student.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.*;
-import org.kuali.student.core.state.model.StateEntity;
 import org.kuali.student.common.util.constants.AtpServiceConstants;
 import org.kuali.student.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
@@ -32,9 +32,8 @@ import org.kuali.student.core.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.core.atp.model.AtpEntity;
 import org.kuali.student.core.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.core.atp.model.AtpRichTextEntity;
-import org.kuali.student.core.type.entity.AtpTypeEntity;
 import org.kuali.student.core.atp.model.MilestoneEntity;
-import org.kuali.student.core.state.dto.StateInfo;
+import org.kuali.student.core.class1.type.model.AtpTypeEntity;
 import org.kuali.student.core.state.service.StateService;
 import org.kuali.student.core.type.dto.TypeInfo;
 import org.kuali.student.core.type.service.TypeService;
@@ -466,7 +465,7 @@ public class AtpServiceImpl implements AtpService {
         return info;
     }
 
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, 
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException, PermissionDeniedException{
 		StateEntity state = null;
 		try {

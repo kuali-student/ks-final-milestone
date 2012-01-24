@@ -16,6 +16,7 @@ import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.common.model.StateAttributeEntity;
 import org.kuali.student.common.util.RichTextHelper;
 import org.kuali.student.core.state.dto.LifecycleInfo;
 import org.kuali.student.core.state.infc.Lifecycle;

@@ -25,9 +25,9 @@ import javax.persistence.OneToMany;
 
 import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.BaseAttributeEntity;
+import org.kuali.student.common.entity.BaseTypeEntity;
 import org.kuali.student.common.util.RichTextHelper;
-import org.kuali.student.core.generic.entity.BaseAttributeEntity;
-import org.kuali.student.core.generic.entity.BaseTypeEntity;
 import org.kuali.student.core.type.dto.TypeInfo;
 
 

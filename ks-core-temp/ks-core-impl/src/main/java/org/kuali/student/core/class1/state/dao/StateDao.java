@@ -2,8 +2,8 @@ package org.kuali.student.core.class1.state.dao;
 
 import java.util.List;
 
+import org.kuali.student.common.model.StateEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.core.class1.state.model.StateEntity;
 
 public class StateDao extends GenericEntityDao<StateEntity>{
 	public StateEntity getState(String stateKey){

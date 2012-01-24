@@ -4,9 +4,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.kuali.student.core.class1.type.model.TypeEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.core.class1.state.model.StateEntity;
-import org.kuali.student.core.class1.type.entity.TypeEntity;
 
 public class TypeDao extends GenericEntityDao<TypeEntity> {
 

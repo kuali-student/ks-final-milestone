@@ -1,6 +1,6 @@
 package org.kuali.student.core.atp.model;
 
-import org.kuali.student.core.class1.state.model.StateEntity;
+import org.kuali.student.common.model.StateEntity;
 import org.kuali.student.core.class1.type.model.AtpTypeEntity;
 import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.entity.AttributeOwner;

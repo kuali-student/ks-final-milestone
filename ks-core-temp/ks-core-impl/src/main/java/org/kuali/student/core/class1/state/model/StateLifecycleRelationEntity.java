@@ -8,6 +8,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.kuali.student.common.entity.MetaEntity;
+import org.kuali.student.common.model.StateEntity;
 
 
 @Entity

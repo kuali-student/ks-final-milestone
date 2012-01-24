@@ -7,6 +7,7 @@ import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.model.StateEntity;
 import org.kuali.student.core.class1.state.dao.LifecycleDao;
 import org.kuali.student.core.class1.state.dao.StateDao;
 import org.kuali.student.core.class1.state.dao.StateLifecycleRelationDao;
@@ -22,7 +23,6 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.core.class1.state.model.StateEntity;
 import org.kuali.student.core.class1.state.model.LifecycleEntity;
 import org.kuali.student.core.state.dto.LifecycleInfo;
 import org.kuali.student.core.state.dto.StateInfo;

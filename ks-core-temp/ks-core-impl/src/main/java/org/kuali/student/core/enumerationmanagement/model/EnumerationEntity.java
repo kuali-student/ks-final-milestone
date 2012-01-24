@@ -30,7 +30,7 @@ import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 import org.kuali.student.common.infc.Attribute;
-import org.kuali.student.core.class1.state.model.StateEntity;
+import org.kuali.student.common.model.StateEntity;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.core.enumerationmanagement.infc.Enumeration;
 

@@ -19,7 +19,7 @@ import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 import org.kuali.student.common.infc.Attribute;
 import org.kuali.student.common.util.RichTextHelper;
-import org.kuali.student.core.class1.atp.model.AtpRichTextEntity;
+import org.kuali.student.core.atp.model.AtpRichTextEntity;
 import org.kuali.student.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.core.type.infc.TypeTypeRelation;
 

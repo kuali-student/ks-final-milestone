@@ -1,6 +1,6 @@
 package org.kuali.student.core.atp.model;
 
-import org.kuali.student.core.class1.state.model.StateEntity;
+import org.kuali.student.common.model.StateEntity;
 import org.kuali.student.core.class1.type.model.AtpTypeEntity;
 import java.util.ArrayList;
 import java.util.Date;
