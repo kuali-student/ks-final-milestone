@@ -13,12 +13,12 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagement.model;
+package org.kuali.student.core.enumerationmanagement.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.core.class1.type.entity.TypeEntity;
+import org.kuali.student.core.type.entity.TypeEntity;
 
 @Entity
 @Table(name = "KSEM_ENUM_TYPE")

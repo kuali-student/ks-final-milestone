@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagement.model;
+package org.kuali.student.core.enumerationmanagement.model;
 
 import java.util.List;
 
@@ -25,8 +25,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.r2.common.entity.BaseVersionEntity;
-import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
+import org.kuali.student.common.entity.BaseVersionEntity;
+import org.kuali.student.core.enumerationmanagement.infc.EnumContextValue;
 
 @Entity
 @Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})

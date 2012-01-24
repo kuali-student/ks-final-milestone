@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagement.model;
+package org.kuali.student.core.enumerationmanagement.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,13 +26,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
-import org.kuali.student.r2.core.enumerationmanagement.infc.Enumeration;
+import org.kuali.student.common.dto.AttributeInfo;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
+import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.core.class1.state.model.StateEntity;
+import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
+import org.kuali.student.core.enumerationmanagement.infc.Enumeration;
 
 @Entity
 @Table(name = "KSEM_ENUM_T")

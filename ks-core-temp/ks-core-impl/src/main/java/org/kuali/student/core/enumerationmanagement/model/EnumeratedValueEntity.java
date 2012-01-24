@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagement.model;
+package org.kuali.student.core.enumerationmanagement.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,9 +31,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.r2.core.enumerationmanagement.infc.EnumeratedValue;
+import org.kuali.student.common.entity.MetaEntity;
+import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.core.enumerationmanagement.infc.EnumeratedValue;
 
 @Entity
 @Table(name = "KSEM_ENUM_VAL_T")

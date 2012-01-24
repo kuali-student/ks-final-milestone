@@ -13,14 +13,14 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.class1.enumerationmanagement.model;
+package org.kuali.student.core.enumerationmanagement.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.entity.RichTextEntity;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.entity.RichTextEntity;
+import org.kuali.student.common.infc.RichText;
 
 @Entity
 @Table(name = "KSEM_RICH_TEXT_T")
