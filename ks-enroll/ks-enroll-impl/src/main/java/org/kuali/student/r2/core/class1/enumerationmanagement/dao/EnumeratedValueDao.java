@@ -47,7 +47,7 @@ public class EnumeratedValueDao extends GenericEntityDao<EnumeratedValueEntity> 
     @SuppressWarnings("unchecked")
     public List<EnumeratedValueEntity> getByContextTypeAndValue(String enumerationKey, String contextTypeKey, String contextValue) {
         return em.createQuery("from EnumeratedValue e JOIN e.contextEntityList c " + 
-                "where c.contextValue = :contextValue and " + "c.contextKey = :enumContextKey and " + 
+                "where c.contextValue = :contextValue and c.contextKey = :enumContextKey and " + 
                 "e.enumeration.id = :enumerationKey ").setParameter("enumerationKey", enumerationKey)
                 .setParameter("enumContextKey", contextTypeKey).setParameter("contextValue", contextValue).getResultList();
     }
