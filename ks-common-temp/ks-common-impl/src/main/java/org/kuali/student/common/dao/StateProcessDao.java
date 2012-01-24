@@ -1,6 +1,5 @@
 package org.kuali.student.common.dao;
 
-import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.common.model.StateProcessEntity;
 
 public class StateProcessDao extends GenericEntityDao<StateProcessEntity>{

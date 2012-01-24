@@ -5,8 +5,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.common.entity.BaseAttributeEntity;
 import org.kuali.student.common.infc.Attribute;
+import org.kuali.student.core.generic.entity.BaseAttributeEntity;
 
 @Entity
 @Table(name = "KSEN_STATE_ATTR")

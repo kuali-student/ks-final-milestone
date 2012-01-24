@@ -15,13 +15,13 @@
 
 package org.kuali.student.core.enumerationmanagement.model;
 
+import org.kuali.student.core.class1.type.model.TypeEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.type.entity.TypeEntity;
-
 @Entity
 @Table(name = "KSEM_ENUM_TYPE")
-public class EnumerationTypeEntity extends TypeEntity<EnumerationAttributeEntity>{
+public class EnumerationTypeEntity extends TypeEntity<EnumerationAttributeEntity> {
 
 }

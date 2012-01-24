@@ -25,8 +25,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.common.entity.BaseVersionEntity;
 import org.kuali.student.core.enumerationmanagement.infc.EnumContextValue;
+import org.kuali.student.core.generic.entity.BaseVersionEntity;
 
 @Entity
 @Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})

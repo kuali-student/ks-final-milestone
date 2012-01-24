@@ -15,7 +15,6 @@
  */
 package org.kuali.student.core.atp.model;
 
-import org.kuali.student.core.type.entity.AtpTypeEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,8 +33,9 @@ import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 import org.kuali.student.common.infc.Attribute;
-import org.kuali.student.core.state.model.StateEntity;
 import org.kuali.student.core.atp.infc.AtpMilestoneRelation;
+import org.kuali.student.core.class1.state.model.StateEntity;
+import org.kuali.student.core.class1.type.model.AtpTypeEntity;
 
 @Entity
 @Table(name = "KSEN_ATPMSTONE_RELTN")

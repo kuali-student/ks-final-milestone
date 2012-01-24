@@ -1,6 +1,6 @@
 package org.kuali.student.core.atp.dao;
 
-import org.kuali.student.core.generic.dao.GenericEntityDao;
+import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.core.atp.model.AtpAtpRelationEntity;
 
 import java.util.List;

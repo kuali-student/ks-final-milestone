@@ -19,8 +19,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.entity.RichTextEntity;
 import org.kuali.student.common.infc.RichText;
+import org.kuali.student.core.generic.entity.RichTextEntity;
 
 @Entity
 @Table(name = "KSEM_RICH_TEXT_T")

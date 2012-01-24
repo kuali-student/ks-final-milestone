@@ -1,8 +1,8 @@
 package org.kuali.student.core.atp.service.decorators;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.common.datadictionary.DataDictionaryValidator;
-import org.kuali.student.common.datadictionary.service.DataDictionaryService;
+import org.kuali.rice.krad.service.DataDictionaryService;
+import org.kuali.student.common.dictionary.DataDictionaryValidator;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.*;
