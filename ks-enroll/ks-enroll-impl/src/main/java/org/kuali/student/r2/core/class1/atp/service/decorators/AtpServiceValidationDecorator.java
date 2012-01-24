@@ -1,8 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.service.decorators;
 
-import java.util.Date;
-import java.util.List;
-
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -13,8 +11,10 @@ import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
 import org.kuali.student.r2.core.service.util.ValidationUtils;
+
+import java.util.Date;
+import java.util.List;
 
 public class AtpServiceValidationDecorator extends AtpServiceDecorator implements HoldsValidator, HoldsDataDictionaryService {
     private DataDictionaryValidator validator;
@@ -41,21 +41,21 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpInfo getAtp(String atpKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public AtpInfo getAtp(String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (null == atpKey) {
-            throw new DoesNotExistException("Null parameter in the input:atpKey");
+        if (null == atpId) {
+            throw new DoesNotExistException("Null parameter in the input:atpId");
         }
-        return getNextDecorator().getAtp(atpKey, context);
+        return getNextDecorator().getAtp(atpId, context);
     }
 
     @Override
-    public List<AtpInfo> getAtpsByKeys(List<String> atpKeyList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (null == atpKeyList && atpKeyList.size() == 0) {
-            throw new DoesNotExistException("Null parameter in the input:atpKey");
+        if (null == atpIdList || atpIdList.size() == 0) {
+            throw new DoesNotExistException("Null parameter in the input:atpId");
         }
-        return getNextDecorator().getAtpsByKeys(atpKeyList, context);
+        return getNextDecorator().getAtpsByIds(atpIdList, context);
     }
 
     @Override
@@ -68,18 +68,23 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpInfo createAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
+    public AtpInfo createAtp(AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
         _atpFullValidation(atpInfo, context);
-        return getNextDecorator().createAtp(atpKey, atpInfo, context);
+
+        if (atpInfo.getId() != null) {
+            throw new ReadOnlyException("ID cannot be supplied when creating an ATP.");
+        }
+
+        return getNextDecorator().createAtp(atpInfo, context);
     }
 
     @Override
-    public AtpInfo updateAtp(String atpKey, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, VersionMismatchException {
         _atpFullValidation(atpInfo, context);
         try {
-            return getNextDecorator().updateAtp(atpKey, atpInfo, context);
+            return getNextDecorator().updateAtp(atpId, atpInfo, context);
         } catch (ReadOnlyException e) {
             throw new OperationFailedException(e.getMessage());
         }
@@ -115,12 +120,12 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public AtpAtpRelationInfo createAtpAtpRelation(String atpKey, String atpPeerKey,
+    public AtpAtpRelationInfo createAtpAtpRelation(String atpId, String atpPeerKey,
                                                    AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo context)
     throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException,
            OperationFailedException, PermissionDeniedException, ReadOnlyException {
         _atpAtpRelationFullValidation(atpAtpRelationInfo, context);
-        return getNextDecorator().createAtpAtpRelation(atpKey, atpPeerKey, atpAtpRelationInfo, context);
+        return getNextDecorator().createAtpAtpRelation(atpId, atpPeerKey, atpAtpRelationInfo, context);
     }
 
     @Override
@@ -147,7 +152,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpKey, String atpPeerKey,
+    public List<ValidationResultInfo> validateAtpAtpRelation(String validationTypeKey, String atpId, String atpPeerKey,
                                                              String atpAtpRelationTypeKey, AtpAtpRelationInfo atpAtpRelationInfo,
                                                              ContextInfo context)
     throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
@@ -155,7 +160,7 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
         List<ValidationResultInfo> errors;
         try {
             errors = ValidationUtils.validateInfo(validator, validationTypeKey, atpAtpRelationInfo, context);
-            List<ValidationResultInfo> nextDecorationErrors = getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpKey, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, context);
+            List<ValidationResultInfo> nextDecorationErrors = getNextDecorator().validateAtpAtpRelation(validationTypeKey, atpId, atpPeerKey, atpAtpRelationTypeKey, atpAtpRelationInfo, context);
             if (null != nextDecorationErrors) {
                 errors.addAll(nextDecorationErrors);
             }
@@ -171,18 +176,34 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     InvalidParameterException, MissingParameterException,
     OperationFailedException, PermissionDeniedException, ReadOnlyException {
         _milestoneFullValidation(milestoneInfo, context);
+
+        if (milestoneInfo.getId() != null) {
+            throw new ReadOnlyException("ID cannot be populated when creating milestone.");
+        }
+
         return getNextDecorator().createMilestone(milestoneInfo, context);
     }
 
     @Override
-    public MilestoneInfo updateMilestone(String milestoneKey, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+    public MilestoneInfo updateMilestone(String milestoneId, MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         _milestoneFullValidation(milestoneInfo, context);
         try {
-            return getNextDecorator().updateMilestone(milestoneKey, milestoneInfo, context);
+            return getNextDecorator().updateMilestone(milestoneId, milestoneInfo, context);
         } catch (ReadOnlyException e) {
             throw new OperationFailedException(e.getMessage());
         }
+    }
+
+    @Override
+    public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if (StringUtils.isEmpty(milestoneId)) {
+            throw new MissingParameterException("milestoneId");
+        }
+        if (null == contextInfo) {
+            throw new MissingParameterException("contextInfo");
+        }
+        return getNextDecorator().calculateMilestone(milestoneId, contextInfo);
     }
 
     private void _milestoneFullValidation(MilestoneInfo milestoneInfo, ContextInfo context) throws DataValidationErrorException, OperationFailedException, InvalidParameterException,
@@ -218,15 +239,15 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public MilestoneInfo getMilestone(String milestoneKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public MilestoneInfo getMilestone(String milestoneId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        if (milestoneKey == null) {
+        if (milestoneId == null) {
 
-            throw new InvalidParameterException(milestoneKey);
+            throw new InvalidParameterException(milestoneId);
         }
 
-        return getNextDecorator().getMilestone(milestoneKey, context);
+        return getNextDecorator().getMilestone(milestoneId, context);
 
     }
 

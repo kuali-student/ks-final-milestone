@@ -1,8 +1,9 @@
 /*
- * Copyright 2011 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2011 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -16,31 +17,30 @@
 package org.kuali.student.r2.common.messages.infc;
 
 import org.kuali.student.r2.common.infc.HasKey;
+import org.kuali.student.r2.common.infc.Locale;
 
 /**
- *  Information about a message
+ * Information about a message
  *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
- *
  */
-public interface Message extends HasKey {
+public interface Message 
+    extends HasKey {
 
     /**
-     * Unique identifier for a locale
+     * The Locale.
      *
      * @name Locale
      * @required
-     *
      */
-    String getLocale();
+    Locale getLocale();
 
     /**
      * Unique identifier for a message group
      *
      * @name Group Name
      * @required
-     *
      */
     String getGroupName();
 
@@ -51,7 +51,6 @@ public interface Message extends HasKey {
      *
      * @name Value
      * @required
-     *
      */
     String getValue();
 }

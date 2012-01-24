@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.atp.infc;
 
-import java.util.Date;
+import org.kuali.student.r2.common.infc.IdEntity;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import java.util.Date;
 
 
 /**
@@ -27,10 +27,17 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @Since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Atp extends KeyEntity {
+public interface Atp 
+    extends IdEntity {
 
     /**
-     * Name: Start Date
+     * Gets a display code for this ATP.
+     * 
+     * @name Code
+     */    
+    public String getCode();
+    
+    /**
      * Date and time the academic time period became effective. This
      * does not provide a bound on date ranges or milestones
      * associated with this time period, but instead indicates the
@@ -38,12 +45,13 @@ public interface Atp extends KeyEntity {
      * date on enumerated values. When an expiration date has been
      * specified, this field must be less than or equal to the
      * expiration date.
+     *
+     * @name Start Date
+     * @required
      */
     public Date getStartDate();
    
-
     /**
-     * Name: End Date
      * Date and time the academic time period expires. This does not
      * provide a bound on date ranges or milestones associated with
      * this time period, but instead indicates the time period
@@ -51,7 +59,17 @@ public interface Atp extends KeyEntity {
      * effective date. If this field is not specified, then no
      * expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
+     *
+     * @name End Date
+     * @required
      */
     public Date getEndDate();
- 
-}
+    
+    /**
+     * The adminsitrative organization responsible for maintaining
+     * this time period.
+     *
+     * @name AdminOrg Id
+     */
+    public String getAdminOrgId();
+ }

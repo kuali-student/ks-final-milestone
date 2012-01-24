@@ -1,13 +1,19 @@
 /*
- * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
- * License, Version 1.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
@@ -22,46 +28,60 @@ import javax.xml.bind.annotation.XmlTransient;
 import org.kuali.student.r2.common.infc.Relationship;
 
 /**
- * Information about a Relationship.
+ * Information about a Relationship entity.
+ *
+ * @author tom
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlTransient
-public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implements Relationship, Serializable {
+public abstract class RelationshipInfo 
+    extends HasAttributesAndMetaInfo 
+    implements Relationship, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @XmlAttribute
     private String id;
+
     @XmlAttribute
     private String typeKey;
+
     @XmlAttribute
     private String stateKey;
+
     @XmlElement
     private Date effectiveDate;
+
     @XmlElement
     private Date expirationDate;
 
+    /**
+     * Constructs a new RelationshipInfo.
+     */
     public RelationshipInfo() {
-        id = null;
-        typeKey = null;
-        stateKey = null;
-        effectiveDate = null;
-        expirationDate = null;
     }
 
+    /**
+     * Constructs a new RelationshipInfo from another Relationship.
+     *
+     * @param relationship the Relationship top copy
+     */
     public RelationshipInfo(Relationship relationship) {
         super(relationship);
-        this.id = relationship.getId();
-        this.typeKey = relationship.getTypeKey();
-        this.stateKey = relationship.getStateKey();
-        if (relationship.getEffectiveDate() != null) {
-            this.effectiveDate = new Date(relationship.getEffectiveDate().getTime());
-        } else {
-            this.effectiveDate = null;
-        }
-        if (relationship.getExpirationDate() != null) {
-            this.expirationDate = new Date(relationship.getExpirationDate().getTime());
-        } else {
-            this.expirationDate = null;
+        
+        if (relationship != null) {
+            this.id = relationship.getId();
+            this.typeKey = relationship.getTypeKey();
+            this.stateKey = relationship.getStateKey();
+
+            if (relationship.getEffectiveDate() != null) {
+                this.effectiveDate = new Date(relationship.getEffectiveDate().getTime());
+            } 
+
+            if (relationship.getExpirationDate() != null) {
+                this.expirationDate = new Date(relationship.getExpirationDate().getTime());
+            }
         }
     }
 
@@ -78,7 +98,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     public String getTypeKey() {
         return typeKey;
     }
-
+        
     public void setTypeKey(String typeKey) {
         this.typeKey = typeKey;
     }
@@ -87,7 +107,7 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
     public String getStateKey() {
         return stateKey;
     }
-
+        
     public void setStateKey(String stateKey) {
         this.stateKey = stateKey;
     }
@@ -108,5 +128,30 @@ public abstract class RelationshipInfo extends HasAttributesAndMetaInfo implemen
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+
+    // Compatibility 
+
+    @Override
+    @Deprecated
+    public String getType() {
+        return getTypeKey();
+    }
+
+    @Deprecated
+    public void setType(String typeKey) {
+        setTypeKey(typeKey);
+    }
+
+    @Override
+    @Deprecated
+    public String getState() {
+        return getStateKey();
+    }
+
+    @Deprecated
+    public void setState(String stateKey) {
+        setStateKey(stateKey);
     }
 }

@@ -18,10 +18,10 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -32,16 +32,14 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.CourseServiceConstants;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.lum.course.dto.ActivityInfo;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.dto.FormatInfo;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.ActivityInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.FormatInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
+
 
 /**
  * The Program Service allows for the creation and management of courses.
@@ -50,7 +48,7 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
  */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseService extends DataDictionaryService, TypeService, StateService {
+public interface CourseService {
     /**
      * Retrieves a Course
      * 

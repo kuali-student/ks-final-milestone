@@ -1,5 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
+import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -18,7 +19,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 
@@ -131,8 +132,8 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     public AtpAtpRelationInfo toDto() {
         AtpAtpRelationInfo aarInfo = new AtpAtpRelationInfo();
         aarInfo.setId(getId());
-        aarInfo.setAtpKey(atp.getId());
-        aarInfo.setRelatedAtpKey(relatedAtp.getId());
+        aarInfo.setAtpId(atp.getId());
+        aarInfo.setRelatedAtpId(relatedAtp.getId());
         aarInfo.setEffectiveDate(effectiveDate);
         aarInfo.setExpirationDate(expirationDate);
         aarInfo.setStateKey(atpState.getId());

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
@@ -28,24 +29,23 @@ public class LrcServiceConstants {
     public static final String REF_OBJECT_URI_RESULT_VALUE = NAMESPACE + "/" + ResultValueInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_RESULT_SCALE = NAMESPACE + "/" + ResultScaleInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_RESULT_VALUES_GROUP = NAMESPACE + "/" + ResultValuesGroup.class.getSimpleName();
-
     public static final String RESULT_VALUES_GROUP_PROCESS_KEY = "kuali.result.values.group.process";
     // result values group types
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_FIXED = "kuali.result.values.group.type.fixed";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_RANGE = "kuali.result.values.group.type.range";
     public static final String RESULT_VALUES_GROUP_TYPE_KEY_MULTIPLE = "kuali.result.values.group.type.multiple";
     // scale types
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_GRADE = "kuali.result.scale.type.grade";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE = "kuali.result.scale.type.grade.admin";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_CREDIT = "kuali.result.scale.type.credit";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_DEGREE = "kuali.result.scale.type.degree";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_MINOR = "kuali.result.scale.type.minor";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_CERTIFICATION = "kuali.result.scale.type.certification";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_CERTIFICATE = "kuali.result.scale.type.certificate";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_COMPLETION = "kuali.result.scale.type.requirement.completion";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_GPA = "kuali.result.scale.type.gpa";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_STUDENT_YEAR = "kuali.result.scale.type.student.year";
-    public static final String RESULT_VALUES_GROUP_TYPE_KEY_HONOR = "kuali.result.scale.type.honor";
+    public static final String RESULT_SCALE_TYPE_KEY_GRADE = "kuali.result.scale.type.grade";
+    public static final String RESULT_SCALE_TYPE_KEY_ADMIN_GRADE = "kuali.result.scale.type.grade.admin";
+    public static final String RESULT_SCALE_TYPE_KEY_CREDIT = "kuali.result.scale.type.credit";
+    public static final String RESULT_SCALE_TYPE_KEY_DEGREE = "kuali.result.scale.type.degree";
+    public static final String RESULT_SCALE_TYPE_KEY_MINOR = "kuali.result.scale.type.minor";
+    public static final String RESULT_SCALE_TYPE_KEY_CERTIFICATION = "kuali.result.scale.type.certification";
+    public static final String RESULT_SCALE_TYPE_KEY_CERTIFICATE = "kuali.result.scale.type.certificate";
+    public static final String RESULT_SCALE_TYPE_KEY_COMPLETION = "kuali.result.scale.type.requirement.completion";
+    public static final String RESULT_SCALE_TYPE_KEY_GPA = "kuali.result.scale.type.gpa";
+    public static final String RESULT_SCALE_TYPE_KEY_STUDENT_YEAR = "kuali.result.scale.type.student.year";
+    public static final String RESULT_SCALE_TYPE_KEY_HONOR = "kuali.result.scale.type.honor";
 // known scale keys
     public static final String RESULT_SCALE_KEY_GRADE_LETTER = "kuali.result.scale.grade.letter";
     public static final String RESULT_SCALE_KEY_GRADE_PF = "kuali.result.scale.grade.pf";
@@ -870,7 +870,9 @@ public class LrcServiceConstants {
     public static final String RESULT_GROUP_KEY_HONOR_DEANS_LIST = "kuali.result.group.honor.deans.list";
     public static final String RESULT_GROUP_KEY_HONOR_DEGREE_LATIN = "kuali.result.group.honor.degree.latin";
     // grade values group type keys
-    public static final String RESULT_VALUE_NUMBER_GRADE_TYPE = "kuali.lrc.type.number.grade";
-    public static final String RESULT_VALUE_LETTER_GRADE_TYPE = "kuali.lrc.type.letter.grade";
-    public static final String RESULT_VALUE_CREDIT_TYPE = "kuali.lrc.type.credit";
+//    public static final String RESULT_VALUE_NUMBER_GRADE_TYPE = "kuali.lrc.type.number.grade";
+//    public static final String RESULT_VALUE_LETTER_GRADE_TYPE = "kuali.lrc.type.letter.grade";
+//    public static final String RESULT_VALUE_CREDIT_TYPE = "kuali.lrc.type.credit";
+    // result value type
+    public static final String RESULT_VALUE_TYPE_KEY_VALUE = "kuali.result.value.type.value";
 }

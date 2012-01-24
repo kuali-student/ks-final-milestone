@@ -34,6 +34,6 @@ public interface StateProcess extends HasKey, HasAttributes, HasEffectiveDates {
      * @name Description
      * @readOnly
      */
-    public String getDescr();        
+    public RichText getDescr();        
             
 }

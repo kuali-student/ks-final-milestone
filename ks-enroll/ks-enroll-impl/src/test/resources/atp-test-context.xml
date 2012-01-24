@@ -111,7 +111,9 @@
 	  	<property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao"/>
     	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
     	<property name="stateService" ref="stateService"/>
+        <property name="typeService" ref="typeService" />
     	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
+    	<property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
 
     <bean id="atpServiceAuthDecorator"
@@ -124,10 +126,15 @@
     
     <bean id="atpServiceValidationDecorator"
           class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceValidationDecorator">
-      <property name="nextDecorator" ref="atpServiceImpl"/>
+      <property name="nextDecorator" ref="atpServiceCalculationDecorator"/>
       <property name="validator" ref="validator"/>
     </bean>
     
+    <bean id="atpServiceCalculationDecorator" class="org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceCalculationDecorator">
+      <property name="nextDecorator" ref="atpServiceImpl"/>
+      <property name="milestoneDao" ref="milestoneDao"/>
+    </bean>
+
    <bean id="atpDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpDao">
         <property name="em" ref="entityManager"/>
     </bean>
@@ -156,28 +163,38 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.common.dao.TypeTypeRelationDao">
+    <bean id="typeTypeRelationDao" class="org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-	<bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+	<bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
         <property name="stateDao" ref="stateDao"/>
         <property name="spDao" ref="stateProcessDao"/>
         <property name="sprDao" ref="stateProcessRelationDao"/>
     </bean>
     
-    <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
+    <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="stateProcessDao" class="org.kuali.student.r2.common.dao.StateProcessDao">
+    <bean id="stateProcessDao" class=org.kuali.student.r2.core.class1.state.dao.LifecycleDao>
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.common.dao.StateProcessRelationDao">
+    <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
         <property name="em" ref="entityManager"/>
     </bean>
+    
+    <bean id="criteriaLookupService" class="org.kuali.rice.krad.criteria.CriteriaLookupServiceImpl">
+    	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+  	</bean>
+  	
+  	<bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.dao.CriteriaLookupDaoJpaImpl">
+    	<property name="entityManager" ref="entityManager"/>
+  	</bean>
               	   
+    <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+
 	<tx:annotation-driven transaction-manager="JtaTxManager"
 		order="1000" />
 		

@@ -4,11 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -19,11 +16,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.model.StateEntity;
-import org.kuali.student.r2.common.service.StateService;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao;
-import org.kuali.student.r2.core.class1.atp.model.AtpTypeEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.kuali.student.r2.core.process.dao.CheckDao;
 import org.kuali.student.r2.core.process.dao.CheckTypeDao;
 import org.kuali.student.r2.core.process.dao.InstructionDao;
@@ -39,6 +35,8 @@ import org.kuali.student.r2.core.process.model.InstructionEntity;
 import org.kuali.student.r2.core.process.model.ProcessEntity;
 import org.kuali.student.r2.core.process.model.ProcessRichTextEntity;
 import org.kuali.student.r2.core.process.service.ProcessService;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
@@ -659,71 +657,10 @@ public class ProcessServiceImpl implements ProcessService {
         return instructions;
     }
 
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey, @WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        StateInfo stateInfo = stateService.getState(processKey, stateKey, context);
-        return stateInfo;
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        List<StateInfo> stateInfos = stateService.getStatesByProcess(processKey, context);
-        return stateInfos;
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public StateInfo getNextHappyState(@WebParam(name = "processKey") String processKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectURI") String relatedRefObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new OperationFailedException("Method not implemented."); // TODO implement
-    }
-
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException{
+  
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         try {
-			StateInfo state = getState(processKey, stateKey, context);
+			StateInfo state = stateService.getState(stateKey, context);
 			if(null == state){
                 throw new OperationFailedException("The state does not exist. processKey " + processKey + " and stateKey: " + stateKey);
             }

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -59,8 +59,8 @@ Information about a mapping between Academic Time Periods.
 				<ref bean="AtpAtpRelationInfo.id"/>
 				<ref bean="AtpAtpRelationInfo.typeKey"/>
 				<ref bean="AtpAtpRelationInfo.stateKey"/>
-				<ref bean="AtpAtpRelationInfo.atpKey"/>
-				<ref bean="AtpAtpRelationInfo.relatedAtpKey"/>
+				<ref bean="AtpAtpRelationInfo.atpId"/>
+				<ref bean="AtpAtpRelationInfo.relatedAtpId"/>
 				<ref bean="AtpAtpRelationInfo.effectiveDate"/>
 				<ref bean="AtpAtpRelationInfo.expirationDate"/>
 			</list>
@@ -90,15 +90,15 @@ Information about a mapping between Academic Time Periods.
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="AtpAtpRelationInfo.atpKey-generated" abstract="true" parent="BaseKuali.atpKey">
-		<property name="name" value="atpKey"/>
-		<property name="shortLabel" value="Atp Key"/>
+	<bean id="AtpAtpRelationInfo.atpId-generated" abstract="true" parent="BaseKuali.atpId">
+		<property name="name" value="atpId"/>
+		<property name="shortLabel" value="Atp Id"/>
 		<property name="summary">
 			<value>
 A unique identifier for the first ATP in the relation.
 			</value>
 		</property>
-		<property name="label" value="ATP Key"/>
+		<property name="label" value="ATP Id"/>
 		<property name="description">
 			<value>
 A unique identifier for the first ATP in the relation.
@@ -107,15 +107,15 @@ A unique identifier for the first ATP in the relation.
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="AtpAtpRelationInfo.relatedAtpKey-generated" abstract="true" parent="BaseKuali.atpKey">
-		<property name="name" value="relatedAtpKey"/>
-		<property name="shortLabel" value="Related Atp Key"/>
+	<bean id="AtpAtpRelationInfo.relatedAtpId-generated" abstract="true" parent="BaseKuali.atpId">
+		<property name="name" value="relatedAtpId"/>
+		<property name="shortLabel" value="Related Atp Id"/>
 		<property name="summary">
 			<value>
 A unique identifier for the second ATP in the relation.
 			</value>
 		</property>
-		<property name="label" value="Related ATP Key"/>
+		<property name="label" value="Related ATP Id"/>
 		<property name="description">
 			<value>
 A unique identifier for the second ATP in the relation.

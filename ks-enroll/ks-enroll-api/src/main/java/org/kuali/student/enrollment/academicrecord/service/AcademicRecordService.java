@@ -58,17 +58,17 @@ public interface AcademicRecordService {
      * attempted. The Term includes nested or sub-Terms.
      *
      * @param personId an Id of a student
-     * @param termKey a key of a Term
+     * @param termId a key of a Term
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return a list of StudentCourseRecords
-     * @throws DoesNotExistException personId or termKey not found
+     * @throws DoesNotExistException personId or termId not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      */    
-    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method returns a list of StudentCourseRecord for a student
@@ -93,35 +93,35 @@ public interface AcademicRecordService {
      * completed The Term includes nested or sub-Terms.
      *
      * @param personId an Id of a student
-     * @param termKey a key of a Term
+     * @param termId a key of a Term
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return a list of StudentCourseRecords
-     * @throws DoesNotExistException personId or termKey not found
+     * @throws DoesNotExistException personId or termId not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      */    
-    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method returns the GPA of a student for all courses taken
      * within a given a Term including its sub-Terms.
      *
      * @param personId an Id of a student
-     * @param termKey a key of a Term
+     * @param termId a key of a Term
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return a GPA
-     * @throws DoesNotExistException personId, termKey or
+     * @throws DoesNotExistException personId, termId or
      *         calculationTypeKey not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      */    
-    public GPAInfo getGPAForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termKey") String termKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public GPAInfo getGPAForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termId") String termId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method returns the GPA of a student for the period of time
@@ -161,18 +161,18 @@ public interface AcademicRecordService {
      * courss within in a given Term including its sub-Terms.
      *
      * @param personId an Id of a student
-     * @param termKey a key for a Term
+     * @param termId a key for a Term
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return a number of credits represented by a string
-     * @throws DoesNotExistException personId, termKey or 
+     * @throws DoesNotExistException personId, termId or 
      *         calculationTypeKey not found
      * @throws InvalidParameterException invalid parameter
      * @throws MissingParameterException missing parameter
      * @throws OperationFailedException unable to complete request
      */    
-    public String getEarnedCreditsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termKey") String termKey, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public String getEarnedCreditsForTerm(@WebParam(name = "personId") String personId, @WebParam(name = "termId") String termId, @WebParam(name = "calculationTypeKey") String calculationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * This method returns the number of credits a student earned in a

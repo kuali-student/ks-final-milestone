@@ -50,4 +50,8 @@ public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
                   getResultList();
     }
 
+    @SuppressWarnings("unchecked")
+    public List<MilestoneEntity> getImpactedMilestones(String milestoneId) {
+        return em.createQuery("from MilestoneEntity m where m.relativeAnchorMilestone.id=:milestoneId").setParameter("milestoneId", milestoneId).getResultList();
+    }
 }

@@ -49,12 +49,12 @@ public class TestHoldServiceImpl {
     
     public static String principalId = "123";
     
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
 
     @Before
     public void setUp() {
         principalId = "123";    
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo ();
         callContext.setPrincipalId(principalId);
     }
     
@@ -82,7 +82,7 @@ public class TestHoldServiceImpl {
     }
     
     @Test
-    public void testGetIssuesByKeyList() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    public void testGetIssuesByIdList() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         List<String> issueKeys = new ArrayList<String>();
         issueKeys.addAll(Arrays.asList("Hold-Issue-1", "Hold-Issue-2"));
         
@@ -238,30 +238,30 @@ public class TestHoldServiceImpl {
     }
 
    
-    @Test
-    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        List<String> results = holdService.getDataDictionaryEntryKeys(callContext);
-        
-        assertNotNull(results);
-        assertTrue(!results.isEmpty());
-        
-        assertTrue(results.contains("http://student.kuali.org/wsdl/hold/HoldInfo"));
-    }
-    
-    @Test
-    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        DictionaryEntryInfo value = holdService.getDataDictionaryEntry("http://student.kuali.org/wsdl/hold/HoldInfo", callContext);
-        
-        assertNotNull(value);
-        
-        DictionaryEntryInfo fakeEntry = null;
-        try {
-            fakeEntry = holdService.getDataDictionaryEntry("fakeKey", callContext);
-            fail("Did not get a DoesNotExistException when expected");
-        }
-        catch(DoesNotExistException e) {
-            assertNull(fakeEntry);
-        }
-    }
+//    @Test
+//    public void testGetDataDictionaryEntryKeys() throws OperationFailedException, MissingParameterException, PermissionDeniedException {
+//        List<String> results = holdService.getDataDictionaryEntryKeys(callContext);
+//        
+//        assertNotNull(results);
+//        assertTrue(!results.isEmpty());
+//        
+//        assertTrue(results.contains("http://student.kuali.org/wsdl/hold/HoldInfo"));
+//    }
+//    
+//    @Test
+//    public void testGetDataDictionaryEntry() throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
+//        DictionaryEntryInfo value = holdService.getDataDictionaryEntry("http://student.kuali.org/wsdl/hold/HoldInfo", callContext);
+//        
+//        assertNotNull(value);
+//        
+//        DictionaryEntryInfo fakeEntry = null;
+//        try {
+//            fakeEntry = holdService.getDataDictionaryEntry("fakeKey", callContext);
+//            fail("Did not get a DoesNotExistException when expected");
+//        }
+//        catch(DoesNotExistException e) {
+//            assertNull(fakeEntry);
+//        }
+//    }
     	   
 }

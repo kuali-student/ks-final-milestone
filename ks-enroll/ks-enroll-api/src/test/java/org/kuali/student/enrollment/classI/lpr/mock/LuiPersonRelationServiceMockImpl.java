@@ -23,18 +23,11 @@ import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
-import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
-import org.kuali.student.r2.common.datadictionary.infc.DictionaryEntry;
 import org.kuali.student.r2.common.datadictionary.util.CriteriaValidatorParser;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -48,7 +41,6 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsLprService;
 import org.kuali.student.r2.common.infc.HoldsLuiService;
-import org.kuali.student.r2.common.infc.State;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.test.utilities.MockHelper;
 
@@ -123,69 +115,69 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         }
         return bean;
     }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // check type is valid
-        this.getLuiPersonRelationTypeEnum(processKey);
-        if (isInstructorType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(
-                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(
-                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (isStudentCourseType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        if (isStudentProgramType(processKey)) {
-            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                states.add(StateInfo.getInstance(state));
-            }
-            return states;
-        }
-        throw new IllegalArgumentException(processKey);
-    }
-
-    private boolean isInstructorType(String typeKey) {
-        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_INSTRUCTOR_TYPES) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isStudentCourseType(String typeKey) {
-        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_STUDENT_TYPES) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    private boolean isStudentProgramType(String typeKey) {
-        if (LuiPersonRelationTypeEnum.REGISTRANT.getKey().equals(typeKey)) {
-            return true;
-        }
-        return false;
-    }
+//
+//    @Override
+//    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException, OperationFailedException {
+//        // check type is valid
+//        this.getLuiPersonRelationTypeEnum(processKey);
+//        if (isInstructorType(processKey)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(
+//                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(
+//                    LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        if (isStudentCourseType(processKey)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.COURSE_STUDENT_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        if (isStudentProgramType(processKey)) {
+//            List<StateInfo> states = new ArrayList<StateInfo>(LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES.length);
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+//                states.add(StateInfo.getInstance(state));
+//            }
+//            return states;
+//        }
+//        throw new IllegalArgumentException(processKey);
+//    }
+//
+//    private boolean isInstructorType(String typeKey) {
+//        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_INSTRUCTOR_TYPES) {
+//            if (type.getKey().equals(typeKey)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean isStudentCourseType(String typeKey) {
+//        for (LuiPersonRelationTypeEnum type : LuiPersonRelationTypeEnum.COURSE_STUDENT_TYPES) {
+//            if (type.getKey().equals(typeKey)) {
+//                return true;
+//            }
+//        }
+//        return false;
+//    }
+//
+//    private boolean isStudentProgramType(String typeKey) {
+//        if (LuiPersonRelationTypeEnum.REGISTRANT.getKey().equals(typeKey)) {
+//            return true;
+//        }
+//        return false;
+//    }
 
     @Override
     public List<String> getLuiIdsByPerson(String personId, String luiPersonRelationType, String relationState,
@@ -339,21 +331,21 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
-        // get the dictionary entry for the LPR object
+//        // get the dictionary entry for the LPR object
         String dictionaryEntryKey = LuiPersonRelationServiceConstants.REF_OBJECT_URI_LUI_PERSON_RELATION;
-        DictionaryEntry dictionaryEntry;
-        try {
-            dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
-        } catch (DoesNotExistException ex) {
-            throw new OperationFailedException(dictionaryEntryKey + " is not in the dictionary", ex);
-        }
+//        DictionaryEntry dictionaryEntry;
+//        try {
+//            dictionaryEntry = this.getDataDictionaryEntry(dictionaryEntryKey, context);
+//        } catch (DoesNotExistException ex) {
+//            throw new OperationFailedException(dictionaryEntryKey + " is not in the dictionary", ex);
+//        }
 
         // validate the criteria
         CriteriaValidatorParser validator = new CriteriaValidatorParser();
 
         // now do the in memory matching
         CriteriaMatcherInMemory<LuiPersonRelationInfo> matcher = new CriteriaMatcherInMemory<LuiPersonRelationInfo>();
-        matcher.setDictionaryEntry(dictionaryEntry);
+//        matcher.setDictionaryEntry(dictionaryEntry);
         matcher.setParsedOperators(validator.getParsedOperators());
         matcher.setParsedValues(validator.getParsedValues());
         Collection<LuiPersonRelationInfo> allValues = this.lprCache.values();
@@ -365,37 +357,37 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
         return selectedIds;
     }
 
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-
-        if (isInstructorType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-        if (isStudentCourseType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-        if (isStudentProgramType(processKey)) {
-            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
-                if (state.getKey().equals(stateKey))
-                    return (StateInfo.getInstance(state));
-            }
-        }
-
-        throw new DoesNotExistException("Requested state does not exist!");
-    }
+//    @Override
+//    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException, OperationFailedException {
+//
+//        if (isInstructorType(processKey)) {
+//            for (State state : LuiPersonRelationStateEnum.COURSE_INSTRUCTOR_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//        if (processKey.equals(LuiPersonRelationServiceConstants.ADVISOR_TYPE_KEY)) {
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_ADVISOR_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//        if (isStudentCourseType(processKey)) {
+//            for (State state : LuiPersonRelationStateEnum.COURSE_STUDENT_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//        if (isStudentProgramType(processKey)) {
+//            for (State state : LuiPersonRelationStateEnum.PROGRAM_STUDENT_STATES) {
+//                if (state.getKey().equals(stateKey))
+//                    return (StateInfo.getInstance(state));
+//            }
+//        }
+//
+//        throw new DoesNotExistException("Requested state does not exist!");
+//    }
 
     @Override
     public LuiPersonRelationService getLprService() {
@@ -407,81 +399,6 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     public void setLprService(LuiPersonRelationService lprService) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -709,7 +626,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpKey, String personId,
+    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpId, String personId,
             List<String> lprTypes, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -773,7 +690,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(String personId, String atpKey, String typeKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonAndTypeForAtp(String personId, String atpId, String typeKey,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -781,7 +698,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndLuiType(String personId, String atpId,
             String luiTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -789,7 +706,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndPersonType(String personId, String atpKey,
+    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndPersonType(String personId, String atpId,
             String personTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS

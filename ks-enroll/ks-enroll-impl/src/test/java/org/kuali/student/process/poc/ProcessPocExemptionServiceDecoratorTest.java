@@ -76,7 +76,7 @@ public class ProcessPocExemptionServiceDecoratorTest {
                 ProcessPocConstants.PERSON_ID_EDDIE_PITTMAN_2406, context);
         assertEquals(1, exemptions.size()); 
         assertEquals (exemptions.get(0).getDateOverride().getEffectiveEndDate(), new SimpleDateFormat ("yyyy-MM-dd").parse("2011-12-31"));
-        assertEquals (exemptions.get(0).getDateOverride().getMilestoneKey(), AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
+        assertEquals (exemptions.get(0).getDateOverride().getMilestoneId(), AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         
         exemptions = exemptionService.getActiveExemptionsByTypeProcessAndCheckForPerson(
                 ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY,
@@ -85,6 +85,6 @@ public class ProcessPocExemptionServiceDecoratorTest {
                 ProcessPocConstants.PERSON_ID_TRACY_BURTON_2132, context);
         assertEquals(1, exemptions.size()); 
         assertEquals (exemptions.get(0).getDateOverride().getEffectiveEndDate(), new SimpleDateFormat ("yyyy-MM-dd").parse("2011-11-30"));
-        assertEquals (exemptions.get(0).getDateOverride().getMilestoneKey(), AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);        
+        assertEquals (exemptions.get(0).getDateOverride().getMilestoneId(), AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);        
     }
 }

@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.process.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -29,8 +28,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -47,17 +44,12 @@ import java.util.List;
  *
  * This service supports the management of Checks. 
  *
- * Version: 1.0 (Dev)
- *
- * @Author tom
- * @Since Mon Nov 21 14:22:34 EDT 2011
  */
 
 @WebService(name = "ProcessService", serviceName = "ProcessService", portName = "ProcessService", targetNamespace = ProcessServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface ProcessService 
-    extends DataDictionaryService, TypeService, StateService {
+public interface ProcessService {
 
     /** 
      * Retrieves a ProcessCategory.

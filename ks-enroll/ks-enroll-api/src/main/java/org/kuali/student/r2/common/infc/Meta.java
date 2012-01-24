@@ -1,29 +1,31 @@
 /*
  * Copyright 2011 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may	obtain a copy of the License at
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may btain a copy of the License at
  *
  * 	http://www.osedu.org/licenses/ECL-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.infc;
 
 import java.util.Date;
 
 /**
- * Create and last update info for the structure.
- * This is optional and treated as read only since the data is set by the
- * internals of the service during maintenance operations.
+ * Create and last update info for the structure.  This is optional
+ * and treated as read only since the data is set by the internals of
+ * the service during maintenance operations.
  * 
  * @author nwright
  */
+
 public interface Meta {
 
     /**
@@ -40,8 +42,9 @@ public interface Meta {
     public String getVersionInd();
 
     /**
-     * The date and time the thing being described with this meta information was last
-     * updated
+     * The date and time the thing being described with this meta
+     * information was last updated.
+     *
      * @name Create Time
      * @readOnly
      * @required on updates
@@ -49,7 +52,9 @@ public interface Meta {
     public Date getCreateTime();
 
     /**
-     * The principal who created the thing being described with this meta information
+     * The principal who created the thing being described with this
+     * meta information.
+     * 
      * @name Create Id
      * @readOnly
      * @required on updates
@@ -57,8 +62,9 @@ public interface Meta {
     public String getCreateId();
 
     /**
-     * The date and time the thing being described with this meta information was last
-     * updated
+     * The date and time the thing being described with this meta
+     * information was last updated.
+     *
      * @name Update Time
      * @readOnly
      * @required on updates
@@ -66,10 +72,10 @@ public interface Meta {
     public Date getUpdateTime();
 
     /**
-     * Name: Update Id
-     * 
-     * The principal who last updated the thing being described with this meta
-     * information
+     * The principal who last updated the thing being described with
+     * this meta information.
+     *
+     * @name Update Id
      * @readOnly
      * @required on updates
      */

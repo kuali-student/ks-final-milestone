@@ -29,14 +29,14 @@ import java.util.List;
 @Transactional
 public class TestLRCServiceImpl {
 
-    public ContextInfo contextInfo = ContextInfo.newInstance();
+    public ContextInfo contextInfo = null;
 
     @Autowired
     public LRCService lrcService;
 
     @Before
     public void setUp() throws Exception {
-        contextInfo = ContextInfo.newInstance();
+        contextInfo = new ContextInfo ();
         contextInfo.setPrincipalId("123");
     }
 
@@ -124,7 +124,7 @@ public class TestLRCServiceImpl {
         assertNotNull(info);
         assertEquals(info.getName(),"Excellent");
         assertEquals(info.getStateKey(),"kuali.result.value.state.approved");
-        assertEquals(info.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE);
+        assertEquals(info.getTypeKey(),LrcServiceConstants.RESULT_VALUE_TYPE_KEY_VALUE);
         assertEquals(info.getResultScaleKey(),LrcServiceConstants.RESULT_SCALE_KEY_GRADE_LETTER);
         assertEquals(info.getValue(),"A");
     }
@@ -166,7 +166,7 @@ public class TestLRCServiceImpl {
         assertNotNull(info);
         assertEquals(info.getName(),"A-F Grading Scale");
         assertEquals(info.getStateKey(),"kuali.result.scale.state.approved");
-        assertEquals(info.getTypeKey(),LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE);
+        assertEquals(info.getTypeKey(),LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE);
     }
 
     @Test

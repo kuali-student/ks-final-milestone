@@ -1,26 +1,36 @@
-/*
- * Copyright 2007 The Kuali Foundation Licensed under the Educational Community
- * License, Version 1.0 (the "License"); you may not use this file except in
- * compliance with the License. You may obtain a copy of the License at
- * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
- * or agreed to in writing, software distributed under the License is
- * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied. See the License for the specific language
- * governing permissions and limitations under the License.
+/**
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
+ *
+ * http://www.osedu.org/licenses/ECL-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.infc;
 
 /**
- * Captures space and time information associated with a meeting or event.
+ * Captures space and time information associated with a meeting or
+ * event.
  * 
  * @author Kuali Student Team (Kamal)
  */
-// TODO: This interface should eventually move into the scheduling service
-// domain
-public interface MeetingSchedule extends HasId {
+
+// TODO: This interface should eventually move into the scheduling
+//       service domain
+
+public interface MeetingSchedule 
+    extends HasId {
 
     /**
-     * Space code where the meeting is going to take place
+     * Space code where the meeting is going to take place.
      * 
      * @name Space Code
      */
@@ -58,8 +68,7 @@ public interface MeetingSchedule extends HasId {
      * P2Y10M15DT10H30M20S A period of 2 years, 10 months, 15 days, 10 hours, 30
      * minutes, and 20 seconds.
      * 
-     * @name Time
+     * @name Time Periods
      */
     public String getTimePeriods();
-
 }

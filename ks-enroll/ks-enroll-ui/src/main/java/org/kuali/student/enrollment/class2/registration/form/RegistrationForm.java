@@ -53,11 +53,11 @@ public class RegistrationForm extends UifFormBase {
         this.registrationGroupWrappersById = new HashMap<String,RegistrationGroupWrapper>();
     }
 
-    public String getTermKey() {
+    public String getTermId() {
         return termKey;
     }
 
-    public void setTermKey(String termKey) {
+    public void setTermId(String termKey) {
         this.termKey = termKey;
     }
 

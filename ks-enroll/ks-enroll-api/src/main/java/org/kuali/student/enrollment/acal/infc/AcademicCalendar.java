@@ -18,7 +18,7 @@ package org.kuali.student.enrollment.acal.infc;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
@@ -28,33 +28,26 @@ import org.kuali.student.r2.common.infc.KeyEntity;
  * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface AcademicCalendar extends KeyEntity {
-
-     /**
-     * Unique identifier for the type of this academic calendar.
-     * @name Type Key
-     * @readOnly on updates
-     * @required
-     * @impl must be the atp type for Academic Calendar
-     */
-    @Override
-    public String getTypeKey();
+public interface AcademicCalendar 
+    extends IdEntity {
     
     /**
-     * The campus calendar key corresponding to this academic
+     * The holiday calendar id corresponding to this academic
      * calendar. A multi-year academic calendar may have more than one
-     * campus calendar.
-     * @name Campus Calendar
+     * holiday calendar.
+     *
+     * @name Holiday Calendar Ids
+     * @impl Holiday Calendars are stored in the ATP service as an Associated ATP ATP relation
      */
-    public List<String> getCampusCalendarKeys();
+    public List<String> getHolidayCalendarIds();
     
-
     /**
-     * The credential program type key to which this calendar
-     * relates.
-     * @name Credential Program Type Key
+     * The administrative organization responsible for maintaining
+     * this calendar.
+     *
+     * @name AdminOrg Id
      */
-    public String getCredentialProgramTypeKey();
+    public String getAdminOrgId();
     
     /**
      * Date and time the term became effective. This
@@ -64,6 +57,7 @@ public interface AcademicCalendar extends KeyEntity {
      * date on enumerated values. When an expiration date has been
      * specified, this field must be less than or equal to the
      * expiration date.
+     *
      * @name Start Date
      */
     public Date getStartDate();
@@ -76,8 +70,8 @@ public interface AcademicCalendar extends KeyEntity {
      * effective date. If this field is not specified, then no
      * expiration date has been currently defined and should
      * automatically be considered greater than the effective date.
+     *
      * @name End Date
      */
     public Date getEndDate();
-
 }

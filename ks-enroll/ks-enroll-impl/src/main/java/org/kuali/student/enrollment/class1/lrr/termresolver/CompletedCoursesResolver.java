@@ -63,7 +63,7 @@ public class CompletedCoursesResolver implements TermResolver<Collection<String>
     }
 
     public void setLrrService(LearningResultRecordService lrrService) {
-        this.lrrService = lrrService;
+        this.lrrService = lrrService; 
     }
 
     public void setLprService(LuiPersonRelationService lprService) {

@@ -45,7 +45,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
     @Override
     public void saveDataObject() {
 		academicCalendarService = getAcademicCalendarService();
-		ContextInfo context = ContextInfo.newInstance();
+		ContextInfo context = new ContextInfo();
 		
     	AcademicCalendarWrapper academicCalendarWrapper = (AcademicCalendarWrapper)getDataObject();
 
@@ -62,7 +62,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                     List<AttributeInfo> attributes = academicCalendarInfo.getAttributes();
                     List<AttributeInfo> newAttributes = new ArrayList();
                     for (AttributeInfo attribute:attributes) {
-                        if (attribute.getKey().equals("CredentialProgramType")) {
+                        if (attribute.getId().equals("CredentialProgramType")) {
                             attribute.setId(null);
                         }
                         newAttributes.add(attribute);
@@ -71,7 +71,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                 }
 
                 String academicCalendarKey = getAcademicCalendarKey (academicCalendarInfo);
-                academicCalendarInfo.setKey(academicCalendarKey);
+                academicCalendarInfo.setId(academicCalendarKey);
                 academicCalendarInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
         		academicCalendarService.createAcademicCalendar(academicCalendarKey, academicCalendarInfo, context);
         		
@@ -80,8 +80,6 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                 for(TermWrapper termWrapper:termWrapperList){
                 	//prepare termInfo
                 	TermInfo termInfo = termWrapper.getTermInfo();
-                    String termKey = getTermInfoKey (termInfo);
-                    termInfo.setKey(termKey);
                     String termName = getTermInfoName(termInfo);
                     termInfo.setName(termName);
                     termInfo.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
@@ -90,53 +88,53 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                     KeyDateInfo classesMeetDates = termWrapper.getClassesMeetDates();
                     classesMeetDates.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
                     classesMeetDates.setTypeKey(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY);
-                    String classesMeetDatesKey = getKeyDateInfoKey(classesMeetDates, termKey);
-                    classesMeetDates.setKey(classesMeetDatesKey);
+                    String classesMeetDatesKey = getKeyDateInfoKey(classesMeetDates);
+                    classesMeetDates.setId(classesMeetDatesKey);
                     
                     //prepare registrationPeriod
                     KeyDateInfo registrationPeriod = termWrapper.getRegistrationPeriod();
                     registrationPeriod.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
                     registrationPeriod.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
-                    String registrationPeriodKey = getKeyDateInfoKey(registrationPeriod, termKey);
-                    registrationPeriod.setKey(registrationPeriodKey);
+                    String registrationPeriodKey = getKeyDateInfoKey(registrationPeriod);
+                    registrationPeriod.setId(registrationPeriodKey);
                     
                     //prepare dropPeriodEndsDate
                     KeyDateInfo dropPeriodEndsDate = termWrapper.getDropPeriodEndsDate();
                     dropPeriodEndsDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
                     dropPeriodEndsDate.setTypeKey(AtpServiceConstants.MILESTONE_DROP_DATE_TYPE_KEY);
-                    String dropPeriodEndsDateKey = getKeyDateInfoKey(dropPeriodEndsDate, termKey);
-                    dropPeriodEndsDate.setKey(dropPeriodEndsDateKey);
+                    String dropPeriodEndsDateKey = getKeyDateInfoKey(dropPeriodEndsDate);
+                    dropPeriodEndsDate.setId(dropPeriodEndsDateKey);
 
                     //prepare finalExaminationsDates
                     KeyDateInfo finalExaminationsDates = termWrapper.getFinalExaminationsDates();
                     finalExaminationsDates.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
                     finalExaminationsDates.setTypeKey(AtpServiceConstants.MILESTONE_FINAL_EXAM_PERIOD_TYPE_KEY);
-                    String finalExaminationsDatesKey = getKeyDateInfoKey(finalExaminationsDates, termKey);
-                    finalExaminationsDates.setKey(finalExaminationsDatesKey);
+                    String finalExaminationsDatesKey = getKeyDateInfoKey(finalExaminationsDates);
+                    finalExaminationsDates.setId(finalExaminationsDatesKey);
 
                     //prepare gradesDueDate
                     KeyDateInfo gradesDueDate = termWrapper.getGradesDueDate();
                     gradesDueDate.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
                     gradesDueDate.setTypeKey(AtpServiceConstants.MILESTONE_GRADES_DUE_TYPE_KEY);
-                    String gradesDueDateKey = getKeyDateInfoKey(gradesDueDate, termKey);
-                    gradesDueDate.setKey(gradesDueDateKey);
+                    String gradesDueDateKey = getKeyDateInfoKey(gradesDueDate);
+                    gradesDueDate.setId(gradesDueDateKey);
 
                     //create Term and five Key Dates
-                    academicCalendarService.createTerm(termKey, termInfo, context);
-            		academicCalendarService.createKeyDateForTerm(termKey, classesMeetDatesKey, classesMeetDates, context);
-            		academicCalendarService.createKeyDateForTerm(termKey, registrationPeriodKey, registrationPeriod, context);
-            		academicCalendarService.createKeyDateForTerm(termKey, dropPeriodEndsDateKey, dropPeriodEndsDate, context);
-            		academicCalendarService.createKeyDateForTerm(termKey, finalExaminationsDatesKey, finalExaminationsDates, context);
-            		academicCalendarService.createKeyDateForTerm(termKey, gradesDueDateKey, gradesDueDate, context);
+                    termInfo = academicCalendarService.createTerm(termInfo.getTypeKey(), termInfo, context);
+            		academicCalendarService.createKeyDate(termInfo.getId(), classesMeetDatesKey, classesMeetDates, context);
+            		academicCalendarService.createKeyDate(termInfo.getId(), registrationPeriodKey, registrationPeriod, context);
+            		academicCalendarService.createKeyDate(termInfo.getId(), dropPeriodEndsDateKey, dropPeriodEndsDate, context);
+            		academicCalendarService.createKeyDate(termInfo.getId(), finalExaminationsDatesKey, finalExaminationsDates, context);
+            		academicCalendarService.createKeyDate(termInfo.getId(), gradesDueDateKey, gradesDueDate, context);
             		
             		//associate a Term with an Acal
-            		academicCalendarService.addTermToAcademicCalendar(academicCalendarKey, termKey, context);            		
+            		academicCalendarService.addTermToAcademicCalendar(academicCalendarKey, termInfo.getId(), context);
                 }
         	}
         	else { 
         		//for MAINTENANCE_EDIT_ACTION
         		AcademicCalendarInfo academicCalendarInfo = academicCalendarWrapper.getAcademicCalendarInfo();
-        		academicCalendarService.updateAcademicCalendar(academicCalendarInfo.getKey(), academicCalendarInfo, context);
+        		academicCalendarService.updateAcademicCalendar(academicCalendarInfo.getId(), academicCalendarInfo, context);
                 //If we can successfully update a AcademicCalendarInfo, update a list of TermWrapper.
                 List<TermWrapper> termWrapperList = academicCalendarWrapper.getTermWrapperList();
                 for(TermWrapper termWrapper:termWrapperList){
@@ -149,12 +147,12 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
                     KeyDateInfo gradesDueDate = termWrapper.getGradesDueDate();
 
                     //update Term and five Key Dates
-                    academicCalendarService.updateTerm(termInfo.getKey(), termInfo, context);             
-            		academicCalendarService.updateKeyDate(classesMeetDates.getKey(), classesMeetDates, context);            		
-            		academicCalendarService.updateKeyDate(registrationPeriod.getKey(), registrationPeriod, context);
-            		academicCalendarService.updateKeyDate(dropPeriodEndsDate.getKey(), dropPeriodEndsDate, context);
-            		academicCalendarService.updateKeyDate(finalExaminationsDates.getKey(), finalExaminationsDates, context);
-            		academicCalendarService.updateKeyDate(gradesDueDate.getKey(), gradesDueDate, context);
+                    academicCalendarService.updateTerm(termInfo.getId(), termInfo, context);
+            		academicCalendarService.updateKeyDate(classesMeetDates.getId(), classesMeetDates, context);
+            		academicCalendarService.updateKeyDate(registrationPeriod.getId(), registrationPeriod, context);
+            		academicCalendarService.updateKeyDate(dropPeriodEndsDate.getId(), dropPeriodEndsDate, context);
+            		academicCalendarService.updateKeyDate(finalExaminationsDates.getId(), finalExaminationsDates, context);
+            		academicCalendarService.updateKeyDate(gradesDueDate.getId(), gradesDueDate, context);
             		
             		//TODO Need to handle new added Terms plus keyDates
                 	
@@ -172,6 +170,8 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
         }catch (OperationFailedException ofe){
            
         }catch (PermissionDeniedException pde){
+
+        }catch (ReadOnlyException roe){
             
         }catch (DoesNotExistException dee){
             
@@ -183,7 +183,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
     
     @Override
     public Object retrieveObjectForEditOrCopy(MaintenanceDocument document, Map<String, String> dataObjectKeys) {
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
     	academicCalendarService = getAcademicCalendarService();
     	AcademicCalendarWrapper academicCalendarWrapper = new AcademicCalendarWrapper();
     	try{
@@ -196,7 +196,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
     		for (TermInfo termInfo:termInfoList){
     			TermWrapper termWrapper = new TermWrapper();
     			termWrapper.setTermInfo(termInfo);
-    			List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm(termInfo.getKey(), context);
+    			List<KeyDateInfo> keyDateInfoList = academicCalendarService.getKeyDatesForTerm(termInfo.getId(), context);
     			for (KeyDateInfo keyDateInfo : keyDateInfoList){
     				if(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY.equals(keyDateInfo.getTypeKey())){
     					termWrapper.setClassesMeetDates(keyDateInfo);
@@ -302,12 +302,13 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
         String academicCalendarKey = new String (ACADEMIC_CALENDAR_KEY_PREFIX);
         String credentialProgram;
         
-        String credentialProgramTypeKey = academicCalendarInfo.getCredentialProgramTypeKey();
-        if (credentialProgramTypeKey.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
-        	credentialProgram  = credentialProgramTypeKey.substring(25);
+        String adminOrgId = academicCalendarInfo.getAdminOrgId();
+        //TODO redo this string creation.  the switch from credential program type to adminOrgId caused some issues
+        if (adminOrgId.startsWith(CREDENTIAL_PROGRAM_TYPE_KEY_PREFIX)){
+        	credentialProgram  = adminOrgId.substring(25);
         }
         else {
-        	credentialProgram = credentialProgramTypeKey;
+        	credentialProgram = adminOrgId;
         }        
         String yearOfStartDate = getYearFromDate(academicCalendarInfo.getStartDate());
         String yearOfEndDate = getYearFromDate(academicCalendarInfo.getEndDate());
@@ -318,37 +319,12 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
     
     /*
      *  Based on Norm's suggestion at 
-     *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities
-     *  Term Keys should be 
-     *  kuali.term.<yearOfStartDate>-<yearOfEndDate>.
-     *  <The last part of the type key of the term selected (when split using ".") converted to lower case>
-     */
-    private String getTermInfoKey(TermInfo termInfo){
-        String termKey = new String (TERM_KEY_PREFIX);
-        String theType;
-        
-        String theTypeKey = termInfo.getTypeKey();      
-        if (theTypeKey.startsWith(TERM_TYPE_KEY_PREFIX)){
-     	   theType = theTypeKey.substring(15);
-        }
-        else {
-     	   theType = theTypeKey;
-        }        
-        String yearOfStartDate = getYearFromDate(termInfo.getStartDate());
-        String yearOfEndDate = getYearFromDate(termInfo.getEndDate());
-        termKey = termKey.concat(yearOfStartDate+"-"+yearOfEndDate+"."+theType);
-        return termKey.toLowerCase();       
-        
-    }
-    
-    /*
-     *  Based on Norm's suggestion at 
      *  https://wiki.kuali.org/display/STUDENT/How+to+Calculate+Keys+for+Academic+Calendar+Entities#HowtoCalculateKeysforAcademicCalendarEntities-MilestoneKeys
      *  KeyDateInfo Key should be 
      *  kuali.milestone.<The last part of the type key of the milestone selected (when split using ".") converted to lower case>.
      *  <The term key to which this milestone is expected to be connected with the "kuali." prefix removed>
      */
-    private String getKeyDateInfoKey(KeyDateInfo keyDateInfo, String termKey){
+    private String getKeyDateInfoKey(KeyDateInfo keyDateInfo){
         String keyDateInfoKey = new String (KEY_DATE_INFO_KEY_PREFIX);
         
         String theKeyDateInfoType;
@@ -361,8 +337,7 @@ public class AcademicCalendarWrapperMaintainableImpl extends MaintainableImpl {
         	theKeyDateInfoType = theKeyDateInfoTypeKey;
         }        
 
-        keyDateInfoKey = keyDateInfoKey.concat(theKeyDateInfoType.toLowerCase()+"."+termKey.substring(6));
-        return keyDateInfoKey.toLowerCase();       
+        return keyDateInfoKey.toLowerCase();
         
     }
 

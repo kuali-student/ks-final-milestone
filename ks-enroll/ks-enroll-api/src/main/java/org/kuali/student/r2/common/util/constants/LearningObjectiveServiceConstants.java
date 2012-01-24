@@ -1,5 +1,7 @@
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+
 /**
  * This class holds the constants used by the Learning Objective Service
  */

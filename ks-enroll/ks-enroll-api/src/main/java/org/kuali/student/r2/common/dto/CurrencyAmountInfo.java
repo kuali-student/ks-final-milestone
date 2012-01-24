@@ -1,15 +1,16 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+/*
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -29,16 +30,20 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.w3c.dom.Element;
 
 /**
- * Detailed information about an amount of currency including both the type of units and the quantity.
+ * Detailed information about an amount of currency including both the
+ * type of units and the quantity.
  *
- * @Author Kamal
- * @Since Mon Jan 11 15:20:51 PST 2010
- *
+ * @author Kamal
+ * @since Mon Jan 11 15:20:51 PST 2010
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CurrencyAmountInfo", propOrder = {"id", "currencyTypeKey", "currencyQuantity",
-        "meta", "_futureElements"})
-public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
+@XmlType(name = "CurrencyAmountInfo", propOrder = {
+                "id", "currencyTypeKey", "currencyQuantity",
+                "meta", "_futureElements"})
+
+public class CurrencyAmountInfo 
+    implements CurrencyAmount, Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,35 +56,44 @@ public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
     @XmlElement
     private Integer currencyQuantity;
     
+    @XmlElement
+    private MetaInfo meta;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    @XmlElement
-    private MetaInfo meta;
-    
-    public CurrencyAmountInfo() {
-        this.id = null;
-        this.currencyTypeKey = null;
-        this.currencyQuantity = null;
-        this.meta = null;
-        this._futureElements = null;
-    }
-    
-    public CurrencyAmountInfo(CurrencyAmount currency) {
-
-        if(null == currency) return;
-        
-        this.id = currency.getId();
-        this.currencyQuantity = (null != currency.getCurrencyQuantity()) ? currency.getCurrencyQuantity() : null;
-        this.currencyTypeKey = currency.getCurrencyTypeKey();
-        this.meta = null != currency.getMeta() ? MetaInfo
-                    .getInstance(currency.getMeta()) : null;
-        this._futureElements = null;
-    }
-    
     /**
-     * The kind of units associated with the quantity, such as US Dollars
+     * Constructs a new CurrencyAmount.
      */
+    public CurrencyAmountInfo() {
+    }
+
+    /**
+     * Constructs a new CurrencyAmount from another Currency.
+     *
+     * @param currency the currency to copy
+     */   
+    public CurrencyAmountInfo(CurrencyAmount currency) {
+        if (currency != null) {        
+            this.id = currency.getId();
+            this.currencyQuantity = currency.getCurrencyQuantity();
+            this.currencyTypeKey = currency.getCurrencyTypeKey();
+            if (currency.getMeta() != null ) {
+                this.meta = new MetaInfo(currency.getMeta());
+            }
+        }
+    }
+    
+    @Override
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
     public String getCurrencyTypeKey() {
         return currencyTypeKey;
     }
@@ -88,9 +102,7 @@ public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
         this.currencyTypeKey = currencyTypeKey;
     }
 
-    /**
-     * The amount of currency
-     */
+    @Override
     public Integer getCurrencyQuantity() {
         return currencyQuantity;
     }
@@ -98,17 +110,6 @@ public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
     public void setCurrencyQuantity(Integer currencyQuantity) {
         this.currencyQuantity = currencyQuantity;
     }
-
-	/**
-	 * 	Identifier for the currency amount record.
-	 */
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 	
     @Override
     public MetaInfo getMeta() {

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Mon Sep 12 14:39:44 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -64,7 +64,7 @@ Detailed information about a single LUI.
 				<ref bean="LuiInfo.effectiveDate"/>
 				<ref bean="LuiInfo.expirationDate"/>
 				<ref bean="LuiInfo.cluId"/>
-				<ref bean="LuiInfo.atpKey"/>
+				<ref bean="LuiInfo.atpId"/>
 				<ref bean="LuiInfo.maximumEnrollment"/>
 				<ref bean="LuiInfo.minimumEnrollment"/>
 				<ref bean="LuiInfo.referenceURL"/>
@@ -496,16 +496,16 @@ a Course Format.
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LuiInfo.atpKey-generated" abstract="true" parent="BaseKuali.atpKey">
-		<property name="name" value="atpKey"/>
-		<property name="shortLabel" value="Atp Key"/>
+	<bean id="LuiInfo.atpId-generated" abstract="true" parent="BaseKuali.atpId">
+		<property name="name" value="atpId"/>
+		<property name="shortLabel" value="Atp Id"/>
 		<property name="summary">
 			<value>
 The unique identifier for the Academic Time Period (ATP)
 for which this instance is offered.
 			</value>
 		</property>
-		<property name="label" value="Atp Key"/>
+		<property name="label" value="Atp Id"/>
 		<property name="description">
 			<value>
 The unique identifier for the Academic Time Period (ATP)

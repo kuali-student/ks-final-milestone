@@ -17,7 +17,7 @@
 
 <tiles:useAttribute name="control"
                     classname="org.kuali.student.enrollment.uif.control.ScheduleControl"/>
-<tiles:useAttribute name="field" classname="org.kuali.rice.krad.uif.field.AttributeField"/>
+<tiles:useAttribute name="field" classname="org.kuali.rice.krad.uif.field.InputField"/>
 
 <div id="${control.id}" class="${control.styleClassesAsString}">
 <%--    <krad:template component="${control.headerField}"/>--%>

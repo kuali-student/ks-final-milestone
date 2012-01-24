@@ -19,17 +19,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.CampusCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
-import org.kuali.student.enrollment.acal.dto.RegistrationDateGroupInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
 
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -45,6 +45,7 @@ import org.kuali.student.r2.core.hold.dto.RestrictionInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+@Ignore
 public class TestServiceDictionaries {
 
     private String calculateXmlFileName(Class<?> clazz) {
@@ -55,10 +56,10 @@ public class TestServiceDictionaries {
         List<String> inputFiles = new ArrayList<String>();
 //       Academic Calendar (ACAL) Service
         inputFiles.add(calculateXmlFileName(AcademicCalendarInfo.class));
-        inputFiles.add(calculateXmlFileName(CampusCalendarInfo.class));
+        inputFiles.add(calculateXmlFileName(HolidayCalendarInfo.class));
         inputFiles.add(calculateXmlFileName(TermInfo.class));
-        inputFiles.add(calculateXmlFileName(RegistrationDateGroupInfo.class));
         inputFiles.add(calculateXmlFileName(HolidayInfo.class));
+        inputFiles.add(calculateXmlFileName(AcalEventInfo.class));
         inputFiles.add(calculateXmlFileName(KeyDateInfo.class));
 //       Lui Person Relation (LPR) Service
         inputFiles.add(calculateXmlFileName(LuiPersonRelationInfo.class));
@@ -77,7 +78,6 @@ public class TestServiceDictionaries {
 //       Course Offering Service"
         inputFiles.add(calculateXmlFileName(CourseOfferingInfo.class));
         inputFiles.add(calculateXmlFileName(ActivityOfferingInfo.class));
-        inputFiles.add(calculateXmlFileName(RegistrationGroupInfo.class));
         inputFiles.add(calculateXmlFileName(SeatPoolDefinitionInfo.class));
         return inputFiles;
     }

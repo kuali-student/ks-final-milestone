@@ -10,7 +10,7 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.lu.infc.LuCode;
 
@@ -43,7 +43,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	private String cluId;
 	
 	@Column(name="ATP_ID")
-	private String atpKey;
+	private String atpId;
     
 	@Column(name="REF_URL")
 	private String referenceURL;
@@ -109,7 +109,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         try {   
         	this.setId(lui.getId());
         	this.setName(lui.getName());
-        	this.setAtpKey(lui.getAtpKey());
+        	this.setAtpId(lui.getAtpId());
         	this.setCluId(lui.getCluId());
         	this.setMaxSeats(lui.getMaximumEnrollment());        	
         	this.setMinSeats(lui.getMinimumEnrollment());     
@@ -181,7 +181,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     	LuiInfo obj = new LuiInfo();
     	obj.setId(getId());
     	obj.setName(name);
-    	obj.setAtpKey(atpKey);
+    	obj.setAtpId(atpId);
     	obj.setCluId(cluId);
         if (null != officialIdentifier) {
             obj.setOfficialIdentifier(officialIdentifier.toDto());
@@ -289,12 +289,12 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 		this.name = name;
 	}
 
-	public String getAtpKey() {
-		return atpKey;
+	public String getAtpId() {
+		return atpId;
 	}
 
-	public void setAtpKey(String atpKey) {
-		this.atpKey = atpKey;
+	public void setAtpId(String atpId) {
+		this.atpId = atpId;
 	}
 
 	public LuiRichTextEntity getDescr() {

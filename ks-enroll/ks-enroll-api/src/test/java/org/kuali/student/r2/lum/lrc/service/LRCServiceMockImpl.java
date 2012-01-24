@@ -26,26 +26,6 @@ public class LRCServiceMockImpl implements LRCService {
     private Map<String, ResultValuesGroupInfo> rvGroupInfos = new HashMap<String, ResultValuesGroupInfo>();
 
     @Override
-    public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectURI") String relatedRefObjectURI, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -133,44 +113,5 @@ public class LRCServiceMockImpl implements LRCService {
     public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey, @WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public StateInfo getNextHappyState(@WebParam(name = "processKey") String processKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
+    
 }

@@ -3,13 +3,9 @@ package org.kuali.student.r2.lum.program.service;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
+
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -26,7 +22,6 @@ import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 
 public class ProgramServiceDecorator implements ProgramService {
     private ProgramService nextDecorator;
@@ -38,67 +33,6 @@ public class ProgramServiceDecorator implements ProgramService {
         return nextDecorator;
     }
 
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-
-        return this.nextDecorator.getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return this.nextDecorator.getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getType(typeKey, context);
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getTypesByRefObjectURI(refObjectURI, context);
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getProcessByObjectType(refObjectUri, context);
-    }
-
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getState(processKey, stateKey, context);
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getStatesByProcess(processKey, context);
-
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getInitialValidStates(processKey, context);
-
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return this.nextDecorator.getNextHappyState(processKey, currentStateKey, context);
-    }
 
     @Override
     public CredentialProgramInfo getCredentialProgram(String credentialProgramId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -342,11 +276,6 @@ public class ProgramServiceDecorator implements ProgramService {
     public StatusInfo deleteMinorDiscipline(String minorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return this.nextDecorator.deleteMinorDiscipline(minorDisciplineId, contextInfo);
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return this.nextDecorator.getProcessByKey(processKey, context);
     }
 
     @Override

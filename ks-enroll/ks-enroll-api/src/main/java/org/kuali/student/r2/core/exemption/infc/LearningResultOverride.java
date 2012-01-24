@@ -32,5 +32,5 @@ public interface LearningResultOverride {
      * The Ids of the Learning Result Records created for this result
      * override.
      */
-    public List<String> getLRRIds();
+    public List<String> getLrrIds();
 }

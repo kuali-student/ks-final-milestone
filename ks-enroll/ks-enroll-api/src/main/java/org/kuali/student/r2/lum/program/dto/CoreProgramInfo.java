@@ -19,8 +19,8 @@ import javax.xml.bind.annotation.*;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
 import org.w3c.dom.Element;
 
-@XmlType(name = "CoreProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "code", "universityClassification", "startTermKey",
-        "endTermKey", "endProgramEntryTermKey", "programRequirements", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight", "referenceURL",
+@XmlType(name = "CoreProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "code", "universityClassification", "startTermId",
+        "endTermId", "endProgramEntryTermId", "programRequirements", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight", "referenceURL",
         "catalogDescr", "catalogPublicationTargets", "learningObjectives", "cip2000Code", "diplomaTitle", "hegisCode", "selectiveEnrollmentCode", "cip2010Code", "meta", "attributes",
         "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)

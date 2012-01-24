@@ -1,5 +1,6 @@
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.document.dto.DocumentCategoryInfo;
 import org.kuali.student.r2.core.document.dto.DocumentInfo;
 import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;

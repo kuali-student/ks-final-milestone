@@ -22,10 +22,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="TermWrapper" parent="TermWrapper-parentBean"/>
   <bean id="TermWrapper-parentBean" abstract="true" parent="DataObjectEntry">
     <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
-    <property name="titleAttribute" value="key"/>
+    <property name="titleAttribute" value="id"/>
     <property name="attributes">
         <list>
-            <ref bean="TermWrapper.key"/>
+            <ref bean="TermWrapper.id"/>
         </list>
     </property>
     <property name="complexAttributes">
@@ -41,15 +41,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="objectLabel" value="Term with Key Dates"/>
     <property name="primaryKeys">
       <list>
-        <value>key</value>
+        <value>id</value>
       </list>
     </property>
   </bean>
 
   <!-- Attribute Definitions -->
-  <bean id="TermWrapper.key" parent="BaseKuali.key">
-        <property name="name" value="key"/>
-        <property name="label" value="Term Key" />
+  <bean id="TermWrapper.id" parent="BaseKuali.id">
+        <property name="name" value="id"/>
+        <property name="label" value="Term ID" />
         <property name="required" value="false"/>
         <property name="unique" value="true"/>
         <property name="validCharactersConstraint">
@@ -90,19 +90,19 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
   <!-- LookupView -->
   <bean id="TermWrapper-LookupView" parent="KSLookupView">
-    <property name="title" value="Term Lookup (by Key)" />
+    <property name="title" value="Term Lookup (by ID)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperLookupableImpl"></property>
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaInputField" p:propertyName="key" />
+        <bean parent="LookupCriteriaInputField" p:propertyName="id" />
         <bean parent="LookupCriteriaInputField" p:propertyName="termInfo.typeKey"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="InputField" p:propertyName="key" />
-		<!-- <bean parent="InputField" p:propertyName="termInfo.key" />    -->
+        <bean parent="InputField" p:propertyName="id" />
+		<!-- <bean parent="InputField" p:propertyName="termInfo.id" />    -->
         <bean parent="InputField" p:propertyName="termInfo.typeKey" />
         <bean parent="InputField" p:propertyName="termInfo.startDate" />
         <bean parent="InputField" p:propertyName="termInfo.endDate" />
@@ -119,19 +119,19 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
   <!-- LookupView   -->
   <bean id="TermWrapper-LookupView2" parent="KSLookupView">
-    <property name="title" value="Term Wrapp/Info Lookup (by Key)" />
+    <property name="title" value="Term Wrapp/Info Lookup (by ID)" />
     <property name="viewName" value="TermInfo-LookupView2"/>
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermLookupableImpl"></property>
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaInputField" p:propertyName="key" />
+        <bean parent="LookupCriteriaInputField" p:propertyName="id" />
         <bean parent="LookupCriteriaInputField" p:propertyName="typeKey"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="InputField" p:propertyName="key" />
+		<bean parent="InputField" p:propertyName="id" />
         <bean parent="InputField" p:propertyName="typeKey" />
         <bean parent="InputField" p:propertyName="startDate" />
         <bean parent="InputField" p:propertyName="endDate" />
@@ -153,7 +153,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="title" value="Term with Key Dates"/>
              <property name="items">
                <list>
-               	<bean parent="InputField" p:propertyName="termInfo.key"/>
+               	<bean parent="InputField" p:propertyName="termInfo.id"/>
                 <bean parent="InputField" p:propertyName="termInfo.typeKey"/>
                 <bean parent="InputField" p:propertyName="termInfo.startDate"/>
                 <bean parent="InputField" p:propertyName="termInfo.endDate"/>
@@ -346,7 +346,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
-        <value>termInfo.key</value>
+        <value>termInfo.id</value>
       </list>
     </property>
   </bean>

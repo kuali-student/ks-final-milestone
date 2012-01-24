@@ -26,26 +26,26 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
         <property name="collections">
             <list>
-                <ref bean="TestAcademicCalendarInfo.campusCalendarKeys"/>
+                <ref bean="TestAcademicCalendarInfo.holidayCalendarIds"/>
             </list>
         </property>
     </bean>
    
-    <bean id="TestAcademicCalendarInfo.campusCalendarKeys" parent="TestAcademicCalendarInfo.campusCalendarKeys-parent"/>
-    <bean id="TestAcademicCalendarInfo.campusCalendarKeys-parent" abstract="true" parent="CollectionDefinition">
+    <bean id="TestAcademicCalendarInfo.holidayCalendarIds" parent="TestAcademicCalendarInfo.holidayCalendarIds-parent"/>
+    <bean id="TestAcademicCalendarInfo.holidayCalendarIds-parent" abstract="true" parent="CollectionDefinition">
         <property name="dataObjectClass" value="java.lang.String"/>
-        <property name="name" value="campusCalendarKeys"/>
-        <property name="shortLabel" value="Campus Calendar Keys"/>
+        <property name="name" value="holidayCalendarIds"/>
+        <property name="shortLabel" value="Holiday Calendar Ids"/>
         <property name="summary">
             <value>
-Campus calendar keys
+Holiday calendar 
             </value>
         </property>
-        <property name="label" value="campus calendar keys"/>
-        <property name="elementLabel" value="Campus Calendar Key"/>        
+        <property name="label" value="holiday calendar ids"/>
+        <property name="elementLabel" value="Holiday Calendar Key"/>        
         <property name="description">
             <value>
-Campus calendar keys
+Holiday calendar ids
             </value>
         </property>
         <property name="minOccurs" value="1"/>
@@ -53,8 +53,8 @@ Campus calendar keys
     </bean>
 
 
-    <bean id="TestAcademicCalendarInfo.key" parent="TestAcademicCalendarInfo.key-parent"/>
-    <bean id="TestAcademicCalendarInfo.key-parent" abstract="true" parent="TestAcademicCalendarInfo.key-generated">
+    <bean id="TestAcademicCalendarInfo.id" parent="TestAcademicCalendarInfo.id-parent"/>
+    <bean id="TestAcademicCalendarInfo.id-parent" abstract="true" parent="TestAcademicCalendarInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
     </bean>
 
@@ -98,11 +98,7 @@ Campus calendar keys
 	<!-- insert any overrides to the generated attribute definitions here -->
     </bean>
 
-    <bean id="TestAcademicCalendarInfo.credentialProgramTypeKey" parent="TestAcademicCalendarInfo.credentialProgramTypeKey-parent"/>
-    <bean id="TestAcademicCalendarInfo.credentialProgramTypeKey-parent" abstract="true" parent="TestAcademicCalendarInfo.credentialProgramTypeKey-generated">
-	<!-- insert any overrides to the generated attribute definitions here -->
-    </bean>
-
+  
     <bean id="TestAcademicCalendarInfo.meta" parent="TestAcademicCalendarInfo.meta-parent"/>
     <bean id="TestAcademicCalendarInfo.meta-parent" abstract="true" parent="TestAcademicCalendarInfo.meta-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
@@ -172,7 +168,6 @@ Campus calendar keys
 				<ref bean="TestAcademicCalendarInfo.descr.formatted"/>
 				<ref bean="TestAcademicCalendarInfo.startDate"/>
 				<ref bean="TestAcademicCalendarInfo.endDate"/>
-				<ref bean="TestAcademicCalendarInfo.credentialProgramTypeKey"/>
 				<ref bean="TestAcademicCalendarInfo.meta"/>
 				<ref bean="TestAcademicCalendarInfo.meta.versionInd"/>
 				<ref bean="TestAcademicCalendarInfo.meta.createTime"/>
@@ -282,25 +277,7 @@ automatically be considered greater than the effective date.
 		</property>
 	</bean>
 
-	<bean id="TestAcademicCalendarInfo.credentialProgramTypeKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="credentialProgramTypeKey"/>
-		<property name="childEntryName" value="credentialProgramTypeKey"/>
-		<property name="required" value="false"/>
-		<property name="shortLabel" value="Credential Program Type Key"/>
-		<property name="summary">
-			<value>
-The credential program type key to which this calendar
-relates.
-			</value>
-		</property>
-		<property name="label" value="Credential Program Type Key"/>
-		<property name="description">
-			<value>
-The credential program type key to which this calendar
-relates.
-			</value>
-		</property>
-	</bean>
+	
 
 	<bean id="TestAcademicCalendarInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
 		<property name="name" value="meta"/>

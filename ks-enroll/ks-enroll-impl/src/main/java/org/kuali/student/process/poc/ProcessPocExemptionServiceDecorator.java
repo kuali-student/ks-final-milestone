@@ -25,7 +25,7 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
 
     public ProcessPocExemptionServiceDecorator(ExemptionService nextDecorator) {
         super();
-        this.setNextDecorator(nextDecorator);
+        setNextDecorator(nextDecorator);
         initializeData();
     }
 
@@ -98,7 +98,7 @@ public class ProcessPocExemptionServiceDecorator extends ExemptionServiceDecorat
         info.setProcessKey(ProcessServiceConstants.PROCESS_KEY_ELIGIBILITY_FOR_TERM);
         info.setCheckKey(ProcessServiceConstants.CHECK_KEY_REGISTRATION_PERIOD_IS_NOT_CLOSED);
         DateOverrideInfo dateOverride = new DateOverrideInfo();
-        dateOverride.setMilestoneKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
+        dateOverride.setMilestoneId(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         dateOverride.setEffectiveEndDate(endDate);
         info.setDateOverride(dateOverride);
         try {

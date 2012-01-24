@@ -113,7 +113,7 @@ public class TestRiceDataDictionaryValidatorImplAgainstAtp {
 
     private AtpInfo getDefaultAtpInfo() {
         AtpInfo atp = new AtpInfo();
-        atp.setKey("org.kuali.test.atp");
+        atp.setId("org.kuali.test.atp");
         atp.setName("test atp");
         atp.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
         atp.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);

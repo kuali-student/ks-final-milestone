@@ -27,99 +27,105 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.AcademicCalendar;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.KeyEntity;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcademicCalendarInfo", propOrder = { "key", "typeKey",
-		"stateKey", "name", "descr", "startDate", "endDate",
-		"campusCalendarKeys", "credentialProgramTypeKey", "meta",
-		"attributes", "_futureElements" })
-public class AcademicCalendarInfo extends KeyEntityInfo implements
-		AcademicCalendar, Serializable {
+@XmlType(name = "AcademicCalendarInfo", propOrder = { 
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "holidayCalendarIds", "adminOrgId", "startDate", "endDate", 
+		"meta", "attributes", "_futureElements" })
 
-	private static final long serialVersionUID = 1L;
+public class AcademicCalendarInfo 
+    extends IdEntityInfo 
+    implements AcademicCalendar, Serializable {
+    
+    private static final long serialVersionUID = 1L;
+    
+    @XmlElement
+    private List<String> holidayCalendarIds;
 
-	@XmlElement
-	private List<String> campusCalendarKeys;
+    @XmlElement
+    private String adminOrgId;
+    
+    @XmlElement
+    private Date startDate; 
+    
+    @XmlElement
+    private Date endDate;
+    
+    @XmlAnyElement
+    private List<Element> _futureElements;
+    
+    /**
+     * Constructs a new AcademicCalendarInfo.
+     */
+    public AcademicCalendarInfo() {
+    }
 
-	@XmlElement
-	private String credentialProgramTypeKey;
+    /**
+     * Constructs a new AcademicCalendarInfo from another AcademicCalendar.
+     * 
+     * @param acal the Academic Calendar to copy
+     */
+    public AcademicCalendarInfo(AcademicCalendar acal) {
+        super(acal);
 
-	@XmlElement
-	private Date startDate; 
+        if (acal != null) {
+            if (acal.getHolidayCalendarIds() != null) {
+                this.holidayCalendarIds = new ArrayList<String>(acal.getHolidayCalendarIds());
+            }
+            this.adminOrgId = acal.getAdminOrgId();
+            if (acal.getStartDate() != null) {
+                this.startDate = new Date(acal.getStartDate().getTime());
+            }
 
-	@XmlElement
-	private Date endDate;
-	
-	@XmlAnyElement
-	private List<Element> _futureElements;
+            if (acal.getEndDate() != null) {
+                this.endDate = new Date(acal.getEndDate().getTime());
+            }
+            this.adminOrgId = acal.getAdminOrgId();
+            
+            this.holidayCalendarIds = new ArrayList<String>(acal.getHolidayCalendarIds());
+        }
+    }
 
-	public AcademicCalendarInfo() {
-		campusCalendarKeys = null;
-		credentialProgramTypeKey = null;
-		startDate = null;
-		endDate = null;
-		this._futureElements = null;
-	}
+    @Override
+    public List<String> getHolidayCalendarIds() {
+        if (holidayCalendarIds == null) {
+            holidayCalendarIds = new ArrayList<String>();
+        }
 
-	/**
-	 * Constructs a new AcademicCalendarInfo from another AcademicCalendar.
-	 * 
-	 * @param acal
-	 *            the Academic Calendar to copy
-	 */
-	public AcademicCalendarInfo(AcademicCalendar acal) {
+        return holidayCalendarIds;
+    }
 
-		super(acal);
+    public void setHolidayCalendarIds(List<String> holidayCalendarIds) {
+        this.holidayCalendarIds = holidayCalendarIds;
+    }
 
-		if (null != acal) {
-			this.campusCalendarKeys = null != acal.getCampusCalendarKeys() ? new ArrayList<String>(
-					acal.getCampusCalendarKeys()) : null;
-			this.credentialProgramTypeKey = acal.getCredentialProgramTypeKey();
-			this.startDate = new Date( acal.getStartDate().getTime());
-			this.endDate = new Date( acal.getEndDate().getTime());
-			this._futureElements = null;
-		}
-	}
+    @Override
+    public String getAdminOrgId() {
+        return adminOrgId;
+    }
 
-	@Override
-	public List<String> getCampusCalendarKeys() {
-		return campusCalendarKeys;
-	}
+    public void setAdminOrgId(String adminOrgId) {
+        this.adminOrgId = adminOrgId;
+    }
 
-	public void setCampusCalendarKeys(List<String> campusCalendarKeys) {
-		this.campusCalendarKeys = campusCalendarKeys;
-	}
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+    
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
 
-	@Override
-	public String getCredentialProgramTypeKey() {
-		return credentialProgramTypeKey;
-	}
-
-	public void setCredentialProgramTypeKey(String credentialProgramTypeKey) {
-		this.credentialProgramTypeKey = credentialProgramTypeKey;
-	}
-
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }

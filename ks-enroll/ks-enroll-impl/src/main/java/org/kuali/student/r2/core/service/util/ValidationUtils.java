@@ -16,6 +16,10 @@
  */
 package org.kuali.student.r2.core.service.util;
 
+
+
+import java.util.List;
+
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -23,8 +27,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-
-import java.util.List;
 
 /**
  * This class provides static utility methods for services.

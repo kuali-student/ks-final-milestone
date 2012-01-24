@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package org.kuali.student.r2.common.infc;
 
 import java.util.List;
@@ -20,18 +21,17 @@ import java.util.List;
 /**
  * Criteria for a generic query
  */
+
 @Deprecated
 public interface Comparison  {
 
-  
     /**
-     * Name: Field Key
+     * Dot path notation to identity the name of field to be compared.
      *
-     * Dot path notation to identity the name of field to be compared
+     * @name Field Key
      */
     public String getFieldKey();
    
-
     /**
      * Name: Operator
      * 
@@ -56,26 +56,24 @@ public interface Comparison  {
      * TODO: Decide on other operators
      * TODO: Deicde on operators to search collections inside such as any
      * TODO: Decide how to search on dynamic attributes
-     *
      */
     public String getOperator();
-  
 
     /**
-     * Name: Criteria Value(s)
-     * 
-     * Value to be compared
+     * Values to be compared.
+     *
+     * @name Values
      */
     public List<String> getValues();
   
 
     /**
-     * Name: Ignore Case?
+     * Check if should ignore case when doing the comparison Default
+     * is false. If true then the case of both the specified
+     * comparison value(s) and the data value from the field should be
+     * ignored.
      *
-     * Check if should ignore case when doing the comparison
-     * Default is false
-     * If true then the case of both the specified comparison value(s) and the data value from the field should be ignored
+     * @name Is Ignore Case
      */
     public Boolean getIsIgnoreCase ();
-  
 }

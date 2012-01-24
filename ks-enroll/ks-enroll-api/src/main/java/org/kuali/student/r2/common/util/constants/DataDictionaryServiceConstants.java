@@ -14,6 +14,7 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.datadictionary.dto.AttributeDefinitionInfo;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.datadictionary.dto.ValidCharactersConstraintInfo;

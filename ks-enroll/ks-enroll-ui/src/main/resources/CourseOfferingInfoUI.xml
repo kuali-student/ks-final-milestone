@@ -28,7 +28,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <list>
                 <ref bean="CourseOfferingInfoUI.id"/>
                 <ref bean="CourseOfferingInfoUI.courseId"/>
-                <ref bean="CourseOfferingInfoUI.termKey"/>
+                <ref bean="CourseOfferingInfoUI.termId"/>
                 <ref bean="CourseOfferingInfoUI.subjectArea"/>
                 <ref bean="CourseOfferingInfoUI.courseOfferingCode"/>
                 <ref bean="CourseOfferingInfoUI.maximumEnrollment"/>
@@ -48,7 +48,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                 <ref bean="CourseOfferingInfo.isWaitlistCheckinRequired"/>
                 <ref bean="CourseOfferingInfo.fundingSource"/>
                 <ref bean="CourseOfferingInfo.isFinancialAidEligible"/>
-                <ref bean="CourseOfferingInfo.registrationOrderTypeKey"/>						
+                <ref bean="CourseOfferingInfo.registrationOrderTypeKey"/>
             </list>
         </property>
         <property name="complexAttributes">
@@ -97,7 +97,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         </property>
     </bean>
 
-    <bean id="CourseOfferingInfoUI.termKey" parent="CourseOfferingInfo.termKey-parent">
+    <bean id="CourseOfferingInfoUI.termId" parent="CourseOfferingInfo.termId-parent">
         <property name="label" value="Term" />
         <property name="required" value="true"/>
         <property name="summary" value=""/>
@@ -107,10 +107,9 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="controlField">
             <bean parent="SelectControl"/>
         </property>
-        <!--
         <property name="optionsFinder">
             <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
-        </property> -->
+        </property>
     </bean>   
 
     <bean id="CourseOfferingInfoUI.subjectArea" parent="CourseOfferingInfo.subjectArea-parent">
@@ -142,7 +141,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="resultFields">
       <list>
 		<bean parent="InputField" p:propertyName="key" />
-        <bean parent="InputField" p:propertyName="termKey" />
+        <bean parent="InputField" p:propertyName="termId" />
         <bean parent="InputField" p:propertyName="courseId" />
       </list>
     </property>
@@ -163,16 +162,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="title" value="Create a New Course Offering"/>
                     <property name="items">
                         <list>
-                            <bean parent="InputField" p:propertyName="termKey">
+                            <bean parent="InputField" p:propertyName="termId">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-                                <property name="fieldLookup.fieldConversions" value="key:termKey"/>
+                                <property name="fieldLookup.fieldConversions" value="key:termId"/>
                                 <property name="control">
               			            <bean parent="SelectControl"/>
             		            </property>
-                                <!--
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
-                                </property>    -->
+                                </property>
                              </bean>
                             <bean parent="InputField" p:propertyName="courseOfferingCode">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.lum.course.dto.CourseInfo"/>
@@ -194,7 +192,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="items">
                         <list>
                             <bean parent="InputField" p:propertyName="personId" p:label="Instructor ID">
-                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/>
+                                <!--<property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.bo.impl.PersonImpl"/> -->
+                                <property name="fieldLookup.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
                                 <property name="fieldLookup.fieldConversions">
                                     <map>
                                         <entry key="principalId" value="personId"/>

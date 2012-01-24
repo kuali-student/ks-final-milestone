@@ -1,15 +1,11 @@
 /*
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Copyright 2010 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 2.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or
+ * agreed to in writing, software distributed under the License is distributed
+ * on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either
+ * express or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -26,62 +22,61 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.infc.State;
 import org.kuali.student.r2.common.infc.StateProcess;
-import org.kuali.student.r2.common.infc.Type;
+import org.kuali.student.r2.core.type.infc.Type;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateProcessInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "attributes", "_futureElements"})
 public class StateProcessInfo extends HasAttributesInfo implements StateProcess, Serializable {
-	
+
     @XmlAttribute
-	private String key;
-	
-	@XmlElement
-	private String name;
-	
-	@XmlElement
-	private String descr;
+    private String key;
 
-	@XmlElement
-	private Date effectiveDate;
-	
-	@XmlElement
-	private Date expirationDate;
-	
+    @XmlElement
+    private String name;
+
+    @XmlElement
+    private RichTextInfo descr;
+
+    @XmlElement
+    private Date effectiveDate;
+
+    @XmlElement
+    private Date expirationDate;
+
     @XmlAnyElement
-    private List<Element> _futureElements;    
-	
+    private List<Element> _futureElements;
+
     public static StateProcessInfo getInstance(StateProcess process) {
-        return new StateProcessInfo((Type)process);
+        return new StateProcessInfo((Type) process);
     }
 
-    public static StateProcessInfo newInstance(){
-    	return new StateProcessInfo();
+    public static StateProcessInfo newInstance() {
+        return new StateProcessInfo();
     }
-    
-	public StateProcessInfo() {
-		key = null;
-		name = null;
-		descr = null;
-		effectiveDate = null;
-		expirationDate = null;
-		_futureElements = null;
-	}
-		
-	public StateProcessInfo(Type type) {
-		super(type);
-		this.key = type.getKey();
-		this.name = type.getName();
-		this.descr = type.getDescr();
-    	this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
-    	this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
-    	this._futureElements = null;
-	}
-	
-	@Override
+
+    public StateProcessInfo() {
+        key = null;
+        name = null;
+        descr = null;
+        effectiveDate = null;
+        expirationDate = null;
+        _futureElements = null;
+    }
+
+    public StateProcessInfo(Type type) {
+        super(type);
+        this.key = type.getKey();
+        this.name = type.getName();
+        this.descr = new RichTextInfo(type.getDescr());
+        this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
+        this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
+        this._futureElements = null;
+    }
+
+    @Override
     public String getKey() {
         return key;
     }
@@ -90,42 +85,38 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
         this.key = key;
     }
 
-	@Override
+    @Override
     public String getName() {
         return name;
     }
 
-	
     public void setName(String name) {
         this.name = name;
     }
 
-	@Override
-    public String getDescr() {
+    @Override
+    public RichTextInfo getDescr() {
         return descr;
     }
 
-	
-    public void setDescr(String descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 
-	@Override
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
 
-	
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
     }
 
-	@Override
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
-    
-	
+
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }

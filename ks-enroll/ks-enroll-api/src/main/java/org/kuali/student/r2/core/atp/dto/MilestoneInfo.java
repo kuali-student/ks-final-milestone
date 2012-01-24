@@ -24,92 +24,140 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
 import org.kuali.student.r2.core.atp.infc.Milestone;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MilestoneInfo", propOrder = { "key", "typeKey", "stateKey",
-		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
+@XmlType(name = "MilestoneInfo", propOrder = { 
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "isAllDay", "isInstructionalDay", 
+                "isRelative", "relativeAnchorMilestoneId",
+                "isDateRange", "startDate", "endDate",
 		"meta", "attributes", "_futureElements" })
-public class MilestoneInfo extends KeyEntityInfo implements Milestone,
-		Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@XmlElement
-	private Boolean isAllDay;
-	@XmlElement
-	private Boolean isDateRange;
-	@XmlElement
-	private Date startDate;
-	@XmlElement
-	private Date endDate;
-	@XmlAnyElement
-	private List<Element> _futureElements;
+public class MilestoneInfo 
+    extends IdEntityInfo 
+    implements Milestone, Serializable {
 
-	public MilestoneInfo() {
-		super();
-		isAllDay = false;
-		isDateRange = false;
-		startDate = null;
-		endDate = null; 
-		_futureElements = null;
-	}
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructs a new MilestoneInfo from another Milestone.
-	 * 
-	 * @param milestone
-	 *            the Milestone to copy
-	 */
-	public MilestoneInfo(KeyDateOrMilestone milestone) {
-		super(milestone);
-		if (null != milestone) {
-			this.isAllDay = milestone.getIsAllDay();
-			this.isDateRange = milestone.getIsDateRange();
-			this.startDate = null != milestone.getStartDate() ? new Date(
-					milestone.getStartDate().getTime()) : null;
-			this.endDate = null != milestone.getEndDate() ? new Date(milestone
-					.getEndDate().getTime()) : null;
-			_futureElements = null;
-		}
-	}
+    @XmlElement
+    private Boolean isAllDay;
 
-	@Override
-	public Boolean getIsAllDay() {
-		return isAllDay;
-	}
+    @XmlElement
+    private Boolean isInstructionalDay;
 
-	public void setIsAllDay(Boolean isAllDay) {
-		this.isAllDay = isAllDay;
-	}
+    @XmlElement
+    private Boolean isRelative;
 
-	@Override
-	public Boolean getIsDateRange() {
-		return isDateRange;
-	}
+    @XmlElement
+    private String relativeAnchorMilestoneId;
+	
+    @XmlElement
+    private Boolean isDateRange;
+	
+    @XmlElement
+    private Date startDate;
+	
+    @XmlElement
+    private Date endDate;
+	
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-	public void setIsDateRange(Boolean isDateRange) {
-		this.isDateRange = isDateRange;
-	}
 
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
+    /**
+     * Constructs a new MilestoneInfo.
+     */
+    public MilestoneInfo() {
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = null != startDate ? new Date(startDate.getTime())
-				: null;
-	}
+    /**
+     * Constructs a new MilestoneInfo from another Milestone.
+     * 
+     * @param milestone the Milestone to copy
+     */
+    public MilestoneInfo(Milestone milestone) {
+        super(milestone);
 
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
+        if (milestone != null) {
+            this.isAllDay = milestone.getIsAllDay();
+            this.isInstructionalDay = milestone.getIsInstructionalDay();
+            this.isRelative = milestone.getIsRelative();
+            this.relativeAnchorMilestoneId = milestone.getRelativeAnchorMilestoneId();
+            this.isDateRange = milestone.getIsDateRange();
+            
+            if (milestone.getStartDate() != null) {
+                this.startDate = new Date(milestone.getStartDate().getTime());
+            }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = null != endDate ? new Date(endDate.getTime()) : null;
-	}
+            if (milestone.getEndDate() != null) {
+                this.endDate = new Date(milestone.getEndDate().getTime());
+            }
+        }
+    }
+
+    @Override
+    public Boolean getIsAllDay() {
+        return isAllDay;
+    }
+    
+    public void setIsAllDay(Boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
+
+    @Override
+    public Boolean getIsInstructionalDay() {
+        return isInstructionalDay;
+    }
+    
+    public void setIsInstructionalDay(Boolean isInstructionalDay) {
+        this.isInstructionalDay = isInstructionalDay;
+    }
+
+    @Override
+    public Boolean getIsRelative() {
+        return isRelative;
+    }
+    
+    public void setIsRelative(Boolean isRelative) {
+        this.isRelative = isRelative;
+    }
+
+    @Override
+    public String getRelativeAnchorMilestoneId() {
+        return relativeAnchorMilestoneId;
+    }
+    
+    public void setRelativeAnchorMilestoneId(String relativeAnchorMilestoneId) {
+        this.relativeAnchorMilestoneId = relativeAnchorMilestoneId;
+    }
+    
+    @Override
+    public Boolean getIsDateRange() {
+        return isDateRange;
+    }
+    
+    public void setIsDateRange(Boolean isDateRange) {
+        this.isDateRange = isDateRange;
+    }
+    
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+    
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+    
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }

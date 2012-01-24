@@ -15,13 +15,8 @@
 
 package org.kuali.student.r2.core.document.service;
 
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -148,66 +143,6 @@ public class DocumentServiceDecorator implements DocumentService {
     @Override
     public StatusInfo deleteRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteRefDocRelation(refDocRelationId, contextInfo);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return getNextDecorator().getDataDictionaryEntry(entryKey, contextInfo);
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return getNextDecorator().getDataDictionaryEntryKeys(contextInfo);
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getProcessByKey(processKey, contextInfo);
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getProcessByObjectType(refObjectUri, contextInfo);
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getInitialValidStates(processKey, contextInfo);
-    }
-
-    @Override
-    public StateInfo getNextHappyState(@WebParam(name = "processKey") String processKey, @WebParam(name = "currentStateKey") String currentStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getNextHappyState(processKey, currentStateKey, contextInfo);
-    }
-
-    @Override
-    public StateInfo getState(@WebParam(name = "processKey") String processKey, @WebParam(name = "stateKey") String stateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getState(processKey, stateKey, contextInfo);
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(@WebParam(name = "processKey") String processKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getStatesByProcess(processKey, contextInfo);
-    }
-
-    @Override
-    public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getType(typeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(@WebParam(name = "refObjectURI") String refObjectURI, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relatedRefObjectURI") String relatedRefObjectURI, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, contextInfo);
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(@WebParam(name = "ownerTypeKey") String ownerTypeKey, @WebParam(name = "relationTypeKey") String relationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, contextInfo);
     }
 
 }

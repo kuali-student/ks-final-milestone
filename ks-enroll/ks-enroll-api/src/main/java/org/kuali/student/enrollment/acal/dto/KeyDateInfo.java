@@ -25,89 +25,125 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.KeyDate;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.KeyDateOrMilestone;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "KeyDateInfo", propOrder = { "key", "typeKey", "stateKey",
-		"name", "descr", "isAllDay", "isDateRange", "startDate", "endDate",
+@XmlType(name = "KeyDateInfo", propOrder = { 
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "isAllDay", "isRelativeToKeyDate", "relativeAnchorKeyDateId", 
+                "isDateRange", "startDate", "endDate",
 		"meta", "attributes", "_futureElements" })
-public class KeyDateInfo extends KeyEntityInfo implements KeyDate, Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@XmlElement
-	private Boolean isAllDay;
-	@XmlElement
-	private Boolean isDateRange;
-	@XmlElement
-	private Date startDate;
-	@XmlElement
-	private Date endDate;
-	@XmlAnyElement
-	private List<Element> _futureElements;
+public class KeyDateInfo 
+    extends IdEntityInfo 
+    implements KeyDate, Serializable {
 
-	public KeyDateInfo() {
-		super();
-		isAllDay = Boolean.valueOf(false);
-		isDateRange = Boolean.valueOf(false);
-		startDate = null;
-		endDate = null;
-		_futureElements = null;
-	}
+    private static final long serialVersionUID = 1L;
+	
+    @XmlElement
+    private Boolean isAllDay;
 
-	/**
-	 * Constructs a new KeyDateInfo from another KeyDate.
-	 * 
-	 * @param keyDate
-	 *            the KeyDate to copy
-	 */
-	public KeyDateInfo(KeyDateOrMilestone keyDate) {
-		super(keyDate);
-		if (null != keyDate) {
-			this.isAllDay = keyDate.getIsAllDay();
-			this.isDateRange = keyDate.getIsDateRange();
-			this.startDate = null != keyDate.getStartDate() ? new Date(keyDate
-					.getStartDate().getTime()) : null;
-			this.endDate = null != keyDate.getEndDate() ? new Date(keyDate
-					.getEndDate().getTime()) : null;
-			_futureElements = null;
-		}
-	}
+    @XmlElement
+    private Boolean isRelativeToKeyDate;
+	
+    @XmlElement
+    private String relativeAnchorKeyDateId;
 
-	@Override
-	public Boolean getIsAllDay() {
-		return isAllDay;
-	}
+    @XmlElement
+    private Boolean isDateRange;
+	
+    @XmlElement
+    private Date startDate;
+	
+    @XmlElement
+    private Date endDate;
+	
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
-	public void setIsAllDay(Boolean isAllDay) {
-		this.isAllDay = isAllDay;
-	}
+    /**
+     * Constructs a new KeyDateInfo.
+     */
+    public KeyDateInfo() {
+    }
+    
+    /**
+     * Constructs a new KeyDateInfo from another KeyDate.
+     * 
+     * @param keyDate the KeyDate to copy
+     */
+    public KeyDateInfo(KeyDate keyDate) {
+        super(keyDate);
+        if (keyDate != null) {
+            this.isAllDay = keyDate.getIsAllDay();
+            this.isRelativeToKeyDate = keyDate.getIsRelativeToKeyDate();
+            this.relativeAnchorKeyDateId = keyDate.getRelativeAnchorKeyDateId();
 
-	@Override
-	public Boolean getIsDateRange() {
-		return isDateRange;
-	}
+            this.isDateRange = keyDate.getIsDateRange();
 
-	public void setIsDateRange(Boolean isDateRange) {
-		this.isDateRange = isDateRange;
-	}
+            if (keyDate.getStartDate() != null) {
+                this.startDate = new Date(keyDate.getStartDate().getTime());
+            }
 
-	@Override
-	public Date getStartDate() {
-		return startDate;
-	}
+            if (keyDate.getEndDate() != null) {
+                this.endDate = new Date(keyDate.getEndDate().getTime());
+            }
+        }
+    }
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
+    @Override
+    public Boolean getIsAllDay() {
+        return isAllDay;
+    }
+    
+    public void setIsAllDay(Boolean isAllDay) {
+        this.isAllDay = isAllDay;
+    }
 
-	@Override
-	public Date getEndDate() {
-		return endDate;
-	}
+    @Override
+    public Boolean getIsRelativeToKeyDate() {
+        return isRelativeToKeyDate;
+    }
+    
+    public void setIsRelativeToKeyDate(Boolean isRelativeToKeyDate) {
+        this.isRelativeToKeyDate = isRelativeToKeyDate;
+    }
 
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+    @Override
+    public String getRelativeAnchorKeyDateId() {
+        return relativeAnchorKeyDateId;
+    }
+    
+    public void setRelativeAnchirKeyDateId(String relativeAnchorKeyDateId) {
+        this.relativeAnchorKeyDateId = relativeAnchorKeyDateId;
+    }
+    
+    @Override
+    public Boolean getIsDateRange() {
+        return isDateRange;
+    }
+    
+    public void setIsDateRange(Boolean isDateRange) {
+        this.isDateRange = isDateRange;
+    }
+    
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+    
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+    
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+    
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
 }

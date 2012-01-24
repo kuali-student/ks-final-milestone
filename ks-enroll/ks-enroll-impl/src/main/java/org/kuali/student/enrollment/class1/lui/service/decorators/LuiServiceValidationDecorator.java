@@ -47,17 +47,6 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
         this.dataDictionaryService = dataDictionaryService;
     }
 
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
-    }
 
 	@Override
 	public List<ValidationResultInfo> validateLui(String validationType,
@@ -93,13 +82,13 @@ public class LuiServiceValidationDecorator extends LuiServiceDecorator implement
     }
 	
 	@Override
-	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo,
+	public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo,
 			ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		_luiFullValidation(luiInfo, context);
-		return getNextDecorator().createLui(cluId,atpKey,luiInfo, context);
+		return getNextDecorator().createLui(cluId,atpId,luiInfo, context);
 	}
 
 	@Override

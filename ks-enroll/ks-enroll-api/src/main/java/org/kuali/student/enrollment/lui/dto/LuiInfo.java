@@ -44,7 +44,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "LuiInfo", propOrder = {"id", "typeKey", "stateKey", "name",
     "descr", "effectiveDate", "expirationDate",
     "officialIdentifier", "alternateIdentifiers", "cluId",
-    "cluCluRelationIds", "atpKey", "luiCodes",
+    "cluCluRelationIds", "atpId", "luiCodes",
     "maximumEnrollment", "minimumEnrollment", "referenceURL",
     "unitsContentOwner", "unitsDeployment", "resultValuesGroupKeys",
     "fees", "revenues", "expenditure",
@@ -65,7 +65,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     @XmlElement
     private List<String> cluCluRelationIds;
     @XmlElement
-    private String atpKey;
+    private String atpId;
     @XmlElement
     private List<LuCodeInfo> luiCodes;
     @XmlElement
@@ -101,7 +101,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         alternateIdentifiers = null;
         cluId = null;
         cluCluRelationIds = null;
-        atpKey = null;
+        atpId = null;
         luiCodes = null;
 
         maximumEnrollment = null;
@@ -142,7 +142,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
         this.cluId = lui.getCluId();
         this.cluCluRelationIds = null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>();
-        this.atpKey = lui.getAtpKey();
+        this.atpId = lui.getAtpId();
 
         this.luiCodes = new ArrayList<LuCodeInfo>();
         if (lui.getLuiCodes() != null) {
@@ -243,12 +243,12 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     }
 
     @Override
-    public String getAtpKey() {
-        return atpKey;
+    public String getAtpId() {
+        return atpId;
     }
 
-    public void setAtpKey(String atpKey) {
-        this.atpKey = atpKey;
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
     }
 
     @Override

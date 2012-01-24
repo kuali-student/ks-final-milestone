@@ -34,14 +34,14 @@ limitations under the License.
             <bean parent="PropertyReplacer" p:propertyName="title"
               p:condition="#view.currentPageId eq 'page2'" p:replacement="@{selectedCourseOffering.courseTitle}"/>
         </list>
-      </property>-->
+      </property>   -->
       <property name="additionalCssFiles">
       <list >
         <value>/krad/css/ks/ks-theme.css</value>
         <value>/krad/css/ks/fss-theme-ks.css</value>
         <value>/ks-enroll/css/grading.css</value>
       </list>
-    </property>
+      </property>
 
       <property name="items">
           <list>
@@ -101,7 +101,7 @@ limitations under the License.
   </bean>
 
     <bean id="courseOfferingList" parent="CollectionGroup">
-      <property name="instructionalText" value="@{currentTerm}"/>
+      <property name="instructionalText" value="@{selectedTerm}"/>
       <property name="styleClasses" value="group-border"/>
       <property name="instructionalMessageField.styleClasses" value="font-bold"/>
       <property name="disclosure.render" value="false"/>
@@ -158,10 +158,10 @@ limitations under the License.
       <property name="renderAddLine" value="false"/>
       <property name="layoutManager.sequencePropertyName" value="studentId"/>
       <property name="layoutManager.sequenceFieldPrototype.label" value="Student ID"/>
-      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.dataObjectClassName" value="org.kuali.rice.kim.impl.identity.PersonImpl"/>
+      <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.dataObjectClassName" value="org.kuali.rice.kim.api.identity.Person"/>
       <property name="layoutManager.sequenceFieldPrototype.fieldInquiry.inquiryParameters">
         <map>
-          <entry key="form.studentId" value="principalId"/>
+          <entry key="studentId" value="principalId"/>
         </map>
       </property>
       <property name="bindingInfo.bindToForm" value="true"/>

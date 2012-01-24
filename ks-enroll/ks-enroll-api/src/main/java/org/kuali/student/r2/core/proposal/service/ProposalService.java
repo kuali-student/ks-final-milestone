@@ -18,7 +18,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -32,8 +31,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 
 /**
@@ -45,7 +42,7 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 @WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 @XmlSeeAlso({org.kuali.student.common.dto.ReferenceTypeInfo.class})
-public interface ProposalService extends DataDictionaryService, TypeService, StateService {
+public interface ProposalService {
 
     /**
      * Retrieves the details of a single Proposal by proposalId

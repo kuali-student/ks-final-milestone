@@ -28,14 +28,14 @@ import org.kuali.student.r2.core.exemption.infc.DateOverride;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DateOverrideInfo", propOrder = { "milestoneKey", "effectiveStartDate", 
+@XmlType(name = "DateOverrideInfo", propOrder = { "milestoneId", "effectiveStartDate", 
                  "effectiveEndDate", "_futureElements" })
 
 public class DateOverrideInfo implements DateOverride, Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@XmlElement
-	private String milestoneKey;
+	private String milestoneId;
 
 	@XmlElement
 	private Date effectiveStartDate;
@@ -48,7 +48,7 @@ public class DateOverrideInfo implements DateOverride, Serializable {
 
 	public DateOverrideInfo() {
 		super();
-		milestoneKey = null;
+		milestoneId = null;
 		effectiveStartDate = null;
 		effectiveEndDate = null;
 		_futureElements = null;
@@ -62,7 +62,7 @@ public class DateOverrideInfo implements DateOverride, Serializable {
 	public DateOverrideInfo(DateOverride dateOverride) {
 		super();
 		if (null != dateOverride) {
-		    this.milestoneKey = dateOverride.getMilestoneKey();
+		    this.milestoneId = dateOverride.getMilestoneId();
 		    this.effectiveStartDate = dateOverride.getEffectiveStartDate();
 		    this.effectiveEndDate = dateOverride.getEffectiveEndDate();
 		}
@@ -71,12 +71,12 @@ public class DateOverrideInfo implements DateOverride, Serializable {
 	}
 
 	@Override
-	public String getMilestoneKey() {
-	    return milestoneKey;
+	public String getMilestoneId() {
+	    return milestoneId;
 	}
 
-	public void setMilestoneKey(String milestoneKey) {
-	    this.milestoneKey = milestoneKey;
+	public void setMilestoneId(String milestoneId) {
+	    this.milestoneId = milestoneId;
 	}
 
 	@Override

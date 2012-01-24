@@ -12,7 +12,12 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+
 package org.kuali.student.r2.common.util.constants;
+
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.dto.LifecycleInfo;
 
 /**
  * This class holds the constants used by the type service
@@ -22,8 +27,9 @@ package org.kuali.student.r2.common.util.constants;
 public class StateServiceConstants {
 
     /**
-     * Reference Object URI's
+     * Reference Object URIs
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "state";
-   
+    public static final String REF_OBJECT_URI_STATE = NAMESPACE + "/" + StateInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_LIFECYCLE = NAMESPACE + "/" + LifecycleInfo.class.getSimpleName();   
 }

@@ -1,6 +1,5 @@
 package org.kuali.student.enrollment.class2.grading.service.impl;
 
-import org.apache.bcel.generic.NEW;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.util.UUIDHelper;
@@ -22,7 +21,6 @@ import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.service.LearningResultRecordService;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.*;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
@@ -35,6 +33,7 @@ import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import javax.jws.WebParam;
 import java.util.*;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 public class GradingServiceImpl implements GradingService {
     private LuiPersonRelationService lprService;
@@ -98,7 +97,7 @@ public class GradingServiceImpl implements GradingService {
      * Retrieve information about grade rosters by grader and term
      *
      * @param graderId
-     * @param termKey
+     * @param termId
      * @param context
      *            Context information containing the principalId and locale
      *            information about the caller of service operation
@@ -112,7 +111,7 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public List<GradeRosterInfo> getGradeRostersByGraderAndTerm(@WebParam(name = "graderId") String graderId,
-            @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context)
+            @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         return null; // TODO implement method.
@@ -215,7 +214,7 @@ public class GradingServiceImpl implements GradingService {
      */
     @Override
     public GradeRosterInfo buildInterimGradeRosterByType(
-            @WebParam(name = "activityOfferingIdList") String courseOfferingId,
+            @WebParam(name = "courseOfferingId") String courseOfferingId,
             @WebParam(name = "activityOfferingIdList") List<String> activityOfferingIdList,
             @WebParam(name = "rosterTypeKey") String rosterTypeKey, @WebParam(name = "context") ContextInfo context)
             throws AlreadyExistsException, InvalidParameterException, MissingParameterException,
@@ -640,61 +639,6 @@ public class GradingServiceImpl implements GradingService {
         return false; // TODO implement method.
     }
 
-    /**
-     * Get the list of entry keys in this dictionary
-     * <p/>
-     * The list of keys is stored in the ref object URI strcture E.g
-     * http://student.kuali.org/wsdl/luService/CluInfo will be the objectTypeURI
-     * for the CluInfo structure The refObjectURI has three parts:
-     * <ol>
-     * <li>http://student.kuali.org/wsdl -- which is fixed
-     * <li>luService -- which should match the namespace of the service in which
-     * the object is defined
-     * <li>CluInfo -- which should match the java class's simple name
-     * </ol>
-     *
-     * @param context
-     *            information about the user and locale
-     * @return a list of all the known data dictionary entry keys in the ref
-     *         object URI structure.
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *             if could not complete the operation
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *             if entryKey is null
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *             if user does not have permission to call this method
-     */
-    @Override
-    public List<String> getDataDictionaryEntryKeys(@WebParam(name = "context") ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return null; // TODO implement method.
-    }
-
-    /**
-     * Get the data dictionary entry for the specified entry key
-     *
-     * @param entryKey
-     *            that identifies the dictionary entry, this is done by
-     *            specifying a refObjectURI
-     * @param context
-     *            information about the user and locale
-     * @return the data dictionary entry key
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     *             if could not complete the operation
-     * @throws org.kuali.student.r2.common.exceptions.MissingParameterException
-     *             if entryKey is null
-     * @throws org.kuali.student.r2.common.exceptions.DoesNotExistException
-     *             if entryKey does not exist in the dictionary
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
-     *             if user does not have permission to call this method
-     */
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(@WebParam(name = "entryKey") String entryKey,
-            @WebParam(name = "context") ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return null; // TODO implement method.
-    }
-
     @Override
     public List<GradeValuesGroupInfo> getGradeGroupsByKeyList(List<String> gradeGroupKeyList, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -839,11 +783,11 @@ public class GradingServiceImpl implements GradingService {
 
             String resultValuetypeKey = resultValue.getTypeKey();
             String entryAttributesKey = null;
-            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+            if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ASSIGNED_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
                 entryAttributesKey = ADMINISTRATIVE_GRADE;
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 entryAttributesKey = CREDITS_EARNED;
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 entryAttributesKey = CALCULATED_GRADE;
@@ -909,11 +853,11 @@ public class GradingServiceImpl implements GradingService {
         for (int i = 0; i < resultValues.size(); i++) {
             ResultValueInfo resultValue = resultValues.get(i);
             String resultValuetypeKey = resultValue.getTypeKey();
-            if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
+            if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE.equals(resultValuetypeKey)) {
                 assignedGradeKey = resultValue.getKey();
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_ADMIN_GRADE.equals(resultValuetypeKey)) {
                 administrativeGradeKey = resultValue.getKey();
-            } else if (LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
+            } else if (LrcServiceConstants.RESULT_SCALE_TYPE_KEY_CREDIT.equals(resultValuetypeKey)) {
                 creditsEarnedKey = resultValue.getKey();
             } else if (false) { //"".equals(resultValuetypeKey)) { // TODO need type value for calculated grade
                 calculatedGradeKey = resultValue.getKey();

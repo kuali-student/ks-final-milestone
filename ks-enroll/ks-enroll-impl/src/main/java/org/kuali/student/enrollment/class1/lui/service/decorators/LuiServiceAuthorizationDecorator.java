@@ -6,11 +6,8 @@ import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiServiceDecorator;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -40,106 +37,6 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	@Override
 	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
-	}
-
-	@Override
-	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-			throws OperationFailedException, MissingParameterException,
-			PermissionDeniedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntryKeys", null, null)) {
-	        return getNextDecorator().getDataDictionaryEntryKeys(context);
-        }
-        else {
-           throw new PermissionDeniedException();
-        }
-	}
-
-	@Override
-	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-			ContextInfo context) throws OperationFailedException,
-			MissingParameterException, PermissionDeniedException,
-			DoesNotExistException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntry", null, null)) {
-	        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
-        }
-        else {
-           throw new PermissionDeniedException();
-        }
-	}
-
-	@Override
-	public TypeInfo getType(String typeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getType", null, null)) {
-	        return getNextDecorator().getType(typeKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTypesByRefObjectURI", null, null)) {
-	        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
-			String relatedRefObjectURI, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAllowedTypesForType", null, null)) {
-	        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
-			String ownerTypeKey, String relationTypeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTypeRelationsByOwnerType", null, null)) {
-	        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
 	}
 
 	@Override
@@ -208,7 +105,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	}
 
 	@Override
-	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey,
+	public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -217,7 +114,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsInAtpByCluId", null, null)) {
-	        return getNextDecorator().getLuiIdsInAtpByCluId(cluId, atpKey, context);
+	        return getNextDecorator().getLuiIdsInAtpByCluId(cluId, atpId, context);
         }
         else {
         	throw new OperationFailedException("Permission Denied.");
@@ -225,7 +122,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	}
 
 	@Override
-	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey,
+	public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -234,7 +131,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisInAtpByCluId", null, null)) {
-	        return getNextDecorator().getLuisInAtpByCluId(cluId, atpKey, context);
+	        return getNextDecorator().getLuisInAtpByCluId(cluId, atpId, context);
         }
         else {
         	throw new OperationFailedException("Permission Denied.");
@@ -361,7 +258,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	}
 
 	@Override
-	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo,
+	public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo,
 			ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -371,7 +268,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLui", null, null)) {
-	        return getNextDecorator().createLui(cluId, atpKey, luiInfo, context);
+	        return getNextDecorator().createLui(cluId, atpId, luiInfo, context);
         }
         else {
            throw new PermissionDeniedException();

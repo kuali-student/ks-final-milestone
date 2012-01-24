@@ -17,22 +17,59 @@ package org.kuali.student.enrollment.acal.infc;
 
 import java.util.Date;
 
-import org.kuali.student.r2.common.infc.KeyEntity;
+import org.kuali.student.r2.common.infc.IdEntity;
 
 
 /**
- * Information about a holiday.
+ * Information about a holiday. Holdays are used to mark holidays and
+ * other non-instructional days on a HolidayCalendar.
  *
  * @author tom
  * @since Tue Apr 05 14:22:34 EDT 2011
  */ 
 
-public interface Holiday extends KeyDate {
+public interface Holiday 
+    extends IdEntity {
 
     /**
      * Tests if this holiday is an instructional day.
+     *
      * @name Is Instructional Day
+     * @required
      */
     public Boolean getIsInstructionalDay();
- 
+
+    /**
+     * Tests if this key date is an all day event. An all-day event
+     * does not have a meaningful time component in the date.
+     *
+     * @name Is All Day
+     * @required
+     */
+    public Boolean getIsAllDay();
+  
+    /**
+     * Tests if this key date has a date range. 
+     *
+     * @return true if the end date is different than the start
+     *         date, false if the start end end date are the same
+     * @name Is Date Range
+     * @required
+     */
+    public Boolean getIsDateRange();    
+
+    /**
+     * The start date and time of the key date.
+     *
+     * @name Start Date
+     */
+    public Date getStartDate();
+    
+    /**
+     * The end date and time of the key date. The end
+     * date must be equal to or greater that the start.
+     *
+     * @name End Date
+     */
+    public Date getEndDate();
 }

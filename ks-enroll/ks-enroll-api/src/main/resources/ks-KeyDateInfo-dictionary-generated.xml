@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -52,13 +52,13 @@ point in time or a range depending on the value of isDateRange().
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="KeyDateInfo.key"/>
+				<ref bean="KeyDateInfo.id"/>
 				<ref bean="KeyDateInfo.typeKey"/>
 				<ref bean="KeyDateInfo.stateKey"/>
 				<ref bean="KeyDateInfo.name"/>
@@ -82,8 +82,8 @@ point in time or a range depending on the value of isDateRange().
 		</property>
 	</bean>
 
-	<bean id="KeyDateInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="KeyDateInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="KeyDateInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
@@ -167,7 +167,7 @@ Tests if this key date is an all day event. An all-day event
 does not have a meaningful time component in the date.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="KeyDateInfo.isDateRange-generated" abstract="true" parent="BaseKuali.boolean">
@@ -175,21 +175,16 @@ does not have a meaningful time component in the date.
 		<property name="shortLabel" value="Is Date Range"/>
 		<property name="summary">
 			<value>
-Tests if this key date has a date range. 
-
-
+Tests if this key date has a date range.
 			</value>
 		</property>
 		<property name="label" value="Is Date Range"/>
 		<property name="description">
 			<value>
-Tests if this key date has a date range. 
-
-Should return true if the end date is different than the start date,
-        false if the start end end date are the same
+Tests if this key date has a date range.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="KeyDateInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">

@@ -22,7 +22,6 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -32,8 +31,6 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
@@ -53,7 +50,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 @WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface LRCService extends DataDictionaryService, TypeService, StateService {
+public interface LRCService {
 
     /**
      * Retrieves existing result component by an identifier.

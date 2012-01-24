@@ -63,7 +63,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			//co.setWaitlistCheckinFrequency(lui.getWaitlistCheckinFrequency());
 			
 			co.setCourseId(lui.getCluId());
-			co.setTermKey(lui.getAtpKey());
+			co.setTermId(lui.getAtpId());
 			co.setUnitsDeployment(lui.getUnitsDeployment());
 			co.setUnitsContentOwner(lui.getUnitsContentOwner());
 
@@ -216,7 +216,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			
 			lui.setCluId(co.getCourseId());
 			lui.setCluCluRelationIds(co.getFormatIds());
-			lui.setAtpKey(co.getTermKey());
+			lui.setAtpId(co.getTermId());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());
 			lui.setMaximumEnrollment(co.getMaximumEnrollment());

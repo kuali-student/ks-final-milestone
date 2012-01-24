@@ -4,7 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.TypeEntity;
+import org.kuali.student.r2.core.class1.type.entity.TypeEntity;
 
 @Entity
 @Table(name = "KSEN_LUI_TYPE")

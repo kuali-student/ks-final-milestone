@@ -33,6 +33,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.infc.LuiPersonRelation;
@@ -53,6 +54,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author nwright
  */
 
+@Ignore
 public class TestLuiPersonRelationServicePersistenceConformance {
 
 	public TestLuiPersonRelationServicePersistenceConformance() {

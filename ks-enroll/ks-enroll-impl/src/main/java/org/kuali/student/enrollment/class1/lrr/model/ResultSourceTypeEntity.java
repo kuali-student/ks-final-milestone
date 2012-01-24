@@ -1,6 +1,6 @@
 package org.kuali.student.enrollment.class1.lrr.model;
 
-import org.kuali.student.r2.common.entity.TypeEntity;
+import org.kuali.student.r2.core.class1.type.entity.TypeEntity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

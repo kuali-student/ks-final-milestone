@@ -22,10 +22,10 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
   <bean id="AcademicCalendarWrapper" parent="AcademicCalendarWrapper-parentBean"/>
   <bean id="AcademicCalendarWrapper-parentBean" abstract="true" parent="DataObjectEntry">
     <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper"/>
-    <property name="titleAttribute" value="key"/>
+    <property name="titleAttribute" value="id"/>
     <property name="attributes">
         <list>
-            <ref bean="AcademicCalendarWrapper.key"/>
+            <ref bean="AcademicCalendarWrapper.id"/>
         </list>
     </property>
     <property name="complexAttributes">
@@ -41,15 +41,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="objectLabel" value="Academic Calendar with Terms"/>
     <property name="primaryKeys">
       <list>
-        <value>key</value>
+        <value>id</value>
       </list>
     </property>
   </bean>
 
   <!-- Attribute Definitions -->
-  <bean id="AcademicCalendarWrapper.key" parent="BaseKuali.key">
-          <property name="name" value="key"/>
-          <property name="label" value="Academic Calendar Key" />
+  <bean id="AcademicCalendarWrapper.id" parent="BaseKuali.id">
+          <property name="name" value="id"/>
+          <property name="label" value="Academic Calendar ID" />
           <property name="required" value="false"/>
           <property name="unique" value="true"/>
           <property name="validCharactersConstraint">
@@ -70,31 +70,30 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
   <!-- LookupView -->
   <bean id="AcademicCalendarWrapper-LookupView" parent="KSLookupView">
-    <property name="title" value="Academic Calendar Lookup (by Key)" />
+    <property name="title" value="Academic Calendar Lookup (by ID)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarWrapperLookupableImpl" />
 
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaInputField" p:propertyName="key" /> <!--p:label="Academic Calendar Key"/> -->
+        <bean parent="LookupCriteriaInputField" p:propertyName="id" /> <!--p:label="Academic Calendar Key"/> -->
         <bean parent="LookupCriteriaInputField" p:propertyName="academicCalendarInfo.name"/>
-        <bean parent="LookupCriteriaInputField" p:title="type" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">
+        <!--bean parent="LookupCriteriaInputField" p:title="type" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">
             <property name="control">
                 <bean parent="SelectControl"/>
             </property>
             <property name="optionsFinder">
                 <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
             </property>
-        </bean>
+        </bean-->
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="InputField" p:propertyName="key" />
+		<bean parent="InputField" p:propertyName="id" />
         <bean parent="InputField" p:propertyName="academicCalendarInfo.name"/>
         <bean parent="InputField" p:propertyName="academicCalendarInfo.startDate" />
         <bean parent="InputField" p:propertyName="academicCalendarInfo.endDate" />
-        <bean parent="InputField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey" />
       </list>
     </property>
   </bean>
@@ -111,9 +110,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="title" value="Academic Calendar"/>
              <property name="items">
                <list>
-                <bean parent="InputField" p:propertyName="academicCalendarInfo.key"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.id"/>
                 <bean parent="InputField" p:propertyName="academicCalendarInfo.name"/>
-                <bean parent="InputField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey"/>
                 <bean parent="InputField" p:propertyName="academicCalendarInfo.startDate"/>
                 <bean parent="InputField" p:propertyName="academicCalendarInfo.endDate"/>
                </list>
@@ -190,17 +188,17 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
              <property name="items">
                <list>
                <!-- 
-                <bean parent="InputField" p:propertyName="academicCalendarInfo.key"/>
+                <bean parent="InputField" p:propertyName="academicCalendarInfo.id"/>
                 -->
                 <bean parent="KSInputField" p:propertyName="academicCalendarInfo.name"/>
-                <bean parent="KSInputField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey">
+                <!--bean parent="KSInputField" p:propertyName="academicCalendarInfo.credentialProgramTypeKey">
                     <property name="control">
               			<bean parent="SelectControl"/>
             		</property>
             		<property name="optionsFinder">
               			<bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
             		</property>
-                </bean>
+                </bean-->
                 <bean parent="HorizontalFieldGroup">
                   <property name="items">
                     <list>
@@ -424,7 +422,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
-        <value>academicCalendarInfo.key</value>
+        <value>academicCalendarInfo.id</value>
       </list>
     </property>
   </bean>  

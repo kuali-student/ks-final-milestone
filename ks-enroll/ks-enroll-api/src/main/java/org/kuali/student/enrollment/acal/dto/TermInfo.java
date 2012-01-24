@@ -25,45 +25,69 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.acal.infc.Term;
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TermInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "startDate", "endDate", "meta", "attributes", "_futureElements"})
-public class TermInfo extends KeyEntityInfo implements Term, Serializable {
+@XmlType(name = "TermInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "code", "startDate", "endDate", 
+                "meta", "attributes", "_futureElements"})
+
+public class TermInfo 
+    extends IdEntityInfo 
+    implements Term, Serializable {
 
     private static final long serialVersionUID = 1L;
+    
+    @XmlElement
+    private String code;
+    
     @XmlElement
     private Date startDate;
+    
     @XmlElement
     private Date endDate;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    /**
+     * Constructs a new TermInfo.
+     */
     public TermInfo() {
-        startDate = null;
-        endDate = null;
-        _futureElements = null;
     }
 
     /**
-     * Constructs a new TermInfo from another
-     * Term.
+     * Constructs a new TermInfo from another Term.
      *
      * @param term the Term to copy
      */
     public TermInfo(Term term) {
         super(term);
 
-        this.startDate = null != term.getStartDate() ? new Date(term.getStartDate().getTime()) : null;
-        this.endDate = null != term.getEndDate() ? new Date(term.getEndDate().getTime()) : null;
+        if (term != null) {
+            this.code = term.getCode();
+            if (term.getStartDate() != null) {
+                this.startDate = new Date(term.getStartDate().getTime());
+            }
 
-        _futureElements = null;
+            if (term.getEndDate() != null) {
+                this.endDate = new Date(term.getEndDate().getTime());
+            }
+        }
     }
 
+    @Override
+    public String getCode() {
+        return code;
+    }
+    
+    public void setCode(String code) {
+        this.code = code;
+    }
+    
     @Override
     public Date getStartDate() {
         return startDate;
@@ -77,9 +101,8 @@ public class TermInfo extends KeyEntityInfo implements Term, Serializable {
     public Date getEndDate() {
         return endDate;
     }
-
+    
     public void setEndDate(Date endDate) {
-
         this.endDate = endDate;
     }
 }

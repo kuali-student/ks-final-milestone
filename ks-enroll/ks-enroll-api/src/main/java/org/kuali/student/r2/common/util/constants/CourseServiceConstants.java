@@ -1,6 +1,7 @@
 package org.kuali.student.r2.common.util.constants;
 
 
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 
 /**

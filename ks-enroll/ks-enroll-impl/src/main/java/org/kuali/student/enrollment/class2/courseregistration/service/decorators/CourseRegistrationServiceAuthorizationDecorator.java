@@ -14,14 +14,9 @@ import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceDecorator;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -51,208 +46,6 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 	}
 
 	@Override
-	public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-			throws OperationFailedException, MissingParameterException,
-			PermissionDeniedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntryKeys", null, null)) {
-	        return getNextDecorator().getDataDictionaryEntryKeys(context);
-        }
-        else {
-           throw new PermissionDeniedException();
-        }
-	}
-
-	@Override
-	public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-			ContextInfo context) throws OperationFailedException,
-			MissingParameterException, PermissionDeniedException,
-			DoesNotExistException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDataDictionaryEntry", null, null)) {
-	        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
-        }
-        else {
-           throw new PermissionDeniedException();
-        }
-	}
-
-	@Override
-	public TypeInfo getType(String typeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getType", null, null)) {
-	        return getNextDecorator().getType(typeKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTypesByRefObjectURI", null, null)) {
-	        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
-			String relatedRefObjectURI, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAllowedTypesForType", null, null)) {
-	        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
-			String ownerTypeKey, String relationTypeKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTypeRelationsByOwnerType", null, null)) {
-	        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public StateProcessInfo getProcessByKey(String processKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getProcessByKey", null, null)) {
-	        return getNextDecorator().getProcessByKey(processKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<String> getProcessByObjectType(String refObjectUri,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getProcessByObjectType", null, null)) {
-	        return getNextDecorator().getProcessByObjectType(refObjectUri, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public StateInfo getState(String processKey, String stateKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getState", null, null)) {
-	        return getNextDecorator().getState(processKey, stateKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public List<StateInfo> getStatesByProcess(String processKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-	       if (null == context) {
-	            throw new MissingParameterException();
-	        }
-	           
-	        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getStatesByProcess", null, null)) {
-		        return getNextDecorator().getStatesByProcess(processKey, context);
-	        }
-	        else {
-	        	throw new OperationFailedException("Permission Denied.");
-	        }
-	}
-
-	@Override
-	public List<StateInfo> getInitialValidStates(String processKey,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getInitialValidStates", null, null)) {
-	        return getNextDecorator().getInitialValidStates(processKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
-	public StateInfo getNextHappyState(String processKey,
-			String currentStateKey, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getNextHappyState", null, null)) {
-	        return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
-        }
-        else {
-        	throw new OperationFailedException("Permission Denied.");
-        }
-	}
-
-	@Override
 	public  List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -271,7 +64,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<ValidationResultInfo> checkStudentEligibilityForTerm(
-			String studentId, String termKey, ContextInfo context)
+			String studentId, String termId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -279,7 +72,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibilityForTerm", null, null)) {
-	        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termKey, context);
+	        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -288,7 +81,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<DateRangeInfo> getAppointmentWindows(String studentId,
-			String termKey, ContextInfo context)
+			String termId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -296,7 +89,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAppointmentWindows", null, null)) {
-	        return getNextDecorator().getAppointmentWindows(studentId, termKey, context);
+	        return getNextDecorator().getAppointmentWindows(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -356,7 +149,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public LoadInfo calculateCreditLoadForTerm(String studentId,
-			String termKey, ContextInfo context)
+			String termId, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -364,7 +157,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateCreditLoadForTerm", null, null)) {
-	        return getNextDecorator().calculateCreditLoadForTerm(studentId, termKey, context);
+	        return getNextDecorator().calculateCreditLoadForTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -689,7 +482,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<RegRequestInfo> getRegRequestsForStudentByTerm(
-			String studentId, String termKey, List<String> requestStates,
+			String studentId, String termId, List<String> requestStates,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -698,7 +491,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForStudentByTerm", null, null)) {
-	        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termKey, requestStates, context);
+	        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termId, requestStates, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -921,7 +714,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(
-			String studentId, String termKey, ContextInfo context)
+			String studentId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -930,7 +723,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForStudentByTerm", null, null)) {
-	        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termKey, context);
+	        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -1029,7 +822,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 
 	@Override
 	public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(
-			String studentId, String termKey, ContextInfo context)
+			String studentId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, DisabledIdentifierException {
@@ -1038,7 +831,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
         }
            
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudentByTerm", null, null)) {
-	        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
+	        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termId, context);
         }
         else {
            throw new PermissionDeniedException();

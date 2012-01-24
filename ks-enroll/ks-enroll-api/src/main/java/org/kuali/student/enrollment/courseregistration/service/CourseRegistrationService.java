@@ -17,7 +17,6 @@ import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -31,8 +30,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConstants;
 
 /**
@@ -50,7 +47,7 @@ import org.kuali.student.r2.common.util.constants.CourseRegistrationServiceConst
 
 @WebService(name = "CourseRegistrationService", targetNamespace = CourseRegistrationServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseRegistrationService extends DataDictionaryService, TypeService, StateService {
+public interface CourseRegistrationService  {
 
     /**
      * Checks if a student can register at all i.e., checks if the students
@@ -82,16 +79,16 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * exemptions and no holds for that term on the student
      * 
      * @param studentId Identifier of the student
-     * @param termKey The unique key for the term
+     * @param termId The unique key for the term
      * @param context
      * @return list of errors, warnings or informational messages
-     * @throws InvalidParameterException Invalid student id or term key
-     * @throws MissingParameterException Student id or term key missing in the
+     * @throws InvalidParameterException Invalid student id or term id
+     * @throws MissingParameterException Student id or term id missing in the
      *             input
      * @throws OperationFailedException Unable to complete request
      * @throws PermissionDeniedException Not authorized to do this check
      */
-    public List<ValidationResultInfo> checkStudentEligibilityForTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
+    public List<ValidationResultInfo> checkStudentEligibilityForTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
             @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -101,16 +98,16 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * appointment windows.
      * 
      * @param studentId Identifier of the student
-     * @param termKey The unique key for the term
+     * @param termId The unique key for the term
      * @param context
      * @return
-     * @throws InvalidParameterException Invalid student id or term key
-     * @throws MissingParameterException Student id or term key missing in the
+     * @throws InvalidParameterException Invalid student id or term id
+     * @throws MissingParameterException Student id or term id missing in the
      *             input
      * @throws OperationFailedException Unable to complete request
      * @throws PermissionDeniedException Not authorized to do this check
      */
-    public List<DateRangeInfo> getAppointmentWindows(@WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context)
+    public List<DateRangeInfo> getAppointmentWindows(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -175,17 +172,17 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * information can be used to display in the cart. this
      * 
      * @param studentId Identifier of the student
-     * @param termKey Unique key of the term
+     * @param termId Unique key of the term
      * @param context
      * @return
-     * @throws InvalidParameterException Invalid termKey or studentId in the
+     * @throws InvalidParameterException Invalid termId or studentId in the
      *             input
-     * @throws MissingParameterException Missing termKey or studentId in the
+     * @throws MissingParameterException Missing termId or studentId in the
      *             input
      * @throws OperationFailedException Unable to complete request
      * @throws PermissionDeniedException Not authorized to do this check
      */
-    public LoadInfo calculateCreditLoadForTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey, @WebParam(name = "context") ContextInfo context)
+    public LoadInfo calculateCreditLoadForTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -561,19 +558,19 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @param requestStates A list of state for the {@link RegRequestInfo} to be
      *            retrieved. This is optional
      * @param studentId Id of the student
-     * @param termKey Key of the term
+     * @param termId Key of the term
      * @param context
      * @return
      * @throws DoesNotExistException No {@link RegRequestInfo} found for the
      *             input parameters
-     * @throws InvalidParameterException Invalid studentId, termKey or request
+     * @throws InvalidParameterException Invalid studentId, termId or request
      *             state
-     * @throws MissingParameterException Missing studentId or termKey in the
+     * @throws MissingParameterException Missing studentId or termId in the
      *             input
      * @throws OperationFailedException Unable to complete request
      * @throws PermissionDeniedException Not authorized to do this operation
      */
-    public List<RegRequestInfo> getRegRequestsForStudentByTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
+    public List<RegRequestInfo> getRegRequestsForStudentByTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
             @WebParam(name = "requestStates") List<String> requestStates, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -782,7 +779,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * CourseWaitlistEntryInfo which is the student-waitlist relation.
      * 
      * @param studentId
-     * @param termKey
+     * @param termId
      * @param context
      * @return
      * @throws InvalidParameterException
@@ -790,7 +787,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -884,7 +881,7 @@ public interface CourseRegistrationService extends DataDictionaryService, TypeSe
      * @throws PermissionDeniedException
      * @throws DisabledIdentifierException
      */
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termKey") String termKey,
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(@WebParam(name = "studentId") String studentId, @WebParam(name = "termId") String termId,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
             DisabledIdentifierException;
 

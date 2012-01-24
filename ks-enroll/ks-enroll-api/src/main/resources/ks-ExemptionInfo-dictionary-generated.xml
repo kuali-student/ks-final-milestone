@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -41,7 +41,7 @@ plus any of its dependencies -->
 	<!-- ExemptionInfo-->
 	<bean id="ExemptionInfo-generated" abstract="true" parent="DataObjectEntry">
 		<property name="name" value="exemptionInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.exemption.dto.ExemptionInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.ExemptionInfo"/>
 		<property name="objectLabel" value="Exemption"/>
 		<property name="objectDescription">
 			<value>
@@ -71,8 +71,6 @@ org?
 				<ref bean="ExemptionInfo.name"/>
 				<ref bean="ExemptionInfo.exemptionRequestId"/>
 				<ref bean="ExemptionInfo.exemptedPersonId"/>
-				<ref bean="ExemptionInfo.qualifierTypeKey"/>
-				<ref bean="ExemptionInfo.qualifierId"/>
 				<ref bean="ExemptionInfo.effectiveDate"/>
 				<ref bean="ExemptionInfo.expirationDate"/>
 				<ref bean="ExemptionInfo.useLimit"/>
@@ -83,11 +81,8 @@ org?
 		<property name="complexAttributes">
 			<list>
 				<ref bean="ExemptionInfo.descr"/>
-				<ref bean="ExemptionInfo.restrictionOverride"/>
 				<ref bean="ExemptionInfo.dateOverride"/>
 				<ref bean="ExemptionInfo.milestoneOverride"/>
-				<ref bean="ExemptionInfo.statementOverride"/>
-				<ref bean="ExemptionInfo.holdOverride"/>
 				<ref bean="ExemptionInfo.learningResultOverride"/>
 				<ref bean="ExemptionInfo.meta"/>
 			</list>
@@ -203,40 +198,6 @@ The Id of the Person exempted.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ExemptionInfo.qualifierTypeKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="qualifierTypeKey"/>
-		<property name="shortLabel" value="Qualifier Type Key"/>
-		<property name="summary">
-			<value>
-The Type of a Qualifier to scope the Exemption.
-			</value>
-		</property>
-		<property name="label" value="Qualifier Type Key"/>
-		<property name="description">
-			<value>
-The Type of a Qualifier to scope the Exemption.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ExemptionInfo.qualifierId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="qualifierId"/>
-		<property name="shortLabel" value="Qualifier Id"/>
-		<property name="summary">
-			<value>
-The Id of a Qualifier to scope the Exemption.
-			</value>
-		</property>
-		<property name="label" value="Qualifier Id"/>
-		<property name="description">
-			<value>
-The Id of a Qualifier to scope the Exemption.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
 	<bean id="ExemptionInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
 		<property name="name" value="effectiveDate"/>
 	</bean>
@@ -279,68 +240,6 @@ The number of times this Exemption was marked as used.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ExemptionInfo.restrictionOverride-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="restrictionOverride"/>
-		<property name="shortLabel" value="Restriction Override"/>
-		<property name="summary">
-			<value>
-The data for a restriction override.
-			</value>
-		</property>
-		<property name="label" value="Restriction Override"/>
-		<property name="description">
-			<value>
-The data for a restriction override.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-		<property name="dataObjectEntry">
-			<bean parent="DataObjectEntry">
-				<property name="name" value="restrictionOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.enrollment.exemption.dto.RestrictionOverrideInfo"/>
-				<property name="objectLabel" value="Restriction Override"/>
-				<property name="objectDescription">
-					<value>
-The data for a restriction override.
-					</value>
-				</property>
-
-				<property name="attributes">
-					<list>
-						<ref bean="ExemptionInfo.restrictionOverride.restrictionKey"/>
-					</list>
-				</property>
-
-				<property name="complexAttributes">
-					<list>
-					</list>
-				</property>
-
-				<property name="collections">
-					<list>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="ExemptionInfo.restrictionOverride.restrictionKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="restrictionKey"/>
-		<property name="shortLabel" value="Restriction Key"/>
-		<property name="summary">
-			<value>
-The key for the Restriction.
-			</value>
-		</property>
-		<property name="label" value="Restriction Key"/>
-		<property name="description">
-			<value>
-The key for the Restriction.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
 	<bean id="ExemptionInfo.dateOverride-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="dateOverride"/>
 		<property name="shortLabel" value="Date Override"/>
@@ -359,7 +258,7 @@ The data for a date override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="dateOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.enrollment.exemption.dto.DateOverrideInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.DateOverride"/>
 				<property name="objectLabel" value="Date Override"/>
 				<property name="objectDescription">
 					<value>
@@ -369,7 +268,7 @@ The data for a date override.
 
 				<property name="attributes">
 					<list>
-						<ref bean="ExemptionInfo.dateOverride.milestoneKey"/>
+						<ref bean="ExemptionInfo.dateOverride.milestoneId"/>
 						<ref bean="ExemptionInfo.dateOverride.effectiveStartDate"/>
 						<ref bean="ExemptionInfo.dateOverride.effectiveEndDate"/>
 					</list>
@@ -388,15 +287,15 @@ The data for a date override.
 		</property>
 	</bean>
 
-	<bean id="ExemptionInfo.dateOverride.milestoneKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="milestoneKey"/>
-		<property name="shortLabel" value="Milestone Key"/>
+	<bean id="ExemptionInfo.dateOverride.milestoneId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="milestoneId"/>
+		<property name="shortLabel" value="Milestone Id"/>
 		<property name="summary">
 			<value>
 The key for the Milestone.
 			</value>
 		</property>
-		<property name="label" value="Milestone Key"/>
+		<property name="label" value="Milestone id"/>
 		<property name="description">
 			<value>
 The key for the Milestone.
@@ -461,7 +360,7 @@ The data for a milestone override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="milestoneOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.enrollment.exemption.dto.MilestoneOverrideInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.MilestoneOverride"/>
 				<property name="objectLabel" value="Milestone Override"/>
 				<property name="objectDescription">
 					<value>
@@ -471,8 +370,8 @@ The data for a milestone override.
 
 				<property name="attributes">
 					<list>
-						<ref bean="ExemptionInfo.milestoneOverride.milestoneKey"/>
-						<ref bean="ExemptionInfo.milestoneOverride.effectiveMilestoneKey"/>
+						<ref bean="ExemptionInfo.milestoneOverride.milestoneId"/>
+						<ref bean="ExemptionInfo.milestoneOverride.effectiveMilestoneId"/>
 					</list>
 				</property>
 
@@ -489,177 +388,35 @@ The data for a milestone override.
 		</property>
 	</bean>
 
-	<bean id="ExemptionInfo.milestoneOverride.milestoneKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="milestoneKey"/>
-		<property name="shortLabel" value="Milestone Key"/>
+	<bean id="ExemptionInfo.milestoneOverride.milestoneId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="milestoneId"/>
+		<property name="shortLabel" value="Milestone Id"/>
 		<property name="summary">
 			<value>
-The key for the overidden Milestone.
+The key for the overridden Milestone.
 			</value>
 		</property>
-		<property name="label" value="Milestone Key"/>
+		<property name="label" value="Milestone type Key"/>
 		<property name="description">
 			<value>
-The key for the overidden Milestone.
+The key for the overridden Milestone.
 			</value>
 		</property>
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ExemptionInfo.milestoneOverride.effectiveMilestoneKey-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="effectiveMilestoneKey"/>
-		<property name="shortLabel" value="Effective Milestone Key"/>
+	<bean id="ExemptionInfo.milestoneOverride.effectiveMilestoneId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="effectiveMilestoneId"/>
+		<property name="shortLabel" value="Effective Milestone Id"/>
 		<property name="summary">
 			<value>
 The new milestone that should be in effect.
 			</value>
 		</property>
-		<property name="label" value="Effective Milestone Key"/>
+		<property name="label" value="Effective Milestone id"/>
 		<property name="description">
 			<value>
 The new milestone that should be in effect.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ExemptionInfo.statementOverride-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="statementOverride"/>
-		<property name="shortLabel" value="Statement Override"/>
-		<property name="summary">
-			<value>
-The data for a statement override.
-			</value>
-		</property>
-		<property name="label" value="Statement Override"/>
-		<property name="description">
-			<value>
-The data for a statement override.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-		<property name="dataObjectEntry">
-			<bean parent="DataObjectEntry">
-				<property name="name" value="statementOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.enrollment.exemption.dto.StatementOverrideInfo"/>
-				<property name="objectLabel" value="Statement Override"/>
-				<property name="objectDescription">
-					<value>
-The data for a statement override.
-					</value>
-				</property>
-
-				<property name="attributes">
-					<list>
-						<ref bean="ExemptionInfo.statementOverride.statementId"/>
-						<ref bean="ExemptionInfo.statementOverride.anchorId"/>
-					</list>
-				</property>
-
-				<property name="complexAttributes">
-					<list>
-					</list>
-				</property>
-
-				<property name="collections">
-					<list>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="ExemptionInfo.statementOverride.statementId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="statementId"/>
-		<property name="shortLabel" value="Statement Id"/>
-		<property name="summary">
-			<value>
-The Id for the Statement.
-			</value>
-		</property>
-		<property name="label" value="Statement Id"/>
-		<property name="description">
-			<value>
-The Id for the Statement.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ExemptionInfo.statementOverride.anchorId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="anchorId"/>
-		<property name="shortLabel" value="Anchor Id"/>
-		<property name="summary">
-			<value>
-The anchor of the statement.
-			</value>
-		</property>
-		<property name="label" value="Anchor Id"/>
-		<property name="description">
-			<value>
-The anchor of the statement.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="ExemptionInfo.holdOverride-generated" abstract="true" parent="ComplexAttributeDefinition">
-		<property name="name" value="holdOverride"/>
-		<property name="shortLabel" value="Hold Override"/>
-		<property name="summary">
-			<value>
-The data for a hold override.
-			</value>
-		</property>
-		<property name="label" value="Hold Override"/>
-		<property name="description">
-			<value>
-The data for a hold override.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-		<property name="dataObjectEntry">
-			<bean parent="DataObjectEntry">
-				<property name="name" value="holdOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.enrollment.exemption.dto.HoldOverrideInfo"/>
-				<property name="objectLabel" value="Hold Override"/>
-				<property name="objectDescription">
-					<value>
-The data for a hold override.
-					</value>
-				</property>
-
-				<property name="attributes">
-					<list>
-						<ref bean="ExemptionInfo.holdOverride.holdId"/>
-					</list>
-				</property>
-
-				<property name="complexAttributes">
-					<list>
-					</list>
-				</property>
-
-				<property name="collections">
-					<list>
-					</list>
-				</property>
-			</bean>
-		</property>
-	</bean>
-
-	<bean id="ExemptionInfo.holdOverride.holdId-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="holdId"/>
-		<property name="shortLabel" value="Hold Id"/>
-		<property name="summary">
-			<value>
-The Id for the Hold.
-			</value>
-		</property>
-		<property name="label" value="Hold Id"/>
-		<property name="description">
-			<value>
-The Id for the Hold.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -683,7 +440,7 @@ The data for a learning result override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="learningResultOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.enrollment.exemption.dto.LearningResultOverrideInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.LearningResultOverride"/>
 				<property name="objectLabel" value="Learning Result Override"/>
 				<property name="objectDescription">
 					<value>

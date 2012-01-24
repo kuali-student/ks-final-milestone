@@ -58,11 +58,11 @@ public class TestCourseOfferingServiceImpl {
     private LRCService lrcService;
 
     public static String principalId = "123";
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
 
 	@Before
     public void setUp() {
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo ();
         callContext.setPrincipalId(principalId);
     }
 
@@ -104,14 +104,14 @@ public class TestCourseOfferingServiceImpl {
                 "CLU-1", "testAtpId1", formatIdList, callContext);
     	assertNotNull(created);
     	assertEquals("CLU-1", created.getCourseId());
-    	assertEquals("testAtpId1", created.getTermKey());
+    	assertEquals("testAtpId1", created.getTermId());
     	assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey()); 
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey()); 
 
         CourseOfferingInfo retrieved = coServiceAuthDecorator.getCourseOffering(created.getId(), callContext);
     	assertNotNull(retrieved);
     	assertEquals("CLU-1", retrieved.getCourseId());
-    	assertEquals("testAtpId1", retrieved.getTermKey());
+    	assertEquals("testAtpId1", retrieved.getTermId());
     	assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey()); 
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, retrieved.getTypeKey()); 
 
@@ -152,7 +152,7 @@ public class TestCourseOfferingServiceImpl {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 		ActivityOfferingInfo ao = new ActivityOfferingInfo();
 		ao.setActivityId("CLU-1");
-		ao.setTermKey("testAtpId1");
+		ao.setTermId("testAtpId1");
 		ao.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 		ao.setTypeKey(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY);
 		
@@ -188,7 +188,7 @@ public class TestCourseOfferingServiceImpl {
             assertNotNull(retrieved);
 
             assertEquals(created.getActivityId(), retrieved.getActivityId());
-            assertEquals(created.getTermKey(), retrieved.getTermKey());
+            assertEquals(created.getTermId(), retrieved.getTermId());
             assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey());
             assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, retrieved.getTypeKey());
             assertEquals(2, retrieved.getMeetingSchedules().size());
@@ -258,7 +258,7 @@ public class TestCourseOfferingServiceImpl {
             CourseOfferingInfo coi = coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
             assertNotNull(coi);
             
-            coi.setTermKey("testAtpId1");
+            coi.setTermId("testAtpId1");
             coi.setIsHonorsOffering(true);
             coi.setMaximumEnrollment(40);
             coi.setMinimumEnrollment(10);

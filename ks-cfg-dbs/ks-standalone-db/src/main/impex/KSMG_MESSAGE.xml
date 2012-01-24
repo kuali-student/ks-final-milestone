@@ -1196,11 +1196,6 @@
         ID="891b4749-fcd1-48aa-b814-4ea6253faf24" LOCALE="en"
         MSG_ID="cluAdministrativeFee" MSG_VALUE="Administrative Fee"
         OBJ_ID="5cc7e0c4-61d0-483d-bc92-2f519c2f3d7e" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="8D4992BD3B194993AAE10C6A475E2246" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="86ADBAF028F44E99914C14CA76015DE8" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="clusetmanagement"
         ID="8a244af4-8353-4d56-bcbf-7b3113574c48" LOCALE="en"
         MSG_ID="cluSetTitleCourse" MSG_VALUE="Course Set Name"
@@ -1374,10 +1369,15 @@
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="F4B91660AF8447CFBF9A8BD2C8EB9A4E" LOCALE="en"
+        ID="B6BCE69B9265A4FCE040C60AF05B3368" LOCALE="en"
         MSG_ID="validation.validChars.numeric.range"
         MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="1F009D23CE204A82969E94554DD56299" VER_NBR="1"/>
+        OBJ_ID="B6BCE69B9266A4FCE040C60AF05B3368" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="B6BCE69B9267A4FCE040C60AF05B3368" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="B6BCE69B9268A4FCE040C60AF05B3368" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"

@@ -27,8 +27,6 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.enrollment.class2.grading.form.GradingForm;
-import org.kuali.student.enrollment.class2.grading.form.StudentGradeForm;
 import org.kuali.student.enrollment.class2.registration.dto.ActivityOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.CourseOfferingWrapper;
 import org.kuali.student.enrollment.class2.registration.dto.MeetingScheduleWrapper;
@@ -90,7 +88,7 @@ public class RegistrationController extends UifControllerBase {
     protected RegRequestInfo generateNewRegRequestInfo(ContextInfo context, RegistrationForm regForm){
         String id = context.getPrincipalId();
         RegRequestInfo info = new RegRequestInfo();
-        info.setTermKey(regForm.getTermKey());
+        info.setTermId(regForm.getTermId());
         info.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
         info.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
         info.setRequestorId(id);
@@ -172,15 +170,15 @@ public class RegistrationController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=showRegistration")
     public ModelAndView showRegistration(@ModelAttribute("KualiForm") UifFormBase formBase, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
         RegistrationForm regForm = (RegistrationForm) formBase;
         try {
-            regForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), regForm.getTermKey(), context));
+            regForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), regForm.getTermId(), context));
 
             //Pull any existing 'new' cart out
             List<String> states = new ArrayList<String>();
             states.add(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
-            List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsForStudentByTerm(context.getPrincipalId(), regForm.getTermKey(), states, context);
+            List<RegRequestInfo> regRequestInfos = getCourseRegistrationService().getRegRequestsForStudentByTerm(context.getPrincipalId(), regForm.getTermId(), states, context);
             RegRequestInfo regRequest = null;
             if(regRequestInfos != null){
                 for(RegRequestInfo info: regRequestInfos){
@@ -218,7 +216,7 @@ public class RegistrationController extends UifControllerBase {
             }
 
 //            return getUIFModelAndView(regForm, regForm.getViewId(), "registrationPage");
-            return getUIFModelAndView(regForm);
+            return getUIFModelAndView(regForm, "registrationPage");
         } catch (InvalidParameterException e) {
             throw new RuntimeException(e);
         } catch (MissingParameterException e) {
@@ -240,7 +238,7 @@ public class RegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=searchCourseOfferings")
     public ModelAndView searchCourseOfferings(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
 
         try {
             List<String> courseOfferingIds = getCourseOfferingIds(registrationForm, context);
@@ -297,7 +295,7 @@ public class RegistrationController extends UifControllerBase {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "Searching by Course Offering Code is not yet implemented");
             return new ArrayList<String>();
         } else {
-            return getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermKey(), registrationForm.getSubjectArea(), context);
+            return getCourseOfferingService().getCourseOfferingIdsByTermAndSubjectArea(registrationForm.getTermId(), registrationForm.getSubjectArea(), context);
         }
     }
 
@@ -350,7 +348,7 @@ public class RegistrationController extends UifControllerBase {
         @RequestMapping(params = "methodToCall=dropClass")
     public ModelAndView dropClass(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
         RegistrationGroupWrapper regGroupWrapper = findRegGroupByIndex(registrationForm);
 
         try {
@@ -393,7 +391,7 @@ public class RegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=registerClass")
     public ModelAndView registerClass(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
                                            HttpServletRequest request, HttpServletResponse response) {
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
         RegistrationGroupWrapper regGroupWrapper = findRegGroupByIndex(registrationForm);
 
         try {
@@ -441,7 +439,7 @@ public class RegistrationController extends UifControllerBase {
     }
 
     protected void processSubmitRegRequest(RegRequestInfo regRequest, RegistrationForm registrationForm, boolean oneClick){
-       ContextInfo context = ContextInfo.newInstance();
+       ContextInfo context = new ContextInfo();
         try {
             List<ValidationResultInfo> validationResultInfos = getCourseRegistrationService().validateRegRequest(regRequest, context);
             if (CollectionUtils.isEmpty(validationResultInfos)) {
@@ -455,7 +453,7 @@ public class RegistrationController extends UifControllerBase {
                     if(!oneClick){
                         registrationForm.setRegRequest(null);
                     }
-                    registrationForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), registrationForm.getTermKey(), context));
+                    registrationForm.setCourseRegistrations(getCourseRegistrations(context.getPrincipalId(), registrationForm.getTermId(), context));
                 }
                 else {
                     if(regResponse.getOperationStatus().getErrors().isEmpty()) {
@@ -511,7 +509,7 @@ public class RegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=removeFromCart")
     public ModelAndView removeFromCart(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
 
         RegRequest regRequest = registrationForm.getRegRequest();
         String id = registrationForm.getActionParamaterValue("itemId");
@@ -579,7 +577,7 @@ public class RegistrationController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=addToCart")
     public ModelAndView addToCart(@ModelAttribute("KualiForm") RegistrationForm registrationForm, BindingResult result,
                                       HttpServletRequest request, HttpServletResponse response) {
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
 
         RegistrationGroupWrapper regGroupWrapper = findRegGroupByIndex(registrationForm);
 

@@ -28,7 +28,6 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -43,7 +42,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.TypeService;
 
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 
@@ -66,7 +64,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 @WebService(name = "LuiService", serviceName ="LuiService", portName = "LuiService", targetNamespace = LuiServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface LuiService extends DataDictionaryService, TypeService {
+public interface LuiService {
 
     /**
      * Retrieves information about a LUI.
@@ -132,33 +130,33 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * Retrieves the list of LUI ids for the specified CLU and Time period.
      *
      * @param cluId identifier of the CLU
-     * @param atpKey identifier for the academic time period
+     * @param atpId identifier for the academic time period
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return list of LUI identifiers
      * @throws DoesNotExistException     clu, atp not found
-     * @throws InvalidParameterException invalid cluId, atpKey
-     * @throws MissingParameterException missing cluId, atpKey
+     * @throws InvalidParameterException invalid cluId, atpId
+     * @throws MissingParameterException missing cluId, atpId
      * @throws OperationFailedException  unable to complete request
      */
-    public List<String> getLuiIdsInAtpByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<String> getLuiIdsInAtpByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of LUIs for the specified CLU and period.
      *
      * @param cluId identifier of the CLU
-     * @param atpKey identifier for the academic time period
+     * @param atpId identifier for the academic time period
      * @param context Context information containing the principalId
      *        and locale information about the caller of service
      *        operation
      * @return list of LUI information
      * @throws DoesNotExistException     clu, atp not found
-     * @throws InvalidParameterException invalid cluId, atpKey
-     * @throws MissingParameterException missing cluId, atpKey
+     * @throws InvalidParameterException invalid cluId, atpId
+     * @throws MissingParameterException missing cluId, atpId
      * @throws OperationFailedException  unable to complete request
      */
-    public List<LuiInfo> getLuisInAtpByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<LuiInfo> getLuisInAtpByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves the list of LUI Ids for the specified related LUI Id
@@ -292,7 +290,7 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * Creates a new LUI.
      *
      * @param cluId   identifier of the CLU for the LUI being created
-     * @param atpKey  identifier of the academic time period for the
+     * @param atpId  identifier of the academic time period for the
      *                LUI being created
      * @param luiInfo information about the LUI being created
      * @param context Context information containing the principalId
@@ -303,12 +301,12 @@ public interface LuiService extends DataDictionaryService, TypeService {
      * @throws DataValidationErrorException One or more values invalid
      *                                      for this operation
      * @throws DoesNotExistException clu, atp not found
-     * @throws InvalidParameterException invalid cluId, atpKey, luiInfo
-     * @throws MissingParameterException missing cluId, atpKey, luiInfo
+     * @throws InvalidParameterException invalid cluId, atpId, luiInfo
+     * @throws MissingParameterException missing cluId, atpId, luiInfo
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public LuiInfo createLui(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpKey") String atpKey, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public LuiInfo createLui(@WebParam(name = "cluId") String cluId, @WebParam(name = "atpId") String atpId, @WebParam(name = "luiInfo") LuiInfo luiInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing LUI.

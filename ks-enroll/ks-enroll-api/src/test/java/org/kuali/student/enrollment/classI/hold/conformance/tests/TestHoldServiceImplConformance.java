@@ -5,6 +5,7 @@ import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -16,6 +17,7 @@ import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.dto.IssueInfo;
 import org.kuali.student.r2.core.hold.service.HoldService;
 
+@Ignore
 public class TestHoldServiceImplConformance {
 
     public TestHoldServiceImplConformance() {

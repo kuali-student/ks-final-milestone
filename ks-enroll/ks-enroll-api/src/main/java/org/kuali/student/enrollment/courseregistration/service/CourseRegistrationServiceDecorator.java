@@ -11,14 +11,9 @@ import org.kuali.student.enrollment.courseregistration.dto.RegRequestInfo;
 import org.kuali.student.enrollment.courseregistration.dto.RegResponseInfo;
 import org.kuali.student.enrollment.coursewaitlist.dto.CourseWaitlistEntryInfo;
 import org.kuali.student.enrollment.grading.dto.LoadInfo;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -53,83 +48,6 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
-        return getNextDecorator().getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return getNextDecorator().getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getType(typeKey, context);
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, context);
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, context);
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, context);
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getProcessByKey(processKey, context);
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getProcessByObjectType(refObjectUri, context);
-    }
-
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getState(processKey, stateKey, context);
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getStatesByProcess(processKey, context);
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getInitialValidStates(processKey, context);
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return getNextDecorator().getNextHappyState(processKey, currentStateKey, context);
-    }
-
-    @Override
     public  List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().checkStudentEligibility(studentId, context);
@@ -137,16 +55,16 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
 
     @Override
     public List<org.kuali.student.r2.common.dto.ValidationResultInfo> checkStudentEligibilityForTerm(String studentId,
-            String termKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            String termId, ContextInfo context) throws InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termKey, context);
+        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termId, context);
     }
 
     @Override
-    public List<DateRangeInfo> getAppointmentWindows(String studentId, String termKey, ContextInfo context)
+    public List<DateRangeInfo> getAppointmentWindows(String studentId, String termId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().getAppointmentWindows(studentId, termKey, context);
+        return getNextDecorator().getAppointmentWindows(studentId, termId, context);
     }
 
     @Override
@@ -171,10 +89,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public LoadInfo calculateCreditLoadForTerm(String studentId, String termKey, ContextInfo context)
+    public LoadInfo calculateCreditLoadForTerm(String studentId, String termId, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        return getNextDecorator().calculateCreditLoadForTerm(studentId, termKey, context);
+        return getNextDecorator().calculateCreditLoadForTerm(studentId, termId, context);
     }
 
     @Override
@@ -281,10 +199,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey,
+    public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termId,
             List<String> requestStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termKey, requestStates, context);
+        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termId, requestStates, context);
     }
 
     @Override
@@ -367,10 +285,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termKey,
+    public List<CourseWaitlistEntryInfo> getCourseWaitlistEntriesForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termKey, context);
+        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termId, context);
     }
 
     @Override
@@ -396,10 +314,10 @@ public class CourseRegistrationServiceDecorator implements CourseRegistrationSer
     }
 
     @Override
-    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termKey,
+    public List<CourseRegistrationInfo> getCourseRegistrationsForStudentByTerm(String studentId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
-        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termKey, context);
+        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termId, context);
     }
 
     @Override

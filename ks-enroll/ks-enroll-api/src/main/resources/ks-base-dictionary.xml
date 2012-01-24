@@ -417,31 +417,31 @@ Could be implemented as as sequence number or as a UUID.
         <!--TODO: Add some sort of referential integrity constriant to make sure the id is a valid lui id-->
     </bean>
 
-    <bean id="BaseKuali.atpKey" parent="BaseKuali.keyField" abstract="true">
-        <property name="name" value="atpKey"/>
-        <property name="childEntryName" value="atpKey"/>
+    <bean id="BaseKuali.atpId" parent="BaseKuali.idField" abstract="true">
+        <property name="name" value="atpId"/>
+        <property name="childEntryName" value="atpId"/>
         <property name="shortLabel" value="ATP"/>
-        <property name="summary" value="Unique key to the Academic Time Period (ATP)"/>
+        <property name="summary" value="Unique id to the Academic Time Period (ATP)"/>
         <property name="label" value="ATO"/>
-        <property name="description" value="Unique key to the Academic Time Period (ATP)"/>
+        <property name="description" value="Unique id to the Academic Time Period (ATP)"/>
     </bean>
 
-    <bean id="BaseKuali.termKey" parent="BaseKuali.atpKey" abstract="true">
-        <property name="name" value="termKey"/>
-        <property name="childEntryName" value="termKey"/>
+    <bean id="BaseKuali.termId" parent="BaseKuali.atpId" abstract="true">
+        <property name="name" value="termId"/>
+        <property name="childEntryName" value="termId"/>
         <property name="shortLabel" value="ATP"/>
-        <property name="summary" value="Unique key to the Academic Time Period (ATP)"/>
+        <property name="summary" value="Unique id to the Academic Time Period (ATP)"/>
         <property name="label" value="ATO"/>
-        <property name="description" value="Unique key to the Academic Time Period (ATP)"/>
+        <property name="description" value="Unique id to the Academic Time Period (ATP)"/>
     </bean>
   
-    <bean id="BaseKuali.campusCalendarKey" parent="BaseKuali.atpKey" abstract="true">
-        <property name="name" value="campusCalendarKey"/>
-        <property name="childEntryName" value="campusCalendarKey"/>
-        <property name="shortLabel" value="Campus Calendar"/>
-        <property name="summary" value="Unique key to a campus calendar"/>
-        <property name="label" value="Campus Calendar Key"/>
-        <property name="description" value="Unique key to a campus calendar"/>
+    <bean id="BaseKuali.holidayCalendarId" parent="BaseKuali.atpId" abstract="true">
+        <property name="name" value="holidayCalendarId"/>
+        <property name="childEntryName" value="holidayCalendarId"/>
+        <property name="shortLabel" value="Holiday Calendar"/>
+        <property name="summary" value="Unique id to a holiday calendar"/>
+        <property name="label" value="Holiday Calendar Key"/>
+        <property name="description" value="Unique id to a holiday calendar"/>
     </bean>
   
     <bean id="BaseKuali.cluId" abstract="true" parent="BaseKuali.idField">

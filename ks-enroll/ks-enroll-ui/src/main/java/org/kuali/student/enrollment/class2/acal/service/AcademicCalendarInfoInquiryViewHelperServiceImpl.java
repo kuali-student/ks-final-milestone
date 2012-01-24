@@ -24,7 +24,7 @@ public class AcademicCalendarInfoInquiryViewHelperServiceImpl extends Inquirable
     	AcademicCalendarInfo academicCalendarInfo = null;
     	
     	String academicCalendarKey = parameters.get(ACADEMIC_CALENDAR_KEY);
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
     	try{
     		academicCalendarInfo = getAcademicCalendarService().getAcademicCalendar(academicCalendarKey, context);
     		return academicCalendarInfo;

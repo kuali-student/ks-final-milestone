@@ -55,18 +55,18 @@ public class LearningResultOverrideInfo implements LearningResultOverride, Seria
 	public LearningResultOverrideInfo(LearningResultOverride learningResultOverride) {
 		super();
 		if (null != learningResultOverride) {
-		    this.lrrIds = new ArrayList(learningResultOverride.getLRRIds());
+		    this.lrrIds = new ArrayList(learningResultOverride.getLrrIds());
 		}
 
 		_futureElements = null;
 	}
 
 	@Override
-	public List<String> getLRRIds() {
+	public List<String> getLrrIds() {
 	    return lrrIds;
 	}
 
-	public void setLRRIds(List<String> lrrIds) {
+	public void setLrrIds(List<String> lrrIds) {
 	    this.lrrIds = lrrIds;
 	}
 }

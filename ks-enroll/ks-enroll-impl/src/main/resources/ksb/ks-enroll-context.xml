@@ -91,10 +91,14 @@
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
+      <property name="stateService" ref="stateService" />
+      <property name="typeService" ref="typeService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
-    <property name="campusCalendarAssembler" ref="campusCalendarAssembler" />
+    <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
     <property name="holidayAssembler" ref="holidayAssembler" />
+    <property name="keyDateAssembler" ref="keyDateAssembler" />
+    <property name="acalEventAssembler" ref = "acalEventAssembler" />
   </bean>
 
   <bean id="ks.exp.acalService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
@@ -113,21 +117,28 @@
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
     <property name="atpService" ref="atpEnrService" />
   </bean>
-
   <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"></bean>
 
-  <bean id="campusCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.CampusCalendarAssembler" />
+  <bean id="holidayCalendarAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalendarAssembler" />
 
   <bean id="holidayAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.HolidayAssembler" />
+  
+  <bean id="keyDateAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler" />
 
   <bean id="roleService" class="org.kuali.student.kim.permission.mock.RoleServiceMockImpl " />
+  
   <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-  <bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+  <bean id="acalEventAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcalEventAssembler"/>
+
+  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
     <property name="spDao" ref="stateProcessDao" />
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
+
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

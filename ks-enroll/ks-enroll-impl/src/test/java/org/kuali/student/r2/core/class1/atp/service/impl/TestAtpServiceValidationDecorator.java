@@ -61,11 +61,11 @@ public class TestAtpServiceValidationDecorator {
 
     //public ApplicationContext appContext = new ClassPathXmlApplicationContext(new String[]{"acal-test-context.xml"});
     public static String principalId = "123";
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
     
     @Before
     public void setUp() {
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);        
         //atpService = appContext.getBean(AtpServiceValidationDecorator.class);
     }
@@ -79,11 +79,11 @@ public class TestAtpServiceValidationDecorator {
         // validation should have problems with a new, incomplete milestone
         List<ValidationResultInfo> validationResults =
                 atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
-        assertEquals("Three validation errors are expected.", 3, validationResults.size());
+        assertEquals("Three validation errors are expected.", 2, validationResults.size());
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
-        milestone.setKey("newId");
+        milestone.setId("newId");
         milestone.setTypeKey("kuali.atp.milestone.RegistrationPeriod");
         validationResults = atpService.validateMilestone("FULL_VALIDATION", milestone, callContext);
         assertEquals("validateMilestone() should have returned one error.", 1, validationResults.size());
@@ -106,18 +106,18 @@ public class TestAtpServiceValidationDecorator {
         List<ValidationResultInfo> validationResults =
                 null;
         try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getKey(), atpInfo, callContext);
+            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }
-        assertEquals("Three validation errors are expected.", 3, validationResults.size());
+        assertEquals("Three validation errors are expected.", 2, validationResults.size());
 
         // populate two of the three required fields (key, type, state) and validation
         // should now return a list with only one error, for the "stateKey" field
-        atpInfo.setKey("newId");
+        atpInfo.setId("newId");
         atpInfo.setTypeKey("kuali.atp.type.AcademicCalendar");
         try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getKey(), atpInfo, callContext);
+            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }
@@ -127,7 +127,7 @@ public class TestAtpServiceValidationDecorator {
         // validation should pass once the stateKey is provided
         atpInfo.setStateKey("kuali.atp.state.Draft");
         try {
-            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getKey(), atpInfo, callContext);
+            validationResults = atpService.validateAtp("FULL_VALIDATION", atpInfo.getId(), atpInfo, callContext);
         } catch (PermissionDeniedException e) {
             fail(e.getMessage());
         }

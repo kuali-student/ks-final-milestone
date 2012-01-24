@@ -38,7 +38,7 @@ public class TermLookupableImpl extends LookupableImpl  {
     	List<TermInfo> termInfoList = new ArrayList<TermInfo>();
 
     	String termKey = fieldValues.get(TERM_KEY);
-    	ContextInfo context = ContextInfo.newInstance();
+    	ContextInfo context = new ContextInfo();
     	try{
     		termInfo = getAcademicCalendarService().getTerm(termKey, context);
     		termInfoList.add(termInfo);

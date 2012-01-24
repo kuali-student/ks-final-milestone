@@ -17,7 +17,7 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
@@ -49,8 +49,8 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         CourseOfferingInfo courseOfferingInfo = (CourseOfferingInfo) getDataObject();
 //        System.out.println(">>>>> in CourseOfferingInfoMaintainableImpl.saveDataObject method");
 
-        //get termKey from the user input through UI
-        String termKey = courseOfferingInfo.getTermKey();
+        //get termId from the user input through UI
+        String termId = courseOfferingInfo.getTermId();
         //get courseId from courseOfferingInfo, which is retrieved based on course Code that the user input through UI
         String courseId = courseOfferingInfo.getCourseId();
 
@@ -89,7 +89,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         CourseOfferingInfo coi = null;
         try {
             //create a CourseOfferingInfo coi
-            coi = getCourseOfferingService().createCourseOfferingFromCanonical(courseId, termKey, formatIdList, ContextInfo.newInstance());
+            coi = getCourseOfferingService().createCourseOfferingFromCanonical(courseId, termId, formatIdList, new ContextInfo());
         } catch (OperationFailedException ofe) {
             System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get OperationFailedException:  " + ofe.toString());
         } catch (InvalidParameterException ipe) {
@@ -111,7 +111,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         //If grading options not present in course, set a default one in CO
         if (coi.getGradingOptionKeys() == null || coi.getGradingOptionKeys().isEmpty()){
             List<String> gradingOptions = new ArrayList();
-            gradingOptions.add(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE);
+            gradingOptions.add(LrcServiceConstants.RESULT_SCALE_TYPE_KEY_GRADE);
             coi.setGradingOptionKeys(gradingOptions);
         }
 
@@ -127,7 +127,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
             //update the CourseOfferingInfo coi in DB with instructors info
             try {
-                getCourseOfferingService().updateCourseOffering(coi.getId(), coi, ContextInfo.newInstance());
+                getCourseOfferingService().updateCourseOffering(coi.getId(), coi, new ContextInfo());
             } catch (OperationFailedException ofe) {
                 System.out.println("call courseOfferingService.updateCourseOffering() method, and get OperationFailedException:  " + ofe.toString());
             } catch (InvalidParameterException ipe) {
@@ -156,11 +156,11 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
             for (ActivityInfo activity : activities) {
                 ActivityOfferingInfo activityOfferingInfo = new ActivityOfferingInfo();
                 activityOfferingInfo.setInstructors(instructors);
-                //It looks like termKey and activityId are required fields to create an ActivityOfferingInfo data entry
-                activityOfferingInfo.setTermKey(termKey);
+                //It looks like termId and activityId are required fields to create an ActivityOfferingInfo data entry
+                activityOfferingInfo.setTermId(termId);
                 activityOfferingInfo.setActivityId(activity.getId());
                 try {
-                    List<TypeInfo> activityOfferingTypes = getCourseOfferingService().getActivityOfferingTypesForActivityType(activity.getActivityType(), ContextInfo.newInstance());
+                    List<TypeInfo> activityOfferingTypes = getCourseOfferingService().getActivityOfferingTypesForActivityType(activity.getActivityType(), new ContextInfo());
                     if (activityOfferingTypes.size() > 1) {
                         System.out.println(">>for core slice, it should be 1-to-1 mapping. so only take the first one -- " + activityOfferingTypes.get(0).getKey());
                     }
@@ -172,7 +172,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                      //TODO remove this fake generation when we are getting real times from the form
                     activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
-                    activityOfferingInfo = getCourseOfferingService().createActivityOffering(courseOfferingIdList, activityOfferingInfo, ContextInfo.newInstance());
+                    activityOfferingInfo = getCourseOfferingService().createActivityOffering(courseOfferingIdList, activityOfferingInfo, new ContextInfo());
 
                     activityOfferingInfoList.add(activityOfferingInfo);
                     activityOfferingIdList.add(activityOfferingInfo.getId());
@@ -185,7 +185,7 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
                     try {
-                        getCourseOfferingService().createRegistrationGroup(coi.getId(), registrationGroupInfo, ContextInfo.newInstance());
+                        getCourseOfferingService().createRegistrationGroup(coi.getId(), registrationGroupInfo, new ContextInfo());
                     } catch (OperationFailedException ofe) {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get OperationFailedException:  " + ofe.toString());
                     } catch (InvalidParameterException ipe) {

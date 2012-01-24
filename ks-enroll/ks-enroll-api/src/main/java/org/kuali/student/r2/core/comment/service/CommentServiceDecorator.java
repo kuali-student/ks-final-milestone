@@ -16,11 +16,8 @@
 package org.kuali.student.r2.core.comment.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -154,37 +151,8 @@ public class CommentServiceDecorator implements CommentService {
     }
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return getNextDecorator().getDataDictionaryEntryKeys(contextInfo);
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return getNextDecorator().getDataDictionaryEntry(entryKey, contextInfo);
-    }
-
-    @Override
     public StatusInfo deleteTag(String tagId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteTag(tagId, contextInfo);
     }
 
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getType(typeKey, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getTypesByRefObjectURI(refObjectURI, contextInfo);
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectURI, contextInfo);
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().getTypeRelationsByOwnerType(ownerTypeKey, relationTypeKey, contextInfo);
-    }
 }

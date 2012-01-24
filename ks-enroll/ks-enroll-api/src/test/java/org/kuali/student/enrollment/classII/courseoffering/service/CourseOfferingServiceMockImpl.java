@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -18,10 +18,8 @@ import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInf
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
@@ -32,6 +30,7 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 public class CourseOfferingServiceMockImpl implements CourseOfferingService {
 
@@ -62,7 +61,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo.setCourseNumberSuffix("PHY");
         courseOfferingInfo.setHasFinalExam(Boolean.TRUE);
         courseOfferingInfo.setIsHonorsOffering(Boolean.TRUE);
-        courseOfferingInfo.setTermKey("201108");
+        courseOfferingInfo.setTermId("201108");
 
         courseOfferingCache.put(courseOfferingInfo.getId(), courseOfferingInfo);
 
@@ -78,7 +77,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo1.setCourseNumberSuffix("PHY");
         courseOfferingInfo1.setHasFinalExam(Boolean.TRUE);
         courseOfferingInfo1.setIsHonorsOffering(Boolean.TRUE);
-        courseOfferingInfo1.setTermKey("201108");
+        courseOfferingInfo1.setTermId("201108");
 
         courseOfferingCache.put(courseOfferingInfo1.getId(), courseOfferingInfo1);
 
@@ -94,7 +93,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
         courseOfferingInfo2.setCourseNumberSuffix("PHY");
         courseOfferingInfo2.setHasFinalExam(Boolean.TRUE);
         courseOfferingInfo2.setIsHonorsOffering(Boolean.TRUE);
-        courseOfferingInfo2.setTermKey("201108");
+        courseOfferingInfo2.setTermId("201108");
 
         courseOfferingCache.put(courseOfferingInfo2.getId(), courseOfferingInfo2);
     }
@@ -108,19 +107,6 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return null;
-    }
-
-    @Override
     public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -129,13 +115,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(String courseId, String termKey,
+    public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(String courseId, String termId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<CourseOfferingInfo> courseOfferings = new ArrayList<CourseOfferingInfo>();
         for (CourseOfferingInfo courseOffering : courseOfferingCache.values()) {
-            if (courseOffering.getCourseId().equals(courseId) && courseOffering.getTermKey().equals(termKey)) {
+            if (courseOffering.getCourseId().equals(courseId) && courseOffering.getTermId().equals(termId)) {
                 courseOfferings.add(courseOffering);
             }
         }
@@ -143,13 +129,13 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getCourseOfferingIdsForTerm(String termKey, Boolean useIncludedTerm, ContextInfo context)
+    public List<String> getCourseOfferingIdsForTerm(String termId, Boolean useIncludedTerm, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<String> courseOfferings = new ArrayList<String>();
         for (CourseOfferingInfo courseOffering : courseOfferingCache.values()) {
-            if (courseOffering.getTermKey().equals(termKey)) {
+            if (courseOffering.getTermId().equals(termId)) {
                 courseOfferings.add(courseOffering.getId());
             }
         }
@@ -157,7 +143,7 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termKey, String subjectArea, ContextInfo context)
+    public List<String> getCourseOfferingIdsByTermAndSubjectArea(String termId, String subjectArea, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
@@ -171,14 +157,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termKey, String unitOwnerId, ContextInfo context)
+    public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termId, String unitOwnerId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<String> courseOfferings = new ArrayList<String>();
         for (CourseOfferingInfo courseOffering : courseOfferingCache.values()) {
             if (courseOffering.getUnitsContentOwner().contains(unitOwnerId)
-                    && courseOffering.getTermKey().equals(termKey)) {
+                    && courseOffering.getTermId().equals(termId)) {
                 courseOfferings.add(courseOffering.getId());
             }
         }
@@ -186,14 +172,14 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo createCourseOfferingFromCanonical(String courseid, String termKey,
+    public CourseOfferingInfo createCourseOfferingFromCanonical(String courseid, String termId,
             List<String> formatIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
             DataValidationErrorException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         CourseOfferingInfo courseOfferingInfo = new CourseOfferingInfo();
         courseOfferingInfo.setCourseId(courseid);
-        courseOfferingInfo.setTermKey(termKey);
+        courseOfferingInfo.setTermId(termId);
         courseOfferingInfo.setId(String.valueOf(Math.random()));
         CourseInfo courseInfo = courseCache.get(courseid);
         courseOfferingInfo.setCourseId(courseInfo.getId());
@@ -756,10 +742,10 @@ public class CourseOfferingServiceMockImpl implements CourseOfferingService {
     }
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termKey, String instructorId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termId, String instructorId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> list = new ArrayList<String>();
         for (CourseOfferingInfo courseOfferingInfo : this.courseOfferingCache.values()) {
-            if (termKey.equals(courseOfferingInfo.getTermKey())) {
+            if (termId.equals(courseOfferingInfo.getTermId())) {
                 if (courseOfferingInfo.getInstructors() != null) {
                     for (OfferingInstructorInfo offeringInstructorInfo : courseOfferingInfo.getInstructors()) {
                         if (instructorId.equals(offeringInstructorInfo.getPersonId())) {

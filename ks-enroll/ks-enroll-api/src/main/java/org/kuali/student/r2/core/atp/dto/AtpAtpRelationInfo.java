@@ -24,63 +24,69 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
+import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpAtpRelationInfo", propOrder = { "id", "typeKey",
-		"stateKey", "atpKey", "relatedAtpKey", "effectiveDate",
-		"expirationDate", "meta", "attributes", "_futureElements" })
-public class AtpAtpRelationInfo extends RelationshipInfo implements
-		AtpAtpRelation, Serializable {
+@XmlType(name = "AtpAtpRelationInfo", propOrder = { 
+                "id", "typeKey", "stateKey", 
+                "atpId", "relatedAtpId", 
+                "effectiveDate", "expirationDate", 
+                "meta", "attributes", "_futureElements" })
 
-	private static final long serialVersionUID = 1L;
-	@XmlElement
-	private String atpKey;
-	@XmlElement
-    private String relatedAtpKey;
-	@XmlAnyElement
-	private List<Element> _futureElements;
+public class AtpAtpRelationInfo 
+    extends RelationshipInfo 
+    implements AtpAtpRelation, Serializable {
 
-	public AtpAtpRelationInfo() {
-		atpKey = null;
-		relatedAtpKey = null;
-		_futureElements = null;
-	}
+    private static final long serialVersionUID = 1L;
 
-	/**
-	 * Constructs a new AtpAtpRelationInfo from another AtpAtpRelation.
-	 * 
-	 * @param atpr
-	 *            the AtpAtpRelation to copy
-	 */
-	public AtpAtpRelationInfo(AtpAtpRelation atpr) {
-		super(atpr);
-		if (null != atpr) {
-			this.atpKey = atpr.getAtpKey();
-			this.relatedAtpKey = atpr.getRelatedAtpKey();
-			_futureElements = null;
-		}
-	}
-
-	@Override
-	public String getAtpKey() {
-		return atpKey;
-	}
-
+    @XmlElement
+    private String atpId;
 	
-	public void setAtpKey(String atpKey) {
-		this.atpKey = atpKey;
-	}
-
-	@Override
-	public String getRelatedAtpKey() {
-		return relatedAtpKey;
-	}
-
+    @XmlElement
+    private String relatedAtpId;
 	
-	public void setRelatedAtpKey(String relatedAtpKey) {
-		this.relatedAtpKey = relatedAtpKey;
-	}
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    
+    /**
+     * Constructs a new AtpAtpRelationInfo.
+     */
+    public AtpAtpRelationInfo() {
+    }
+    
+    /**
+     * Constructs a new AtpAtpRelationInfo from another
+     * AtpAtpRelation.
+     * 
+     * @param atpr the AtpAtpRelation to copy
+     */
+    public AtpAtpRelationInfo(AtpAtpRelation atpr) {
+        super(atpr);
+        
+        if (atpr != null) {
+            this.atpId = atpr.getAtpId();
+            this.relatedAtpId = atpr.getRelatedAtpId();
+        }
+    }
+
+    @Override
+    public String getAtpId() {
+        return atpId;
+    }
+    
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
+    }
+    
+    @Override
+    public String getRelatedAtpId() {
+        return relatedAtpId;
+    }
+    
+    public void setRelatedAtpId(String relatedAtpId) {
+        this.relatedAtpId = relatedAtpId;
+    }
 }

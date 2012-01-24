@@ -46,18 +46,6 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
 	}
 	
     @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
-    }
-
-    @Override
     public List<ValidationResultInfo> validateCourseOffering(
     		String validationType, CourseOfferingInfo courseOfferingInfo,
     		ContextInfo context) throws DoesNotExistException,

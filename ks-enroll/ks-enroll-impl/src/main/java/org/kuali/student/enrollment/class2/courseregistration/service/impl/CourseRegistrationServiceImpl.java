@@ -37,17 +37,12 @@ import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
 import org.kuali.student.enrollment.lpr.service.LuiPersonRelationService;
 import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.process.poc.evaluator.ProcessEvaluator;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
 import org.kuali.student.r2.common.dto.OperationStatusInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -62,8 +57,7 @@ import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.util.constants.LrcServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
-import org.kuali.student.r2.common.util.constants.ProcessServiceConstants;
-import org.kuali.student.r2.core.process.dto.ProcessInfo;
+
 import org.kuali.student.r2.core.process.service.ProcessService;
 import org.kuali.student.r2.lum.lrc.dto.ResultScaleInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
@@ -268,68 +262,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     }
 
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+   
 
     @Override
     public  List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -805,7 +738,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 if (rvGroup != null) {
                     ResultScaleInfo resScale = lrcService.getResultScale(rvGroup.getResultScaleKey(), context);
                     if (resScale != null) {
-                        if (StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_GRADE, resScale.getTypeKey())) {
+                        if (StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED , resScale.getTypeKey())) {
                             courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr, rvGroup, context));
                             break;
                         }
@@ -1057,17 +990,6 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
         return courseRegistrationList;
     }
 
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+  
 
 }

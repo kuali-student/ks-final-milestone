@@ -1,10 +1,11 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
+import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
 
@@ -18,6 +19,9 @@ import java.util.List;
 public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity> {
     @Column(name = "NAME")
     private String name;
+    
+    @Column(name = "ADMIN_ORG_ID")
+    private String adminOrgId;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
@@ -48,9 +52,9 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     public AtpEntity(Atp atp) {
         super(atp);
-        this.setId(atp.getKey());
+        this.setId(atp.getId());
         this.setName(atp.getName());
-
+        this.setAdminOrgId(atp.getAdminOrgId());
         if (atp.getStartDate() != null) {
             this.setStartDate(atp.getStartDate());
         }
@@ -60,6 +64,7 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         if (atp.getDescr() != null) {
             this.setDescr(new AtpRichTextEntity(atp.getDescr()));
         }
+        
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
         if (null != atp.getAttributes()) {
             for (Attribute att : atp.getAttributes()) {
@@ -128,12 +133,21 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         return attributes;
     }
 
+    public String getAdminOrgId() {
+        return adminOrgId;
+    }
+
+    public void setAdminOrgId(String adminOrgId) {
+        this.adminOrgId = adminOrgId;
+    }
+
     public AtpInfo toDto() {
         AtpInfo atp = new AtpInfo();
-        atp.setKey(getId());
+        atp.setId(getId());
         atp.setName(name);
         atp.setStartDate(startDate);
         atp.setEndDate(endDate);
+        atp.setAdminOrgId(getAdminOrgId());
         if (atpType != null)
             atp.setTypeKey(atpType.getId());
         if (atpState != null)

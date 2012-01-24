@@ -45,12 +45,12 @@ public class TestProcessServiceImpl {
     @Resource(name="processServiceAuthDecorator")
     public ProcessService processService;
 
-    public ContextInfo context = ContextInfo.newInstance();
+    public ContextInfo context = new ContextInfo();
 
     
     @Before
     public void setUp() {
-        context = ContextInfo.getInstance(context);
+        context = new ContextInfo(context);
         context.setPrincipalId("123");
     }
 

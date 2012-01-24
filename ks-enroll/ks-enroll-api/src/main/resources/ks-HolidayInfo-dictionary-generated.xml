@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -45,19 +45,20 @@ plus any of its dependencies -->
 		<property name="objectLabel" value="Holiday"/>
 		<property name="objectDescription">
 			<value>
-Information about a holiday.
+Information about a holiday. Holdays are used to mark holidays and
+other non-instructional days on a HolidayCalendar.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="HolidayInfo.key"/>
+				<ref bean="HolidayInfo.id"/>
 				<ref bean="HolidayInfo.typeKey"/>
 				<ref bean="HolidayInfo.stateKey"/>
 				<ref bean="HolidayInfo.name"/>
@@ -82,8 +83,8 @@ Information about a holiday.
 		</property>
 	</bean>
 
-	<bean id="HolidayInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="HolidayInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="HolidayInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
@@ -166,7 +167,7 @@ Tests if this holiday is an instructional day.
 Tests if this holiday is an instructional day.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="HolidayInfo.isAllDay-generated" abstract="true" parent="BaseKuali.boolean">
@@ -184,7 +185,7 @@ Tests if this key date is an all day event. An all-day event
 does not have a meaningful time component in the date.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="HolidayInfo.isDateRange-generated" abstract="true" parent="BaseKuali.boolean">
@@ -192,21 +193,16 @@ does not have a meaningful time component in the date.
 		<property name="shortLabel" value="Is Date Range"/>
 		<property name="summary">
 			<value>
-Tests if this key date has a date range. 
-
-
+Tests if this key date has a date range.
 			</value>
 		</property>
 		<property name="label" value="Is Date Range"/>
 		<property name="description">
 			<value>
-Tests if this key date has a date range. 
-
-Should return true if the end date is different than the start date,
-        false if the start end end date are the same
+Tests if this key date has a date range.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="HolidayInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">

@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Sep 15 10:48:45 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -67,7 +67,7 @@ Registration request is created.
 				<ref bean="RegRequestInfo.typeKey"/>
 				<ref bean="RegRequestInfo.stateKey"/>
 				<ref bean="RegRequestInfo.requestorId"/>
-				<ref bean="RegRequestInfo.termKey"/>
+				<ref bean="RegRequestInfo.termId"/>
 			</list>
 		</property>
 
@@ -205,15 +205,15 @@ faculty making a request on behalf of the student
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="RegRequestInfo.termKey-generated" abstract="true" parent="BaseKuali.termKey">
-		<property name="name" value="termKey"/>
-		<property name="shortLabel" value="Term Key"/>
+	<bean id="RegRequestInfo.termId-generated" abstract="true" parent="BaseKuali.termId">
+		<property name="name" value="termId"/>
+		<property name="shortLabel" value="Term Id"/>
 		<property name="summary">
 			<value>
 Returns the key of the {@link Term} of the registration request
 			</value>
 		</property>
-		<property name="label" value="Term Key"/>
+		<property name="label" value="Term Id"/>
 		<property name="description">
 			<value>
 Returns the key of the {@link Term} of the registration request

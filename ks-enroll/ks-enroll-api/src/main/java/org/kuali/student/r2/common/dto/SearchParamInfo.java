@@ -18,7 +18,6 @@ package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -33,41 +32,59 @@ import org.kuali.student.r2.common.infc.SearchParam;
 import org.w3c.dom.Element;
 
 /**
- * Search Parameter
- *
- * A structure that holds a key value pair to supply a value to a parameter for searching.
+ * A structure that holds a key value pair to supply a value to a
+ * parameter for searching.
  *
  * @author nwright
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "SearchParamInfo", propOrder = {"key", "values", "_futureElements"})
-public class SearchParamInfo implements SearchParam, Serializable {
+@XmlType(name = "SearchParamInfo", propOrder = {
+                "key", "values", "_futureElements"})
+
+public class SearchParamInfo 
+    implements SearchParam, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @XmlAttribute
-    private final String key;
+    private String key;
+
     @XmlElementWrapper(name="values")
     @XmlElement(name="value")
-    private final List<String> values;
+    private List<String> values;
+
     @XmlAnyElement
-    private final List<Element> _futureElements;
+    private List<Element> _futureElements;
 
     
+    /**
+     * Constructs a new SearchParamInfo.
+     */
     public SearchParamInfo() {
-        this.key = null;
-        this.values = null;
-        this._futureElements = null;
     }
 
-    public SearchParamInfo(SearchParam infc) {
-        this.key = infc.getKey();
-        if (this.values == null) {
-            this.values = null;
-        } else {
-            this.values = new ArrayList<String>();
-            Collections.copy(this.values, infc.getValues());
+    /**
+     * Constructs a new SearchParamInfo from another SearchParam.
+     *
+     * @param param the SearchParam to copy
+     */
+    public SearchParamInfo(SearchParam param) {
+        if (param != null) {
+            this.key = param.getKey();
+            if (param.getValues() != null) {
+                this.values = new ArrayList<String>(param.getValues());
+            }
         }
-        this._futureElements = null;
+    }
+
+    @Override
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     @Override
@@ -75,8 +92,7 @@ public class SearchParamInfo implements SearchParam, Serializable {
         return values;
     }
 
-    @Override
-    public String getKey() {
-        return key;
+    public void setValues(List<String> values) {
+        this.values = values;
     }
 }

@@ -4,7 +4,6 @@
  */
 package org.kuali.student.process.poc;
 
-import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl;
@@ -15,6 +14,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.classI.atp.mock.AtpServiceMockImpl;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

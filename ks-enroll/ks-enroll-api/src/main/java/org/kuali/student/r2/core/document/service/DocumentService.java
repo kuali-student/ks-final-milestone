@@ -15,7 +15,6 @@
  */
 package org.kuali.student.r2.core.document.service;
 
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -27,8 +26,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.DocumentServiceConstants;
 
 import org.kuali.student.r2.core.document.dto.DocumentCategoryInfo;
@@ -54,7 +51,7 @@ import java.util.List;
  */
 @WebService(name = "DocumentService", targetNamespace = DocumentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface DocumentService extends DataDictionaryService, StateService, TypeService {
+public interface DocumentService {
 
     /**
      * Retrieves information about a document

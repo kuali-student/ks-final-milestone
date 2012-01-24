@@ -18,6 +18,7 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.StateProcess;
+import org.kuali.student.r2.core.class1.state.model.StateAttributeEntity;
 
 @Entity
 @Table(name = "KSEN_STATE_PROCESS")
@@ -86,7 +87,7 @@ public class StateProcessEntity extends MetaEntity implements AttributeOwner<Sta
 		try{
 			this.setId(process.getKey());
 			this.setName(process.getName());
-			this.setDescription(process.getDescr());
+			this.setDescription(process.getDescr().getPlain());
 			this.setVersionNumber((long) 0);
 			this.setEffectiveDate(process.getEffectiveDate());
 	        this.setExpirationDate(process.getExpirationDate());
@@ -106,7 +107,6 @@ public class StateProcessEntity extends MetaEntity implements AttributeOwner<Sta
 		StateProcessInfo process = StateProcessInfo.newInstance();
 		process.setKey(getId());
 		process.setName(name);
-		process.setDescr(description);
 		process.setEffectiveDate(effectiveDate);
 		process.setExpirationDate(expirationDate);
 		

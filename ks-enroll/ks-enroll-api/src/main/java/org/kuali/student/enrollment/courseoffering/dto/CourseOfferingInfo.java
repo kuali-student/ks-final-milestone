@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
-        "formatIds", "termKey", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
+        "formatIds", "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys", "gradeRosterLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
@@ -74,7 +74,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     private Integer waitlistMaximum;
 
     @XmlElement
-    private String termKey;
+    private String termId;
 
     @XmlElement
     private String courseOfferingCode;
@@ -133,37 +133,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     @XmlAnyElement
     private List<Element> _futureElements;
 
+
     public CourseOfferingInfo() {
-        super();
-        this.courseId = null;
-        this.formatIds = new ArrayList<String>();
-        this.subjectArea = null;
-        this.isHonorsOffering = false;
-        this.instructors = new ArrayList<OfferingInstructorInfo>();
-        this.unitsContentOwner = null;
-        this.hasFinalExam = false;
-        this.waitlistTypeKey = null;
-        this.waitlistMaximum = null;
-        this.termKey = null;
-        this.courseOfferingCode = null;
-        this.courseNumberSuffix = null;
-        this.courseTitle = null;
-        this.maximumEnrollment = null;
-        this.minimumEnrollment = null;
-        this.jointOfferingIds = new ArrayList<String>();
-        this.creditOptions = null;
-        this.gradingOptionKeys = new ArrayList<String>();
-        this.gradeRosterLevelTypeKey = null;
-        this.hasWaitlist = false;
-        this.isWaitlistCheckinRequired = false;
-        this.waitlistCheckinFrequency = null;
-        this.fundingSource = null;
-        this.fees = new ArrayList<FeeInfo>();
-        this.revenues = new ArrayList<RevenueInfo>();
-        this.expenditure = null;
-        this.isFinancialAidEligible = false;
-        this.registrationOrderTypeKey = null;
-        this._futureElements = null;
     }
 
     public CourseOfferingInfo(CourseOffering course) {
@@ -183,7 +154,7 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.hasFinalExam = course.getHasFinalExam();
         this.waitlistTypeKey = course.getWaitlistTypeKey();
         this.waitlistMaximum = course.getWaitlistMaximum();
-        this.termKey = course.getTermKey();
+        this.termId = course.getTermId();
         this.courseOfferingCode = course.getCourseOfferingCode();
         this.courseNumberSuffix = course.getCourseNumberSuffix();
         this.courseTitle = course.getCourseTitle();
@@ -264,8 +235,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
     }
 
     @Override
-    public String getTermKey() {
-        return this.termKey;
+    public String getTermId() {
+        return this.termId;
     }
 
     @Override
@@ -413,8 +384,8 @@ public class CourseOfferingInfo extends IdEntityInfo implements CourseOffering {
         this.waitlistMaximum = waitlistMaximum;
     }
 
-    public void setTermKey(String termKey) {
-        this.termKey = termKey;
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     public void setCourseOfferingCode(String courseOfferingCode) {

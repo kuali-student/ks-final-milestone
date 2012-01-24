@@ -63,8 +63,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated object definitions here -->
     </bean>
 
-    <bean id="AtpInfo.key" parent="AtpInfo.key-parent"/>
-    <bean id="AtpInfo.key-parent" abstract="true" parent="AtpInfo.key-generated">
+    <bean id="AtpInfo.id" parent="AtpInfo.id-parent"/>
+    <bean id="AtpInfo.id-parent" abstract="true" parent="AtpInfo.id-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
     </bean>
 

@@ -60,18 +60,6 @@ public class GradingServiceValidationDecorator extends GradingServiceDecorator  
 			DataDictionaryService dataDictionaryService) {
 		this.dataDictionaryService = dataDictionaryService;		
 	}
-	
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        return dataDictionaryService.getDataDictionaryEntry(entryKey, context);
-    }
-
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-            throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        return this.dataDictionaryService.getDataDictionaryEntryKeys(context);
-    }
 
     private void gradingFullValidation(GradeRosterInfo gradeRoster, ContextInfo context)
 		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {

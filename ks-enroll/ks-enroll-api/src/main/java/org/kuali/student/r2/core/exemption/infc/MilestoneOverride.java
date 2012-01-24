@@ -27,14 +27,14 @@ package org.kuali.student.r2.core.exemption.infc;
 public interface MilestoneOverride {
 
     /**
-     * Name: Milestone Key
-     * The key for the overidden Milestone.
+     * Name: Milestone type Key
+     * The key for the overridden Milestone.
      */
-    public String getMilestoneKey();
+    public String getMilestoneId();
 
     /**
-     * Name: Effective Milestone Key
+     * Name: Effective Milestone id
      * The new milestone that should be in effect.
      */
-    public String getEffectiveMilestoneKey();
+    public String getEffectiveMilestoneId();
 }

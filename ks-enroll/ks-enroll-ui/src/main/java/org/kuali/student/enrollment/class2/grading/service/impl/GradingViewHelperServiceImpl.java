@@ -199,11 +199,11 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         List creditList = new ArrayList();
 
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
 
         TermInfo term = getAcalService().getTerm(studentGradeForm.getSelectedTerm(), context);
 
-        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getKey(), context);
+        List<StudentCourseRecordInfo> courseRecords = getAcademicRecordService().getCompletedCourseRecordsForTerm(context.getPrincipalId(), term.getId(), context);
         if (null != courseRecords) {
             for (StudentCourseRecord courseRecord : courseRecords) {
                 StudentCredit credit = new StudentCredit();
@@ -223,7 +223,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
     }
 
     private TermInfo getCurrentACal(){
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
 
         try{
                 return getAcalService().getCurrentTerms(null,context).get(0);
@@ -243,7 +243,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
     public void loadCourses(GradingForm form)throws Exception{
 
-        ContextInfo context = ContextInfo.newInstance();
+        ContextInfo context = new ContextInfo();
 
         TermInfo term = getAcalService().getTerm(form.getSelectedTerm(), context);
 
@@ -256,7 +256,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
 
         try{
-            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getKey(), context.getPrincipalId(), context);
+            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getId(), context.getPrincipalId(), context);
 
             if (coIds == null || coIds.isEmpty()){
                 GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_COURSE_NOT_FOUND_TO_GRADE,term.getName());

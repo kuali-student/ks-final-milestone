@@ -31,7 +31,7 @@ public interface Activity extends IdEntity {
      * 
      * @name Enrollment Estimate
      */
-    public int getDefaultEnrollmentEstimate();
+    public Integer getDefaultEnrollmentEstimate();
 
     /**
      * Contact Hours for an Activity.

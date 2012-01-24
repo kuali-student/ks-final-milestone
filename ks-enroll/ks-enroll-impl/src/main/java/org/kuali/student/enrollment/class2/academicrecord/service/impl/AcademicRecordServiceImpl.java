@@ -79,12 +79,12 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 
 	@Override
 	public List<StudentCourseRecordInfo> getAttemptedCourseRecordsForTerm(
-			String personId, String termKey, ContextInfo context)
+			String personId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termKey, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
 			if(regs != null && !regs.isEmpty()){
 				for (CourseRegistrationInfo reg : regs ){
 					StudentCourseRecordInfo courseRecord = courseRecordAssembler.assemble(reg, context);
@@ -122,12 +122,12 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 
 	@Override
 	public List<StudentCourseRecordInfo> getCompletedCourseRecordsForTerm(
-			String personId, String termKey, ContextInfo context)
+			String personId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		List<StudentCourseRecordInfo> courseRecords = new ArrayList<StudentCourseRecordInfo>();
 		try {
-			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termKey, context);
+			List<CourseRegistrationInfo> regs = courseRegService.getCourseRegistrationsForStudentByTerm(personId, termId, context);
 			getCompletedCourseRecords(courseRecords, regs, context);
 		} catch (PermissionDeniedException e) {
 			throw new OperationFailedException();
@@ -158,7 +158,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 	}
 	
 	@Override
-	public GPAInfo getGPAForTerm(String personId, String termKey,
+	public GPAInfo getGPAForTerm(String personId, String termId,
 			String calculationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -183,7 +183,7 @@ public class AcademicRecordServiceImpl implements AcademicRecordService{
 	}
 
 	@Override
-	public String getEarnedCreditsForTerm(String personId, String termKey,
+	public String getEarnedCreditsForTerm(String personId, String termId,
 			String calculationTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {

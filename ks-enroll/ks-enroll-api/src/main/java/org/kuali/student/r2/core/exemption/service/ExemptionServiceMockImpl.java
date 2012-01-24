@@ -9,14 +9,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -44,7 +39,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private MetaInfo _newMeta(ContextInfo context) {
+    private MetaInfo newMeta(ContextInfo context) {
         MetaInfo meta = new MetaInfo();
         meta.setCreateId(context.getPrincipalId());
         meta.setCreateTime(new Date());
@@ -58,7 +53,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     public ExemptionInfo createExemption(String exemptionRequestId, ExemptionInfo exemptionInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
         copy.setId(exemptions.size() + "");
-        copy.setMeta(_newMeta(context));
+        copy.setMeta(newMeta(context));
         exemptions.put(copy.getId(), copy);
         return new ExemptionInfo(copy);
     }
@@ -67,12 +62,12 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     public ExemptionRequestInfo createExemptionRequest(ExemptionRequestInfo exemptionRequestInfo, ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
         copy.setId(exemptionRequests.size() + "");
-        copy.setMeta(_newMeta(context));
+        copy.setMeta(newMeta(context));
         this.exemptionRequests.put(copy.getId(), copy);
         return new ExemptionRequestInfo(copy);
     }
 
-    private StatusInfo _newStatus() {
+    private StatusInfo newStatus() {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
         return status;
@@ -83,7 +78,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         if (this.exemptions.remove(exemptionId) == null) {
             throw new DoesNotExistException(exemptionId);
         }
-        return _newStatus();
+        return newStatus();
     }
 
     @Override
@@ -91,7 +86,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         if (this.exemptionRequests.remove(exemptionRequestId) == null) {
             throw new DoesNotExistException(exemptionRequestId);
         }
-        return _newStatus();
+        return newStatus();
     }
 
     @Override
@@ -99,21 +94,7 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
         for (ExemptionInfo info : this.getExemptionsByTypeForPerson(typeKey, personId, context)) {
             if (info.getStateKey().equals(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY)) {
-                // TODO: also check effective dates and use count
                 list.add(info);
-            }
-        }
-        return list;
-    }
-
-    @Override
-    public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson(String typeKey, String processKey, String checkKey, String personId, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ExemptionInfo> list = new ArrayList<ExemptionInfo>();
-        for (ExemptionInfo info : this.getActiveExemptionsByTypeForPerson(typeKey, personId, context)) {
-            if (processKey.equals(info.getProcessKey())) {
-                if (checkKey.equals(info.getCheckKey())) {
-                    list.add(info);
-                }
             }
         }
         return list;
@@ -246,16 +227,16 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     }
 
     @Override
-    public ExemptionInfo retrieveDateExemption(String checkKey, String personId, String milestoneKey, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public ExemptionInfo retrieveDateExemption(String checkKey, String personId, String milestoneId, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public ExemptionInfo retrieveMilestoneExemption(String checkKey, String personId, String milestoneKey, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public ExemptionInfo retrieveMilestoneExemption(String checkKey, String personId, String milestoneId, String qualifierTypeKey, String qualifierId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    private MetaInfo _updateMeta(MetaInfo old, ContextInfo context) {
+    private MetaInfo updateMeta(MetaInfo old, ContextInfo context) {
         MetaInfo meta = new MetaInfo(old);
         meta.setUpdateId(context.getPrincipalId());
         meta.setUpdateTime(new Date());
@@ -268,9 +249,9 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         ExemptionInfo copy = new ExemptionInfo(exemptionInfo);
         ExemptionInfo old = this.getExemption(exemptionId, context);
         if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
-            throw new VersionMismatchException(old.getMeta().getVersionInd());
+            throw new VersionMismatchException (old.getMeta().getVersionInd());
         }
-        copy.setMeta(_updateMeta(copy.getMeta(), context));
+        copy.setMeta(updateMeta(copy.getMeta(), context));        
         this.exemptions.put(exemptionInfo.getId(), copy);
         return new ExemptionInfo(copy);
     }
@@ -280,9 +261,9 @@ public class ExemptionServiceMockImpl implements ExemptionService {
         ExemptionRequestInfo copy = new ExemptionRequestInfo(exemptionRequestInfo);
         ExemptionRequestInfo old = this.getExemptionRequest(exemptionRequestId, context);
         if (!old.getMeta().getVersionInd().equals(copy.getMeta().getVersionInd())) {
-            throw new VersionMismatchException(old.getMeta().getVersionInd());
-        }
-        copy.setMeta(_updateMeta(copy.getMeta(), context));
+            throw new VersionMismatchException (old.getMeta().getVersionInd());
+        }        
+        copy.setMeta(updateMeta(copy.getMeta(), context));
         this.exemptionRequests.put(exemptionRequestInfo.getId(), copy);
         return new ExemptionRequestInfo(copy);
     }
@@ -298,62 +279,10 @@ public class ExemptionServiceMockImpl implements ExemptionService {
     }
 
     @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException, DoesNotExistException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public List<ExemptionInfo> getActiveExemptionsByTypeProcessAndCheckForPerson(String typeKey, String processKey, String checkKey, String personId, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        return null;
     }
 
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context) throws OperationFailedException, MissingParameterException, PermissionDeniedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey, String currentStateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String refObjectUri, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public StateInfo getState(String processKey, String stateKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

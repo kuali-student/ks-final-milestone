@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RegRequestInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "requestorId", "termKey",
+@XmlType(name = "RegRequestInfo", propOrder = {"id", "name", "descr", "typeKey", "stateKey", "requestorId", "termId",
         "regRequestItems", "meta", "attributes", "_futureElements"})
 public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializable {
 
@@ -25,7 +25,7 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     private String requestorId;
 
     @XmlElement
-    private String termKey;
+    private String termId;
     @XmlElement
     private List<RegRequestItemInfo> regRequestItems;
     @XmlAnyElement
@@ -34,7 +34,7 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     public RegRequestInfo() {
         super();
         this.requestorId = null;
-        this.termKey = null;
+        this.termId = null;
         this.regRequestItems = new ArrayList<RegRequestItemInfo>();
         this._futureElements = null;
 
@@ -44,7 +44,7 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
         super(regRequest);
         if (null != regRequest) {
             this.requestorId = regRequest.getRequestorId();
-            this.termKey = regRequest.getTermKey();
+            this.termId = regRequest.getTermId();
             this.regRequestItems = new ArrayList<RegRequestItemInfo>();
             if (regRequest.getRegRequestItems() != null) {
                 for (RegRequestItem regRequestItem : regRequest.getRegRequestItems()) {
@@ -61,8 +61,8 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
         this.requestorId = requestorId;
     }
 
-    public void setTermKey(String termKey) {
-        this.termKey = termKey;
+    public void setTermId(String termId) {
+        this.termId = termId;
     }
 
     public void setRegRequestItems(List<RegRequestItemInfo> regRequestItems) {
@@ -75,9 +75,9 @@ public class RegRequestInfo extends IdEntityInfo implements RegRequest, Serializ
     }
 
     @Override
-    public String getTermKey() {
+    public String getTermId() {
 
-        return termKey;
+        return termId;
     }
 
     @Override

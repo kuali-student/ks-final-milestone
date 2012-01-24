@@ -30,9 +30,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -64,7 +61,7 @@ import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 @WebService(name = "HoldService", targetNamespace = HoldServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface HoldService extends DataDictionaryService, StateService, TypeService {
+public interface HoldService {
 
     /** 
      * Retrieves the a single Hold by a hold Id.

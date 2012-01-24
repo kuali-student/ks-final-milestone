@@ -10,14 +10,15 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
-import org.kuali.student.r2.common.service.StateService;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.state.dto.LifecycleInfo;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.state.service.StateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -35,12 +36,12 @@ public class TestStateServiceImpl {
 
 	public static String principalId = "123";
 
-    public ContextInfo callContext = ContextInfo.newInstance();
+    public ContextInfo callContext = null;
 
 
     @Before
     public void setUp() {
-        callContext = ContextInfo.getInstance(callContext);
+        callContext = new ContextInfo();
         callContext.setPrincipalId(principalId);
     }
 
@@ -50,13 +51,13 @@ public class TestStateServiceImpl {
     }
     
     @Test
-    public void testGetState()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-    	StateInfo stateInfo = stateService.getState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+    public void testGetState()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	StateInfo stateInfo = stateService.getState(AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
     	assertNotNull(stateInfo);
 		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_DRAFT_STATE_KEY);
 		
 		try{
-			StateInfo invalid = stateService.getState("testId", AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+			StateInfo invalid = stateService.getState("invalid.state.key", callContext);
 			assertNull(invalid);
 		}catch(DoesNotExistException ex){
 			//expected
@@ -64,30 +65,30 @@ public class TestStateServiceImpl {
     }
     
     @Test
-    public void testGetStatesByProcess()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-    	List<StateInfo> stateInfo = stateService.getStatesByProcess(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+    public void testGetStatesByProcess()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	List<StateInfo> stateInfo = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
     	assertNotNull(stateInfo);
     	assertEquals(stateInfo.size(), 2);
     }
     
     @Test
-    public void testGetProcessByKey()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-    	StateProcessInfo spInfo = stateService.getProcessByKey(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+    public void testGetProcessByKey()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+    	LifecycleInfo spInfo = stateService.getLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
     	assertNotNull(spInfo);
 		assertEquals(spInfo.getKey(), AtpServiceConstants.ATP_PROCESS_KEY);    	
     }
     
-	@Test
-	public void testGetInitialValidStates()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-		List<StateInfo> stateInfo = stateService.getInitialValidStates(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
-		assertNotNull(stateInfo);
-		assertEquals(stateInfo.size(), 1);
-	}
-	
-	@Test
-	public void testGetNextHappyState()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
-		StateInfo stateInfo = stateService.getNextHappyState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
-		assertNotNull(stateInfo);
-		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
-	}
+//	@Test
+//	public void testGetInitialValidStates()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+//		List<StateInfo> stateInfo = stateService.getInitialValidStates(AtpServiceConstants.ATP_PROCESS_KEY, callContext);
+//		assertNotNull(stateInfo);
+//		assertEquals(stateInfo.size(), 1);
+//	}
+//	
+//	@Test
+//	public void testGetNextHappyState()throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+//		StateInfo stateInfo = stateService.getNextHappyState(AtpServiceConstants.ATP_PROCESS_KEY, AtpServiceConstants.ATP_DRAFT_STATE_KEY, callContext);
+//		assertNotNull(stateInfo);
+//		assertEquals(stateInfo.getKey(), AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+//	}
 }

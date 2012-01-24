@@ -54,12 +54,12 @@
         <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupRelationEntity</class>
 
         <class>org.kuali.student.r2.common.entity.BaseAttributeEntity</class>
-        <class>org.kuali.student.r2.common.entity.TypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.entity.TypeEntity</class>
 
-		<class>org.kuali.student.r2.common.model.StateEntity</class>
-		<class>org.kuali.student.r2.common.model.StateAttributeEntity</class>
-	  	<class>org.kuali.student.r2.common.model.StateProcessEntity</class>
- 		<class>org.kuali.student.r2.common.model.StateProcessRelationEntity</class>
+		<class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
+		<class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
+	  	<class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
+ 		<class>org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity</class>
 
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
 

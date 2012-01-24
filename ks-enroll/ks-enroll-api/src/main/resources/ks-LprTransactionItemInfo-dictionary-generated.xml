@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -63,6 +63,7 @@ null
 				<ref bean="LprTransactionItemInfo.name"/>
 				<ref bean="LprTransactionItemInfo.typeKey"/>
 				<ref bean="LprTransactionItemInfo.stateKey"/>
+				<ref bean="LprTransactionItemInfo.groupId"/>
 			</list>
 		</property>
 
@@ -132,16 +133,16 @@ The existing LUI id for an existing relation remove or change requests.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="LprTransactionItemInfo.resultOptionIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="resultOptionIds"/>
-		<property name="shortLabel" value="Result Option Ids"/>
+	<bean id="LprTransactionItemInfo.resultOptionKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="resultOptionKeys"/>
+		<property name="shortLabel" value="Result Option Keys"/>
 		<property name="summary">
 			<value>
 Specify the grading and credit options for the course.
 			</value>
 		</property>
-		<property name="label" value="Result Option Ids"/>
-		<property name="elementLabel" value="Result Option Id"/>
+		<property name="label" value="Result Option Keys"/>
+		<property name="elementLabel" value="Result Option Key"/>
 		<property name="description">
 			<value>
 Specify the grading and credit options for the course.
@@ -455,5 +456,24 @@ being thrown.
 
 	<bean id="LprTransactionItemInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
+	</bean>
+
+	<bean id="LprTransactionItemInfo.groupId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="groupId"/>
+		<property name="shortLabel" value="Group Id"/>
+		<property name="summary">
+			<value>
+The transaction item group id to link the LPR transaction items of the
+related LUIs (if any) created as part of a single transaction item.
+			</value>
+		</property>
+		<property name="label" value="Group Id"/>
+		<property name="description">
+			<value>
+The transaction item group id to link the LPR transaction items of the
+related LUIs (if any) created as part of a single transaction item.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 </beans>

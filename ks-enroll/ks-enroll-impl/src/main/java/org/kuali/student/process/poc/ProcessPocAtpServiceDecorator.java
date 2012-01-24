@@ -10,8 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
+
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -21,7 +20,7 @@ import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.atp.service.AtpServiceDecorator;
+import org.kuali.student.r2.core.class1.atp.service.decorators.AtpServiceDecorator;
 
 /**
  *
@@ -52,7 +51,7 @@ public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
 
     private MilestoneInfo _createRegMilestone(AtpInfo atp, String start, String end, ContextInfo context) {
         MilestoneInfo milestone = new MilestoneInfo();
-        milestone.setKey(atp.getKey() + "_reg.period");
+        milestone.setId(atp.getId() + "_reg.period");
         milestone.setTypeKey(AtpServiceConstants.MILESTONE_REGISTRATION_PERIOD_TYPE_KEY);
         milestone.setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
         milestone.setStartDate(parseDate(start));
@@ -60,7 +59,7 @@ public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
         milestone.setName("Registration Period for " + atp.getName());
         try {
             MilestoneInfo createdMilestone = this.createMilestone(milestone, context);
-            this.addMilestoneToAtp(milestone.getKey(), atp.getKey(), context);
+            this.addMilestoneToAtp(milestone.getId(), atp.getId(), context);
             return createdMilestone;
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);
@@ -71,14 +70,14 @@ public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
 
     private AtpInfo _createAtp(String key, String type, String name, String start, String end, ContextInfo context) {
         AtpInfo atp = new AtpInfo();
-        atp.setKey(key);
+        atp.setId(key);
         atp.setTypeKey(type);
         atp.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         atp.setStartDate(parseDate(start));
         atp.setEndDate(parseDate(end));
         atp.setName(name);
         try {
-            AtpInfo createdAtp = this.createAtp(atp.getKey(), atp, context);
+            AtpInfo createdAtp = this.createAtp( atp, context);
             return createdAtp;
         } catch (Exception ex) {
             throw new RuntimeException("unexpected", ex);
@@ -104,45 +103,6 @@ public class ProcessPocAtpServiceDecorator extends AtpServiceDecorator {
         return list;
     }
 
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        if (!_getTermTypeKeys().contains(typeKey)) {
-            throw new DoesNotExistException();
-        }
-        TypeInfo info = new TypeInfo();
-        info.setKey(typeKey);
-        info.setName(typeKey);
-        info.setRefObjectURI(AtpServiceConstants.REF_OBJECT_URI_ATP);
-        return info;
-    }
+  
 
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        if (ownerTypeKey.equals(AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY) && relationTypeKey.equals(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY)) {
-            List<TypeTypeRelationInfo> relations = new ArrayList();
-            for (String termKey : this._getTermTypeKeys()) {
-                relations.add(_createTermTypeRelation(termKey));
-            }
-            return relations;
-        }
-        throw new OperationFailedException ("not impelmented");
-
-    }
-
-    private TypeTypeRelationInfo _createTermTypeRelation(String related) {
-        return this._createTypeTypeRelation(TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY,
-                AtpServiceConstants.ATP_TERM_GROUPING_TYPE_KEY,
-                related);
-
-    }
-
-    private TypeTypeRelationInfo _createTypeTypeRelation(String relationType, String owner, String related) {
-        TypeTypeRelationInfo info = new TypeTypeRelationInfo();
-        info.setTypeKey(relationType);
-        info.setStateKey(TypeServiceConstants.TYPE_TYPE_RELATION_ACTIVE_STATE_KEY);
-        info.setOwnerTypeKey(owner);
-        info.setRelatedTypeKey(related);
-        info.setKey(owner + "." + related);
-        return info;
-    }
 }

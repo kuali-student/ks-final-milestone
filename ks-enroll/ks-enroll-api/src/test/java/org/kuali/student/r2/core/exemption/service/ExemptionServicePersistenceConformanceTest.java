@@ -54,12 +54,12 @@ public class ExemptionServicePersistenceConformanceTest {
      */
     @Test
     public void testExemptionCrud() throws Exception {
-        System.out.println("exemptionCrud");
+        System.out.println("createExemption");
         ContextInfo context = getContext();
         // create
         String exemptionRequestId = "request1";
         ExemptionInfo info = new ExemptionInfo();
-        info.setTypeKey(ExemptionServiceConstants.MILESTONE_DATE_EXEMPTION_TYPE_KEY);
+        info.setTypeKey(ExemptionServiceConstants.EXEMPTION_PROCESS_KEY );
         info.setStateKey(ExemptionServiceConstants.EXEMPTION_ACTIVE_STATE_KEY);
         info.setPersonId("person1");
         Date before = new Date();
@@ -141,7 +141,7 @@ public class ExemptionServicePersistenceConformanceTest {
     public void testExemptionRequestCrud() throws Exception {
         System.out.println("createExemptionRequest");
         ExemptionRequestInfo exemptionRequestInfo = new ExemptionRequestInfo();
-        exemptionRequestInfo.setTypeKey(ExemptionServiceConstants.GENERIC_EXEMPTION_REQUEST_TYPE_KEY);
+        exemptionRequestInfo.setTypeKey(ExemptionServiceConstants.DATE_EXEMPTION_REQUEST_TYPE_KEY);
         exemptionRequestInfo.setStateKey(ExemptionServiceConstants.EXEMPTION_REQUEST_APPROVED_STATE_KEY);
         exemptionRequestInfo.setPersonId("person1");
         ContextInfo context = getContext();

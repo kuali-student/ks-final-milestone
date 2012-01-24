@@ -1,75 +1,109 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+/*
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
 package org.kuali.student.r2.common.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.core.atp.infc.Atp;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.w3c.dom.Element;
 
 import org.kuali.student.r2.common.infc.Amount;
 
 /**
- * Detailed information about an amount including both the type of units and the quantity.
+ * Detailed information about an amount including both the type of
+ * units and the quantity.
  *
- * @Author KSContractMojo
- * @Author Kamal
- * @Since Mon Jan 11 15:20:30 PST 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/amountInfo+Structure+v1.0-rc1">AmountInfo</>
- *
+ * @author Kamal
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AmountInfo implements Amount, Serializable {
+@XmlType(name = "AmountInfo", propOrder = {
+                "unitTypeKey", "unitQuantity", "_futureElements" })
+
+public class AmountInfo 
+    implements Amount, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String unitType;
+    private String unitTypeKey;
 
     @XmlElement
     private String unitQuantity;
     
-    public AmountInfo(){
-        
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+
+    /**
+     * Constructs a new AmountInfo.
+     */
+    public AmountInfo() {
     }
     
-    public AmountInfo(Amount amount){
-        this.unitQuantity = amount.getUnitQuantity();
-        this.unitType = amount.getUnitType();
-    }
     /**
-     * The kind of units associated with the quantity, such as hours/week. It is expected that in usage in other structures, this value will always be enumerated based on that context.
+     * Constructs a new AmountInfo from another Amount.
+     * 
+     * @param amount the amount to copy
      */
-    public String getUnitType() {
-        return unitType;
+
+    public AmountInfo(Amount amount) {
+        if (amount != null) {
+            this.unitQuantity = amount.getUnitQuantity();
+            this.unitTypeKey = amount.getUnitTypeKey();
+        }
     }
 
-    public void setUnitType(String unitType) {
-        this.unitType = unitType;
+    @Override
+    public String getUnitTypeKey() {
+        return unitTypeKey;
     }
 
-    /**
-     * The amount of units. Allowed values consist of numeric values as well as the string "unbounded".
-     */
+    public void setUnitTypeKey(String unitTypeKey) {
+        this.unitTypeKey = unitTypeKey;
+    }
+
+    @Override
     public String getUnitQuantity() {
         return unitQuantity;
     }
 
     public void setUnitQuantity(String unitQuantity) {
         this.unitQuantity = unitQuantity;
+    }
+
+    // Compatbility
+    @Override
+    @Deprecated
+    public String getUnitType() {
+        return getUnitTypeKey();
+    }
+
+    @Deprecated
+    public void setUnitType(String unitTypeKey) {
+        setUnitTypeKey(unitTypeKey);
     }
 }

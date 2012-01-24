@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
@@ -32,10 +30,7 @@ import org.kuali.student.enrollment.lui.service.LuiService;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -58,47 +53,6 @@ public class LuiServiceMockImpl implements LuiService {
     private final Map<String, LuiLuiRelationInfo> llrCache = new HashMap<String, LuiLuiRelationInfo>();
     private final Map<String, LuiCapacityInfo> lcapCache = new HashMap<String, LuiCapacityInfo>();
 
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-        throws OperationFailedException, MissingParameterException,
-               PermissionDeniedException {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey, ContextInfo context) 
-        throws OperationFailedException, MissingParameterException, 
-               PermissionDeniedException, DoesNotExistException {
-        return null;
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, 
-               MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeInfo>();
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeInfo>();
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException,
-               MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeTypeRelationInfo>();
-    }
 
     @Override
     public LuiInfo getLui(String luiId, ContextInfo context) 
@@ -173,12 +127,12 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey, ContextInfo context)
+    public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context)
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
         List<String> luiIds = new ArrayList<String>();
-        for (LuiInfo info : getLuisInAtpByCluId(cluId, atpKey, context)) {
+        for (LuiInfo info : getLuisInAtpByCluId(cluId, atpId, context)) {
             luiIds.add(info.getId());
         }
 
@@ -186,20 +140,20 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey, ContextInfo context)
+    public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpId, ContextInfo context)
         throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         if (cluId == null) {
             throw new MissingParameterException("cluId is null");
         }
 
-        if (atpKey == null) {
-            throw new MissingParameterException("atpKey is null");
+        if (atpId == null) {
+            throw new MissingParameterException("atpId is null");
         }
 
         List<LuiInfo> infos = new ArrayList<LuiInfo>();
         for (LuiInfo info : this.luiCache.values()) {
-            if (cluId.equals(info.getCluId()) && atpKey.equals(info.getAtpKey())) {
+            if (cluId.equals(info.getCluId()) && atpId.equals(info.getAtpId())) {
                 infos.add(info);
             }
         }
@@ -324,7 +278,7 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo context)
+    public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo, ContextInfo context)
     throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
     InvalidParameterException, MissingParameterException, OperationFailedException,
     PermissionDeniedException {
@@ -342,7 +296,7 @@ public class LuiServiceMockImpl implements LuiService {
 
         lInfo.setId(UUID.randomUUID().toString());
         lInfo.setCluId(cluId);
-        lInfo.setAtpKey(atpKey);
+        lInfo.setAtpId(atpId);
         lInfo.setMeta(helper.createMeta(context));
         this.luiCache.put(lInfo.getId(), lInfo);
 

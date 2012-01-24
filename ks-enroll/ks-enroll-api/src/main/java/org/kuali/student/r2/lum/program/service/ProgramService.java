@@ -17,11 +17,9 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.dto.StatusInfo;
 
-import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -33,8 +31,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
-import org.kuali.student.r2.common.service.StateService;
-import org.kuali.student.r2.common.service.TypeService;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
@@ -53,7 +49,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE)
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService extends DataDictionaryService, TypeService, StateService {
+public interface ProgramService {
 
     /**
      * Retrieves a CredentialProgram
@@ -799,15 +795,4 @@ public interface ProgramService extends DataDictionaryService, TypeService, Stat
      */
     public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * This overridden method ...
-     * 
-     * @see org.kuali.student.r2.common.service.StateService#getProcessByKey(java.lang.String,
-     *      org.kuali.student.r2.common.dto.ContextInfo)
-     */
-    @Override
-    StateProcessInfo getProcessByKey(@WebParam(name = "processKey") String processKey, @WebParam(name = "context") ContextInfo context)
-            throws org.kuali.student.r2.common.exceptions.DoesNotExistException, org.kuali.student.r2.common.exceptions.InvalidParameterException,
-            org.kuali.student.r2.common.exceptions.MissingParameterException, org.kuali.student.r2.common.exceptions.OperationFailedException;
 }

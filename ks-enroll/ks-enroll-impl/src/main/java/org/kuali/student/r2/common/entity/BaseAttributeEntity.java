@@ -9,6 +9,7 @@ import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.infc.Attribute;
 
+
 @MappedSuperclass
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"ATTR_KEY", "OWNER"})})
 public abstract class BaseAttributeEntity<T extends AttributeOwner<?>> extends BaseEntity {

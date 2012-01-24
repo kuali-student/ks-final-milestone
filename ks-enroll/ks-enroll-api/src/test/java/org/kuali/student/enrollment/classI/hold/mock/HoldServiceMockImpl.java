@@ -8,14 +8,9 @@ import java.util.Map;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.kuali.student.r2.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
-import org.kuali.student.r2.common.dto.StateInfo;
-import org.kuali.student.r2.common.dto.StateProcessInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.TypeInfo;
-import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -37,94 +32,7 @@ public class HoldServiceMockImpl implements HoldService {
     private Map<String, HoldInfo> holds = new HashMap<String, HoldInfo>();
     private Map<String, IssueInfo> issues = new HashMap<String, IssueInfo>();
 
-    @Override
-    public List<String> getDataDictionaryEntryKeys(ContextInfo context)
-            throws OperationFailedException, MissingParameterException,
-            PermissionDeniedException {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public DictionaryEntryInfo getDataDictionaryEntry(String entryKey,
-            ContextInfo context) throws OperationFailedException,
-            MissingParameterException, PermissionDeniedException,
-            DoesNotExistException {
-        return null;
-    }
-
-    @Override
-    public StateProcessInfo getProcessByKey(String processKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public List<String> getProcessByObjectType(String objectTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return new ArrayList<String>();
-    }
-
-    @Override
-    public StateInfo getState(String processKey, String stateKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public List<StateInfo> getStatesByProcess(String processKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return new ArrayList<StateInfo>();
-    }
-
-    @Override
-    public List<StateInfo> getInitialValidStates(String processKey,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return new ArrayList<StateInfo>();
-    }
-
-    @Override
-    public StateInfo getNextHappyState(String processKey,
-            String currentStateKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public TypeInfo getType(String typeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-            ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        return new ArrayList<TypeInfo>();
-    }
-
-    @Override
-    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
-            String relatedRefObjectURI, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeInfo>();
-    }
-
-    @Override
-    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
-            String ownerTypeKey, String relationTypeKey, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException {
-        return new ArrayList<TypeTypeRelationInfo>();
-    }
-
+ 
     @Override
     public HoldInfo getHold(String holdId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,

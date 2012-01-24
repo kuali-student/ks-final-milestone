@@ -166,6 +166,15 @@ public class GradingController extends UifControllerBase {
         return getUIFModelAndView(gradingForm, GradingConstants.GRADE_ROSTER_PAGE);
     }
 
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.LOAD_COURSES_METHOD)
+    public ModelAndView loadCourses(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) throws Exception {
+
+        ((GradingViewHelperService) gradingForm.getView().getViewHelperService()).loadCourses(gradingForm);
+        return getUIFModelAndView(gradingForm, GradingConstants.SELECT_COURSE_OFFERING_PAGE);
+
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall="  + GradingConstants.SUBMIT_METHOD)
     public ModelAndView submit(@ModelAttribute("KualiForm") GradingForm gradingForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) throws Exception {

@@ -90,13 +90,13 @@ public interface CourseOffering extends IdEntity {
     /**
      * Academic term of course offering
      * 
-     * @name Term Key
+     * @name Term Id
      * @readOnly on updates
      * @required
      * @impl set during the #createCourseOfferingFromCanonical and then maps to
      *       the aptKey on the Lui
      */
-    public String getTermKey();
+    public String getTermId();
 
     /**
      * A unique identifier assigned to all approved courses that exist in the

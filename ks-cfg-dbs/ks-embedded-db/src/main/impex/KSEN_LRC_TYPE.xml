@@ -8,6 +8,8 @@
     <KSEN_LRC_TYPE NAME="Grade"
         TYPE_DESC="The result of an assessment, typically of a course"
         TYPE_KEY="kuali.result.scale.type.grade" VER_NBR="1"/>
+    <KSEN_LRC_TYPE NAME="Value" TYPE_DESC="The result value"
+        TYPE_KEY="kuali.result.value.type.value" VER_NBR="1"/>
     <KSEN_LRC_TYPE NAME="Fixed"
         TYPE_DESC="A result grouping that includes just a single result value"
         TYPE_KEY="kuali.result.values.group.type.fixed" VER_NBR="1"/>

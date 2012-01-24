@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.messages;
+package org.kuali.student.r2.common.exceptions;
 
 public class MessageException extends RuntimeException {
 

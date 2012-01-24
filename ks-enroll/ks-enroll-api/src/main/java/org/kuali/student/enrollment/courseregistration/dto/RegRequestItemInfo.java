@@ -10,11 +10,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseregistration.infc.RegRequestItem;
-import org.kuali.student.r2.common.dto.EntityInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.infc.Meta;
-import org.kuali.student.r2.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

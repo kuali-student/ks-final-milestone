@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  */
 
 @XmlType(name = "CredentialProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "programLevel", "code", "universityClassification",
-        "institution", "resultOptions", "startTermKey", "endTermKey", "endProgramEntryTermKey", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight",
+        "institution", "resultOptions", "startTermId", "endTermId", "endProgramEntryTermId", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight",
         "learningObjectives", "coreProgramIds", "programRequirements", "catalogPublicationTargets", "catalogDescr", "credentialProgramType", "diplomaTitle", "selectiveEnrollmentCode", "hegisCode",
         "cip2000Code", "cip2010Code", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)

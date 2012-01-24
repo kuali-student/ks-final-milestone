@@ -5,7 +5,7 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows creation and modification of agendas via the agenda editor"
         NM="Maintain KRMS Agenda" NMSPC_CD="KR-RULE"
-        OBJ_ID="963482EB31804AC9A43EA03E9BFB473E" PERM_ID="10000"
+        OBJ_ID="B6BCE69B93FFA4FCE040C60AF05B3368" PERM_ID="10000"
         PERM_TMPL_ID="10000" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows users to access the Document Operation screen."
@@ -304,7 +304,7 @@
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Allows use of the cache administration screen"
         NM="Use Cache Adminstration Screen" NMSPC_CD="KR-SYS"
-        OBJ_ID="9278BC8A056347D985FF41C90AC096D6" PERM_ID="3114"
+        OBJ_ID="B6BCE69B9406A4FCE040C60AF05B3368" PERM_ID="3114"
         PERM_TMPL_ID="29" VER_NBR="1"/>
     <KRIM_PERM_T ACTV_IND="Y"
         DESC_TXT="Authorizes users to send FYI ad hoc requests for Kuali Documents"

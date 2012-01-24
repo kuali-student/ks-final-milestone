@@ -50,7 +50,7 @@ public class CourseRegistrationServiceMockImplTest {
         context.setPrincipalId("principal1");
 
         RegRequestInfo regRequest = new RegRequestInfo ();
-        regRequest.setTermKey("test.term.fall.2011");
+        regRequest.setTermId("test.term.fall.2011");
         regRequest.setTypeKey(LuiPersonRelationServiceConstants.LPRTRANS_REGISTER_TYPE_KEY);
         regRequest.setStateKey(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
         regRequest.setName("Test Cart"); 

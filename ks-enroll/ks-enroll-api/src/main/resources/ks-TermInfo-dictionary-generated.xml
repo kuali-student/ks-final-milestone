@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Tue Sep 06 14:26:48 EDT 2011
+		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -53,16 +53,17 @@ A term is the time period in which a  course may be offered.
 		<property name="titleAttribute" value="name"/>
 		<property name="primaryKeys">
 			<list>
-				<value>key</value>
+				<value>id</value>
 			</list>
 		</property>
 
 		<property name="attributes">
 			<list>
-				<ref bean="TermInfo.key"/>
+				<ref bean="TermInfo.id"/>
 				<ref bean="TermInfo.typeKey"/>
 				<ref bean="TermInfo.stateKey"/>
 				<ref bean="TermInfo.name"/>
+				<ref bean="TermInfo.code"/>
 				<ref bean="TermInfo.startDate"/>
 				<ref bean="TermInfo.endDate"/>
 			</list>
@@ -81,8 +82,8 @@ A term is the time period in which a  course may be offered.
 		</property>
 	</bean>
 
-	<bean id="TermInfo.key-generated" abstract="true" parent="BaseKuali.key">
-		<property name="name" value="key"/>
+	<bean id="TermInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
 	</bean>
 
 	<bean id="TermInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
@@ -149,6 +150,23 @@ A description of the entity.
 
 	<bean id="TermInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
+	</bean>
+
+	<bean id="TermInfo.code-generated" abstract="true" parent="BaseKuali.code">
+		<property name="name" value="code"/>
+		<property name="shortLabel" value="Code"/>
+		<property name="summary">
+			<value>
+Gets a display code for this Term.
+			</value>
+		</property>
+		<property name="label" value="Code"/>
+		<property name="description">
+			<value>
+Gets a display code for this Term.
+			</value>
+		</property>
+		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="TermInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">

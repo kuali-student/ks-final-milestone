@@ -112,7 +112,7 @@
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
   </bean>
 
-  <bean id="stateService" class="org.kuali.student.r2.common.service.impl.StateServiceImpl">
+  <bean id="stateService" class="org.kuali.student.r2.core.class1.state.service.impl.StateServiceImpl">
     <property name="stateDao" ref="stateDao" />
     <property name="spDao" ref="stateProcessDao" />
     <property name="sprDao" ref="stateProcessRelationDao" />
@@ -141,7 +141,7 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="lprStateDao" class="org.kuali.student.r2.common.dao.StateDao">
+  <bean id="lprStateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
     <property name="em" ref="entityManager" />
   </bean>
 
@@ -149,15 +149,15 @@
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="stateDao" class="org.kuali.student.r2.common.dao.StateDao">
+  <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="stateProcessDao" class="org.kuali.student.r2.common.dao.StateProcessDao">
+  <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
     <property name="em" ref="entityManager" />
   </bean>
 
-  <bean id="stateProcessRelationDao" class="org.kuali.student.r2.common.dao.StateProcessRelationDao">
+  <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
     <property name="em" ref="entityManager" />
   </bean>
 

@@ -66,28 +66,28 @@ public interface ProgramAttributes extends IdEntity {
      * The first academic time period that this clu would be effective. This may
      * not reflect the first "real" academic time period for this Core.
      * 
-     * @name Start Term Key
+     * @name Start Term id
      */
 
-    public String getStartTermKey();
+    public String getStartTermId();
 
     /**
      * The last academic time period that this Core would be effective.
      * 
-     * @name End Term key
+     * @name End Term id
      */
 
-    public String getEndTermKey();
+    public String getEndTermId();
 
     /**
      * The last academic time period that this Core would be available for
      * enrollment. This may not reflect the last "real" academic time period for
      * this requirement.
      * 
-     * @name End Program Entry Term Key
+     * @name End Program Entry Term id
      */
 
-    public String getEndProgramEntryTermKey();
+    public String getEndProgramEntryTermId();
 
     /**
      * Divisions responsible to make changes to the CORE requirements

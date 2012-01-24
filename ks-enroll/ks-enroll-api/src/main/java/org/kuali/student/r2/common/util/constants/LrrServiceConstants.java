@@ -17,6 +17,7 @@ package org.kuali.student.r2.common.util.constants;
 
 import org.kuali.student.enrollment.lrr.dto.LearningResultRecordInfo;
 import org.kuali.student.enrollment.lrr.dto.ResultSourceInfo;
+import org.kuali.student.r2.common.constants.CommonServiceConstants;
 
 /**
  * Grading Service Constants

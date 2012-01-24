@@ -24,65 +24,101 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.KeyEntityInfo;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
+import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AtpInfo", propOrder = { "key", "typeKey", "stateKey", "name",
-		"descr", "startDate", "endDate", "meta", "attributes",
-		"_futureElements" })
-public class AtpInfo extends KeyEntityInfo implements Atp, Serializable {
+@XmlType(name = "AtpInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr",
+                "code", "startDate", "endDate", "adminOrgId", 
+                "meta", "attributes", "_futureElements" })
 
-	private static final long serialVersionUID = 1L;
-	@XmlElement
-	private Date startDate;
-	@XmlElement
-	private Date endDate;
-	@XmlAnyElement
-	private List<Element> _futureElements;
+public class AtpInfo 
+    extends IdEntityInfo 
+    implements Atp, Serializable {
 
+    private static final long serialVersionUID = 1L;
 	
-	public AtpInfo() {
-		startDate = null;
-		endDate = null;
-		_futureElements = null;
-	}
+    @XmlElement
+    private String code;
 
-	/**
-	 * Constructs a new AtpInfo from another Atp.
-	 * 
-	 * @param atp
-	 *            the ATP to copy
-	 */
-	public AtpInfo(Atp atp) {
-		super(atp);
-		if (null != atp) {
-			this.startDate = new Date(atp.getStartDate().getTime());
-			this.endDate = new Date(atp.getEndDate().getTime());
-			_futureElements = null;
-		}
-	}
-
-	@Override
-	public Date getStartDate() {
-		return startDate != null ? new Date(startDate.getTime()) : null;
-	}
-
+    @XmlElement
+    private Date startDate;
 	
-	public void setStartDate(Date startDate) {
-		if (startDate != null)
-			this.startDate = new Date(startDate.getTime());
-	}
-
-	@Override
-	public Date getEndDate() {
-		return endDate != null ? new Date(endDate.getTime()) : null;
-	}
-
+    @XmlElement
+    private Date endDate;
 	
-	public void setEndDate(Date endDate) {
-		if (endDate != null)
-			this.endDate = new Date(endDate.getTime());
-	}
+    @XmlElement
+    private String adminOrgId;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
+    
+    
+    /**
+     * Constructs a new AtpInfo.
+     */
+    public AtpInfo() {
+    }
+
+    /**
+     * Constructs a new AtpInfo from another Atp.
+     * 
+     * @param atp the ATP to copy
+     */
+    public AtpInfo(Atp atp) {
+        super(atp);
+
+        if (atp != null) {
+            this.code = atp.getCode();
+
+            if (atp.getStartDate() != null) {
+                this.startDate = new Date(atp.getStartDate().getTime());
+            }
+
+            if (atp.getEndDate() != null) {
+                this.endDate = new Date(atp.getEndDate().getTime());
+            }
+
+            this.adminOrgId = atp.getAdminOrgId();
+        }
+    }
+    
+    @Override
+    public String getCode() {
+        return code;
+    }
+	
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return startDate;
+    }
+	
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
+    @Override
+    public String getAdminOrgId() {
+        return adminOrgId;
+    }
+    
+    public void setAdminOrgId(String adminOrgId) {
+        this.adminOrgId = adminOrgId;
+    }
 }

@@ -15,6 +15,7 @@
  */
 package org.kuali.student.r2.core.class1.atp.model;
 
+import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -33,7 +34,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
 
 @Entity

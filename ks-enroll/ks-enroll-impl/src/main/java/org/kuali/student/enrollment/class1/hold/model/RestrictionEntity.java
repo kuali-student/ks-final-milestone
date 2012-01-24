@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.model.StateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.hold.dto.RestrictionInfo;
 import org.kuali.student.r2.core.hold.infc.Restriction;
 
