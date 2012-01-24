@@ -4,8 +4,8 @@ import java.util.List;
 
 import javax.persistence.Query;
 
+import org.kuali.student.common.model.StateEntity;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
-import org.kuali.student.core.class1.state.model.StateEntity;
 import org.kuali.student.common.model.StateProcessRelationEntity;
 
 public class StateProcessRelationDao extends GenericEntityDao<StateProcessRelationEntity>{

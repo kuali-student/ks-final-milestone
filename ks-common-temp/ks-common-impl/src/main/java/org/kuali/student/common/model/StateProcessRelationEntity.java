@@ -8,8 +8,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.kuali.student.common.entity.MetaEntity;
-import org.kuali.student.core.class1.state.model.StateEntity;
-
 
 @Entity
 @Table(name = "KSEN_STATEPROCESS_RELTN")

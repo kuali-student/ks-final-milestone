@@ -2,6 +2,7 @@ package org.kuali.student.common.service.impl;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto.TypeInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
