@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.datadictionary.infc;
+package org.kuali.student.common.dictionary.infc;
 
 /**
  * Constraint that applied a regular expression to check if the characters are valid
