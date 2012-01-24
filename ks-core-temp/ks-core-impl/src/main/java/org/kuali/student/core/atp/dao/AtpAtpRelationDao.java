@@ -1,11 +1,12 @@
 package org.kuali.student.core.atp.dao;
 
+import org.kuali.student.core.dao.GenericEntityDao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.core.atp.model.AtpAtpRelationEntity;
 
 import java.util.List;
 
-public class AtpAtpRelationDao extends GenericEntityDao<AtpAtpRelationEntity>{
+public class AtpAtpRelationDao extends GenericEntityDao<AtpAtpRelationEntity> {
     
     @SuppressWarnings({"unchecked"})
     public List<AtpAtpRelationEntity> getAtpAtpRelationsByAtp(String atpId) {

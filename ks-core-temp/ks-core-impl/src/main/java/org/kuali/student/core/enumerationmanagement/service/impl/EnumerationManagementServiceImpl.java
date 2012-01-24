@@ -33,7 +33,6 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.util.constants.EnumerationManagementServiceConstants;
 import org.kuali.student.core.enumerationmanagement.dao.EnumContextValueDao;
 import org.kuali.student.core.enumerationmanagement.dao.EnumeratedValueDao;
 import org.kuali.student.core.enumerationmanagement.dao.EnumerationDao;
@@ -42,8 +41,8 @@ import org.kuali.student.core.enumerationmanagement.model.EnumerationEntity;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementService;
-import org.springframework.transaction.annotation.Transactional;
 import org.kuali.student.core.enumerationmanagement.service.EnumerationManagementServiceConstants;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Enumeration Management Service implementation class.

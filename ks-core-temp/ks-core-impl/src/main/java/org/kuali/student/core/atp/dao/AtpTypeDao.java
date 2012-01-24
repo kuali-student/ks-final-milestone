@@ -2,10 +2,11 @@ package org.kuali.student.core.atp.dao;
 
 import java.util.List;
 
+import org.kuali.student.core.dao.GenericEntityDao;
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.core.type.entity.AtpTypeEntity;
 
-public class AtpTypeDao extends GenericEntityDao<AtpTypeEntity>{
+public class AtpTypeDao extends GenericEntityDao<AtpTypeEntity> {
 
     @SuppressWarnings("unchecked")
     public List<AtpTypeEntity> findAll(String refObjectURI) {
