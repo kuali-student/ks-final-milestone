@@ -2,7 +2,7 @@ package org.kuali.student.core.atp.dao;
 
 import java.util.List;
 
-import org.kuali.student.core.dao.GenericEntityDao;
+import org.kuali.student.core.generic.dao.GenericEntityDao;
 import org.kuali.student.core.type.entity.AtpTypeEntity;
 
 public class AtpTypeDao extends GenericEntityDao<AtpTypeEntity> {

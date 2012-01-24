@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.enumerationmanagement.dao;
 
-import org.kuali.student.core.dao.GenericEntityDao;
+import org.kuali.student.core.generic.dao.GenericEntityDao;
 import org.kuali.student.core.enumerationmanagement.model.EnumerationEntity;
 
 /**
