@@ -378,6 +378,8 @@ public class CourseAdminController extends CourseProposalController{
             viewContext.setPermissionType(PermissionType.INITIATE);
 
         }
+        
+        context = viewContext; 
     }
 	
 	/**
