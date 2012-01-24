@@ -26,7 +26,11 @@ import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneType;
 
-
+/**
+ * test
+ * @author NWUuser
+ *
+ */
 public interface AtpDao extends CrudDao, SearchableDao {
 
 	List<Atp> findAtpsByAtpType(String atpTypeKey);
