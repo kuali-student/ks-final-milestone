@@ -1,5 +1,5 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
+ * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -11,13 +11,27 @@
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
+ *
  */
+package org.kuali.student.common.assembler;
 
-package org.kuali.student.common.entity;
 
-import java.util.List;
+public class AssemblyException extends Exception{
+    private static final long serialVersionUID = 1L;
 
-public interface AttributeOwner<T extends BaseAttributeEntity<?>> {
-	public void setAttributes(List<T> attributes);
-	public List<T> getAttributes();
+	public AssemblyException() {
+		super();
+	}
+
+	public AssemblyException(String message, Throwable cause) {
+		super(message, cause);
+	}
+
+	public AssemblyException(String message) {
+		super(message);
+	}
+
+	public AssemblyException(Throwable cause) {
+		super(cause);
+	}
 }

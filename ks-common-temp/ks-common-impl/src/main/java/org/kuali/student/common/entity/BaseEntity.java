@@ -5,20 +5,15 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
-import javax.persistence.Version;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.common.util.UUIDHelper;
 
 @MappedSuperclass
-public abstract class BaseEntity {
-	
+public class BaseEntity {
 	@Id
 	@Column(name = "ID")
 	private String id;
-	
-	@Version
-	@Column(name="VER_NBR")
-	private Long versionNumber;
 	
 	@Column(name="OBJ_ID",length=KSEntityConstants.OBJ_ID_LENGTH)
 	private String objectId;
@@ -53,14 +48,6 @@ public abstract class BaseEntity {
 	protected void onPreUpdate() {
 	}
 	
-	public Long getVersionNumber() {
-		return versionNumber;
-	}
-
-	public void setVersionNumber(Long versionNumber) {
-		this.versionNumber = versionNumber;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -68,5 +55,4 @@ public abstract class BaseEntity {
 	public void setId(String id) {
 		this.id = id;
 	}
-
 }
