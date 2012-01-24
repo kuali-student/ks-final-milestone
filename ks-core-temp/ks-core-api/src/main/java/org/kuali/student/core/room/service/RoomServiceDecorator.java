@@ -16,10 +16,8 @@
 package org.kuali.student.core.room.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.datadictionary.dto.DictionaryEntryInfo;
 import org.kuali.student.common.dto.*;
 import org.kuali.student.common.exceptions.*;
-import org.kuali.student.core.population.service.PopulationService;
 import org.kuali.student.core.room.dto.BuildingInfo;
 import org.kuali.student.core.room.dto.RoomInfo;
 import org.kuali.student.core.room.dto.RoomResponsibleOrgInfo;
