@@ -37,5 +37,6 @@ public interface SecurityRpcServiceAsync {
 	public void getPermissions(ArrayList<String> permissionNames, AsyncCallback<HashMap<String,Boolean>> callback);
 	public void hasPermissionByPermissionName(String permissionName, AsyncCallback<Boolean> callback);
 	public void getPermissionsByType(PermissionType type, AsyncCallback<ArrayList<String>> callback);
-	
+	public void getPermissionsByType(PermissionType permissionType, HashMap<String,String> attributes, AsyncCallback<ArrayList<String>> callback) ;
+
 }

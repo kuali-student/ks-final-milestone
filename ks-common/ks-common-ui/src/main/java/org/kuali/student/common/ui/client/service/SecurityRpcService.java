@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.service;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 
@@ -76,4 +77,14 @@ public interface SecurityRpcService extends RemoteService {
 	 * @return list of permission names
 	 */
 	public ArrayList<String> getPermissionsByType(PermissionType permissionType) throws OperationFailedException;
+
+	/**
+	 * This is used to get all permissions assigned to the user based on a permission template.
+	 * 
+	 * @param permissionType
+	 * @param attributes
+	 * @return list of permission names
+	 * @throws OperationFailedException
+	 */
+	public ArrayList<String> getPermissionsByType(PermissionType permissionType, HashMap<String, String> attributes) throws OperationFailedException;
 }

@@ -143,6 +143,30 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		return matchingPermissions;
 	}
 	
+	/**
+	 * This will return all permissions assigned to this user.
+	 * 
+	 * TODO: Need to determine if permission details are required.   
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public ArrayList<String> getPermissionsByType(PermissionType permissionType, HashMap<String,String> attributes) throws OperationFailedException {
+		ArrayList<String> matchingPermissions = new ArrayList<String>();
+		AttributeSet attributeSet = new AttributeSet(attributes);
+		String principalId = SecurityUtils.getCurrentPrincipalId();
+		
+		LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId +" with details: "+attributes!=null?attributes.toString():"null");
+ 
+		List<KimPermissionInfo> permissions = (List<KimPermissionInfo>)getPermissionService().getAuthorizedPermissionsByTemplateName(
+				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), attributeSet, attributeSet);
+		
+		
+		for (KimPermissionInfo permissionInfo:permissions){
+			matchingPermissions.add(permissionInfo.getName());
+		}
+		
+		return matchingPermissions;
+	}
 	
 	public void setPermissionService(IdentityManagementService permissionService) {
 		this.permissionService = permissionService;

@@ -9,8 +9,8 @@ import java.util.Map;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
@@ -26,14 +26,14 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.GroupFieldLayout;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
@@ -61,7 +61,7 @@ public class CollaboratorSectionView extends SectionView {
 	protected static final String COLLAB_PERSON_SUGGEST_NAME_LABEL_KEY = "collaboratorNameSuggest";
 	
 	
-    private WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
+    protected WorkflowRpcServiceAsync workflowRpcServiceAsync = GWT.create(WorkflowRpcService.class);
 
     private QueryPath collabPath = QueryPath.parse("collaboratorInfo/collaborators");
 
@@ -75,17 +75,17 @@ public class CollaboratorSectionView extends SectionView {
     private VerticalSection tableSection;
     private InfoMessage saveWarning = new InfoMessage("The document must be saved before Collaborators can be added.", true);
     private InfoMessage addWarning = new InfoMessage("Both Permission and Action Request must be selected before a collaborator could be added.", false);
-    private SimpleListItems permissionListItems = new SimpleListItems();
-    private SimpleListItems actionRequestListItems = new SimpleListItems();
+    protected SimpleListItems permissionListItems = new SimpleListItems();
+    protected SimpleListItems actionRequestListItems = new SimpleListItems();
 
     private KSDropDown permissionList = new KSDropDown();
-    private KSDropDown actionRequestList = new KSDropDown();
+    protected KSDropDown actionRequestList = new KSDropDown();
 
     private boolean canRemoveCollaborators = false;
     private boolean loaded = false;
 
-    private String workflowId;
-    private String documentStatus = null;
+    protected String workflowId;
+    protected String documentStatus = null;
     private int numCollabs = 0;
 
     List<Data> newCollaborators = new ArrayList<Data>();
@@ -232,7 +232,7 @@ public class CollaboratorSectionView extends SectionView {
         });
     }
 
-    private void refreshDocumentStatus(final Callback<Boolean> onReadyCallback) {
+    protected void refreshDocumentStatus(final Callback<Boolean> onReadyCallback) {
         workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -241,7 +241,7 @@ public class CollaboratorSectionView extends SectionView {
             }
 
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(final String result) {
                 documentStatus = result;
                 refreshActionRequestListItems();
                 checkAuthorization(onReadyCallback);
@@ -249,7 +249,7 @@ public class CollaboratorSectionView extends SectionView {
         });
     }
 
-    private void checkAuthorization(final Callback<Boolean> onReadyCallback) {
+    protected void checkAuthorization(final Callback<Boolean> onReadyCallback) {
         workflowRpcServiceAsync.isAuthorizedAddReviewer(workflowId, new KSAsyncCallback<Boolean>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -339,11 +339,11 @@ public class CollaboratorSectionView extends SectionView {
         return new MessageKeyInfo(null, null, null, labelKey);
     }
 
-    private boolean isDocumentPreRoute() {
+    protected boolean isDocumentPreRoute() {
         return "I".equals(documentStatus) || "S".equals(documentStatus);
     }
 
-    private void refreshActionRequestListItems() {
+    protected void refreshActionRequestListItems() {
         actionRequestListItems.clear();
         if (isDocumentPreRoute()) {
             actionRequestListItems.addItem(ActionRequestType.FYI.getActionRequestCode(), ActionRequestType.FYI.getActionRequestLabel());
@@ -363,7 +363,7 @@ public class CollaboratorSectionView extends SectionView {
      * remove EDIT permission when a route level changes or users who are sent an ACKKNOWLEDGE or FYI request will keep their
      * edit access across nodes
      */
-    private void refreshPermissionList(String selectedAction) {
+    protected void refreshPermissionList(String selectedAction) {
         permissionListItems.clear();
         // SEE JAVADOC ABOVE IF CODE BELOW IS CHANGED OR OVERRIDEN
         if (selectedAction != null && selectedAction.equals(ActionRequestType.APPROVE.getActionRequestCode()) || isDocumentPreRoute()) {

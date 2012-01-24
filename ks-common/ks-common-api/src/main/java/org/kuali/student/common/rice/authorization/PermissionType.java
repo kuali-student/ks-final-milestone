@@ -34,7 +34,8 @@ public enum PermissionType {
 	REMOVE_ADHOC_REVIEWERS("Remove Reviewers","KS-SYS","Remove Reviewers"), 
 	BLANKET_APPROVE("Blanket Approve","KS-SYS","Blanket Approve"),
 	UPLOAD_DOCUMENTS("Upload","KS-SYS","Upload to Document"),
-	USE_SCREEN("Use Screen","KS-SYS","Use Screen");
+	USE_SCREEN("Use Screen","KS-SYS","Use Screen"),
+	ADD_COLLABORATOR_ACTION("Add Collaborator Action","KS-SYS","Add Collaborator Action");
 
 	private String label = "";
 	private String permissionNamespace = "";
