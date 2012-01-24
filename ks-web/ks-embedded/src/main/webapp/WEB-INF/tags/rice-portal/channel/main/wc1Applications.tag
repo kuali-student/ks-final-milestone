@@ -20,8 +20,8 @@
 
     <strong>Holiday Calendar</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Create Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarEditView&methodToCall=save" /></li>
-        <li><portal:portalLink displayTitle="true" title="View Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarView&methodToCall=save" /></li>
+        <li><portal:portalLink displayTitle="true" title="Create Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarEditView&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="View Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarView&methodToCall=start" /></li>
     </ul>
 
 </div>

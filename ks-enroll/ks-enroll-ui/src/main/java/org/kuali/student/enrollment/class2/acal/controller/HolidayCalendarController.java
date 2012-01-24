@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.acal.controller;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -42,12 +43,24 @@ public class HolidayCalendarController extends UifControllerBase {
         return new HolidayCalendarForm();
     }
 
-       /**
+     /**
      * Method used to save HC
      */
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) {
+        HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
+
+        if(hc.getId() != null && !hc.getId().trim().isEmpty()){
+            // edit hc
+        }
+        else {
+           // create hc
+        }
         return getUIFModelAndView(hcForm);
+    }
+
+    private void createHolidayCalendar(HolidayCalendarInfo hc){
+
     }
 }
