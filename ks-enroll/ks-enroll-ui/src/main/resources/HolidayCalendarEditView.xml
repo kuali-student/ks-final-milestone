@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:p="http://www.springframework.org/schema/p"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
     <bean id="KS-HolidayCalendar-EditView" parent="KSFormView">
         <property name="id" value="holidayCalendarEditView"/>
         <property name="title" value="Holiday Calendar"/>
@@ -11,7 +14,7 @@
             <bean parent="Page"/>
         </property>
         <property name="header">
-          <bean parent="HeaderTwo"/>
+            <bean parent="HeaderTwo"/>
         </property>
         <property name="footer">
             <bean parent="Footer"/>
@@ -24,15 +27,13 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
     </bean>
 
-    <bean id="HolidayCalendarEditView" parent="PageGroup" p:title="HolidayCalendar Information"
-        p:layoutManager.orientation="HORIZONTAL"
-        p:disclosure.render="false">
-    <property name="items">
+    <bean id="HolidayCalendarEditView" parent="PageGroup" p:disclosure.render="false">
+     <property name="items">
       <list>
         <ref bean="HolidayCalendarEditView-Meta"/>
       </list>
-    </property>
-    <property name="footer">
+     </property>
+     <property name="footer">
       <bean parent="Footer">
         <property name="items">
           <list>
@@ -40,8 +41,8 @@
           </list>
         </property>
       </bean>
-    </property>
-  </bean>
+     </property>
+    </bean>
 
     <bean id="HolidayCalendarEditView-Meta" parent="Group" p:layoutManager.orientation="HORIZONTAL">
         <property name="title" value="Calendar Information" />
@@ -50,14 +51,41 @@
             <list>
                  <bean parent="InputField_Form" p:label="Holiday Calendar Name"
 					p:labelPlacement="TOP" p:labelField.renderColon="false"
-					p:propertyName="holidayCalendarInfo.name">
+					p:propertyName="holidayCalendarInfo.name" p:labelField.style="display:block;">
 					<property name="control">
 						<bean parent="TextControl" p:size="30" />
+					</property>
+				</bean>
+                <bean parent="InputField_Form" p:propertyName="holidayCalendarInfo.adminOrgId"
+                      p:label="Organizations" p:labelField.renderColon="false" p:labelField.style="display:block;">
+                    <property name="control">
+                        <bean parent="SelectControl" p:options-ref="org-options"/>
+                    </property>
+                   <!-- <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
+                    </property>  -->
+                </bean>
+                <bean parent="InputField_Form" p:label="Start Date" p:labelPlacement="TOP"
+				     p:labelField.renderColon="false" p:labelField.style="display:block;"
+					p:propertyName="holidayCalendarInfo.startDate">
+					<property name="control">
+						<bean parent="DateControl" />
+					</property>
+				</bean>
+                <bean parent="InputField_Form" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
+					p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
+					p:propertyName="holidayCalendarInfo.endDate">
+					<property name="control">
+						<bean parent="DateControl" />
 					</property>
 				</bean>
             </list>
         </property>
     </bean>
+
+    <util:list id="org-options">
+       <bean parent="KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
+    </util:list>
 
 </beans>
 
