@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 
-package org.kuali.student.common.datadictionary;
+package org.kuali.student.common.dictionary;
 
 import java.util.List;
 import org.kuali.student.common.dto.ContextInfo;

@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.datadictionary;
+package org.kuali.student.common.dictionary;
 
 import org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint;
-import org.kuali.student.common.datadictionary.dto.ValidCharactersConstraintInfo;
+import org.kuali.student.common.dictionary.dto.ValidCharactersConstraintInfo;
 
 /**
  *

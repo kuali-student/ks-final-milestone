@@ -23,8 +23,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.datadictionary.infc.AttributeDefinitionInfc;
-import org.kuali.student.common.datadictionary.infc.DictionaryEntry;
+import org.kuali.student.common.dictionary.infc.AttributeDefinitionInfc;
+import org.kuali.student.common.dictionary.infc.DictionaryEntry;
 
 
 @XmlAccessorType(XmlAccessType.NONE)

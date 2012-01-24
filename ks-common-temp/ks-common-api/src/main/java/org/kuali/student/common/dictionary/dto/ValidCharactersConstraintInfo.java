@@ -20,7 +20,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.common.datadictionary.infc.ValidCharactersConstraintInfc;
+import org.kuali.student.common.dictionary.infc.ValidCharactersConstraintInfc;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)

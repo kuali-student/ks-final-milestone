@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.datadictionary.util;
+package org.kuali.student.common.dictionary.util;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -24,8 +24,8 @@ import java.util.Date;
 import java.util.List;
 import org.kuali.rice.core.api.uif.DataType;
 
-import org.kuali.student.common.datadictionary.infc.AttributeDefinitionInfc;
-import org.kuali.student.common.datadictionary.infc.DictionaryEntry;
+import org.kuali.student.common.dictionary.infc.AttributeDefinitionInfc;
+import org.kuali.student.common.dictionary.infc.DictionaryEntry;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.infc.Comparison;

@@ -14,7 +14,7 @@
  */
 package org.kuali.student.common.infc;
 
-// TODO kscm-124 import org.kuali.student.common.datadictionary.service.DataDictionaryService;
+// TODO kscm-124 import org.kuali.student.common.dictionary.service.DataDictionaryService;
 
 /**
  * Holds the dictionary service

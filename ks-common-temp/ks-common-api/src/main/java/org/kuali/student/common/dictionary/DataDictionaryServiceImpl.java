@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.datadictionary;
+package org.kuali.student.common.dictionary;
 
 //import java.io.IOException;
 //import java.util.ArrayList;
@@ -21,8 +21,8 @@ package org.kuali.student.common.datadictionary;
 //import java.util.List;
 //import java.util.Map;
 //import org.kuali.rice.krad.datadictionary.DataObjectEntry;
-//import org.kuali.student.common.datadictionary.dto.DictionaryEntryInfo;
-//TODO kscm-125   import org.kuali.student.common.datadictionary.service.DataDictionaryService;
+//import org.kuali.student.common.dictionary.dto.DictionaryEntryInfo;
+//TODO kscm-125   import org.kuali.student.common.dictionary.service.DataDictionaryService;
 //import org.kuali.student.common.dto.ContextInfo;
 //import org.kuali.student.common.exceptions.DoesNotExistException;
 //import org.kuali.student.common.exceptions.MissingParameterException;
