@@ -14,7 +14,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.student.lum.kim;
 
@@ -33,7 +33,7 @@ import org.kuali.rice.krad.service.impl.DocumentServiceImpl;
 /**
  * This service override is used to facilitate a fix to the encrypted passwords in the
  * Rice database.
- * 
+ *
  * @author delyea
  *
  */

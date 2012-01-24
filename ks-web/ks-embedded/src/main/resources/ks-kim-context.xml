@@ -15,8 +15,8 @@
   limitations under the License.
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-       xmlns:p="http://www.springframework.org/schema/p" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:beans="http://www.springframework.org/schema/beans"
        xmlns:context="http://www.springframework.org/schema/context"
@@ -52,22 +52,24 @@
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/util
-                           http://www.springframework.org/schema/util/spring-util-3.0.xsd">
+                           http://www.springframework.org/schema/util/spring-util-3.0.xsd
+http://www.springframework.org/schema/jdbc
+http://www.springframework.org/schema/task ">
 
-	<!-- This is an override to default the kimIdentityDelegateService to fix encrypted passwords in rice db -->
-	<bean id="kimIdentityDelegateService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl"
+    <!-- This is an override to default the kimIdentityDelegateService to fix encrypted passwords in rice db -->
+    <bean id="kimIdentityDelegateService" class="org.kuali.student.lum.kim.StudentIdentityServiceImpl"
           p:businessObjectService-ref="businessObjectService"
-          p:criteriaLookupService-ref="criteriaLookupService" />
-  
-	<bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
-		<property name="serviceBus" ref="rice.ksb.serviceBus" />
-		<property name="serviceDefinition">
-			<bean parent="kimService" p:service-ref="kimPermissionService"
-				p:localServiceName="kimPermissionService">
-				<property name="busSecurity" value="${ks.core.bus.security}" />
-				<property name="jaxWsService" value="true" />
-			</bean>
-		</property>
-	</bean>
-  
+          p:criteriaLookupService-ref="criteriaLookupService"/>
+
+    <bean id="ks.exp.kimPermissionService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+        <property name="serviceBus" ref="rice.ksb.serviceBus"/>
+        <property name="serviceDefinition">
+            <bean parent="kimSoapService" p:service-ref="kimPermissionService"
+                  p:localServiceName="kimPermissionService">
+                <property name="busSecurity" value="${ks.core.bus.security}"/>
+                <property name="jaxWsService" value="true"/>
+            </bean>
+        </property>
+    </bean>
+
 </beans>

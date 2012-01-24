@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
@@ -27,11 +27,11 @@ import org.xml.sax.InputSource;
 /**
  * A QualifierResolver class that takes one or more organization ids from the Route Node configuration XML on the
  * document type and uses those organizations as the qualifiers.
- * 
+ *
  * <p>
  * A sample of the Route Node configuration:
  * <p>
- * 
+ *
  * <pre>
  * {@code
  * <role name="Senate Review">
@@ -41,7 +41,7 @@ import org.xml.sax.InputSource;
  * </role>
  * }
  * </pre>
- * 
+ *
  */
 public class StaticOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StaticOrganizationQualifierResolver.class);

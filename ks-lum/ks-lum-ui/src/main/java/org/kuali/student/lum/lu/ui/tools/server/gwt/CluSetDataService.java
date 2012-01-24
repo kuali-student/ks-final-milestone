@@ -1,5 +1,6 @@
 package org.kuali.student.lum.lu.ui.tools.server.gwt;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 public class CluSetDataService  implements DataService{
 
@@ -74,7 +76,7 @@ public class CluSetDataService  implements DataService{
     }
 
     @Override
-    public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
+    public DataSaveResult saveData(Data data) throws OperationFailedException {
         try {
             SaveResult<Data> saveResult = assembler.save(data);
             if (saveResult != null) {
@@ -86,4 +88,10 @@ public class CluSetDataService  implements DataService{
         }
         return null;
     }
+
+	@Override
+	public List<ValidationResultInfo> validateData(Data data)
+			throws OperationFailedException {
+		return null;
+	}
 }

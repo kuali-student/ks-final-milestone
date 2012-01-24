@@ -1,4 +1,4 @@
-update KSMG_MESSAGE set MSG_VALUE='Propose a new course, start a new program, or find and review submitted proposals.' 
+update KSMG_MESSAGE set MSG_VALUE='Propose a new course or start a new program.' 
 where MSG_ID='createDesc'
 /
 INSERT INTO KSMG_MESSAGE (GRP_NAME,ID,LOCALE,MSG_ID,MSG_VALUE,VER_NBR,OBJ_ID)

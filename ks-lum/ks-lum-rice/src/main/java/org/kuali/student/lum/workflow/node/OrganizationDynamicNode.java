@@ -14,9 +14,9 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.kuali.rice.core.api.exception.RiceRuntimeException;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
-//import org.kuali.rice.core.util.xml.XmlJotter;
 import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
@@ -277,7 +277,6 @@ public class OrganizationDynamicNode implements DynamicNode {
         actualRouteNodeInstance.addNodeState(new NodeState(NODE_STATE_ORG_ID_KEY, orgId));
         return actualRouteNodeInstance;
     }
-
     /**
      * Method verifies that the Organization Hierarchy Review node exists on the document type. If it does not exist it
      * will add it and save the document type. This node is required because it will be used as a prototype for any

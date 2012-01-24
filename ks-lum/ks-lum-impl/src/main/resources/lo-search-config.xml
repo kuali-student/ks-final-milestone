@@ -22,7 +22,7 @@
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	 ">
 	 
 	<import resource="lo-dictionary-config.xml" />
@@ -49,6 +49,7 @@
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescId" subSearchKey="lo" resultParam="lo.resultColumn.loId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluId" subSearchKey="clu" resultParam="lo.resultColumn.loCluId"/>
 		<search:joinResultMapping subSearchResultParam="lu.resultColumn.cluOfficialIdentifier.cluCode" subSearchKey="clu" resultParam="lo.resultColumn.loCluCode"/>
+		<search:joinResultMapping subSearchResultParam="lu.resultColumn.luOptionalVersionIndId" subSearchKey="clu" resultParam="lo.resultColumn.loLuOptionalVersionIndId"/>
 		<search:joinResultMapping subSearchResultParam="lo.resultColumn.loDescPlain" subSearchKey="lo" resultParam="lo.resultColumn.loDescPlain"/>
 	</search:crossSearchType>
 	
@@ -362,6 +363,7 @@
             <ref bean="lo.resultColumn.loCluType" />
             <ref bean="lo.resultColumn.loCluState" />            
             <ref bean="lo.resultColumn.categoryName" />
+            <ref bean="lu.resultColumn.cluOfficialIdentifier.cluCode" />
         </search:resultColumns>
     </search:searchResultTypeInfo>    
 
@@ -397,7 +399,9 @@
             <ref bean="lo.resultColumn.categoryId" />
             <ref bean="lo.resultColumn.categoryName" />
             <ref bean="lo.resultColumn.categoryType" />
+            <ref bean="lo.resultColumn.categoryTypeName" />
             <ref bean="lo.resultColumn.categoryNameAndType" />
+            <ref bean="lo.resultColumn.categoryState" />	<!-- KSLAB-2091 -->
         </search:resultColumns>
     </search:searchResultTypeInfo>
     
@@ -475,11 +479,25 @@
         <search:desc>Category to be used for an LO</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
+    
+    <search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.cluCode" parent="lu.resultColumn.cluOfficialIdentifier.cluCode-parent"/>
+	<search:resultColumn id="lu.resultColumn.cluOfficialIdentifier.cluCode-parent"  abstract="true">
+        <search:name>Clu Code</search:name>
+        <search:desc>Clu Code</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
         
     <search:resultColumn id="lo.resultColumn.categoryType" parent="lo.resultColumn.categoryType-parent"/>
 	<search:resultColumn id="lo.resultColumn.categoryType-parent"  abstract="true">
         <search:name>Category</search:name>
         <search:desc>Category type for a category</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    
+    <search:resultColumn id="lo.resultColumn.categoryTypeName" parent="lo.resultColumn.categoryTypeName-parent"/>
+	<search:resultColumn id="lo.resultColumn.categoryTypeName-parent"  abstract="true">
+        <search:name>Category</search:name>
+        <search:desc>Category type name for a category</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
     
@@ -496,6 +514,15 @@
         <search:desc>Category to be used for an LO</search:desc>
         <search:dataType>string</search:dataType>
     </search:resultColumn>
+    
+    <!-- KSLAB-2091 -->
+    <search:resultColumn id="lo.resultColumn.categoryState" parent="lo.resultColumn.categoryState-parent"/>
+	<search:resultColumn id="lo.resultColumn.categoryState-parent"  abstract="true">
+        <search:name>Category state</search:name>
+        <search:desc>Category state to be used for an LO</search:desc>
+        <search:dataType>string</search:dataType>
+    </search:resultColumn>
+    <!-- KSLAB-2091 -->
     
     <dict:fieldDescriptor id="lo.queryParam.cluOfficialIdentifier.cluCode.fd" parent="lo.queryParam.cluOfficialIdentifier.cluCode.fd-abstract"/>
     <dict:fieldDescriptor id="lo.queryParam.cluOfficialIdentifier.cluCode.fd-abstract" abstract="true">
@@ -523,7 +550,7 @@
 					<value>SELECT lo.id, lo.name FROM Lo lo WHERE lo.name = :lo_queryParam_loName</value>
 				</entry>
 				<entry key="lo.search.loCategories">
-                    <value>SELECT cat.id, cat.name, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name FROM LoCategory cat </value>
+                    <value>SELECT cat.id, cat.name, cat.loCategoryType.id, cat.loCategoryType.name, cat.name||' - '||cat.loCategoryType.name, <!-- KSLAB-2091 -->cat.state <!-- CategoryType name for KSLAB-2091 --> FROM LoCategory cat </value>
                 </entry>
                 <entry key="lo.queryParam.loOptionalCategoryName">                    
                     <value>cat.name like :lo_queryParam_loOptionalCategoryName  </value>

@@ -7,9 +7,11 @@ import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 
 /**
@@ -65,6 +67,11 @@ public class CredentialProgramDataService extends AbstractDataService {
         }
     }
 
+    @Override
+	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
+		return programService.validateCredentialProgram("OBJECT", (CredentialProgramInfo)dto);
+	}
+    
     @Override
     protected Class<?> getDtoClass() {
         return CredentialProgramInfo.class;

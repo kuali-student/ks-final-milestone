@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
@@ -19,7 +19,7 @@ import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
 
 /**
  * A qualifier resolver class that is used by the hierarchy routing node {@link OrganizationDynamicNode}.
- * 
+ *
  * This qualifier resolver will get the organization id value from inside the current route node instance and use the
  * {@link OrganizationService#getOrgOrgRelationsByOrg(String)} method to find all relations to it. From those relations
  * this class will select the ones that are both active and of the relation type matching
@@ -28,11 +28,11 @@ import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
  * also only organizations that are of the type {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_COC}. Those
  * organizations will be returned as qualifications with the details being the organization id and the organization
  * short name fields.
- * 
+ *
  * If no relation is found that is both active and of the relation type matching
  * {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT} then this class will use the organization
  * found on the current route node instance as the qualification returned.
- * 
+ *
  */
 public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationCurriculumCommitteeQualifierResolver.class);
