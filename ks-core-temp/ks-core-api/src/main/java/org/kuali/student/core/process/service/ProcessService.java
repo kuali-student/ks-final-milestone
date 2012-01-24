@@ -42,8 +42,8 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.core.process.ProcessServiceConstants;
 
-import org.kuali.student.core.util.constants.ProcessServiceConstants;
 
 /**
  * Process Service Description and Assumptions.
