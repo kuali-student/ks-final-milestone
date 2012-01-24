@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.datadictionary.dto;
+package org.kuali.student.common.dictionary.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
