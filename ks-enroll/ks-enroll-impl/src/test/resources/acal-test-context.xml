@@ -17,6 +17,7 @@
   <import resource="classpath:META-INF/default-property-config-context-test.xml" />
   <import resource="classpath:ks-data-dictionary-services-configuration.xml" />
   <import resource="classpath:ks-data-dictionary-validator-configuration.xml" />
+  <import resource="classpath:search-test-context.xml"/>
   <!-- Preloaded data -->
   <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
     <property name="jtaTxManager" ref="JtaTxManager" />
@@ -98,7 +99,7 @@
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <property name="stateService" ref="stateService" />
     <property name="typeService" ref="typeService" />
-    <property name="criteriaLookupService" ref="criteriaLookupService"/>
+    <property name="criteriaLookupService" ref="atpCriteriaLookupService"/>
   </bean>
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
@@ -112,6 +113,7 @@
     <property name="keyDateAssembler" ref="keyDateAssembler" />
     <property name="acalEventAssembler" ref="acalEventAssembler" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
+    <property name="criteriaLookupService" ref="acalCriteriaLookupService"/>
   </bean>
 
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
@@ -210,14 +212,6 @@
 
   <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
 	<property name="em" ref="entityManager"/>
-  </bean>
-  
-  <bean id="criteriaLookupService" class="org.kuali.rice.krad.criteria.CriteriaLookupServiceImpl">
-   	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-  </bean>
-  	
-  <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.dao.CriteriaLookupDaoJpaImpl">
-   	<property name="entityManager" ref="entityManager"/>
   </bean>
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />

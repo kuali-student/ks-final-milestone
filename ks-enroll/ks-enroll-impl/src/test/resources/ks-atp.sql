@@ -187,7 +187,7 @@ INSERT INTO KSEN_ATP (ID, NAME, START_DT, END_DT, ATP_TYPE_ID, ATP_STATE_ID, RT_
 
 
 // AtpAttributeEntity - can''t get this to execute for some reason
--- INSERT INTO KSEN_ATP_ATTR (ID, ATTR_KEY, ATTR_VALUE, OWNER) VALUES ('testAtpAttr1', 'CredentialProgramType', 'kuali.lu.type.credential.Baccalaureate', 'testAtpId1')
+INSERT INTO KSEN_ATP_ATTR (ID, ATTR_KEY, ATTR_VALUE, OWNER) VALUES ('testAtpAttr1', 'CredentialProgramType', 'kuali.lu.type.credential.Baccalaureate', 'testAtpId1')
 
 // AtpAtpRelationEntity
 //INSERT INTO KSEN_ATPATP_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, ATP_STATE_ID, ATP_ID, ATP_RELTN_TYPE_ID, RELATED_ATP_ID) VALUES ('ATPATPREL-1', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.atp.atp.relation.state.active', 'testAtpId1', 'kuali.atp.atp.relation.associated', 'testAtpId2')

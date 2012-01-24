@@ -22,6 +22,7 @@
     <import resource="classpath:META-INF/default-property-config-context-test.xml"/>
     <import resource="classpath:ks-data-dictionary-services-configuration.xml"/>
 	<import resource="classpath:ks-data-dictionary-validator-configuration.xml"/>
+	<import resource="classpath:search-test-context.xml"/>
 	    <!--  Preloaded data -->
     <bean id="dataLoadListener" class="org.kuali.student.common.util.jpa.LoadSqlListener">
         <property name="jtaTxManager" ref="JtaTxManager"/>
@@ -113,7 +114,7 @@
     	<property name="stateService" ref="stateService"/>
         <property name="typeService" ref="typeService" />
     	<property name="dataDictionaryService" ref="dataDictionaryServiceForAtp"/>
-    	<property name="criteriaLookupService" ref="criteriaLookupService"/>
+    	<property name="criteriaLookupService" ref="atpCriteriaLookupService"/>
     </bean>
 
     <bean id="atpServiceAuthDecorator"
@@ -185,14 +186,6 @@
         <property name="em" ref="entityManager"/>
     </bean>
     
-    <bean id="criteriaLookupService" class="org.kuali.rice.krad.criteria.CriteriaLookupServiceImpl">
-    	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
-  	</bean>
-  	
-  	<bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.dao.CriteriaLookupDaoJpaImpl">
-    	<property name="entityManager" ref="entityManager"/>
-  	</bean>
-              	   
     <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
 
 	<tx:annotation-driven transaction-manager="JtaTxManager"
