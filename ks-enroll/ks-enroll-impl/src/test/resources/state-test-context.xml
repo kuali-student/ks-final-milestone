@@ -94,7 +94,7 @@
     <bean id="stateDao" class="org.kuali.student.r2.core.class1.state.dao.StateDao">
       <property name="em" ref="entityManager" />
     </bean>
-    <bean id="stateProcessDao" class=org.kuali.student.r2.core.class1.state.dao.LifecycleDao>
+    <bean id="stateProcessDao" class="org.kuali.student.r2.core.class1.state.dao.LifecycleDao">
       <property name="em" ref="entityManager" />
     </bean>
     <bean id="stateProcessRelationDao" class="org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao">
