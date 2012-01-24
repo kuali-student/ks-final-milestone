@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.core.dao.GenericEntityDao;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.core.atp.model.AtpEntity;
 
 import javax.persistence.TemporalType;

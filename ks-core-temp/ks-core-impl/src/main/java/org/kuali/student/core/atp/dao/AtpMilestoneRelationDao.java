@@ -3,7 +3,6 @@ package org.kuali.student.core.atp.dao;
 import java.util.List;
 
 import org.kuali.student.core.dao.GenericEntityDao;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.core.atp.model.AtpMilestoneRelationEntity;
 
 import javax.persistence.Query;

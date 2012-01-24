@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.core.dao.GenericEntityDao;
-import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.core.enumerationmanagement.model.EnumeratedValueEntity;
 
 /**
