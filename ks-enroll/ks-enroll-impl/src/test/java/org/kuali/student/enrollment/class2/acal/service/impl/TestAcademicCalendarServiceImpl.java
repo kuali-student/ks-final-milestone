@@ -1,20 +1,31 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import org.kuali.rice.core.api.criteria.Predicate;
-import org.kuali.rice.core.api.criteria.PredicateFactory;
-import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.Predicate;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
@@ -36,14 +47,14 @@ import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:acal-test-context.xml"})
@@ -840,7 +851,8 @@ public class TestAcademicCalendarServiceImpl {
     public void testSearchForAcademicCalendars() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
         PermissionDeniedException, ParseException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"));
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"), 
+                PredicateFactory.equal("type", AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY));
         QueryByCriteria qbc = qbcBuilder.build();
         try {
             List<AcademicCalendarInfo> calendars = acalService.searchForAcademicCalendars(qbc, callContext);
@@ -988,7 +1000,8 @@ public class TestAcademicCalendarServiceImpl {
     @Test
     public void testSearchForHolidays() throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"));
+        //qbcBuilder.setPredicates(PredicateFactory.equal("isAllDay", "0"));
+        qbcBuilder.setPredicates(PredicateFactory.equal("holidayName", "testId2"));
         QueryByCriteria qbc = qbcBuilder.build();
         try {
             List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);

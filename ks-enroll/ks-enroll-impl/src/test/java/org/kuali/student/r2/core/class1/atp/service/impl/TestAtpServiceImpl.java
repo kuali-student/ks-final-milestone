@@ -218,7 +218,8 @@ public class TestAtpServiceImpl {
     @Test
     public void testSearchForAtps() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"));
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"), 
+                PredicateFactory.equal("attributes[CredentialProgramType]", "kuali.lu.type.credential.Baccalaureate"));
         QueryByCriteria qbc = qbcBuilder.build();
         try {
             List<AtpInfo> atpInfos = atpService.searchForAtps(qbc, callContext);
@@ -501,7 +502,7 @@ public class TestAtpServiceImpl {
     @Test
     public void testSearchForMilestones()throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"));
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testId2"), PredicateFactory.equal("type", "kuali.atp.milestone.RegistrationPeriod"));
         QueryByCriteria qbc = qbcBuilder.build();
         try {
             List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
