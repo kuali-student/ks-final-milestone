@@ -85,9 +85,9 @@ public class ProposalAssembler extends BaseAssembler {
             }
             dto.setProposalReference(objectIds);
         }
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setType(entity.getType().getId());
+        // TODO KSCM-213 dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+        dto.setTypeKey(entity.getType().getId());
 
         return dto;
     }
@@ -132,7 +132,7 @@ public class ProposalAssembler extends BaseAssembler {
         Proposal proposal;
         if (proposalInfo.getId() != null && !proposalInfo.getId().isEmpty()) {
             proposal = dao.fetch(Proposal.class, proposalInfo.getId());
-            if (!String.valueOf(proposal.getVersionNumber()).equals(proposalInfo.getMetaInfo().getVersionInd())){
+            if (!String.valueOf(proposal.getVersionNumber()).equals(proposalInfo.getMeta().getVersionInd())){
                 throw new VersionMismatchException("Proposal to be updated is not the current version");
             }
         } else {
@@ -146,7 +146,7 @@ public class ProposalAssembler extends BaseAssembler {
                 "attributes", "metaInfo", "proposerPerson", "proposerOrg", "proposalReference" });
 
         // Copy Attributes
-        proposal.setAttributes(toGenericAttributes(ProposalAttribute.class, proposalInfo.getAttributes(), proposal, dao));
+        // TODO KSCM-212 proposal.setAttributes(toGenericAttributes(ProposalAttribute.class, proposalInfo.getAttributes(), proposal, dao));
 
         // TODO Rework when JPA gets cascading deletes (2.0)
         List<ProposalPerson> persons = proposal.getProposerPerson();

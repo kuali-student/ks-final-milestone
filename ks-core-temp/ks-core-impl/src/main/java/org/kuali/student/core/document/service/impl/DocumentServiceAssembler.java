@@ -51,12 +51,12 @@ public class DocumentServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "metaInfo","type", "categoryList", "document" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setType(entity.getType().getId());
-        dto.setDocumentBinaryInfo(new DocumentBinaryInfo());
-        dto.getDocumentBinaryInfo().setBinary(entity.getDocument());
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        dto.setMeta(toMetaInfo(entity));
+        // TODO KSCM-213 dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setTypeKey(entity.getType().getId());
+        dto.setDocumentBinary(new DocumentBinaryInfo());
+        dto.getDocumentBinary().setBinary(entity.getDocument());
         return dto;
     }
     
@@ -73,9 +73,9 @@ public class DocumentServiceAssembler extends BaseAssembler {
     public static Document toDocument(Document entity, DocumentInfo dto, DocumentDao dao) throws InvalidParameterException {
         BeanUtils.copyProperties(dto, entity,
                 new String[] { "desc", "attributes", "metaInfo", "type", "id", "documentBinaryInfo" });
-        entity.setDescr(toRichText(DocumentRichText.class, dto.getDesc()));
-        entity.setDocument(dto.getDocumentBinaryInfo().getBinary());
-        entity.setAttributes(toGenericAttributes(DocumentAttribute.class, dto.getAttributes(), entity, dao));
+        entity.setDescr(toRichText(DocumentRichText.class, dto.getDescr()));
+        entity.setDocument(dto.getDocumentBinary().getBinary());
+        // TODO KSCM-212  entity.setAttributes(toGenericAttributes(DocumentAttribute.class, dto.getAttributes(), entity, dao));
         return entity;
     }
 
@@ -84,8 +84,8 @@ public class DocumentServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto,
                 new String[] { "desc", "attributes", "type", "documents" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setDescr(toRichTextInfo(entity.getDescr()));
+        // TODO KSCM-213 dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
     }
 
@@ -101,19 +101,19 @@ public class DocumentServiceAssembler extends BaseAssembler {
 
 	public static RefDocRelationInfo toRefDocRelationInfo(RefDocRelation entity) {
 		RefDocRelationInfo dto = new RefDocRelationInfo();
-		
-		dto.setAttributes(toAttributeMap(entity.getAttributes()));
-		dto.setDesc(toRichTextInfo(entity.getDescr()));
+
+        // TODO KSCM-213 dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        // TODO KSCM-213 dto.setDescr(toRichTextInfo(entity.getDescr()));
 		dto.setDocumentId(entity.getDocument().getId());
 		dto.setEffectiveDate(entity.getEffectiveDate());
 		dto.setExpirationDate(entity.getExpirationDate());
 		dto.setId(entity.getId());
-		dto.setMetaInfo(toMetaInfo(entity));
+		dto.setMeta(toMetaInfo(entity));
 		dto.setRefObjectId(entity.getRefObjectId());
 		dto.setRefObjectTypeKey(entity.getRefObjectType().getId());
-		dto.setState(entity.getState());
+		dto.setStateKey(entity.getState());
 		dto.setTitle(entity.getTitle());
-		dto.setType(entity.getRefDocRelationType().getId());
+		dto.setTypeKey(entity.getRefDocRelationType().getId());
 		
 		return dto;
 	}
@@ -169,8 +169,8 @@ public class DocumentServiceAssembler extends BaseAssembler {
         } 
         
         //Copy the fields
-        entity.setAttributes(toGenericAttributes(RefDocRelationAttribute.class, dto.getAttributes(), entity, dao));
-        entity.setDescr(toRichText(DocumentRichText.class, dto.getDesc()));
+        // TODO KSCM-212 entity.setAttributes(toGenericAttributes(RefDocRelationAttribute.class, dto.getAttributes(), entity, dao));
+        // TODO KSCM-212 entity.setDescr(toRichText(DocumentRichText.class, dto.getDesc()));
         entity.setDocument(document);
         entity.setEffectiveDate(dto.getEffectiveDate());
         entity.setExpirationDate(dto.getExpirationDate());
