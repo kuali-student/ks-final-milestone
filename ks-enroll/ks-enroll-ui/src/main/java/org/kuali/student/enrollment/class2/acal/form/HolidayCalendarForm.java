@@ -16,9 +16,13 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class is the formClass for  HolidayCalendar views
  *
  * @author Kuali Student Team
  */
@@ -27,9 +31,12 @@ public class HolidayCalendarForm  extends UifFormBase {
     private static final long serialVersionUID = 7526472595622776147L;
 
     private HolidayCalendarInfo holidayCalendarInfo;
+    private List<HolidayInfo> holidays;
 
     public HolidayCalendarForm() {
         super();
+        holidayCalendarInfo = new HolidayCalendarInfo();
+        holidays = new ArrayList<HolidayInfo>();
     }
 
     public HolidayCalendarInfo getHolidayCalendarInfo() {
@@ -40,4 +47,11 @@ public class HolidayCalendarForm  extends UifFormBase {
         this.holidayCalendarInfo = holidayCalendarInfo;
     }
 
+    public List<HolidayInfo> getHolidays() {
+        return holidays;
+    }
+
+    public void setHolidays(List<HolidayInfo> holidays) {
+        this.holidays = holidays;
+    }
 }

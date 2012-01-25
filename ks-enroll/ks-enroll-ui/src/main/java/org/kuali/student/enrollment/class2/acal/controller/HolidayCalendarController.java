@@ -16,21 +16,27 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
+import org.kuali.rice.krad.uif.UifParameters;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
+import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * This class //TODO ...
+ * This class implement controller for HolidayCalendar
  *
  * @author Kuali Student Team
  */
@@ -43,12 +49,33 @@ public class HolidayCalendarController extends UifControllerBase {
         return new HolidayCalendarForm();
     }
 
+    @Override
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
+    public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        String action = request.getParameter("action");
+        HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
+        if(action != null && !action.trim().isEmpty()){
+            HolidayInfo holiday = new HolidayInfo();
+
+            if(action.equals("C")){
+                hcForm.getHolidays().add(holiday);
+            }
+
+            if (action.equals("U")){
+                //get hc and populate it on the form
+            }
+        }
+
+        return super.start(form, result, request, response);
+    }
+
      /**
      * Method used to save HC
      */
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
-                                              HttpServletRequest request, HttpServletResponse response) {
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
         HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
 
         if(hc.getId() != null && !hc.getId().trim().isEmpty()){
@@ -56,11 +83,13 @@ public class HolidayCalendarController extends UifControllerBase {
         }
         else {
            // create hc
+            //TODO: fix hc service impl bugs first, come back later
+            //createHolidayCalendar(hcForm);
         }
         return getUIFModelAndView(hcForm);
     }
 
-    private void createHolidayCalendar(HolidayCalendarInfo hc){
-
+    private void createHolidayCalendar(HolidayCalendarForm hcForm)  throws Exception {
+       ((AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService()).createHolidayCalendar(hcForm);
     }
 }

@@ -10,6 +10,7 @@
         <property name="id" value="holidayCalendarEditView"/>
         <property name="title" value="Holiday Calendar"/>
         <property name="singlePageView" value="true"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="page">
             <bean parent="Page"/>
         </property>
@@ -28,20 +29,21 @@
     </bean>
 
     <bean id="HolidayCalendarEditView" parent="PageGroup" p:disclosure.render="false">
-     <property name="items">
-      <list>
-        <ref bean="HolidayCalendarEditView-Meta"/>
-      </list>
-     </property>
-     <property name="footer">
-      <bean parent="Footer">
         <property name="items">
-          <list>
-            <bean parent="ActionField" p:actionLabel="Save" p:methodToCall="save"/>
-          </list>
+            <list>
+                <ref bean="HolidayCalendarEditView-Meta"/>
+            </list>
         </property>
-      </bean>
-     </property>
+        <property name="footer">
+            <bean parent="Footer">
+                <property name="items">
+                    <list>
+                        <bean parent="ActionField" p:actionLabel="Save" p:methodToCall="save"/>
+                        <bean parent="ActionField" p:actionLabel="Cancel" p:methodToCall="close"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
     </bean>
 
     <bean id="HolidayCalendarEditView-Meta" parent="Group" p:layoutManager.orientation="HORIZONTAL">
