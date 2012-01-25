@@ -16,6 +16,7 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 
 /**
@@ -25,7 +26,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  */ 
 
 public interface OrgHierarchy 
-    extends IdEntity {
+    extends IdEntity, HasEffectiveDates {
 
     /**
      * Root organization for the hierarchy.
