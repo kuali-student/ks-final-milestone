@@ -161,7 +161,7 @@ public class BaseAssembler {
 		if(metaEntity == null){
 			return null;
 		}
-		return toMetaInfo(metaEntity.getMeta(), metaEntity.getVersionNumber());
+		return metaEntity.toDTO();
 	}
 	
 	protected static MetaInfo toMetaInfo(Meta meta, Long versionInd) {

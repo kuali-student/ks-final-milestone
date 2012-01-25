@@ -32,6 +32,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -209,5 +210,12 @@ public interface ProposalService {
      */
     public StatusInfo deleteProposal(@WebParam(name = "proposalId") String proposalId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
+
+
+    // These methods below were taken from ProposalServiceImpl and added here.
+    // When 1.3 was undertaken cm-1.2 was still ongoing thus a lot of methods is not found in 1.3
+
+    public ProposalTypeInfo getProposalType(@WebParam(name = "proposalTypeKey") String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
 
 }

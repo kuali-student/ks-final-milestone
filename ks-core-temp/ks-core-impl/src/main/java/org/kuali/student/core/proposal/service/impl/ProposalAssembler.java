@@ -86,7 +86,8 @@ public class ProposalAssembler extends BaseAssembler {
             dto.setProposalReference(objectIds);
         }
         // TODO KSCM-213 dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+
+        dto.setMeta(entity.toDTO());
         dto.setTypeKey(entity.getType().getId());
 
         return dto;
