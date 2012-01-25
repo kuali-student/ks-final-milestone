@@ -35,8 +35,9 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RefDocRelationInfo", propOrder = { "id", "typeKey",
-		"stateKey", "refObjectTypeKey", "refObjectId", "documentId", "title", "effectiveDate",
-		"expirationDate", "meta", "attributes", "_futureElements" })
+		"stateKey", "refObjectTypeKey", "refObjectId", "documentId", "title", "descr", 
+        "effectiveDate", "expirationDate", 
+        "meta", "attributes", "_futureElements" })
 public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelation, Serializable {
 
     private static final long serialVersionUID = 1L;

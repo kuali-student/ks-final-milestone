@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.enumerationmanagement.dto;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
@@ -26,17 +25,25 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "EnumerationInfo", propOrder = {"key", "typeKey", "stateKey",
-        "name", "descr", "contextDescriptors", "meta", "attributes", "_futureElements"})
+    "name", "descr", 
+    "contextDescriptors", 
+    "effectiveDate", 
+    "expirationDate", 
+    "meta", "attributes", "_futureElements"})
 public class EnumerationInfo extends KeyEntityInfo implements Enumeration, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private List<String> contextDescriptors;
+    @XmlElement
+    private Date effectiveDate;
+    @XmlElement
+    private Date expirationDate;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -44,8 +51,15 @@ public class EnumerationInfo extends KeyEntityInfo implements Enumeration, Seria
     }
 
     public EnumerationInfo(Enumeration enumeration) {
+        super(enumeration);
         if (null != enumeration) {
             this.contextDescriptors = new ArrayList<String>(enumeration.getContextDescriptors());
+        }
+        if (enumeration.getEffectiveDate() != null) {
+            this.effectiveDate = new Date(enumeration.getEffectiveDate().getTime());
+        }
+        if (enumeration.getExpirationDate() != null) {
+            this.expirationDate = new Date(enumeration.getExpirationDate().getTime());
         }
     }
 
@@ -59,5 +73,23 @@ public class EnumerationInfo extends KeyEntityInfo implements Enumeration, Seria
 
     public void setContextDescriptors(List<String> contextDescriptors) {
         this.contextDescriptors = contextDescriptors;
+    }
+
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    @Override
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

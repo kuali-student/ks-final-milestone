@@ -18,6 +18,7 @@ package org.kuali.student.r2.core.enumerationmanagement.infc;
 import org.kuali.student.r2.common.infc.KeyEntity;
 
 import java.util.List;
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 
 /**
  * Enumeration object
@@ -25,7 +26,7 @@ import java.util.List;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface Enumeration extends KeyEntity{
+public interface Enumeration extends KeyEntity, HasEffectiveDates {
     /**
      * List of contexts supported by this enumeration
      */
