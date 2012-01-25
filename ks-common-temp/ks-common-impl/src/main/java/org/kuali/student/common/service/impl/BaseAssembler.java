@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.TypeInfo;
@@ -96,55 +95,7 @@ public class BaseAssembler {
 
 		return attributes;
 	}
-	
 
-	// TODO KSCM-212
-	public static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributesFromList(
-			Class<A> attributeClass, 
-			CrudDao dao) throws InvalidParameterException {
-//		List<A> attributeList, O owner,
-		List<A> attributeList = null; O owner = null;	// should be parameters...
-		List<A> attributes = new ArrayList<A>();
-
-		if(owner.getAttributes()==null){
-			owner.setAttributes(new ArrayList<A>());
-		}
-		
-		Map<String, A> currentAttributes = new HashMap<String,A>();
-		
-		// Find all the old attributes(if the owner is not null)
-		for (A attribute : owner.getAttributes()) {
-			currentAttributes.put(attribute.getName(), attribute);
-			
-		}
-		
-		//Clear out the attributes
-		owner.getAttributes().clear();
-	
-		//Update anything that exists, or create a new attribute if it doesn't
-	    
-		for (A attributeItem : attributeList) {
-			A attribute;
-			
-			if(currentAttributes.containsKey(attributeItem.getId())){
-				attribute = currentAttributes.remove(attributeItem.getId());
-			}else{
-				try{
-					attribute = attributeClass.newInstance();
-				}catch(Exception e){
-					throw new RuntimeException("Error copying attributes.",e);
-				}
-				attribute.setName(attributeItem.getId());
-				attribute.setOwner(owner);
-			}
-			attribute.setValue(attributeItem.getValue());
-			attributes.add(attribute);
-		}
-		
-		//Delete leftovers here if behavior is desired
-
-		return attributes;
-	}
 	/**
 	 * @param <T>
 	 *            TypeInfo class
