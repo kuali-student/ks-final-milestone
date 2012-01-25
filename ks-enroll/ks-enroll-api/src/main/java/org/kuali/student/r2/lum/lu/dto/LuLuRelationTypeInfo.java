@@ -15,48 +15,60 @@
 
 package org.kuali.student.r2.lum.lu.dto;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.lum.lu.infc.LuCode;
-import org.w3c.dom.Element;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.lum.lu.infc.LuLuRelationType;
 
+import javax.xml.bind.Element;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-import java.io.Serializable;
 import java.util.List;
 
-/**
- * Detailed information about learning unit codes.
- */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuCodeInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "value",
-        "meta", "attributes", "_futureElements"})
-public class LuCodeInfo extends IdEntityInfo implements LuCode, Serializable {
+@XmlType(name = "LuLuRelationTypeInfo", propOrder = {
+        "revName", "revDescr", "_futureElements"})
+public class LuLuRelationTypeInfo extends TypeInfo implements LuLuRelationType {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String value;
+    private String revName;
+
+    @XmlElement
+    private String revDescr;
+
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    public LuLuRelationTypeInfo() {
 
-    public LuCodeInfo() {
     }
 
-    public LuCodeInfo(LuCode luCode) {
-        super(luCode);
-        this.value = luCode.getValue();
+    public LuLuRelationTypeInfo(LuLuRelationType luLuRelationType) {
+        super(luLuRelationType);
+        if (null != luLuRelationType) {
+            this.revName = luLuRelationType.getRevName();
+            this.revDescr = luLuRelationType.getRevDescr();
+        }
     }
 
-    public String getValue() {
-        return value;
+    @Override
+    public String getRevName() {
+        return revName;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setRevName(String revName) {
+        this.revName = revName;
+    }
+
+    @Override
+    public String getRevDescr() {
+        return revDescr;
+    }
+
+    public void setRevDescr(String revDesc) {
+        this.revDescr = revDescr;
     }
 }

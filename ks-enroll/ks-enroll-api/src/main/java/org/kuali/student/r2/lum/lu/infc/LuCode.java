@@ -21,10 +21,11 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * Detailed information about an LU Code.
  */
 public interface LuCode extends IdEntity {
-        
+
     /**
-     * Name: Value 
-     * The Lu code's value.
+     * The Lu code's value
+     *
+     * @name Value
      */
     public String getValue();
 }

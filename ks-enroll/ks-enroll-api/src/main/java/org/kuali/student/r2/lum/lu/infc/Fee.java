@@ -15,39 +15,46 @@
  */
 package org.kuali.student.r2.lum.lu.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.RichText;
 
+import java.util.List;
+
 /**
  * Information about a fee related to an learning unit
  */
-public interface Fee extends  HasId, HasAttributesAndMeta{
+public interface Fee extends HasId, HasAttributesAndMeta {
 
     /**
-     * A code that identifies the type of the fee. For example: Lab Fee or Tuition Fee or CMF for Course Materials Fee.
-     * From a program perspective it may be an application fee.
+     * A code that identifies the type of the fee. For example: Lab Fee or
+     * Tuition Fee or CMF for Course Materials Fee. From a program perspective
+     * it may be an application fee.
+     *
      * @name: Fee Type
      */
-    public String getFeeType(); 
+    public String getFeeType();
 
     /**
-     * Indicates the structure and interpretation of the fee amounts, i.e. Fixed, Variable, Multiple.
+     * Indicates the structure and interpretation of the fee amounts, i.e.
+     * Fixed, Variable, Multiple.
+     *
      * @name Rate Type
      */
     public String getRateType();
 
     /**
-     * The amount or amounts associated with the fee. The number fee amounts and interpretation depends on the rate type.
+     * The amount or amounts associated with the fee. The number fee amounts and
+     * interpretation depends on the rate type.
+     *
      * @name Fee Amounts
      */
     public List<? extends CurrencyAmount> getFeeAmounts();
 
     /**
      * Narrative description of the Fee.
+     *
      * @name Description
      */
     public RichText getDescr();

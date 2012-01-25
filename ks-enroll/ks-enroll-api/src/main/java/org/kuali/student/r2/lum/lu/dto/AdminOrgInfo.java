@@ -11,37 +11,31 @@
 
 package org.kuali.student.r2.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.List;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.lum.lu.infc.AdminOrg;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.lum.lu.infc.AdminOrg;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * This is a description of what this class does - sambit don't forget to fill
- * this in.
- * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",  "isPrimary", "orgId", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "isPrimary", "orgId", "meta", "attributes", "_futureElements"})
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String orgId;
-
     @XmlElement
     private boolean isPrimary;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 

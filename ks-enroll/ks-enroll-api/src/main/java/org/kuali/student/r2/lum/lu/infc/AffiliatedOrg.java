@@ -10,32 +10,30 @@
  */
 package org.kuali.student.r2.lum.lu.infc;
 
-import java.util.Date;
-
+import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
 
 /**
  * Detailed information about the distribution of revenue by organization.
- * 
+ *
  * @author nwright
  */
-public interface AffiliatedOrg extends IdNamelessEntity {
+public interface AffiliatedOrg extends IdNamelessEntity, HasEffectiveDates {
 
     /**
      * Unique identifier for an organization.
-     * 
+     *
      * @name Organization Id
+     * @readOnly
+     * @required
      */
     public String getOrgId();
 
     /**
      * A long numeric value without a fractional component.
-     * 
+     *
      * @name Percentage
      */
     public Long getPercentage();
 
-    public Date getEffectiveDate();
-
-    public Date getExpirationDate();
 }

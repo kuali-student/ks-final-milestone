@@ -15,9 +15,12 @@
  */
 package org.kuali.student.r2.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.infc.CurrencyAmount;
+import org.kuali.student.r2.lum.lu.infc.Fee;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,12 +28,9 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.lum.lu.infc.Fee;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -42,45 +42,35 @@ public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializab
 
     @XmlElement
     private String feeType;
-
     @XmlElement
     private String rateType;
-
     @XmlElement
     private List<CurrencyAmountInfo> feeAmounts;
-
     @XmlElement
     private RichTextInfo descr;
-
     @XmlAttribute
     private String id;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public FeeInfo() {
-        this.feeType = null;
-        this.rateType = null;
         this.feeAmounts = new ArrayList<CurrencyAmountInfo>();
-        this.descr = null;
-        this.id = null;
-        this._futureElements = null;
     }
-    
+
     public FeeInfo(Fee fee) {
         super(fee);
-        
-        if(null == fee) return;
-        
-        this.feeType = fee.getFeeType();
-        this.rateType = fee.getRateType();
-
-	/* this needs a deep copy */
-        this.feeAmounts = (null != fee.getFeeAmounts()) ? new ArrayList<CurrencyAmountInfo>((List<CurrencyAmountInfo>)fee.getFeeAmounts()) : null;
-        this.id = fee.getId();
-        this.descr = (null != fee.getDescr()) ? new RichTextInfo(fee.getDescr() ) : null;
+        if (null != fee) {
+            this.feeType = fee.getFeeType();
+            this.rateType = fee.getRateType();
+            this.feeAmounts = new ArrayList<CurrencyAmountInfo>();
+            for (CurrencyAmount currencyAmount : fee.getFeeAmounts()) {
+                this.feeAmounts.add(new CurrencyAmountInfo(currencyAmount));
+            }
+            this.id = fee.getId();
+            this.descr = (null != fee.getDescr()) ? new RichTextInfo(fee.getDescr()) : null;
+        }
     }
-    
+
     @Override
     public String getFeeType() {
         return feeType;
@@ -89,6 +79,7 @@ public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializab
     public void setFeeType(String feeType) {
         this.feeType = feeType;
     }
+
 
     @Override
     public String getRateType() {

@@ -11,40 +11,38 @@
 
 package org.kuali.student.r2.lum.lu.dto;
 
-import java.io.Serializable;
+import org.kuali.student.r2.common.dto.HasAttributesInfo;
+import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-
-import org.kuali.student.r2.common.dto.HasAttributesInfo;
-import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
+import java.util.List;
 
 /**
- * 
- 
- * 
  * @author Kuali Student Team (sambitpa@kuali.org)
- *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "CluInstructorInfo", propOrder = {"orgId", "personId",
+        "personInfoOverride", "attributes", "_futureElements"})
 public class CluInstructorInfo extends HasAttributesInfo implements CluInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String orgId;
-
     @XmlElement
     private String personId;
-
     @XmlElement
     private String personInfoOverride;
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
     public CluInstructorInfo() {
-
-        super();
-
     }
 
     public CluInstructorInfo(CluInstructor cluInstructor) {
@@ -56,7 +54,6 @@ public class CluInstructorInfo extends HasAttributesInfo implements CluInstructo
         }
     }
 
-
     @Override
     public String getOrgId() {
         return orgId;
@@ -65,7 +62,6 @@ public class CluInstructorInfo extends HasAttributesInfo implements CluInstructo
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }
-
 
     @Override
     public String getPersonId() {
@@ -80,7 +76,6 @@ public class CluInstructorInfo extends HasAttributesInfo implements CluInstructo
     public String getPersonInfoOverride() {
         return personInfoOverride;
     }
-
 
     public void setPersonInfoOverride(String personInfoOverride) {
         this.personInfoOverride = personInfoOverride;

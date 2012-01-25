@@ -21,12 +21,13 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.lum.lu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.lu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.lu.infc.Accreditation;
 import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
 import org.w3c.dom.Element;
