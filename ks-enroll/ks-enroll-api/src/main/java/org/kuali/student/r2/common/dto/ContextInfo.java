@@ -38,26 +38,34 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ContextInfo", propOrder = {
-    "authenticatedPrincipalId", "principalId",
-    "currentDate", "locale", "timeZone",
-    "attributes", "_futureElements"})
+                "authenticatedPrincipalId", "principalId",
+                "currentDate", "locale", "timeZone",
+                "attributes", "_futureElements"})
+
 public class ContextInfo
         extends HasAttributesInfo
         implements Context, Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @XmlElement
     private String authenticatedPrincipalId;
+
     @XmlElement
     private String principalId;
+
     @XmlElement
     private Date currentDate;
+
     @XmlElement
     private LocaleInfo locale;
+
     @XmlElement
     private String timeZone;
+
     @XmlAnyElement
     private List<Element> _futureElements;
+
 
     /**
      * Constructs a new ContextInfo.
@@ -137,6 +145,7 @@ public class ContextInfo
     }
 
     // Compatibility methods
+
     @Deprecated
     public static ContextInfo getInstance(String principalId, String localeLanguage, String localeRegion) {
         LocaleInfo localeInfo = new LocaleInfo();
