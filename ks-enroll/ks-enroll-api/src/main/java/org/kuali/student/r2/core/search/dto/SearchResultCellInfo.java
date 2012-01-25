@@ -17,12 +17,16 @@ package org.kuali.student.r2.core.search.dto;
 
 import java.io.Serializable;
 
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
-public class SearchResultCellInfo implements Serializable {
+public class SearchResultCellInfo 
+    implements SearchResultCell, Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private String value;
