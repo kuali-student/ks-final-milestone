@@ -61,9 +61,9 @@ public interface Exemption extends IdEntity {
 
     
     /**
-     * The Id of the Person exempted.
+     * The Id of the Person who was exempted.
      *
-     * @name Exempted Person Id
+     * @name Person Id
      */
     public String getPersonId();
 

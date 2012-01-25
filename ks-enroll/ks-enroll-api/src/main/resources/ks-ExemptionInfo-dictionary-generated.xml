@@ -70,7 +70,7 @@ org?
 				<ref bean="ExemptionInfo.stateKey"/>
 				<ref bean="ExemptionInfo.name"/>
 				<ref bean="ExemptionInfo.exemptionRequestId"/>
-				<ref bean="ExemptionInfo.exemptedPersonId"/>
+				<ref bean="ExemptionInfo.personId"/>
 				<ref bean="ExemptionInfo.effectiveDate"/>
 				<ref bean="ExemptionInfo.expirationDate"/>
 				<ref bean="ExemptionInfo.useLimit"/>
@@ -181,15 +181,15 @@ The Id of the Exemption Request.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="ExemptionInfo.exemptedPersonId-generated" abstract="true" parent="BaseKuali.personId">
-		<property name="name" value="exemptedPersonId"/>
-		<property name="shortLabel" value="Exempted Person Id"/>
+	<bean id="ExemptionInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
+		<property name="name" value="personId"/>
+		<property name="shortLabel" value="Person Id"/>
 		<property name="summary">
 			<value>
 The Id of the Person exempted.
 			</value>
 		</property>
-		<property name="label" value="Exempted Person Id"/>
+		<property name="label" value="Person Id"/>
 		<property name="description">
 			<value>
 The Id of the Person exempted.

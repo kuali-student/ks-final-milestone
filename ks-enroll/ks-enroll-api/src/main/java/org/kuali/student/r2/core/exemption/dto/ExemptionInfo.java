@@ -147,8 +147,8 @@ public class ExemptionInfo
         return personId;
     }
 
-    public void setPersonId(String exemptedPersonId) {
-        this.personId = exemptedPersonId;
+    public void setPersonId(String personId) {
+        this.personId = personId;
     }
 
     @Override
