@@ -16,7 +16,8 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.KeyNamelessEntity;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Detailed information about organization codes.
@@ -27,5 +28,19 @@ import org.kuali.student.r2.common.infc.IdEntity;
  */ 
 
 public interface OrgCode
-    extends IdEntity {
+    extends KeyNamelessEntity {
+    
+    /**
+     * The code value.
+     * 
+     * @name Value 
+     */
+    public String getValue ();
+    
+     /**
+     * The description of the code.
+     * 
+     * @name Description
+     */
+    public RichText getDescr ();
 }

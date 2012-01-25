@@ -13,7 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.organization.dto;
 
 import java.io.Serializable;
@@ -22,11 +21,13 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.organization.infc.OrgPositionRestriction;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.w3c.dom.Element;
 
@@ -37,41 +38,36 @@ import org.w3c.dom.Element;
  *
  * @author tom
  */
- 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgPersonRestrictionInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr",
-                "orgId", "orgPersonRelationTypeKey", "stdDuration",
-                "minNumRelations", "hasMaxNumRelations", "maxNumRelations",
-                "meta", "attributes", "_futureElements" })
-
-public class OrgPositionRestrictionInfo 
-    extends IdEntityInfo
-    implements OrgPositionRestriction, Serializable {
+    "id",
+    "orgId", "orgPersonRelationTypeKey",
+    "title", "descr",
+    "stdDuration",
+    "minNumRelations", "maxNumRelations",
+    "meta", "attributes", "_futureElements"})
+public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
+        implements OrgPositionRestriction, Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @XmlAttribute
+    private String id;
     @XmlElement
     private String orgId;
-
+    @XmlElement
+    private String title;
+    @XmlElement
+    private RichTextInfo descr;
     @XmlElement
     private String orgPersonRelationTypeKey;
-
     @XmlElement
     private TimeAmountInfo stdDuration;
-
     @XmlElement
     private Integer minNumRelations;
-
     @XmlElement
-    Boolean hasMaxNumRelations;
-    
-    @XmlElement
-    private Integer maxNumRelations;
-
+    private String maxNumRelations;
     @XmlAnyElement
     private List<Element> _futureElements;
-
 
     /**
      * Constructs a new OrgPositionrestrictionInfo.
@@ -89,16 +85,46 @@ public class OrgPositionRestrictionInfo
         super(restriction);
 
         if (restriction != null) {
+            this.id = restriction.getId();
             this.orgId = restriction.getOrgId();
             this.orgPersonRelationTypeKey = restriction.getOrgPersonRelationTypeKey();
+            this.title = restriction.getTitle();
+            if (restriction.getDescr() != null) {
+                this.descr = new RichTextInfo(restriction.getDescr());
+            }
             if (restriction.getStdDuration() != null) {
                 this.stdDuration = new TimeAmountInfo(restriction.getStdDuration());
             }
-
             this.minNumRelations = restriction.getMinNumRelations();
-            this.hasMaxNumRelations = restriction.getHasMaxNumRelations();
             this.maxNumRelations = restriction.getMaxNumRelations();
         }
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+
+    @Override
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     @Override
@@ -136,22 +162,13 @@ public class OrgPositionRestrictionInfo
     public void setMinNumRelations(Integer minNumRelations) {
         this.minNumRelations = minNumRelations;
     }
-    
-    @Override
-    public Boolean getHasMaxNumRelations() {
-        return hasMaxNumRelations;
-    }
-
-    public void setHasMaxNumRelations(Boolean hasMaxNumRelations) {
-        this.hasMaxNumRelations = hasMaxNumRelations;
-    }
 
     @Override
-    public Integer getMaxNumRelations() {
+    public String getMaxNumRelations() {
         return maxNumRelations;
     }
 
-    public void setMaxNumRelations(Integer maxNumRelations) {
+    public void setMaxNumRelations(String maxNumRelations) {
         this.maxNumRelations = maxNumRelations;
     }
 }

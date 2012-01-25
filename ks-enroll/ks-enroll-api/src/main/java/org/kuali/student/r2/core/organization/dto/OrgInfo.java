@@ -13,7 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.organization.dto;
 
 import java.io.Serializable;
@@ -27,50 +26,46 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.organization.infc.Org;
 import org.kuali.student.r2.core.organization.infc.OrgCode;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single organization.
  *
  * @author tom
- */ 
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr",
-                "shortName", "sortName", "shortDescr", "orgCodes",
-                "effectiveDate", "expirationDate",
-                "meta", "attributes", "_futureElements" })
-
-public class OrgInfo 
-    extends IdEntityInfo
-    implements Org, Serializable {
+    "id", "typeKey", "stateKey", "longName", "longDescr",
+    "shortName", "sortName", "shortDescr", "orgCodes",
+    "effectiveDate", "expirationDate",
+    "meta", "attributes", "_futureElements"})
+public class OrgInfo
+        extends IdNamelessEntityInfo
+        implements Org, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String shortName;
-
+    @XmlElement
+    private String longName;
     @XmlElement
     private String sortName;
-
     @XmlElement
-    private String shortDescr;
-
+    private RichTextInfo longDescr;
+    @XmlElement
+    private RichTextInfo shortDescr;
     @XmlElement
     private Date effectiveDate;
-
     @XmlElement
     private Date expirationDate;
-
     @XmlElement
     private List<OrgCodeInfo> orgCodes;
-
     @XmlAnyElement
     private List<Element> _futureElements;
-
 
     /**
      * Constructs a new OrgInfo.
@@ -89,19 +84,26 @@ public class OrgInfo
         if (org != null) {
             this.shortName = org.getShortName();
             this.sortName = org.getSortName();
-            this.shortDescr= org.getShortDescr();
-            
+            this.longName = org.getLongName();
+            if (org.getShortDescr() != null) {
+                this.shortDescr = new RichTextInfo(org.getShortDescr());
+            }
+            if (org.getLongDescr() != null) {
+                this.longDescr = new RichTextInfo(org.getLongDescr());
+            }
             if (org.getEffectiveDate() != null) {
                 this.effectiveDate = new Date(org.getEffectiveDate().getTime());
             }
-            
+
             if (org.getExpirationDate() != null) {
                 this.expirationDate = new Date(org.getExpirationDate().getTime());
             }
-            
-            this.orgCodes = new ArrayList<OrgCodeInfo>();
-            for (OrgCode code : org.getOrgCodes()) {
-                this.orgCodes.add(new OrgCodeInfo(code));
+
+            if (org.getOrgCodes() != null) {
+                this.orgCodes = new ArrayList<OrgCodeInfo>();
+                for (OrgCode code : org.getOrgCodes()) {
+                    this.orgCodes.add(new OrgCodeInfo(code));
+                }
             }
         }
     }
@@ -116,6 +118,15 @@ public class OrgInfo
     }
 
     @Override
+    public String getLongName() {
+        return longName;
+    }
+
+    public void setLongName(String longName) {
+        this.longName = longName;
+    }
+
+    @Override
     public String getSortName() {
         return sortName;
     }
@@ -125,12 +136,21 @@ public class OrgInfo
     }
 
     @Override
-    public String getShortDescr() {
+    public RichTextInfo getShortDescr() {
         return shortDescr;
     }
 
-    public void setShortDescr(String shortDescr) {
+    public void setShortDescr(RichTextInfo shortDescr) {
         this.shortDescr = shortDescr;
+    }
+
+    @Override
+    public RichTextInfo getLongDescr() {
+        return longDescr;
+    }
+
+    public void setLongDescr(RichTextInfo longDescr) {
+        this.longDescr = longDescr;
     }
 
     @Override

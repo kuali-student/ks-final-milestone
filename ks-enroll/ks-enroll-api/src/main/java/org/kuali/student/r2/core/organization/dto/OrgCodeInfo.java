@@ -13,7 +13,6 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.organization.dto;
 
 import java.io.Serializable;
@@ -22,33 +21,33 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.common.dto.KeyNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.organization.infc.OrgCode;
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 /**
  * Detailed information about organization codes.
  *
  * @author tom
- */ 
-
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgCodeInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr",
-                "meta", "attributes", "_futureElements" })
-
-public class OrgCodeInfo 
-    extends IdEntityInfo
-    implements OrgCode, Serializable {
+    "key", "value", "descr",
+    "meta", "attributes", "_futureElements"})
+public class OrgCodeInfo
+        extends KeyNamelessEntityInfo
+        implements OrgCode, Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @XmlAnyElement
+    private String value;
+    @XmlAnyElement
+    private RichTextInfo descr;
     @XmlAnyElement
     private List<Element> _futureElements;
-
 
     /**
      * Constructs a new OrgCodeInfo.
@@ -63,5 +62,30 @@ public class OrgCodeInfo
      */
     public OrgCodeInfo(OrgCode orgCode) {
         super(orgCode);
+        this.value = orgCode.getValue();
+        if (orgCode.getDescr() != null) {
+            this.descr = new RichTextInfo (orgCode.getDescr());
+        }
     }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+    
+    
+    
 }

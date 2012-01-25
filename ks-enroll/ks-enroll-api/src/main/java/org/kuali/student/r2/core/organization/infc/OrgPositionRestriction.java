@@ -16,7 +16,9 @@
 
 package org.kuali.student.r2.core.organization.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 
 
@@ -25,15 +27,12 @@ import org.kuali.student.r2.common.infc.TimeAmount;
  * relationships of a particular type for an organization. These
  * constraints/descriptions typically involve active relationships.
  *
- * Changes: getTitle() -> getName()
- *          MaxNumRelations String->Integer
- *
  * @author tom
  */ 
 
 public interface OrgPositionRestriction
-    extends IdEntity {
-
+    extends HasAttributesAndMeta, HasId {
+  
     /**
      * Organization the restriction applies to.
      *
@@ -47,14 +46,36 @@ public interface OrgPositionRestriction
      * Organization to person relationship type the restriction
      * applies to.
      *
-     * @name Org Person Relation Type Key
+     * @name Organization Person Relation Type Key
+     * @required
+     * @readOnly
      */
     public String getOrgPersonRelationTypeKey();
 
     /**
+     * Title of organization person relationships of this type. This allows for
+     * distinction from the name of the relationship type itself, specific for 
+     * the given organization.
+     *
+     * @name Title
+     */
+    public String getTitle();
+
+
+    /**
+     * Description of the restrictions and use of the relationship type within
+     * this particular organization. This should primarily focus on deviations
+     * from the standard use of the relationship type.
+     *
+     * @name Description
+     */
+    public RichText getDescr();
+    
+    
+    /**
      * Describes the standard duration of relationships of this type.
      *
-     * @name Std Duration
+     * @name Standard Duration
      */
     public TimeAmount getStdDuration();
 
@@ -64,27 +85,18 @@ public interface OrgPositionRestriction
      * be less than or equal to the value of maxNumRelations. This
      * number must be greater than or equal to zero.
      *
-     * @name Min Num relations
-     * @required
+     * @name Minimum Number of Relations
      */
     public Integer getMinNumRelations();
 
     /**
-     * Tests if there is a maximum number of relations of this type.
-     * 
-     * @name Has Max Num Relations
-     * @required
-     */
-    public Boolean getHasMaxNumRelations();
-
-    /**
-     * If hasMaxNumRelations() is true then this method returns the an
-     * upper bound on the number of relationships of this type
-     * expected for the organization. The values of this field are
-     * restricted to integer values. If specified, this should be
-     * greater than or equal to the value of minNumRelations.
+     * Acts as an upper bound on the number of relationships of this type 
+     * expected for the organization. The values of this field are restricted 
+     * to integer values and the string "unbounded". If specified, 
+     * this should be greater than or equal to the value of minNumRelations, 
+     * with the value "unbounded" being automatically assumed to be greater.
      *
-     * @name Max Num Relations
+     * @name Maximum Number of Relations
      */
-    public Integer getMaxNumRelations();
+    public String getMaxNumRelations();
 }

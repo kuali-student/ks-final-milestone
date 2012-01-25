@@ -18,8 +18,9 @@ package org.kuali.student.r2.core.organization.infc;
 
 import java.util.List;
 
-import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Information about a single organization. 
@@ -30,13 +31,20 @@ import org.kuali.student.r2.common.infc.HasEffectiveDates;
  */ 
 
 public interface Org 
-    extends IdEntity, HasEffectiveDates {
+    extends IdNamelessEntity, HasEffectiveDates {
 
+     /**
+     * Full name of the organization.
+     *
+     * @name Long Name
+     * @required
+     */
+    public String getLongName();
+    
     /**
      * Shortened format or abbreviation of the organization's name.
      *
      * @name Short Name
-     * @required
      */
     public String getShortName();
 
@@ -50,12 +58,18 @@ public interface Org
     public String getSortName();
 
     /**
+     * Narrative description of the organization.
+     *
+     * @name Short Description
+     */
+    public RichText getLongDescr();
+    
+    /**
      * A brief description of the organization.
      *
-     * @name Short Descr
-     * @required
+     * @name Short Description
      */
-    public String getShortDescr();
+    public RichText getShortDescr();
 
     /**
      * A list of organization code info structures. These are
