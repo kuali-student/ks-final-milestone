@@ -22,6 +22,7 @@ import org.w3c.dom.Element;
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 
 /**
@@ -51,7 +52,10 @@ public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelati
 
     @XmlElement
     private String title;
-
+    
+    @XmlElement
+    private RichTextInfo descr;
+    
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -104,4 +108,13 @@ public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelati
         this.title = title;
     }
 
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+ 
 }

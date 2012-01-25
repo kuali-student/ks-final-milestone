@@ -1,6 +1,7 @@
 package org.kuali.student.r2.core.document.infc;
 
 import org.kuali.student.r2.common.infc.Relationship;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Information about the object to document relation.
@@ -52,4 +53,12 @@ public interface RefDocRelation extends Relationship {
      */
     public String getTitle();
 
+    /**
+     * The description of the document usage in the context of the relation to the
+     * object.
+     *
+     * @name Description
+     *
+     */
+    public RichText getDescr ();
 }
