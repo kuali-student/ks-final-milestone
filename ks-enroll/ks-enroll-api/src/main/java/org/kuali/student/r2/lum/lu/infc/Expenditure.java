@@ -15,9 +15,10 @@
  */
 package org.kuali.student.r2.lum.lu.infc;
 
-import java.util.List;
 import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
 import org.kuali.student.r2.common.infc.HasId;
+
+import java.util.List;
 
 /**
  * Detailed information about organizations responsible for expenditures
@@ -28,6 +29,7 @@ public interface Expenditure extends HasId, HasAttributesAndMeta {
 
     /**
      * List of affiliated organizations.
+     *
      * @name Affiliated Organizations
      */
     public List<? extends AffiliatedOrg> getAffiliatedOrgs();

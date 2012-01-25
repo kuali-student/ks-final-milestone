@@ -18,6 +18,8 @@ package org.kuali.student.r2.core.search.dto;
 import java.io.Serializable;
 import java.util.List;
 
+import org.kuali.student.r2.core.search.infc.SearchParam;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
@@ -25,7 +27,9 @@ import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
-public class SearchParamInfo implements Serializable {
+public class SearchParamInfo 
+    implements SearchParam, Serializable {
+
     private static final long serialVersionUID = 1L;
     
     @XmlElement

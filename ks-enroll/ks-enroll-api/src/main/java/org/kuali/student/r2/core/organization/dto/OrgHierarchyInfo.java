@@ -13,10 +13,10 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.core.organization.dto;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -33,26 +33,27 @@ import org.w3c.dom.Element;
  * Information for an organization hierarchy.
  *
  * @author tom
- */ 
-
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgHierarchyInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr",
-                "rootOrgId",
-                "meta", "attributes", "_futureElements" })
-
-public class OrgHierarchyInfo 
-    extends IdEntityInfo
-    implements OrgHierarchy, Serializable {
+    "id", "typeKey", "stateKey", "name", "descr",
+    "rootOrgId",
+    "effectiveDate",
+    "expirationDate",
+    "meta", "attributes", "_futureElements"})
+public class OrgHierarchyInfo
+        extends IdEntityInfo
+        implements OrgHierarchy, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String rootOrgId;
-    
+    @XmlElement
+    private Date effectiveDate;
+    @XmlElement
+    private Date expirationDate;
     @XmlAnyElement
     private List<Element> _futureElements;
-
 
     /**
      * Constructs a new OrgHierarchyInfo.
@@ -80,5 +81,23 @@ public class OrgHierarchyInfo
 
     public void setRootOrgId(String rootOrgId) {
         this.rootOrgId = rootOrgId;
+    }
+
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    @Override
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 }

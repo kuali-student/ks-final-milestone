@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,12 +29,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 
+/**
+ * This class //TODO ...
+ *
+ * @author Kuali Student Team
+ */
 
 @Controller
-@RequestMapping(value = "/acal")
+@RequestMapping(value = "/academicCalendar")
 public class AcademicCalendarController extends UifControllerBase {
-
-  
     /**
      * @see org.kuali.rice.krad.web.controller.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
      */
@@ -46,6 +50,15 @@ public class AcademicCalendarController extends UifControllerBase {
     public ModelAndView start(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
 
+        return getUIFModelAndView(academicCalendarForm);
+    }
+
+    /**
+     * Method used to save AcademicCalendar
+     */
+    @RequestMapping(params = "methodToCall=save")
+    public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) {
         return getUIFModelAndView(academicCalendarForm);
     }
 

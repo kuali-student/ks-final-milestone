@@ -19,12 +19,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
-public class SearchRequestInfo implements Serializable {
+public class SearchRequestInfo 
+    implements SearchRequest, Serializable {
     
     private static final long serialVersionUID = 1L;
     

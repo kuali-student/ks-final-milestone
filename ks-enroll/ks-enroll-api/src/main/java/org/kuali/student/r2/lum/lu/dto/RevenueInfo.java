@@ -15,9 +15,10 @@
  */
 package org.kuali.student.r2.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
+import org.kuali.student.r2.lum.lu.infc.Revenue;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,25 +26,22 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.r2.lum.lu.infc.Revenue;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RevenueInfo", propOrder = {"id", "feeType", "affiliatedOrgs",
-       "attributes", "meta", "_futureElements"})
+        "attributes", "meta", "_futureElements"})
 public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @XmlAttribute
     private String id;
-    
     @XmlElement
     private String feeType;
-
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
@@ -51,22 +49,21 @@ public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Se
     private List<Element> _futureElements;
 
     public RevenueInfo() {
-        this.id = null;
-        this.feeType = null;
         this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
-        this._futureElements = null;
     }
-    
-    public RevenueInfo(Revenue rev) {
-        super(rev);
-        
-        if(null == rev) return;
-        
-        this.feeType = rev.getFeeType();
-        this.affiliatedOrgs = (null != rev.getAffiliatedOrgs()) ? new ArrayList<AffiliatedOrgInfo>((List<AffiliatedOrgInfo>)rev.getAffiliatedOrgs()) : null;
-        this.id = rev.getId();
+
+    public RevenueInfo(Revenue revenue) {
+        super(revenue);
+        if (null != revenue) {
+            this.id = revenue.getId();
+            this.feeType = revenue.getFeeType();
+            this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
+            for (AffiliatedOrg affiliatedOrg : revenue.getAffiliatedOrgs()) {
+                this.affiliatedOrgs.add(new AffiliatedOrgInfo(affiliatedOrg));
+            }
+        }
     }
-    
+
     @Override
     public String getFeeType() {
         return feeType;
@@ -76,7 +73,6 @@ public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Se
         this.feeType = feeType;
     }
 
- 
     @Override
     public List<AffiliatedOrgInfo> getAffiliatedOrgs() {
         if (affiliatedOrgs == null) {

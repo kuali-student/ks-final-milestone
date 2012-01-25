@@ -15,9 +15,10 @@
  */
 package org.kuali.student.r2.lum.lu.dto;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.lum.lu.infc.AffiliatedOrg;
+import org.kuali.student.r2.lum.lu.infc.Expenditure;
+import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,43 +26,39 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
-import org.kuali.student.r2.lum.lu.infc.Expenditure;
-import org.w3c.dom.Element;
-
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExpenditureInfo", propOrder = {"id", "affiliatedOrgs",
-       "attributes", "meta", "_futureElements"})
+        "attributes", "meta", "_futureElements"})
 public class ExpenditureInfo extends HasAttributesAndMetaInfo implements Expenditure, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @XmlAttribute
     private String id;
-
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
-
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public ExpenditureInfo() {
-        this.id = null;
         this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
-        this._futureElements = null;
     }
-    
-    public ExpenditureInfo(Expenditure exp) {
-        super(exp);
-        
-        if(null == exp) return;
-        
-        this.affiliatedOrgs = (null != exp.getAffiliatedOrgs()) ? new ArrayList<AffiliatedOrgInfo>((List<AffiliatedOrgInfo>)exp.getAffiliatedOrgs()) : null;
-        this.id = exp.getId();
+
+    public ExpenditureInfo(Expenditure expenditure) {
+        super(expenditure);
+        if (null != expenditure) {
+            this.id = expenditure.getId();
+            this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();
+            for (AffiliatedOrg affiliatedOrg : expenditure.getAffiliatedOrgs()) {
+                this.affiliatedOrgs.add(new AffiliatedOrgInfo(affiliatedOrg));
+            }
+        }
     }
- 
+
     @Override
     public List<AffiliatedOrgInfo> getAffiliatedOrgs() {
         if (affiliatedOrgs == null) {
