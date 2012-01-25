@@ -33,27 +33,34 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 	private static final long serialVersionUID = 1L;
 	
 	public DocumentInfo getDocument(String documentId) throws Exception{
-		return service.getDocument(documentId);
+		return null;
+		// TODO KSCM		return service.getDocument(documentId);
+		
 	}
 	
 	public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList)throws Exception{
-		return service.getDocumentsByIdList(documentIdList);
+		return null;
+		// TODO KSCMreturn service.getDocumentsByIdList(documentIdList);
 	}
 	
 	public StatusInfo deleteDocument(String documentId) throws Exception{
-		return service.deleteDocument(documentId);
+		return null;
+		// TODO KSCM		return service.deleteDocument(documentId);
 	}
 	
     public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws Exception{
-    	return service.updateDocument(documentId, documentInfo);
+		return documentInfo;
+    	// TODO KSCM    	return service.updateDocument(documentId, documentInfo);
     }
 	
 	public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws Exception{
-		return service.addDocumentCategoryToDocument(documentId, documentCategoryKey);
+		return null;
+		// TODO KSCM		return service.addDocumentCategoryToDocument(documentId, documentCategoryKey);
 	}
 	
     public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws Exception{
-    	return service.removeDocumentCategoryFromDocument(documentId, documentCategoryKey);
+		return null;
+    	// TODO KSCM    	return service.removeDocumentCategoryFromDocument(documentId, documentCategoryKey);
     }
 
 	@Override
@@ -73,29 +80,32 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 
 	@Override
 	public StatusInfo deleteRefDocRelation(String documentId) throws Exception {
-		return service.deleteRefDocRelation(documentId);
+		return null;
+		// TODO KSCM		return service.deleteRefDocRelation(documentId);
 	}
 
 	@Override
 	public List<RefDocRelationInfo> getRefDocIdsForRef(String refObjectTypeKey, String refObjectId) throws Exception{
-		return service.getRefDocRelationsByRef(refObjectTypeKey, refObjectId);
+		return null;
+		// TODO KSCM		return service.getRefDocRelationsByRef(refObjectTypeKey, refObjectId);
 	}
 
 	@Override
 	public StatusInfo deleteRefDocRelationAndOrphanedDoc(String docRelationId, String documentId) throws Exception {
 		
 		//Delete the relation
-		service.deleteRefDocRelation(docRelationId);
+		// TODO KSCM		service.deleteRefDocRelation(docRelationId);
 		
 		//Also delete the document if there are no more relations to it
-		try{
-			List<RefDocRelationInfo> allRelations = service.getRefDocRelationsByDoc(documentId);
-			if(allRelations == null || allRelations.isEmpty()){
-				service.deleteDocument(documentId);
-			}
-		}catch(DoesNotExistException e){
-			service.deleteDocument(documentId);
-		}
+//		try{
+//			List<RefDocRelationInfo> allRelations = null;
+			// TODO KSCM			service.getRefDocRelationsByDoc(documentId);
+//			if(allRelations == null || allRelations.isEmpty()){
+				// TODO KSCM				service.deleteDocument(documentId);
+//			}
+//		}catch(DoesNotExistException e){
+			// TODO KSCM			service.deleteDocument(documentId);
+//		}
 		return new StatusInfo();
 	}
 }

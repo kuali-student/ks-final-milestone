@@ -175,7 +175,7 @@ public class RuleTableManipulationWidget extends FlowPanel {
                 if (isMatchingOperandSelected(Token.Or)) {
                     StatementVO statementVO = rule.getSelectedStatementVOs().get(0);
                     if (statementVO != null) {
-                        statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.OR);
+                    	// TODO KSCM                        statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.OR);
                         statementVO.toggleAndOr();
                     }
                 } else {
@@ -203,7 +203,7 @@ public class RuleTableManipulationWidget extends FlowPanel {
                 if (isMatchingOperandSelected(Token.And)) {
                     StatementVO statementVO = rule.getSelectedStatementVOs().get(0);
                     if (statementVO != null) {
-                        statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.AND);
+                    	// TODO KSCM                        statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.AND);
                         statementVO.toggleAndOr();
                     }
                 } else {

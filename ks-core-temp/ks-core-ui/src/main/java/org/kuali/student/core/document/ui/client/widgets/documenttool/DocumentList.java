@@ -135,7 +135,7 @@ public class DocumentList extends Composite{
                 tableLayout.setWidget(rowIndex, columnIndex, name);
                 columnIndex++;
                 if(showDesc){
-	                documentText.setHTML(docInfo.getDesc().getPlain());
+                	// TODO KSCM	                documentText.setHTML(docInfo.getDesc().getPlain());
 	                documentText.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
 	                tableLayout.setWidget(rowIndex, columnIndex, documentText);
 	                columnIndex++;

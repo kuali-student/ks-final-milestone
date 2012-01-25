@@ -188,10 +188,10 @@ public class CommentTool implements HasReferenceId {
                         RichTextInfo text = new RichTextInfo();
                         text.setFormatted(commentTextArea.getText());
                         text.setPlain(commentTextArea.getText());
-                        newComment.setType(commentTypeKey);
+                     // TODO KSCM                        newComment.setType(commentTypeKey);
                         newComment.setReferenceId(referenceId);
                         newComment.setReferenceTypeKey(referenceTypeKey);
-                        newComment.setState(DtoState.ACTIVE.toString());
+                     // TODO KSCM                        newComment.setState(DtoState.ACTIVE.toString());
                         newComment.setCommentText(text);
 
                         try {
@@ -221,7 +221,7 @@ public class CommentTool implements HasReferenceId {
                             selectedComment.setReferenceTypeKey(referenceTypeKey);
                             selectedComment.setCommentText(text);
 //                            selectedComment.setType("commentType." + referenceType + "." + referenceState);
-                            selectedComment.setType(commentTypeKey);
+                         // TODO KSCM                            selectedComment.setType(commentTypeKey);
                         }
 
                         try {
@@ -326,7 +326,7 @@ public class CommentTool implements HasReferenceId {
                 VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
                 final HTML userNameLabel = new HTML();
                 // TODO use user id for now change to user name
-                final String userId = commentInfo.getMetaInfo().getUpdateId();
+                final String userId = commentInfo.getMeta().getUpdateId();
                 commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
                     @Override
                     public void onFailure(Throwable caught) {
@@ -341,7 +341,7 @@ public class CommentTool implements HasReferenceId {
                         }
                     }
                 });
-                Date createTime = commentInfo.getMetaInfo().getCreateTime();
+                Date createTime = commentInfo.getMeta().getCreateTime();
                 userNameAndTime.add(userNameLabel);
                 userNameAndTime.add(new KSLabel(df.format(createTime)));
                 userNameAndTime.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
@@ -484,10 +484,10 @@ public class CommentTool implements HasReferenceId {
                             @Override
                             public int compare(CommentInfo comment1, CommentInfo comment2) {
 
-                                if(comment1.getMetaInfo().getCreateTime().after(comment2.getMetaInfo().getCreateTime())){
+                                if(comment1.getMeta().getCreateTime().after(comment2.getMeta().getCreateTime())){
                                     return -1;
                                 }
-                                else if(comment1.getMetaInfo().getCreateTime().before(comment2.getMetaInfo().getCreateTime())){
+                                else if(comment1.getMeta().getCreateTime().before(comment2.getMeta().getCreateTime())){
                                     return 1;
                                 }
                                 else{

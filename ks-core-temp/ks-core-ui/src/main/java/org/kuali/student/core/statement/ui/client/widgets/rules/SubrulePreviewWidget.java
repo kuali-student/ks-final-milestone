@@ -54,7 +54,8 @@ public class SubrulePreviewWidget extends FlowPanel {
     private void buildRequirementHeader(StatementTreeViewInfo stmtTreeInfo) {
 
         SectionTitle header = SectionTitle.generateH6Title("");
-        if (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND) {
+     // TODO KSCM        if (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND) {
+        	if (true) {
             header.setHTML("Must meet <b>all of the following:</b>");
         } else {
             header.setHTML("Must meet <b>1 of the following:</b>");
@@ -143,7 +144,7 @@ public class SubrulePreviewWidget extends FlowPanel {
             
             // only pass the operator after the first requirement panel is built
             if(includedOperator == null) {
-                includedOperator = statement.getOperator();
+            	// TODO KSCM                includedOperator = statement.getOperator();
             }
         }
     }
@@ -162,7 +163,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         
         StatementOperatorTypeKey prefixOperator = null;
         if(!firstInList) {
-            prefixOperator = subStatement.getOperator();
+        	// TODO KSCM            prefixOperator = subStatement.getOperator();
         }
         
         boolean hasReqComponents = (subStatement.getReqComponents() != null && !subStatement.getReqComponents().isEmpty());
@@ -181,7 +182,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         
         appendOperatorTag(headerText, prefixOperator);
         
-        headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);
+     // TODO KSCM        headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);
         
         FlowPanel panel = new FlowPanel();
         panel.add(new HTML(headerText.toString()));

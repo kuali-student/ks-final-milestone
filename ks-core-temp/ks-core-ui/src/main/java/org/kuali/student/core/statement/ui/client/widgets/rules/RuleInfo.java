@@ -34,8 +34,8 @@ public class RuleInfo {
 
     public StatementVO createNewStatementVO() {
         StatementInfo newStatementTree = new StatementInfo();
-        newStatementTree.setOperator(StatementOperatorTypeKey.AND);
-        newStatementTree.setType(getStatementTypeKey());
+     // TODO KSCM        newStatementTree.setOperator(StatementOperatorTypeKey.AND);
+     // TODO KSCM        newStatementTree.setType(getStatementTypeKey());
         StatementVO statementVO = new StatementVO();                            
         statementVO.setStatementInfo(newStatementTree);
         return statementVO;
@@ -124,7 +124,7 @@ public class RuleInfo {
         // create new statement to hold the new OR group
         StatementVO newStatementVO = createNewStatementVO();
         StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
-        newLuStatementInfo.setOperator(StatementOperatorTypeKey.OR);
+     // TODO KSCM        newLuStatementInfo.setOperator(StatementOperatorTypeKey.OR);
         newStatementVO.setStatementInfo(newLuStatementInfo);
 
         // remove the selected RCs from original statement and move them into the new StatementVO
@@ -152,7 +152,7 @@ public class RuleInfo {
         // create new statement to hold the new OR group
         StatementVO newStatementVO = createNewStatementVO();
         StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
-        newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
+     // TODO KSCM        newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
         newStatementVO.setStatementInfo(newLuStatementInfo);
 
         // remove the selected RCs from original statement and move them into the new StatementVO

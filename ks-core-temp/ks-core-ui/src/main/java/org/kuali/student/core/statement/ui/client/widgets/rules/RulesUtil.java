@@ -63,14 +63,14 @@ public class RulesUtil {
         if (inStatementInfo != null) {
             clonedLuStatementInfo = new StatementInfo();
             clonedLuStatementInfo.setName(inStatementInfo.getName());
-            clonedLuStatementInfo.setDesc(inStatementInfo.getDesc());
+         // TODO KSCM            clonedLuStatementInfo.setDesc(inStatementInfo.getDesc());
             clonedLuStatementInfo.setOperator(inStatementInfo.getOperator());
             clonedLuStatementInfo.setStatementIds(new ArrayList<String>(inStatementInfo.getStatementIds()));
             clonedLuStatementInfo.setReqComponentIds(new ArrayList<String>(inStatementInfo.getReqComponentIds()));
-            clonedLuStatementInfo.setAttributes(clone(inStatementInfo.getAttributes()));
-            clonedLuStatementInfo.setMetaInfo(clone(inStatementInfo.getMetaInfo()));
-            clonedLuStatementInfo.setType(inStatementInfo.getType());
-            clonedLuStatementInfo.setState(inStatementInfo.getState());
+         // TODO KSCM            clonedLuStatementInfo.setAttributes(clone(inStatementInfo.getAttributes()));
+            clonedLuStatementInfo.setMeta(clone(inStatementInfo.getMeta()));
+         // TODO KSCM            clonedLuStatementInfo.setType(inStatementInfo.getType());
+         // TODO KSCM            clonedLuStatementInfo.setState(inStatementInfo.getState());
             clonedLuStatementInfo.setId(inStatementInfo.getId());
         }
         return clonedLuStatementInfo;
@@ -119,7 +119,7 @@ public class RulesUtil {
     	ReqComponentInfoUi clonedReqComponentInfo = null;
         if (inReqComponentInfo != null) {
             clonedReqComponentInfo = new ReqComponentInfoUi();
-            clonedReqComponentInfo.setDesc(inReqComponentInfo.getDesc());
+         // TODO KSCM            clonedReqComponentInfo.setDesc(inReqComponentInfo.getDesc());
             clonedReqComponentInfo.setReqCompFields(clone(inReqComponentInfo.getReqCompFields()));
             if (inReqComponentInfo.getEffectiveDate() != null) {
                 clonedReqComponentInfo.setEffectiveDate((java.util.Date)inReqComponentInfo.getEffectiveDate().clone());
@@ -128,9 +128,9 @@ public class RulesUtil {
                 clonedReqComponentInfo.setExpirationDate(
                         (java.util.Date)inReqComponentInfo.getExpirationDate().clone());
             }
-            clonedReqComponentInfo.setMetaInfo(clone(inReqComponentInfo.getMetaInfo()));
-            clonedReqComponentInfo.setType(inReqComponentInfo.getType());
-            clonedReqComponentInfo.setState(inReqComponentInfo.getState());
+            clonedReqComponentInfo.setMeta(clone(inReqComponentInfo.getMeta()));
+         // TODO KSCM            clonedReqComponentInfo.setType(inReqComponentInfo.getType());
+         // TODO KSCM            clonedReqComponentInfo.setState(inReqComponentInfo.getState());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
 //            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
@@ -158,7 +158,7 @@ public class RulesUtil {
             clonedField = new ReqCompFieldInfo();
             clonedField.setValue(inReqCompFieldInfo.getValue());
             clonedField.setId(inReqCompFieldInfo.getId());
-            clonedField.setType(inReqCompFieldInfo.getType());
+         // TODO KSCM            clonedField.setType(inReqCompFieldInfo.getType());
         }
         return clonedField;
     }
@@ -189,12 +189,12 @@ public class RulesUtil {
         if (inStatementTreeViewInfo != null) {
             clonedStatementTreeViewInfoInfo = new StatementTreeViewInfo();
             clonedStatementTreeViewInfoInfo.setName(inStatementTreeViewInfo.getName());
-            clonedStatementTreeViewInfoInfo.setDesc(inStatementTreeViewInfo.getDesc());
+         // TODO KSCM            clonedStatementTreeViewInfoInfo.setDesc(inStatementTreeViewInfo.getDesc());
             clonedStatementTreeViewInfoInfo.setOperator(inStatementTreeViewInfo.getOperator());
-            clonedStatementTreeViewInfoInfo.setAttributes(clone(inStatementTreeViewInfo.getAttributes()));
-            clonedStatementTreeViewInfoInfo.setMetaInfo(clone(inStatementTreeViewInfo.getMetaInfo()));
-            clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
-            clonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
+         // TODO KSCM            clonedStatementTreeViewInfoInfo.setAttributes(clone(inStatementTreeViewInfo.getAttributes()));
+            clonedStatementTreeViewInfoInfo.setMeta(clone(inStatementTreeViewInfo.getMeta()));
+         // TODO KSCM            clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
+         // TODO KSCMclonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
             clonedStatementTreeViewInfoInfo.setId(inStatementTreeViewInfo.getId());
 //            clonedStatementTreeViewInfoInfo.setNaturalLanguageTranslation(inStatementTreeViewInfo.getNaturalLanguageTranslation());
 

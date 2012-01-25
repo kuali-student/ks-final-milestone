@@ -53,7 +53,8 @@ public abstract class AbstractDataService implements DataService{
         //TODO: Igor : Why do we check for this when getting the data for programs?
 		try{
 			if (proposalService != null){
-				ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
+				ProposalInfo proposalInfo = null;
+// TODO KSCM						proposalService.getProposal(dtoId);
 				filterProperties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
 				dtoId = proposalInfo.getProposalReference().get(0);
 			}			
@@ -144,9 +145,9 @@ public abstract class AbstractDataService implements DataService{
 					ProposalInfo proposalInfo = null;
 					try {
 						if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
-							proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
+// TODO KSCM							proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
 						} else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
-							proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
+							// TODO KSCM							proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
 						}
 						if (proposalInfo != null){
 							attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());

@@ -141,7 +141,7 @@ public class ReqCompEditWidget extends FlowPanel {
                      createReqComp(selectedReqCompType);
                  } else {
                 	 //editedReqComp.setRequiredComponentType(selectedReqCompType);
-                     editedReqComp.setType(selectedReqCompType.getId());
+                	// TODO KSCM                     editedReqComp.setType(selectedReqCompType.getId());
                  }
 
                  displayFieldsSection();
@@ -176,7 +176,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
                         ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                         fieldInfo.setId(null);
-                        fieldInfo.setType(fieldTypeInfo.getId());
+                     // TODO KSCM                        fieldInfo.setType(fieldTypeInfo.getId());
                         String fieldValue = ruleFieldsData.getRoot().get(fieldTypeInfo.getId()).toString();
                         fieldInfo.setValue((fieldValue == null ? "" : fieldValue.toString()));
                         editedFields.add(fieldInfo);
@@ -213,7 +213,7 @@ public class ReqCompEditWidget extends FlowPanel {
                     }
                     ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                     fieldInfo.setId(null);
-                    fieldInfo.setType(fieldType);
+                 // TODO KSCM                    fieldInfo.setType(fieldType);
                     fieldInfo.setValue(widgetValue);
                     editedFields.add(fieldInfo);
 
@@ -230,7 +230,7 @@ public class ReqCompEditWidget extends FlowPanel {
     }
 
     private void finalizeRuleUpdate() {
-        editedReqComp.setType(selectedReqCompType.getId());
+    	// TODO KSCM        editedReqComp.setType(selectedReqCompType.getId());
 
         //callback needs to update NL for given req. component and the rule
         reqCompConfirmCallback.exec(editedReqComp);
@@ -250,12 +250,12 @@ public class ReqCompEditWidget extends FlowPanel {
         desc.setPlain("");
         desc.setFormatted("");
         editedReqComp = new ReqComponentInfoUi();
-        editedReqComp.setDesc(desc);
+     // TODO KSCM        editedReqComp.setDesc(desc);
         editedReqComp.setId(newReqCompId + Integer.toString(tempReqCompInfoID++));
         editedReqComp.setReqCompFields(null);
         //editedReqComp.setRequiredComponentType(reqCompTypeInfo);
         if (reqCompTypeInfo != null) {
-            editedReqComp.setType(reqCompTypeInfo.getId());
+        	// TODO KSCM            editedReqComp.setType(reqCompTypeInfo.getId());
         }
     }
 

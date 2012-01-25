@@ -112,7 +112,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         Data result = new Data();
 //      SaveResult<Data> result = new SaveResult<Data>();
         try{
-            orgInfo = orgService.getOrganization(id);
+        	// TODO KSCM            orgInfo = orgService.getOrganization(id);
             OrgInfoData orgInfoData = new OrgInfoData();
             orgInfoData.setOrgInfo(orgInfo);
             OrgHelper resultOrg = buildOrgDataMap(orgInfoData);
@@ -161,7 +161,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 //            Data resultData = new Data();
 //            resultData.set("orgInfo", resultOrg.getData());       //Set the map to the key "orgInfo"
             String orgId = orgInfoData.getOrgInfo().getId();
-            addVersionIndicator(orgHelper.getData(),OrgInfo.class.getName(),orgId,orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
+            addVersionIndicator(orgHelper.getData(),OrgInfo.class.getName(),orgId,orgInfoData.getOrgInfo().getMeta().getVersionInd());
             
             orgHelper.setId(orgId);
             if(orgId!=null&&input.get("orgOrgRelationInfo")!=null){
@@ -204,10 +204,10 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         OrgInfo orgInfo = new OrgInfo();
         OrgInfoData result = new OrgInfoData();
                 
-        orgInfo.setType(org.getType());
-        orgInfo.setLongDesc(org.getDescription());
+     // TODO KSCM        orgInfo.setType(org.getType());
+     // TODO KSCM        orgInfo.setLongDesc(org.getDescription());
         orgInfo.setShortName(org.getAbbreviation());
-        orgInfo.setLongName(org.getName());
+     // TODO KSCMorgInfo.setLongName(org.getName());
         orgInfo.setEffectiveDate(org.getEffectiveDate());
         orgInfo.setExpirationDate(org.getExpirationDate());
         if(org.getId()!=null){
@@ -217,7 +217,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         if (isModified(org.getData())) {
 //           if (isUpdated(org.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
-                orgInfo.setMetaInfo(metaInfo);
+                orgInfo.setMeta(metaInfo);
                 result.setModificationState(ModificationState.UPDATED);
 //            } else if (isDeleted(org.getData())) {
 //                result.setModificationState(ModificationState.DELETED);
@@ -227,8 +227,8 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             setCreated(org.getData(), true);
             result.setModificationState(ModificationState.CREATED);
         }
-        if(orgInfo.getMetaInfo()!=null){
-            orgInfo.getMetaInfo().setVersionInd(getVersionIndicator(org.getData()));
+        if(orgInfo.getMeta()!=null){
+            orgInfo.getMeta().setVersionInd(getVersionIndicator(org.getData()));
         }
 //        result.setModificationState(ModificationState.CREATED);
         result.setOrgInfo(orgInfo);
@@ -246,10 +246,10 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             if (orgProposalMeta.isCanEdit()) {
                 switch (input.getModificationState()) {
                     case CREATED:
-                        result = orgService.createOrganization(orgInfo.getType(), orgInfo);
+                    	// TODO KSCM                        result = orgService.createOrganization(orgInfo.getType(), orgInfo);
                         break;
                     case UPDATED:
-                        result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
+                    	// TODO KSCM                        result = orgService.updateOrganization(orgInfo.getId(), orgInfo);
                     default:
                 }
             }
@@ -280,13 +280,13 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         OrgHelper org =  OrgHelper.wrap(new Data());
         org.setId(orgInfoData.getOrgInfo().getId());
         org.setType(orgInfoData.getOrgInfo().getType());
-        org.setName(orgInfoData.getOrgInfo().getLongName());
+     // TODO KSCM        org.setName(orgInfoData.getOrgInfo().getLongName());
         org.setAbbreviation(orgInfoData.getOrgInfo().getShortName());
-        org.setDescription(orgInfoData.getOrgInfo().getLongDesc());
+     // TODO KSCM        org.setDescription(orgInfoData.getOrgInfo().getLongDesc());
         org.setEffectiveDate(orgInfoData.getOrgInfo().getEffectiveDate());
         org.setExpirationDate(orgInfoData.getOrgInfo().getExpirationDate());
         setUpdated(org.getData(), true);
-        addVersionIndicator(org.getData(),OrgInfo.class.getName(),orgInfoData.getOrgInfo().getId(),orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
+        addVersionIndicator(org.getData(),OrgInfo.class.getName(),orgInfoData.getOrgInfo().getId(),orgInfoData.getOrgInfo().getMeta().getVersionInd());
 
         return org;
     }

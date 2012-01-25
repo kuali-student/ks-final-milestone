@@ -822,9 +822,9 @@ public class WorkflowUtilities{
         text.setPlain(rationaleEditor.getText());
         newDecisionRationale.setReferenceTypeKey(PROPOSAL_REF_TYPE_KEY);
         newDecisionRationale.setReferenceId(proposalId);
-        newDecisionRationale.setState(DtoState.ACTIVE.toString());
+     // TODO KSCM        newDecisionRationale.setState(DtoState.ACTIVE.toString());
         newDecisionRationale.setCommentText(text);
-        newDecisionRationale.setType(rationaleType);
+     // TODO KSCM        newDecisionRationale.setType(rationaleType);
 
         try {
             commentServiceAsync.addComment(proposalId, PROPOSAL_REF_TYPE_KEY, newDecisionRationale, new KSAsyncCallback<CommentInfo>() {

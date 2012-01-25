@@ -300,7 +300,7 @@ public class StatementVO extends Token implements Serializable {
 
     public void setStatementInfo(StatementInfo statementInfo) {
         this.statementInfo = statementInfo;
-        this.setType(statementInfo.getOperator() == StatementOperatorTypeKey.OR ? Token.Or : Token.And);
+     // TODO KSCM        this.setType(statementInfo.getOperator() == StatementOperatorTypeKey.OR ? Token.Or : Token.And);
     }
 
     public List<ReqComponentVO> getReqComponentVOs() {
@@ -461,11 +461,13 @@ public class StatementVO extends Token implements Serializable {
     }
 
     private void setOperatorNode(Node node, StatementVO statementVO) {
-        if (statementVO.getStatementInfo() != null && statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.AND) {
-            statementVO.type = Token.And;
+    	// TODO KSCM        if (statementVO.getStatementInfo() != null && statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.AND) {
+        if (true) {
+    	statementVO.type = Token.And;
             statementVO.value = "and";
             node.setUserObject(statementVO);
-        } else if (statementVO.getStatementInfo() != null && statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.OR) {
+         // TODO KSCM        } else if (statementVO.getStatementInfo() != null && statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.OR) {
+        } else if (true) {
             statementVO.type = Token.Or;
             statementVO.value = "or";
             node.setUserObject(statementVO);
@@ -658,9 +660,11 @@ public class StatementVO extends Token implements Serializable {
 
     private boolean doSimplify(StatementVO statementVO, StatementVO parent) {
         boolean structureChanged = false;
-        StatementOperatorTypeKey op = (statementVO == null || statementVO.getStatementInfo() == null)? null :
-                                        statementVO.getStatementInfo().getOperator();
-        StatementOperatorTypeKey parentOp = (parent == null || parent.getStatementInfo() == null)? null : parent.getStatementInfo().getOperator();
+        StatementOperatorTypeKey op = null;
+     // TODO KSCM        (statementVO == null || statementVO.getStatementInfo() == null)? null :
+     // TODO KSCM                                        statementVO.getStatementInfo().getOperator();
+        StatementOperatorTypeKey parentOp = null;
+     // TODO KSCM        (parent == null || parent.getStatementInfo() == null)? null : parent.getStatementInfo().getOperator();
 
         if (parentOp == op && !statementVO.isWrapperStatementVO()) {
             structureChanged = true;
@@ -752,9 +756,10 @@ public class StatementVO extends Token implements Serializable {
             int statementCounter = 0;
             for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
                 if (statementCounter > 0) {
-                    StatementOperatorTypeKey operator = (statementVO == null ||
-                                statementVO.getStatementInfo() == null)? null :
-                                    statementVO.getStatementInfo().getOperator();
+                    StatementOperatorTypeKey operator = null;
+                 // TODO KSCM                    (statementVO == null ||
+                 // TODO KSCM                                statementVO.getStatementInfo() == null)? null :
+                 // TODO KSCM                                    statementVO.getStatementInfo().getOperator();
                     inSbResult.append(" " + operator + " ");
                 }
                 if (extraBrackets || !childStatementVO.isWrapperStatementVO()) {
@@ -774,7 +779,8 @@ public class StatementVO extends Token implements Serializable {
                     if(statementVO != null &&
                        statementVO.getStatementInfo() != null &&
                        statementVO.getStatementInfo().getOperator() != null) {
-	                	StatementOperatorTypeKey operator = statementVO.getStatementInfo().getOperator();
+	                	StatementOperatorTypeKey operator = null;
+	                	// TODO KSCM	                	statementVO.getStatementInfo().getOperator();
 	                    inSbResult.append(" " + operator.toString().toLowerCase() + " ");
                     }
                 }
@@ -855,13 +861,13 @@ public class StatementVO extends Token implements Serializable {
 
     private void setFieldsTo(final StatementTreeViewInfo stvInfo) {
         stvInfo.setAttributes(getStatementInfo().getAttributes());
-        stvInfo.setDesc(getStatementInfo().getDesc());
+     // TODO KSCM        stvInfo.setDesc(getStatementInfo().getDesc());
         stvInfo.setId(getStatementInfo().getId());
-        stvInfo.setMetaInfo(getStatementInfo().getMetaInfo());
+        stvInfo.setMeta(getStatementInfo().getMeta());
         stvInfo.setName(getStatementInfo().getName());
         stvInfo.setOperator(getStatementInfo().getOperator());
-        stvInfo.setState(getStatementInfo().getState());
-        stvInfo.setType(getStatementInfo().getType());
+     // TODO KSCM        stvInfo.setState(getStatementInfo().getState());
+     // TODO KSCM        stvInfo.setType(getStatementInfo().getType());
     }
 
     public String composeStatementVO(StatementTreeViewInfo statementTreeViewInfo, StatementVO statementVO) throws Exception {
@@ -905,13 +911,13 @@ public class StatementVO extends Token implements Serializable {
     private void setFields(final StatementTreeViewInfo statementTreeViewInfo) {
         statementInfo = new StatementInfo();
         getStatementInfo().setAttributes(statementTreeViewInfo.getAttributes());
-        getStatementInfo().setDesc(statementTreeViewInfo.getDesc());
+     // TODO KSCM        getStatementInfo().setDesc(statementTreeViewInfo.getDesc());
         getStatementInfo().setId(statementTreeViewInfo.getId());
-        getStatementInfo().setMetaInfo(statementTreeViewInfo.getMetaInfo());
+        getStatementInfo().setMeta(statementTreeViewInfo.getMeta());
         getStatementInfo().setName(statementTreeViewInfo.getName());
         getStatementInfo().setOperator(statementTreeViewInfo.getOperator());
-        getStatementInfo().setState(statementTreeViewInfo.getState());
-        getStatementInfo().setType(statementTreeViewInfo.getType());
+     // TODO KSCM        getStatementInfo().setState(statementTreeViewInfo.getState());
+     // TODO KSCM        getStatementInfo().setType(statementTreeViewInfo.getType());
     }
 
     @Override

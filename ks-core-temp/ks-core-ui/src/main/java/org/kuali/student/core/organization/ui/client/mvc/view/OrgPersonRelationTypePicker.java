@@ -47,7 +47,7 @@ public class OrgPersonRelationTypePicker extends KSDropDown{
                 public void onSuccess(final List<OrgPositionRestrictionInfo> orgRelTypes) {
                     final Map<String, String> map = new LinkedHashMap<String, String>();
                     for (OrgPositionRestrictionInfo info : orgRelTypes) {
-                        map.put(info.getOrgPersonRelationTypeKey(), info.getTitle());
+                    	// TODO KSCM                        map.put(info.getOrgPersonRelationTypeKey(), info.getTitle());
                     }
                     orgRelTypeList = new ListItems() {
 

@@ -316,8 +316,8 @@ public class RuleExpressionParser {
                     op = StatementOperatorTypeKey.OR;
                 }
                 StatementInfo statementInfo = new StatementInfo();
-                statementInfo.setOperator(op);
-                statementInfo.setType(statementType);
+             // TODO KSCM                statementInfo.setOperator(op);
+             // TODO KSCM                statementInfo.setType(statementType);
                 subS.setStatementInfo(statementInfo);
                 Token right = conditionStack.pop().getUserObject();
                 Token left = conditionStack.pop().getUserObject();
@@ -357,7 +357,7 @@ public class RuleExpressionParser {
         } else {
             statementVO = (StatementVO)conditionStack.pop().getUserObject();
         }
-        statementVO.getStatementInfo().setType(statementType);
+     // TODO KSCM        statementVO.getStatementInfo().setType(statementType);
 
         return statementVO;
     }
@@ -365,8 +365,8 @@ public class RuleExpressionParser {
     private StatementVO wrapReqComponent(StatementOperatorTypeKey op, ReqComponentVO rc, String statementType) {
         StatementVO wrapS = new StatementVO();
         StatementInfo wrapStatementInfo = new StatementInfo();
-        wrapStatementInfo.setOperator(op);
-        wrapStatementInfo.setType(statementType);
+     // TODO KSCM        wrapStatementInfo.setOperator(op);
+     // TODO KSCM        wrapStatementInfo.setType(statementType);
         wrapS.setStatementInfo(wrapStatementInfo);
         wrapS.addReqComponentVO(rc);
         return wrapS;

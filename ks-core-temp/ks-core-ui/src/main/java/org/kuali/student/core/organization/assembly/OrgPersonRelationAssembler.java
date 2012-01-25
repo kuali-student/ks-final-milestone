@@ -76,17 +76,17 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
     public Data get(String id) throws AssemblyException {
         List<OrgPersonRelationInfo> relations = new ArrayList<OrgPersonRelationInfo>();
         Data orgRelationMap = null;
-        try{
-            relations = orgService.getOrgPersonRelationsByOrg(id);
+//        try{
+        	// TODO KSCM            relations = orgService.getOrgPersonRelationsByOrg(id);
             orgRelationMap = buildOrgPersonRelationMap(relations);
-        }
-        catch(DoesNotExistException dnee){
-            return null;
-            
-        }
-        catch(Exception e){
-        	LOG.error(e);
-        }
+//        }
+//        catch(DoesNotExistException dnee){
+//            return null;
+//            
+//        }
+//        catch(Exception e){
+//        	LOG.error(e);
+//        }
         return orgRelationMap;
     }
 
@@ -129,8 +129,9 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                     OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
                     orgPersonRelationInfo.setId(orgPersonHelper.getId());
                     try {
-                        OrgPersonRelationInfo result = orgService.updateOrgPersonRelation(orgPersonHelper.getId(), orgPersonRelationInfo);
-                        addVersionIndicator(orgPersonHelper.getData(), OrgPersonRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
+                        OrgPersonRelationInfo result = null;
+                     // TODO KSCM                        orgService.updateOrgPersonRelation(orgPersonHelper.getId(), orgPersonRelationInfo);
+                        addVersionIndicator(orgPersonHelper.getData(), OrgPersonRelationInfo.class.getName(), result.getId(), result.getMeta().getVersionInd());
                     } catch (Exception e) {
                         throw new AssemblyException();
                     }
@@ -139,7 +140,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
             }
             else if(isDeleted(orgPersonHelper.getData())&&orgPersonHelper.getId()!=null){
                 try{
-                    orgService.removeOrgPersonRelation(orgPersonHelper.getId());
+                	// TODO KSCM                    orgService.removeOrgPersonRelation(orgPersonHelper.getId());
                     propertyIter.remove();
                 }
                 catch(Exception e ){
@@ -151,9 +152,10 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
                 orgPersonHelper.setOrgId((OrgHelper.wrap((Data)input.get("orgInfo")).getId()));
                 OrgPersonRelationInfo orgPersonRelationInfo = buildOrgPersonRelationInfo(orgPersonHelper);
                 try{
-                    OrgPersonRelationInfo  result = orgService.createOrgPersonRelation(orgPersonHelper.getOrgId(), orgPersonHelper.getPersonId(), orgPersonHelper.getTypeKey(), orgPersonRelationInfo);
+                    OrgPersonRelationInfo  result = null;
+                 // TODO KSCM                    orgService.createOrgPersonRelation(orgPersonHelper.getOrgId(), orgPersonHelper.getPersonId(), orgPersonHelper.getTypeKey(), orgPersonRelationInfo);
                     orgPersonHelper.setId(result.getId());
-                    addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
+                    addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),result.getId(),result.getMeta().getVersionInd());
                 }
                 catch(Exception e ){
                 	LOG.error(e);
@@ -170,24 +172,24 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
         OrgPersonRelationInfo orgPersonRelationInfo = new OrgPersonRelationInfo();
         orgPersonRelationInfo.setOrgId(orgPersonHelper.getOrgId());      
         orgPersonRelationInfo.setPersonId(orgPersonHelper.getPersonId());
-        orgPersonRelationInfo.setType(orgPersonHelper.getTypeKey());
+     // TODO KSCM        orgPersonRelationInfo.setType(orgPersonHelper.getTypeKey());
         orgPersonRelationInfo.setEffectiveDate(orgPersonHelper.getEffectiveDate());
         orgPersonRelationInfo.setExpirationDate(orgPersonHelper.getExpirationDate());
-        if (orgPersonHelper.getState()!=null)
-        	orgPersonRelationInfo.setState(orgPersonHelper.getState());
-        else
+//        if (orgPersonHelper.getState()!=null)
+        	// TODO KSCM        	orgPersonRelationInfo.setState(orgPersonHelper.getState());
+//        else
         	orgPersonHelper.setState("Active");
         	
        
         if (isModified(orgPersonHelper.getData())) {
             if (isUpdated(orgPersonHelper.getData())||isDeleted(orgPersonHelper.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
-                orgPersonRelationInfo.setMetaInfo(metaInfo);
+                orgPersonRelationInfo.setMeta(metaInfo);
                 orgPersonRelationInfo.setId(orgPersonHelper.getId());
             }
         }
-        if(orgPersonRelationInfo.getMetaInfo()!=null){
-            orgPersonRelationInfo.getMetaInfo().setVersionInd(getVersionIndicator(orgPersonHelper.getData()));
+        if(orgPersonRelationInfo.getMeta()!=null){
+            orgPersonRelationInfo.getMeta().setVersionInd(getVersionIndicator(orgPersonHelper.getData()));
         }
         return orgPersonRelationInfo;
     }
@@ -209,7 +211,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
             orgPersonHelper.setOrgId(relation.getOrgId());
             if(!orgPersonMeta.isCanEdit()){
                 
-                    orgPersonHelper.setTypeKey(orgService.getOrgPersonRelationType(relation.getType()).getName());
+            	// TODO KSCM                    orgPersonHelper.setTypeKey(orgService.getOrgPersonRelationType(relation.getType()).getName());
                
             }
             else{
@@ -219,7 +221,7 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
             orgPersonHelper.setPersonId(relation.getPersonId());
             orgPersonHelper.setEffectiveDate(relation.getEffectiveDate());
             orgPersonHelper.setExpirationDate(relation.getExpirationDate());
-            addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),relation.getId(),relation.getMetaInfo().getVersionInd());
+            addVersionIndicator(orgPersonHelper.getData(),OrgPersonRelationInfo.class.getName(),relation.getId(),relation.getMeta().getVersionInd());
             orgRelations.set(count,orgPersonHelper.getData());
             count = count +1;
         }

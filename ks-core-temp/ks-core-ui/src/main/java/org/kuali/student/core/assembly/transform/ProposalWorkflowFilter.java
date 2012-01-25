@@ -87,7 +87,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 			if (proposalType == null){
 				proposalType = getDefaultDocType();
 			}
-			proposalInfo.setType(proposalType);
+			// TODO KSCM			proposalInfo.setType(proposalType);
 		}			
 
 		properties.put(ProposalWorkflowFilter.WORKFLOW_DOC_TYPE, proposalInfo.getType());
@@ -122,16 +122,16 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
                     proposalInfo.setName(getDefaultDocumentTitle(docTypeConfig, data));
                 }
 
-				proposalInfo.setState("Saved");
+             // TODO KSCM				proposalInfo.setState("Saved");
 								
-				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
+             // TODO KSCM				proposalInfo = proposalService.createProposal(proposalInfo.getType(), proposalInfo);			
 			} 
 				
 			//Update the workflow process for this proposal
 			proposalInfo = updateWorkflow(proposalInfo, data, properties);
 	
 			//Update the propsal service with new proposal info
-			proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
+			// TODO KSCM			proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
 
 			//Place updated info in properties in case other filters wish to make use of it
 			properties.put(PROPOSAL_INFO, proposalInfo);

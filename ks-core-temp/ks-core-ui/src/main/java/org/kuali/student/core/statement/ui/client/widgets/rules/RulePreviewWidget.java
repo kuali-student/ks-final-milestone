@@ -116,7 +116,7 @@ public class RulePreviewWidget extends FlowPanel {
     private void addSubRule(final StatementTreeViewInfo subTree) {
         //display AND/OR operator between subrules
         if (addRuleOperator) {
-            buildANDOperator(stmtTreeInfo.getOperator());
+        	// TODO KSCM            buildANDOperator(stmtTreeInfo.getOperator());
         }
 
         final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly, clusetWidgets);        

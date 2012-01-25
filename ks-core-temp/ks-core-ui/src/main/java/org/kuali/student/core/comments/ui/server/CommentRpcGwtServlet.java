@@ -48,36 +48,42 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
     @Override
 	public CommentInfo addComment(String referenceId, String referenceTypeKey,
 			CommentInfo commentInfo) throws Exception {
-		return service.addComment(referenceId, referenceTypeKey, commentInfo);
+    	// TODO KSCM		return service.addComment(referenceId, referenceTypeKey, commentInfo);
+    	return null;
 	}
 
 	@Override
 	public List<CommentInfo> getComments(String referenceId,
 			String referenceTypeKey) throws Exception {
-		return service.getComments(referenceId, referenceTypeKey);
+		// TODO KSCM		return service.getComments(referenceId, referenceTypeKey);
+		return null;
 	}
 
 	@Override
 	public List<CommentInfo> getCommentsByType(String referenceId,
 			String referenceTypeKey, String commentTypeKey) throws Exception {
-		return service.getCommentsByType(referenceId, referenceTypeKey, commentTypeKey);
+		// TODO KSCM		return service.getCommentsByType(referenceId, referenceTypeKey, commentTypeKey);
+		return null;
 	}
 
 	@Override
 	public CommentInfo updateComment(String referenceId,
 			String referenceTypeKey, CommentInfo commentInfo) throws Exception {
-		return service.updateComment(referenceId, referenceTypeKey, commentInfo);
+		// TODO KSCM		return service.updateComment(referenceId, referenceTypeKey, commentInfo);
+		return null;
 	}
 
 	@Override
 	public StatusInfo removeComment(String commentId, String referenceId,
 			String referenceTypeKey) throws Exception {
-		return service.removeComment(commentId, referenceId, referenceTypeKey);
+		// TODO KSCM		return service.removeComment(commentId, referenceId, referenceTypeKey);
+		return null;
 	}
 
 	@Override
 	public List<CommentTypeInfo> getCommentTypesForReferenceType(String referenceTypeKey) throws Exception {
-		return service.getCommentTypesForReferenceType(referenceTypeKey);
+		// TODO KSCM		return service.getCommentTypesForReferenceType(referenceTypeKey);
+		return null;
 	}
 
 	@Override
