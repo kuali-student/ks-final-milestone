@@ -59,7 +59,7 @@
 
                 <!-- M1 Section -->
                 <value>classpath:HolidayCalendarEditView.xml</value>
-
+                <value>classpath:AcademicCalendarEditView.xml</value>
 			</list>
 		</property>
 		<property name="packagePrefixes">

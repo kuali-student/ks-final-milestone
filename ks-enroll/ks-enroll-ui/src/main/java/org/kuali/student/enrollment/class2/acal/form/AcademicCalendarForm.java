@@ -20,11 +20,17 @@ import java.util.Date;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 
+/**
+ * This class //TODO ...
+ *
+ * @author Kuali Student Team
+ */
+
 public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
-
+/*
     private Date startDate;
 
     private Date endDate;
@@ -44,13 +50,13 @@ public class AcademicCalendarForm extends UifFormBase {
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
-
+*/
     public AcademicCalendarForm() {
         super();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
-        return this.academicCalendarInfo;
+        return academicCalendarInfo;
     }
 
     public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
