@@ -23,13 +23,17 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
@@ -66,7 +70,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     	return null; //FIXME need real validation
     }
      
-	@Override
+	// @Override
 	public EnumerationInfo getEnumeration(String enumerationKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -82,7 +86,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         return enumerationMeta;
 	}
 
-	@Override
+	// @Override
 	public List<EnumerationInfo> getEnumerations()
 			throws OperationFailedException {
         List<Enumeration> entities =  this.enumDAO.findEnumerations();
@@ -92,7 +96,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         return dtos;
 	}
 	
-	@Override
+	// @Override
 	@Transactional(readOnly=false)
 	public EnumeratedValueInfo addEnumeratedValue(String enumerationKey,
 			EnumeratedValueInfo enumeratedValue) throws AlreadyExistsException,
@@ -127,7 +131,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         return enumeratedValue;
 	}
 
-	@Override
+	// @Override
 	public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey,
 			String contextType, String contextValue, Date contextDate)
 			throws DoesNotExistException, InvalidParameterException,
@@ -152,7 +156,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 
-	@Override
+	// @Override
 	@Transactional(readOnly=false)
 	public EnumeratedValueInfo updateEnumeratedValue(String enumerationKey,
 			String code, EnumeratedValueInfo enumeratedValue)
@@ -187,7 +191,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         return enumeratedValue;
 	}
 	
-	@Override
+	// @Override
     @Transactional(readOnly=false)
 	public StatusInfo removeEnumeratedValue(String enumerationKey, String code) {
         enumDAO.removeEnumeratedValue(enumerationKey, code);
@@ -195,7 +199,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
     }
 	
 	
-	@Override
+	// @Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -204,13 +208,13 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
 	}
 
-	@Override
+	// @Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
 		return searchManager.getSearchCriteriaTypes();
 	}
 
-	@Override
+	// @Override
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -218,13 +222,13 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		return searchManager.getSearchResultType(searchResultTypeKey);
 	}
 
-	@Override
+	// @Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
 		return searchManager.getSearchResultTypes();
 	}
 
-	@Override
+	// @Override
 	public SearchTypeInfo getSearchType(String searchTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -232,13 +236,13 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		return searchManager.getSearchType(searchTypeKey);
 	}
 
-	@Override
+	// @Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
 		return searchManager.getSearchTypes();
 	}
 
-	@Override
+	// @Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -247,7 +251,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
 	}
 
-	@Override
+	// @Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
 			String searchResultTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -256,7 +260,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
-	@Override
+	// @Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
 		return searchManager.search(searchRequest, enumDAO);
 	}
@@ -283,15 +287,86 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 		this.enumDAO = enumDAO;
 	}
 
-    @Override
+    // @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
-    @Override
+    // @Override
     public List<String> getObjectTypes() {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
+
+	@Override
+	public List<EnumerationInfo> getEnumerations(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EnumerationInfo getEnumeration(String enumerationKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<EnumeratedValueInfo> getEnumeratedValues(String enumerationKey,
+			String contextTypeKey, String contextValue, Date contextDate,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateEnumeratedValue(
+			String validationTypeKey, String enumerationKey, String code,
+			EnumeratedValueInfo enumeratedValueInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EnumeratedValueInfo updateEnumeratedValue(String enumerationKey,
+			String code, EnumeratedValueInfo enumeratedValueInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteEnumeratedValue(String enumerationKey, String code,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public EnumeratedValueInfo addEnumeratedValue(String enumerationKey,
+			String code, EnumeratedValueInfo enumeratedValueInfo,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

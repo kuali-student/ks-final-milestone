@@ -11,7 +11,8 @@ import org.kuali.student.common.validator.DefaultValidatorImpl;
 
 public class MockDefaultValidatorImpl extends DefaultValidatorImpl
 {
-
+	// TODO KSCM
+	/*
  @Override
  public List<ValidationResultInfo> validateObject (Object o,
                                                    ObjectStructureDefinition objStructure)
@@ -27,4 +28,5 @@ public class MockDefaultValidatorImpl extends DefaultValidatorImpl
  {
   return new ArrayList ();
  }
+ */
 }

@@ -24,9 +24,20 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.LocaleInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.messages.dto.LocaleKeyList;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageInfo;
 import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.core.messages.entity.MessageEntity;
@@ -88,7 +99,7 @@ public class MessageServiceMock implements MessageService {
 	/**
 	 * @see org.kuali.student.common.messages.service.MessageService#addMessage(org.kuali.student.common.messages.dto.Message)
 	 */
-	@Override
+	// @Override
 	public Message addMessage(Message messageInfo) {
 
 		LocaleMessages localeMessages = this.messages.get(messageInfo
@@ -105,7 +116,7 @@ public class MessageServiceMock implements MessageService {
 	/**
 	 * @see org.kuali.student.common.messages.service.MessageService#getLocales()
 	 */
-	@Override
+	// @Override
 	public LocaleKeyList getLocales() {
 
 		LocaleKeyList locales = new LocaleKeyList();
@@ -121,7 +132,7 @@ public class MessageServiceMock implements MessageService {
 	 * @see org.kuali.student.common.messages.service.MessageService#getMessage(java.lang.String,
 	 *      java.lang.String, java.lang.String)
 	 */
-	@Override
+	// @Override
 	public Message getMessage(String localeKey, String messageGroupKey,
 			String messageKey) {
 
@@ -140,7 +151,7 @@ public class MessageServiceMock implements MessageService {
 	/**
 	 * @see org.kuali.student.common.messages.service.MessageService#getMessageGroups()
 	 */
-	@Override
+	// @Override
 	public MessageGroupKeyList getMessageGroups() {
 
 		MessageGroupKeyList groupKeys = new MessageGroupKeyList();
@@ -159,7 +170,7 @@ public class MessageServiceMock implements MessageService {
 	 * @see org.kuali.student.common.messages.service.MessageService#getMessages(java.lang.String,
 	 *      java.lang.String)
 	 */
-	@Override
+	// @Override
 	public MessageList getMessages(String localeKey, String messageGroupKey) {
 
 		MessageList messageList = new MessageList();
@@ -178,7 +189,7 @@ public class MessageServiceMock implements MessageService {
 			m.setLocale(localeKey);
 			messageArrayList.add(m);
 		}
-		messageList.setMessages(messageArrayList);
+// TODO KSCM		messageList.setMessages(messageArrayList);
 
 		return messageList;
 	}
@@ -187,7 +198,7 @@ public class MessageServiceMock implements MessageService {
 	 * @see org.kuali.student.common.messages.service.MessageService#getMessagesByGroups(java.lang.String,
 	 *      org.kuali.student.common.messages.dto.MessageGroupKeyList)
 	 */
-	@Override
+//	@Override
 	public MessageList getMessagesByGroups(String localeKey,
 			MessageGroupKeyList messageGroupKeyList) {
 
@@ -195,9 +206,9 @@ public class MessageServiceMock implements MessageService {
 		List<Message> messageArrayList = new ArrayList<Message>();
 		for (String groupKey : messageGroupKeyList.getMessageGroupKeys()) {
 			MessageList messageList = getMessages(localeKey, groupKey);
-			messageArrayList.addAll(messageList.getMessages());
+			// TODO KSCM			messageArrayList.addAll(messageList.getMessages());
 		}
-		groupMessageList.setMessages(messageArrayList);
+		// TODO KSCM		groupMessageList.setMessages(messageArrayList);
 
 		return groupMessageList;
 	}
@@ -207,7 +218,7 @@ public class MessageServiceMock implements MessageService {
 	 *      java.lang.String, java.lang.String,
 	 *      org.kuali.student.common.messages.dto.Message)
 	 */
-	@Override
+//	@Override
 	public Message updateMessage(String localeKey, String messageGroupKey,
 			String messageKey, Message messageInfo) {
 		if (getMessage(localeKey, messageGroupKey, messageKey) != null) {
@@ -257,6 +268,90 @@ public class MessageServiceMock implements MessageService {
 		}
 
 		logger.debug("Bootstrap messages finished.");
+	}
+
+	@Override
+	public List<LocaleInfo> getLocales(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getMessageGroupKeys(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageInfo getMessage(LocaleInfo localeInfo,
+			String messageGroupKey, String messageKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MessageInfo> getMessages(LocaleInfo localeInfo,
+			String messageGroupKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MessageInfo> getMessagesByGroups(LocaleInfo localeInfo,
+			List<String> messageGroupKeys, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageInfo updateMessage(LocaleInfo localeInfo, String messageKey,
+			MessageInfo messageInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo addMessage(LocaleInfo localeInfo, String messageGroupKey,
+			MessageInfo messageInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageInfo updateMessage(LocaleInfo localeKey,
+			String messageGroupKey, String messageKey, MessageInfo messageInfo,
+			ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -79,21 +79,22 @@ public class MessageServiceMockTest {
     
     @Test
     public void testGetMessages(){
-        List<Message> messages = messageService.getMessages("US", "Address").getMessages();
+        List<Message> messages = null;
+     // TODO KSCM  messageService.getMessages("US", "Address").getMessages();
         assertEquals(2, messages.size());
         for(Message m: messages){
             assertEquals(m.getLocale(), "US");
             assertEquals(m.getGroupName(), "Address");
             assertTrue(m.getId().equals("State") ? ("State:".equals(m.getValue())):("Enter the US city where you live:".equals(m.getValue())));
         }
-        messages = messageService.getMessages("CA", "Address").getMessages();
+     // TODO KSCM        messages = messageService.getMessages("CA", "Address").getMessages();
         assertEquals(2, messages.size());
         for(Message m: messages){
             assertEquals(m.getLocale(), "CA");
             assertEquals(m.getGroupName(), "Address");
             assertTrue(m.getId().equals("State") ? ("Province:".equals(m.getValue())):("Enter the Canadian city where you live:".equals(m.getValue())));
         }
-        messages = messageService.getMessages("US", "Name").getMessages();
+     // TODO KSCM        messages = messageService.getMessages("US", "Name").getMessages();
         assertEquals(1, messages.size());
         for(Message m: messages){
             assertEquals(m.getLocale(), "US");
@@ -109,14 +110,15 @@ public class MessageServiceMockTest {
         groupKeys.add("Name");
         MessageGroupKeyList groupKeyList = new MessageGroupKeyList();
         groupKeyList.setMessageGroupKeys(groupKeys);
-        List<Message> messages = messageService.getMessagesByGroups("US", groupKeyList).getMessages();
+        List<Message> messages = null;
+     // TODO KSCMmessageService.getMessagesByGroups("US", groupKeyList).getMessages();
         assertEquals(3, messages.size());
         for(Message m: messages){
             assertEquals(m.getLocale(), "US");
             assertTrue(m.getGroupName().equals("Address") || m.getGroupName().equals("Name"));
         }
         
-        messages = messageService.getMessagesByGroups("CA", groupKeyList).getMessages();
+     // TODO KSCM        messages = messageService.getMessagesByGroups("CA", groupKeyList).getMessages();
         assertEquals(3, messages.size());
         for(Message m: messages){
             assertEquals(m.getLocale(), "CA");

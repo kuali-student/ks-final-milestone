@@ -27,6 +27,7 @@ import javax.jws.WebService;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;
@@ -36,6 +37,7 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchParam;
@@ -69,6 +71,7 @@ import org.kuali.student.core.statement.entity.StatementType;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslator;
 import org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.type.dto.TypeInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -309,7 +312,7 @@ public class StatementServiceImpl implements StatementService {
 		return nl;
 	}
 
-	@Override
+	// @Override
 	public String translateReqComponentToNL(final ReqComponentInfo reqComponentInfo, final String nlUsageTypeKey, final String language)
 			throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
@@ -334,7 +337,7 @@ public class StatementServiceImpl implements StatementService {
 		}
 	}
 
-	@Override
+	// @Override
 	public String translateStatementTreeViewToNL(final StatementTreeViewInfo statementTreeViewInfo, final String nlUsageTypeKey, final String language)
 			throws InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
@@ -403,7 +406,7 @@ public class StatementServiceImpl implements StatementService {
 		}
 	}
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public ReqComponentInfo createReqComponent(final String reqComponentType, final ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentType, "reqComponentType");
@@ -422,7 +425,7 @@ public class StatementServiceImpl implements StatementService {
         return statementAssembler.toReqComponentInfo(reqComp, null, null);
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatementInfo createStatement(final String statementType, final StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementType, "statementType");
@@ -443,7 +446,7 @@ public class StatementServiceImpl implements StatementService {
         return info;
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatementTreeViewInfo createStatementTreeView(final StatementTreeViewInfo statementTreeViewInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, CircularReferenceException {
     	try {
@@ -460,7 +463,7 @@ public class StatementServiceImpl implements StatementService {
     }
 
     
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatusInfo deleteReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(reqComponentId, "reqComponentId");
@@ -479,7 +482,7 @@ public class StatementServiceImpl implements StatementService {
         return statusInfo;
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatusInfo deleteStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(statementId, "statementId");
@@ -512,7 +515,7 @@ public class StatementServiceImpl implements StatementService {
         return statusInfo;
     }
     
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatusInfo deleteStatementTreeView(final String statementId) throws DoesNotExistException{
         Statement stmt = statementDao.fetch(Statement.class, statementId);
@@ -556,12 +559,12 @@ public class StatementServiceImpl implements StatementService {
     	statementDao.delete(stmt);
 	}
 
-	@Override
+	// @Override
     public ReqComponentInfo getReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return statementAssembler.toReqComponentInfo(statementDao.fetch(ReqComponent.class, reqComponentId), null, null);
     }
 
-    @Override
+    // @Override
     public List<ReqComponentInfo> getReqComponentsByType(final String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(reqComponentTypeKey, "reqComponentTypeKey");
 
@@ -569,7 +572,7 @@ public class StatementServiceImpl implements StatementService {
         return statementAssembler.toReqComponentInfos(reqComponents, null, null);
     }
 
-    @Override
+    // @Override
     public StatementInfo getStatement(final String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         StatementInfo statementInfo = null;
         checkForMissingParameter(statementId, "statementId");
@@ -577,7 +580,7 @@ public class StatementServiceImpl implements StatementService {
         return statementInfo;
     }
 
-    @Override
+    // @Override
     public List<StatementInfo> getStatementsByType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(statementTypeKey, "statementTypeKey");
 
@@ -585,7 +588,7 @@ public class StatementServiceImpl implements StatementService {
         return StatementAssembler.toStatementInfos(statements);
     }
 
-    @Override
+    // @Override
     public List<StatementInfo> getStatementsUsingReqComponent(final String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(reqComponentId, "reqComponentId");
 
@@ -612,7 +615,7 @@ public class StatementServiceImpl implements StatementService {
 		return list;
 	}
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatementInfo updateStatement(final String statementId, final StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         //Check Missing params
@@ -633,80 +636,82 @@ public class StatementServiceImpl implements StatementService {
         return updStatementInfo;
     }
 
-    @Override
+    // @Override
     public List<ValidationResultInfo> validateReqComponent(final String validationType, final ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(reqComponentInfo, "reqComponentInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(ReqComponentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(reqComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = null;
+     // TODO KSCM        validationResults = defaultValidator.validateObject(reqComponentInfo, objStructure);
 
         return validationResults;
     }
 
-    @Override
+    // @Override
     public List<ValidationResultInfo> validateStatement(final String validationType, final StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(statementInfo, "statementInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(StatementInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementInfo, objStructure);
+        List<ValidationResultInfo> validationResults = null;
+     // TODO KSCM        validationResults = defaultValidator.validateObject(statementInfo, objStructure);
 
         return validationResults;
     }
 
-    @Override
+    // @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
-    @Override
+    // @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
     }
 
-    @Override
+    // @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
         return searchManager.getSearchCriteriaTypes();
     }
 
-    @Override
+    // @Override
     public SearchResultTypeInfo getSearchResultType(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
         return searchManager.getSearchResultType(searchResultTypeKey);
     }
 
-    @Override
+    // @Override
     public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
         return searchManager.getSearchResultTypes();
     }
 
-    @Override
+    // @Override
     public SearchTypeInfo getSearchType(final String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
         return searchManager.getSearchType(searchTypeKey);
     }
 
-    @Override
+    // @Override
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
         return searchManager.getSearchTypes();
     }
 
-    @Override
+    // @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
         return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
     }
 
-    @Override
+    // @Override
     public List<SearchTypeInfo> getSearchTypesByResult(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
         return searchManager.getSearchTypesByResult(searchResultTypeKey);
     }
 
-	@Override
+	// @Override
     public SearchResult search(final SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
         if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())){
@@ -817,17 +822,17 @@ public class StatementServiceImpl implements StatementService {
 		return searchResult;
 	}
 
-	@Override
+	// @Override
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
     }
 
-    @Override
+    // @Override
     public StatementTypeInfo getStatementType(final String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toStatementTypeInfo(statementDao.fetch(StatementType.class, statementTypeKey));
     }
 
-    @Override
+    // @Override
     public List<StatementTypeInfo> getStatementTypes() throws OperationFailedException {
         return StatementAssembler.toStatementTypeInfos(statementDao.find(StatementType.class));
     }
@@ -837,18 +842,20 @@ public class StatementServiceImpl implements StatementService {
     	return type.getAllowedStatementTypes();
     }
 
-    @Override
+    // @Override
     public List<ReqComponentTypeInfo> getReqComponentTypes() throws OperationFailedException {
         return StatementAssembler.toReqComponentTypeInfos(statementDao.find(ReqComponentType.class));
     }
 
-    @Override
+    // @Override
     public ReqComponentTypeInfo getReqComponentType(final String reqComponentTypeKey)
     		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return StatementAssembler.toReqComponentTypeInfo(statementDao.fetch(ReqComponentType.class, reqComponentTypeKey));
     }
 
-    @Override
+    // @Override
+ // TODO KSCM    
+    /*
     public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(final String statementTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(statementTypeKey, "statementTypeKey");
@@ -860,8 +867,8 @@ public class StatementServiceImpl implements StatementService {
 
         return StatementAssembler.toReqComponentTypeInfosOrdered( stmtType.getAllowedReqComponentTypes() );
     }
-
-    @Override
+*/
+    // @Override
     @Transactional(readOnly=false)
 	public ReqComponentInfo updateReqComponent(final String reqComponentId, final ReqComponentInfo reqComponentInfo)
     		throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -904,8 +911,8 @@ public class StatementServiceImpl implements StatementService {
 		entity.setRefStatementRelationType(type);
 		entity.setStatement(statement);
 
-		List<RefStatementRelationAttribute> attributes = StatementAssembler.toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), entity, this.statementDao);
-		entity.setAttributes(attributes);
+		// TODO KSCM		List<RefStatementRelationAttribute> attributes = StatementAssembler.toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), entity, this.statementDao);
+		// TODO KSCM		entity.setAttributes(attributes);
 
 		RefStatementRelation newEntity = this.statementDao.create(entity);
 
@@ -914,7 +921,7 @@ public class StatementServiceImpl implements StatementService {
 		return newDto;
 	}
 
-	@Override
+	// @Override
 	@Transactional(readOnly=false)
 	public RefStatementRelationInfo updateRefStatementRelation(final String refStatementRelationId, final RefStatementRelationInfo refStatementRelationInfo)
 			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -929,7 +936,7 @@ public class StatementServiceImpl implements StatementService {
 		return dto;
 	}
 
-	@Override
+	// @Override
 	@Transactional(readOnly=false)
 	public StatusInfo deleteRefStatementRelation(final String refStatementRelationId)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -942,17 +949,18 @@ public class StatementServiceImpl implements StatementService {
         return statusInfo;
 	}
 
-	@Override
+	// @Override
 	public List<ValidationResultInfo> validateRefStatementRelation(final String validationType, RefStatementRelationInfo refStatementRelationInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         ObjectStructureDefinition objStructure = this.getObjectStructure(RefStatementRelationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refStatementRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = null;
+     // TODO KSCM        validationResults = defaultValidator.validateObject(refStatementRelationInfo, objStructure);
 
 		return validationResults;
 	}
 
-    @Override
+    // @Override
     public StatementTreeViewInfo getStatementTreeView(final String statementId)
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
@@ -960,7 +968,7 @@ public class StatementServiceImpl implements StatementService {
     	return getStatementTreeView(statementId, null, null);
     }
 
-    @Override
+    // @Override
     public StatementTreeViewInfo getStatementTreeViewForNlUsageType(final String statementId, final String nlUsageTypeKey, final String language)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForNullOrEmptyParameter("statementId", statementId);
@@ -1035,7 +1043,7 @@ public class StatementServiceImpl implements StatementService {
     	throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         if (statementInfo == null) return;
 
-        statementAssembler.copyValues(statementTreeViewInfo, statementInfo);
+     // TODO KSCM        statementAssembler.copyValues(statementTreeViewInfo, statementInfo);
         statementTreeViewInfo.setReqComponents(getReqComponentInfos(statementInfo, nlUsageTypeKey, language));
         // get statements recursively and convert them into statementTreeViewInfo
         if (statementInfo.getStatementIds() != null) {
@@ -1054,7 +1062,7 @@ public class StatementServiceImpl implements StatementService {
         }
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo)
     	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -1063,7 +1071,7 @@ public class StatementServiceImpl implements StatementService {
 	    if (stmt == null) {
 	        throw new DoesNotExistException("Statement does not exist for id: " + statementTreeViewInfo.getId());
 		}
-		if (!String.valueOf(stmt.getVersionNumber()).equals(statementTreeViewInfo.getMetaInfo().getVersionInd())) {
+		if (!String.valueOf(stmt.getVersionNumber()).equals(statementTreeViewInfo.getMeta().getVersionInd())) {
 		    throw new VersionMismatchException("Statement to be updated is not the current version");
 		}
 		   
@@ -1148,7 +1156,7 @@ public class StatementServiceImpl implements StatementService {
         }
         StatementInfo updatedStatementInfo = updateStatement(statementTreeViewInfo.getId(), statementAssembler.toStatementInfo(
                 statementTreeViewInfo));
-        statementAssembler.copyValues(statementTreeViewInfo, updatedStatementInfo);
+     // TODO KSCM        statementAssembler.copyValues(statementTreeViewInfo, updatedStatementInfo);
     }
 
 	private void updateSTVHelperCreateStatements(StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
@@ -1214,7 +1222,7 @@ public class StatementServiceImpl implements StatementService {
                 // if this exception is thrown it should be an error!
                 throw new OperationFailedException("Tried to create a statement that already exists");
             }
-            statementAssembler.copyValues(statementTreeViewInfo, newStatementInfo);
+         // TODO KSCM            statementAssembler.copyValues(statementTreeViewInfo, newStatementInfo);
         }
     }
 
@@ -1222,7 +1230,7 @@ public class StatementServiceImpl implements StatementService {
      *
      * @return a list of relationships in the first list but not in the second
      */
-	@Override
+	// @Override
 	public RefStatementRelationTypeInfo getRefStatementRelationType(final String refStatementRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForNullOrEmptyParameter(refStatementRelationTypeKey, "refStatementRelationTypeKey");
@@ -1232,20 +1240,20 @@ public class StatementServiceImpl implements StatementService {
 		return StatementAssembler.toRefStatementRelationTypeInfo(type);
 	}
 
-	@Override
+	// @Override
 	public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes()
 			throws OperationFailedException {
 		List<RefStatementRelationType> entities = this.statementDao.find(RefStatementRelationType.class);
 		return StatementAssembler.toRefStatementRelationTypeInfos(entities);
 	}
 
-	@Override
+	// @Override
 	public List<String> getRefStatementRelationTypesForRefObjectSubType(final String refSubTypeKey)
 		throws DoesNotExistException,InvalidParameterException, MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-	@Override
+	// @Override
 	public List<String> getStatementTypesForRefStatementRelationType(final String refStatementRelationTypeKey)
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");
@@ -1253,5 +1261,428 @@ public class StatementServiceImpl implements StatementService {
 
 	public void setValidatorFactory(ValidatorFactory validatorFactory) {
 		this.validatorFactory = validatorFactory;
+	}
+
+	@Override
+	public List<TypeInfo> getRefObjectTypes(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getRefObjectSubTypes(ContextInfo refObjectTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefStatementRelationInfo getRefStatementRelation(
+			String refStatementRelationId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RefStatementRelationInfo> getRefStatementRelationsByIds(
+			List<String> refStatementRelationIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RefStatementRelationInfo> getRefStatementRelationsByType(
+			String refStatementRelationTypeKey, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(
+			String statementId, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateRefStatementRelation(
+			String validationTypeKey, String statementId,
+			String refStatementRelationTypeKey,
+			RefStatementRelationInfo refStatementRelationInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefStatementRelationInfo createRefStatementRelation(
+			String refObjectId, String statementId, String refObjectTypeKey,
+			RefStatementRelationInfo refStatementRelationInfo,
+			ContextInfo contextInfo) throws AlreadyExistsException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefStatementRelationInfo updateRefStatementRelation(
+			String refStatementRelationId,
+			RefStatementRelationInfo refStatementRelationInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteRefStatementRelation(String refStatementRelationId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TypeInfo getNlUsageByType(String nlUsageTypeKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNlByStatementId(String statementId, String nlUsageTypeKey,
+			String language, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNlByRefStatementRelation(String refStatementRelationId,
+			String nlUsageTypeKey, String language, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getNlByReqComponent(String reqComponentId,
+			String nlUsageTypeKey, String language, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String translateStatementTreeViewToNL(
+			StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey,
+			String language, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo,
+			String nlUsageTypeKey, String language, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementInfo getStatement(String statementId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatementInfo> getStatementsByReqComponentId(
+			String reqComponentId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatementInfo> getStatementsByType(String statementTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatementInfo> getStatementsForStatement(String statementId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getStatementTypes(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getStatementTypesForStatementType(
+			String statementTypeKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getStatementTypesForRefStatementRelationType(
+			String refStatementRelationTypeKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getRefStatementRelationTypesForRefObjectSubType(
+			String refSubTypeKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateStatement(
+			String validationTypeKey, String statementTypeKey,
+			StatementInfo statementInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementInfo createStatement(String statementTypeKey,
+			StatementInfo statementInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementInfo updateStatement(String statementId,
+			StatementInfo statementInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException, VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteStatement(String statementId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getReqCompFieldTypesForReqComponentType(
+			String reqComponentTypeKey, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReqComponentInfo getReqComponent(String reqComponentId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ReqComponentInfo> getReqComponentsByType(
+			String reqComponentTypeKey, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TypeInfo getReqComponentType(String reqComponentTypeKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getReqComponentTypes(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<TypeInfo> getReqComponentTypesForStatementType(
+			String statementTypeKey) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateReqComponent(
+			String validationTypeKey, String reqComponentTypeKey,
+			ReqComponentInfo reqComponentInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReqComponentInfo createReqComponent(String reqComponentTypeKey,
+			ReqComponentInfo reqComponentInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ReqComponentInfo updateReqComponent(String reqComponentId,
+			ReqComponentInfo reqComponentInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteReqComponent(String reqComponentId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementTreeViewInfo getStatementTreeView(String statementId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementTreeViewInfo getStatementTreeViewForNlUsageType(
+			String statementId, String nlUsageTypeKey, String language,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementTreeViewInfo createStatementTreeView(
+			StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementTreeViewInfo updateStatementTreeView(String statementId,
+			StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException, VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteStatementTreeView(String statementId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

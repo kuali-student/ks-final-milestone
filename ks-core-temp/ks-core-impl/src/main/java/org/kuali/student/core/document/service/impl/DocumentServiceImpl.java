@@ -23,6 +23,7 @@ import javax.jws.WebService;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -30,6 +31,7 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.service.SearchManager;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -74,7 +76,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
     
     
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(documentId, "documentId");
@@ -85,7 +87,7 @@ public class DocumentServiceImpl implements DocumentService {
         return statusInfo;
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentTypeKey, "documentTypeKey");
@@ -120,53 +122,53 @@ public class DocumentServiceImpl implements DocumentService {
 	return DocumentServiceAssembler.toDocumentInfo(doc);
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatusInfo deleteDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         dao.delete(Document.class, documentId);
         return new StatusInfo();
     }
-    @Override
+    // @Override
     public List<DocumentCategoryInfo> getCategoriesByDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         List<DocumentCategory> categories = dao.getCategoriesByDocument(documentId);
         return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
-    @Override
+    // @Override
     public DocumentInfo getDocument(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         return DocumentServiceAssembler.toDocumentInfo(dao.fetch(Document.class, documentId));
     }
-    @Override
+    // @Override
     public List<DocumentCategoryInfo> getDocumentCategories() throws OperationFailedException {
         List<DocumentCategory> categories = dao.find(DocumentCategory.class);
         return DocumentServiceAssembler.toDocumentCategoryInfos(categories);
     }
     
-    @Override
+    // @Override
     public DocumentCategoryInfo getDocumentCategory(String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         return DocumentServiceAssembler.toDocumentCategoryInfo(dao.fetch(DocumentCategory.class, documentCategoryKey));
     }
     
-    @Override
+    // @Override
     public DocumentTypeInfo getDocumentType(String documentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(documentTypeKey, "documentTypeKey");
         return DocumentServiceAssembler.toGenericTypeInfo(DocumentTypeInfo.class,(dao.fetch(DocumentType.class, documentTypeKey)));
     }
     
-    @Override
+    // @Override
     public List<DocumentTypeInfo> getDocumentTypes() throws OperationFailedException {
         return DocumentServiceAssembler.toGenericTypeInfoList(DocumentTypeInfo.class,dao.find(DocumentType.class));
     }
     
-    @Override
+    // @Override
     public List<String> getRefObjectTypes() throws OperationFailedException {
         return DocumentServiceAssembler.toGenericTypeKeyList(dao.find(RefObjectType.class));
     }
     
-    @Override
+    // @Override
     public List<String> getRefObjectSubTypes(String refObjectTypeKey) throws MissingParameterException, OperationFailedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
         RefObjectType refOjectType;
@@ -178,43 +180,43 @@ public class DocumentServiceImpl implements DocumentService {
         return DocumentServiceAssembler.toGenericTypeKeyList(refOjectType.getRefObjectSubTypes());
     }
     
-    @Override
+    // @Override
     public List<RefDocRelationTypeInfo> getRefDocRelationTypes() throws OperationFailedException {
         return DocumentServiceAssembler.toGenericTypeInfoList(RefDocRelationTypeInfo.class, dao.find(RefDocRelationType.class));
     }
     
-    @Override
+    // @Override
 	public List<RefDocRelationTypeInfo> getRefDocRelationTypesForRefObjectSubType(String refSubTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(refSubTypeKey, "refSubTypeKey");
         
         RefObjectSubType refObjectSubType = dao.fetch(RefObjectSubType.class, refSubTypeKey);
         return DocumentServiceAssembler.toGenericTypeInfoList(RefDocRelationTypeInfo.class, refObjectSubType.getRefDocRelationTypes());
     }
-    @Override
+    // @Override
     public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentIdList, "documentIdList");
         checkForEmptyList(documentIdList, "documentIdList");
         List<Document> documents = dao.getDocumentsByIdList(documentIdList);
         return DocumentServiceAssembler.toDocumentInfos(documents);
     }
-    @Override
+    // @Override
     public RefDocRelationInfo getRefDocRelation(String refDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
         return DocumentServiceAssembler.toRefDocRelationInfo(dao.fetch(RefDocRelation.class, refDocRelationId));
     }
-    @Override
+    // @Override
 	public List<RefDocRelationInfo> getRefDocRelationsByRef(String refObjectTypeKey, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
         checkForMissingParameter(refObjectId, "refObjectId");
         return DocumentServiceAssembler.toRefDocRelationInfos(dao.getRefDocRelationsByRef(refObjectTypeKey, refObjectId));       
     }
-    @Override
+    // @Override
     public List<RefDocRelationInfo> getRefDocRelationsByDoc(String documentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
         return DocumentServiceAssembler.toRefDocRelationInfos(dao.getRefDocRelationsByDoc(documentId));       
     }
     
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(documentId, "documentId");
@@ -227,7 +229,7 @@ public class DocumentServiceImpl implements DocumentService {
     /**
      * Does not update Type or categories
      */
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         checkForMissingParameter(documentId, "documentId");
@@ -240,7 +242,7 @@ public class DocumentServiceImpl implements DocumentService {
         
         Document document = dao.fetch(Document.class, documentId);
         
-        if (!String.valueOf(document.getVersionNumber()).equals(documentInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(document.getVersionNumber()).equals(documentInfo.getMeta().getVersionInd())){
             throw new VersionMismatchException("Document to be updated is not the current version");
         }
         
@@ -250,30 +252,32 @@ public class DocumentServiceImpl implements DocumentService {
     }
     
 
-    @Override
+    // @Override
     public List<ValidationResultInfo> validateDocument(String validationType, DocumentInfo documentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(documentInfo, "documentInfo");
         
         ObjectStructureDefinition objStructure = this.getObjectStructure(DocumentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(documentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = null;
+     // TODO KSCM        validationResults = defaultValidator.validateObject(documentInfo, objStructure);
         return validationResults;        
     }
 
 
-    @Override
+    // @Override
     public List<ValidationResultInfo> validateRefDocRelation(String validationType, RefDocRelationInfo refDocRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(validationType, "validationType");
         checkForMissingParameter(refDocRelationInfo, "refDocRelationInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(RefDocRelationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(refDocRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = null;
+     // TODO KSCM        validationResults = defaultValidator.validateObject(refDocRelationInfo, objStructure);
         return validationResults;        
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public RefDocRelationInfo createRefDocRelation(String refObjectTypeKey, String refObjectId, String documentId, String refDocRelationTypeKey, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refObjectTypeKey, "refObjectTypeKey");
@@ -293,14 +297,14 @@ public class DocumentServiceImpl implements DocumentService {
                          
         refDocRelationInfo.setRefObjectTypeKey(refObjectTypeKey);
         refDocRelationInfo.setRefObjectId(refObjectId);
-        refDocRelationInfo.setType(refDocRelationTypeKey);;
+     // TODO KSCM        refDocRelationInfo.setType(refDocRelationTypeKey);
         
         RefDocRelation refDocRelation = DocumentServiceAssembler.toRefDocRelation(new RefDocRelation(), refDocRelationInfo, dao);
 
         return DocumentServiceAssembler.toRefDocRelationInfo(dao.create(refDocRelation));
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public RefDocRelationInfo updateRefDocRelation(String refDocRelationId, RefDocRelationInfo refDocRelationInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
@@ -315,7 +319,7 @@ public class DocumentServiceImpl implements DocumentService {
         
         RefDocRelation refDocRelation = dao.fetch(RefDocRelation.class, refDocRelationId);
         
-        if (!String.valueOf(refDocRelation.getVersionNumber()).equals(refDocRelationInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(refDocRelation.getVersionNumber()).equals(refDocRelationInfo.getMeta().getVersionInd())){
             throw new VersionMismatchException("RefDocRelation to be updated is not the current version");
         }
         
@@ -324,7 +328,7 @@ public class DocumentServiceImpl implements DocumentService {
         return DocumentServiceAssembler.toRefDocRelationInfo(dao.update(refDocRelation));
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false)
 	public StatusInfo deleteRefDocRelation(String refDocRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(refDocRelationId, "refDocRelationId");
@@ -359,12 +363,12 @@ public class DocumentServiceImpl implements DocumentService {
         }
     }
     
-    @Override
+    // @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
-    @Override
+    // @Override
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
     }
@@ -399,5 +403,182 @@ public class DocumentServiceImpl implements DocumentService {
 
     public void setValidatorFactory(ValidatorFactory validatorFactory) {
         this.validatorFactory = validatorFactory;
-    }	
+    }
+
+	@Override
+	public DocumentInfo getDocument(String documentId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DocumentInfo> getDocumentsByIds(List<String> documentIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateDocument(
+			String validationTypeKey, DocumentInfo documentInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DocumentInfo createDocument(String documentTypeKey,
+			String documentCategoryKey, DocumentInfo documentInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DocumentInfo updateDocument(String documentId,
+			DocumentInfo documentInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException, VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteDocument(String documentId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DocumentCategoryInfo getDocumentCategory(String documentCategoryKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DocumentCategoryInfo> getDocumentCategories(
+			ContextInfo contextInfo) throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DocumentCategoryInfo> getDocumentCategoriesByDocumentId(
+			String documentId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo removeDocumentCategoryFromDocument(String documentId,
+			String documentCategoryKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo addDocumentCategoryToDocument(String documentId,
+			String documentCategoryKey, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefDocRelationInfo getRefDocRelation(String refDocRelationId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RefDocRelationInfo> getRefDocRelationsByDocument(
+			String documentId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<RefDocRelationInfo> getRefDocRelationsByRef(
+			String refObjectTypeKey, String refObjectId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateRefDocRelation(
+			String validationTypeKey, RefDocRelationInfo refDocRelationInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefDocRelationInfo createRefDocRelation(String refObjectTypeKey,
+			String refObjectId, String documentId,
+			String refDocRelationTypeKey,
+			RefDocRelationInfo refDocRelationInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RefDocRelationInfo updateRefDocRelation(String refDocRelationId,
+			RefDocRelationInfo refDocRelationInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteRefDocRelation(String refDocRelationId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}	
 }

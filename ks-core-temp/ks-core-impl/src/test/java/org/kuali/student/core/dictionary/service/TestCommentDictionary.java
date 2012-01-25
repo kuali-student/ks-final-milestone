@@ -63,7 +63,8 @@ public class TestCommentDictionary
   CommentInfo info = new CommentInfo ();
   ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
     info.getClass ().getName ());
-  List<ValidationResultInfo> validationResults = val.validateObject (info, os);
+  List<ValidationResultInfo> validationResults = null;
+//TODO KSCM  val = val.validateObject (info, os);
   System.out.println ("h3. With just a blank");
   for (ValidationResultInfo vr : validationResults)
   {

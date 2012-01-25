@@ -20,10 +20,20 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.LocaleInfo;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.messages.dto.LocaleKeyList;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageInfo;
 import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.core.messages.dao.MessageManagementDAO;
@@ -95,7 +105,7 @@ public class MessageServiceImpl implements MessageService{
 	        
 	        MessageList messageList = new MessageList();
 	        List<Message> messageDTOs =  MessageAssembler.toMessageList(messages,Message.class);
-	        messageList.setMessages(messageDTOs);
+	     // TODO KSCM	        messageList.setMessages(messageDTOs);
 			return messageList;
 		}
 	}
@@ -108,7 +118,7 @@ public class MessageServiceImpl implements MessageService{
 			List<MessageEntity> messages =  this.messageDAO.getMessagesByGroups(localeKey, messageGroupKeyList.getMessageGroupKeys());
 		    MessageList messageList = new MessageList();
 		    List<Message> messageDTOs =  MessageAssembler.toMessageList(messages,Message.class);
-		    messageList.setMessages(messageDTOs);
+		 // TODO KSCM		    messageList.setMessages(messageDTOs);
 			return messageList;
 		}
 	}
@@ -137,6 +147,90 @@ public class MessageServiceImpl implements MessageService{
 			MessageAssembler.toMessage(messageEntity, messageInfo);
 		}
 		return messageInfo;
+	}
+
+	@Override
+	public List<LocaleInfo> getLocales(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getMessageGroupKeys(ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageInfo getMessage(LocaleInfo localeInfo,
+			String messageGroupKey, String messageKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MessageInfo> getMessages(LocaleInfo localeInfo,
+			String messageGroupKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MessageInfo> getMessagesByGroups(LocaleInfo localeInfo,
+			List<String> messageGroupKeys, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageInfo updateMessage(LocaleInfo localeInfo, String messageKey,
+			MessageInfo messageInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteMessage(LocaleInfo localeInfo, String messageKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo addMessage(LocaleInfo localeInfo, String messageGroupKey,
+			MessageInfo messageInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MessageInfo updateMessage(LocaleInfo localeKey,
+			String messageGroupKey, String messageKey, MessageInfo messageInfo,
+			ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
 	}
     
 }
