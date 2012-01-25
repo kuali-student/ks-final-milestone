@@ -45,7 +45,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 
-@WebService(name = "EnumerationManagementService", targetNamespace = EnumerationManagementServiceConstants.NAMESPACE)
+@WebService(name = "EnumerationManagementService", targetNamespace = "namespace")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface EnumerationManagementService {
 
