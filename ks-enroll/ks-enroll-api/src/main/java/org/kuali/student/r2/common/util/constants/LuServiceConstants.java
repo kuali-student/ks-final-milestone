@@ -15,18 +15,15 @@
  */
 package org.kuali.student.r2.common.util.constants;
 
-import org.kuali.student.r2.common.constants.CommonServiceConstants;
-import org.kuali.student.r2.lum.lu.dto.CluInfo;
-
 /**
  * Constants used by LuService 
  * 
  * @author @nina
  *
- * @Version 2.0
- * @Author Sri komandur@uw.edu
  */
 public class LuServiceConstants {
-    public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "lu";
-    public static final String REF_OBJECT_URI_LU = NAMESPACE + "/" + CluInfo.class.getSimpleName();
+
+	public static final String LU_NAMESPACE = "http://student.kuali.org/wsdl/lu";
+    public static final String CLU_NAMESPACE_URI = "{" + LU_NAMESPACE + "}cluInfo";
+    
 }
