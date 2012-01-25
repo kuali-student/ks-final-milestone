@@ -52,11 +52,19 @@ public abstract class TypeStateEntityInfo extends HasAttributesAndMetaInfo imple
         this.typeKey = typeKey;
     }
 
+    // TODO KSCM-224 Confirm with Larry
+    @Deprecated
+	public void setType(String subjectOrg) {
+    	this.setTypeKey(subjectOrg);
+	}
+
+
     @Override
     public String getStateKey() {
         return stateKey;
     }
 
+    // TODO KSCM-224 Confirm with Larry
     @Override
     @Deprecated
     public String getState() {
@@ -65,5 +73,11 @@ public abstract class TypeStateEntityInfo extends HasAttributesAndMetaInfo imple
 
     public void setStateKey(String stateKey) {
         this.stateKey = stateKey;
+    }
+    
+    // TODO KSCM-224 Confirm with Larry
+    @Deprecated
+    public void setState(String state) {
+    	this.setStateKey(state);
     }
 }

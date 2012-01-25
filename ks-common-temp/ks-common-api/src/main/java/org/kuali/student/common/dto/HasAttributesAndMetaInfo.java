@@ -39,8 +39,22 @@ public abstract class HasAttributesAndMetaInfo extends HasAttributesInfo
 	public MetaInfo getMeta() {
 		return this.meta;
 	}
+	
+	// TODO KSCM-224 Confirm with Larry & Service Team
+	@Deprecated
+	public MetaInfo getMetaInfo() {
+		return this.getMeta();
+	}
 
 	public void setMeta(MetaInfo metaInfo) {
 		this.meta = metaInfo;
 	}
+	
+	// TODO KSCM-224 Confirm with Larry & Service Team
+	@Deprecated
+	public void setMetaInfo(MetaInfo metaInfo) {
+		this.setMeta(metaInfo);
+		
+	}
+
 }

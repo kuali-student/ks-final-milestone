@@ -17,10 +17,12 @@ package org.kuali.student.common.validator;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 
 import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 public class ValidatorUtils {
 
@@ -230,6 +232,12 @@ public class ValidatorUtils {
     private static String[] getPathTokens(String fieldPath) {
         return (fieldPath != null && fieldPath.contains(".") ? fieldPath.split("\\.") : new String[]{fieldPath});
     }
+
+    // TODO KSCM-227 Must be removed
+	public static boolean hasErrors(List<ValidationResultInfo> validationResults) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }
 

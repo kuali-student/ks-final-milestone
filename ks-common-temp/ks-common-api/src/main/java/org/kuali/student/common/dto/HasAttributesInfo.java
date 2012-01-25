@@ -11,6 +11,7 @@ package org.kuali.student.common.dto;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlTransient;
@@ -54,4 +55,15 @@ public abstract class HasAttributesInfo implements HasAttributes, Serializable {
 		this.attributes = attributes;
 
 	}
+
+	@Deprecated
+	public void setAttributes(Map<String, String> attributes) {
+		// TODO KSCM-224 Confirm with Larry & Service Team
+		// TO convert the map in to a list and call setAttributes..
+		List<AttributeInfo> attribs = null;
+		// Call setAttributes now
+		this.setAttributes(attribs);
+		
+	}
+
 }
