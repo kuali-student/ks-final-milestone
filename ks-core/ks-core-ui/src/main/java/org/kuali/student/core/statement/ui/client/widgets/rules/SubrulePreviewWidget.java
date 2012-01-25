@@ -164,7 +164,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         boolean hasReqComponents = (subStatement.getReqComponents() != null && !subStatement.getReqComponents().isEmpty());
         
         // simplest case:  statement has one requisite component and its operator is the same as its parent
-        if(hasReqComponents && subStatement.getReqComponents().size() == 1 && subStatement.getOperator() == parentStatement.getOperator()) {
+        if(hasReqComponents && subStatement.getReqComponents().size() == 1) {
             // return requirement component text, including operator text if applicable
             ReqComponentInfo reqComp = subStatement.getReqComponents().iterator().next();
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
@@ -191,18 +191,18 @@ public class SubrulePreviewWidget extends FlowPanel {
         if(hasReqComponents) {
             // requisite component case: a sub-statement with only requisite components
             ULPanel subrulePanel = new ULPanel();
-            subrulePanel.setULClassName(SUBRULE_UL_CSS_CLASS);
-            
-            populateRequirementComponentWidgets(subStatement, subrulePanel);
-            
-            panel.add(subrulePanel);
-            
+            subrulePanel.setULClassName(SUBRULE_UL_CSS_CLASS);           
+            populateRequirementComponentWidgets(subStatement, subrulePanel);            
+            panel.add(subrulePanel);            
         }
         else {
             // sub-statement case: for each sub statement, call this method recursively
             boolean firstInSubList = true;
             for(StatementTreeViewInfo childStatement : subStatement.getStatements()) {
-                panel.add(buildSubStatementWidget(childStatement, subStatement, firstInSubList));
+                ULPanel subStatementPanel = new ULPanel();
+                subStatementPanel.setULClassName(SUBRULE_UL_CSS_CLASS);
+                subStatementPanel.add(buildSubStatementWidget(childStatement, subStatement, firstInSubList), SUBRULE_LI_CSS_CLASS);
+                panel.add(subStatementPanel);
                 firstInSubList = false;
             }
             
