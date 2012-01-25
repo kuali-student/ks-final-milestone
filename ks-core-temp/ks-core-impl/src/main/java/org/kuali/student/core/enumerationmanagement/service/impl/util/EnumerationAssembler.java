@@ -101,18 +101,18 @@ public class EnumerationAssembler {
 
 
     public static void toEnumerationInfo(Enumeration entity, EnumerationInfo info) {
-        info.setDescr(entity.getDescr());
+    	// TODO KSCM        info.setDescr(entity.getDescr());
         info.setName(entity.getName());
-        info.setEffectiveDate(entity.getEffectiveDate());
-        info.setExpirationDate(entity.getExpirationDate());
-        info.setId(entity.getId());
+     // TODO KSCM        info.setEffectiveDate(entity.getEffectiveDate());
+     // TODO KSCM        info.setExpirationDate(entity.getExpirationDate());
+     // TODO KSCM        info.setId(entity.getId());
     }
 
     public static void toEnumeration(EnumerationInfo info, Enumeration entity) {
-        entity.setDescr(info.getDescr());
+    	// TODO KSCM        entity.setDescr(info.getDescr());
         entity.setName(info.getName());
-        entity.setEffectiveDate(info.getEffectiveDate());
-        entity.setExpirationDate(info.getExpirationDate());
-        entity.setId(info.getId());
+     // TODO KSCM        entity.setEffectiveDate(info.getEffectiveDate());
+     // TODO KSCM        entity.setExpirationDate(info.getExpirationDate());
+     // TODO KSCM        entity.setId(info.getId());
     }
 }

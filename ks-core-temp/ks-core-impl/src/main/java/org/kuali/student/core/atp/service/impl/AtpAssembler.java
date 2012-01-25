@@ -49,7 +49,7 @@ public class AtpAssembler extends BaseAssembler{
 			if (atp == null) {
 				throw new DoesNotExistException("Atp does not exist for key: " + atpInfo.getId());
 			}
-			if (!String.valueOf(atp.getVersionNumber()).equals(atpInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(atp.getVersionNumber()).equals(atpInfo.getMeta().getVersionInd())){
 				throw new VersionMismatchException("Atp to be updated is not the current version");
 			}
 		} else {
@@ -61,7 +61,7 @@ public class AtpAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "desc" });
 
 		// Copy Attributes
-		atp.setAttributes(toGenericAttributes(AtpAttribute.class, atpInfo.getAttributes(), atp, dao));
+		// TODO KSCM		atp.setAttributes(toGenericAttributes(AtpAttribute.class, atpInfo.getAttributes(), atp, dao));
 
 		// Search for and copy the type
 		AtpType atpType = dao.fetch(AtpType.class, atpInfo.getType());
@@ -72,7 +72,7 @@ public class AtpAssembler extends BaseAssembler{
 		atp.setType(atpType);
 
 		//Copy RichText
-		atp.setDescr(toRichText(AtpRichText.class, atpInfo.getDesc()));
+		atp.setDescr(toRichText(AtpRichText.class, atpInfo.getDescr()));
 		
 		return atp;
 	}
@@ -84,10 +84,10 @@ public class AtpAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "desc" });
 
 		// copy attributes, metadata, Atp, and Type
-		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
-		atpInfo.setMetaInfo(toMetaInfo(atp.getMeta(), atp.getVersionNumber()));
-		atpInfo.setType(atp.getType().getId());
-		atpInfo.setDesc(toRichTextInfo(atp.getDescr()));
+		// TODO KSCM		atpInfo.setAttributes(toAttributeMap(atp.getAttributes()));
+		atpInfo.setMeta(toMetaInfo(atp.getMeta(), atp.getVersionNumber()));
+		// TODO KSCM		atpInfo.setType(atp.getType().getId());
+		atpInfo.setDescr(toRichTextInfo(atp.getDescr()));
 		
 		return atpInfo;
 	}
@@ -138,9 +138,9 @@ public class AtpAssembler extends BaseAssembler{
 			if (dateRange == null) {
 				throw new DoesNotExistException("DateRange does not exist for key: " + dateRangeInfo.getId());
 			}
-			if (!String.valueOf(dateRange.getVersionNumber()).equals(dateRangeInfo.getMetaInfo().getVersionInd())){
-				throw new VersionMismatchException("DateRange to be updated is not the current version");
-			}
+			// TODO KSCM			if (!String.valueOf(dateRange.getVersionNumber()).equals(dateRangeInfo.getMeta().getVersionInd())){
+			// TODO KSCM				throw new VersionMismatchException("DateRange to be updated is not the current version");
+			// TODO KSCM			}
 		} else {
 			dateRange = new DateRange();
 		}
@@ -215,7 +215,7 @@ public class AtpAssembler extends BaseAssembler{
 			if (milestone == null) {
 				throw new DoesNotExistException("Milestone does not exist for key: " + milestoneInfo.getId());
 			}
-			if (!String.valueOf(milestone.getVersionNumber()).equals(milestoneInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(milestone.getVersionNumber()).equals(milestoneInfo.getMeta().getVersionInd())){
 				throw new VersionMismatchException("Milestone to be updated is not the current version");
 			}
 		} else {
@@ -226,14 +226,15 @@ public class AtpAssembler extends BaseAssembler{
 				"atpKey", "type", "attributes", "metaInfo", "desc" });
 
 		// Copy the attributes
-		milestone.setAttributes(toGenericAttributes(MilestoneAttribute.class,
-				milestoneInfo.getAttributes(), milestone, dao));
+// TODO KSCM		milestone.setAttributes(toGenericAttributes(MilestoneAttribute.class,
+// TODO KSCM				milestoneInfo.getAttributes(), milestone, dao));
 
 		// Search for and copy the associated Atp
-		Atp atp = dao.fetch(Atp.class, milestoneInfo.getAtpId());
+		Atp atp = null;
+		// TODO KSCM		atp = dao.fetch(Atp.class, milestoneInfo.getAtpId());
 		if (atp == null) {
-			throw new InvalidParameterException("Atp does not exist for key: "
-					+ milestoneInfo.getAtpId());
+			// TODO KSCM			throw new InvalidParameterException("Atp does not exist for key: "
+// TODO KSCM					+ milestoneInfo.getAtpId());
 		}
 		milestone.setAtp(atp);
 
@@ -247,7 +248,7 @@ public class AtpAssembler extends BaseAssembler{
 		}
 		milestone.setType(milestoneType);
 
-		milestone.setDescr(toRichText(AtpRichText.class, milestoneInfo.getDesc()));
+		milestone.setDescr(toRichText(AtpRichText.class, milestoneInfo.getDescr()));
 		
 		return milestone;
 
@@ -261,13 +262,13 @@ public class AtpAssembler extends BaseAssembler{
 				"atp", "type", "attributes", "metaInfo", "desc" });
 
 		// copy attributes, metadata, Atp, and Type
-		milestoneInfo
-				.setAttributes(toAttributeMap(milestone.getAttributes()));
-		milestoneInfo.setMetaInfo(toMetaInfo(milestone.getMeta(), milestone
+		// TODO KSCM		milestoneInfo
+		// TODO KSCM				.setAttributes(toAttributeMap(milestone.getAttributes()));
+		milestoneInfo.setMeta(toMetaInfo(milestone.getMeta(), milestone
 				.getVersionNumber()));
-		milestoneInfo.setType(milestone.getType().getId());
-		milestoneInfo.setAtpId(milestone.getAtp().getId());
-		milestoneInfo.setDesc(toRichTextInfo(milestone.getDescr()));
+		// TODO KSCM		milestoneInfo.setType(milestone.getType().getId());
+		// TODO KSCM		milestoneInfo.setAtpId(milestone.getAtp().getId());
+		milestoneInfo.setDescr(toRichTextInfo(milestone.getDescr()));
 		
 		return milestoneInfo;
 	}

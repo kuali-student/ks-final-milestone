@@ -79,10 +79,10 @@ public class StatementAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto, new String[]{"refStatementRelationType", "statement", "attributes", "metaInfo"});
 
         // Copy generic attributes
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+     // TODO KSCM        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setStatementId(entity.getStatement().getId());
-        dto.setType(entity.getRefStatementRelationType().getId());
+     // TODO KSCM        dto.setType(entity.getRefStatementRelationType().getId());
         // dto.setRefObjectTypeKey(entity.getRefStatementRelationType().getObjectSubTypeList().get(0).g)
 
         return dto;
@@ -136,7 +136,7 @@ public class StatementAssembler extends BaseAssembler {
             if (reqComp == null) {
                 throw new DoesNotExistException("ReqComponent does not exist for id: " + reqCompInfo.getId());
             }
-            if (!String.valueOf(reqComp.getVersionNumber()).equals(reqCompInfo.getMetaInfo().getVersionInd())) {
+            if (!String.valueOf(reqComp.getVersionNumber()).equals(reqCompInfo.getMeta().getVersionInd())) {
                 throw new VersionMismatchException("ReqComponent to be updated is not the current version");
             }
             for (ReqComponentField reqCompField : reqComp.getReqComponentFields()) {
@@ -166,7 +166,7 @@ public class StatementAssembler extends BaseAssembler {
         }
         reqComp.setReqComponentFields(reqCompFieldList);
 
-        reqComp.setDescr(toRichText(StatementRichText.class, reqCompInfo.getDesc()));
+     // TODO KSCM        reqComp.setDescr(toRichText(StatementRichText.class, reqCompInfo.getDesc()));
 
         return reqComp;
     }
@@ -185,11 +185,11 @@ public class StatementAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(entity, dto, new String[]{"requiredComponentType", "reqCompField", "metaInfo"});
 
-        dto.setType(entity.getRequiredComponentType().getId());
+     // TODO KSCM        dto.setType(entity.getRequiredComponentType().getId());
         dto.setReqCompFields(toReqCompFieldInfos(entity.getReqComponentFields()));
         // dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
-        dto.setMetaInfo(toMetaInfo(entity));
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
+        dto.setMeta(toMetaInfo(entity));
+     // TODO KSCM        dto.setDesc(toRichTextInfo(entity.getDescr()));
         // if(nlUsageTypeKey != null && language != null) {
         // String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey, language);
         // dto.setNaturalLanguageTranslation(nl);
@@ -270,7 +270,7 @@ public class StatementAssembler extends BaseAssembler {
 
         ReqCompFieldInfo dto = new ReqCompFieldInfo();
         dto.setId(entity.getId());
-        dto.setType(entity.getType());
+     // TODO KSCM        dto.setType(entity.getType());
         dto.setValue(entity.getValue());
         return dto;
     }
@@ -282,7 +282,7 @@ public class StatementAssembler extends BaseAssembler {
             if (refStatement == null) {
                 throw new DoesNotExistException("RefStatementRelation does not exist for id: " + refStatementRelationInfo.getId());
             }
-            if (!String.valueOf(refStatement.getVersionNumber()).equals(refStatementRelationInfo.getMetaInfo().getVersionInd())) {
+            if (!String.valueOf(refStatement.getVersionNumber()).equals(refStatementRelationInfo.getMeta().getVersionInd())) {
                 throw new VersionMismatchException("RefStatementRelation to be updated is not the current version");
             }
         } else {
@@ -295,7 +295,7 @@ public class StatementAssembler extends BaseAssembler {
         this.statementDao.fetch(ObjectType.class, refStatementRelationInfo.getRefObjectTypeKey());
 
         // Copy generic attributes
-        refStatement.setAttributes(toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), refStatement, this.statementDao));
+     // TODO KSCM        refStatement.setAttributes(toGenericAttributes(RefStatementRelationAttribute.class, refStatementRelationInfo.getAttributes(), refStatement, this.statementDao));
         RefStatementRelationType type = this.statementDao.fetch(RefStatementRelationType.class, refStatementRelationInfo.getType());
 
         refStatement.setRefStatementRelationType(type);
@@ -312,7 +312,7 @@ public class StatementAssembler extends BaseAssembler {
                 "attributes", "metaInfo", "type", "parent", "children", "requiredComponents", "statementType", "id"});
 
         // Copy generic attributes
-        stmt.setAttributes(toGenericAttributes(StatementAttribute.class, treeView.getAttributes(), stmt, this.statementDao));
+     // TODO KSCM        stmt.setAttributes(toGenericAttributes(StatementAttribute.class, treeView.getAttributes(), stmt, this.statementDao));
 
         // Search for and copy the type
         StatementType stmtType = this.statementDao.fetch(StatementType.class, treeView.getType());
@@ -338,7 +338,7 @@ public class StatementAssembler extends BaseAssembler {
 
         stmt.setRequiredComponents(reqCompList);
 
-        stmt.setDescr(toRichText(StatementRichText.class, treeView.getDesc()));
+     // TODO KSCM        stmt.setDescr(toRichText(StatementRichText.class, treeView.getDesc()));
 
         Map<String, Statement> stmtsToDelete = new HashMap<String, Statement>();
         if (stmt.getChildren() != null) {
@@ -387,7 +387,7 @@ public class StatementAssembler extends BaseAssembler {
             if (stmt == null) {
                 throw new DoesNotExistException("Statement does not exist for id: " + stmtInfo.getId());
             }
-            if (!String.valueOf(stmt.getVersionNumber()).equals(stmtInfo.getMetaInfo().getVersionInd())) {
+            if (!String.valueOf(stmt.getVersionNumber()).equals(stmtInfo.getMeta().getVersionInd())) {
                 throw new VersionMismatchException("Statement to be updated is not the current version");
             }
         } else {
@@ -397,7 +397,7 @@ public class StatementAssembler extends BaseAssembler {
         BeanUtils.copyProperties(stmtInfo, stmt, new String[]{"cluIds", "statementIds", "reqComponentIds", "attributes", "metaInfo", "type", "parent", "children", "requiredComponents", "statementType"});
 
         // Copy generic attributes
-        stmt.setAttributes(toGenericAttributes(StatementAttribute.class, stmtInfo.getAttributes(), stmt, this.statementDao));
+     // TODO KSCM        stmt.setAttributes(toGenericAttributes(StatementAttribute.class, stmtInfo.getAttributes(), stmt, this.statementDao));
 
         // Search for and copy the type
         StatementType stmtType = this.statementDao.fetch(StatementType.class, stmtInfo.getType());
@@ -436,7 +436,7 @@ public class StatementAssembler extends BaseAssembler {
         }
         stmt.setRequiredComponents(reqCompList);
 
-        stmt.setDescr(toRichText(StatementRichText.class, stmtInfo.getDesc()));
+     // TODO KSCM        stmt.setDescr(toRichText(StatementRichText.class, stmtInfo.getDesc()));
 
         return stmt;
     }
@@ -460,12 +460,12 @@ public class StatementAssembler extends BaseAssembler {
             componentIds.add(reqComponent.getId());
         }
         dto.setReqComponentIds(componentIds);
-        dto.setType(entity.getStatementType().getId());
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+     // TODO KSCM        dto.setType(entity.getStatementType().getId());
+     // TODO KSCM        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+        dto.setMeta(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setName(entity.getName());
-        dto.setOperator(entity.getOperator());
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
+     // TODO KSCM        dto.setOperator(entity.getOperator());
+     // TODO KSCM        dto.setDesc(toRichTextInfo(entity.getDescr()));
         return dto;
     }
 
@@ -520,7 +520,7 @@ public class StatementAssembler extends BaseAssembler {
         if (statementTreeViewInfo == null)
             return null;
         statementInfo = new StatementInfo();
-        copyValues(statementInfo, statementTreeViewInfo);
+     // TODO KSCM        copyValues(statementInfo, statementTreeViewInfo);
         // goes through the list of reqComponents in statementTreeViewInfo and extract the reqComponent ids
         if (statementTreeViewInfo.getReqComponents() != null) {
             List<String> reqCompIds = new ArrayList<String>(7);
@@ -529,7 +529,7 @@ public class StatementAssembler extends BaseAssembler {
             }
             statementInfo.setReqComponentIds(reqCompIds);
         }
-        statementInfo.setState(statementTreeViewInfo.getState());
+     // TODO KSCM        statementInfo.setState(statementTreeViewInfo.getState());
         // TODO goes through the list of statements in statementTreeViewInfo and extract the statement ids
         if (statementTreeViewInfo.getStatements() != null) {
             List<String> statementIds = new ArrayList<String>(7);
@@ -538,7 +538,7 @@ public class StatementAssembler extends BaseAssembler {
             }
             statementInfo.setStatementIds(statementIds);
         }
-        statementInfo.setType(statementTreeViewInfo.getType());
+     // TODO KSCM        statementInfo.setType(statementTreeViewInfo.getType());
         return statementInfo;
     }
 
@@ -552,7 +552,7 @@ public class StatementAssembler extends BaseAssembler {
         toStatementInfo.setAttributes(fromStatementInfo.getAttributes());
         toStatementInfo.setDesc(fromStatementInfo.getDesc());
         toStatementInfo.setId(fromStatementInfo.getId());
-        toStatementInfo.setMetaInfo(fromStatementInfo.getMetaInfo());
+     // TODO KSCM        toStatementInfo.setMeta(fromStatementInfo.getMetaInfo());
         toStatementInfo.setName(fromStatementInfo.getName());
         toStatementInfo.setOperator(fromStatementInfo.getOperator());
         toStatementInfo.setState(fromStatementInfo.getState());
@@ -581,7 +581,7 @@ public class StatementAssembler extends BaseAssembler {
     public Statement toCustomLuStatementInfo(final StatementTreeViewInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, VersionMismatchException {
         Statement stmt = new Statement();
         stmt.setName(statementInfo.getName());
-        stmt.setOperator(statementInfo.getOperator());
+     // TODO KSCM        stmt.setOperator(statementInfo.getOperator());
         // TODO: Fix with LuService RC1.4 changes
         // LuStatementTypeInfo stmtType = this.luService.getLuStatementType(statementInfo.getStatementTypeId());
         // stmt.setLuStatementType(stmtType);
@@ -613,7 +613,7 @@ public class StatementAssembler extends BaseAssembler {
         for (StatementTreeViewInfo luNlStmt : stmtInfo.getStatements()) {
             Statement stmt = new Statement();
             stmt.setName(luNlStmt.getName());
-            stmt.setOperator(luNlStmt.getOperator());
+         // TODO KSCM            stmt.setOperator(luNlStmt.getOperator());
             if (luNlStmt.getType() != null) {
                 // TODO: Fix with LuService RC1.4 changes
                 // stmt.setLuStatementType(this.luService.getLuStatementType(luNlStmt.getStatementTypeId()));
@@ -647,17 +647,17 @@ public class StatementAssembler extends BaseAssembler {
 
     public StatementTreeViewInfo toStatementTreeViewInfo(Statement stmt) {
         StatementTreeViewInfo treeView = new StatementTreeViewInfo();
-        treeView.setAttributes(toAttributeMap(stmt.getAttributes()));
-        treeView.setDesc(toRichTextInfo(stmt.getDescr()));
+     // TODO KSCM        treeView.setAttributes(toAttributeMap(stmt.getAttributes()));
+        treeView.setDescr(toRichTextInfo(stmt.getDescr()));
         treeView.setId(stmt.getId());
-        treeView.setMetaInfo(toMetaInfo(stmt.getMeta(), stmt.getVersionNumber()));
+        treeView.setMeta(toMetaInfo(stmt.getMeta(), stmt.getVersionNumber()));
         treeView.setName(stmt.getName());
-        treeView.setType(stmt.getStatementType().getId());
-        treeView.setState(stmt.getState());
+     // TODO KSCM        treeView.setType(stmt.getStatementType().getId());
+     // TODO KSCM        treeView.setState(stmt.getState());
         for (ReqComponent reqComp : stmt.getRequiredComponents()) {
             treeView.getReqComponents().add(toReqComponentInfo(reqComp));
         }
-        treeView.setOperator(stmt.getOperator());
+     // TODO KSCM        treeView.setOperator(stmt.getOperator());
         for (Statement childStmt : stmt.getChildren()) {
             treeView.getStatements().add(toStatementTreeViewInfo(childStmt));
         }

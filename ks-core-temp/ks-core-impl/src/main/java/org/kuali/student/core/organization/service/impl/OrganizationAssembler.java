@@ -70,9 +70,9 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes" });
 
 		// copy attributes and RootOrg
-		orgHierarchyInfo.setAttributes(toAttributeMap(orgHierarchy.getAttributes()));
+		// TODO KSCM		orgHierarchyInfo.setAttributes(toAttributeMap(orgHierarchy.getAttributes()));
 		orgHierarchyInfo.setRootOrgId(orgHierarchy.getRootOrg().getId());
-		orgHierarchyInfo.setDescr(orgHierarchy.getDescr());
+		// TODO KSCM		orgHierarchyInfo.setDescr(orgHierarchy.getDescr());
 		return orgHierarchyInfo;
 	}
 
@@ -95,9 +95,9 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo" });
 
 		// copy attributes, metadata, and Type
-		orgInfo.setAttributes(toAttributeMap(org.getAttributes()));
-		orgInfo.setMetaInfo(toMetaInfo(org.getMeta(), org.getVersionNumber()));
-		orgInfo.setType(org.getType().getId());
+		// TODO KSCM		orgInfo.setAttributes(toAttributeMap(org.getAttributes()));
+		orgInfo.setMeta(toMetaInfo(org.getMeta(), org.getVersionNumber()));
+		// TODO KSCM		orgInfo.setType(org.getType().getId());
 
 		return orgInfo;
 	}
@@ -117,9 +117,9 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "orgId"});
 
 		relationInfo.setOrgId(relation.getOrg().getId());
-		relationInfo.setAttributes(toAttributeMap(relation.getAttributes()));
-		relationInfo.setMetaInfo(toMetaInfo(relation.getMeta(), relation.getVersionNumber()));
-		relationInfo.setType(relation.getType().getId());
+		// TODO KSCM		relationInfo.setAttributes(toAttributeMap(relation.getAttributes()));
+		relationInfo.setMeta(toMetaInfo(relation.getMeta(), relation.getVersionNumber()));
+		// TODO KSCM		relationInfo.setType(relation.getType().getId());
 		//relationInfo.setId(relation.getId());
 		return relationInfo;
 	}
@@ -144,9 +144,9 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo","orgId","relatedOrgId" });
 
 		// copy attributes, metadata, Type, and related orgs
-		orgOrgRelationInfo.setAttributes(toAttributeMap(orgOrgRelation.getAttributes()));
-		orgOrgRelationInfo.setMetaInfo(toMetaInfo(orgOrgRelation.getMeta(), orgOrgRelation.getVersionNumber()));
-		orgOrgRelationInfo.setType(orgOrgRelation.getType().getId());
+		// TODO KSCM		orgOrgRelationInfo.setAttributes(toAttributeMap(orgOrgRelation.getAttributes()));
+		orgOrgRelationInfo.setMeta(toMetaInfo(orgOrgRelation.getMeta(), orgOrgRelation.getVersionNumber()));
+		// TODO KSCM		orgOrgRelationInfo.setType(orgOrgRelation.getType().getId());
 		orgOrgRelationInfo.setOrgId(orgOrgRelation.getOrg().getId());
 		orgOrgRelationInfo.setRelatedOrgId(orgOrgRelation.getRelatedOrg().getId());
 
@@ -164,10 +164,10 @@ public class OrganizationAssembler extends BaseAssembler{
 		}
 		
 		restrictionInfo.setOrgId(restriction.getOrg().getId());
-		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
-		restrictionInfo.setMetaInfo(toMetaInfo(restriction.getMeta(), restriction.getVersionNumber()));
+		// TODO KSCM		restrictionInfo.setAttributes(toAttributeMap(restriction.getAttributes()));
+		restrictionInfo.setMeta(toMetaInfo(restriction.getMeta(), restriction.getVersionNumber()));
 		restrictionInfo.setOrgPersonRelationTypeKey(restriction.getPersonRelationType().getId());
-		restrictionInfo.setDesc(restriction.getDescr());
+		// TODO KSCM		restrictionInfo.setDesc(restriction.getDescr());
 		return restrictionInfo;
 
 	}
@@ -237,7 +237,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (org == null) {
 				throw new DoesNotExistException("Org does not exist for id: " + orgInfo.getId());
 			}
-			if (!String.valueOf(org.getVersionNumber()).equals(orgInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(org.getVersionNumber()).equals(orgInfo.getMeta().getVersionInd())){
 				throw new VersionMismatchException("Org to be updated is not the current version");
 			}
 		} else {
@@ -249,7 +249,7 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "orgPersonRelationTypes" });
 
 		// Copy Attributes
-		org.setAttributes(toGenericAttributes(OrgAttribute.class, orgInfo.getAttributes(), org, dao));
+		// TODO KSCM		org.setAttributes(toGenericAttributes(OrgAttribute.class, orgInfo.getAttributes(), org, dao));
 
 		// Search for and copy the type
 		OrgType orgType = dao.fetch(OrgType.class, orgInfo.getType());
@@ -271,9 +271,9 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (orgOrgRelation == null) {
 				throw new DoesNotExistException("OrgOrgRelation does not exist for id: " + orgOrgRelationInfo.getId());
 			}
-			if (!String.valueOf(orgOrgRelation.getVersionNumber()).equals(orgOrgRelationInfo.getMetaInfo().getVersionInd())){
-				throw new VersionMismatchException("OrgOrgRelation to be updated is not the current version");
-			}
+			// TODO KSCM			if (!String.valueOf(orgOrgRelation.getVersionNumber()).equals(orgOrgRelationInfo.getMetaInfo().getVersionInd())){
+			// TODO KSCM				throw new VersionMismatchException("OrgOrgRelation to be updated is not the current version");
+			// TODO KSCM			}
 		} else {
 			orgOrgRelation = new OrgOrgRelation();
 		}
@@ -283,7 +283,7 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "org", "relatedOrg" });
 
 		// Copy Attributes
-		orgOrgRelation.setAttributes(toGenericAttributes(OrgOrgRelationAttribute.class, orgOrgRelationInfo.getAttributes(), orgOrgRelation, dao));
+		// TODO KSCM		orgOrgRelation.setAttributes(toGenericAttributes(OrgOrgRelationAttribute.class, orgOrgRelationInfo.getAttributes(), orgOrgRelation, dao));
 
 		// Search for and copy the org
 		Org org = dao.fetch(Org.class, orgOrgRelationInfo.getOrgId());
@@ -321,7 +321,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (orgPersonRelation == null) {
 				throw new DoesNotExistException("OrgOrgRelation does not exist for id: " + orgPersonRelationInfo.getId());
 			}
-			if (!String.valueOf(orgPersonRelation.getVersionNumber()).equals(orgPersonRelationInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(orgPersonRelation.getVersionNumber()).equals(orgPersonRelationInfo.getMeta().getVersionInd())){
 				throw new VersionMismatchException("OrgOrgRelation to be updated is not the current version");
 			}
 		} else {
@@ -333,7 +333,7 @@ public class OrganizationAssembler extends BaseAssembler{
 				"attributes", "metaInfo", "org", "personId" });
 
 		// Copy Attributes
-		orgPersonRelation.setAttributes(toGenericAttributes(OrgPersonRelationAttribute.class, orgPersonRelationInfo.getAttributes(), orgPersonRelation, dao));
+		// TODO KSCM		orgPersonRelation.setAttributes(toGenericAttributes(OrgPersonRelationAttribute.class, orgPersonRelationInfo.getAttributes(), orgPersonRelation, dao));
 
 		// Search for and copy the org
 		Org org = dao.fetch(Org.class, orgPersonRelationInfo.getOrgId());
@@ -373,7 +373,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			if (orgPositionRestriction == null) {
 				throw new DoesNotExistException("OrgPositionRestriction does not exist for id: " + orgPositionRestrictionInfo.getId());
 			}
-			if (!String.valueOf(orgPositionRestriction.getVersionNumber()).equals(orgPositionRestrictionInfo.getMetaInfo().getVersionInd())){
+			if (!String.valueOf(orgPositionRestriction.getVersionNumber()).equals(orgPositionRestrictionInfo.getMeta().getVersionInd())){
 				throw new VersionMismatchException("OrgPositionRestriction to be updated is not the current version");
 			}
 		} else {
@@ -388,7 +388,7 @@ public class OrganizationAssembler extends BaseAssembler{
 			BeanUtils.copyProperties(orgPositionRestrictionInfo.getStdDuration(), orgPositionRestriction.getStdDuration());
 		}
 		// Copy Attributes
-		orgPositionRestriction.setAttributes(toGenericAttributes(OrgPositionRestrictionAttribute.class, orgPositionRestrictionInfo.getAttributes(), orgPositionRestriction, dao));
+		// TODO KSCM		orgPositionRestriction.setAttributes(toGenericAttributes(OrgPositionRestrictionAttribute.class, orgPositionRestrictionInfo.getAttributes(), orgPositionRestriction, dao));
 
 		// Search for and copy the org
 		Org org = dao.fetch(Org.class, orgPositionRestrictionInfo.getOrgId());
@@ -406,7 +406,7 @@ public class OrganizationAssembler extends BaseAssembler{
 		}
 		orgPositionRestriction.setPersonRelationType(orgPersonRelationType);
 
-		orgPositionRestriction.setDescr(orgPositionRestrictionInfo.getDesc());
+		// TODO KSCM		orgPositionRestriction.setDescr(orgPositionRestrictionInfo.getDescr());
 		
 		return orgPositionRestriction;
 	}
