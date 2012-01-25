@@ -69,6 +69,9 @@ public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelati
             this.refObjectId = refDocRelation.getRefObjectId();
             this.documentId = refDocRelation.getDocumentId();
             this.title = refDocRelation.getTitle();
+            if (this.descr != null) {
+                this.descr = new RichTextInfo (refDocRelation.getDescr());
+            }
         }
     }
 
