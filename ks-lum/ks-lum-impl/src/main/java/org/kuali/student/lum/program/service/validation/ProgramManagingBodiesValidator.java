@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
@@ -94,7 +95,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
     private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
-        String message = getMessage("validation.programManagingBodiesMatch");
+        String message = getMessage("validation.programManagingBodiesMatch" , new ContextInfo());
         String collegeName = getCollegeName(collegeId);
         List<String> departments = getDepartments(departmentIds);
 

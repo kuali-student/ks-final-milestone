@@ -31,6 +31,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -74,6 +75,7 @@ import org.springframework.util.StringUtils;
  * @author Kuali Student Team
  * 
  */
+// TODO KSCM-226
 public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
@@ -96,7 +98,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		// Copy all the data from the clu to the course
 		
-		course.setAttributes(clu.getAttributes());
+		// TODO KSCM		course.setAttributes(clu.getAttributes());
 		course.setCampusLocations(clu.getCampusLocations());
 		course.setCode(clu.getOfficialIdentifier().getCode());
 		course.setCourseNumberSuffix(clu.getOfficialIdentifier()
@@ -126,12 +128,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		List<String> courseAdminOrgs = new ArrayList<String>();
 		List<String> courseSubjectOrgs = new ArrayList<String>();
 		for(AdminOrgInfo adminOrg: clu.getAdminOrgs()){
-			if(adminOrg.getType().equals(CourseAssemblerConstants.ADMIN_ORG)){
-				courseAdminOrgs.add(adminOrg.getOrgId());
-			}
-			if(adminOrg.getType().equals(CourseAssemblerConstants.SUBJECT_ORG)){
-				courseSubjectOrgs.add(adminOrg.getOrgId());
-			}
+			// TODO KSCM
+//			if(adminOrg.getType().equals(CourseAssemblerConstants.ADMIN_ORG)){
+//				courseAdminOrgs.add(adminOrg.getOrgId());
+//			}
+//			if(adminOrg.getType().equals(CourseAssemblerConstants.SUBJECT_ORG)){
+//				courseSubjectOrgs.add(adminOrg.getOrgId());
+//			}
 		}
 		course.setUnitsDeployment(courseAdminOrgs);
 		course.setUnitsContentOwner(courseSubjectOrgs);
@@ -237,7 +240,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// the course
 				List<CluInfo> formats = luService.getRelatedClusByCluId(course
 						.getId(),
-						CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
+						CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE , new ContextInfo());
 				
 				for (CluInfo format : formats) {
 					FormatInfo formatInfo = formatAssembler.assemble(format,
@@ -567,17 +570,18 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			
 			try{
 				try {
-					rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED));
+// TODO KSCM					rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED));
 				} catch (DoesNotExistException e) {}
 				try {
-					rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE));
+					// TODO KSCM					rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE));
 				} catch (DoesNotExistException e) {}
 				try {
-					rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE));
+					// TODO KSCM					rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE));
 				} catch (DoesNotExistException e) {}
 
 				//Create any LRCs that do not yet exist
-				for(ResultComponentInfo creditOption:course.getCreditOptions()){
+				for(ResultComponentInfo creditOption:course.getCreditOptions()){			
+				
 					String id = null;
 					String type = null;
 					List<String> resultValues = null;
@@ -755,9 +759,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					try {
-						ResultComponentInfo resultComponent = lrcService.getResultComponent(resultOption.getResultComponentId());
+						ResultComponentInfo resultComponent = null;
+// TODO KSCM						lrcService.getResultComponent(resultOption.getResultComponentId());
 						results.add(resultComponent);
-					} catch (DoesNotExistException e) {
+// TODO KSCM					} catch (DoesNotExistException e) {
 						LOG.warn("Course Credit option:"+resultOption.getId()+" refers to non-existant ResultComponentInfo "+resultOption.getResultComponentId());
 					} catch (Exception e) {
 						throw new AssemblyException("Error getting result components",e);
@@ -1067,7 +1072,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
             
-            CluInfo formatCluToDelete = luService.getClu(entry.getKey());
+            CluInfo formatCluToDelete = luService.getClu(entry.getKey() , new ContextInfo());
             FormatInfo formatToDelete = formatAssembler.assemble(formatCluToDelete, null, false);
             BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
             .disassemble(formatToDelete, NodeOperation.DELETE);
@@ -1108,7 +1113,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
                     if (cluIdent.getAttributes().containsKey("courseId")) {
                         try {
-                            CluInfo cluInfo = luService.getClu(cluIdent.getAttributes().get("courseId"));
+                            CluInfo cluInfo = luService.getClu(cluIdent.getAttributes().get("courseId") , new ContextInfo());
                             crosslisting.setId(cluInfo.getId());
                             crosslisting.setCode(cluInfo.getOfficialIdentifier().getCode());
                             crosslisting.setAttributes(cluIdent.getAttributes());

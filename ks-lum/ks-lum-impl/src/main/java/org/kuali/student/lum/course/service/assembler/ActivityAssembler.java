@@ -43,13 +43,13 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		ActivityInfo activityInfo = (null != activity) ? activity : new ActivityInfo();
 	    
 		activityInfo.setId(clu.getId());
-		activityInfo.setActivityType(clu.getType());
-		activityInfo.setState(clu.getState());
+		// TODO KSCM		activityInfo.setActivityType(clu.getType());
+		// TODO KSCMactivityInfo.setState(clu.getState());
 		activityInfo.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
 		activityInfo.setDuration(clu.getStdDuration());
 		activityInfo.setContactHours(clu.getIntensity());
-		activityInfo.setMetaInfo(clu.getMetaInfo());
-        activityInfo.setAttributes(clu.getAttributes());
+		activityInfo.setMeta(clu.getMetaInfo());
+		// TODO KSCM        activityInfo.setAttributes(clu.getAttributes());
 		return activityInfo;
 	}
 
@@ -66,22 +66,22 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		
 		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>(this);
 		
-		CluInfo clu;
+		CluInfo clu = null;
         try {
-            clu = (NodeOperation.UPDATE == operation) ? luService.getClu(activity.getId()) : new CluInfo();
+        	// TODO KSCM            clu = (NodeOperation.UPDATE == operation) ? luService.getClu(activity.getId()) : new CluInfo();
         } catch (Exception e) {
             throw new AssemblyException("Error retrieving activity learning unit during update", e);
         }
 	
 		//Copy all fields 
 		clu.setId(UUIDHelper.genStringUUID(activity.getId()));//Create the id if it's not there already(important for creating relations)
-		clu.setType(activity.getActivityType());
+		// TODO KSCM		clu.setType(activity.getActivityType());
 		clu.setState(activity.getState());
 		clu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());
 		clu.setStdDuration(activity.getDuration());
 		clu.setIntensity(activity.getContactHours());
-		clu.setMetaInfo(activity.getMetaInfo());
-		clu.setAttributes(activity.getAttributes());
+		clu.setMetaInfo(activity.getMeta());
+		// TODO KSCM		clu.setAttributes(activity.getAttributes());
 				
 		//Add the Clu to the result 
 		result.setNodeData(clu);

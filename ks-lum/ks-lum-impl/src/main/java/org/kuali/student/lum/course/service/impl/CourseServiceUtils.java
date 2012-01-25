@@ -35,6 +35,7 @@ import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
+// TODO KSCM-225
 public class CourseServiceUtils {
 	public static void resetIds(CourseInfo course) {
 		

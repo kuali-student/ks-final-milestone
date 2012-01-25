@@ -5,12 +5,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;
@@ -66,6 +68,7 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Kuali Student Team
  */
+// TODO KSCM-228
 public class CourseServiceImpl implements CourseService {
     final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
 
@@ -76,7 +79,7 @@ public class CourseServiceImpl implements CourseService {
     private ValidatorFactory validatorFactory;
     private StatementService statementService;
 
-    @Override
+    // @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
 
@@ -99,7 +102,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
@@ -126,7 +129,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
 
@@ -145,7 +148,7 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=true)
     public CourseInfo getCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
@@ -163,25 +166,25 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=true)
     public List<ActivityInfo> getCourseActivities(String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseActivities");
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=true)
     public List<FormatInfo> getCourseFormats(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseFormats");
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=true)
     public List<LoDisplayInfo> getCourseLos(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseLos");
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=true)
     public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
@@ -202,7 +205,7 @@ public class CourseServiceImpl implements CourseService {
     	return tree;
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=true)
     public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
@@ -212,7 +215,7 @@ public class CourseServiceImpl implements CourseService {
         return validationResults;
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
     	checkForMissingParameter(courseId, "courseId");
@@ -243,7 +246,7 @@ public class CourseServiceImpl implements CourseService {
     	return statementTreeViewInfo;
     }
 
-	@Override
+	// @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
@@ -260,7 +263,7 @@ public class CourseServiceImpl implements CourseService {
     	throw new DoesNotExistException("Course does not have this StatemenTree");
 	}
 
-    @Override
+    // @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
     	checkForMissingParameter(courseId, "courseId");
@@ -279,7 +282,7 @@ public class CourseServiceImpl implements CourseService {
         return statementService.updateStatementTreeView(statementTreeViewInfo.getId(), statementTreeViewInfo);
     }
 
-    @Override
+    // @Override
     @Transactional(readOnly=true)
     public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForMissingParameter(courseId, "courseId");
@@ -297,12 +300,12 @@ public class CourseServiceImpl implements CourseService {
         return validationResults;
     }   
 
-    @Override
+    // @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
-    @Override
+    // @Override
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
     }
@@ -365,7 +368,7 @@ public class CourseServiceImpl implements CourseService {
 		this.statementService = statementService;
 	}
 
-	@Override
+	// @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CourseInfo createNewCourseVersion(String versionIndCourseId,
 			String versionComment) throws DataValidationErrorException,
@@ -426,7 +429,7 @@ public class CourseServiceImpl implements CourseService {
 
 
 
-	@Override
+	// @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentCourseVersion(String courseVersionId,
 			Date currentVersionStart) throws DoesNotExistException,
@@ -436,7 +439,7 @@ public class CourseServiceImpl implements CourseService {
 		return luService.setCurrentCluVersion(courseVersionId, currentVersionStart);
 	}
 
-	@Override
+	// @Override
     @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
@@ -448,7 +451,7 @@ public class CourseServiceImpl implements CourseService {
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	// @Override
     @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
 			String refObjectId, Date date) throws DoesNotExistException,
@@ -460,7 +463,7 @@ public class CourseServiceImpl implements CourseService {
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	// @Override
     @Transactional(readOnly=true)
 	public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
@@ -473,7 +476,7 @@ public class CourseServiceImpl implements CourseService {
 
 	}
 
-	@Override
+	// @Override
     @Transactional(readOnly=true)
 	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
@@ -486,7 +489,7 @@ public class CourseServiceImpl implements CourseService {
 
 	}
 
-	@Override
+	// @Override
     @Transactional(readOnly=true)
 	public VersionDisplayInfo getVersionBySequenceNumber(
 			String refObjectTypeURI, String refObjectId, Long sequence)
@@ -499,7 +502,7 @@ public class CourseServiceImpl implements CourseService {
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	// @Override
     @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
 			String refObjectId) throws DoesNotExistException,
@@ -511,7 +514,7 @@ public class CourseServiceImpl implements CourseService {
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	// @Override
     @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersionsInDateRange(
 			String refObjectTypeURI, String refObjectId, Date from, Date to)
@@ -560,6 +563,182 @@ public class CourseServiceImpl implements CourseService {
 				}
 			}
 		}
+		return null;
+	}
+
+	@Override
+	public CourseInfo getCourse(String courseId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CourseInfo> getCoursesByIds(List<String> courseIds,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> searchForCourseIds(QueryByCriteria criteria,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CourseInfo> searchForCourses(QueryByCriteria criteria,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CourseInfo createCourse(CourseInfo courseInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CourseInfo updateCourse(String courseId, CourseInfo courseInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, VersionMismatchException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteCourse(String courseId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, VersionMismatchException,
+			DataValidationErrorException, AlreadyExistsException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateCourse(
+			String validationType, CourseInfo courseInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<FormatInfo> getCourseFormatsByCourse(String courseId,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ActivityInfo> getCourseActivitiesByCourseFormat(
+			String formatId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(
+			String courseId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<StatementTreeViewInfo> getCourseStatements(String courseId,
+			String nlUsageTypeKey, String language, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementTreeViewInfo createCourseStatement(String courseId,
+			StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, DataValidationErrorException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatementTreeViewInfo updateCourseStatement(String courseId,
+			String statementId, StatementTreeViewInfo statementTreeViewInfo,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			DataValidationErrorException, VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteCourseStatement(String courseId,
+			StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<org.kuali.student.common.dto.ValidationResultInfo> validateCourseStatement(
+			String courseId, StatementTreeViewInfo statementTreeViewInfo,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CourseInfo createNewCourseVersion(String courseId,
+			String versionComment, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo setCurrentCourseVersion(String courseVersionId,
+			Date currentVersionStart, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, IllegalVersionSequencingException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

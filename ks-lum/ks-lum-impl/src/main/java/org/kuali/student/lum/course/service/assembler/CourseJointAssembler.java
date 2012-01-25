@@ -19,6 +19,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.lum.course.dto.CourseJointInfo;
@@ -60,10 +61,10 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu;
 		try {
-			clu = luService.getClu(cluRel.getRelatedCluId());
+			clu = luService.getClu(cluRel.getRelatedCluId() , new ContextInfo());
 
 			joint.setCourseId(clu.getId());
-			joint.setType(clu.getType());//FIXME is this ever used?
+			// TODO KSCM joint.setType(clu.getType());//FIXME is this ever used?
 			joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 			joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 			joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
@@ -85,12 +86,12 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 		CluInfo clu;
 		try {
-			clu = luService.getClu(cluId);
+			clu = luService.getClu(cluId , new ContextInfo());
 			
 			if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
 				clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) {
 				joint.setCourseId(clu.getId());
-				joint.setType(clu.getType());//FIXME is this ever used?
+				// TODO KSCM				joint.setType(clu.getType());//FIXME is this ever used?
 				joint.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 				joint.setCourseTitle(clu.getOfficialIdentifier().getLongName());
 				joint.setCourseNumberSuffix(clu.getOfficialIdentifier().getSuffixCode());
@@ -121,7 +122,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 		CluCluRelationInfo cluRel = new CluCluRelationInfo();
 		cluRel.setId(UUIDHelper.genStringUUID(joint.getRelationId()));
 		cluRel.setRelatedCluId(joint.getCourseId());
-		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
+		// TODO KSCM		cluRel.setType(CourseAssemblerConstants.JOINT_RELATION_TYPE);
 		result.setNodeData(cluRel);
 		// The caller is required to set the CluId on the cluCluRelation
 		
