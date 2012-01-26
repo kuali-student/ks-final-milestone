@@ -16,12 +16,17 @@
 
 package org.kuali.student.r2.core.search.dto;
 
+import java.util.List;
 import java.io.Serializable;
-
-import org.kuali.student.r2.core.search.infc.SearchResultCell;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -30,15 +35,42 @@ public class SearchResultCellInfo
 
     private static final long serialVersionUID = 1L;
 
+    @XmlAttribute
+    private String key;    
+
+    @XmlElement    
     private String value;
     
-    private String key;
-    
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+
+    /**
+     * Constructs a new SearchResultCellInfo.
+     */
     public SearchResultCellInfo() {
     }
+
+    /**
+     * Constructs a new SearchResultCellInfo from another
+     * SearchResultCell.
+     *
+     * @param cell the SearchResultCell to copy
+     */
+    public SearchResultCellInfo(SearchResultCell cell) {
+        if (cell != null) {
+            this.key = cell.getKey();
+            this.value = cell.getValue();
+        }
+    }
     
+    /**
+     * Constructs a new SearchResultCellInfo.
+     *
+     * @param key the key to the search result cell
+     * @param value the value of the search result cell
+     */
     public SearchResultCellInfo(String key, String value) {
-        this();
         this.key = key;
         this.value = value;
     }

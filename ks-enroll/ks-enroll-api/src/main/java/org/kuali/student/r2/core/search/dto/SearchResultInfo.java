@@ -20,10 +20,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r2.core.search.infc.SearchResult;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+import org.kuali.student.r2.core.search.infc.SearchResult;
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -32,16 +37,52 @@ public class SearchResultInfo
 
     private static final long serialVersionUID = 1L;
     
+    @XmlElement        
     private Integer startAt;
     
+    @XmlElement    
     private Integer totalResults;
     
+    @XmlElement    
     private List<SearchResultRowInfo> rows;
     
+    @XmlElement    
     private String sortColumn;
     
+    @XmlElement    
     private SortDirection sortDirection;
 
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+
+    /**
+     * Constructs a new SearchResultInfo.
+     */
+    public SearchResultInfo() {
+    }
+
+    /**
+     * Constructs a new SearchResultInfo from another
+     * SearchResult.
+     *
+     * @param result the SearchResult to copy
+     */
+    public SearchResultInfo(SearchResult result) {
+        if (result != null) {
+            this.startAt = result.getStartAt();
+            this.totalResults = result.getTotalResults();
+
+            this.rows = new ArrayList<SearchResultRowInfo>();
+            for (SearchResultRow row : result.getRows()) {
+                this.rows.add(new SearchResultRowInfo(row));
+            }
+
+            this.sortColumn = result.getSortColumn();
+            this.sortDirection = result.getSortDirection();
+        }
+    }
+    
     @Override
     public Integer getStartAt() {
         return startAt;

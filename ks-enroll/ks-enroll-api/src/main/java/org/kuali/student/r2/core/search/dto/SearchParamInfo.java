@@ -19,12 +19,14 @@ package org.kuali.student.r2.core.search.dto;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.r2.core.search.infc.SearchParam;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+
+import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -33,45 +35,57 @@ public class SearchParamInfo
 
     private static final long serialVersionUID = 1L;
     
-    @XmlElement
-    private String value;
-    
-    @XmlElement
-    private List<String> listValue;
-	
     @XmlAttribute
     private String key;
     
+    @XmlElement
+    private Object value;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    
+    /**
+     * Constructs a new SearchParamInfo.
+     */
     public SearchParamInfo() {
     }
+
+    /**
+     * Constructs a new SearchParamInfo from
+     * another SearchParam.
+     *
+     * @param param the SearchParam to copy
+     */
+    public SearchParamInfo(SearchParam param) {
+        if (param != null) {
+            this.key = param.getKey();
+            this.value = param.getValue();
+        }
+    }
     
+    /**
+     * Constructs a new SearchParamInfo from
+     * a pair of key/value strings.
+     *
+     * @param key the key for the parameter
+     * @param value the value for the parameter
+     */
     public SearchParamInfo(String key, String value) {
         this.key = key;
         this.value = value;
     }
     
-    public SearchParamInfo(String key, List<String> value) {
+    /**
+     * Constructs a new SearchParamInfo for a list
+     * of string values.
+     *
+     * @param key the key for the parameter
+     * @param values a list of values for the parameter
+     */
+    public SearchParamInfo(String key, List<String> values) {
         this.key = key;
-        this.listValue = value;
-    }
-    
-    @Override
-    public Object getValue() {
-        if (value != null) {
-            return value;
-        } else {
-            return listValue;
-        }
-    }
-    
-    public void setValue(String value) {
-        this.value = value;
-		listValue = null;
-	}
-
-    public void setValue(List<String> listValue) {
-        this.listValue = listValue;
-        value = null;
+        this.value = values;
     }
     
     @Override
@@ -84,9 +98,17 @@ public class SearchParamInfo
     }
     
     @Override
+    public Object getValue() {
+        return value;
+    }
+    
+    public void setValue(Object value) {
+        this.value = value;
+    }
+
+    @Override
     public String toString() {
-        return "SearchParam[key=" + key + ", value=" + value + ", listValue="
-            + listValue + "]";
+        return "SearchParam[key=" + key + ", value=" + value + "]";
     }
     
     @Override
@@ -97,7 +119,6 @@ public class SearchParamInfo
         SearchParamInfo that = (SearchParamInfo) o;
 
         if (key != null ? !key.equals(that.key) : that.key != null) return false;
-        if (listValue != null ? !listValue.equals(that.listValue) : that.listValue != null) return false;
         if (value != null ? !value.equals(that.value) : that.value != null) return false;
 
         return true;
@@ -106,7 +127,6 @@ public class SearchParamInfo
     @Override
     public int hashCode() {
         int result = value != null ? value.hashCode() : 0;
-        result = 31 * result + (listValue != null ? listValue.hashCode() : 0);
         result = 31 * result + (key != null ? key.hashCode() : 0);
         return result;
     }

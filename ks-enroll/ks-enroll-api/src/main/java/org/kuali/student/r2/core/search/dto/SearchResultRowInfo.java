@@ -1,8 +1,9 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
@@ -19,10 +20,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r2.core.search.infc.SearchResultRow;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+import org.kuali.student.r2.core.search.infc.SearchResultCell;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -31,9 +37,34 @@ public class SearchResultRowInfo
 
     private static final long serialVersionUID = 1L;
 
+    @XmlElement
     private List<SearchResultCellInfo> cells;
 
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
+    
+    /**
+     * Constructs a new SearchResultRowInfo.
+     */
+    public SearchResultRowInfo() {
+    }
+
+    /**
+     * Constructs a new SearchResultRowInfo from
+     * another SearchResultRow.
+     *
+     * @param row the SearchResultRow to copy
+     */
+    public SearchResultRowInfo(SearchResultRow row) {
+        if (row != null) {
+            this.cells = new ArrayList<SearchResultCellInfo>();
+            for (SearchResultCell cell : row.getCells()) {
+                this.cells.add(new SearchResultCellInfo(cell));
+            }
+        }
+    }
+    
     public void addCell(String key, String value) {
         getCells().add(new SearchResultCellInfo(key, value));
     }

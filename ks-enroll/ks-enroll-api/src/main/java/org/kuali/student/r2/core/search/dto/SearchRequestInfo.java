@@ -20,10 +20,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r2.core.search.infc.SearchRequest;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+
+import org.kuali.student.r2.core.search.infc.SearchRequest;
+import org.kuali.student.r2.core.search.infc.SearchParam;
+import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 
@@ -31,25 +36,65 @@ public class SearchRequestInfo
     implements SearchRequest, Serializable {
     
     private static final long serialVersionUID = 1L;
-    
+
+    @XmlElement    
     private String searchKey;
     
+    @XmlElement
     private List<SearchParamInfo> params;
     
+    @XmlElement
     private String sortColumn;
 
+    @XmlElement
     private SortDirection sortDirection;
 
+    @XmlElement
     private Integer startAt;
 
+    @XmlElement
     private Integer maxResults;
 
+    @XmlElement
     private Boolean neededTotalResults;
     
+    @XmlAnyElement
+    private List<Element> _futureElements;
 
+
+    /**
+     * Constructs a new SearchRequestInfo.
+     */
     public SearchRequestInfo() {
     }
-    
+
+    /**
+     * Constructs a new SearchRequestInfo from another SearchRequest.
+     *
+     * @param requst the SearchRequest to copy
+     */
+    public SearchRequestInfo(SearchRequest request) {
+        if (request != null) {
+            this.searchKey = request.getSearchKey();
+
+            this.params = new ArrayList<SearchParamInfo>();
+            for (SearchParam param : request.getParams()) {
+                this.params.add(new SearchParamInfo(param));
+            }
+             
+            this.sortColumn = request.getSortColumn();
+            this.sortDirection = request.getSortDirection();
+            this.startAt = request.getStartAt();
+            this.maxResults = request.getMaxResults();
+            this.neededTotalResults = request.getNeededTotalResults();
+        }
+    }
+                
+    /**
+     * Constructs a new SearchRequestInfo.
+     *
+     * @param searchKey a search key
+     */    
     public SearchRequestInfo(String searchKey) {
         this.searchKey = searchKey;
     }
@@ -73,7 +118,7 @@ public class SearchRequestInfo
 	
     @Override
     public List<SearchParamInfo> getParams() {
-        if(params == null){
+        if(params == null) {
             params = new ArrayList<SearchParamInfo>();
         }
 
