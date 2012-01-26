@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 
 /**
@@ -10,5 +11,7 @@ import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
  * To change this template use File | Settings | File Templates.
  */
 public interface AcademicCalendarViewHelperService extends ViewHelperService {
-    public void createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+    public HolidayCalendarInfo createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+    public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception;
+    public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
 }

@@ -64,6 +64,14 @@ public class HolidayCalendarController extends UifControllerBase {
 
             if (action.equals("U")){
                 //get hc and populate it on the form
+                String hcId = request.getParameter("hcId");
+                if(hcId != null && !hcId.trim().isEmpty()){
+                    try{
+                        getHolidayCalendar(hcId, hcForm);
+                    } catch (Exception ex){
+
+                    }
+                }
             }
         }
 
@@ -78,18 +86,34 @@ public class HolidayCalendarController extends UifControllerBase {
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
 
+        //TODO: fix hc service impl bugs first, come back later
         if(hc.getId() != null && !hc.getId().trim().isEmpty()){
             // edit hc
+           // updateHolidayCalendar(hcForm);
         }
         else {
            // create hc
-            //TODO: fix hc service impl bugs first, come back later
             //createHolidayCalendar(hcForm);
         }
         return getUIFModelAndView(hcForm);
     }
 
-    private void createHolidayCalendar(HolidayCalendarForm hcForm)  throws Exception {
-       ((AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService()).createHolidayCalendar(hcForm);
+    private void createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {
+        HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).createHolidayCalendar(hcForm);
+        hcForm.setHolidayCalendarInfo(hcInfo);
+    }
+
+    private void getHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
+        HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).getHolidayCalendar(hcId);
+        hcForm.setHolidayCalendarInfo(hcInfo);
+    }
+
+    public void updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {
+        HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).updateHolidayCalendar(hcForm);
+        hcForm.setHolidayCalendarInfo(hcInfo);
+    }
+
+    private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(HolidayCalendarForm hcForm){
+        return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
     }
 }
