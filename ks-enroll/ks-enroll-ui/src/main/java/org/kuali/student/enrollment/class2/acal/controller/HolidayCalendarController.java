@@ -86,14 +86,13 @@ public class HolidayCalendarController extends UifControllerBase {
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
 
-        //TODO: fix hc service impl bugs first, come back later
         if(hc.getId() != null && !hc.getId().trim().isEmpty()){
             // edit hc
-           // updateHolidayCalendar(hcForm);
+           updateHolidayCalendar(hcForm);
         }
         else {
            // create hc
-            //createHolidayCalendar(hcForm);
+            createHolidayCalendar(hcForm);
         }
         return getUIFModelAndView(hcForm);
     }
