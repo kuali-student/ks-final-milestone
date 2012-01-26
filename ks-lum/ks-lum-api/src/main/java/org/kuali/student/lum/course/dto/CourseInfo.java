@@ -33,6 +33,7 @@ import org.kuali.student.lum.course.infc.CourseJoint;
 import org.kuali.student.lum.course.infc.CourseRevenue;
 import org.kuali.student.lum.course.infc.Format;
 import org.kuali.student.lum.course.infc.LoDisplay;
+import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.infc.CluInstructor;
 import org.w3c.dom.Element;
@@ -719,5 +720,8 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     public void setCreditOptionKeys(List<String> creditOptionKeys) {
         this.creditOptionKeys = creditOptionKeys;
     }
-
+    @Deprecated
+    public ResultComponentInfo[] getCreditOptions() {
+        return null;
+    }
 }

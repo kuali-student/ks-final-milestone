@@ -3,6 +3,7 @@ package org.kuali.student.lum.course.service.impl;
 import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CurrencyAmountInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
@@ -95,10 +96,10 @@ public class CourseServiceUtils {
 	}
 
 	private static void clearStatementTreeViewIds(
-			List<StatementTreeViewInfo> statementTreeViews, String newState, LuService luService) throws OperationFailedException {
+			List<StatementTreeViewInfo> statementTreeViews, String newState, LuService luService,ContextInfo contextInfo) throws OperationFailedException {
 		//Clear out all statement ids recursively
 		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			clearStatementTreeViewIdsRecursively(statementTreeView, newState, luService);
+			clearStatementTreeViewIdsRecursively(statementTreeView, newState, luService,contextInfo);
 		}
 	}
 
@@ -108,7 +109,7 @@ public class CourseServiceUtils {
 	 * @param luService
 	 * @throws OperationFailedException
 	 */
-	private static void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState,LuService luService) throws OperationFailedException{
+	private static void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState,LuService luService,ContextInfo contextInfo) throws OperationFailedException{
 		statementTreeView.setId(null);
 		statementTreeView.setState(newState);
 		
@@ -123,7 +124,7 @@ public class CourseServiceUtils {
 				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
 				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 					try {
-						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
+						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue(),contextInfo);
 						cluSet.setId(null);
 						cluSet.setState(newState);
 						//Clear clu ids if membership info exists, they will be re-added based on membership info 
@@ -131,7 +132,7 @@ public class CourseServiceUtils {
 							cluSet.getCluIds().clear();
 							cluSet.getCluSetIds().clear();
 						}
-						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
+						cluSet = luService.createCluSet(cluSet.getType(), cluSet,contextInfo);
 						field.setValue(cluSet.getId());
 					} catch (Exception e) {
 						throw new OperationFailedException("Error copying clusets.", e);
@@ -142,23 +143,23 @@ public class CourseServiceUtils {
 		}
 		//recurse through nested statements
 		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
-			clearStatementTreeViewIdsRecursively(child,newState,luService);
+			clearStatementTreeViewIdsRecursively(child,newState,luService,contextInfo);
 		}
 	}
 
 	public static void copyStatements(String originalCluId, String newCluId, String newState,
-			StatementService statementService, LuService luService, CourseService courseService) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
-		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null);
+			StatementService statementService, LuService luService, CourseService courseService,ContextInfo contextInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
+		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null,contextInfo);
 		
-		clearStatementTreeViewIds(statementTreeViews,newState,luService);
+		clearStatementTreeViewIds(statementTreeViews,newState,luService,contextInfo);
 		
 		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			courseService.createCourseStatement(newCluId, statementTreeView);
+			courseService.createCourseStatement(newCluId, statementTreeView,contextInfo);
 		}
 	}
 	
-	public static CourseInfo copyCourse(String originalCluId, String newCluId, String newState, String[] ignoreProperties, StatementService statementService, LuService luService, CourseService courseService) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
-		CourseInfo originalCourse = courseService.getCourse(originalCluId);
+	public static CourseInfo copyCourse(String originalCluId, String newCluId, String newState, String[] ignoreProperties, StatementService statementService, LuService luService, CourseService courseService,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
+		CourseInfo originalCourse = courseService.getCourse(originalCluId,contextInfo);
 		resetIds(originalCourse);
 		
 		//Default the newState to the existing course state if no state was set.
@@ -180,8 +181,8 @@ public class CourseServiceUtils {
 			}
 		}
 		
-		CourseInfo newCourse = courseService.createCourse(originalCourse);
-		copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService);
+		CourseInfo newCourse = courseService.createCourse(originalCourse,contextInfo);
+		copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService,contextInfo);
 		return newCourse;
 	}
 	

@@ -32,5 +32,8 @@ public class InvalidParameterException extends Exception {
     public InvalidParameterException(String message) {
         super(message);
     }
-
+    @Deprecated
+    public InvalidParameterException(String s, Exception e) {
+        super(s + "\n" + ((!e.getMessage().isEmpty()  )?e.getMessage() : "")        );
+    }
 }
