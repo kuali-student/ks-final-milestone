@@ -18,6 +18,8 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Query;
+
 import org.kuali.student.enrollment.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
 
@@ -30,23 +32,23 @@ public class EnumeratedValueDao extends GenericEntityDao<EnumeratedValueEntity> 
 
     @SuppressWarnings("unchecked")
     public List<EnumeratedValueEntity> getByDate(String enumerationKey, Date contextDate) {
-        return em.createQuery("from EnumeratedValue e where e.effectiveDate <= :contextDate and " + 
+        return em.createQuery("from EnumeratedValueEntity e where e.effectiveDate <= :contextDate and " + 
                 "(e.expirationDate is null or e.expirationDate >= :contextDate) and e.enumeration.id = :enumerationKey ")
                 .setParameter("enumerationKey", enumerationKey).setParameter("contextDate", contextDate).getResultList();
     }
 
     @SuppressWarnings("unchecked")
-    public List<EnumeratedValueEntity> getByContextAndDate(String enumerationKey, String contextTypeKey, String contextValue, Date contextDate) {
-        return em.createQuery("from EnumeratedValue e, IN(e.contextEntityList) c " + 
+    public List<EnumeratedValueEntity> getByContextAndDate(String enumerationKey, String contextKey, String contextValue, Date contextDate) {
+        return em.createQuery("select e from EnumeratedValueEntity e , IN(e.contextValueEntities) c " +
                 "where e.effectiveDate <= :contextDate and (e.expirationDate is null or e.expirationDate >= :contextDate) and " + 
                 "c.contextValue = :contextValue and c.contextKey = :enumContextKey and e.enumeration.id = :enumKey ")
-                .setParameter("contextDate", contextDate).setParameter("contextValue", contextValue).setParameter("enumContextKey", contextTypeKey)
+                .setParameter("contextDate", contextDate).setParameter("contextValue", contextValue).setParameter("enumContextKey", contextKey)
                 .setParameter("enumKey", enumerationKey).getResultList();
     }
 
     @SuppressWarnings("unchecked")
     public List<EnumeratedValueEntity> getByContextTypeAndValue(String enumerationKey, String contextTypeKey, String contextValue) {
-        return em.createQuery("from EnumeratedValue e JOIN e.contextEntityList c " + 
+        return em.createQuery("select e from EnumeratedValueEntity e JOIN e.contextValueEntities c " + 
                 "where c.contextValue = :contextValue and c.contextKey = :enumContextKey and " + 
                 "e.enumeration.id = :enumerationKey ").setParameter("enumerationKey", enumerationKey)
                 .setParameter("enumContextKey", contextTypeKey).setParameter("contextValue", contextValue).getResultList();
@@ -54,12 +56,12 @@ public class EnumeratedValueDao extends GenericEntityDao<EnumeratedValueEntity> 
     
     @SuppressWarnings("unchecked")
     public List<EnumeratedValueEntity> getByEnumerationKey(String enumerationKey) {
-        return em.createQuery("from EnumeratedValue e where e.enumeration.id = :enumerationKey ")
+        return em.createQuery("from EnumeratedValueEntity e where e.enumeration.id = :enumerationKey ")
                 .setParameter("enumerationKey", enumerationKey).getResultList();
     }
     
     public EnumeratedValueEntity getByEnumerationKeyAndCode(String enumerationKey, String code) {
-        return (EnumeratedValueEntity) (em.createQuery("select e from EnumeratedValue e where e.enumeration.id = :enumerationKey and e.code = :code")
+        return (EnumeratedValueEntity) (em.createQuery("select e from EnumeratedValueEntity e where e.enumeration.id = :enumerationKey and e.code = :code")
                 .setParameter("enumerationKey", enumerationKey).setParameter("code", code).getSingleResult());
         
     }

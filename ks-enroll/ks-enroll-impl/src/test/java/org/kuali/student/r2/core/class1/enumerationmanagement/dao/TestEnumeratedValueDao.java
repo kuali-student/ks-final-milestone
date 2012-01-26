@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
+import static org.junit.Assert.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -22,16 +23,18 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.enrollment.class1.lpr.dao.LprTypeDao;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumeratedValueEntity;
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationEntity;
+import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumerationTypeEntity;
+import org.kuali.student.r2.core.class1.state.dao.StateDao;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
-@Ignore
 @PersistenceFileLocation("classpath:META-INF/persistence_jta.xml")
 public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.r2.core.class1.enumerationmanagement.dao.EnumeratedValueDao", testSqlFile = "classpath:ks-em.sql")
@@ -92,9 +95,7 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
     public void testFetchEnumeratedValues(){
     	long baseTime = System.currentTimeMillis();
 
-        EnumerationEntity key1 = new EnumerationEntity();
-        key1.setId("Key1");
-        key1.setName("Key1");
+        EnumerationEntity key1 = enumerationDao.find("kuali.lu.fee.feeType");
     	
         EnumeratedValueEntity entity1 = new EnumeratedValueEntity();
         entity1.setEnumeration(key1);
@@ -110,7 +111,7 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         entity2.setAbbrevValue("Abbrev2");
         entity2.setCode("Code2");
         entity2.setEffectiveDate(new Date(baseTime-10000000L));
-        //entity2.setExpirationDate(new Date(baseTime+50000000L));
+        entity2.setExpirationDate(new Date(baseTime+50000000L));
         entity2.setSortKey("1");
         entity2.setValue("Value2");
         
@@ -136,13 +137,13 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         contextEntity1.setContextKey("country");
         contextEntity1.setContextValue("US");
         
-        EnumContextValueEntity contextEntity3 = new EnumContextValueEntity();
-        contextEntity3.setContextKey("country");
-        contextEntity3.setContextValue("US");
-        
         EnumContextValueEntity contextEntity2 = new EnumContextValueEntity();
         contextEntity2.setContextKey("country");
-        contextEntity2.setContextValue("CA");
+        contextEntity2.setContextValue("US");
+        
+        EnumContextValueEntity contextEntity3 = new EnumContextValueEntity();
+        contextEntity3.setContextKey("country");
+        contextEntity3.setContextValue("CA");
         
         EnumContextValueEntity contextEntity4 = new EnumContextValueEntity();
         contextEntity4.setContextKey("country");
@@ -153,15 +154,15 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         entityList1.add(entity1);
         contextEntity1.setEnumeratedValueList(entityList1);
                 
-        entity2.getContextValueEntities().add(contextEntity3);
+        entity2.getContextValueEntities().add(contextEntity2);
         List<EnumeratedValueEntity> entityList2 = new ArrayList<EnumeratedValueEntity>();
         entityList2.add(entity2);
-        contextEntity3.setEnumeratedValueList(entityList2);
+        contextEntity2.setEnumeratedValueList(entityList2);
         
-        entity3.getContextValueEntities().add(contextEntity2);
+        entity3.getContextValueEntities().add(contextEntity3);
         List<EnumeratedValueEntity> entityList3 = new ArrayList<EnumeratedValueEntity>();
         entityList3.add(entity3);
-        contextEntity2.setEnumeratedValueList(entityList3);
+        contextEntity3.setEnumeratedValueList(entityList3);
      
         entity4.getContextValueEntities().add(contextEntity4);
         List<EnumeratedValueEntity> entityList4 = new ArrayList<EnumeratedValueEntity>();
@@ -172,42 +173,36 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         enumeratedValueDao.persist(entity2);
         enumeratedValueDao.persist(entity3);
         enumeratedValueDao.persist(entity4);
+        
+        List<EnumeratedValueEntity> enumeratedValueList = enumeratedValueDao.getByEnumerationKey("kuali.lu.fee.feeType");
+        assertEquals(12, enumeratedValueList.size());
+        
+        enumeratedValueList = enumeratedValueDao.getByContextAndDate("kuali.lu.fee.feeType", "country", "CA", new Date(baseTime+40000000L));
+        assertEquals(1, enumeratedValueList.size());
 
-        
-        List<EnumeratedValueEntity> enumeratedValueList =  
-                enumeratedValueDao.getByEnumerationKey("Key1");
-        assertEquals(enumeratedValueList.size(), 4);
-        
-        enumeratedValueList =  
-                enumeratedValueDao.getByContextAndDate("Key1" , "country", "CA", new Date(baseTime+40000000L));
-        assertEquals(enumeratedValueList.size(), 2);
-        
-
-        
-        enumeratedValueList =  
-                enumeratedValueDao.getByContextAndDate("Key1" , "country", "US", new Date(baseTime+40000000L));
-        assertEquals(enumeratedValueList.size(), 2);
-        
         //testing accuracy
         EnumeratedValueEntity returnedEntity = enumeratedValueList.get(0); 
         
-        assertEquals(returnedEntity.getAbbrevValue(), entity1.getAbbrevValue());
-        assertEquals(returnedEntity.getCode(), entity1.getCode());
-        assertEquals(returnedEntity.getEffectiveDate(), entity1.getEffectiveDate());
-        assertEquals(returnedEntity.getExpirationDate(), entity1.getExpirationDate());
-        assertEquals(returnedEntity.getSortKey(), entity1.getSortKey());
-        assertEquals(returnedEntity.getValue(), entity1.getValue());
-        assertEquals(returnedEntity.getEnumeration().getId(), entity1.getEnumeration().getId());
+        assertEquals(returnedEntity.getAbbrevValue(), entity4.getAbbrevValue());
+        assertEquals(returnedEntity.getCode(), entity4.getCode());
+        assertEquals(returnedEntity.getEffectiveDate(), entity4.getEffectiveDate());
+        assertEquals(returnedEntity.getExpirationDate(), entity4.getExpirationDate());
+        assertEquals(returnedEntity.getSortKey(), entity4.getSortKey());
+        assertEquals(returnedEntity.getValue(), entity4.getValue());
+        assertEquals(returnedEntity.getEnumeration().getId(), entity4.getEnumeration().getId());
         int i =0;
         for(EnumContextValueEntity ce: returnedEntity.getContextValueEntities()){
-            EnumContextValueEntity original = entity1.getContextValueEntities().get(i);
-        	assertEquals(ce.getContextKey(), original.getContextKey());
-        	assertEquals(ce.getId(), original.getId());
-        	assertEquals(ce.getContextValue(), original.getContextValue());
-        	i++;
+            EnumContextValueEntity original = entity4.getContextValueEntities().get(i);
+            assertEquals(ce.getContextKey(), original.getContextKey());
+            assertEquals(ce.getId(), original.getId());
+            assertEquals(ce.getContextValue(), original.getContextValue());
+            i++;
         }
+                
+        enumeratedValueList = enumeratedValueDao.getByContextAndDate("kuali.lu.fee.feeType", "country", "US", new Date(baseTime+40000000L));
+        assertEquals(1, enumeratedValueList.size());
         
-        returnedEntity = enumeratedValueList.get(1); 
+        returnedEntity = enumeratedValueList.get(0); 
         
         assertEquals(returnedEntity.getAbbrevValue(), entity2.getAbbrevValue());
         assertEquals(returnedEntity.getCode(), entity2.getCode());
@@ -225,38 +220,31 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         	i++;
         }
         
-        enumeratedValueList =  
-                enumeratedValueDao.getByDate("Key1", new Date(baseTime));
+        enumeratedValueList = enumeratedValueDao.getByDate("kuali.lu.fee.feeType", new Date(baseTime));
         assertEquals(enumeratedValueList.size(), 4);
         
-        enumeratedValueList =  
-                enumeratedValueDao.getByDate("Key1", new Date(baseTime+40000000L));
+        enumeratedValueList = enumeratedValueDao.getByDate("kuali.lu.fee.feeType", new Date(baseTime+40000000L));
         assertEquals(enumeratedValueList.size(), 2);
         
-         enumeratedValueList =  
-                 enumeratedValueDao.getByContextAndDate("Key1" , "country", "US", new Date(baseTime+40000000L));
+         enumeratedValueList = enumeratedValueDao.getByContextAndDate("kuali.lu.fee.feeType", "country", "US", new Date(baseTime+40000000L));
         assertEquals(enumeratedValueList.size(), 1);
         
-        enumeratedValueList =  
-                enumeratedValueDao.getByContextAndDate("Key1" , "country", "CA", new Date(baseTime+40000000L));
+        enumeratedValueList = enumeratedValueDao.getByContextAndDate("kuali.lu.fee.feeType", "country", "CA", new Date(baseTime+40000000L));
         assertEquals(enumeratedValueList.size(), 1);
         
-        enumeratedValueList =  
-                enumeratedValueDao.getByContextAndDate("Key1" , "country", "CA", new Date(baseTime));
+        enumeratedValueList = enumeratedValueDao.getByContextAndDate("kuali.lu.fee.feeType", "country", "CA", new Date(baseTime));
         assertEquals(enumeratedValueList.size(), 2);
-        
 
     }
-  
-    
-    
     
     @Test
-    public void testUpdateEnumeratedValue()
-    {
+    public void testUpdateEnumeratedValue() {
         
+        EnumerationEntity existing = enumerationDao.find("kuali.lu.subjectArea");
         EnumerationEntity keyA = new EnumerationEntity();
         keyA.setId("KeyA");
+        keyA.setEnumerationType(existing.getEnumerationType());
+        keyA.setEnumerationState(existing.getEnumerationState());
         keyA.setName("KeyA");
         
     	EnumeratedValueEntity entity = new EnumeratedValueEntity();
@@ -292,13 +280,18 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
     @Test
     public void testRemoveEnumeratedValue(){
         
+        EnumerationEntity existing = enumerationDao.find("kuali.lu.subjectArea");
         EnumerationEntity keyB = new EnumerationEntity();
         keyB.setId("KeyB");
         keyB.setName("KeyB");
+        keyB.setEnumerationType(existing.getEnumerationType());
+        keyB.setEnumerationState(existing.getEnumerationState());
         
         EnumerationEntity entity = new EnumerationEntity();
         entity.setName("Name3");
         entity.setId("Key3");
+        entity.setEnumerationType(existing.getEnumerationType());
+        entity.setEnumerationState(existing.getEnumerationState());
         
     	EnumeratedValueEntity enumValue = new EnumeratedValueEntity();
         enumValue.setEnumeration(keyB);
@@ -323,8 +316,12 @@ public class TestEnumeratedValueDao extends AbstractTransactionalDaoTest{
         EnumeratedValueEntity enumeratedValue = enumeratedValueDao.getByEnumerationKeyAndCode("Key3", "CodeB");
         assertNotNull(enumeratedValue);
         enumeratedValueDao.remove(enumeratedValue);
-        EnumeratedValueEntity enumeratedValue2 = enumeratedValueDao.getByEnumerationKeyAndCode("Key3", "CodeB");
-        assertNotNull(enumeratedValue2);
+        try{
+            enumeratedValueDao.getByEnumerationKeyAndCode("Key3", "CodeB");
+            assertTrue(false);
+        } catch (Exception e) {
+            assertTrue(true);
+        }
         
         List<EnumeratedValueEntity> enumeratedValueList =  enumeratedValueDao.getByContextAndDate(enumValue.getEnumeration().getId(), 
                 contextEntity.getContextKey(), contextEntity.getContextValue(), new Date(System.currentTimeMillis()));

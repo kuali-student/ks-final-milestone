@@ -31,13 +31,14 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.entity.BaseEntity;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumeratedValue;
 
 @Entity
 @Table(name = "KSEM_ENUM_VAL_T")
-public class EnumeratedValueEntity extends MetaEntity {
+public class EnumeratedValueEntity extends BaseEntity{
 
     @Column(name = "CD")
     private String code;
@@ -71,13 +72,19 @@ public class EnumeratedValueEntity extends MetaEntity {
     }
 
     public EnumeratedValueEntity(EnumeratedValue enumeratedValue) {
-        //super(enumeratedValue);
+
         this.setCode(enumeratedValue.getCode());
         this.setAbbrevValue(enumeratedValue.getAbbrevValue());
         this.setValue(enumeratedValue.getValue());
         this.setSortKey(enumeratedValue.getSortKey());
-        //this.setContextValueEntities(enumeratedValue.getContexts());
-        //this.setEnumeration(enumeration);
+        
+        this.setContextValueEntities(new ArrayList<EnumContextValueEntity>());
+        if (null != enumeratedValue.getContexts()) {
+            for (EnumContextValue context : enumeratedValue.getContexts()) {
+                this.getContextValueEntities().add(new EnumContextValueEntity(context));
+            }
+        }
+
         this.setEffectiveDate(enumeratedValue.getEffectiveDate());
         this.setExpirationDate(enumeratedValue.getExpirationDate());
     }
@@ -155,7 +162,7 @@ public class EnumeratedValueEntity extends MetaEntity {
         
         //enumeratedValue.setContexts(this.getContextValueEntities());
         
-        //enumeratedValue.setEnumeration(this.getEnumeration());
+        enumeratedValue.setEnumerationKey(this.getEnumeration().getId());
         
         enumeratedValue.setEffectiveDate(this.getEffectiveDate());
         enumeratedValue.setExpirationDate(this.getExpirationDate());

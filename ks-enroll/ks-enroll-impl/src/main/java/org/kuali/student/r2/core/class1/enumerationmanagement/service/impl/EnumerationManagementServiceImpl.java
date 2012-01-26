@@ -20,6 +20,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.jws.WebService;
+import javax.persistence.NoResultException;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -147,28 +148,20 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         EnumerationEntity enumerationEntity = enumDao.find(enumeratedValueInfo.getEnumerationKey());           
         if(enumerationEntity == null)
             throw new DoesNotExistException(enumeratedValueInfo.getEnumerationKey());
-        
-        /*if(enumerationEntity != null){
-            List<ValidationResultInfo> results = this.validateEnumeratedValue(enumeratedValueInfo);
 
-            if(null != results) {
-                for(ValidationResultInfo result:results){
-                    if(result !=null && ValidationResultInfo.ErrorLevel.ERROR.equals(result.getErrorLevel())){
-                        throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to get messages here
-                    }
-                }
-            }
-        }*/
-
-        EnumeratedValueEntity entity = new EnumeratedValueEntity(enumeratedValueInfo);
+        EnumeratedValueEntity modifiedEntity = new EnumeratedValueEntity(enumeratedValueInfo);
+        modifiedEntity.setEnumeration(enumerationEntity);
         
-        EnumeratedValueEntity existing = enumValueDao.find(entity.getId());
-        if( existing == null) {
-            throw new DoesNotExistException(entity.getId());
+        try {
+            modifiedEntity.setId(enumValueDao.getByEnumerationKeyAndCode(enumerationKey, code).getId());
+        }catch (NoResultException e) {
+            throw new DoesNotExistException(enumerationKey + code);
         }
-        enumValueDao.merge(entity);
         
-        return enumValueDao.find(entity.getId()).toDto();
+        enumValueDao.merge(modifiedEntity);
+        
+        return enumValueDao.find(modifiedEntity.getId()).toDto();
+        
     }
 
     @Override
@@ -192,25 +185,19 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
         if(enumerationEntity == null)
             throw new DoesNotExistException(enumeratedValueInfo.getEnumerationKey());
         
-        /*if(meta != null){
-            List<ValidationResultInfo> results = this.validateEnumeratedValue(enumeratedValueInfo);
-        
-            if(null != results) {
-                for(ValidationResultInfo result:results){
-                    if(result !=null && ValidationResultInfo.ErrorLevel.ERROR.equals(result.getErrorLevel())){
-                        throw new EnumerationException("addEnumeratedValue failed because the EnumeratdValue failed to pass validation against its EnumerationMeta - With Messages: " + result.toString());//FIXME need to get messages here
-                    }
-                }
-            }
-        }*/
-        
-        EnumeratedValueEntity entity = new EnumeratedValueEntity(enumeratedValueInfo);
-                
-        EnumeratedValueEntity existing = enumValueDao.find(entity.getId());
-        if( existing != null) {
+        EnumeratedValueEntity entity = null;
+        try {
+            
+            enumValueDao.getByEnumerationKeyAndCode(enumerationKey, code);
             throw new AlreadyExistsException();
+            
+        } catch (NoResultException e) {
+            
+            entity = new EnumeratedValueEntity(enumeratedValueInfo);
+            entity.setEnumeration(enumerationEntity);
+            
+            enumValueDao.persist(entity);
         }
-        enumValueDao.persist(entity);
         
         return enumValueDao.find(entity.getId()).toDto();
         
