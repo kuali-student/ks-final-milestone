@@ -24,11 +24,14 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.search.infc.SearchParam;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "SearchParamInfo", propOrder = {
+                 "key", "value", "_futureElements" })
 
 public class SearchParamInfo 
     implements SearchParam, Serializable {

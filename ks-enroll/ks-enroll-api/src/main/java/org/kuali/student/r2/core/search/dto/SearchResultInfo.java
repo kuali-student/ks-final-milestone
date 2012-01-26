@@ -23,14 +23,17 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.search.infc.SearchResult;
 import org.kuali.student.r2.core.search.infc.SearchResultRow;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "SearchResultInfo", propOrder = {
+                "startAt", "totalResults", "rows", "sortColumn",
+                "sortDirection", "_futureElements" })
 
 public class SearchResultInfo 
     implements SearchResult, Serializable {
