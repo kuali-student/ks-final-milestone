@@ -28,8 +28,13 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.proposal.infc.Proposal;
 import org.w3c.dom.Element;
 
-@XmlType(name = "ProposalInfo", propOrder = {"id", "typeKey", "stateKey", "proposerPerson", "proposerOrg", "proposalReferenceType", "proposalReference", "rationale", "detailDesc", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "ProposalInfo", propOrder = {"id", "typeKey", "stateKey", 
+    "name", "descr",
+    "proposerPerson", "proposerOrg", "proposalReferenceType", 
+    "proposalReference", "rationale", "detailDesc", "effectiveDate",
+        "expirationDate", 
+        "workflowId",
+        "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 

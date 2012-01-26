@@ -1124,19 +1124,19 @@ public interface OrganizationService {
      * Retrieves a list of OrgPositionRestrictions by
      * OrgPositionRestriction Type.
      * 
-     * @param orgPositionRestrictionTypeKey an identifier for the OrgPositionRestriction
+     * @param orgPersonRelationTypeKey an identifier for the OrgPositionRestriction
      *        type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of OrgPositionRestriction ids matching
-     *         orgPositionRestrictionTypeKey or an empty list if none found
+     *         orgPersonRelationTypeKey or an empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
-     * @throws MissingParameterException orgPositionRestrictionTypeKey or contextInfo is
+     * @throws MissingParameterException orgPersonRelationTypeKey or contextInfo is
      *         missing or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<String> getOrgPositionRestrictionIdsByType(@WebParam(name = "orgPositionRestrictionTypeKey") String orgPositionRestrictionTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getOrgPositionRestrictionIdsByType(@WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of OrgPositionRestrictions by Org.
@@ -1213,7 +1213,7 @@ public interface OrganizationService {
      * 
      * @param validationTypeKey the identifier for the validation Type
      * @param orgId the identifier for the Org
-     * @param orgPositionRestrictionTypeKey the identifier for the 
+     * @param orgPersonRelationTypeKey the identifier for the 
      *        OrgPositionRestriction Type to be validated
      * @param orgPositionRestrictionInfo the identifier for the
      *        OrgPositionRestriction to be validated
@@ -1222,24 +1222,24 @@ public interface OrganizationService {
      * @return a list of validation results or an empty list if
      *         validation succeeded
      * @throws DoesNotExistException validationTypeKey, orgId, or
-     *         orgPositionRestrictionTypeKey is not found
+     *         orgPersonRelationTypeKey is not found
      * @throws InvalidParameterException orgPositionRestrictionInfo or
      *         contextInfo is not valid
      * @throws MissingParameterException validationTypeKey, orgId,
-     *         orgPositionRestrictionTypeKey
+     *         orgPersonRelationTypeKey
      *         orgPositionRestrictionInfo, or contextInfo is missing
      *         or null
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateOrgPositionRestriction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "orgPositionRestrictionTypeKey") String orgPositionRestrictionTypeKey, @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<ValidationResultInfo> validateOrgPositionRestriction(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "orgId") String orgId, @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a new OrgPositionRestriction. The
      * OrgPositionRestriction Type and Meta information may not be set
      * in the supplied data object.
      * 
-     * @param orgPositionRestrictionTypeKey a unique identifier for
+     * @param orgPersonRelationTypeKey a unique identifier for
      *        the Type of the new OrgPositionRestriction
      * @param orgPositionRestrictionInfo the data with which to create
      *        the OrgPositionRestriction
@@ -1247,11 +1247,11 @@ public interface OrganizationService {
      *        locale information about the caller of service operation
      * @return the new OrgPositionRestriction
      * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException orgPositionRestrictionTypeKey does not exist or is
+     * @throws DoesNotExistException orgPersonRelationTypeKey does not exist or is
      *         not supported
      * @throws InvalidParameterException orgPositionRestrictionInfo or contextInfo is not valid
      * @throws MissingParameterException orgId,
-     *         orgPositionRestrictionTypeKey,
+     *         orgPersonRelationTypeKey,
      *         orgPositionRestrictionInfo, or contextInfo is missing
      *         or null
      * @throws OperationFailedException unable to complete request
@@ -1259,7 +1259,7 @@ public interface OrganizationService {
      * @throws ReadOnlyException an attempt at supplying information
      *         designated as read only
      */
-    public OrgPositionRestrictionInfo createOrgPositionRestriction(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgPositionRestrictionTypeKey") String orgPositionRestrictionTypeKey, @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public OrgPositionRestrictionInfo createOrgPositionRestriction(@WebParam(name = "orgId") String orgId, @WebParam(name = "orgPersonRelationTypeKey") String orgPersonRelationTypeKey, @WebParam(name = "orgPositionRestrictionInfo") OrgPositionRestrictionInfo orgPositionRestrictionInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing OrgPositionRestriction. The
