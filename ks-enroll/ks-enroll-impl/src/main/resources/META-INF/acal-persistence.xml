@@ -114,7 +114,7 @@
     <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
     <class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceTypeEntity</class>
 
-    <class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
+    <!--class>org.kuali.student.r2.core.process.model.CheckAttributeEntity</class>
     <class>org.kuali.student.r2.core.process.model.CheckEntity</class>
     <class>org.kuali.student.r2.core.process.model.CheckRichTextEntity</class>
     <class>org.kuali.student.r2.core.process.model.CheckTypeAttributeEntity</class>
@@ -130,7 +130,7 @@
     <class>org.kuali.student.r2.core.process.model.ProcessTypeAttributeEntity</class>
     <class>org.kuali.student.r2.core.process.model.ProcessTypeEntity</class>
 
-    <class>org.kuali.student.r2.core.population.model.PopulationEntity</class>
+    <class>org.kuali.student.r2.core.population.model.PopulationEntity</class-->
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
