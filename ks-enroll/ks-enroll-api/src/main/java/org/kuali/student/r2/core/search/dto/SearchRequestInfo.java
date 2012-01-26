@@ -1,15 +1,16 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
+/*
+ * Copyright 2010 The Kuali Foundation 
+ *
+ * Licensed under the Educational Community License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
 
@@ -61,6 +62,7 @@ public class SearchRequestInfo
         getParams().add(new SearchParamInfo(key, value));
     }
 
+    @Override
     public String getSearchKey() {
         return searchKey;
     }
@@ -69,6 +71,7 @@ public class SearchRequestInfo
         this.searchKey = searchKey;
     }
 	
+    @Override
     public List<SearchParamInfo> getParams() {
         if(params == null){
             params = new ArrayList<SearchParamInfo>();
@@ -81,6 +84,7 @@ public class SearchRequestInfo
         this.params = params;
     }
 
+    @Override
     public String getSortColumn() {
         return sortColumn;
     }
@@ -89,6 +93,7 @@ public class SearchRequestInfo
         this.sortColumn = sortColumn;
     }
 
+    @Override
     public SortDirection getSortDirection() {
         return sortDirection;
     }
@@ -97,6 +102,7 @@ public class SearchRequestInfo
         this.sortDirection = sortDirection;
     }
 
+    @Override
     public Integer getStartAt() {
         return startAt;
     }
@@ -105,6 +111,7 @@ public class SearchRequestInfo
         this.startAt = startAt;
     }
 
+    @Override
     public Integer getMaxResults() {
         return maxResults;
     }
@@ -113,6 +120,7 @@ public class SearchRequestInfo
         this.maxResults = maxResults;
     }
 
+    @Override
     public Boolean getNeededTotalResults() {
         return neededTotalResults;
     }

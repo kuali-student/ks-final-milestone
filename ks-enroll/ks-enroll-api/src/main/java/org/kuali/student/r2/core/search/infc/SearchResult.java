@@ -17,59 +17,45 @@
 package org.kuali.student.r2.core.search.infc;
 
 import java.util.List;
-
 import org.kuali.student.r2.core.search.dto.SortDirection;
 
-public interface SearchRequest {
-
-    /**
-     * The search key.
-     *
-     * @name Search Key
-     * @required
-     */
-    public String getSearchKey();
-
-    /**
-     * The search parameters.
-     *
-     * @name Search Paramaeters
-     * @required
-     */    
-    public List<? extends SearchParam> getParams();
-
-    /**
-     * The sort column.
-     *
-     * @name Sort Column
-     */    
-    public String getSortColumn();
-
-    /**
-     * The sort column direction.
-     *
-     * @name Sort Direction
-     */    
-    public SortDirection getSortDirection();
+public interface SearchResult {
 
     /**
      * The starting position of the results.
      *
      * @name Starting Position
+     * @required
      */    
     public Integer getStartAt();
 
     /**
-     * The maximum number of results.
+     * The total number of search results.
      *
-     * @name Maximum Results
-     */    
-    public Integer getMaxResults();
+     * @name Total Results
+     * @required
+     */
+    public Integer getTotalResults();
+    
+    /**
+     * The search result rows.
+     *
+     * @name Search Result Rows
+     * @required
+     */
+    public List<? extends SearchResultRow> getRows();
+    
+    /**
+     * The sorting column.
+     *
+     * @name Sort Column
+     */
+    public String getSortColumn();
 
     /**
-     * The minimum number of needed results.
+     * The sort direction.
      *
-     * @name Neeed Total Results
+     * @name Sort Direction
      */    
-    public Boolean getNeededTotalResults();
+    public SortDirection getSortDirection();
 }

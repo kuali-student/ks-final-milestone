@@ -19,11 +19,16 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.r2.core.search.infc.SearchResultRow;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 
-public class SearchResultRowInfo implements Serializable {
+public class SearchResultRowInfo 
+    implements SearchResultRow, Serializable {
+
     private static final long serialVersionUID = 1L;
 
     private List<SearchResultCellInfo> cells;
@@ -33,6 +38,7 @@ public class SearchResultRowInfo implements Serializable {
         getCells().add(new SearchResultCellInfo(key, value));
     }
     
+    @Override
     public List<SearchResultCellInfo> getCells() {
         if (cells == null) {
             cells = new ArrayList<SearchResultCellInfo>(0);
