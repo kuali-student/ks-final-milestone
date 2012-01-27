@@ -78,5 +78,12 @@ public class RefStatementRelationInfo extends RelationshipInfo implements RefSta
     public void setStatementId(String statementId) {
         this.statementId = statementId;
     }
-
+    @Deprecated
+    public void setType(String type) {
+        //TODO KSCM    this.type = type;
+    }
+    @Deprecated
+    public void setState(String state) {
+        //TODO KSCM   this.state = state;
+    }
 }

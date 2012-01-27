@@ -945,4 +945,7 @@ public interface StatementService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteStatementTreeView(@WebParam(name = "statementId") String statementId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }

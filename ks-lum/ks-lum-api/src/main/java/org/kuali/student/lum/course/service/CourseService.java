@@ -19,19 +19,10 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
 // TODO KSCM-159 import org.kuali.student.common.util.constants.CourseServiceConstants;
 import org.kuali.student.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.lum.course.dto.ActivityInfo;
@@ -146,7 +137,7 @@ public interface CourseService {
      */
     public CourseInfo updateCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "courseInfo") CourseInfo courseInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException,
-            PermissionDeniedException;
+            PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException;
 
     /**
      * Deletes a Course.
@@ -160,7 +151,7 @@ public interface CourseService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, UnsupportedActionException, DependentObjectsExistException, CircularRelationshipException, CircularReferenceException;
 
     /**
      * Validates a course based on its dictionary

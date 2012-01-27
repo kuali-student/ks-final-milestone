@@ -181,8 +181,8 @@ public class StatementServiceImpl implements StatementService {
     	RefStatementRelationInfo dto = StatementAssembler.toRefStatementRelationInfo(entity);
 		return dto;
 	}
-
-	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(final String refObjectTypeKey, final String refObjectId)
+    @Override
+	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(final String refObjectTypeKey, final String refObjectId,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForNullOrEmptyParameter(refObjectTypeKey, "refObjectTypeKey");
         checkForEmptyParameter(refObjectId, "refObjectId");
@@ -893,8 +893,9 @@ public class StatementServiceImpl implements StatementService {
     }
 
 	@Transactional(readOnly=false)
-	public RefStatementRelationInfo createRefStatementRelation(final RefStatementRelationInfo refStatementRelationInfo)
-			throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public RefStatementRelationInfo createRefStatementRelation( String refObjectId,  String statementId,  String refObjectTypeKey,  RefStatementRelationInfo refStatementRelationInfo,  ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException
+    {
+
 		checkForMissingParameter(refStatementRelationInfo, "refStatementRelationInfo");
 
 		Statement statement = this.statementDao.fetch(Statement.class, refStatementRelationInfo.getStatementId());
@@ -1062,10 +1063,10 @@ public class StatementServiceImpl implements StatementService {
         }
     }
 
-    // @Override
+    @Override
     @Transactional(readOnly=false)
-	public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo)
-    	throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+	public StatementTreeViewInfo updateStatementTreeView(final String statementId, final StatementTreeViewInfo statementTreeViewInfo,ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 		
 		Statement stmt = this.statementDao.fetch(Statement.class, statementTreeViewInfo.getId());
 	    if (stmt == null) {
@@ -1330,18 +1331,7 @@ public class StatementServiceImpl implements StatementService {
 		return null;
 	}
 
-	@Override
-	public RefStatementRelationInfo createRefStatementRelation(
-			String refObjectId, String statementId, String refObjectTypeKey,
-			RefStatementRelationInfo refStatementRelationInfo,
-			ContextInfo contextInfo) throws AlreadyExistsException,
-			DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			ReadOnlyException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public RefStatementRelationInfo updateRefStatementRelation(
@@ -1666,16 +1656,7 @@ public class StatementServiceImpl implements StatementService {
 		return null;
 	}
 
-	@Override
-	public StatementTreeViewInfo updateStatementTreeView(String statementId,
-			StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			ReadOnlyException, VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	@Override
 	public StatusInfo deleteStatementTreeView(String statementId,
