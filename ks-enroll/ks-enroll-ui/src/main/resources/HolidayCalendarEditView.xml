@@ -22,16 +22,17 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="HolidayCalendarEditView"/>
+                <ref bean="KS-HolidayCalendar-EditSection"/>
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
     </bean>
 
-    <bean id="HolidayCalendarEditView" parent="PageGroup" p:disclosure.render="false">
+    <bean id="KS-HolidayCalendar-EditSection" parent="PageGroup" p:disclosure.render="false">
         <property name="items">
             <list>
-                <ref bean="HolidayCalendarEditView-Meta"/>
+                <ref bean="KS-HolidayCalendar-MetaSection"/>
+                <ref bean="KS-HolidayCalendar-HolidaySection"/>
             </list>
         </property>
         <property name="footer">
@@ -46,7 +47,7 @@
         </property>
     </bean>
 
-    <bean id="HolidayCalendarEditView-Meta" parent="Group" p:layoutManager.orientation="HORIZONTAL">
+    <bean id="KS-HolidayCalendar-MetaSection" parent="Group" p:layoutManager.orientation="HORIZONTAL">
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -84,6 +85,37 @@
             </list>
         </property>
     </bean>
+
+	<bean id="KS-HolidayCalendar-HolidaySection" parent="CollectionGroupSectionTableLayout"
+		p:layoutManager.numberOfColumns="4">
+		<property name="title" value="Holidays" />
+		<property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayInfo" />
+		<property name="propertyName" value="holidays" />
+		<property name="layoutManager.sequencePropertyName" value="name" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+		<property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="layoutManager.separateAddLine" value="false" />
+		<property name="items">
+			<list>
+				<bean parent="InputField" p:label="Holiday Type" p:propertyName="typeKey" p:required="true" />
+				<bean parent="InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
+                    <property name="control">
+						<bean parent="DateControl" />
+					</property>
+				</bean>
+				<bean parent="InputField" p:label="End Date" p:propertyName="endDate" p:required="true">
+                   <property name="control">
+						<bean parent="DateControl" />
+					</property>
+				</bean>
+				<bean parent="InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay" p:required="true">
+					<property name="control">
+						<bean parent="CheckboxControl" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
 
     <util:list id="org-options">
        <bean parent="KeyLabelPair" p:key="102" p:value="Registrar's Office"/>

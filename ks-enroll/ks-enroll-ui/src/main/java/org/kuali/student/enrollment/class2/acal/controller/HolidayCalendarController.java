@@ -53,25 +53,14 @@ public class HolidayCalendarController extends UifControllerBase {
     @RequestMapping(method = RequestMethod.GET, params = "methodToCall=start")
     public ModelAndView start(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
-        String action = request.getParameter("action");
         HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
-        if(action != null && !action.trim().isEmpty()){
-            HolidayInfo holiday = new HolidayInfo();
 
-            if(action.equals("C")){
-                hcForm.getHolidays().add(holiday);
-            }
+        String hcId = request.getParameter("hcId");
+        if(hcId != null && !hcId.trim().isEmpty()){
+            try{
+                getHolidayCalendar(hcId, hcForm);
+            } catch (Exception ex){
 
-            if (action.equals("U")){
-                //get hc and populate it on the form
-                String hcId = request.getParameter("hcId");
-                if(hcId != null && !hcId.trim().isEmpty()){
-                    try{
-                        getHolidayCalendar(hcId, hcForm);
-                    } catch (Exception ex){
-
-                    }
-                }
             }
         }
 
@@ -105,6 +94,11 @@ public class HolidayCalendarController extends UifControllerBase {
     private void getHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
         HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).getHolidayCalendar(hcId);
         hcForm.setHolidayCalendarInfo(hcInfo);
+
+        List<HolidayInfo> holidays = getAcademicCalendarViewHelperService(hcForm).getHolidaysForHolidayCalendar(hcForm);
+        if (holidays != null && !holidays.isEmpty()){
+            hcForm.setHolidays(holidays);
+        }
     }
 
     public void updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {

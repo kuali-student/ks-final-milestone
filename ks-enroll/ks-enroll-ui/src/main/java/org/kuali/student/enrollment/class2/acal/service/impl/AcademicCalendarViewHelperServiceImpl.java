@@ -18,12 +18,14 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import javax.xml.namespace.QName;
+import java.util.List;
 
 /**
  * This class implement ViewHelperServiceImpl for  all AcademicCalendar views
@@ -61,6 +63,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         HolidayCalendarInfo updatedHc = getAcalService().updateHolidayCalendar(hcInfo.getId(), hcInfo, getContextInfo());
 
         return updatedHc;
+    }
+
+    public List<HolidayInfo> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
+        HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
+        List<HolidayInfo> holidays = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+
+        return holidays;
     }
 
     private ContextInfo getContextInfo(){

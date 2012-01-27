@@ -2,7 +2,10 @@ package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,4 +17,5 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public HolidayCalendarInfo createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
     public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception;
     public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+    public List<HolidayInfo> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
 }

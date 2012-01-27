@@ -109,3 +109,7 @@ Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAM
 
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.relation.uses',null,0,'Indicates the ATP uses the specified milestone',null,null,'Uses','http:--student.kuali.org/wsdl/atp/AtpMilestoneRelationInfo')
 /
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.LaborDay',null,0,'Labor Day',null,null,'Labor Day','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.FallBreak',null,0,'Fall Break',null,null,'Fall Break','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/

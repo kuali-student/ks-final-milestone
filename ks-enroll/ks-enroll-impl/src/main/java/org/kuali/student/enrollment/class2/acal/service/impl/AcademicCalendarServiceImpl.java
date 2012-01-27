@@ -1453,8 +1453,15 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     @Override
     public TypeInfo getHolidayCalendarType(String holidayCalendarTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        TypeInfo type;
+        try{
+            type = typeService.getType(holidayCalendarTypeKey, contextInfo);
+        }catch (PermissionDeniedException ex){
+            throw new OperationFailedException("Permission Denied");
+        }
+
+        return type;
+
     }
 
     @Override
