@@ -19,6 +19,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -33,34 +34,33 @@ import org.kuali.student.lum.lu.service.LuService;
 public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
     private LuService luService;
-    
-	@Override
-	public ActivityInfo assemble(CluInfo clu, ActivityInfo activity, boolean shallowBuild) {
-		if(clu == null){
+
+    @Override
+    public ActivityInfo assemble(CluInfo baseDTO, ActivityInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
+		if(baseDTO == null){
 			return null;
 		}
 		
-		ActivityInfo activityInfo = (null != activity) ? activity : new ActivityInfo();
+		ActivityInfo activityInfo = (null != businessDTO) ? businessDTO : new ActivityInfo();
 	    
-		activityInfo.setId(clu.getId());
+		activityInfo.setId(baseDTO.getId());
 		// TODO KSCM		activityInfo.setActivityType(clu.getType());
 		// TODO KSCMactivityInfo.setState(clu.getState());
-		activityInfo.setDefaultEnrollmentEstimate(clu.getDefaultEnrollmentEstimate());
-		activityInfo.setDuration(clu.getStdDuration());
-		activityInfo.setContactHours(clu.getIntensity());
-		activityInfo.setMeta(clu.getMetaInfo());
+		activityInfo.setDefaultEnrollmentEstimate(baseDTO.getDefaultEnrollmentEstimate());
+		activityInfo.setDuration(baseDTO.getStdDuration());
+		activityInfo.setContactHours(baseDTO.getIntensity());
+		activityInfo.setMeta(baseDTO.getMetaInfo());
 		// TODO KSCM        activityInfo.setAttributes(clu.getAttributes());
 		return activityInfo;
 	}
 
-	@Override
-	public BaseDTOAssemblyNode<ActivityInfo,CluInfo> disassemble(
-			ActivityInfo activity, NodeOperation operation) throws AssemblyException {
-		if (activity==null) {
+    @Override
+    public BaseDTOAssemblyNode<ActivityInfo, CluInfo> disassemble(ActivityInfo businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
+		if (businessDTO==null) {
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
 			throw new AssemblyException("Activity can not be null");
 		}
-		if (NodeOperation.CREATE != operation && null == activity.getId()) {
+		if (NodeOperation.CREATE != operation && null == businessDTO.getId()) {
 			throw new AssemblyException("Activity's id can not be null");
 		}
 		
@@ -74,20 +74,20 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
         }
 	
 		//Copy all fields 
-		clu.setId(UUIDHelper.genStringUUID(activity.getId()));//Create the id if it's not there already(important for creating relations)
+		clu.setId(UUIDHelper.genStringUUID(businessDTO.getId()));//Create the id if it's not there already(important for creating relations)
 		// TODO KSCM		clu.setType(activity.getActivityType());
-		clu.setState(activity.getState());
-		clu.setDefaultEnrollmentEstimate(activity.getDefaultEnrollmentEstimate());
-		clu.setStdDuration(activity.getDuration());
-		clu.setIntensity(activity.getContactHours());
-		clu.setMetaInfo(activity.getMeta());
+		clu.setState(businessDTO.getState());
+		clu.setDefaultEnrollmentEstimate(businessDTO.getDefaultEnrollmentEstimate());
+		clu.setStdDuration(businessDTO.getDuration());
+		clu.setIntensity(businessDTO.getContactHours());
+		clu.setMetaInfo(businessDTO.getMeta());
 		// TODO KSCM		clu.setAttributes(activity.getAttributes());
 				
 		//Add the Clu to the result 
 		result.setNodeData(clu);
 
 		// Add refernce to Activity
-		result.setBusinessDTORef(activity);
+		result.setBusinessDTORef(businessDTO);
 		
 		result.setOperation(operation);
 
@@ -101,4 +101,6 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
     public LuService getLuService() {
         return luService;
     }
+
+
 }
