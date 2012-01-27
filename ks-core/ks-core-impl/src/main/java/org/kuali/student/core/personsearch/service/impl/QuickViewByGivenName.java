@@ -170,7 +170,12 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
             });
         }
 
-        for (Person person : persons) {
+        //Implement pagination.
+        int startAt = (null != searchRequest && null != searchRequest.getStartAt()) ? searchRequest.getStartAt() : 0;
+        int maxResult = (null != searchRequest && null != searchRequest.getMaxResults()) ? startAt
+                + searchRequest.getMaxResults() : persons.size();
+        for (int i = startAt; (i < persons.size() && i < maxResult); i++) {
+            Person person = persons.get(i);
             final SearchResultRow resultRow = new SearchResultRow();
             resultRow.setCells(new ArrayList<SearchResultCell>());
 
@@ -204,7 +209,12 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
         }
 
         result.setStartAt(searchRequest.getStartAt());
-        result.setTotalResults(result.getRows().size()); // TODO fix this
+        if (searchRequest.getNeededTotalResults()) {
+            result.setTotalResults(persons.size());
+        } else {
+            result.setTotalResults(result.getRows().size());
+        }
+
         return result;
     }
 
