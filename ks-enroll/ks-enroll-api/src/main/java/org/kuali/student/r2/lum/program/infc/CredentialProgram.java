@@ -3,6 +3,7 @@ package org.kuali.student.r2.lum.program.infc;
 import org.kuali.student.r2.lum.lu.infc.AdminOrg;
 
 import java.util.List;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate,
@@ -51,4 +52,10 @@ public interface CredentialProgram extends ProgramAttributes {
      */
     public List<String> getResultOptions();
 
+    /**
+     * Information about the version of this credential program
+     * 
+     * @name version
+     */
+    public VersionInfo getVersion ();
 }

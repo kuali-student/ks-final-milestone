@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r2.core.versionmanagement.dto.VersionInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lu.dto.AdminOrgInfo;
@@ -32,36 +33,61 @@ import org.w3c.dom.Element;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-
-@XmlType(name = "CredentialProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "programLevel", "code", "universityClassification",
-        "institution", "resultOptions", "startTermId", "endTermId", "endProgramEntryTermId", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight",
-        "learningObjectives", "coreProgramIds", "programRequirements", "catalogPublicationTargets", "catalogDescr", "credentialProgramType", "diplomaTitle", "selectiveEnrollmentCode", "hegisCode",
-        "cip2000Code", "cip2010Code", "meta", "attributes", "_futureElements"})
+@XmlType(name = "CredentialProgramInfo", propOrder = {"id",
+    "version",
+    "typeKey",
+    "stateKey",
+    "name",
+    "descr",
+    "shortTitle",
+    "longTitle",
+    "transcriptTitle",
+    "programLevel",
+    "code",
+    "universityClassification",
+    "institution",
+    "resultOptions",
+    "startTermId",
+    "endTermId",
+    "endProgramEntryTermId",
+    "divisionsContentOwner",
+    "divisionsStudentOversight",
+    "unitsContentOwner",
+    "unitsStudentOversight",
+    "learningObjectives",
+    "coreProgramIds",
+    "programRequirements",
+    "catalogPublicationTargets",
+    "catalogDescr",
+    "credentialProgramType",
+    "diplomaTitle",
+    "selectiveEnrollmentCode",
+    "hegisCode",
+    "cip2000Code",
+    "cip2010Code",
+    "meta",
+    "attributes",
+    "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends ProgramAttributesInfo implements CredentialProgram, Serializable {
 
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String programLevel;
-
     @XmlElement
     private List<String> coreProgramIds;
-
     @XmlElement
     private String credentialProgramType;
-
     @XmlElement
     private ArrayList<String> resultOptions;
-
     @XmlElement
     private AdminOrgInfo institution;
-
+    @XmlElement
+    private VersionInfo version;
     @XmlAnyElement
     private List<Element> _futureElements;
 
     public CredentialProgramInfo() {
-
     }
 
     public CredentialProgramInfo(CredentialProgram credentialProgram) {
@@ -82,6 +108,9 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
             this.coreProgramIds = credentialProgram.getCoreProgramIds() != null ? new ArrayList<String>(credentialProgram.getCoreProgramIds()) : new ArrayList<String>();
             this.credentialProgramType = credentialProgram.getCredentialProgramType();
 
+            if (credentialProgram.getVersion() != null) {
+                this.version = new VersionInfo(credentialProgram.getVersion());
+            }
         }
     }
 
@@ -130,4 +159,12 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
         return resultOptions;
     }
 
+    @Override
+    public VersionInfo getVersion() {
+        return version;
+    }
+
+    public void setVersion(VersionInfo version) {
+        this.version = version;
+    }
 }
