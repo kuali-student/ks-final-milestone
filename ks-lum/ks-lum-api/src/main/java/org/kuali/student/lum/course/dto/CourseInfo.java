@@ -730,6 +730,6 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     public List<String>  getGradingOptions() {
         //TODO KSCM gradingOptions
         //Cache d;
-        return null ;
+        return new ArrayList<String>() ;
     }
 }
