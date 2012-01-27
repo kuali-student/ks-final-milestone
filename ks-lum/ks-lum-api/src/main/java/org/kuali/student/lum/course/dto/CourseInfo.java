@@ -37,6 +37,7 @@ import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.infc.CluInstructor;
 import org.w3c.dom.Element;
+import sun.security.util.Cache;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -152,6 +153,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
     @XmlAnyElement
     private List<Element> _futureElements;
+
 
     public CourseInfo(Course courseInfo) {
         super(courseInfo);
@@ -723,5 +725,11 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     @Deprecated
     public ResultComponentInfo[] getCreditOptions() {
         return null;
+    }
+    @Deprecated
+    public List<String>  getGradingOptions() {
+        //TODO KSCM gradingOptions
+        //Cache d;
+        return null ;
     }
 }

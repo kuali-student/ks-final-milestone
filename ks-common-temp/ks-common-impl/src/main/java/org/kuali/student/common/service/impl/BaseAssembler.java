@@ -41,17 +41,34 @@ public class BaseAssembler {
     
     final static Logger logger = Logger.getLogger(BaseAssembler.class);
 
-	public static Map<String, String> toAttributeMap(
-			List<? extends Attribute<?>> attributes) {
+    public static Map<String, String> toAttributeMap(
+            List<? extends Attribute<?>> attributes) {
 
-		Map<String, String> attributeInfos = new HashMap<String, String>();
+        Map<String, String> attributeInfos = new HashMap<String, String>();
 
-		for (Attribute<?> attribute : attributes) {
-			attributeInfos.put(attribute.getName(), attribute.getValue());
-		}
+        for (Attribute<?> attribute : attributes) {
+            attributeInfos.put(attribute.getName(), attribute.getValue());
+        }
 
-		return attributeInfos;
-	}
+        return attributeInfos;
+    }
+
+    public static Map<String, String> toGenericMap(
+            List<AttributeInfo> attributes) {
+
+        Map<String, String> attributeInfos = new HashMap<String, String>();
+
+        for (AttributeInfo attribute : attributes) {
+            attributeInfos.put(attribute.getKey() , attribute.getValue());
+        }
+
+        return attributeInfos;
+    }
+
+
+
+
+
 
 	public static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributes(
 			Class<A> attributeClass, Map<String, String> attributeMap, O owner,

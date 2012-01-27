@@ -14,6 +14,7 @@
 
 package org.kuali.student.lum.lrc.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.jws.WebParam;
@@ -358,4 +359,6 @@ public interface LrcService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    //TODO KSCM : I have added from CourseAssembler.java we need to look at what is needed to implement here.
+    Collection<? extends String> getResultComponentIdsByResultComponentType(String courseResultCompTypeCreditFixed) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }

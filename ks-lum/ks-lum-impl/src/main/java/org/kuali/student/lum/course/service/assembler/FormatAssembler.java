@@ -26,6 +26,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -53,7 +54,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 	@Override
 	public FormatInfo assemble(CluInfo clu, FormatInfo formatInfo,
-			boolean shallowBuild) throws AssemblyException {
+			boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
 
 		if (clu == null) {
 			return null;
@@ -82,7 +83,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				// TODO KSCM						CourseAssemblerConstants.COURSE_ACTIVITY_RELATION_TYPE);
 				for (CluInfo activity : activities) {
 					ActivityInfo activityInfo = activityAssembler.assemble(
-							activity, null, false);
+							activity, null, false,contextInfo);
 					format.getActivities().add(activityInfo);
 				}
 				// TODO KSCM			} catch (DoesNotExistException e) {
@@ -95,7 +96,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
 	@Override
 	public BaseDTOAssemblyNode<FormatInfo, CluInfo> disassemble(
-			FormatInfo format, NodeOperation operation)
+			FormatInfo format, NodeOperation operation,ContextInfo contextInfo)
 			throws AssemblyException {
 		BaseDTOAssemblyNode<FormatInfo, CluInfo> result = new BaseDTOAssemblyNode<FormatInfo, CluInfo>(
 				this);
@@ -139,7 +140,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		List<BaseDTOAssemblyNode<?, ?>> activityResults;
         try {
             activityResults = disassembleActivities(clu.getId(),
-            		format, operation);
+            		format, operation,contextInfo);
             result.getChildNodes().addAll(activityResults);
             
         } catch (Exception e) {
@@ -172,7 +173,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * @throws DoesNotExistException 
 	 */
 	private List<BaseDTOAssemblyNode<?, ?>> disassembleActivities(String nodeId,
-			FormatInfo format, NodeOperation operation)
+			FormatInfo format, NodeOperation operation,ContextInfo contextInfo)
 			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
@@ -209,7 +210,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
                 // the activity does not exist, so create
                 // Assemble and add the activity
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
-                        .disassemble(activity, NodeOperation.CREATE);
+                        .disassemble(activity, NodeOperation.CREATE,contextInfo);
                 results.add(activityNode);
 
                 // Create the relationship and add it as well
@@ -234,7 +235,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 				// activity
             	// TODO KSCM            	activity.setState(format.getState());
 				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
-						.disassemble(activity, NodeOperation.UPDATE);
+						.disassemble(activity, NodeOperation.UPDATE,contextInfo);
 				results.add(activityNode);
 
 				// remove this entry from the map so we can tell what needs to
@@ -253,7 +254,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
                 results.add(relationToDeleteNode);
             
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> formatNode = activityAssembler
-                .disassemble(activity, NodeOperation.DELETE);
+                .disassemble(activity, NodeOperation.DELETE,contextInfo);
                 results.add(formatNode);                                
 
                 // remove this entry from the map so we can tell what needs to
@@ -277,9 +278,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 
             CluInfo activityCluToDelete = null;
          // TODO KSCM            luService.getClu(entry.getKey());
-            ActivityInfo activityToDelete = activityAssembler.assemble(activityCluToDelete, null, false);
+            ActivityInfo activityToDelete = activityAssembler.assemble(activityCluToDelete, null, false,contextInfo);
             BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
-            .disassemble(activityToDelete, NodeOperation.DELETE);
+            .disassemble(activityToDelete, NodeOperation.DELETE,contextInfo);
             results.add(activityNode);                                            
         }
        

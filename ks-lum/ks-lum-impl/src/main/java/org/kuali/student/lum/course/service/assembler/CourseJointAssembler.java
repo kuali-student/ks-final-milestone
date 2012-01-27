@@ -52,7 +52,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 	}
 
 	@Override
-	public CourseJointInfo assemble(CluCluRelationInfo cluRel, CourseJointInfo jointInfo, boolean shallowBuild) throws AssemblyException {
+	public CourseJointInfo assemble(CluCluRelationInfo cluRel, CourseJointInfo jointInfo, boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
 		if(null == cluRel) {
 			return null;
 		}
@@ -108,7 +108,7 @@ public class CourseJointAssembler implements BOAssembler<CourseJointInfo, CluClu
 
 	@Override
 	public BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> disassemble(
-			CourseJointInfo joint, NodeOperation operation) throws AssemblyException {
+			CourseJointInfo joint, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 		
 		if(null == joint){
 			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
