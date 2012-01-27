@@ -20,13 +20,30 @@ import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 
 /**
  * Information about the person to time slot and appointment window relation
+ *
  * @Version 1.0
  * @Author Sri komandur@uw.edu
  */
 public interface Appointment extends Relationship {
 
+    /**
+     * Person Identifier
+     *
+     * @name Person Id
+     */
     public String getPersonId();
+
+    /**
+     * Appointment Window with which this appointment is associated for the person
+     * @name Appointment Window Id
+     */
     public String getAppointmentWindowId();
+
+    /**
+     * Appointment time slot (within the appointment window) assigned to this person
+     *
+     * @name Appointment Time Slot Id
+     */
     public String getAppointmentTimeSlotId();
 
 }

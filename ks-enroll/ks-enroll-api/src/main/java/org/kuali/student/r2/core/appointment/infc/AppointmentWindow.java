@@ -40,7 +40,7 @@ public interface AppointmentWindow extends IdEntity {
      * Appointment Window within the period
      * e.g, 8:00 am - 12:00pm, any day during the appointment period
      *
-     * @name Appointment Window TimeSlot Id
+     * @name Appointment Window Time Slot Id
      */
     public String getAppointmentWindowTimeSlotId();
 
@@ -67,4 +67,10 @@ public interface AppointmentWindow extends IdEntity {
      */
     public List<String> getAssignedPopulationIds();
 
+    /**
+     * Estimated number of persons during this appointment window
+     *
+     * @name Estimated Persons
+     */
+    public Integer getEstimatedPersons();
 }
