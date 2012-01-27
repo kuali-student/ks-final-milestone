@@ -13,19 +13,11 @@
  *  permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.appointment.service;
-
-import org.kuali.student.r2.core.appointment.constants.AppointmentServiceConstants;
-
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
+package org.kuali.student.r2.core.appointment.dto;
 
 /**
- * @Version 1.0
+ * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-@WebService(name = "AppointmentService", serviceName = "AppointmentService", portName = "AppointmentService", targetNamespace = AppointmentServiceConstants.NAMESPACE)
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AppointmentService {
-
+public class AppointmentWindowInfo {
 }
