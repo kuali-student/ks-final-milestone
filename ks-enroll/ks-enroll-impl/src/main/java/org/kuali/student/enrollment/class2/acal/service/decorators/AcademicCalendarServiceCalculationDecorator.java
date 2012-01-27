@@ -285,13 +285,18 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
         }
     }
 
-    private Date getLaborDayForYear(int year) {
-        Calendar cal = new GregorianCalendar(year, Calendar.SEPTEMBER, 1);
-        if (Calendar.MONDAY != cal.get(Calendar.DAY_OF_WEEK)) {
-            int daysUntil = (Calendar.MONDAY - cal.get(Calendar.DAY_OF_MONTH) + 7) % 7;
+    private Date getNthDayOfWeekInMonth(int n, int dayOfWeek, int month, int year) {
+        Calendar cal = new GregorianCalendar(year, month, 1);
+        if (dayOfWeek != cal.get(Calendar.DAY_OF_WEEK)) {
+            int daysUntil = (dayOfWeek - cal.get(Calendar.DAY_OF_WEEK) + 7) % 7;
             cal.add(Calendar.DATE, daysUntil);
         }
+        cal.add(Calendar.DATE, (n-1) * 7);
         return cal.getTime();
+    }
+
+    private Date getLaborDayForYear(int year) {
+        return getNthDayOfWeekInMonth(1, Calendar.MONDAY, Calendar.SEPTEMBER, year);
     }
 
     private boolean timespanOccursDuringTimespan(Date startTime1, Date endTime1, Date startTime2, Date endTime2) {
