@@ -24,6 +24,7 @@
                 <ref bean="AcademicCalendarEditView"/>
             </list>
         </property>
+        <property name="additionalCssFiles" ref="ks-css"/>
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
     </bean>
 
@@ -52,13 +53,6 @@
                 <bean parent="InputField_Form" p:label="Academic Calendar Name"
                       p:labelPlacement="TOP" p:labelField.renderColon="false"
                       p:propertyName="academicCalendarInfo.name" p:labelField.style="display:block;">
-                    <property name="control">
-                        <bean parent="TextControl" p:size="30" />
-                    </property>
-                </bean>
-                <bean parent="InputField_Form" p:label="Academic Calendar Key"
-                      p:labelPlacement="TOP" p:labelField.renderColon="false"
-                      p:propertyName="academicCalendarInfo.id" p:labelField.style="display:block;">
                     <property name="control">
                         <bean parent="TextControl" p:size="30" />
                     </property>
@@ -92,9 +86,9 @@
 
     <util:list id="org-options">
         <bean parent="KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
-        <bean parent="KeyLabelPair" p:key="103" p:value="Law School"/>
-        <bean parent="KeyLabelPair" p:key="104" p:value="Medical School"/>
-        <bean parent="KeyLabelPair" p:key="105" p:value="Continuing Study"/>
+        <bean parent="KeyLabelPair" p:key="34" p:value="Medical School"/>
+<!--        <bean parent="KeyLabelPair" p:key="103" p:value="Law School"/>
+        <bean parent="KeyLabelPair" p:key="105" p:value="Continuing Study"/>    -->
     </util:list>
 
 </beans>
