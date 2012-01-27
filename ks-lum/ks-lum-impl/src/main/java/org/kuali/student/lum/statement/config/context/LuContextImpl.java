@@ -132,7 +132,7 @@ public class LuContextImpl extends BasicContextImpl {
 	    	List<CluInfo> list = new ArrayList<CluInfo>();
 	    	CluSetTreeViewInfo tree = luService.getCluSetTreeView(cluSetId);
 	    	findClusInCluSet(tree, list);
-	    	return new NLCluSet(cluSet.getId(), list);
+	    	return new NLCluSet(cluSet.getId(), list, cluSet);
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
