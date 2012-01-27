@@ -18,6 +18,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
@@ -31,7 +32,9 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.*;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -143,6 +146,9 @@ public interface ProposalService {
      * provides the identifier in the create statement instead of the server
      * assigning an identifier.
      * 
+     *
+     *
+     *
      * @param validationTypeKey Identifier of the extent of validation
      * @param proposalInfo The proposal information to be tested.
      * @return Results from performing the validation
@@ -151,8 +157,8 @@ public interface ProposalService {
      * @throws MissingParameterException missing validationTypeKey, proposalInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateProposal(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "proposalInfo") ProposalInfo proposalInfo,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateProposal(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "proposalInfo") ProposalInfo proposalInfo,
+                                                                                               @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Creates a new Proposal
@@ -210,4 +216,31 @@ public interface ProposalService {
     public StatusInfo deleteProposal(@WebParam(name = "proposalId") String proposalId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException;
 
+    SearchResult search(SearchRequest searchRequest) throws MissingParameterException;
+
+    List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    List<SearchTypeInfo> getSearchTypes() throws OperationFailedException;
+
+    List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException;
+
+    List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException;
+
+    SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    List<String> getObjectTypes();
+
+    ObjectStructureDefinition getObjectStructure(String objectTypeKey);
+
+    SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    List<ProposalTypeInfo> getProposalTypes() throws OperationFailedException;
+
+    List<ProposalTypeInfo> getProposalTypesForReferenceType(String referenceTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    ProposalTypeInfo getProposalType(@WebParam(name = "proposalTypeKey") String proposalTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }

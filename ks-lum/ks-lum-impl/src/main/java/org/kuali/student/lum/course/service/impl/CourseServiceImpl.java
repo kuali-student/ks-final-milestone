@@ -188,7 +188,7 @@ public class CourseServiceImpl implements CourseService {
 
         CourseInfo course;
         try {
-            course = courseAssembler.assemble(clu, null, false);
+            course = courseAssembler.assemble(clu, null, false,contextInfo);
         } catch (AssemblyException e) {
             LOG.error("Error assembling course", e);
             throw new OperationFailedException("Error assembling course");
@@ -379,7 +379,7 @@ public class CourseServiceImpl implements CourseService {
     private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation,ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException,
             PermissionDeniedException, AssemblyException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException {
 
-        BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation);
+        BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation,contextInfo);
 
         // Use the results to make the appropriate service calls here
 		courseServiceMethodInvoker.invokeServiceCalls(results);
@@ -433,14 +433,14 @@ public class CourseServiceImpl implements CourseService {
 			CourseServiceUtils.resetIds(originalCourse);
 	        
 	        //Integrate changes into the original course. (should this just be just the id?)
-			courseAssembler.assemble(newVersionClu, originalCourse, true);
+			courseAssembler.assemble(newVersionClu, originalCourse, true,contextInfo);
 
 			//Clear dates since they need to be set anyway
 			originalCourse.setStartTerm(null);
 			originalCourse.setEndTerm(null);
 			
 			//Disassemble the new course
-			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);
+			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE,contextInfo);
 
 			// Use the results to make the appropriate service calls here
 			courseServiceMethodInvoker.invokeServiceCalls(results);
