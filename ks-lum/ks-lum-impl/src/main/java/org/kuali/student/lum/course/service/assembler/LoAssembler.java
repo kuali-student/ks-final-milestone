@@ -33,9 +33,9 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 
 	private LearningObjectiveService loService;
 	
-	@Override
+
 	public LoDisplayInfo assemble(LoInfo lo, LoDisplayInfo loDisplayInfo,
-			boolean shallowBuild) throws AssemblyException {
+			boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
 		
 		LoDisplayInfo loDisplay = (null != loDisplayInfo) ? loDisplayInfo : new LoDisplayInfo();
 		
@@ -55,7 +55,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 				List<LoInfo> childLos = null;
 				// TODO KSCM	loService.getRelatedLosByLoId(loId,CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
 				for(LoInfo childLo:childLos){
-					LoDisplayInfo childLoDisplay = assemble(childLo, null, shallowBuild);
+					LoDisplayInfo childLoDisplay = assemble(childLo, null, shallowBuild,contextInfo);
 					childLoDisplay.setParentLoRelationid(lo.getId());
 					// TODO KSCM					childLoDisplay.setParentRelType(CourseAssemblerConstants.COURSE_LO_RELATION_INCLUDES);
 					loDisplay.getLoDisplayInfoList().add(childLoDisplay);
@@ -72,10 +72,10 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		return loDisplay;
 	}
 
-	@Override
+
 	//Creation of categories is done in the LoCategoryRpcGwtServlet
 	public BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> disassemble(
-			LoDisplayInfo loDisplay, NodeOperation operation)
+			LoDisplayInfo loDisplay, NodeOperation operation,ContextInfo contextInfo)
 			throws AssemblyException {
 		
 		BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> result = new BaseDTOAssemblyNode<LoDisplayInfo, LoInfo>(this);
@@ -103,7 +103,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		
 		//Process the child los
 		try {
-			List<BaseDTOAssemblyNode<?, ?>> childLoNodes = disassembleChildLos(loDisplay, operation);
+			List<BaseDTOAssemblyNode<?, ?>> childLoNodes = disassembleChildLos(loDisplay, operation,contextInfo);
 			result.getChildNodes().addAll(childLoNodes);
 		} catch (DoesNotExistException e) {
 		} catch (Exception e) {
@@ -112,7 +112,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 
 		//Process the categories
 		try {
-			List<BaseDTOAssemblyNode<?, ?>> categoryNodes = disassembleCategories(loDisplay, operation);
+			List<BaseDTOAssemblyNode<?, ?>> categoryNodes = disassembleCategories(loDisplay, operation,contextInfo);
 			result.getChildNodes().addAll(categoryNodes);
 		} catch (Exception e) {
 			throw new AssemblyException("Error disassembling categories", e);
@@ -122,7 +122,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 	}
 
 	private List<BaseDTOAssemblyNode<?, ?>> disassembleCategories(
-			LoDisplayInfo loDisplay, NodeOperation operation) throws AssemblyException {
+			LoDisplayInfo loDisplay, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 		
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 		
@@ -180,7 +180,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 		return results;
 	}
 
-	private List<BaseDTOAssemblyNode<?, ?>> disassembleChildLos(LoDisplayInfo loDisplay, NodeOperation operation) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AssemblyException, PermissionDeniedException{
+	private List<BaseDTOAssemblyNode<?, ?>> disassembleChildLos(LoDisplayInfo loDisplay, NodeOperation operation,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, AssemblyException, PermissionDeniedException{
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 		Map<String,LoLoRelationInfo> currentLoRelations = new HashMap<String,LoLoRelationInfo>();
 		//Make lu lu relations
@@ -218,7 +218,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
                 // Assemble and add the lo
 		    	childDisplay.getLoInfo().setId(null);
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this
-                        .disassemble(childDisplay, NodeOperation.CREATE);
+                        .disassemble(childDisplay, NodeOperation.CREATE,contextInfo);
                 results.add(loNode);
 
                 // Create the relationship and add it as well
@@ -244,7 +244,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 				// If the lo already has this child lo, then just update the
 				// child lo
 				BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this
-						.disassemble(childDisplay, NodeOperation.UPDATE);
+						.disassemble(childDisplay, NodeOperation.UPDATE,contextInfo);
 				results.add(loNode);
 
 				// remove this entry from the map so we can tell what needs to
@@ -262,7 +262,7 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
                 results.add(relationToDeleteNode);
             
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this
-                .disassemble(childDisplay, NodeOperation.DELETE);
+                .disassemble(childDisplay, NodeOperation.DELETE,contextInfo);
                 results.add(loNode);                                
 
                 // remove this entry from the map so we can tell what needs to
@@ -284,8 +284,8 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
             results.add(relationToDeleteNode);
 
             LoInfo loToDelete = loService.getLo(entry.getKey() , new ContextInfo());
-            LoDisplayInfo loDisplayToDelete = this.assemble(loToDelete, null, false);
-            BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this.disassemble(loDisplayToDelete, NodeOperation.DELETE);
+            LoDisplayInfo loDisplayToDelete = this.assemble(loToDelete, null, false,contextInfo);
+            BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = this.disassemble(loDisplayToDelete, NodeOperation.DELETE,contextInfo);
             results.add(loNode);                                            
         }
 		return results;
