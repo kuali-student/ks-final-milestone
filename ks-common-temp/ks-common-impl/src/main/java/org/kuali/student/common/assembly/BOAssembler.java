@@ -17,6 +17,7 @@ package org.kuali.student.common.assembly;
 
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 
 
 /**
@@ -51,7 +52,7 @@ public interface BOAssembler<E, T> {
 	 * @return Assembled business DTO
 	 * @throws AssemblyException 
 	 */
-	public E assemble(T baseDTO, E businessDTO, boolean shallowBuild) throws AssemblyException;
+	public E assemble(T baseDTO, E businessDTO, boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException;
 
 	/**
 	 * 
@@ -61,7 +62,7 @@ public interface BOAssembler<E, T> {
 	 * 
 	 * @param businessDTO
 	 *            Business DTO to be disassembled
-	 * @param isCreate
+	 * @param operation
 	 *            Is the disassembly done for create
 	 * 
 	 * @return A sorted map of BaseDTOAssemblyNodes to be processed in the given
@@ -70,5 +71,5 @@ public interface BOAssembler<E, T> {
 	 * @throws AssemblyException 
 	 */
 	public BaseDTOAssemblyNode<E,	T> disassemble(
-			E businessDTO, NodeOperation operation) throws AssemblyException;
+			E businessDTO, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException;
 }
