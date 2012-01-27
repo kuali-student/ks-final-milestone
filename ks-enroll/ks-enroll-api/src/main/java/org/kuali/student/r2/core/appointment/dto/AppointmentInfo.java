@@ -15,9 +15,52 @@
 
 package org.kuali.student.r2.core.appointment.dto;
 
+import org.kuali.student.r2.common.dto.RelationshipInfo;
+import org.kuali.student.r2.core.appointment.infc.Appointment;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
+
 /**
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public class AppointmentInfo {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "AppointmentInfo", propOrder = { "id", "typeKey",
+		"stateKey", "personId", "appointmentWindowId", "appointmentTimeSlotId",
+        "effectiveDate", "expirationDate",
+        "meta", "attributes", "_futureElements" })
+public class AppointmentInfo extends RelationshipInfo implements Appointment {
+
+    private String personId;
+    private String appointmentWindowId;
+    private String appointmentTimeSlotId;
+
+    @Override
+    public String getPersonId() {
+        return this.personId;
+    }
+
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
+    @Override
+    public String getAppointmentWindowId() {
+        return this.appointmentWindowId;
+    }
+
+    public void setAppointmentWindowId(String appointmentWindowId) {
+        this.appointmentWindowId = appointmentWindowId;
+    }
+
+    @Override
+    public String getAppointmentTimeSlotId() {
+        return this.appointmentTimeSlotId;
+    }
+
+    public void setAppointmentTimeSlotId(String appointmentTimeSlotId) {
+        this.appointmentTimeSlotId = appointmentTimeSlotId;
+    }
 }
