@@ -113,3 +113,5 @@ Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAM
 /
 Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.FallBreak',null,0,'Fall Break',null,null,'Fall Break','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
 /
+Insert into KSEN_ATP_TYPE (TYPE_KEY,OBJ_ID,VER_NBR,TYPE_DESC,EFF_DT,EXPIR_DT,NAME,REF_OBJECT_URI) values ('kuali.atp.milestone.ThanksgivingBreak',null,0,'Thanksgiving Break',null,null,'Thanksgiving Break','http:--student.kuali.org/wsdl/atp/MilestoneInfo')
+/
