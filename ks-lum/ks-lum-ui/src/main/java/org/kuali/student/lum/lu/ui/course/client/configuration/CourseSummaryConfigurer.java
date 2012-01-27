@@ -868,21 +868,43 @@ public class CourseSummaryConfigurer extends Configurer implements
                     String path) {
                 panel.clear();
                 if (controller instanceof HasRequirements) {
-                    HasRequirements requirementsController = (HasRequirements) controller;
-                    List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController
-                            .getReqDataModel().getCourseReqInfo(
-                                    stmtType.getId());
-                    for (StatementTreeViewInfo rule : statementTreeViewInfos) {
-                        SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(
+                    final HasRequirements requirementsController = (HasRequirements) controller;
+                    if (requirementsController.getReqDataModel().isInitialized()) {
+                        List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController
+                                .getReqDataModel().getCourseReqInfo(
+                                        stmtType.getId());
+                        addSubrulePreviewWidget(panel, statementTreeViewInfos);
+                    } else {
+                        requirementsController.getReqDataModel().retrieveCourseRequirements(
+                                AbstractCourseConfigurer.COURSE_PROPOSAL_MODEL, new Callback<Boolean>() {
+                                    @Override
+                                    public void exec(Boolean result) {
+                                        if (result) {
+                                            List<StatementTreeViewInfo> statementTreeViewInfos = requirementsController
+                                                    .getReqDataModel().getCourseReqInfo(
+                                                            stmtType.getId());
+                                            addSubrulePreviewWidget(panel, statementTreeViewInfos);
+                                            //reset initialized property so that rules load on CourseRequirementSummaryView
+                                            requirementsController.getReqDataModel().setInitialized(false);
+                                        }
+                                    }
+                                });
+                    }
+
+                }
+            }
+
+            private void addSubrulePreviewWidget(final FlowPanel panel,
+                    List<StatementTreeViewInfo> statementTreeViewInfos) {
+                for (StatementTreeViewInfo rule : statementTreeViewInfos) {
+                    SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(
                                 rule, true,
                                 CourseRequirementsSummaryView
                                         .getCluSetWidgetList(rule));
-                        panel.add(ruleWidget);
-                    }
+                    panel.add(ruleWidget);
                 }
             }
         };
-
         FieldDescriptorReadOnly requisiteField = new FieldDescriptorReadOnly(
                 COURSE + "/" + CreditCourseConstants.ID, new MessageKeyInfo(
                         stmtType.getName()), null, panel);
