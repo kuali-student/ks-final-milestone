@@ -431,7 +431,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
                     if(verticalSectionView instanceof SectionView){
                         
                         ((SectionView) verticalSectionView).setInstructions(  "Multiple supporting documents associated with this course can be uploaded.<br>"
-                        		                                            + "&nbsp;&nbsp;&nbsp;<b>Acceptabled file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString + "</i><br>"
+                        		                                            + "&nbsp;&nbsp;&nbsp;<b>Acceptable file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString + "</i><br>"
                         		                                            + "&nbsp;&nbsp;&nbsp;<b>Max file size:</b>&nbsp;&nbsp;" + "<i>~" + maxFileSizeInt + "MB </i>");
                     }
                }
