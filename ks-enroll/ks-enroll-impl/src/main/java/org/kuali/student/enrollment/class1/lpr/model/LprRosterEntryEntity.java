@@ -33,11 +33,11 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RELATION_TYPE_ID")
-    private LuiPersonRelationTypeEntity lprEntryRelationType;
+    private String lprEntryRelationType;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RELATION_STATE_ID")
-    private StateEntity lprEntryRelationState;
+    private String lprEntryRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)
     private List<LprRosterEntryAttributeEntity> attributes;
@@ -113,19 +113,19 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         this.attributes = attributes;
     }
 
-    public StateEntity getLprEntryRelationState() {
+    public String getLprEntryRelationState() {
         return lprEntryRelationState;
     }
 
-    public void setLprEntryRelationState(StateEntity lprEntryRelationState) {
+    public void setLprEntryRelationState(String lprEntryRelationState) {
         this.lprEntryRelationState = lprEntryRelationState;
     }
 
-    public LuiPersonRelationTypeEntity getLprEntryRelationType() {
+    public String getLprEntryRelationType() {
         return lprEntryRelationType;
     }
 
-    public void setLprEntryRelationType(LuiPersonRelationTypeEntity lprEntryRelationType) {
+    public void setLprEntryRelationType(String lprEntryRelationType) {
         this.lprEntryRelationType = lprEntryRelationType;
     }
 
@@ -139,10 +139,10 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         info.setPosition(getPosition());
 
         if (getLprEntryRelationState() != null){
-            info.setStateKey(getLprEntryRelationState().getId());
+            info.setStateKey(getLprEntryRelationState());
         }
         if (getLprEntryRelationType() != null){
-            info.setTypeKey(getLprEntryRelationType().getId());
+            info.setTypeKey(getLprEntryRelationType());
         }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();

@@ -14,7 +14,6 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 
 @PersistenceFileLocation("classpath:META-INF/acal-persistence.xml")
 public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
@@ -26,9 +25,6 @@ public class TestAtpAtpRelationDao extends AbstractTransactionalDaoTest{
     {
         AtpAtpRelationEntity atpRel = dao.find("ATPATPREL-2");
         assertNotNull(atpRel);
-        AtpTypeEntity atpType = atpRel.getAtpType();
-        assertNotNull(atpType);
-        assertEquals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY, atpType.getName());
     }
 
     @Test

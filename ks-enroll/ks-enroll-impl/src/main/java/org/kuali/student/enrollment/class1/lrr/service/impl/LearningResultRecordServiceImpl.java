@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class1.lrr.service.impl;
 
 import org.kuali.student.enrollment.class1.lrr.dao.LrrDao;
-import org.kuali.student.enrollment.class1.lrr.dao.LrrTypeDao;
 import org.kuali.student.enrollment.class1.lrr.dao.ResultSourceDao;
 import org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity;
 import org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity;
@@ -28,7 +27,6 @@ import org.kuali.student.r2.core.state.service.StateService;
 public class LearningResultRecordServiceImpl implements LearningResultRecordService {
 
     private LrrDao lrrDao;
-    private LrrTypeDao lrrTypeDao;
     private ResultSourceDao resultSourceDao;
     private StateService stateService;
 
@@ -79,14 +77,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             }
             newLrr.setResultSourceList(resultSourceEntities);
 
-            if (learningResultRecord.getStateKey() != null)  {
-                newLrr.setLrrState(findState(learningResultRecord.getStateKey(), context));
-            }
-
-            if (learningResultRecord.getTypeKey() != null) {
-                newLrr.setLrrType(lrrTypeDao.find(learningResultRecord.getTypeKey()));
-            }
-
+           
             lrrDao.merge(newLrr);
             return lrrDao.find(newLrr.getId()).toDto();
         }
@@ -110,10 +101,6 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         }
         modifiedLrr.setResultSourceList(resultSourceEntities);
 
-        if (learningResultRecordInfo.getStateKey() != null)
-            modifiedLrr.setLrrState(findState(learningResultRecordInfo.getStateKey(), context));
-        if (learningResultRecordInfo.getTypeKey() != null)
-            modifiedLrr.setLrrType(lrrTypeDao.find(learningResultRecordInfo.getTypeKey()));
         lrrDao.merge(modifiedLrr);
 
         return lrrDao.find(modifiedLrr.getId()).toDto();
@@ -153,13 +140,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
-        StateEntity state = findState(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY,context);
-
-        if (state == null){
-            throw new DoesNotExistException(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY + " state not found");
-        }
-
-        lrr.setLrrState(state);
+        lrr.setLrrState(LrrServiceConstants.RESULT_RECORD_DELETED_STATE_KEY);
         lrrDao.merge(lrr);
 
         return status;
@@ -217,14 +198,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
         this.lrrDao = lrrDao;
     }
 
-    public LrrTypeDao getLrrTypeDao() {
-        return lrrTypeDao;
-    }
-
-    public void setLrrTypeDao(LrrTypeDao lrrTypeDao) {
-        this.lrrTypeDao = lrrTypeDao;
-    }
-
+   
     public StateService getStateService() {
         return stateService;
     }

@@ -1,6 +1,7 @@
-package org.kuali.student.r2.core.class1.type.entity;
+package org.kuali.student.r2.core.class1.type.model;
 
-import org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity;
+import org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;

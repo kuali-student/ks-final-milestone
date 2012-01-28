@@ -31,8 +31,8 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Rest
     private HoldRichTextEntity descr;   
    
     @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
-    private HoldTypeEntity restrictionType;
+    @JoinColumn(name = "RESTRICTION_TYPE")
+    private String restrictionType;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "STATE_ID")
@@ -69,7 +69,7 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Rest
     	obj.setKey(getId());
     	obj.setName(name);
         if(restrictionType != null)
-            obj.setTypeKey(restrictionType.getId());
+            obj.setTypeKey(restrictionType);
         if(restrictionState != null)
             obj.setStateKey(restrictionState.getId());
         obj.setMeta(super.toDTO());
@@ -86,11 +86,11 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Rest
         return obj;
     }
 
-	public HoldTypeEntity getRestrictionType() {
+	public String getRestrictionType() {
 		return restrictionType;
 	}
 
-	public void setRestrictionType(HoldTypeEntity restrictionType) {
+	public void setRestrictionType(String restrictionType) {
 		this.restrictionType = restrictionType;
 	}
 

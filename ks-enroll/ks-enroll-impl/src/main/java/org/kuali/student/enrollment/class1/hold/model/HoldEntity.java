@@ -33,7 +33,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
    
     @ManyToOne(optional=false)
     @JoinColumn(name = "TYPE_ID")
-    private HoldTypeEntity holdType;
+    private String holdType;
 
     @ManyToOne(optional=false)
     @JoinColumn(name = "STATE_ID")
@@ -107,7 +107,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         obj.setIsOverridable(isOverridable);
         obj.setPersonId(personId);
         if(holdType != null)
-            obj.setTypeKey(holdType.getId());
+            obj.setTypeKey(holdType);
         if(holdState != null)
             obj.setStateKey(holdState.getId());
         if(issue != null)
@@ -143,11 +143,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
 		this.descr = descr;
 	}
 
-	public HoldTypeEntity getHoldType() {
+	public String getHoldType() {
 		return holdType;
 	}
 
-	public void setHoldType(HoldTypeEntity holdType) {
+	public void setHoldType(String holdType) {
 		this.holdType = holdType;
 	}
 

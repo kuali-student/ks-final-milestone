@@ -33,7 +33,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "TYPE_ID")
-    private LrcTypeEntity type;
+    private String type;
 
     @Column(name = "MIN_VALUE")
     private String minValue;
@@ -95,11 +95,11 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
         this.name = name;
     }
 
-    public LrcTypeEntity getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(LrcTypeEntity type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -201,7 +201,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
          }
 
          if (getType() != null){
-            info.setTypeKey(getType().getId());
+            info.setTypeKey(getType());
          }
 
          info.setEffectiveDate(getEffectiveDate());

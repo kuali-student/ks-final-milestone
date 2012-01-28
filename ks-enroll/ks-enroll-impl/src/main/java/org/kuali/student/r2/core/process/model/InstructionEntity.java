@@ -7,7 +7,6 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.kuali.student.r2.core.population.infc.Population;
 import org.kuali.student.r2.core.population.model.PopulationEntity;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
@@ -31,8 +30,8 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     private Date expirationDate;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
-    private InstructionTypeEntity instructionType;
+    @JoinColumn(name = "INSTRUCTION_TYPE")
+    private String instructionType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
@@ -68,7 +67,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinTable(name = "KSEN_INSTR_ATPTYPE_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
-    private List<AtpTypeEntity> appliedAtpTypes;
+    private List<String> appliedAtpTypes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)
     private List<InstructionAttributeEntity> attributes = new ArrayList<InstructionAttributeEntity>();
@@ -137,7 +136,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         }
 
         if (getInstructionType() != null){
-            dto.setTypeKey(getInstructionType().getId());
+            dto.setTypeKey(getInstructionType());
         }
 
         List<String> appliedPopulation = new ArrayList<String>();
@@ -150,8 +149,8 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
 
         List<String> appliedAtpTypeKeys = new ArrayList<String>();
         if (getAppliedAtpTypes() != null){
-            for (AtpTypeEntity atpTypeEntity : getAppliedAtpTypes()) {
-                appliedAtpTypeKeys.add(atpTypeEntity.getId());
+            for (String atpType : getAppliedAtpTypes()) {
+                appliedAtpTypeKeys.add(atpType);
             }
         }
         dto.setAppliedAtpTypeKeys(appliedAtpTypeKeys);
@@ -187,11 +186,11 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.expirationDate = expirationDate;
     }
 
-    public InstructionTypeEntity getInstructionType() {
+    public String getInstructionType() {
         return instructionType;
     }
 
-    public void setInstructionType(InstructionTypeEntity instructionType) {
+    public void setInstructionType(String instructionType) {
         this.instructionType = instructionType;
     }
 
@@ -267,11 +266,11 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.appliedPopulation = appliedPopulation;
     }
 
-    public List<AtpTypeEntity> getAppliedAtpTypes() {
+    public List<String> getAppliedAtpTypes() {
         return appliedAtpTypes;
     }
 
-    public void setAppliedAtpTypes(List<AtpTypeEntity> appliedAtpTypes) {
+    public void setAppliedAtpTypes(List<String> appliedAtpTypes) {
         this.appliedAtpTypes = appliedAtpTypes;
     }
 

@@ -1,4 +1,4 @@
-package org.kuali.student.r2.core.class1.type.entity;
+package org.kuali.student.r2.core.class1.type.model;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -7,8 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -18,39 +16,30 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.infc.TypeTypeRelation;
 
 @Entity
 @Table(name = "KSEN_TYPETYPE_RELTN")
 public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner<TypeTypeRelationAttributeEntity> {
-    
-//    @ManyToOne
-//    @JoinColumn(name="OWNER_TYPE_ID")
-//    private TypeEntity<? extends BaseAttributeEntity> ownerType;
-	@Column(name="OWNER_TYPE_ID")
-	private String ownerTypeId;
-    
-//    @ManyToOne
-//    @JoinColumn(name="RELATED_TYPE_ID")
-//    private TypeEntity<? extends BaseAttributeEntity> relatedType;
-	@Column(name="RELATED_TYPE_ID")
-	private String relatedTypeId;
-    
-	@Column(name="TYPETYPE_RELATION_TYPE")
-	private String type;
-    
+
+    @Column(name = "OWNER_TYPE_ID")
+    private String ownerTypeId;
+
     @Column(name = "RANK")
     private Integer rank;
 
+    @Column(name = "RELATED_TYPE_ID")
+    private String relatedTypeId;
+
+    @Column(name = "TYPETYPE_RELATION_TYPE")
+    private String type;
+
+    @Column(name = "TYPETYPE_RELATION_STATE")
+    private String state;
+
     @Column(name = "NAME")
     private String name;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private AtpRichTextEntity descr;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -59,52 +48,38 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-    
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<TypeTypeRelationAttributeEntity> attributes;
 
-	public TypeTypeRelationEntity() {}
-    
-    public TypeTypeRelationEntity(TypeTypeRelation typeTypeRel){
+    public TypeTypeRelationEntity() {}
+
+    public TypeTypeRelationEntity(TypeTypeRelation typeTypeRel) {
         super(typeTypeRel);
+
         this.setId(typeTypeRel.getId());
         this.setEffectiveDate(typeTypeRel.getEffectiveDate());
         this.setExpirationDate(typeTypeRel.getExpirationDate());
+        this.setRank(typeTypeRel.getRank());
+        this.setOwnerTypeId(typeTypeRel.getOwnerTypeKey());
+        this.setRelatedTypeId(typeTypeRel.getRelatedTypeKey());
+        
         this.setAttributes(new ArrayList<TypeTypeRelationAttributeEntity>());
         if (null != typeTypeRel.getAttributes()) {
             for (Attribute att : typeTypeRel.getAttributes()) {
                 this.getAttributes().add(new TypeTypeRelationAttributeEntity(att));
             }
         }
+
     }
-    
-//    /**
-//     * @return the ownerType
-//     */
-//    public TypeEntity<? extends BaseAttributeEntity> getOwnerType() {
-//        return ownerType;
-//    }
-//
-//    /**
-//     * @param ownerType the ownerType to set
-//     */
-//    public void setOwnerType(TypeEntity<? extends BaseAttributeEntity> ownerType) {
-//        this.ownerType = ownerType;
-//    }
-//
-//    /**
-//     * @return the relatedType
-//     */
-//    public TypeEntity<? extends BaseAttributeEntity> getRelatedType() {
-//        return relatedType;
-//    }
-//
-//    /**
-//     * @param relatedType the relatedType to set
-//     */
-//    public void setRelatedType(TypeEntity<? extends BaseAttributeEntity> relatedType) {
-//        this.relatedType = relatedType;
-//    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
 
     public void setOwnerTypeId(String ownerTypeId) {
         this.ownerTypeId = ownerTypeId;
@@ -180,14 +155,7 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
         return name;
     }
 
-    public void setDescr(AtpRichTextEntity descr) {
-        this.descr = descr;
-    }
-
-    public AtpRichTextEntity getDescr() {
-        return descr;
-    }
-
+  
     public void setAttributes(List<TypeTypeRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
@@ -198,24 +166,22 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
 
     public TypeTypeRelationInfo toDto() {
         TypeTypeRelationInfo typeTypeRel = new TypeTypeRelationInfo();
-        
-//        typeTypeRel.setDescr(new RichTextHelper ().fromPlain(descr));
+
         typeTypeRel.setRank(rank);
         typeTypeRel.setEffectiveDate(new Date(effectiveDate.getTime()));
         typeTypeRel.setExpirationDate(new Date(expirationDate.getTime()));
         typeTypeRel.setId(getId());
-//        typeTypeRel.setName(name);
         typeTypeRel.setOwnerTypeKey(ownerTypeId);
         typeTypeRel.setRelatedTypeKey(relatedTypeId);
         typeTypeRel.setMeta(super.toDTO());
-        
+
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (TypeTypeRelationAttributeEntity att : getAttributes()) {
-        	AttributeInfo attInfo = att.toDto();
+            AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
         typeTypeRel.setAttributes(atts);
-        
+
         return typeTypeRel;
     }
 }

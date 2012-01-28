@@ -40,12 +40,12 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     private List<LprTransactionItemEntity> lprTransactionItems;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "LPR_TYPE_ID")
-    private LuiPersonRelationTypeEntity lprTransType;
+    @JoinColumn(name = "LPR_TRANS_TYPE")
+    private String lprTransType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
-    private StateEntity lprTransState;
+    private String lprTransState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LprTransAttributeEntity> attributes;
@@ -57,6 +57,8 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.name = lprTransaction.getName();
         this.requestingPersonId = lprTransaction.getRequestingPersonId();
         this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
+        this.lprTransState = lprTransaction.getStateKey();
+        this.lprTransType = lprTransaction.getTypeKey();
         this.setId(lprTransaction.getId());
         this.descr = new LprRichTextEntity(lprTransaction.getDescr());
         // this.setAttributes(new ArrayList<LprTransAttributeEntity>());
@@ -75,9 +77,9 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         lpr.setId(getId());
 
         if (lprTransType != null)
-            lpr.setTypeKey(lprTransType.getId());
+            lpr.setTypeKey(lprTransType);
         if (lprTransState != null)
-            lpr.setStateKey(lprTransState.getId());
+            lpr.setStateKey(lprTransState);
         lpr.setMeta(super.toDTO());
         if (descr != null)
             lpr.setDescr(descr.toDto());
@@ -118,19 +120,19 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         this.descr = descr;
     }
 
-    public LuiPersonRelationTypeEntity getLprTransType() {
+    public String getLprTransType() {
         return lprTransType;
     }
 
-    public void setLprTransType(LuiPersonRelationTypeEntity lprTransType) {
+    public void setLprTransType(String lprTransType) {
         this.lprTransType = lprTransType;
     }
 
-    public StateEntity getLprTransState() {
+    public String getLprTransState() {
         return lprTransState;
     }
 
-    public void setLprTransState(StateEntity lprTransState) {
+    public void setLprTransState(String lprTransState) {
         this.lprTransState = lprTransState;
     }
 

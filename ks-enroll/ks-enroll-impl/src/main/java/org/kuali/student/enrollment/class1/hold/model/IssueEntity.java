@@ -53,7 +53,7 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
     
     @ManyToOne(optional=false)
     @JoinColumn(name = "TYPE_ID")
-    private HoldTypeEntity issueType;
+    private String issueType;
     
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "RT_DESCR_ID")
@@ -73,8 +73,8 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         super(issue);
         setName(issue.getName());
         setOrganizationId(issue.getOrganizationId());
-        setIssueType(new HoldTypeEntity());
-        issueType.setId(issue.getTypeKey());
+        setIssueType(issue.getTypeKey());
+      
         setIssueState(new StateEntity());
         issueState.setId(issue.getStateKey());
         
@@ -107,11 +107,11 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         this.organizationId = organizationId;
     }
 
-    public HoldTypeEntity getIssueType() {
+    public String getIssueType() {
         return issueType;
     }
 
-    public void setIssueType(HoldTypeEntity issueType) {
+    public void setIssueType(String issueType) {
         this.issueType = issueType;
     }
 
@@ -136,7 +136,7 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         
         info.setKey(getId());
         info.setName(getName());
-        info.setTypeKey(getIssueType().getId());
+        info.setTypeKey(getIssueType());
         info.setStateKey(getIssueState().getId());
         info.setOrganizationId(getOrganizationId());
         info.setMeta(super.toDTO());

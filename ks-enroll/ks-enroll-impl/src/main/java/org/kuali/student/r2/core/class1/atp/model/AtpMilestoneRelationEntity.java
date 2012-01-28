@@ -15,7 +15,7 @@
  */
 package org.kuali.student.r2.core.class1.atp.model;
 
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,7 +34,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.atp.infc.AtpMilestoneRelation;
 
 @Entity
@@ -50,8 +49,8 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     private MilestoneEntity milestone;
     
     @ManyToOne
-    @JoinColumn(name="AM_RELTN_TYPE_ID")
-    private AtpTypeEntity atpType;
+    @JoinColumn(name="AM_RELTN_TYPE")
+    private String atpMilestoneRelationType;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EFF_DT")
@@ -62,8 +61,8 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     private Date expirationDate;
 
     @ManyToOne
-    @JoinColumn(name = "ATP_STATE_ID")
-    private StateEntity atpState;
+    @JoinColumn(name = "AM_RELTN_STATE")
+    private String atpMilestoneRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpMilestoneRelationAttributeEntity> attributes;
@@ -101,12 +100,12 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
         this.milestone = milestone;
     }
 
-    public AtpTypeEntity getAtpMilestoneRelationType() {
-        return atpType;
+    public String getAtpMilestoneRelationType() {
+        return atpMilestoneRelationType;
     }
 
-    public void setAtpType(AtpTypeEntity atpType) {
-        this.atpType = atpType;
+    public void setAtpMilestoneRelationType(String atpType) {
+        this.atpMilestoneRelationType = atpType;
     }
 
     public Date getEffectiveDate() {
@@ -125,12 +124,12 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
         this.expirationDate = expirationDate;
     }
 
-    public StateEntity getAtpState() {
-        return atpState;
+    public String getAtpMilestoneRelationState() {
+        return atpMilestoneRelationState;
     }
 
-    public void setAtpState(StateEntity atpState) {
-        this.atpState = atpState;
+    public void setAtpMilestoneRelationState(String atpState) {
+        this.atpMilestoneRelationState = atpState;
     }
     
     @Override

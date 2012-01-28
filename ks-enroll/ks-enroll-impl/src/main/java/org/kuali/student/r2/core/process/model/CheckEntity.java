@@ -33,13 +33,13 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 
 	//STATE_ID
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "STATE_ID")
-	private StateEntity checkState;
+	@JoinColumn(name = "CHECK_STATE")
+	private String checkState;
 
     //TYPE_ID
 	@ManyToOne(optional=false)
-	@JoinColumn(name = "TYPE_ID")
-	private CheckTypeEntity checkType;
+	@JoinColumn(name = "CHECK_TYPE")
+	private String checkType;
 
     @Column(name = "ISSUE_ID")
 	private String issueId;
@@ -93,10 +93,10 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
         obj.setKey(getId());
         obj.setName(name);
         if (checkType != null) {
-            obj.setTypeKey(checkType.getId());
+            obj.setTypeKey(checkType);
         }
         if (checkState != null) {
-            obj.setStateKey(checkState.getId());
+            obj.setStateKey(checkState);
         }
         if (descr != null) {
             obj.setDescr(descr.toDto());
@@ -128,35 +128,22 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
 	public CheckRichTextEntity getDescr() { return descr; }
 	public void setDescr(CheckRichTextEntity descr) { this.descr = descr; }
 
-	//PROCESS_ID
-	public StateEntity getCheckStateID() {
-        return checkState;
-    }
-	public void setCheckStateID(StateEntity checkState) {
-        this.checkState = checkState;
-    }
+	
 
-	//PROCESS_TYPE_ID
-	public CheckTypeEntity getCheckTypeID() {
-        return checkType;
-    }
-	public void setCheckTypeID(CheckTypeEntity checkType) {
-        this.checkType = checkType;
-    }
 
-    public StateEntity getCheckState() {
+    public String getCheckState() {
         return checkState;
     }
 
-    public void setCheckState(StateEntity checkState) {
+    public void setCheckState(String checkState) {
         this.checkState = checkState;
     }
 
-    public CheckTypeEntity getCheckType() {
+    public String getCheckType() {
         return checkType;
     }
 
-    public void setCheckType(CheckTypeEntity checkType) {
+    public void setCheckType(String checkType) {
         this.checkType = checkType;
     }
 

@@ -1,6 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,12 +43,12 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     private Date endDate;
     
     @ManyToOne
-    @JoinColumn(name = "MILESTONE_TYPE_ID")
-    private AtpTypeEntity atpType;
+    @JoinColumn(name = "MILESTONE_TYPE")
+    private String milestoneType;
 
     @ManyToOne
-    @JoinColumn(name = "MILESTONE_STATE_ID")
-    private StateEntity atpState;
+    @JoinColumn(name = "MILESTONE_STATE")
+    private String milestoneState;
     
     @Column(name="IS_ALL_DAY")
     private boolean isAllDay;
@@ -77,10 +77,8 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.setDescr(new AtpRichTextEntity(milestone.getDescr()));
         StateEntity state = new StateEntity();
         state.setId(milestone.getStateKey());
-        this.setAtpState(state);
-        AtpTypeEntity type = new AtpTypeEntity();
-        type.setId(milestone.getTypeKey());
-        this.setAtpType(type);
+        this.setMilestoneState(milestone.getStateKey());
+        this.setMilestoneType(milestone.getTypeKey());
         this.name = milestone.getName();
         this.descr = null != milestone.getDescr() ? new AtpRichTextEntity(milestone.getDescr()) : null;
         this.startDate = null != milestone.getStartDate() ? new Date(milestone.getStartDate().getTime()) : null;
@@ -127,20 +125,20 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.endDate = endDate;
     }
 
-    public AtpTypeEntity getAtpType() {
-        return atpType;
+    public String getMilestoneType() {
+        return milestoneType;
     }
 
-    public void setAtpType(AtpTypeEntity atpType) {
-        this.atpType = atpType;
+    public void setMilestoneType(String milestoneType) {
+        this.milestoneType = milestoneType;
     }
 
-    public StateEntity getAtpState() {
-        return atpState;
+    public String getMilestoneState() {
+        return milestoneState;
     }
 
-    public void setAtpState(StateEntity atpState) {
-        this.atpState = atpState;
+    public void setMilestoneState(String milestoneState) {
+        this.milestoneState = milestoneState;
     }
 
     public boolean isAllDay() {
@@ -191,8 +189,8 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         
         info.setId(getId());
         info.setName(getName());
-        info.setTypeKey(null != atpType ? atpType.getId() : null);
-        info.setStateKey(null != atpState ? atpState.getId() : null);
+        info.setTypeKey(milestoneType);
+        info.setStateKey(milestoneState);
         info.setStartDate(getStartDate());
         info.setEndDate(getEndDate());
         info.setIsAllDay(isAllDay());

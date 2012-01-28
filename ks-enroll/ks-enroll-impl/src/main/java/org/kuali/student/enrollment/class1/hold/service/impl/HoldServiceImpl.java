@@ -25,12 +25,10 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.hold.dao.HoldDao;
 import org.kuali.student.enrollment.class1.hold.dao.HoldRichTextDao;
-import org.kuali.student.enrollment.class1.hold.dao.HoldTypeDao;
 import org.kuali.student.enrollment.class1.hold.dao.IssueDao;
 import org.kuali.student.enrollment.class1.hold.dao.RestrictionDao;
 import org.kuali.student.enrollment.class1.hold.model.HoldEntity;
 import org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity;
-import org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity;
 import org.kuali.student.enrollment.class1.hold.model.IssueEntity;
 
 import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
@@ -61,7 +59,6 @@ public class HoldServiceImpl implements HoldService {
 
     private IssueDao issueDao;
     private RestrictionDao restrictionDao;
-    private HoldTypeDao holdTypeDao;
     private HoldDao holdDao;
     private HoldRichTextDao holdRichTextDao;
     private TypeTypeRelationDao typeTypeRelationDao;
@@ -84,13 +81,7 @@ public class HoldServiceImpl implements HoldService {
         this.restrictionDao = restrictionDao;
     }
 
-    public HoldTypeDao getHoldTypeDao() {
-        return holdTypeDao;
-    }
-
-    public void setHoldTypeDao(HoldTypeDao holdTypeDao) {
-        this.holdTypeDao = holdTypeDao;
-    }
+  
     
     public HoldDao getHoldDao() {
         return holdDao;
@@ -188,13 +179,7 @@ public class HoldServiceImpl implements HoldService {
     		throw new OperationFailedException("The issue does not exist. issue " + issueId);
     }
     
-    private HoldTypeEntity findType(String typeId)throws OperationFailedException{
-    	HoldTypeEntity type = holdTypeDao.find(typeId);
-    	if(null != type)
-    		return type;
-    	else
-    		throw new OperationFailedException("The type does not exist. type " + typeId);
-    }
+    
 
     @Override
     @Transactional
@@ -209,7 +194,7 @@ public class HoldServiceImpl implements HoldService {
         	entity.setHoldState(findState(holdInfo.getStateKey(), context));
         
         if (null != holdInfo.getTypeKey())
-        	entity.setHoldType(findType(holdInfo.getTypeKey()));
+        	entity.setHoldType(holdInfo.getTypeKey());
 
         if (null != holdInfo.getDescr())
         	entity.setDescr(new HoldRichTextEntity(holdInfo.getDescr()));
@@ -235,7 +220,7 @@ public class HoldServiceImpl implements HoldService {
             if(holdInfo.getStateKey() != null)
             	modifiedEntity.setHoldState(findState(holdInfo.getStateKey(), context));
             if(holdInfo.getTypeKey() != null)
-            	modifiedEntity.setHoldType(findType(holdInfo.getTypeKey()));
+            	modifiedEntity.setHoldType(holdInfo.getTypeKey());
             
             holdDao.merge(modifiedEntity);
 	        return holdDao.find(modifiedEntity.getId()).toDto();

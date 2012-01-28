@@ -46,12 +46,12 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     private EnumerationRichTextEntity descr;
     
     @ManyToOne(optional = false)
-    @JoinColumn(name = "ENUM_TYPE_ID")
-    private EnumerationTypeEntity enumerationType;
+    @JoinColumn(name = "ENUM_TYPE")
+    private String enumerationType;
     
     @ManyToOne
-    @JoinColumn(name = "ENUM_STATE_ID")
-    private StateEntity enumerationState;
+    @JoinColumn(name = "ENUM_STATE")
+    private String enumerationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<EnumerationAttributeEntity> attributes = new ArrayList<EnumerationAttributeEntity>();
@@ -91,19 +91,19 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
         this.descr = descr;
     }
     
-    public EnumerationTypeEntity getEnumerationType() {
+    public String getEnumerationType() {
         return enumerationType;
     }
 
-    public void setEnumerationType(EnumerationTypeEntity enumerationType) {
+    public void setEnumerationType(String enumerationType) {
         this.enumerationType = enumerationType;
     }
 
-    public StateEntity getEnumerationState() {
+    public String getEnumerationState() {
         return enumerationState;
     }
 
-    public void setEnumerationState(StateEntity enumerationState) {
+    public void setEnumerationState(String enumerationState) {
         this.enumerationState = enumerationState;
     }
     
@@ -122,9 +122,9 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
         enumeration.setKey(getId());
         enumeration.setName(name);
         if (enumerationType != null)
-            enumeration.setTypeKey(enumerationType.getId());
+            enumeration.setTypeKey(enumerationType);
         if (enumerationState != null)
-            enumeration.setStateKey(enumerationState.getId());
+            enumeration.setStateKey(enumerationState);
         enumeration.setMeta(super.toDTO());
         if (descr != null)
             enumeration.setDescr(descr.toDto());

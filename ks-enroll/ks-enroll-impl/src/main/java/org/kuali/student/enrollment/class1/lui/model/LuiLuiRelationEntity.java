@@ -41,12 +41,12 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	private LuiEntity relatedLui;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
-    private LuiTypeEntity luiLuiRelationType;
+    @JoinColumn(name = "LUI_LUI_REL_TYPE")
+    private String luiLuiRelationType;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity luiLuiRelationState;
+    @JoinColumn(name = "LUI_LUI_REL_STATE")
+    private String luiLuiRelationState;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -65,7 +65,8 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         this.setId(luiLuiRelation.getId());
         this.setEffectiveDate(luiLuiRelation.getEffectiveDate());
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
-        
+        this.setLuiLuiRelationState(luiLuiRelation.getStateKey());
+        this.setLuiLuiRelationType(luiLuiRelation.getTypeKey());
         this.setAttributes(new ArrayList<LuiLuiRelationAttributeEntity>());
         if (null != luiLuiRelation.getAttributes()) {
             for (Attribute att : luiLuiRelation.getAttributes()) {
@@ -81,8 +82,8 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     	obj.setRelatedLuiId(relatedLui.getId());
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
-        obj.setStateKey(luiLuiRelationState.getId());
-        obj.setTypeKey(luiLuiRelationType.getId());
+        obj.setStateKey(luiLuiRelationState);
+        obj.setTypeKey(luiLuiRelationType);
         obj.setMeta(super.toDTO());
         
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
@@ -127,19 +128,19 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 		this.relatedLui = relatedLui;
 	}
 
-	public LuiTypeEntity getLuiLuiRelationType() {
+	public String getLuiLuiRelationType() {
 		return luiLuiRelationType;
 	}
 
-	public void setLuiLuiRelationType(LuiTypeEntity luiLuiRelationType) {
+	public void setLuiLuiRelationType(String luiLuiRelationType) {
 		this.luiLuiRelationType = luiLuiRelationType;
 	}
 
-	public StateEntity getLuiLuiRelationState() {
+	public String getLuiLuiRelationState() {
 		return luiLuiRelationState;
 	}
 
-	public void setLuiLuiRelationState(StateEntity luiLuiRelationState) {
+	public void setLuiLuiRelationState(String luiLuiRelationState) {
 		this.luiLuiRelationState = luiLuiRelationState;
 	}
 

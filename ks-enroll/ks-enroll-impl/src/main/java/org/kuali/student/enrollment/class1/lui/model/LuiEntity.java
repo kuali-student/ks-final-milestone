@@ -32,12 +32,12 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private LuiRichTextEntity descr;   
 
     @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
-    private LuiTypeEntity luiType;
+    @JoinColumn(name = "LUI_TYPE")
+    private String luiType;
 
     @ManyToOne(optional=false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity luiState;
+    @JoinColumn(name = "LUI_STATE")
+    private String luiState;
     
 	@Column(name = "CLU_ID")
 	private String cluId;
@@ -114,6 +114,8 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	this.setMaxSeats(lui.getMaximumEnrollment());        	
         	this.setMinSeats(lui.getMinimumEnrollment());     
         	this.setReferenceURL(lui.getReferenceURL());
+        	this.setLuiState(lui.getStateKey());
+        	this.setLuiType(lui.getTypeKey());
 		/*
 		 * decide if this this should be stored on the Lui or on a waitlist object?.
         	this.setHasWaitlist(lui.getHasWaitlist());
@@ -209,9 +211,9 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
         if(luiType != null)
-            obj.setTypeKey(luiType.getId());
+            obj.setTypeKey(luiType);
         if(luiState != null)
-            obj.setStateKey(luiState.getId());
+            obj.setStateKey(luiState);
         obj.setMeta(super.toDTO());
         if(descr != null)
             obj.setDescr(descr.toDto());
@@ -305,19 +307,19 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 		this.descr = descr;
 	}
 
-	public LuiTypeEntity getLuiType() {
+	public String getLuiType() {
 		return luiType;
 	}
 
-	public void setLuiType(LuiTypeEntity luiType) {
+	public void setLuiType(String luiType) {
 		this.luiType = luiType;
 	}
 
-	public StateEntity getLuiState() {
+	public String getLuiState() {
 		return luiState;
 	}
 
-	public void setLuiState(StateEntity luiState) {
+	public void setLuiState(String luiState) {
 		this.luiState = luiState;
 	}
 

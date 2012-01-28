@@ -1,6 +1,5 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -37,11 +36,11 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "ATP_TYPE_ID")
-    private AtpTypeEntity atpType;
+    private String atpType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "ATP_STATE_ID")
-    private StateEntity atpState;
+    private String atpState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpAttributeEntity> attributes = new ArrayList<AtpAttributeEntity>();
@@ -58,6 +57,8 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         if (atp.getStartDate() != null) {
             this.setStartDate(atp.getStartDate());
         }
+        this.setAtpState(atp.getStateKey());
+        this.setAtpType(atp.getTypeKey());
         if (atp.getEndDate() != null) {
             this.setEndDate(atp.getEndDate());
         }
@@ -106,19 +107,19 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     }
 
 
-    public AtpTypeEntity getAtpType() {
+    public String getAtpType() {
         return atpType;
     }
 
-    public void setAtpType(AtpTypeEntity atpType) {
+    public void setAtpType(String atpType) {
         this.atpType = atpType;
     }
 
-    public StateEntity getAtpState() {
+    public String getAtpState() {
         return atpState;
     }
 
-    public void setAtpState(StateEntity atpState) {
+    public void setAtpState(String atpState) {
         this.atpState = atpState;
     }
 
@@ -149,9 +150,9 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         atp.setEndDate(endDate);
         atp.setAdminOrgId(getAdminOrgId());
         if (atpType != null)
-            atp.setTypeKey(atpType.getId());
+            atp.setTypeKey(atpType);
         if (atpState != null)
-            atp.setStateKey(atpState.getId());
+            atp.setStateKey(atpState);
         atp.setMeta(super.toDTO());
         if (descr != null)
             atp.setDescr(descr.toDto());

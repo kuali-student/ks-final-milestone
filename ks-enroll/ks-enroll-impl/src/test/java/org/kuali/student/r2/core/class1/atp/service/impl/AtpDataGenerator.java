@@ -11,7 +11,6 @@ import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpStateEntity;
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 public class AtpDataGenerator {
@@ -34,8 +33,8 @@ public class AtpDataGenerator {
         atp.setDescr(new AtpRichTextEntity("testId plain descr", "testId formatted descr"));
         atp.setStartDate(Calendar.getInstance().getTime());
         atp.setEndDate(Calendar.getInstance().getTime());
-        atp.setAtpState(createState());
-        atp.setAtpType(createType());
+        atp.setAtpState("state1");
+        atp.setAtpType("type1");
         atp.setAttributes(createAttributes());
         return atp;
     }
@@ -49,18 +48,5 @@ public class AtpDataGenerator {
     }
 
 
-    private AtpTypeEntity createType() {
-        AtpTypeEntity atpType = new AtpTypeEntity();
-        atpType.setName("type1");
-        atpType.setDescr("type1 descr");
-        return atpType;
-    }
-
-    private StateEntity createState() {
-        StateEntity atpState = new StateEntity();
-        atpState.setName("state1");
-        atpState.setDescription("state1 descr");
-        return atpState;
-    }
 
 }

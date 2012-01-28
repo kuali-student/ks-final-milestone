@@ -44,8 +44,8 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     private boolean checkInRequired;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
-    private LuiPersonRelationTypeEntity lprRosterType;
+    @JoinColumn(name = "LPR_ROSTER_TYPE")
+    private String lprRosterType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
@@ -116,11 +116,11 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.checkInRequired = checkInRequired;
     }
 
-    public LuiPersonRelationTypeEntity getLprRosterType() {
+    public String getLprRosterType() {
         return lprRosterType;
     }
 
-    public void setLprRosterType(LuiPersonRelationTypeEntity lprRosterType) {
+    public void setLprRosterType(String lprRosterType) {
         this.lprRosterType = lprRosterType;
     }
 
@@ -185,7 +185,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         info.setMaximumCapacity(this.getMaximumCapacity());
         info.setName(this.getName());
         info.setStateKey(getLprRosterState().getId());
-        info.setTypeKey(getLprRosterType().getId());
+        info.setTypeKey(getLprRosterType());
         if (getAssociatedLuis() != null) {
             List<String> associatedLuiIds = new ArrayList();
             for (LuiEntity luiEntity : getAssociatedLuis()) {

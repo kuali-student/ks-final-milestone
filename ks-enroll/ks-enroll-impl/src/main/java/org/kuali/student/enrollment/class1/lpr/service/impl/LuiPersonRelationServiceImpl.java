@@ -47,7 +47,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprTransactionDao lprTransDao; 
     private LprTransactionItemDao lprTransItemDao;
     private StateDao stateDao;
-    private LprTypeDao lprTypeDao;
     private StateService stateService;
     private LprRosterEntryDao lprRosterEntryDao;
 
@@ -75,11 +74,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return stateDao;
     }
 
-    public LprTypeDao getLprTypeDao() {
-        return lprTypeDao;
-    }
-
-    public LprRosterEntryDao getLprRosterEntryDao() {
+     public LprRosterEntryDao getLprRosterEntryDao() {
         return lprRosterEntryDao;
     }
 
@@ -103,11 +98,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         this.stateDao = stateDao;
     }
 
-    public void setLprTypeDao(LprTypeDao lprTypeDao) {
-        this.lprTypeDao = lprTypeDao;
-    }
-
-    public void setLuiDao(LuiDao luiDao) {
+       public void setLuiDao(LuiDao luiDao) {
         this.luiDao = luiDao;
     }
 
@@ -129,12 +120,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     private LuiPersonRelationEntity toCluForCreate(LuiPersonRelationInfo luiPersonRelationInfo) {
         LuiPersonRelationEntity lpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
-        if (null != luiPersonRelationInfo.getStateKey()) {
-            lpr.setPersonRelationState(stateDao.find(luiPersonRelationInfo.getStateKey()));
-        }
-        if (null != luiPersonRelationInfo.getTypeKey()) {
-            lpr.setPersonRelationType(lprTypeDao.find(luiPersonRelationInfo.getTypeKey()));
-        }
+      
 
         // TODO - Attributes?
         return lpr;
@@ -333,11 +319,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             LuiPersonRelationEntity modifiedLpr = new LuiPersonRelationEntity(luiPersonRelationInfo);
 
             if (luiPersonRelationInfo.getStateKey() != null) {
-                modifiedLpr.setPersonRelationState(stateDao.find(luiPersonRelationInfo.getStateKey()));
+                modifiedLpr.setPersonRelationState(luiPersonRelationInfo.getStateKey());
             }
 
             if (luiPersonRelationInfo.getTypeKey() != null) {
-                modifiedLpr.setPersonRelationType(lprTypeDao.find(luiPersonRelationInfo.getTypeKey()));
+                modifiedLpr.setPersonRelationType(luiPersonRelationInfo.getTypeKey());
             }
 
             lprDao.merge(modifiedLpr);
@@ -353,7 +339,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             PermissionDeniedException {
         _checkForMissingParameter(luiPersonRelationId, "luiPersonRelationId");
         LuiPersonRelationEntity lprEntity = lprDao.find(luiPersonRelationId);
-        lprEntity.setPersonRelationState(stateDao.find(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY));
+        lprEntity.setPersonRelationState(LuiPersonRelationServiceConstants.DROPPED_STATE_KEY);
         lprDao.merge(lprEntity);
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
@@ -445,7 +431,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         }
 
         if (lprRosterInfo.getTypeKey() != null){
-            modifiedLprRoster.setLprRosterType(lprTypeDao.find(lprRosterInfo.getTypeKey()));
+            modifiedLprRoster.setLprRosterType(lprRosterInfo.getTypeKey());
         }
 
         lprRosterDao.merge(modifiedLprRoster);
@@ -481,7 +467,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             rosterEntity.setLprRosterState(stateDao.find(lprRosterInfo.getStateKey()));
         }
         if (lprRosterInfo.getTypeKey() != null) {
-            rosterEntity.setLprRosterType(lprTypeDao.find(lprRosterInfo.getTypeKey()));
+            rosterEntity.setLprRosterType(lprRosterInfo.getTypeKey());
         }
 
         if (lprRosterInfo.getAssociatedLuiIds() != null) {
@@ -616,10 +602,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         rosterEntity.setLprRosterId(lprRosterEntryInfo.getLprRosterId());
 
         if (lprRosterEntryInfo.getStateKey() != null) {
-            rosterEntity.setLprEntryRelationState(stateDao.find(lprRosterEntryInfo.getStateKey()));
+            rosterEntity.setLprEntryRelationState(lprRosterEntryInfo.getStateKey());
         }
         if (lprRosterEntryInfo.getTypeKey() != null) {
-            rosterEntity.setLprEntryRelationType(lprTypeDao.find(lprRosterEntryInfo.getTypeKey()));
+            rosterEntity.setLprEntryRelationType(lprRosterEntryInfo.getTypeKey());
         }
 
         if (rosterEntity.getAttributes() != null) {
@@ -684,11 +670,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             lprTransactionEntity.setId(UUIDHelper.genStringUUID());
         }
         if (null != lprTransactionInfo.getStateKey()) {
-            lprTransactionEntity.setLprTransState(stateDao.find(lprTransactionInfo.getStateKey()));
+            lprTransactionEntity.setLprTransState(lprTransactionInfo.getStateKey());
         }
 
         if (null != lprTransactionInfo.getTypeKey()) {
-            lprTransactionEntity.setLprTransType(lprTypeDao.find(lprTransactionInfo.getTypeKey()));
+            lprTransactionEntity.setLprTransType(lprTransactionInfo.getTypeKey());
         }
         if (null != lprTransactionInfo.getDescr()) {
             lprTransactionEntity.setDescr(new LprRichTextEntity(lprTransactionInfo.getDescr()));
@@ -739,14 +725,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
                 LprTransactionItemEntity newItem = new LprTransactionItemEntity();
                 newItem.setId(UUIDHelper.genStringUUID());
                 newItem.setExistingLuiId(lprTransactionId);
-                newItem.setLprTransactionItemState(stateDao.find(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY));
+                newItem.setLprTransactionItemState(LuiPersonRelationServiceConstants.LPRTRANS_ITEM_NEW_STATE_KEY);
                 newItem.setLprTransactionItemType(existingItem.getLprTransactionItemType());
                 newItem.setNewLuiId(existingItem.getNewLuiId());
                 newItem.setPersonId(existingItem.getPersonId());
                 newItem.setDescr(existingItem.getDescr());
             }
             newLprTransactionEntity.setLprTransactionItems(newItems);
-            newLprTransactionEntity.setLprTransState(stateDao.find(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY));
+            newLprTransactionEntity.setLprTransState(LuiPersonRelationServiceConstants.LPRTRANS_NEW_STATE_KEY);
             newLprTransactionEntity.setLprTransType(existingLprTransactionEntity.getLprTransType());
             newLprTransactionEntity.setRequestingPersonId(existingLprTransactionEntity.getRequestingPersonId());
             lprTransDao.persist(newLprTransactionEntity);
@@ -904,7 +890,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
                 LprTransactionEntity lprTransEntity = lprTransDao.getByLprTransactionItemId(lprTransItem.getId());
 
-                if (lprTransactionStates.contains(lprTransEntity.getLprTransState().getId()))
+                if (lprTransactionStates.contains(lprTransEntity.getLprTransState()))
                     lprTransInfos.add(lprTransEntity.toDto());
 
             }
@@ -948,9 +934,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         if (null != lprTrans) {
             LprTransactionEntity modifiedLprTrans = new LprTransactionEntity(lprTransactionInfo);
             if (lprTransactionInfo.getStateKey() != null)
-                modifiedLprTrans.setLprTransState(stateDao.find(lprTransactionInfo.getStateKey()));
+                modifiedLprTrans.setLprTransState(lprTransactionInfo.getStateKey());
             if (lprTransactionInfo.getTypeKey() != null)
-                modifiedLprTrans.setLprTransType(lprTypeDao.find(lprTransactionInfo.getTypeKey()));
+                modifiedLprTrans.setLprTransType(lprTransactionInfo.getTypeKey());
 
          
             List<LprTransactionItemEntity> lprTransItemEntityList = processLprTransactionItemsModification (lprTransactionInfo, lprTrans, context);
@@ -1005,10 +991,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     private LprTransactionItemEntity updateLprTransactionItem(LprTransactionItemInfo modifiedTransactionItemInfo, ContextInfo context){
            LprTransactionItemEntity modifiedLprItemEntity = new LprTransactionItemEntity(modifiedTransactionItemInfo);
                     if (null != modifiedTransactionItemInfo.getStateKey()) {
-                        modifiedLprItemEntity.setLprTransactionItemState(stateDao.find(modifiedTransactionItemInfo.getStateKey()));
+                        modifiedLprItemEntity.setLprTransactionItemState(modifiedTransactionItemInfo.getStateKey());
                     }
                     if (null != modifiedTransactionItemInfo.getTypeKey()) {
-                        modifiedLprItemEntity.setLprTransactionItemType(lprTypeDao.find(modifiedTransactionItemInfo.getTypeKey()));
+                        modifiedLprItemEntity.setLprTransactionItemType(modifiedTransactionItemInfo.getTypeKey());
                     }
                     if (null != modifiedTransactionItemInfo.getDescr()) {
                         modifiedLprItemEntity.setDescr(new LprRichTextEntity(modifiedTransactionItemInfo.getDescr()));
@@ -1024,11 +1010,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             lprTransItemEntity.setId(UUIDHelper.genStringUUID());
         }
         if (null != lprTransactionItemInfo.getStateKey()) {
-            lprTransItemEntity.setLprTransactionItemState(stateDao.find(lprTransactionItemInfo.getStateKey()));
+            lprTransItemEntity.setLprTransactionItemState(lprTransactionItemInfo.getStateKey());
         }
 
         if (null != lprTransactionItemInfo.getTypeKey()) {
-            lprTransItemEntity.setLprTransactionItemType(lprTypeDao.find(lprTransactionItemInfo.getTypeKey()));
+            lprTransItemEntity.setLprTransactionItemType(lprTransactionItemInfo.getTypeKey());
         }
         if (null != lprTransactionItemInfo.getDescr()) {
             lprTransItemEntity.setDescr(new LprRichTextEntity(lprTransactionItemInfo.getDescr()));
@@ -1091,7 +1077,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationEntity entity : entityList) {
             LuiEntity lui = luiDao.find(entity.getLuiId());
-            if ((lui.getAtpId().equals(atpId)) && (lui.getLuiType().getId().equals(luiTypeKey))) {
+            if ((lui.getAtpId().equals(atpId)) && (lui.getLuiType().equals(luiTypeKey))) {
                 infoList.add(entity.toDto());
             }
         }
@@ -1121,7 +1107,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         List<LuiPersonRelationInfo> infoList = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationEntity entity : entityList) {
             LuiEntity lui = luiDao.find(entity.getLuiId());
-            if ((lui.getLuiType().getId().equals(luiTypeKey))) {
+            if ((lui.getLuiType().equals(luiTypeKey))) {
                 infoList.add(entity.toDto());
             }
         }

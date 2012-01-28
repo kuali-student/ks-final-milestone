@@ -32,28 +32,27 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     @Column(name = "EXIST_LUI_ID")
     private String existingLuiId;
-    
+
     @Column(name = "RESULTING_LPR_ID")
     private String resultingLprId;
-    
+
     @Column(name = "STATUS")
     private String status;
-    
+
     @Column(name = "GROUP_ID")
     private String groupId;
-    
-    
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private LprRichTextEntity descr;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
-    private LuiPersonRelationTypeEntity lprTransactionItemType;
+    @JoinColumn(name = "KSEN_LPR_TRANS_TYPE")
+    private String lprTransactionItemType;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity lprTransactionItemState;
+    @JoinColumn(name = "KSEN_LPR_TRANS_STATE")
+    private String lprTransactionItemState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LprTransItemAttributeEntity> attributes;
@@ -76,7 +75,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
                     this.getAttributes().add(attEntity);
                 }
             }
-            if(lprTransactionItem.getLprTransactionItemResult()!=null){
+            if (lprTransactionItem.getLprTransactionItemResult() != null) {
                 this.resultingLprId = lprTransactionItem.getLprTransactionItemResult().getResultingLprId();
                 this.status = lprTransactionItem.getLprTransactionItemResult().getStatus();
             }
@@ -89,10 +88,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         LprTransactionItemInfo lprTransItemInfo = new LprTransactionItemInfo();
         lprTransItemInfo.setId(getId());
 
-        if (lprTransactionItemType != null)
-            lprTransItemInfo.setTypeKey(lprTransactionItemType.getId());
-        if (lprTransactionItemState != null)
-            lprTransItemInfo.setStateKey(lprTransactionItemState.getId());
+        lprTransItemInfo.setTypeKey(lprTransactionItemType);
+        lprTransItemInfo.setStateKey(lprTransactionItemState);
         lprTransItemInfo.setExistingLuiId(existingLuiId);
         lprTransItemInfo.setNewLuiId(newLuiId);
         lprTransItemInfo.setPersonId(personId);
@@ -107,7 +104,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
             }
             lprTransItemInfo.setAttributes(atts);
         }
-        
+
         LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
         lprItemResult.setResultingLprId(resultingLprId);
         lprItemResult.setStatus(status);
@@ -124,8 +121,6 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     public void setDescr(LprRichTextEntity descr) {
         this.descr = descr;
     }
-    
-    
 
     public String getResultingLprId() {
         return resultingLprId;
@@ -175,19 +170,19 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         this.existingLuiId = existingLuiId;
     }
 
-    public LuiPersonRelationTypeEntity getLprTransactionItemType() {
+    public String getLprTransactionItemType() {
         return lprTransactionItemType;
     }
 
-    public void setLprTransactionItemType(LuiPersonRelationTypeEntity lprTransactionType) {
+    public void setLprTransactionItemType(String lprTransactionType) {
         this.lprTransactionItemType = lprTransactionType;
     }
 
-    public StateEntity getLprTransactionItemState() {
+    public String getLprTransactionItemState() {
         return lprTransactionItemState;
     }
 
-    public void setLprTransactionItemState(StateEntity lprTransactionState) {
+    public void setLprTransactionItemState(String lprTransactionState) {
         this.lprTransactionItemState = lprTransactionState;
     }
 

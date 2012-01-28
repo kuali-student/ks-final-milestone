@@ -1,7 +1,6 @@
 package org.kuali.student.enrollment.class1.lrc.service.impl;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.student.enrollment.class1.lrc.dao.LrcTypeDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultScaleDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValueDao;
 import org.kuali.student.enrollment.class1.lrc.dao.ResultValuesGroupDao;
@@ -33,7 +32,6 @@ public class LRCServiceImpl implements LRCService {
     private ResultValueDao resultValueDao;
     private ResultScaleDao resultScaleDao;
     private StateService stateService;
-    private LrcTypeDao lrcTypeDao;
 
     @Override
     public ResultValuesGroupInfo getResultValuesGroup(@WebParam(name = "resultValuesGroupId") String resultValuesGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -77,7 +75,7 @@ public class LRCServiceImpl implements LRCService {
         }
 
         if (StringUtils.isNotBlank(gradeValuesGroupInfo.getTypeKey())){
-            newEntity.setType(lrcTypeDao.find(gradeValuesGroupInfo.getTypeKey()));
+            newEntity.setType(gradeValuesGroupInfo.getTypeKey());
         }
 
         if (gradeValuesGroupInfo.getResultValueKeys() != null){
@@ -202,15 +200,7 @@ public class LRCServiceImpl implements LRCService {
         this.resultScaleDao = resultScaleDao;
     }
 
-    public LrcTypeDao getLrcTypeDao() {
-        return lrcTypeDao;
-    }
-
-    public void setLrcTypeDao(LrcTypeDao lrcTypeDao) {
-        this.lrcTypeDao = lrcTypeDao;
-    }
-
-    public StateService getStateService() {
+     public StateService getStateService() {
         return stateService;
     }
 

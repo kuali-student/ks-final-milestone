@@ -23,7 +23,7 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "TYPE_ID")
-    private ResultSourceTypeEntity type;
+    private String type;
 
     @Column(name = "ARTICULATE_ID")
     private String articulationId;
@@ -73,11 +73,11 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
         this.descr = descr;
     }
 
-    public ResultSourceTypeEntity getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(ResultSourceTypeEntity type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -120,7 +120,7 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
         }
 
         if (getType() != null){
-            dto.setTypeKey(getType().getId());
+            dto.setTypeKey(getType());
         }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();

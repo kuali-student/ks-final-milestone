@@ -33,8 +33,8 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     private String value;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
-    private LrcTypeEntity type;
+    @JoinColumn(name = "LRC_TYPE")
+    private String lrcType;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "STATE_ID")
@@ -132,12 +132,12 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.descr = descr;
      }
 
-    public LrcTypeEntity getType() {
-        return type;
+    public String getLrcType() {
+        return lrcType;
     }
 
-    public void setType(LrcTypeEntity type) {
-        this.type = type;
+    public void setLrcType(String type) {
+        this.lrcType = type;
     }
 
     public StateEntity getState() {
@@ -177,8 +177,8 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         if (getState() != null){
             info.setStateKey(getState().getId());
         }
-        if (getType() != null){
-            info.setTypeKey(getType().getId());
+        if (getLrcType() != null){
+            info.setTypeKey(getLrcType());
         }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
