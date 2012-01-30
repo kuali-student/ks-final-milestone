@@ -89,6 +89,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  *
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+//TODO KSCM-244
 public class LOCategoryBuilder extends Composite implements HasValue<List<LoCategoryInfo>> {	//KSLAB-2091:  One instance for each LO entry box
 
     private String type;
