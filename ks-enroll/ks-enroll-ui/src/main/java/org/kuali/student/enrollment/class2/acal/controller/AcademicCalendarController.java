@@ -20,7 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
+import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -58,8 +62,25 @@ public class AcademicCalendarController extends UifControllerBase {
      */
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-                             HttpServletRequest request, HttpServletResponse response) {
+                             HttpServletRequest request, HttpServletResponse response) throws Exception{
+        AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
+
+        if(academicCalendarInfo.getId() != null && !academicCalendarInfo.getId().trim().isEmpty()){
+            // edit ac
+            AcademicCalendarInfo acInfo = getAcademicCalendarViewHelperService(academicCalendarForm).updateAcademicCalendar(academicCalendarForm);
+
+            academicCalendarForm.setAcademicCalendarInfo(acInfo);
+        }
+        else {
+            // create ac
+            AcademicCalendarInfo acInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
+            academicCalendarForm.setAcademicCalendarInfo(acInfo);
+        }
         return getUIFModelAndView(academicCalendarForm);
+    }
+
+    private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(AcademicCalendarForm academicCalendarForm){
+        return (AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService();
     }
 
 }

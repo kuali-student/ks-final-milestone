@@ -10,6 +10,7 @@
         <property name="id" value="academicCalendarEditView"/>
         <property name="title" value="Academic Calendar"/>
         <property name="singlePageView" value="true"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="page">
             <bean parent="Page"/>
         </property>

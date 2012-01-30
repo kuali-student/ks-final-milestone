@@ -15,17 +15,22 @@
  */
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import java.util.List;
+
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
+import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
-import java.util.List;
 
 /**
  * This class implement ViewHelperServiceImpl for  all AcademicCalendar views
@@ -46,9 +51,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     public HolidayCalendarInfo createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
         HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
-        hcInfo.setStateKey("kuali.atp.state.Draft");
-        hcInfo.setTypeKey("kuali.atp.type.HolidayCalendar");
-        HolidayCalendarInfo createdHc = getAcalService().createHolidayCalendar("kuali.atp.type.HolidayCalendar", hcInfo, getContextInfo());
+        hcInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
+        hcInfo.setTypeKey(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
+        HolidayCalendarInfo createdHc = getAcalService().createHolidayCalendar(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY, hcInfo, getContextInfo());
         return createdHc;
     }
 
@@ -64,7 +69,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         return updatedHc;
     }
-
     public List<HolidayInfo> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
         HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
         List<HolidayInfo> holidays = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
@@ -72,6 +76,24 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return holidays;
     }
 
+    public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
+        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
+        acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
+        acalInfo.setTypeKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+        AcademicCalendarInfo newAcal = getAcalService().createAcademicCalendar(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, acalInfo, getContextInfo());
+        return newAcal;
+    }
+
+    public AcademicCalendarInfo getAcademicCalendar(String acalId) throws Exception {
+        AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId, getContextInfo());
+        return acalInfo;
+    }
+
+    public AcademicCalendarInfo updateAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
+        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
+        AcademicCalendarInfo updatedAcalInfo = getAcalService().updateAcademicCalendar(acalInfo.getId(), acalInfo, getContextInfo());
+        return updatedAcalInfo;
+    }
     private ContextInfo getContextInfo(){
         return new ContextInfo();
     }
