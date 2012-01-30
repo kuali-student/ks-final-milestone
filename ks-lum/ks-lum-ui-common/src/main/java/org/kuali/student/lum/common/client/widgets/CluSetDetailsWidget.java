@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
+// TODO KSCM-246
 public class CluSetDetailsWidget extends Composite implements ReportExportWidget {
 
     private CluSetInformation cluSetInformation;
