@@ -30,6 +30,7 @@ import java.util.List;
  * 
  * @author Kuali Student Team
  */
+// TODO KSCM-245
 @RemoteServiceRelativePath("rpcservices/LoCategoryRpcService")
 public interface LoCategoryRpcService extends BaseDataOrchestrationRpcService {
 
