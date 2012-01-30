@@ -29,5 +29,10 @@
         <li><portal:portalLink displayTitle="true" title="Create Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarEditView&methodToCall=start" /></li>
     </ul>
 
+    <strong>Academic Term</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Edit Academic Term" url="${ConfigProperties.application.url}/kr-krad/academicTerm?viewId=academicTermEditView&methodToCall=editTerm&termId=testTermId1" /></li>
+    </ul>
+
 </div>
 <channel:portalChannelBottom />
