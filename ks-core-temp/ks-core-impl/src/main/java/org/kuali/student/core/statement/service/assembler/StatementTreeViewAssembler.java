@@ -6,6 +6,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.service.impl.BaseAssembler;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 
@@ -24,7 +25,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 
 	@Override
 	public StatementTreeViewInfo assemble(StatementTreeViewInfo baseDTO,
-			StatementTreeViewInfo businessDTO, boolean shallowBuild)
+			StatementTreeViewInfo businessDTO, boolean shallowBuild,ContextInfo contextInfo)
 			throws AssemblyException {
 		StatementTreeViewInfo stmtTree = (null != businessDTO) ? businessDTO
 				: new StatementTreeViewInfo();
@@ -40,7 +41,7 @@ public class StatementTreeViewAssembler extends BaseAssembler implements BOAssem
 
 	@Override
 	public BaseDTOAssemblyNode<StatementTreeViewInfo, StatementTreeViewInfo> disassemble(
-			StatementTreeViewInfo newTree, NodeOperation operation)
+			StatementTreeViewInfo newTree, NodeOperation operation,ContextInfo contextInfo)
 			throws AssemblyException {
 
         if (newTree == null) {
