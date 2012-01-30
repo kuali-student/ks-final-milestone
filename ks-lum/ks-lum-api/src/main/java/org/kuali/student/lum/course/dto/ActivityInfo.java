@@ -99,5 +99,9 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
     public AmountInfo getContactHours() {
         return contactHours;
     }
-
+    @Deprecated
+    public String getActivityType() {
+      //TODO KSCM
+        return "";
+    }
 }
