@@ -25,7 +25,7 @@ import org.kuali.student.lum.program.infc.ProgramVariation;
 import org.w3c.dom.Element;
 
 /**
- * Detailed information about major program variations
+ * Detailed information about  major program variations
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
