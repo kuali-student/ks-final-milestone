@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
@@ -130,4 +131,15 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
         return resultOptions;
     }
 
+//TODO    KSCM-248
+
+    public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
+    }
+   //TODO KSCM-248
+
+    public void setResultOptions(List<String> strings) {
+    }
+    //TODO KSCM-248
+    public void setVersionInfo(VersionInfo versionInfo) {
+    }
 }
