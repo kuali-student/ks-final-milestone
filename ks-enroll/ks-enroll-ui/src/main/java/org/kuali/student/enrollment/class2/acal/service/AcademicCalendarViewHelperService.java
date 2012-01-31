@@ -16,10 +16,14 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface AcademicCalendarViewHelperService extends ViewHelperService {
+    //HC
     public HolidayCalendarInfo createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
     public HolidayCalendarInfo getHolidayCalendar(String hcId) throws Exception;
     public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
     public List<HolidayInfo> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+    public HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo) throws Exception;
+
+    //Acal
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
     public AcademicCalendarInfo getAcademicCalendar(String acalId) throws Exception;
     public AcademicCalendarInfo updateAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;

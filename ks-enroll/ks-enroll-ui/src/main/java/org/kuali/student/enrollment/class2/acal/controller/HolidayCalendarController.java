@@ -77,7 +77,7 @@ public class HolidayCalendarController extends UifControllerBase {
 
         if(hc.getId() != null && !hc.getId().trim().isEmpty()){
             // edit hc
-           updateHolidayCalendar(hcForm);
+           updateHolidayCalendar(hc.getId(), hcForm);
         }
         else {
            // create hc
@@ -89,6 +89,9 @@ public class HolidayCalendarController extends UifControllerBase {
     private void createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {
         HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).createHolidayCalendar(hcForm);
         hcForm.setHolidayCalendarInfo(hcInfo);
+
+        //TODO: fix bugs in service impl
+       //createHolidays(hcInfo.getId(), hcForm);
     }
 
     private void getHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
@@ -101,9 +104,31 @@ public class HolidayCalendarController extends UifControllerBase {
         }
     }
 
-    public void updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {
-        HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).updateHolidayCalendar(hcForm);
-        hcForm.setHolidayCalendarInfo(hcInfo);
+    public void updateHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
+        //update hc meta data
+        getAcademicCalendarViewHelperService(hcForm).updateHolidayCalendar(hcForm);
+        hcForm.setHolidayCalendarInfo(getAcademicCalendarViewHelperService(hcForm).getHolidayCalendar(hcId));
+
+        //update hc-holidays
+
+    }
+
+    private void createHolidays(String holidayCalendarId, HolidayCalendarForm hcForm) throws Exception {
+        List<HolidayInfo> holidays = hcForm.getHolidays();
+        List<HolidayInfo> createdHolidays = new ArrayList<HolidayInfo>();
+
+        if(holidays != null && !holidays.isEmpty()){
+            for (HolidayInfo holiday : holidays){
+                createdHolidays.add(createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, hcForm));
+            }
+
+            hcForm.setHolidays(createdHolidays);
+        }
+
+    }
+
+    private HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo, HolidayCalendarForm hcForm)throws Exception {
+        return getAcademicCalendarViewHelperService(hcForm).createHoliday(holidayCalendarId, holidayTypeKey, holidayInfo);
     }
 
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(HolidayCalendarForm hcForm){

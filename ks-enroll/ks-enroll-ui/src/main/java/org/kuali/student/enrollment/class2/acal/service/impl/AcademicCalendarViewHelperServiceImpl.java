@@ -76,6 +76,12 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return holidays;
     }
 
+    public HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo) throws Exception {
+        holidayInfo.setStateKey("kuali.milestone.state.Draft");
+        HolidayInfo createdHoliday = getAcalService().createHoliday(holidayCalendarId, holidayTypeKey, holidayInfo, getContextInfo());
+        return createdHoliday;
+    }
+
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
