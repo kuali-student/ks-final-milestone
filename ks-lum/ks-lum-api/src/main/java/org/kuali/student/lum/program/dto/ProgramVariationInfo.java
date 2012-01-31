@@ -19,6 +19,8 @@ import javax.xml.bind.annotation.*;
 
 
 import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.infc.ProgramVariation;
 import org.w3c.dom.Element;
 
@@ -206,5 +208,20 @@ public class ProgramVariationInfo extends ProgramAttributesInfo implements Progr
     public void setUnitsFinancialControl(List<String> unitsFinancialControl) {
         this.unitsFinancialControl = unitsFinancialControl;
     }
+        @Deprecated
+    public VersionInfo getVersionInfo() {
+        return null;
+        // TODO KSCM
+    }
 
+       @Deprecated
+    public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
+        // TODO KSCM
+
+    }
+    @Deprecated
+    public void setVersionInfo(VersionInfo versionInfo) {
+        // TODO KSCM
+
+    }
 }
