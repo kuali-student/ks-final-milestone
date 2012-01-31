@@ -127,7 +127,7 @@ public class MilestoneDateComparisonProposition extends AbstractLeafProposition 
 
         PropositionResult result = new PropositionResult(dateCompareResult);
 
-        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
+        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, result.getResult()));
 
         return result;
     }

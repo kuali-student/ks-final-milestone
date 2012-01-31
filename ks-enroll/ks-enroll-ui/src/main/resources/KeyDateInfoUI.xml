@@ -50,7 +50,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="false"/>
         <property name="minLength" value="10" />
         <property name="controlField">
-            <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="validCharactersConstraint">
@@ -63,7 +63,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="false"/>
         <property name="minLength" value="10" />
         <property name="controlField">
-            <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="validCharactersConstraint">

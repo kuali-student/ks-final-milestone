@@ -43,7 +43,7 @@ public class SummerTermProposition extends AbstractLeafProposition {
 
         PropositionResult result = new PropositionResult(term.getTypeKey().equals(AtpServiceConstants.ATP_SUMMER_TYPE_KEY));
 
-        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
+        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, result.getResult()));
 
         return result;
     }

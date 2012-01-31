@@ -106,12 +106,12 @@
         <property name="checkFutureRequests" value="false" />
     </bean>    
 
-    <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
+    <bean id="ksCommentOnDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Comment on Document" />
     </bean>
 
-    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.authorization.PermissionDerivedRoleTypeServiceImpl">
+    <bean id="ksEditDocumentRoleTypeService" class="org.kuali.rice.krad.kim.PermissionDerivedRoleTypeServiceImpl">
         <property name="permissionTemplateNamespace" value="KS-SYS" />
         <property name="permissionTemplateName" value="Edit Document" />
     </bean>

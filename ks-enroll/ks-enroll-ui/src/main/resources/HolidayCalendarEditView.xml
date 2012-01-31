@@ -12,13 +12,13 @@
         <property name="singlePageView" value="true"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="page">
-            <bean parent="Page"/>
+            <bean parent="Uif-Page"/>
         </property>
         <property name="header">
-            <bean parent="HeaderTwo"/>
+            <bean parent="Uif-HeaderField-Two"/>
         </property>
         <property name="footer">
-            <bean parent="Footer"/>
+            <bean parent="Uif-FooterBase"/>
         </property>
         <property name="items">
             <list>
@@ -28,7 +28,7 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
     </bean>
 
-    <bean id="KS-HolidayCalendar-EditSection" parent="PageGroup" p:disclosure.render="false">
+    <bean id="KS-HolidayCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
                 <ref bean="KS-HolidayCalendar-MetaSection"/>
@@ -36,57 +36,57 @@
             </list>
         </property>
         <property name="footer">
-            <bean parent="Footer">
+            <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="ActionField" p:actionLabel="Save" p:methodToCall="save"/>
-                        <bean parent="ActionField" p:actionLabel="Cancel" p:methodToCall="close"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="save"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Cancel" p:methodToCall="close"/>
                     </list>
                 </property>
             </bean>
         </property>
     </bean>
 
-    <bean id="KS-HolidayCalendar-MetaSection" parent="Group" p:layoutManager.orientation="HORIZONTAL">
+    <bean id="KS-HolidayCalendar-MetaSection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL">
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                 <bean parent="InputField_Form" p:label="Holiday Calendar Name"
+                 <bean parent="Uif-InputField" p:label="Holiday Calendar Name"
 					p:labelPlacement="TOP" p:labelField.renderColon="false"
 					p:propertyName="holidayCalendarInfo.name" p:labelField.style="display:block;">
 					<property name="control">
-						<bean parent="TextControl" p:size="30" />
+						<bean parent="Uif-TextControl" p:size="30" />
 					</property>
 				</bean>
-                <bean parent="InputField_Form" p:propertyName="holidayCalendarInfo.adminOrgId"
+                <bean parent="Uif-InputField" p:propertyName="holidayCalendarInfo.adminOrgId"
                       p:label="Organizations" p:labelField.renderColon="false" p:labelField.style="display:block;">
                     <property name="control">
-                        <bean parent="SelectControl" p:options-ref="org-options"/>
+                        <bean parent="Uif-DropdownControl" p:options-ref="org-options"/>
                     </property>
                    <!-- <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
                     </property>  -->
                 </bean>
-                <bean parent="InputField_Form" p:label="Start Date" p:labelPlacement="TOP"
+                <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
 				     p:labelField.renderColon="false" p:labelField.style="display:block;"
 					p:propertyName="holidayCalendarInfo.startDate">
 					<property name="control">
-						<bean parent="DateControl" />
+						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-                <bean parent="InputField_Form" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
+                <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
 					p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
 					p:propertyName="holidayCalendarInfo.endDate">
 					<property name="control">
-						<bean parent="DateControl" />
+						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
             </list>
         </property>
     </bean>
 
-	<bean id="KS-HolidayCalendar-HolidaySection" parent="CollectionGroupSectionTableLayout"
+	<bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-Disclosure-TableCollectionSection"
 		p:layoutManager.numberOfColumns="4">
 		<property name="title" value="Holidays" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayInfo" />
@@ -97,20 +97,20 @@
         <property name="layoutManager.separateAddLine" value="false" />
 		<property name="items">
 			<list>
-				<bean parent="InputField" p:label="Holiday Type" p:propertyName="typeKey" p:required="true" />
-				<bean parent="InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
+				<bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="typeKey" p:required="true" />
+				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
                     <property name="control">
-						<bean parent="DateControl" />
+						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-				<bean parent="InputField" p:label="End Date" p:propertyName="endDate" p:required="true">
+				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true">
                    <property name="control">
-						<bean parent="DateControl" />
+						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-				<bean parent="InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay" p:required="true">
+				<bean parent="Uif-InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay" p:required="true">
 					<property name="control">
-						<bean parent="CheckboxControl" />
+						<bean parent="Uif-CheckboxControl" />
 					</property>
 				</bean>
 			</list>
@@ -118,7 +118,7 @@
 	</bean>
 
     <util:list id="org-options">
-       <bean parent="KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
+       <bean parent="Uif-KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
     </util:list>
 
 </beans>

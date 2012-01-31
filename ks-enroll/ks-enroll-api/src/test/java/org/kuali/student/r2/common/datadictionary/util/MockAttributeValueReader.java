@@ -23,6 +23,10 @@ import org.kuali.rice.krad.datadictionary.validation.capability.Constrainable;
 
 public class MockAttributeValueReader implements AttributeValueReader
 {
+    @Override
+    public boolean isReadable(){
+        return true;
+    }
 
     @Override
     public String getAttributeName() {

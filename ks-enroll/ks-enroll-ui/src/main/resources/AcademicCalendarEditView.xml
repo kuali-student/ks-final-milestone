@@ -12,13 +12,13 @@
         <property name="singlePageView" value="true"/>
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
         <property name="page">
-            <bean parent="Page"/>
+            <bean parent="Uif-Page"/>
         </property>
         <property name="header">
-            <bean parent="HeaderTwo"/>
+            <bean parent="Uif-HeaderField-Two"/>
         </property>
         <property name="footer">
-            <bean parent="Footer"/>
+            <bean parent="Uif-FooterBase"/>
         </property>
         <property name="items">
             <list>
@@ -29,56 +29,56 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
     </bean>
 
-    <bean id="AcademicCalendarEditView" parent="PageGroup" p:disclosure.render="false">
+    <bean id="AcademicCalendarEditView" parent="Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
                 <ref bean="AcademicCalendarEditView-Meta"/>
             </list>
         </property>
         <property name="footer">
-            <bean parent="Footer">
+            <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="ActionField" p:actionLabel="Save Calendar Draft" p:methodToCall="save"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Calendar Draft" p:methodToCall="save"/>
                     </list>
                 </property>
             </bean>
         </property>
     </bean>
 
-    <bean id="AcademicCalendarEditView-Meta" parent="Group" p:layoutManager.orientation="HORIZONTAL">
+    <bean id="AcademicCalendarEditView-Meta" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL">
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="InputField_Form" p:label="Academic Calendar Name"
+                <bean parent="Uif-InputField" p:label="Academic Calendar Name"
                       p:labelPlacement="TOP" p:labelField.renderColon="false"
                       p:propertyName="academicCalendarInfo.name" p:labelField.style="display:block;">
                     <property name="control">
-                        <bean parent="TextControl" p:size="30" />
+                        <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
-                <bean parent="InputField_Form" p:propertyName="academicCalendarInfo.adminOrgId"
+                <bean parent="Uif-InputField" p:propertyName="academicCalendarInfo.adminOrgId"
                       p:label="Organizations" p:labelField.renderColon="false" p:labelField.style="display:block;">
                     <property name="control">
-                        <bean parent="SelectControl" p:options-ref="org-options"/>
+                        <bean parent="Uif-DropdownControl" p:options-ref="org-options"/>
                     </property>
                     <!-- <property name="optionsFinder">
                       <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
                   </property>   -->
                 </bean>
-                <bean parent="InputField_Form" p:label="Start Date" p:labelPlacement="TOP"
+                <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
                       p:labelField.renderColon="false" p:labelField.style="display:block;"
                       p:propertyName="academicCalendarInfo.startDate">
                     <property name="control">
-                        <bean parent="DateControl" />
+                        <bean parent="Uif-DateControl" />
                     </property>
                 </bean>
-                <bean parent="InputField_Form" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
+                <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
                       p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
                       p:propertyName="academicCalendarInfo.endDate">
                     <property name="control">
-                        <bean parent="DateControl" />
+                        <bean parent="Uif-DateControl" />
                     </property>
                 </bean>
             </list>
@@ -86,10 +86,10 @@
     </bean>
 
     <util:list id="org-options">
-        <bean parent="KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
-        <bean parent="KeyLabelPair" p:key="34" p:value="Medical School"/>
-<!--        <bean parent="KeyLabelPair" p:key="103" p:value="Law School"/>
-        <bean parent="KeyLabelPair" p:key="105" p:value="Continuing Study"/>    -->
+        <bean parent="Uif-KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
+        <bean parent="Uif-KeyLabelPair" p:key="34" p:value="Medical School"/>
+<!--        <bean parent="Uif-KeyLabelPair" p:key="103" p:value="Law School"/>
+        <bean parent="Uif-KeyLabelPair" p:key="105" p:value="Continuing Study"/>    -->
     </util:list>
 
 </beans>

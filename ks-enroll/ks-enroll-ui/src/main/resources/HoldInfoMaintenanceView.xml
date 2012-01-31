@@ -26,23 +26,23 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
      
      <property name="items">
        <list merge="true">
-          <bean parent="MaintenanceGroupSectionGridLayout">
+          <bean parent="Uif-MaintenanceGridSection">
           	 <property name="title" value="Manage Holds for Person"/>
              <property name="items">
                <list>
-                <bean parent="InputField" p:propertyName="personId"/>
-                <bean parent="InputField" p:propertyName="issueId"/>
+                <bean parent="Uif-InputField" p:propertyName="personId"/>
+                <bean parent="Uif-InputField" p:propertyName="issueId"/>
                </list>
              </property>             
           </bean> 
           
-          <bean parent="MaintenanceCollectionGroupSection">
+          <bean parent="Uif-MaintenanceStackedCollectionSection">
               <property name="title" value="Issues"/>  
               <property name="collectionObjectClass" value="org.kuali.student.enrollment.hold.dto.IssueInfo"/>
               <property name="propertyName" value="issueId"/>
               <property name="items">
                 <list>
-                  <bean parent="InputField" p:propertyName="id"/>
+                  <bean parent="Uif-InputField" p:propertyName="id"/>
                 </list>
               </property>   
               <property name="layoutManager.summaryTitle" value="Issues"/> 
@@ -62,7 +62,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="dataObjectClass" value="org.kuali.student.enrollment.hold.dto.HoldInfo"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class1.hold.service.HoldInfoMaintainableImpl"/>
     <property name="documentTypeName" value="HoldInfoMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
         <value>id</value>

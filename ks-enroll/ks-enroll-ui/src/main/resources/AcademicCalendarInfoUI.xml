@@ -53,7 +53,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="false"/>
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="60"/>
+            <bean parent="Uif-TextControl" p:size="60"/>
         </property> 
     </bean>
 
@@ -65,7 +65,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="true"/>
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="60"/>
+            <bean parent="Uif-TextControl" p:size="60"/>
         </property>
         <property name="summary"  value="Name of the Academic Calendar"/>
     </bean>
@@ -75,7 +75,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="true"/>
         <property name="minLength" value="10" />        
         <property name="controlField">
-            <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official start date of the Academic Calendar" />
@@ -86,7 +86,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="required" value="true"/>
         <property name="minLength" value="10" />        
         <property name="controlField">
-            <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
         </property>
         <property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
         <property name="summary"  value="Official end date of the Academic Calendar" />
@@ -100,13 +100,13 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="AnyCharacterPatternConstraint"  p:allowWhitespace="false"/>
         </property>
         <property name="controlField">
-            <bean parent="TextControl" p:size="60"/>
+            <bean parent="Uif-TextControl" p:size="60"/>
         </property>
         <property name="summary"  value="Type of Academic Calendar" />
     	-->
     <!--
     <property name="control">
-         <bean parent="SelectControl"/>
+         <bean parent="Uif-DropdownControl"/>
     </property>
     <property name="optionsFinder">
          <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
@@ -121,16 +121,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoLookupableImpl" />
         <property name="criteriaFields">
             <list>
-                <bean parent="LookupCriteriaInputField" p:propertyName="id" />
-<!--    <bean parent="LookupCriteriaInputField" p:propertyName="credentialProgramTypeKey"/> -->
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+<!--    <bean parent="Uif-LookupCriteriaInputField" p:propertyName="credentialProgramTypeKey"/> -->
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="InputField" p:propertyName="id" />
-                <bean parent="InputField" p:propertyName="name" />
-                <bean parent="InputField" p:propertyName="startDate" />
-                <bean parent="InputField" p:propertyName="endDate" />
+                <bean parent="Uif-InputField" p:propertyName="id" />
+                <bean parent="Uif-InputField" p:propertyName="name" />
+                <bean parent="Uif-InputField" p:propertyName="startDate" />
+                <bean parent="Uif-InputField" p:propertyName="endDate" />
             </list>
         </property>
     </bean>
@@ -140,18 +140,18 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="viewName" value="AcademicCalendarInfo-LookupView2"/>
         <property name="criteriaFields">
             <list>
-                <bean parent="LookupCriteriaInputField" p:propertyName="id" />
-                <bean parent="LookupCriteriaInputField" p:propertyName="name"/>
-                <bean parent="LookupCriteriaInputField" p:propertyName="startDate" />
-                <bean parent="LookupCriteriaInputField" p:propertyName="endDate" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="endDate" />
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="InputField" p:propertyName="id" />
-                <bean parent="InputField" p:propertyName="name"/>
-                <bean parent="InputField" p:propertyName="startDate" />
-                <bean parent="InputField" p:propertyName="endDate" />
+                <bean parent="Uif-InputField" p:propertyName="id" />
+                <bean parent="Uif-InputField" p:propertyName="name"/>
+                <bean parent="Uif-InputField" p:propertyName="startDate" />
+                <bean parent="Uif-InputField" p:propertyName="endDate" />
             </list>
         </property>
     </bean>
@@ -163,16 +163,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="viewName" value="Acal-LookupView3"/> 
         <property name="criteriaFields">
             <list>
-                <bean parent="LookupCriteriaInputField" p:propertyName="id" />
-                <bean parent="LookupCriteriaInputField" p:propertyName="name"/>
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+                <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name"/>
             </list>
         </property>
         <property name="resultFields">
             <list>
-                <bean parent="InputField" p:propertyName="id" />
-                <bean parent="InputField" p:propertyName="name"/>
-                <bean parent="InputField" p:propertyName="startDate" />
-                <bean parent="InputField" p:propertyName="endDate" />
+                <bean parent="Uif-InputField" p:propertyName="id" />
+                <bean parent="Uif-InputField" p:propertyName="name"/>
+                <bean parent="Uif-InputField" p:propertyName="startDate" />
+                <bean parent="Uif-InputField" p:propertyName="endDate" />
             </list>
         </property>
     </bean>
@@ -183,15 +183,15 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoInquiryViewHelperServiceImpl" />
         <property name="Items">
             <list>
-                <bean parent="GroupSectionGridLayout">
+                <bean parent="Uif-Disclosure-GridSection">
                     <property name="layoutManager.numberOfColumns" value="2"/>
                     <property name="title" value="Academic Calendar Info Inquiry"/>
                     <property name="items">
                         <list>
-                            <bean parent="InputField" p:propertyName="id"/>
-                            <bean parent="InputField" p:propertyName="name"/>
-                            <bean parent="InputField" p:propertyName="startDate"/>
-                            <bean parent="InputField" p:propertyName="endDate"/>
+                            <bean parent="Uif-InputField" p:propertyName="id"/>
+                            <bean parent="Uif-InputField" p:propertyName="name"/>
+                            <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                            <bean parent="Uif-InputField" p:propertyName="endDate"/>
                         </list>
                     </property>             
                 </bean>
@@ -205,16 +205,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl" />
         <property name="items">
             <list merge="true">
-                <bean parent="MaintenanceGroupSectionGridLayout">
+                <bean parent="Uif-MaintenanceGridSection">
                     <property name="title" value="Create a new Academic Calendar"/>
                     <property name="items">
                         <list>
-                            <bean parent="InputField" p:propertyName="name"/>
-                            <bean parent="InputField" p:propertyName="startDate"/>
-                            <bean parent="InputField" p:propertyName="endDate"/>
-                            <!--bean parent="InputField" p:propertyName="credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">al.Baccalaureate">
+                            <bean parent="Uif-InputField" p:propertyName="name"/>
+                            <bean parent="Uif-InputField" p:propertyName="startDate"/>
+                            <bean parent="Uif-InputField" p:propertyName="endDate"/>
+                            <!--bean parent="Uif-InputField" p:propertyName="credentialProgramTypeKey" p:defaultValue="kuali.lu.type.credential.Baccalaureate">al.Baccalaureate">
                                 <property name="control">
-                                    <bean parent="SelectControl"/>
+                                    <bean parent="Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.CredentialProgramTypeKeyValues"/>
@@ -232,7 +232,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="dataObjectClass" value="org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo"/>
         <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.AcademicCalendarInfoMaintainableImpl"/>
         <property name="documentTypeName" value="AcademicCalendarInfoMaintenanceDocument"/>
-        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+        <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
         <property name="lockingKeys">
             <list>
                 <value>id</value>

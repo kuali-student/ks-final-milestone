@@ -305,7 +305,7 @@ public class KRMSProcessEvaluator implements ProcessEvaluator<CourseRegistration
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
         // go through all the results from the Propositions, and build validation results based on any propositions that failed
-        List<ResultEvent> events = engineResults.getResultsOfType(ResultEvent.PropositionEvaluated);
+        List<ResultEvent> events = engineResults.getResultsOfType(ResultEvent.PROPOSITION_EVALUATED);
         for (ResultEvent e : events) {
             Proposition prop = (Proposition) e.getSource();
             InstructionInfo instruction = propositionInstructionMap.get(prop);

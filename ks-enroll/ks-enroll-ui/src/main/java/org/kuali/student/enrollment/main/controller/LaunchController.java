@@ -30,10 +30,4 @@ public class LaunchController extends UifControllerBase {
     public UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         return new LaunchForm();
     }
-
-    // TODO: RICE=M9 UPGRADE check back on this method once rice 2.0 beta is complete
-//    @Override
-    protected Class<? extends UifFormBase> formType() {
-        return LaunchForm.class;
-    }
 }

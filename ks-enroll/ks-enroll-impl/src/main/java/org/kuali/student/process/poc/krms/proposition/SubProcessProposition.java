@@ -61,7 +61,7 @@ public class SubProcessProposition extends AbstractLeafProposition {
 
             // on an evaluation exception, report the details of the exception to the KRMS environment
             resultDetails.put(RulesExecutionConstants.SUBPROCESS_EVALUATION_EXCEPTION, e);
-            environment.getEngineResults().addResult(new BasicResult(resultDetails, ResultEvent.PropositionEvaluated, this, environment, false));
+            environment.getEngineResults().addResult(new BasicResult(resultDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, false));
             return new PropositionResult(false);
 
         }
@@ -79,7 +79,7 @@ public class SubProcessProposition extends AbstractLeafProposition {
         }
 
         // add a result in the environment that can be analyzed by callers of the KRMS engine
-        environment.getEngineResults().addResult(new BasicResult(resultDetails, ResultEvent.PropositionEvaluated, this, environment, propositionResult));
+        environment.getEngineResults().addResult(new BasicResult(resultDetails, ResultEvent.PROPOSITION_EVALUATED, this, environment, propositionResult));
 
         return new PropositionResult(propositionResult);
     }

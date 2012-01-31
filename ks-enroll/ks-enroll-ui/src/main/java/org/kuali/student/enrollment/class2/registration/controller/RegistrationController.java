@@ -76,11 +76,6 @@ public class RegistrationController extends UifControllerBase {
     private transient CourseService courseService;
     private transient CourseRegistrationService courseRegistrationService;
 
-//    @Override
-    protected Class<? extends UifFormBase> formType() {
-        return RegistrationForm.class;
-    }
-
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
             return new RegistrationForm();
     }

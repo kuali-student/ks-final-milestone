@@ -43,7 +43,7 @@ import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 @RequestMapping(value = "/academicCalendar")
 public class AcademicCalendarController extends UifControllerBase {
     /**
-     * @see org.kuali.rice.krad.web.controller.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
+     * @see org.kuali.rice.krad.web.controller.UifControllerBase#createInitialForm(javax.servlet.http.HttpServletRequest)
      */
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest request) {

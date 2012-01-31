@@ -26,7 +26,7 @@ limitations under the License.
       <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.grading.service.impl.GradingViewHelperServiceImpl"/>
 
       <property name="header">
-        <bean parent="HeaderTwo"/>
+        <bean parent="Uif-HeaderField-Two"/>
       </property>
 
        <property name="additionalCssFiles">
@@ -39,7 +39,7 @@ limitations under the License.
 
       <property name="items">
           <list>
-          	<bean parent="Page" p:id="selectTermPage">
+          	<bean parent="Uif-Page" p:id="selectTermPage">
           		<property name="items">
                		<list>
           				<ref bean="studentGradeView-selectTerm"/>
@@ -49,7 +49,7 @@ limitations under the License.
                     <ref bean="Student_Footer_selectTerm" />
                 </property>
  			</bean>
-              <bean parent="Page" p:id="creditDetailsPage">
+              <bean parent="Uif-Page" p:id="creditDetailsPage">
                     <property name="items">
                          <list>
                             <ref bean="studentGradeView-creditDetails"/>
@@ -65,13 +65,13 @@ limitations under the License.
       <property name="formClass" value="org.kuali.student.enrollment.class2.grading.form.StudentGradeForm" />
    </bean>
 
-   <bean id="studentGradeView-selectTerm" parent="GroupGridLayout">
+   <bean id="studentGradeView-selectTerm" parent="Uif-GridSection">
        <property name="disclosure.render" value="false"/>
       <property name="items">
         <list>
-          <bean parent="InputField_Form" p:propertyName="selectedTerm" p:label="Select Term" p:required="true">
+          <bean parent="Uif-InputField" p:propertyName="selectedTerm" p:label="Select Term" p:required="true">
             <property name="control">
-              <bean parent="SelectControl"/>
+              <bean parent="Uif-DropdownControl"/>
             </property>
             <property name="optionsFinder">
                 <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermKeyValues"/>
@@ -81,7 +81,7 @@ limitations under the License.
       </property>
    </bean>
 
-    <bean id="studentGradeView-creditDetails" parent="CollectionGroupTableLayout" p:layoutManager.numberOfColumns="3">
+    <bean id="studentGradeView-creditDetails" parent="Uif-TableCollectionSection" p:layoutManager.numberOfColumns="3">
       <property name="disclosure.render" value="false"/>
       <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.grading.dataobject.StudentCredit"/>
       <property name="propertyName" value="creditList"/>
@@ -92,19 +92,19 @@ limitations under the License.
       <property name="bindingInfo.bindToForm" value="true"/>
       <property name="items">
         <list>
-          <bean parent="InputField" p:propertyName="courseName" p:label="Course Name" p:readOnly="true">
+          <bean parent="Uif-InputField" p:propertyName="courseName" p:label="Course Name" p:readOnly="true">
               <property name="control">
-              <bean parent="TextControl" p:size="26" />
+              <bean parent="Uif-TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="InputField" p:propertyName="credits" p:label="Credits" p:readOnly="true">
+          <bean parent="Uif-InputField" p:propertyName="credits" p:label="Credits" p:readOnly="true">
               <property name="control">
-              <bean parent="TextControl" p:size="26" />
+              <bean parent="Uif-TextControl" p:size="26" />
             </property>
           </bean>
-          <bean parent="InputField" p:propertyName="grade" p:label="Grade" p:readOnly="true">
+          <bean parent="Uif-InputField" p:propertyName="grade" p:label="Grade" p:readOnly="true">
             <property name="control">
-              <bean parent="TextControl" p:size="26" >
+              <bean parent="Uif-TextControl" p:size="26" >
               </bean>
             </property>
           </bean>
@@ -112,22 +112,22 @@ limitations under the License.
       </property>
    </bean>
 
-   <bean id="Student_Footer_selectTerm" parent="Footer">
+   <bean id="Student_Footer_selectTerm" parent="Uif-FooterBase">
       <property name="items">
 
         <list>
-          <bean parent="ActionField_Secondary" p:methodToCall="viewGrades" p:actionLabel="View Grades"/>
-          <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
+          <bean parent="Uif-SecondaryActionButton" p:methodToCall="viewGrades" p:actionLabel="View Grades"/>
+          <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"/>
         </list>
       </property>
   </bean>
 
-  <bean id="Student_Footer_creditDetails" parent="Footer">
+  <bean id="Student_Footer_creditDetails" parent="Uif-FooterBase">
       <property name="items">
 
         <list>
-          <bean parent="ActionField_Secondary" p:methodToCall="close" p:actionLabel="Close"/>
-          <bean parent="ActionLinkField" p:methodToCall="backToTerm" p:actionLabel="Back to Term Records"/>
+          <bean parent="Uif-SecondaryActionButton" p:methodToCall="close" p:actionLabel="Close"/>
+          <bean parent="Uif-ActionLink" p:methodToCall="backToTerm" p:actionLabel="Back to Term Records"/>
         </list>
       </property>
   </bean>

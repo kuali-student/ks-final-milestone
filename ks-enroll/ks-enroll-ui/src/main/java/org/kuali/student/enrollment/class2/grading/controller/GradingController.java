@@ -38,27 +38,6 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/grading")
 public class GradingController extends UifControllerBase {
-
-    @Override
-    public UifFormBase initForm(HttpServletRequest request) {
-        UifFormBase form = null;
-        String formKeyParam = request.getParameter(UifParameters.FORM_KEY);
-
-        if (StringUtils.isNotBlank(formKeyParam)) {
-            return super.initForm(request);
-        } else {
-            form = createInitialForm(request);
-        }
-
-        return form;
-    }
-
-    // TODO: RICE=M9 UPGRADE check back on this method once rice 2.0 beta is complete
-//    @Override
-    protected Class<? extends UifFormBase> formType() {
-        return GradingForm.class;
-    }
-
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         if (StringUtils.equals(httpServletRequest.getParameter("viewId"), "StudentGradeView")) {
             return new StudentGradeForm();

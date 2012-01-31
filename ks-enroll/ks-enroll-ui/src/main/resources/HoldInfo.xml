@@ -73,7 +73,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             	  p:allowWhitespace="false" />
     	</property>
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
+      		<bean parent="Uif-TextControl" p:size="42"/>
     	</property> 
     </bean>
 
@@ -84,7 +84,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Person ID" />
         <property name="required" value="true"/>
         <property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
+      		<bean parent="Uif-TextControl" p:size="42"/>
     	</property>
     	<property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
@@ -99,7 +99,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Issue ID"/>
         <property name="required" value="true"/>   	
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="42"/>
+      		<bean parent="Uif-TextControl" p:size="42"/>
     	</property>
     	<property name="validationPattern" >
       		<bean parent="AnyCharacterValidationPattern"
@@ -114,7 +114,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="label" value="Effective Date" />
         <property name="required" value="true"/>
         <property name="controlField">
-      		<bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+      		<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
     	</property>
     	<property name="formatterClass" value="org.kuali.rice.core.web.format.DateFormatter"/>
     </bean>

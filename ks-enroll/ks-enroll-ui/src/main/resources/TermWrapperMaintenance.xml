@@ -56,7 +56,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
             <bean parent="NoWhitespacePatternConstraint" />
         </property>
     	<property name="controlField">
-      		<bean parent="TextControl" p:size="60"/>
+      		<bean parent="Uif-TextControl" p:size="60"/>
     	</property>
     	<property name="control">
       		<bean parent="TextControlDefinition" p:size="60"/>
@@ -95,21 +95,21 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperLookupableImpl"></property>
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaInputField" p:propertyName="id" />
-        <bean parent="LookupCriteriaInputField" p:propertyName="termInfo.typeKey"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="termInfo.typeKey"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-        <bean parent="InputField" p:propertyName="id" />
-		<!-- <bean parent="InputField" p:propertyName="termInfo.id" />    -->
-        <bean parent="InputField" p:propertyName="termInfo.typeKey" />
-        <bean parent="InputField" p:propertyName="termInfo.startDate" />
-        <bean parent="InputField" p:propertyName="termInfo.endDate" />
-        <bean parent="InputField" p:propertyName="classesMeetDates.startDate">
+        <bean parent="Uif-InputField" p:propertyName="id" />
+		<!-- <bean parent="Uif-InputField" p:propertyName="termInfo.id" />    -->
+        <bean parent="Uif-InputField" p:propertyName="termInfo.typeKey" />
+        <bean parent="Uif-InputField" p:propertyName="termInfo.startDate" />
+        <bean parent="Uif-InputField" p:propertyName="termInfo.endDate" />
+        <bean parent="Uif-InputField" p:propertyName="classesMeetDates.startDate">
             <property name="label" value="Classes Meet Start Date" />
         </bean>
-        <bean parent="InputField" p:propertyName="classesMeetDates.endDate">
+        <bean parent="Uif-InputField" p:propertyName="classesMeetDates.endDate">
             <property name="label" value="Classes Meet End Date" />
         </bean>
       </list>
@@ -125,16 +125,16 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermLookupableImpl"></property>
     <property name="criteriaFields">
       <list>
-        <bean parent="LookupCriteriaInputField" p:propertyName="id" />
-        <bean parent="LookupCriteriaInputField" p:propertyName="typeKey"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
       </list>
     </property>
     <property name="resultFields">
       <list>
-		<bean parent="InputField" p:propertyName="id" />
-        <bean parent="InputField" p:propertyName="typeKey" />
-        <bean parent="InputField" p:propertyName="startDate" />
-        <bean parent="InputField" p:propertyName="endDate" />
+		<bean parent="Uif-InputField" p:propertyName="id" />
+        <bean parent="Uif-InputField" p:propertyName="typeKey" />
+        <bean parent="Uif-InputField" p:propertyName="startDate" />
+        <bean parent="Uif-InputField" p:propertyName="endDate" />
       </list>
     </property>
   </bean>
@@ -148,31 +148,31 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
      <property name="Items">
          <list>
-           <bean parent="GroupSectionGridLayout">
+           <bean parent="Uif-Disclosure-GridSection">
              <property name="layoutManager.numberOfColumns" value="2"/>
              <property name="title" value="Term with Key Dates"/>
              <property name="items">
                <list>
-               	<bean parent="InputField" p:propertyName="termInfo.id"/>
-                <bean parent="InputField" p:propertyName="termInfo.typeKey"/>
-                <bean parent="InputField" p:propertyName="termInfo.startDate"/>
-                <bean parent="InputField" p:propertyName="termInfo.endDate"/>
-                <bean parent="MessageField" p:messageText="Term Dates" p:colSpan="2" />
-				<bean parent="MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
-                <bean parent="InputField" p:propertyName="classesMeetDates.startDate"/>
-                <bean parent="InputField" p:propertyName="classesMeetDates.endDate"/>
-                <bean parent="MessageField" p:messageText="Registration Period" p:colSpan="2"/>
-                <bean parent="InputField" p:propertyName="registrationPeriod.startDate"/>
-                <bean parent="InputField" p:propertyName="registrationPeriod.endDate"/>
-                <bean parent="MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
-                <bean parent="InputField" p:propertyName="dropPeriodEndsDate.endDate">
+               	<bean parent="Uif-InputField" p:propertyName="termInfo.id"/>
+                <bean parent="Uif-InputField" p:propertyName="termInfo.typeKey"/>
+                <bean parent="Uif-InputField" p:propertyName="termInfo.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="termInfo.endDate"/>
+                <bean parent="Uif-MessageField" p:messageText="Term Dates" p:colSpan="2" />
+				<bean parent="Uif-MessageField" p:messageText="Dates between which classes should meet" p:colSpan="2" />
+                <bean parent="Uif-InputField" p:propertyName="classesMeetDates.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="classesMeetDates.endDate"/>
+                <bean parent="Uif-MessageField" p:messageText="Registration Period" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="registrationPeriod.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="registrationPeriod.endDate"/>
+                <bean parent="Uif-MessageField" p:messageText="Drop Period ends" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="dropPeriodEndsDate.endDate">
                 	<property name="label" value="Date" />
                 </bean>
-				<bean parent="MessageField" p:messageText="Final Examinations" p:colSpan="2"/>
-                <bean parent="InputField" p:propertyName="finalExaminationsDates.startDate"/>
-                <bean parent="InputField" p:propertyName="finalExaminationsDates.endDate"/>
-			    <bean parent="MessageField" p:messageText="Grades Due" p:colSpan="2"/>
-                <bean parent="InputField" p:propertyName="gradesDueDate.endDate">
+				<bean parent="Uif-MessageField" p:messageText="Final Examinations" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="finalExaminationsDates.startDate"/>
+                <bean parent="Uif-InputField" p:propertyName="finalExaminationsDates.endDate"/>
+			    <bean parent="Uif-MessageField" p:messageText="Grades Due" p:colSpan="2"/>
+                <bean parent="Uif-InputField" p:propertyName="gradesDueDate.endDate">
                		<property name="label" value="Date" />
                 </bean>
                </list>
@@ -191,29 +191,29 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="items">
             <list merge="true">
 
-                <bean parent="MaintenanceGroupSectionGridLayout">
+                <bean parent="Uif-MaintenanceGridSection">
                     <property name="layoutManager.styleClasses" value=""/>
                     <property name="layoutManager.applyDefaultCellWidths" value="false"/>
                     <property name="disclosure.render" value="false"/>
                     <property name="title" value="Term Wrapper"/>
                     <property name="items">
                         <list>
-                            <bean parent="InputField" p:propertyName="termInfo.typeKey">
+                            <bean parent="Uif-InputField" p:propertyName="termInfo.typeKey">
                                 <property name="control">
-                                    <bean parent="SelectControl"/>
+                                    <bean parent="Uif-DropdownControl"/>
                                 </property>
                                 <property name="optionsFinder">
                                     <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermInfoTypeKeyValues"/>
                                 </property>
                             </bean>
-                            <bean parent="FieldGroup" p:label="Term Start/End">
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Term Start/End">
                                 <property name="group.layoutManager.orientation" value="HORIZONTAL"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="InputField" p:propertyName="termInfo.startDate"
+                                        <bean parent="Uif-InputField" p:propertyName="termInfo.startDate"
                                               p:labelField.render="false"/>
-                                        <bean parent="MessageField" p:messageText=" to "/>
-                                        <bean parent="InputField" p:propertyName="termInfo.endDate"
+                                        <bean parent="Uif-MessageField" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField" p:propertyName="termInfo.endDate"
                                               p:labelField.render="false"/>
                                     </list>
                                 </property>
@@ -223,7 +223,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
                 </bean>
 
-                <bean parent="MaintenanceGroupSectionGridLayout">
+                <bean parent="Uif-MaintenanceGridSection">
                     <property name="title" value="Term Dates"/>
                     <property name="instructionalText" value="Key dates for a Term"/>
                     <property name="layoutManager.styleClasses" value="ks-termDates-table"/>
@@ -231,12 +231,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                     <property name="disclosure.render" value="false"/>
                     <property name="items">
                         <list>
-                            <bean parent="FieldGroup" p:label="Class Meeting Dates">
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Class Meeting Dates">
                                 <property name="group.layoutManager.orientation"
                                           value="HORIZONTAL"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="InputField"
+                                        <bean parent="Uif-InputField"
                                               p:propertyName="classesMeetDates.startDate"
                                               p:constraint="Required when End Date has a value" p:labelField.render="false">
                                             <property name="dependencyConstraints">
@@ -246,8 +246,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="MessageField" p:messageText=" to "/>
-                                        <bean parent="InputField"
+                                        <bean parent="Uif-MessageField" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField"
                                               p:propertyName="classesMeetDates.endDate"
                                               p:constraint="Required when Start Date has a value" p:labelField.render="false">
                                             <property name="dependencyConstraints">
@@ -261,12 +261,12 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 </property>
                             </bean>
 
-                            <bean parent="FieldGroup" p:label="Registration Period">
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Registration Period">
                                 <property name="group.layoutManager.orientation"
                                           value="HORIZONTAL"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="InputField"
+                                        <bean parent="Uif-InputField"
                                               p:propertyName="registrationPeriod.startDate"
                                               p:constraint="Required when End Date has a value" p:labelField.render="false">
                                             <property name="dependencyConstraints">
@@ -276,8 +276,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="MessageField" p:messageText=" to "/>
-                                        <bean parent="InputField"
+                                        <bean parent="Uif-MessageField" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField"
                                               p:propertyName="registrationPeriod.endDate"
                                               p:constraint="Required when Start Date has a value" p:labelField.render="false">
                                             <property name="dependencyConstraints">
@@ -290,17 +290,17 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                     </list>
                                 </property>
                             </bean>
-                            <bean parent="InputField"
+                            <bean parent="Uif-InputField"
                                   p:propertyName="dropPeriodEndsDate.endDate">
                                 <property name="label" value="Drop Period ends"/>
                             </bean>
 
-                            <bean parent="FieldGroup" p:label="Final Examinations">
+                            <bean parent="Uif-VerticalFieldGroup" p:label="Final Examinations">
                                 <property name="group.layoutManager.orientation"
                                           value="HORIZONTAL"/>
                                 <property name="items">
                                     <list>
-                                        <bean parent="InputField"
+                                        <bean parent="Uif-InputField"
                                               p:propertyName="finalExaminationsDates.startDate"
                                               p:constraint="Required when End Date has a value"
                                               p:labelField.render="false">
@@ -311,8 +311,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                                 </list>
                                             </property>
                                         </bean>
-                                        <bean parent="MessageField" p:messageText=" to "/>
-                                        <bean parent="InputField"
+                                        <bean parent="Uif-MessageField" p:messageText=" to "/>
+                                        <bean parent="Uif-InputField"
                                               p:propertyName="finalExaminationsDates.endDate"
                                               p:constraint="Required when Start Date has a value"
                                               p:labelField.render="false">
@@ -327,7 +327,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                                 </property>
                             </bean>
 
-                            <bean parent="InputField"
+                            <bean parent="Uif-InputField"
                                   p:propertyName="gradesDueDate.endDate">
                                 <property name="label" value="Grades Due Date"/>
                             </bean>
@@ -343,7 +343,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="dataObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.TermWrapper"/>
     <property name="maintainableClass" value="org.kuali.student.enrollment.class2.acal.service.TermWrapperMaintainableImpl"/>
     <property name="documentTypeName" value="TermWrapperMaintenanceDocument"/>
-    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.document.authorization.MaintenanceDocumentAuthorizerBase"/>
+    <property name="documentAuthorizerClass" value="org.kuali.rice.krad.maintenance.MaintenanceDocumentAuthorizerBase"/>
     <property name="lockingKeys">
       <list>
         <value>termInfo.id</value>

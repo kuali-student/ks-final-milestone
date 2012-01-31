@@ -25,7 +25,7 @@ limitations under the License.
 	  <property name="entryPageId" value="page1"/>
       <property name="items">
           <list>
-          	<bean parent="Page_Disclosure" p:id="page1">
+          	<bean parent="Uif-Disclosure-Page" p:id="page1">
           		<property name="items">
                		<list>
                	<!-- <ref bean ="AcademicCalendarView-testSection1"/> -->
@@ -46,7 +46,7 @@ limitations under the License.
    </bean>
    
    <!-- 
-   <bean id="AcademicCalendarView-testSection1" parent="GroupSection">
+   <bean id="AcademicCalendarView-testSection1" parent="Uif-Disclosure-VerticalBoxSection">
       <property name="title" value="Test Section 1"/> 
       <property name="items">
         <list>
@@ -56,19 +56,19 @@ limitations under the License.
       </property> 
    </bean>
    -->
-   <bean id="AcademicCalendarView-AcalInfo" parent="GroupGridLayout">
+   <bean id="AcademicCalendarView-AcalInfo" parent="Uif-GridSection">
       <property name="disclosure.render" value="false"/>
       <property name="title" value="Academic Calendar"/>
       <property name="items">
         <list>
-          <bean parent="InputField_Form" p:propertyName="startDate" p:label="Start Date" p:required="true" p:maxLength="10">
+          <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true" p:maxLength="10">
             <property name="control">
-              <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+              <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
           </bean>
-          <bean parent="InputField_Form" p:propertyName="endDate" p:label="End Date" p:required="true" p:maxLength="10">
+          <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:required="true" p:maxLength="10">
             <property name="control">
-              <bean parent="DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+              <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
           </bean>
         </list>
@@ -76,25 +76,25 @@ limitations under the License.
    </bean>
 
 <!-- 
-   <bean id="AcademicCalendarView-Term" parent="GroupGridLayout">
+   <bean id="AcademicCalendarView-Term" parent="Uif-GridSection">
    		<property name="title" value="Term 1"/> 
    		<property name="layoutManager.numberOfColumns" value="2" /> 
    		<property name="items">
    			<list>
-   			    <bean parent="InputField_Form" p:propertyName="term" p:label="Term" p:required="true" p:maxLength="25">
+   			    <bean parent="Uif-InputField" p:propertyName="term" p:label="Term" p:required="true" p:maxLength="25">
             		<property name="control">
-              			<bean parent="TextControl" p:size="26"/>
+              			<bean parent="Uif-TextControl" p:size="26"/>
             		</property>
           		</bean>
    			</list>
    		</property> 
    </bean>
 -->
-   <bean id="AcademicCalendar-Footer" parent="Footer">
+   <bean id="AcademicCalendar-Footer" parent="Uif-FooterBase">
       <property name="items">
          <list>
-            <bean parent="ActionField" p:methodToCall="save" p:actionLabel="Save" />
-            <bean parent="ActionLinkField" p:methodToCall="cancel" p:actionLabel="Cancel" />
+            <bean parent="Uif-PrimaryActionButton" p:methodToCall="save" p:actionLabel="Save" />
+            <bean parent="Uif-ActionLink" p:methodToCall="cancel" p:actionLabel="Cancel" />
          </list>
       </property>
    </bean>

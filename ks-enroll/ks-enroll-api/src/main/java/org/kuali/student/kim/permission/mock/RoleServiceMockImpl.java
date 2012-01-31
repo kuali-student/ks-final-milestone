@@ -195,9 +195,9 @@ public class RoleServiceMockImpl implements RoleService {
         for (RoleMembership info : this.roleMembershipCache.values()) {
             if (roleId.equals(info.getRoleId())) {
                 if (matchesQualifiers(info, qualification)) {
-                    if (info.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
+                    if (info.getType().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                         principals.add(info.getMemberId());
-                    } else if (info.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
+                    } else if (info.getType().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                         principals.addAll(groupService.getMemberPrincipalIds(info.getMemberId()));
 //                    } else if (info.getMemberTypeCode().equals(Role.ROLE_MEMBER_TYPE)) {
 //                        principals.addAll(this.getAllRoleMemberPrincipalIds(info.getMemberId(), qualification));
@@ -272,9 +272,9 @@ public class RoleServiceMockImpl implements RoleService {
 //    @Override
     public void principalInactivated(String principalId) {
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (membership.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
+            if (membership.getType().equals(KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE)) {
                 if (principalId.equals(membership.getMemberId())) {
-                    this.roleMembershipCache.remove(membership.getRoleMemberId());
+                    this.roleMembershipCache.remove(membership.getMemberId());
                 }
             }
         }
@@ -290,12 +290,12 @@ public class RoleServiceMockImpl implements RoleService {
 //    @Override
     public void roleInactivated(String roleId) {
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (membership.getMemberType().getCode().equals(MemberType.ROLE.getCode())) {
+            if (membership.getType().getCode().equals(MemberType.ROLE.getCode())) {
                 if (roleId.equals(membership.getMemberId())) {
-                    this.roleMembershipCache.remove(membership.getRoleMemberId());
+                    this.roleMembershipCache.remove(membership.getMemberId());
                 }
                 if (roleId.equals(membership.getRoleId())) {
-                    this.roleMembershipCache.remove(membership.getRoleMemberId());
+                    this.roleMembershipCache.remove(membership.getMemberId());
                 }
             }
         }
@@ -312,9 +312,9 @@ public class RoleServiceMockImpl implements RoleService {
 //    @Override
     public void groupInactivated(String groupId) {
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (membership.getMemberType().getCode().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
+            if (membership.getType().equals(KimConstants.KimGroupMemberTypes.GROUP_MEMBER_TYPE)) {
                 if (groupId.equals(membership.getMemberId())) {
-                    this.roleMembershipCache.remove(membership.getRoleMemberId());
+                    this.roleMembershipCache.remove(membership.getMemberId());
                 }
             }
         }
@@ -336,7 +336,7 @@ public class RoleServiceMockImpl implements RoleService {
         List<RoleMembership> list = new ArrayList<RoleMembership>();
         for (RoleMembership membership : this.roleMembershipCache.values()) {
             if (roleIds.contains(membership.getRoleId())) {
-                this.roleMembershipCache.remove(membership.getRoleMemberId());
+                this.roleMembershipCache.remove(membership.getMemberId());
             }
         }
         return list;
@@ -367,8 +367,8 @@ public class RoleServiceMockImpl implements RoleService {
     public List<String> getMemberParentRoleIds(String memberType, String memberId) {
         List<String> list = new ArrayList<String>();
         for (RoleMembership membership : this.roleMembershipCache.values()) {
-            if (memberType.equals(membership.getMemberType().getCode())) {
-                if (memberId.equals(membership.getRoleMemberId())) {
+            if (memberType.equals(membership.getType().getCode())) {
+                if (memberId.equals(membership.getMemberId())) {
                     list.add(membership.getRoleId());
                 }
             }

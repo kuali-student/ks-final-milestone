@@ -4,8 +4,6 @@
  */
 package org.kuali.student.kim.permission.mock;
 
-import java.util.HashMap;
-import java.util.Map;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.core.api.exception.RiceIllegalArgumentException;
 import org.kuali.rice.core.api.exception.RiceIllegalStateException;
@@ -27,11 +25,16 @@ import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.identity.personal.EntityBioDemographics;
 import org.kuali.rice.kim.api.identity.personal.EntityEthnicity;
 import org.kuali.rice.kim.api.identity.phone.EntityPhone;
+import org.kuali.rice.kim.api.identity.principal.EntityNamePrincipalName;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.identity.privacy.EntityPrivacyPreferences;
 import org.kuali.rice.kim.api.identity.residency.EntityResidency;
 import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfo;
 import org.kuali.rice.kim.api.identity.visa.EntityVisa;
+
+import javax.jws.WebParam;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  *
@@ -183,6 +186,22 @@ public class IdentityServiceMockImpl implements IdentityService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    /**
+     * Gets a {@link Entity} from a employeeId.
+     * <p/>
+     * <p>
+     * This method will return null if the Entity does not exist.
+     * </p>
+     *
+     * @param employeeId the unique id to retrieve the entity by. cannot be null.
+     * @return a {@link Entity} or null
+     * @throws IllegalArgumentException if the employeeId is blank
+     */
+    @Override
+    public Entity getEntityByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
     @Override
     public EntityDefault getEntityDefault(String string) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -195,6 +214,24 @@ public class IdentityServiceMockImpl implements IdentityService {
 
     @Override
     public EntityDefault getEntityDefaultByPrincipalName(String string) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * Gets a {@link EntityDefault} from an employeeId.
+     * {@link EntityDefault} is a condensed version of {@link Entity} that contains
+     * default values of its subclasses
+     * <p/>
+     * <p>
+     * This method will return null if the Entity does not exist.
+     * </p>
+     *
+     * @param employeeId the unique id to retrieve the entity by. cannot be null.
+     * @return a {@link EntityDefault} or null
+     * @throws IllegalArgumentException if the employeeId is blank
+     */
+    @Override
+    public EntityDefault getEntityDefaultByEmployeeId(@WebParam(name = "employeeId") String employeeId) throws RiceIllegalArgumentException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -245,6 +282,18 @@ public class IdentityServiceMockImpl implements IdentityService {
 
     @Override
     public EntityAffiliation inactivateAffiliation(String string) throws RiceIllegalArgumentException, RiceIllegalStateException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    /**
+     * This returns the display name information for the given principal
+     * without loading the full person object.
+     *
+     * @param principalId The principal ID to find the name information for
+     * @return The default name information for the principal
+     */
+    @Override
+    public EntityNamePrincipalName getDefaultNamesForPrincipalId(@WebParam(name = "principalId") String principalId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 

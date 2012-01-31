@@ -38,6 +38,7 @@
       ${view.title}
     </title>
 
+    <!-- TODO: fix me for rice-2.0.0-rc1 -->
     <c:forEach items="${fn:split(ConfigProperties.css.files, ',')}"	var="cssFile">
       <c:if test="${fn:length(fn:trim(cssFile)) > 0}">
         <link href="${pageContext.request.contextPath}/${cssFile}" rel="stylesheet" type="text/css" />
