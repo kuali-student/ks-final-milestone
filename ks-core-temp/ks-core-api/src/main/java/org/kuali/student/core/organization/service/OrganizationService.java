@@ -36,6 +36,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 
+import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
@@ -99,7 +100,7 @@ import org.kuali.student.core.organization.dto.OrgTreeInfo;
 
 @WebService(name = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface OrganizationService {
+public interface OrganizationService extends SearchService {
 
     //
     // Lookup Methods for Org Hierarchy Id Entity Pattern.
