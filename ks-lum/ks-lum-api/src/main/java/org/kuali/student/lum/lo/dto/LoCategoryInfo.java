@@ -88,4 +88,10 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
         this.expirationDate = expirationDate;
     }
 
+    @Deprecated
+    public Object getLoRepository() {
+        //TODO KSCM
+        //return loRepository;
+        return new Object();
+    }
 }

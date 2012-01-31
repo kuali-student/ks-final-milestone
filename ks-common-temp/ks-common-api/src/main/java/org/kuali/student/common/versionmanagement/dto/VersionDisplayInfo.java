@@ -133,8 +133,8 @@ public class VersionDisplayInfo implements VersionDisplay, Serializable {
         this.versionComment = versionComment;
     }
 
-    public Object getId() {
+    public String getId() {
         //TODO KSCM   return id;
-        return 0;
+        return "";
     }
 }

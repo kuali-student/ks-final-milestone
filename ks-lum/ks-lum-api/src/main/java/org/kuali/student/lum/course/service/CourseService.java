@@ -24,6 +24,7 @@ import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 // TODO KSCM-159 import org.kuali.student.common.util.constants.CourseServiceConstants;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
@@ -342,4 +343,9 @@ public interface CourseService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
             OperationFailedException, PermissionDeniedException;
 
+    @Deprecated
+    public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri, String verIndId);
+
+    @Deprecated
+    public List<VersionDisplayInfo> getVersions(String courseNamespaceUri, String versionIndId);
 }

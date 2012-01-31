@@ -64,4 +64,14 @@ public class LoLoRelationInfo extends RelationshipInfo implements LoLoRelation, 
         this.relatedLoId = relatedLoId;
     }
 
+    @Deprecated
+    public void setState(String state) {
+        //TODO KSCM
+        //this.state = state;
+    }
+    @Deprecated
+    public void setType(String type) {
+        //TODO KSCM
+       // this.type = type;
+    }
 }

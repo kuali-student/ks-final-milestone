@@ -482,7 +482,19 @@ public class CourseServiceImpl implements CourseService {
 		return luService.setCurrentCluVersion(courseVersionId, currentVersionStart,contextInfo);
 	}
 
-	
+    @Override
+    public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri, String verIndId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //TODO KSCM
+    }
+
+    @Override
+    public List<VersionDisplayInfo> getVersions(String courseNamespaceUri, String versionIndId) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        //TODO KSCM
+    }
+
+
     @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId,ContextInfo contextInfo) throws DoesNotExistException,
