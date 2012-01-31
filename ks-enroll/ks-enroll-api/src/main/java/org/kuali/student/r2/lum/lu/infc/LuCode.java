@@ -15,12 +15,19 @@
  */
 package org.kuali.student.r2.lum.lu.infc;
 
-import org.kuali.student.r2.common.infc.IdEntity;
+import org.kuali.student.r2.common.infc.HasAttributesAndMeta;
+import org.kuali.student.r2.common.infc.HasId;
+import org.kuali.student.r2.common.infc.HasType;
+import org.kuali.student.r2.common.infc.RichText;
 
 /**
  * Detailed information about an LU Code.
+ * 
+ * Each code is intended as a way to classify a learning unit.
+ * Examples include: CIP 2000 and 2010 codes (classification of instructional programs) 
+ * from the US government  but also include a university specific classification codes
  */
-public interface LuCode extends IdEntity {
+public interface LuCode extends HasAttributesAndMeta, HasType, HasId {
 
     /**
      * The Lu code's value
@@ -28,4 +35,11 @@ public interface LuCode extends IdEntity {
      * @name Value
      */
     public String getValue();
+    
+    /**
+     * An optional description describing the code's value
+     *
+     * @name Description
+     */
+    public RichText getDescr();
 }
