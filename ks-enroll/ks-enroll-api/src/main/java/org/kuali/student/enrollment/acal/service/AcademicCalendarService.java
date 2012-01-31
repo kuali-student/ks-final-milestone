@@ -11,6 +11,7 @@
 
 package org.kuali.student.enrollment.acal.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 
 
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
@@ -41,6 +43,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
@@ -349,6 +352,7 @@ public interface AcademicCalendarService {
      */
     public AcademicCalendarInfo createAcademicCalendar(@WebParam(name = "academicCalendarTypeKey") String academicCalendarTypeKey, @WebParam(name = "academicCalendarInfo") AcademicCalendarInfo academicCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
+
     /**
      * Updates an existing AcademicCalendar. The AcademicCalendar Id,
      * Type, and Meta information may not be changed.
@@ -368,7 +372,7 @@ public interface AcademicCalendarService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException an authorization failure
      *         occurred
-     * @throws ReadOnloyException an attempt at changing information
+     * @throws ReadOnlyException an attempt at changing information
      *         deisgnated as read only
      * @throws VersionMismatchException an optimistic locking failure
      *         or the action was attempted on an out of date version
@@ -677,6 +681,31 @@ public interface AcademicCalendarService {
      *         designated as read only
      */
     public HolidayCalendarInfo createHolidayCalendar(@WebParam(name = "holidayCalendarTypeKey") String holidayCalendarTypeKey, @WebParam(name = "holidayCalendarInfo") HolidayCalendarInfo holidayCalendarInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+
+
+    /**
+     * Copy an HolidayCalendar.  This copy
+     * operation allows for a HolidayCalendar to be created from an
+     * existing HolidayCalendar .
+     *
+     *
+     * @param holidayCalendarId the identifier for the Holiday
+     *        Calendar to be copied
+     * @param startDate the start of the new calendar
+     * @param endDate the end of the new calendar
+     * @param contextInfo information containing the principalId and
+     *        locale information about the caller of service operation
+     * @return new HolidayCalendarInfo created from the copy
+     * @throws DoesNotExistException academicCalendarId is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException academicCalendarId, startYear,
+     *         endYear, or contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public HolidayCalendarInfo copyHolidayCalendar(@WebParam(name = "holidayCalendarId") String holidayCalendarId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate,  @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException ;
+
 
     /**
      * Updates an existing Holiday Calendar. The HolidayCalendar Id,
