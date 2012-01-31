@@ -1,4 +1,4 @@
-package org.kuali.student.enrollment.class2.courseoffering.validation.impl;
+package org.kuali.student.enrollment.class2.courseoffering.validation.impltemp;
 
 import javax.xml.namespace.QName;
 import java.util.ArrayList;
