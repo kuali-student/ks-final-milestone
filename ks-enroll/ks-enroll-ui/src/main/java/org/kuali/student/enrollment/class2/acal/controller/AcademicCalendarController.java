@@ -67,14 +67,13 @@ public class AcademicCalendarController extends UifControllerBase {
 
         if(academicCalendarInfo.getId() != null && !academicCalendarInfo.getId().trim().isEmpty()){
             // edit ac
-            AcademicCalendarInfo acInfo = getAcademicCalendarViewHelperService(academicCalendarForm).updateAcademicCalendar(academicCalendarForm);
-
-            academicCalendarForm.setAcademicCalendarInfo(acInfo);
+            AcademicCalendarInfo acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).updateAcademicCalendar(academicCalendarForm);
+            academicCalendarForm.setAcademicCalendarInfo(getAcademicCalendarViewHelperService(academicCalendarForm).getAcademicCalendar(acalInfo.getId()));
         }
         else {
             // create ac
-            AcademicCalendarInfo acInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
-            academicCalendarForm.setAcademicCalendarInfo(acInfo);
+            AcademicCalendarInfo acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
+            academicCalendarForm.setAcademicCalendarInfo(acalInfo);
         }
         return getUIFModelAndView(academicCalendarForm);
     }
