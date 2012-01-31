@@ -15,6 +15,8 @@
 
 package org.kuali.student.r2.core.appointment.infc;
 
+import org.kuali.student.r2.common.infc.IdNamelessEntity;
+
 import java.util.Date;
 
 /**
@@ -23,27 +25,32 @@ import java.util.Date;
  * @Version 1.0
  * @Author Sri komandur@uw.edu
  */
-public interface AppointmentSlot {
+public interface AppointmentSlot extends IdNamelessEntity {
     /**
-     * Appointment start time
+     * Appointment start date and time ("Aug 05,2012 9:10am")
      *
-     * @name Appointment Start Time
+     * @name Appointment Start Date Time
+     * @required
      */
-    public Date getAppointmentStartTime();
+    public Date getStartDateTime();
 
     /**
-     * Appointment end time (Duration can be used here instead. However, since
-     * duration is in AppointmentWindow, it is more useful to have actual end
-     * time on an individual appointment
+     * Appointment end date and time ("Aug 05,2012 9:20am")
      *
-     * @name Appointment End Time
+     * @impl Duration can be used here instead. However, since duration is in
+     * AppointmentWindow, it is more useful to have actual end date and time on
+     * an individual appointment
+     * @name Appointment End Date Time
+     * @required
      */
-    public Date getAppointmentEndTime();
+    public Date getEndDateTime();
 
     /**
      * Appointment window from which this appointment was generated
      *
      * @name Appointment Window Id
+     * @readOnly
+     * @required
      */
-    public String getAppointmentWindowId();
+    public String getWindowId();
 }

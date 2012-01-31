@@ -25,15 +25,26 @@ import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AppointmentInfo", propOrder = {"id", "typeKey",
-        "stateKey", "personId", "appointmentSlotId",
-        "effectiveDate", "expirationDate",
+@XmlType(name = "AppointmentInfo", propOrder = {"id", "typeKey","stateKey",
+        "personId", "slotId","effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements"})
 public class AppointmentInfo extends RelationshipInfo implements Appointment {
 
     private String personId;
-    private String appointmentSlotId;
+    private String slotId;
     private List<Element> _futureElements;
+
+    public AppointmentInfo() {
+
+    }
+
+    public AppointmentInfo(Appointment appointment) {
+        super(appointment);
+        if (null != appointment) {
+            this.personId = appointment.getPersonId();
+            this.slotId = appointment.getSlotId();
+        }
+    }
 
     @Override
     public String getPersonId() {
@@ -41,7 +52,7 @@ public class AppointmentInfo extends RelationshipInfo implements Appointment {
     }
 
     @Override
-    public String getAppointmentSlotId() {
-        return this.appointmentSlotId;
+    public String getSlotId() {
+        return this.slotId;
     }
 }

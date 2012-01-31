@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.appointment.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
 
 import java.util.Date;
 
@@ -29,75 +28,56 @@ import java.util.Date;
 public interface AppointmentWindow extends IdEntity {
 
     /**
-     * The weekday codes
+     * Window start date ("Aug 05, 2012")
      *
-     * @name Weekdays
+     * @impl truncate time portion or use Joda LocalDate
+     * @name Start Date of the window
      * @required
-     */
-    public Integer[] getWeekdays();
-
-    /**
-     * Window start date (impl hint: trucate time or use Joda LocalDate)
-     *
-     * @name Start Date
      */
     public Date getStartDate();
 
     /**
-     * Window end date (impl hint: trucate time or use Joda LocalDate)
+     * Window end date ("Aug 07, 2012")
      *
+     * @impl truncate time portion or use Joda LocalDate
      * @name End Date
+     * @required
      */
     public Date getEndDate();
 
     /**
-     * Window start time (impl hint: truncate date or use Joda LocalTime)
+     * Slot rules for appointment slot generation
      *
-     * @name Start Time
+     * @name Slot Rules
+     * @required
      */
-    public Date getStartTime();
+    public AppointmentSlotRules getSlotRules();
 
     /**
-     * Window end time (impl hint: truncate date or use Joda LocalTime)
+     * Appointment period milestone
      *
-     * @name End Time
-     */
-    public Date getEndTime();
-
-    /**
-     * Appointment slot duration e.g., 20 mins
-     *
-     * @name Appointment Slot Interval
-     */
-    public TimeAmount getAppointmentSlotInterval();
-
-    /**
-     * Gap between appointment slots e.g., 10 mins
-     *
-     * @name Appointment Slot Gap
-     */
-    public TimeAmount getAppointmentSlotGap();
-
-    /**
-     * Appointment period milestone. Note: This milestone may be mapped to an
-     * ATP ("FALL2013") e.g., Aug 01, 2012 - Aug 10, 2012
-     *
+     * @impl This milestone may be mapped to an ATP ("FALL2013")
      * @name Appointment Period Milestone Id
+     * @readOnly
+     * @required
      */
-    public String getAppointmentPeriodMilestoneId();
+    public String getPeriodMilestoneId();
 
     /**
      * The Population Id to which the appointment window is assigned.
      *
      * @name Assigned Population Id
+     * @readOnly
+     * @required
      */
     public String getAssignedPopulationId();
 
     /**
-     * Ordering for appointment slots assignment e.g, "random", "last name",
-     * "GPA"
+     * Ordering for appointment slots assignment ("random"/"last name"/"GPA")
      *
      * @name Assigned Order Type Key
+     * @readOnly
+     * @required
      */
     public String getAssignedOrderTypeKey();
 

@@ -16,27 +16,46 @@
 package org.kuali.student.r2.core.appointment.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRules;
 import org.kuali.student.r2.core.appointment.infc.AppointmentWindow;
 
+import javax.xml.bind.Element;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import java.util.List;
 
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "AppointmentWindowInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr",
+                "startDate", "endDate", "slotRules", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey",
+                "meta", "attributes", "_futureElements" })
 public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWindow {
 
-    private Integer[] weekdays;
     private Date startDate;
     private Date endDate;
-    private Date startTime;
-    private Date endTime;
-    private TimeAmount appointmentSlotInterval;
-    private TimeAmount appointmentSlotGap;
-    private String appointmentPeriodMilestoneId;
+    private AppointmentSlotRules slotRules;
+    private String periodMilestoneId;
     private String assignedPopulationId;
     private String assignedOrderTypeKey;
+    private List<Element> _futureElements;
 
-    @Override
-    public Integer[] getWeekdays() {
-        return this.weekdays;
+
+    public AppointmentWindowInfo() {
+
+    }
+
+    public AppointmentWindowInfo(AppointmentWindow appointmentWindow) {
+        super(appointmentWindow);
+        if (null != appointmentWindow) {
+            this.startDate = (null != appointmentWindow.getStartDate()) ? new Date(appointmentWindow.getStartDate().getTime()) : null;
+            this.endDate = (null != appointmentWindow.getEndDate()) ? new Date(appointmentWindow.getEndDate().getTime()) : null;
+            this.slotRules = (null != appointmentWindow.getSlotRules()) ? new AppointmentSlotRulesInfo(appointmentWindow.getSlotRules()) : null;
+            this.periodMilestoneId = appointmentWindow.getPeriodMilestoneId();
+            this.assignedPopulationId = appointmentWindow.getAssignedPopulationId();
+            this.assignedOrderTypeKey = appointmentWindow.getAssignedOrderTypeKey();
+        }
     }
 
     @Override
@@ -50,28 +69,13 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
     }
 
     @Override
-    public Date getStartTime() {
-        return this.startTime;
+    public AppointmentSlotRules getSlotRules() {
+        return this.slotRules;
     }
 
     @Override
-    public Date getEndTime() {
-        return this.endTime;
-    }
-
-    @Override
-    public TimeAmount getAppointmentSlotInterval() {
-        return this.appointmentSlotInterval;
-    }
-
-    @Override
-    public TimeAmount getAppointmentSlotGap() {
-        return this.appointmentSlotGap;
-    }
-
-    @Override
-    public String getAppointmentPeriodMilestoneId() {
-        return this.appointmentPeriodMilestoneId;
+    public String getPeriodMilestoneId() {
+        return this.periodMilestoneId;
     }
 
     @Override

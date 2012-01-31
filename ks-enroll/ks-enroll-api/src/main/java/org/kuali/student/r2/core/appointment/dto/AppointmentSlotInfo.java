@@ -16,28 +16,52 @@
 package org.kuali.student.r2.core.appointment.dto;
 
 
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlot;
 
+import javax.xml.bind.Element;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
+import java.util.List;
 
-public class AppointmentSlotInfo implements AppointmentSlot {
+@XmlAccessorType(XmlAccessType.FIELD)
+@XmlType(name = "AppointmentSlotInfo", propOrder = {"id", "typeKey", "stateKey",
+        "startDateTime", "endDateTime", "windowId", "effectiveDate",
+        "expirationDate", "meta", "attributes", "_futureElements"})
+public class AppointmentSlotInfo extends IdNamelessEntityInfo implements AppointmentSlot {
 
-    private Date appointmentStartTime;
-    private Date appointmentEndTime;
-    private String appointmentWindowId;
+    private Date startDateTime;
+    private Date endDateTime;
+    private String windowId;
+    private List<Element> _futureElements;
 
-    @Override
-    public Date getAppointmentStartTime() {
-        return this.appointmentStartTime;
+    public AppointmentSlotInfo() {
+
+    }
+
+    public AppointmentSlotInfo(AppointmentSlot appointmentSlot) {
+        super(appointmentSlot);
+        if (null != appointmentSlot) {
+            this.startDateTime = (null != appointmentSlot.getStartDateTime()) ? new Date(appointmentSlot.getStartDateTime().getTime()) : null;
+            this.endDateTime = (null != appointmentSlot.getEndDateTime()) ? new Date(appointmentSlot.getEndDateTime().getTime()) : null;
+            this.windowId = appointmentSlot.getWindowId();
+        }
     }
 
     @Override
-    public Date getAppointmentEndTime() {
-        return this.appointmentEndTime;
+    public Date getStartDateTime() {
+        return this.startDateTime;
     }
 
     @Override
-    public String getAppointmentWindowId() {
-        return this.appointmentWindowId;
+    public Date getEndDateTime() {
+        return this.endDateTime;
+    }
+
+    @Override
+    public String getWindowId() {
+        return this.windowId;
     }
 }

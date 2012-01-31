@@ -29,6 +29,8 @@ public interface Appointment extends Relationship {
      * Person Identifier
      *
      * @name Person Id
+     * @readOnly
+     * @required
      */
     public String getPersonId();
 
@@ -36,7 +38,9 @@ public interface Appointment extends Relationship {
      * Appointment slot assigned to this person
      *
      * @name Appointment Slot Id
+     * @readOnly
+     * @required
      */
-    public String getAppointmentSlotId();
+    public String getSlotId();
 
 }
