@@ -16,6 +16,8 @@ import java.util.List;
 import javax.xml.bind.annotation.*;
 
 
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.infc.CoreProgram;
 import org.w3c.dom.Element;
 
@@ -55,4 +57,15 @@ public class CoreProgramInfo extends ProgramAttributesInfo implements CoreProgra
         this.referenceURL = referenceURL;
     }
 
+
+   //TODO KSCM-247
+
+    public void setVersionInfo(VersionInfo versionInfo) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
+
+
+    //TODO KSCM-247
+    public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
+    }
 }
