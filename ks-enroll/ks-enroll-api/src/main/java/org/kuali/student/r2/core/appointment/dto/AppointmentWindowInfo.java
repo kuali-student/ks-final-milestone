@@ -15,9 +15,72 @@
 
 package org.kuali.student.r2.core.appointment.dto;
 
-/**
- * @Version 2.0
- * @Author Sri komandur@uw.edu
- */
-public class AppointmentWindowInfo {
+import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.core.appointment.infc.AppointmentWindow;
+
+import java.util.Date;
+
+public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWindow {
+
+    private Integer[] weekdays;
+    private Date startDate;
+    private Date endDate;
+    private Date startTime;
+    private Date endTime;
+    private TimeAmount appointmentSlotInterval;
+    private TimeAmount appointmentSlotGap;
+    private String appointmentPeriodMilestoneId;
+    private String assignedPopulationId;
+    private String assignedOrderTypeKey;
+
+    @Override
+    public Integer[] getWeekdays() {
+        return this.weekdays;
+    }
+
+    @Override
+    public Date getStartDate() {
+        return this.startDate;
+    }
+
+    @Override
+    public Date getEndDate() {
+        return this.endDate;
+    }
+
+    @Override
+    public Date getStartTime() {
+        return this.startTime;
+    }
+
+    @Override
+    public Date getEndTime() {
+        return this.endTime;
+    }
+
+    @Override
+    public TimeAmount getAppointmentSlotInterval() {
+        return this.appointmentSlotInterval;
+    }
+
+    @Override
+    public TimeAmount getAppointmentSlotGap() {
+        return this.appointmentSlotGap;
+    }
+
+    @Override
+    public String getAppointmentPeriodMilestoneId() {
+        return this.appointmentPeriodMilestoneId;
+    }
+
+    @Override
+    public String getAssignedPopulationId() {
+        return this.assignedPopulationId;
+    }
+
+    @Override
+    public String getAssignedOrderTypeKey() {
+        return this.assignedOrderTypeKey;
+    }
 }

@@ -18,10 +18,10 @@ package org.kuali.student.r2.core.appointment.infc;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.TimeAmount;
 
-import java.util.List;
+import java.util.Date;
 
 /**
- * Information about an appointment window associated with a population(s)
+ * Information about an appointment window
  *
  * @Version 1.0
  * @Author Sri komandur@uw.edu
@@ -29,48 +29,77 @@ import java.util.List;
 public interface AppointmentWindow extends IdEntity {
 
     /**
-     * Appointment period. Note: This milestone may be mapped to one or more ATPs ("FALL2013")
-     * e.g., Aug 01, 2012 - Aug 10, 2012
+     * The weekday codes
      *
-     * @name Appointment Period Milestone
+     * @name Weekdays
+     * @required
+     */
+    public Integer[] getWeekdays();
+
+    /**
+     * Window start date (impl hint: trucate time or use Joda LocalDate)
+     *
+     * @name Start Date
+     */
+    public Date getStartDate();
+
+    /**
+     * Window end date (impl hint: trucate time or use Joda LocalDate)
+     *
+     * @name End Date
+     */
+    public Date getEndDate();
+
+    /**
+     * Window start time (impl hint: truncate date or use Joda LocalTime)
+     *
+     * @name Start Time
+     */
+    public Date getStartTime();
+
+    /**
+     * Window end time (impl hint: truncate date or use Joda LocalTime)
+     *
+     * @name End Time
+     */
+    public Date getEndTime();
+
+    /**
+     * Appointment slot duration e.g., 20 mins
+     *
+     * @name Appointment Slot Interval
+     */
+    public TimeAmount getAppointmentSlotInterval();
+
+    /**
+     * Gap between appointment slots e.g., 10 mins
+     *
+     * @name Appointment Slot Gap
+     */
+    public TimeAmount getAppointmentSlotGap();
+
+    /**
+     * Appointment period milestone. Note: This milestone may be mapped to an
+     * ATP ("FALL2013") e.g., Aug 01, 2012 - Aug 10, 2012
+     *
+     * @name Appointment Period Milestone Id
      */
     public String getAppointmentPeriodMilestoneId();
 
     /**
-     * Appointment Window within the period
-     * e.g, 8:00 am - 12:00pm, any day during the appointment period
+     * The Population Id to which the appointment window is assigned.
      *
-     * @name Appointment Window Time Slot Id
+     * @name Assigned Population Id
      */
-    public String getAppointmentWindowTimeSlotId();
+    public String getAssignedPopulationId();
 
     /**
-     * Interval within the appointment window
-     * e.g., 10 mins
+     * Ordering for appointment slots assignment e.g, "random", "last name",
+     * "GPA"
      *
-     * @name Interval
+     * @name Assigned Order Type Key
      */
-    public TimeAmount getInterval();
+    public String getAssignedOrderTypeKey();
 
-    /**
-     * Assign Order
-     * e.g, "random", "last name",  "GPA"
-     *
-     * @name Assign Order
-     */
-    public String getAssignmentOrder();
 
-    /**
-     * The Population Ids to which the appointment window is assigned.
-     *
-     * @name Assigned Population Ids
-     */
-    public List<String> getAssignedPopulationIds();
-
-    /**
-     * Estimated number of persons during this appointment window
-     *
-     * @name Estimated Persons
-     */
-    public Integer getEstimatedPersons();
 }

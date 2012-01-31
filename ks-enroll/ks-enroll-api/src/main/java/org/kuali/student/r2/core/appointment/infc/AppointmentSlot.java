@@ -15,28 +15,35 @@
 
 package org.kuali.student.r2.core.appointment.infc;
 
-import org.kuali.student.r2.common.infc.Relationship;
+import java.util.Date;
 
 /**
- * Information about the person to time slot and appointment window relation
+ * Appointment slot information belonging to a person
  *
  * @Version 1.0
  * @Author Sri komandur@uw.edu
  */
-public interface Appointment extends Relationship {
+public interface AppointmentSlot {
+    /**
+     * Appointment start time
+     *
+     * @name Appointment Start Time
+     */
+    public Date getAppointmentStartTime();
 
     /**
-     * Person Identifier
+     * Appointment end time (Duration can be used here instead. However, since
+     * duration is in AppointmentWindow, it is more useful to have actual end
+     * time on an individual appointment
      *
-     * @name Person Id
+     * @name Appointment End Time
      */
-    public String getPersonId();
+    public Date getAppointmentEndTime();
 
     /**
-     * Appointment slot assigned to this person
+     * Appointment window from which this appointment was generated
      *
-     * @name Appointment Slot Id
+     * @name Appointment Window Id
      */
-    public String getAppointmentSlotId();
-
+    public String getAppointmentWindowId();
 }

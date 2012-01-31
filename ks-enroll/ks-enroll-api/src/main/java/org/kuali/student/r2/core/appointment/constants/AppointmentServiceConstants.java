@@ -16,6 +16,7 @@ package org.kuali.student.r2.core.appointment.constants;
 
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
+import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 
 
@@ -32,6 +33,8 @@ public class AppointmentServiceConstants {
      */
     public static final String NAMESPACE = CommonServiceConstants.REF_OBJECT_URI_GLOBAL_PREFIX + "appointment";
     public static final String SERVICE_NAME_LOCAL_PART = "AppointmentService";
-    public static final String REF_OBJECT_URI_APPOINTMENT_WINDOW = NAMESPACE + "/" + AppointmentWindowInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_APPOINTMENT = NAMESPACE + "/" + AppointmentInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_APPOINTMENT_SLOT = NAMESPACE + "/" + AppointmentSlotInfo.class.getSimpleName();
+    public static final String REF_OBJECT_URI_APPOINTMENT_WINDOW = NAMESPACE + "/" + AppointmentWindowInfo.class.getSimpleName();
+
 }
