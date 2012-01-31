@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.common.dto.IdEntityInfo;
@@ -162,6 +163,10 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @XmlElement
     private List<String> unitsFinancialControl;
+
+    @XmlElement
+    private List<ProgramVariationInfo> variations;
+
     
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -668,5 +673,30 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     public void setUnitsFinancialControl(List<String> unitsFinancialControl) {
         this.unitsFinancialControl = unitsFinancialControl;
     }
+         @Deprecated
+    public void setVersionInfo(VersionInfo versionInfo) {
+             // TODO KSCM
+    }
+    @Deprecated
+    public void setVariations(List<ProgramVariationInfo> programVariationInfos) {
+        // TODO KSCM
+    }
+    @Deprecated
+    public void setOrgCoreProgram(CoreProgramInfo coreProgramInfo) {
+        // TODO KSCM
+    }
 
+
+    @Deprecated
+    public CoreProgramInfo getOrgCoreProgram() {
+        return new CoreProgramInfo();
+        // TODO KSCM
+    }
+
+    @Deprecated
+    public List<ProgramVariationInfo> getVariations() {
+
+        return variations;
+        // TODO KSCM
+    }
 }
