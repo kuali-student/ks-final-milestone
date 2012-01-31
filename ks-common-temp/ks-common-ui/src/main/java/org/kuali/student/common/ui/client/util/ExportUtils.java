@@ -144,7 +144,7 @@ public class ExportUtils {
         System.out.println(" ");
 
         for (int i = 0; i < exportElements.size(); i++) {
-            System.out.println(exportElements.get(i).printLine());
+            System.out.println(exportElements.get(i).toString());
             debutExportElementsArraySubList(exportElements.get(i).getSubset());
         }
     }
@@ -154,7 +154,7 @@ public class ExportUtils {
             System.out.println("Sub list : ");
             for (int j = 0; j < exportElements.size(); j++) {
                 ExportElement element = exportElements.get(j);
-                System.out.println(element.printLine());
+                System.out.println(element.toString());
                 debutExportElementsArraySubList(element.getSubset());
                 
             }
