@@ -1,6 +1,7 @@
 package org.kuali.student.lum.common.client.widgets;
 
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -32,7 +33,6 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-// TODO KSCM-246
 public class CluSetDetailsWidget extends Composite implements ReportExportWidget {
 
     private CluSetInformation cluSetInformation;
@@ -226,8 +226,10 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
                     Object value = searchParam.getValue();
                     String displayValue = "";
                     if (value instanceof Date) {
-                    	SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
-                        displayValue = DT_FOMRAT.format((Date) value);
+                        DateTimeFormat DT_FORMAT =  com.google.gwt.i18n.client.DateTimeFormat.getFormat("MM/dd/yyyy") ;
+                        //java.text.SimpleDateFormat DT_FOMRAT = new  java.text.SimpleDateFormat("MM/dd/yyyy");
+
+                        displayValue = DT_FORMAT.format((Date) value);
                     } else {
                         displayValue = value.toString();
                     }
