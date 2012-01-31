@@ -1396,4 +1396,30 @@ public interface OrganizationService extends SearchService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public List<OrgTreeInfo> getOrgTree(@WebParam(name = "rootOrgId") String rootOrgId, @WebParam(name = "orgHierarchyId") String orgHierarchyId, @WebParam(name = "maxLevels") int maxLevels, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves all organization person relationships for an organization.
+     * @param orgId organization to get all relationships for
+     * @return list of organization person relationships that exist for this organization
+     * @throws DoesNotExistException orgId not found
+     * @throws InvalidParameterException invalid orgId
+     * @throws MissingParameterException missing orgId
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByOrg(@WebParam(name="orgId") String orgId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves the list of identifiers for people that have the specified type of relationship to this organization
+     * The list of person ids are fetched for PersonRelations that are still active meaning the expiration date is greater than the current date
+     * @param orgId identifier of the organization that members are being found for
+     * @param orgPersonRelationTypeKey type of organization person relationship that is being looked for
+     * @return list of person identifiers that match supplied criteria
+     * @throws DoesNotExistException orgId, orgPersonRelationType not found
+     * @throws InvalidParameterException invalid orgId, orgPersonRelationType
+     * @throws MissingParameterException missing orgId, orgPersonRelationType
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException authorization failure
+     */
+    public List<String> getPersonIdsForOrgByRelationType(@WebParam(name="orgId")String orgId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }
