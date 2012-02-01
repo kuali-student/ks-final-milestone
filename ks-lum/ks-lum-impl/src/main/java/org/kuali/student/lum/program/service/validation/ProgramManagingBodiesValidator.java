@@ -19,6 +19,7 @@ import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
 public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
 
     @Override
+    // TODO KSCM-254
     public List<ValidationResultInfo> validateObject(FieldDefinition field,
             Object o, ObjectStructureDefinition objStructure,
             Stack<String> elementStack) {

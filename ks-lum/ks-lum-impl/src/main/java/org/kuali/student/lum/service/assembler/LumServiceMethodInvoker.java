@@ -38,6 +38,7 @@ import org.kuali.student.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.lum.lu.dto.CluResultInfo;
 import org.kuali.student.lum.lu.service.LuService;
 
+// TODO KSCM-255
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	final Logger LOG = Logger.getLogger(LumServiceMethodInvoker.class);
 	private LuService luService;

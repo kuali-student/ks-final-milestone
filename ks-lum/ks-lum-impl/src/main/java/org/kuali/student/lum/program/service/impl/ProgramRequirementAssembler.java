@@ -38,6 +38,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
  * @author glindholm
  *
  */
+// TODO KSCM-252
 public class ProgramRequirementAssembler implements BOAssembler<ProgramRequirementInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(ProgramRequirementAssembler.class);
 
