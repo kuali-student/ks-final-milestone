@@ -32,6 +32,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.common.util.constants.ProgramServiceConstants;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.HonorsProgramInfo;
 import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
@@ -62,8 +63,8 @@ public interface ProgramService {
      * @throws MissingParameterException missing Credential Program
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
-     * @throws org.kuali.student.r2.common.exceptions.OperationFailedException
-     * @throws org.kuali.student.r2.common.exceptions.PermissionDeniedException
+     * @throws org.kuali.student.common.exceptions.OperationFailedException
+     * @throws org.kuali.student.common.exceptions.PermissionDeniedException
      */
     public CredentialProgramInfo getCredentialProgram(@WebParam(name = "credentialProgramId") String credentialProgramId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
@@ -72,7 +73,7 @@ public interface ProgramService {
      * Retrieves a list of CredentialPrograms corresponding to the given list of
      * CredentialProgram Ids
      * 
-     * @param CredentialProgram Ids list of CredentialPrograms to be retrieved
+     * @param credentialProgramIds Ids list of CredentialPrograms to be retrieved
      * @param contextInfo Context information containing the principalId and
      *            locale information about the caller of service operation
      * @return list of CredentialProgram
@@ -219,7 +220,7 @@ public interface ProgramService {
      * Retrieves a list of MajorDiscipline corresponding to the given list of
      * major discipline Ids
      * 
-     * @param MajorDiscipline Ids list of MajorDisciplines to be retrieved
+     * @param majorDisciplineIds Ids list of MajorDisciplines to be retrieved
      * @param contextInfo Context information containing the principalId and
      *            locale information about the caller of service operation
      * @return list of MajorDiscipline
@@ -794,5 +795,13 @@ public interface ProgramService {
      * @throws PermissionDeniedException authorization failure
      */
     public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    @Deprecated
+    public VersionDisplayInfo getCurrentVersion(@WebParam(name="programServiceConstant") String programServiceConstant, @WebParam (name="versionIndId") String versionIndId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    @Deprecated
+    public List<VersionDisplayInfo> getVersions(@WebParam(name="programServiceConstants") String programServiceConstants, @WebParam (name="versionIndId") String versionIndId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

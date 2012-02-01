@@ -224,4 +224,24 @@ public class ProgramVariationInfo extends ProgramAttributesInfo implements Progr
         // TODO KSCM
 
     }
+    @Deprecated
+    public String getEndProgramEntryTerm() {
+        return null; //return endProgramEntryTerm;
+        //TODO KSCM
+    }
+
+    @Deprecated
+    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
+        //TODO KSCM
+    }
+
+    @Deprecated
+    public String getEndTerm() {
+        return null; //return endTerm;
+    }
+
+    @Deprecated
+    public void setEndTerm(String endTerm) {
+        // TODO KSCM
+    }
 }

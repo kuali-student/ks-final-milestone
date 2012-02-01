@@ -163,10 +163,6 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @XmlElement
     private List<String> unitsFinancialControl;
-
-    @XmlElement
-    private List<ProgramVariationInfo> variations;
-
     
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -695,8 +691,13 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 
     @Deprecated
     public List<ProgramVariationInfo> getVariations() {
-
-        return variations;
+        return null; //return variations;
         // TODO KSCM
+    }
+
+    @Deprecated
+    public VersionInfo getVersionInfo() {
+        return null; //return versionInfo;
+        //TODO KSCM
     }
 }
