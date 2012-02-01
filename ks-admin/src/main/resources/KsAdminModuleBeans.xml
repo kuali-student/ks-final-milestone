@@ -85,12 +85,18 @@
     </property>
   </bean>
 
-  <bean id="ksAdminModuleService" class="org.kuali.rice.kns.service.impl.ModuleServiceBase">
+  <bean id="ksAdminModuleService" class="org.kuali.rice.krad.service.impl.ModuleServiceBase">
     <property name="moduleConfiguration" ref="ksAdminModuleConfiguration" />
   </bean>
 
-  <bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+
+  <bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
     <property name="localServiceName" value="KSCoreContext" />
+	<property name="beanNames">
+		<set>
+			<value>ks.messageService</value>
+		</set>
+	</property>
   </bean>
 
   <bean id="ks.messageService" class="org.kuali.student.admin.messages.service.impl.MessageServiceImpl" >
