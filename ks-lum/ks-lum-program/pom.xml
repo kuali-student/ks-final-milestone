@@ -19,10 +19,11 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
-        <dependency>
+        <!-- TODO NINA CONFIRM -->
+        <!-- dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-ui-common</artifactId>
             <version>${project.version}</version>
-        </dependency>
+        </dependency-->
     </dependencies>
 </project>
