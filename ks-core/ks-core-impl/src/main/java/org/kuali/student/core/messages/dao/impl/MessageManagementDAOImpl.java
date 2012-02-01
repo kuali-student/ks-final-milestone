@@ -22,7 +22,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.messages.MessageException;
+import org.kuali.student.common.messages.MessageException;
 import org.kuali.student.core.messages.dao.MessageManagementDAO;
 import org.kuali.student.core.messages.entity.MessageEntity;
 import org.slf4j.Logger;
@@ -104,7 +104,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 			        "select m from MessageEntity m " +
 			        "where m.locale = :locale and " +
 			        "m.groupName = :groupKey and " +
-			        "m.id = :messageKey");
+			        "m.messageId = :messageKey");
 			 query.setParameter("locale", locale);
 			 query.setParameter("groupKey", groupKey);
 			 query.setParameter("messageKey", messageKey);
@@ -170,7 +170,7 @@ public class MessageManagementDAOImpl implements MessageManagementDAO {
 	    	MessageEntity theEntity = this.getMessage(locale, groupKey, messageKey);
 	        if(theEntity != null){
         		theEntity.setValue(updatedMessage.getValue());
-        		theEntity.setId(updatedMessage.getId());
+        		theEntity.setMessageId(updatedMessage.getMessageId());
         		theEntity.setLocale(updatedMessage.getLocale());
         		theEntity.setGroupName(updatedMessage.getGroupName());
         		entityManager.merge(theEntity);

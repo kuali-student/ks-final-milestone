@@ -28,10 +28,10 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.HasTypeState;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -74,6 +74,9 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
 
     @XmlElement
     private Date expirationDate;
+    
+    @XmlElement
+    private String workflowId;
 
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
@@ -256,4 +259,18 @@ public class ProposalInfo implements Serializable, Idable, HasTypeState, HasAttr
     public void setId(String id) {
         this.id = id;
     }
+
+    /**
+     * The workflow document associated with this proposal.
+     * @return
+     */
+	public String getWorkflowId() {
+		return workflowId;
+	}
+
+	public void setWorkflowId(String workflowId) {
+		this.workflowId = workflowId;
+	}
+    
+    
 }

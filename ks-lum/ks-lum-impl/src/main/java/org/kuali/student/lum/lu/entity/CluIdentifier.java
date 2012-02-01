@@ -15,17 +15,20 @@
 
 package org.kuali.student.lum.lu.entity;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.PrePersist;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.BaseEntity;
 
 @Entity
 @Table(name = "KSLU_CLU_IDENT")
-public class CluIdentifier {
+public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdentifierAttribute> {
 
     @Column(name = "CD")
     private String code;
@@ -39,7 +42,7 @@ public class CluIdentifier {
     @Column(name = "LVL")
     private String level;
 
-    @Column(name = "DIV")
+    @Column(name = "DIVISION")
     private String division;
 
     @Column(name = "VARTN")
@@ -56,15 +59,9 @@ public class CluIdentifier {
 
     @Column(name = "ST")
     private String state;
-
-    @Id
-    @Column(name = "ID")
-    private String id;
-
-	@PrePersist
-	public  void prePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
+    
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<CluIdentifierAttribute> attributes;
     
     public String getCode() {
         return code;
@@ -130,14 +127,6 @@ public class CluIdentifier {
         this.state = state;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public String getSuffixCode() {
         return suffixCode;
     }
@@ -153,4 +142,12 @@ public class CluIdentifier {
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }
+
+    public List<CluIdentifierAttribute> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<CluIdentifierAttribute> attributes) {
+        this.attributes = attributes;
+    }        
 }

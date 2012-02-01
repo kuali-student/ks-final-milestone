@@ -18,12 +18,12 @@ package org.kuali.student.core.personsearch.service.impl;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.service.SearchService;
 
 /**
  * Simple text case to test that the PersonSearchService is available as a web service.

@@ -16,13 +16,17 @@
 package org.kuali.student.lum.lu.dto;
  
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  *Detailed information about the human readable form of a CLU Identifier
@@ -65,6 +69,10 @@ public class CluIdentifierInfo implements Serializable, Idable {
     @XmlAttribute
     private String id;
 
+    @XmlElement
+    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
+    private Map<String, String> attributes;
+    
     /**
      * The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType.
      */
@@ -182,4 +190,16 @@ public class CluIdentifierInfo implements Serializable, Idable {
     public void setId(String id) {
         this.id = id;
     }
+
+    public Map<String, String> getAttributes() {
+        if (attributes == null) {
+            attributes = new HashMap<String, String>();
+        }
+        
+        return attributes;
+    }
+
+    public void setAttributes(Map<String, String> attributes) {       
+        this.attributes = attributes;
+    }    
 }

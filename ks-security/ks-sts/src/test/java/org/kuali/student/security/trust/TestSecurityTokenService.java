@@ -16,12 +16,10 @@
 package org.kuali.student.security.trust;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
-import javax.xml.bind.JAXBElement;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
@@ -32,7 +30,6 @@ import org.kuali.student.security.exceptions.KSSecurityException;
 import org.kuali.student.security.trust.dto.RequestSecurityTokenResponseCollectionType;
 import org.kuali.student.security.trust.dto.RequestSecurityTokenResponseType;
 import org.kuali.student.security.trust.dto.RequestSecurityTokenType;
-import org.kuali.student.security.trust.dto.RequestedSecurityTokenType;
 import org.kuali.student.security.trust.service.SecurityTokenService;
 import org.kuali.student.security.trust.service.SecurityTokenServiceImpl;
 import org.w3c.dom.Document;

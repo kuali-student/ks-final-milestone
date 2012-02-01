@@ -21,7 +21,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Attribute;
+import org.kuali.student.common.entity.Attribute;;
 
 @Entity
 @Table(name = "KSST_REQ_COM_TYPE_NL_TMPL")
@@ -78,6 +78,6 @@ public class ReqComponentTypeNLTemplate extends Attribute<ReqComponentType> {
 	public String toString() {
 		return "ReqComponentTypeNLTemplate[language=" + language
 				+ ", nlUsageTypeKey=" + nlUsageTypeKey
-				+ ", reqComponentTypeId" + owner.getId() + "]";
+				+ ", reqComponentTypeId=" + owner.getId() + "]";
 	}
 }

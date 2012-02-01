@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
  
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,7 +22,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;
 
 @Entity
 @Table(name = "KSLU_RSLT_USG_TYPE")
@@ -33,9 +32,6 @@ public class ResultUsageType extends Type<ResultUsageTypeAttribute> {
     private List<ResultUsageTypeAttribute> attributes;
     
     public List<ResultUsageTypeAttribute> getAttributes() {
-        if (attributes == null) {
-            attributes = new ArrayList<ResultUsageTypeAttribute>();
-        }
         return attributes;
     }
 

@@ -22,7 +22,7 @@
 	xsi:schemaLocation="
     http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
     http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<search:searchType id="enumeration.management.search" parent="enumeration.management.search-parent"/>
 	<search:searchType id="enumeration.management.search-parent" abstract="true">
@@ -97,7 +97,7 @@
 	<search:resultColumn id="enumeration.resultColumn.sortKey-parent" abstract="true">
 		<search:name>Key used to sort the results</search:name>
 		<search:desc>A key that the enumeration results are sorted by</search:desc>
-		<search:dataType>int</search:dataType>
+		<search:dataType>string</search:dataType>
 	</search:resultColumn>
 	
 	<search:searchCriteriaTypeInfo id="enumeration.criteria.context" parent="enumeration.criteria.context-parent"/>
@@ -195,14 +195,20 @@
 		<property name="sourceMap">
 			<map>
 				<entry key="enumeration.management.search">
-					<value>SELECT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValueEntity enumValue WHERE enumValue.enumerationKey = :enumeration_queryParam_enumerationType</value>
+					<value>SELECT DISTINCT enumValue.id, enumValue.code, enumValue.abbrevValue, enumValue.value, enumValue.effectiveDate, enumValue.expirationDate, enumValue.sortKey FROM EnumeratedValue enumValue LEFT JOIN enumValue.contextEntityList enumContext WHERE enumValue.enumeration.id IN(:enumeration_queryParam_enumerationType)</value>
 				</entry>
 				<entry key="enumeration.queryParam.enumerationCode">
-					<value>enumValue.code = :enumeration_queryParam_enumerationCode</value>
+					<value>enumValue.code IN(:enumeration_queryParam_enumerationCode)</value>
 				</entry>
 				<entry key="enumeration.queryParam.enumerationOptionalCode">
 					<value>enumValue.code</value>
-				</entry>				
+				</entry>	
+				<entry key="enumeration.queryParam.contextType">
+					<value>enumContext.contextKey</value>
+				</entry>	
+				<entry key="enumeration.queryParam.contextValue">
+					<value>LOWER(enumValue.value) LIKE '%' || LOWER(:enumeration_queryParam_contextValue) || '%'</value>
+				</entry>							
 			</map>
 		</property>
 	</bean>

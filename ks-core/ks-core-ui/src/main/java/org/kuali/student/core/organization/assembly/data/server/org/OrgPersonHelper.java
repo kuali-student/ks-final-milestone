@@ -17,15 +17,15 @@ package org.kuali.student.core.organization.assembly.data.server.org;
 
 import java.util.Date;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.helper.PropertyEnum;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.helper.PropertyEnum;
 
 public class OrgPersonHelper {
     private static final long serialVersionUID = 1L;
 
     public enum Properties implements PropertyEnum {
         ID("id"),PERSON_ID("personId"),PERSON_RELATION_TYPE("type"),ORG_ID("orgId"),PERSON_NAME("personName"),
-                EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate");
+                EFFECTIVE_DATE("effectiveDate"), EXPIRATION_DATE("expirationDate"), STATE("state");
 
         private final String key;
 
@@ -113,5 +113,11 @@ public class OrgPersonHelper {
     public void setPersonName(String personName){
         data.set(Properties.PERSON_NAME.getKey(), personName);
     }
-    
+    public void setState(String state){
+        data.set(Properties.STATE.getKey(), state);
+    }
+
+    public String getState() {
+        return data.get(Properties.STATE.getKey());
+    }    
 }

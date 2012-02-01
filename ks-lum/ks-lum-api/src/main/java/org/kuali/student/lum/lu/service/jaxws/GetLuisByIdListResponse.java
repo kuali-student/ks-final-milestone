@@ -40,6 +40,10 @@ public class GetLuisByIdListResponse {
     private java.util.List<LuiInfo> _return;
 
     public java.util.List<LuiInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<LuiInfo>(0);
+		}
+
         return this._return;
     }
 

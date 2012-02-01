@@ -19,7 +19,6 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -28,8 +27,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_RSLTUSAGE_LU_ALOW_TYPE")
@@ -54,15 +52,6 @@ public class AllowedResultUsageLuType extends MetaEntity {
 	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
-	@Id
-	@Column(name = "ID")
-	private String id;
-
-    @Override
-    protected void onPrePersist() {
-        this.id = UUIDHelper.genStringUUID(this.id);
-    }
-	
 	public LuType getLuType() {
 		return luType;
 	}
@@ -95,11 +84,4 @@ public class AllowedResultUsageLuType extends MetaEntity {
 		this.resultUsageType = resultUsageType;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 }

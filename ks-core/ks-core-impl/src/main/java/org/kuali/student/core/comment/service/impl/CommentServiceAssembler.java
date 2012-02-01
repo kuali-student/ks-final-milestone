@@ -18,6 +18,10 @@ package org.kuali.student.core.comment.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.dto.ReferenceTypeInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.service.impl.BaseAssembler;
 import org.kuali.student.core.comment.dao.CommentDao;
 import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comment.dto.CommentTypeInfo;
@@ -32,10 +36,6 @@ import org.kuali.student.core.comment.entity.ReferenceType;
 import org.kuali.student.core.comment.entity.Tag;
 import org.kuali.student.core.comment.entity.TagAttribute;
 import org.kuali.student.core.comment.entity.TagType;
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -54,7 +54,7 @@ public class CommentServiceAssembler extends BaseAssembler {
 
         dto.setCommentText(toRichTextInfo(entity.getCommentText()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setType(entity.getType().getId());
 
         return dto;
@@ -137,7 +137,7 @@ public class CommentServiceAssembler extends BaseAssembler {
         entity.setType(type);
         entity.setCommentText(toRichText(CommentRichText.class, dto.getCommentText()));
         entity.setAttributes(toGenericAttributes(CommentAttribute.class, dto.getAttributes(), entity, dao));
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         return entity;
     }
     public static Tag toTag(boolean isUpdate,TagInfo dto, CommentDao dao) throws InvalidParameterException, DoesNotExistException{
@@ -184,7 +184,7 @@ public class CommentServiceAssembler extends BaseAssembler {
 					"Tag Type does not exist for id: " + dto.getType());
 		}
 		entity.setType(type);
-		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+		dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
 		Reference reference = commentDao.getReference(referenceId,
 				referenceTypeKey);

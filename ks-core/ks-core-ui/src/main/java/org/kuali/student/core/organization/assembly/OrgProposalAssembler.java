@@ -15,34 +15,36 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.setCreated;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.setUpdated;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.setCreated;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.old.BaseAssembler;
+import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.assembly.BaseAssembler;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
@@ -50,10 +52,9 @@ import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(rollbackFor={Throwable.class})
+@Transactional(readOnly=true,rollbackFor={Throwable.class})
 public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 	final Logger LOG = Logger.getLogger(OrgProposalAssembler.class);
     private OrganizationService orgService;
@@ -141,6 +142,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 
 
     @Override
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public SaveResult<Data> save(Data input) throws AssemblyException {
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
@@ -304,10 +306,10 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     }
 
     @Override
-    protected AttributeSet getQualification(String idType, String id) {
-        AttributeSet qualification = null;
+ protected Map<String,String> getQualification(String idType, String id) {
+        Map<String,String> qualification = null;
         if(id!=null&&!id.isEmpty()){
-         qualification = new AttributeSet();
+         qualification = new LinkedHashMap<String,String>();
         /*String DOCUMENT_TYPE_NAME = "documentTypeName";
         //FIXME: should this be something like org.proposal?
         qualification.put(DOCUMENT_TYPE_NAME, "Organization");*/

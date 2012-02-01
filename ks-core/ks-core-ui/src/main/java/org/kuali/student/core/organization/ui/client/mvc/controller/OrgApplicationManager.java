@@ -15,6 +15,8 @@
 
 package org.kuali.student.core.organization.ui.client.mvc.controller;
 
+import java.util.List;
+
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
@@ -31,7 +33,7 @@ public class OrgApplicationManager extends Controller{
 
     
     public OrgApplicationManager(){
-        super(OrgApplicationManager.class.getName());
+        super();
         super.initWidget(viewPanel);
     }
 
@@ -39,20 +41,17 @@ public class OrgApplicationManager extends Controller{
         CREATE_ORG
     }
     @Override
-    protected <V extends Enum<?>> View getView(V viewType) {
+    protected <V extends Enum<?>> void getView(V viewType, Callback<View> callback) {
+    	
         switch ((ORGViews) viewType) {
             case CREATE_ORG:
                 initOrgView();
-                return createOrgView;
+                callback.exec(createOrgView);
+                break;
             default:
-                return null;
+            	callback.exec(null);
         }
         
-    }
-
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {        
-        return ORGViews.class;
     }
     
     @Override
@@ -81,9 +80,14 @@ public class OrgApplicationManager extends Controller{
     
     private View initOrgView(){
         orgProposalController = new OrgProposalController();
-        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController);
+        createOrgView = new DelegatingViewComposite(OrgApplicationManager.this,orgProposalController, ORGViews.CREATE_ORG);
         return createOrgView;
         
     }
+
+	@Override
+	public void collectBreadcrumbNames(List<String> names) {
+		// TODO Need to revisit for Org possibly
+	}
 
 }

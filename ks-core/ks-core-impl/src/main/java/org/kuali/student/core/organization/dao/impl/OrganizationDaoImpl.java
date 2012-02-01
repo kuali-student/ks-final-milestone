@@ -21,10 +21,11 @@ import java.util.List;
 import java.util.Set;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.organization.dao.OrganizationDao;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.entity.Org;
@@ -257,5 +258,18 @@ public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implement
         query.setParameter("orgId", orgId);
         
         return (Long)query.getSingleResult();
+    }
+    
+    @Override
+    public Org getOrgByRelatedOrgAndType(String relatedOrgId, String relationTypeKey) {
+        Query query = em.createNamedQuery("Org.getOrgByRelatedOrgAndType");
+        query.setParameter("relatedOrgId", relatedOrgId);
+        query.setParameter("relationTypeKey", relationTypeKey);
+
+        try{
+            return (Org) query.getSingleResult();
+        }catch(NoResultException e){
+            return null;
+        }
     }
 }

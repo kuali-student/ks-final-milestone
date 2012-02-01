@@ -15,14 +15,12 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -31,18 +29,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 
 /**
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO_REPOSITORY")
+@Table(name = "KSLO_LO_REPOSITORY")
 public class LoRepository extends MetaEntity implements AttributeOwner<LoRepositoryAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "NAME")
 	private String name;
@@ -140,36 +135,19 @@ public class LoRepository extends MetaEntity implements AttributeOwner<LoReposit
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
+	 * @see org.kuali.student.common.entity.AttributeOwner#getAttributes()
 	 */
 	@Override
 	public List<LoRepositoryAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoRepositoryAttribute>(0);
-		}
 		return attributes;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
+	 * @see org.kuali.student.common.entity.AttributeOwner#setAttributes(java.util.List)
 	 */
 	@Override
 	public void setAttributes(List<LoRepositoryAttribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the key
-	 */
-	public String getId() {
-		return id;
 	}
 
 	/**

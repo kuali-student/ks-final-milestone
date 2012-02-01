@@ -21,7 +21,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -32,10 +31,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
-
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 @Entity
 @Table(name = "KSOR_ORG_PERS_RELTN", uniqueConstraints={@UniqueConstraint(columnNames={"ORG_PERS_RELTN_TYPE","ORG","PERS_ID"})})
 @NamedQueries( {
@@ -46,9 +43,6 @@ import org.kuali.student.core.entity.MetaEntity;
 		@NamedQuery(name = "OrgPersonRelation.getOrgMembershipCount", query = "SELECT COUNT(opr) FROM OrgPersonRelation opr WHERE opr.org.id= :orgId")})
 public class OrgPersonRelation extends MetaEntity implements
 		AttributeOwner<OrgPersonRelationAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@ManyToOne
 	@JoinColumn(name = "ORG")
@@ -56,8 +50,6 @@ public class OrgPersonRelation extends MetaEntity implements
 
 	// Foreign Key from external Service
 	@Column(name = "PERS_ID")
-	// @ManyToOne
-	// @JoinColumn(name="PERSON_ID")
 	private String personId;
 
 	@ManyToOne
@@ -78,14 +70,6 @@ public class OrgPersonRelation extends MetaEntity implements
 	@Column(name = "ST")
 	private String state;
 
-	/**
-	 * AutoGenerate the Id
-	 */
-	@Override
-	public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
 	@Override
 	public List<OrgPersonRelationAttribute> getAttributes() {
 		return attributes;
@@ -94,14 +78,6 @@ public class OrgPersonRelation extends MetaEntity implements
 	@Override
 	public void setAttributes(List<OrgPersonRelationAttribute> attributes) {
 		this.attributes = attributes;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Org getOrg() {
