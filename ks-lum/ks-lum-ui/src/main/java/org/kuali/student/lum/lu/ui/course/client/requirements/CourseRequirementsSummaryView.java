@@ -178,9 +178,13 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
             for (int i = 0; i < reqPanel.getWidgetCount(); i++) {
                 SubrulePreviewWidget subrulePreviewWidget = (SubrulePreviewWidget)reqPanel.getWidget(i);
-                SubrulePreviewWidget newRulePreviewWidget = addCourseRequisite(reqPanel, rule);
-                reqPanel.insert(newRulePreviewWidget, i);
+                if (!rule.getStatements().isEmpty() || !rule.getReqComponents().isEmpty()) {
+                	SubrulePreviewWidget newRulePreviewWidget = addCourseRequisite(reqPanel, rule);
+                	reqPanel.insert(newRulePreviewWidget, i);
+                }	
                 reqPanel.remove(subrulePreviewWidget);
+                if (rule.getStatements().isEmpty() && rule.getReqComponents().isEmpty())                 
+                    addButtonsList.get(rule.getType()).setVisible(true);                	
                 break; //there should be only one rule per requisite type
             }
         }
@@ -218,8 +222,10 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
             //now display each requirement for this Course Requisites type; should be only one for courses
             for (StatementTreeViewInfo ruleInfo : rules.getCourseReqInfo(stmtTypeInfo.getId())) {
-                SubrulePreviewWidget subrulePreviewWidget = addCourseRequisite(requirementsPanel, ruleInfo);
-                requirementsPanel.add(subrulePreviewWidget);
+            	if (!ruleInfo.getStatements().isEmpty() || !ruleInfo.getReqComponents().isEmpty()) {
+            		SubrulePreviewWidget subrulePreviewWidget = addCourseRequisite(requirementsPanel, ruleInfo);
+            		requirementsPanel.add(subrulePreviewWidget);
+            	}	
             }
         }
 
@@ -290,7 +296,17 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                     });
                 };
             });
-            addCourseReqButton.setVisible(rules.getCourseReqInfo(stmtId).isEmpty());
+            if (!rules.getCourseReqInfo(stmtId).isEmpty()) {
+            	boolean checkReqs = true;
+            	for(StatementTreeViewInfo ruleInfo : rules.getCourseReqInfo(stmtId)) {
+            		if (!ruleInfo.getStatements().isEmpty() || !ruleInfo.getReqComponents().isEmpty()) {
+            			checkReqs = false;
+            			break;
+            		}
+            	}    
+            	addCourseReqButton.setVisible(checkReqs);
+            } else
+            	addCourseReqButton.setVisible(rules.getCourseReqInfo(stmtId).isEmpty());
             addButtonsList.put(stmtId, addCourseReqButton);
             layout.add(addCourseReqButton);
             VerticalPanel spacer = new VerticalPanel();
