@@ -3,6 +3,7 @@ package org.kuali.student.lum.workflow;
 import java.util.Date;
 import java.util.List;
 
+import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.StatusInfo;
@@ -278,8 +279,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-	    		if(variation.getAttributes().get(variation.getAttributes().indexOf("endInstAdmitTerm")) != null){
-	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get(variation.getAttributes().indexOf("endInstAdmitTerm")), contextInfo);
+	    		if(variation.getAttributes().get("endInstAdmitTerm") != null){
+	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm", contextInfo);
 	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
 	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
 	    				variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
