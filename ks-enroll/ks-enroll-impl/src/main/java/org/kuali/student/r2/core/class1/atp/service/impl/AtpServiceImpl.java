@@ -40,11 +40,9 @@ import org.kuali.student.r2.core.class1.atp.dao.MilestoneDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -72,6 +70,7 @@ public class AtpServiceImpl implements AtpService {
     public AtpDao getAtpDao() {
         return atpDao;
     }
+
     public void setAtpDao(AtpDao atpDao) {
         this.atpDao = atpDao;
     }
@@ -79,6 +78,7 @@ public class AtpServiceImpl implements AtpService {
     public AtpTypeDao getAtpTypeDao() {
         return atpTypeDao;
     }
+
     public void setAtpTypeDao(AtpTypeDao atpTypeDao) {
         this.atpTypeDao = atpTypeDao;
     }
@@ -86,6 +86,7 @@ public class AtpServiceImpl implements AtpService {
     public AtpStateDao getAtpStateDao() {
         return atpStateDao;
     }
+
     public void setAtpStateDao(AtpStateDao atpStateDao) {
         this.atpStateDao = atpStateDao;
     }
@@ -93,6 +94,7 @@ public class AtpServiceImpl implements AtpService {
     public AtpRichTextDao getAtpRichTextDao() {
         return atpRichTextDao;
     }
+
     public void setAtpRichTextDao(AtpRichTextDao atpRichTextDao) {
         this.atpRichTextDao = atpRichTextDao;
     }
@@ -100,6 +102,7 @@ public class AtpServiceImpl implements AtpService {
     public AtpAtpRelationDao getAtpRelDao() {
         return atpRelDao;
     }
+
     public void setAtpRelDao(AtpAtpRelationDao atpRelDao) {
         this.atpRelDao = atpRelDao;
     }
@@ -107,6 +110,7 @@ public class AtpServiceImpl implements AtpService {
     public MilestoneDao getMilestoneDao() {
         return milestoneDao;
     }
+
     public void setMilestoneDao(MilestoneDao milestoneDao) {
         this.milestoneDao = milestoneDao;
     }
@@ -114,6 +118,7 @@ public class AtpServiceImpl implements AtpService {
     public AtpMilestoneRelationDao getAtpMilestoneRelationDao() {
         return atpMilestoneRelationDao;
     }
+
     public void setAtpMilestoneRelationDao(AtpMilestoneRelationDao atpMilestoneRelationDao) {
         this.atpMilestoneRelationDao = atpMilestoneRelationDao;
     }
@@ -121,6 +126,7 @@ public class AtpServiceImpl implements AtpService {
     public TypeTypeRelationDao getTypeTypeRelationDao() {
         return typeTypeRelationDao;
     }
+
     public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
         this.typeTypeRelationDao = typeTypeRelationDao;
     }
@@ -128,6 +134,7 @@ public class AtpServiceImpl implements AtpService {
     public StateService getStateService() {
         return stateService;
     }
+
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
     }
@@ -143,10 +150,11 @@ public class AtpServiceImpl implements AtpService {
     public DataDictionaryService getDataDictionaryService() {
         return dataDictionaryService;
     }
+
     public void setDataDictionaryService(DataDictionaryService dataDictionaryService) {
         this.dataDictionaryService = dataDictionaryService;
     }
-    
+
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
         this.criteriaLookupService = criteriaLookupService;
     }
@@ -195,17 +203,23 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<AtpInfo> getAtpsByDateAndType(Date searchDate, String searchTypeKey, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<AtpInfo> getAtpsByDatesAndType(Date startDate, Date endDate, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<AtpInfo> getAtpsByDatesAndType(Date startDate, Date endDate, String searchTypeKey, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<AtpInfo> getAtpsByStartDateRange(Date searchDateRangeStart, Date searchDateRangeEnd, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         List<AtpEntity> atps = atpDao.getByStartDateRange(searchDateRangeStart, searchDateRangeEnd);
 
         List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
@@ -218,8 +232,11 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd, String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<AtpEntity> atps = atpDao.getByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd, searchTypeKey);
+    public List<AtpInfo> getAtpsByStartDateRangeAndType(Date searchDateRangeStart, Date searchDateRangeEnd,
+            String searchTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        List<AtpEntity> atps = atpDao.getByStartDateRangeAndType(searchDateRangeStart, searchDateRangeEnd,
+                searchTypeKey);
 
         List<AtpInfo> result = new ArrayList<AtpInfo>(atps.size());
         if (null != atps) {
@@ -231,14 +248,17 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<AtpInfo> getAtpsByCode(String code, ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO
         return new ArrayList<AtpInfo>();
     }
 
-  @Override
-    public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpIds") List<String> atpIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            List<AtpEntity> atps = atpDao.findByIds(atpIds);
+    @Override
+    public List<AtpInfo> getAtpsByIds(@WebParam(name = "atpIds") List<String> atpIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AtpEntity> atps = atpDao.findByIds(atpIds);
 
         if (atps == null) {
             throw new DoesNotExistException();
@@ -261,16 +281,9 @@ public class AtpServiceImpl implements AtpService {
     public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        try {
-            TypeInfo type = typeService.getType(atpTypeKey, context);
-            if (type == null) {
-                throw new InvalidParameterException("No type found for key: " + atpTypeKey);
-            }
-        } catch (DoesNotExistException e) {
-            throw new InvalidParameterException("No type found for key: " + atpTypeKey);
-        }
+        TypeInfo type = findType(atpTypeKey, context);
 
-        List<AtpEntity> results = atpDao.getByAtpTypeId(atpTypeKey);
+        List<AtpEntity> results = atpDao.getByAtpTypeId(type.getKey());
 
         List<String> keys = new ArrayList<String>(results.size());
 
@@ -295,9 +308,11 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-        public List<MilestoneInfo> getMilestonesByIds(@WebParam(name = "milestoneIds") List<String> milestoneIds, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-                throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            List<MilestoneEntity> milestones = milestoneDao.findByIds(milestoneIds);
+    public List<MilestoneInfo> getMilestonesByIds(@WebParam(name = "milestoneIds") List<String> milestoneIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        List<MilestoneEntity> milestones = milestoneDao.findByIds(milestoneIds);
 
         if (milestones == null) {
             throw new DoesNotExistException();
@@ -317,14 +332,13 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-        public List<String> getMilestoneIdsByType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            AtpTypeEntity type = atpTypeDao.find(milestoneTypeKey);
+    public List<String> getMilestoneIdsByType(@WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        if (type == null) {
-            throw new InvalidParameterException(milestoneTypeKey);
-        }
+        TypeInfo type = findType(milestoneTypeKey, contextInfo);
 
-        List<MilestoneEntity> entities = milestoneDao.getByMilestoneTypeId(milestoneTypeKey);
+        List<MilestoneEntity> entities = milestoneDao.getByMilestoneTypeId(type.getKey());
 
         if (entities == null) {
             return Collections.emptyList();
@@ -340,8 +354,10 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-            AtpEntity atp = atpDao.find(atpId);
+    public List<MilestoneInfo> getMilestonesForAtp(@WebParam(name = "atpId") String atpId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        AtpEntity atp = atpDao.find(atpId);
 
         if (atp == null) {
             throw new InvalidParameterException(atpId);
@@ -383,7 +399,10 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<MilestoneInfo> getMilestonesByDatesForAtp(@WebParam(name = "atpId") String atpId,
+            @WebParam(name = "startDate") Date startDate, @WebParam(name = "endDate") Date endDate,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<MilestoneEntity> entities = milestoneDao.getByDatesForAtp(atpId, startDate, endDate);
 
         if (entities == null) {
@@ -400,7 +419,10 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "milestoneTypeKey") String milestoneTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<MilestoneInfo> getMilestonesByTypeForAtp(@WebParam(name = "atpId") String atpId,
+            @WebParam(name = "milestoneTypeKey") String milestoneTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<MilestoneEntity> entities = milestoneDao.getByTypeForAtp(atpId, milestoneTypeKey);
 
@@ -419,31 +441,34 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     public List<String> searchForAtpIds(QueryByCriteria criteria, ContextInfo context)
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
-	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
-    public List<AtpInfo> searchForAtps(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
+    public List<AtpInfo> searchForAtps(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         List<AtpInfo> atpInfos = new ArrayList<AtpInfo>();
         GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
-        
+
         if (null != results && results.getResults().size() > 0) {
             for (AtpEntity atp : results.getResults()) {
                 atpInfos.add(atp.toDto());
             }
         }
-        
+
         return atpInfos;
     }
 
     @Override
-    public List<ValidationResultInfo> validateAtp(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "atpInfo") AtpInfo atpInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateAtp(@WebParam(name = "validationTypeKey") String validationTypeKey,
+            @WebParam(name = "atpTypeKey") String atpTypeKey, @WebParam(name = "atpInfo") AtpInfo atpInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
@@ -455,44 +480,61 @@ public class AtpServiceImpl implements AtpService {
 
         AtpEntity atp = new AtpEntity(atpInfo);
         if (null != atpInfo.getStateKey()) {
-        	atp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context));
+            atp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context).getId());
         }
         if (null != atpInfo.getTypeKey()) {
-            atp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
+            atp.setAtpType(findType(atpInfo.getTypeKey(), context).getKey());
         }
         if (null != atpInfo.getDescr()) {
-            atp.setDescr(new AtpRichTextEntity(atpInfo.getDescr()));
+            atp.setDescrFormatted(atpInfo.getDescr().getFormatted());
+            atp.setDescrPlain(atpInfo.getDescr().getPlain());
         }
 
         atpDao.persist(atp);
 
-		AtpEntity retrived = atpDao.find(atp.getId());
-		AtpInfo info = null;
-		if(retrived != null){
-			info = retrived.toDto();
-		} else {
+        AtpEntity retrived = atpDao.find(atp.getId());
+        AtpInfo info = null;
+        if (retrived != null) {
+            info = retrived.toDto();
+        } else {
             throw new OperationFailedException("ATP not found after persisted. atpId: " + atp.getId());
         }
 
         return info;
     }
 
-    private StateEntity findState(String processKey, String stateKey, ContextInfo context) throws InvalidParameterException, 
-			MissingParameterException, OperationFailedException, PermissionDeniedException{
-		StateEntity state = null;
-		try {
-			StateInfo stInfo = stateService.getState(stateKey, context);
-			if(stInfo != null){
-				state = new StateEntity(stInfo);
-				return state;
-			}
-			else
-				throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
-		} catch (DoesNotExistException e) {
-			throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
-		}			
+    private TypeInfo findType(String typeKey, ContextInfo context) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TypeInfo type;
+        try {
+            type = typeService.getType(typeKey, context);
+            if (type != null) {
+                return type;
+            } else {
+                throw new InvalidParameterException("No type found for key: " + typeKey);
+            }
+        } catch (DoesNotExistException e) {
+            throw new InvalidParameterException("No type found for key: " + typeKey);
+        }
     }
-    
+
+    private StateEntity findState(String processKey, String stateKey, ContextInfo context)
+            throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StateEntity state = null;
+        try {
+            StateInfo stInfo = stateService.getState(stateKey, context);
+            if (stInfo != null) {
+                state = new StateEntity(stInfo);
+                return state;
+            }
+            else
+                throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
+        }
+    }
+
     @Override
     @Transactional
     public AtpInfo updateAtp(String atpId, AtpInfo atpInfo, ContextInfo context) throws DataValidationErrorException,
@@ -504,9 +546,10 @@ public class AtpServiceImpl implements AtpService {
         if (null != atp) {
             AtpEntity modifiedAtp = new AtpEntity(atpInfo);
             if (atpInfo.getStateKey() != null)
-            	modifiedAtp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context));
+                modifiedAtp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context)
+                        .getId());
             if (atpInfo.getTypeKey() != null)
-                modifiedAtp.setAtpType(atpTypeDao.find(atpInfo.getTypeKey()));
+                modifiedAtp.setAtpType(findType(atpInfo.getTypeKey(), context).getKey());
             atpDao.merge(modifiedAtp);
             return atpDao.find(modifiedAtp.getId()).toDto();
         } else
@@ -546,7 +589,9 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getImpactedMilestones(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<MilestoneInfo> getImpactedMilestones(String milestoneId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> impactedMilestones = new ArrayList<MilestoneInfo>();
         for (MilestoneEntity impactedMilestone : milestoneDao.getImpactedMilestones(milestoneId)) {
             impactedMilestones.add(impactedMilestone.toDto());
@@ -555,24 +600,26 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<String> searchForMilestoneIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<String> searchForMilestoneIds(@WebParam(name = "criteria") QueryByCriteria criteria,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<MilestoneInfo> searchForMilestones(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
-        
-        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
+    public List<MilestoneInfo> searchForMilestones(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+
         List<MilestoneInfo> milestoneInfos = new ArrayList<MilestoneInfo>();
-        
+        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
+
         if (null != results && results.getResults().size() > 0) {
             for (MilestoneEntity milestone : results.getResults()) {
                 milestoneInfos.add(milestone.toDto());
             }
         }
-        
+
         return milestoneInfos;
     }
 
@@ -585,21 +632,25 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public MilestoneInfo createMilestone(@WebParam(name = "milestoneInfo") MilestoneInfo milestoneInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         MilestoneEntity entity = new MilestoneEntity(milestoneInfo);
 
         if (milestoneInfo.getTypeKey() != null) {
-            entity.setAtpType(atpTypeDao.find(milestoneInfo.getTypeKey()));
+            entity.setAtpType(findType(milestoneInfo.getTypeKey(), contextInfo).getKey());
         }
 
         if (milestoneInfo.getStateKey() != null) {
-            entity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(), contextInfo));
+            entity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(),
+                    contextInfo).getId());
         }
 
         if (milestoneInfo.getDescr() != null) {
-            entity.setDescr(new AtpRichTextEntity(milestoneInfo.getDescr()));
+            entity.setDescrFormatted(milestoneInfo.getDescr().getFormatted());
+            entity.setDescrPlain(milestoneInfo.getDescr().getPlain());
         }
 
         if (milestoneInfo.getRelativeAnchorMilestoneId() != null) {
@@ -626,8 +677,9 @@ public class AtpServiceImpl implements AtpService {
         }
 
         MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
-        updatedEntity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(), context));
-        updatedEntity.setAtpType(atpTypeDao.find(milestoneInfo.getTypeKey()));
+        updatedEntity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(),
+                context).getId());
+        updatedEntity.setAtpType(findType(milestoneInfo.getTypeKey(), context).getKey());
 
         milestoneDao.merge(updatedEntity);
 
@@ -663,26 +715,31 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public MilestoneInfo calculateMilestone(String milestoneId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method implemented in calculation decorator.");
     }
 
     @Override
-    public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo addMilestoneToAtp(@WebParam(name = "milestoneId") String milestoneId,
+            @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         AtpEntity atp = atpDao.find(atpId);
 
-        if (atp == null){
+        if (atp == null) {
             throw new DoesNotExistException(atpId);
         }
 
         MilestoneEntity milestone = milestoneDao.find(milestoneId);
 
-        if (milestone == null){
+        if (milestone == null) {
             throw new DoesNotExistException(milestoneId);
         }
 
-        List<AtpMilestoneRelationEntity> atpMilestoneRel = atpMilestoneRelationDao.getByAtpAndMilestone(atpId,milestoneId);
+        List<AtpMilestoneRelationEntity> atpMilestoneRel = atpMilestoneRelationDao.getByAtpAndMilestone(atpId,
+                milestoneId);
 
         if (!atpMilestoneRel.isEmpty()) {
             throw new AlreadyExistsException("Milestone " + milestoneId + " already exists for ATP " + atpId);
@@ -692,16 +749,6 @@ public class AtpServiceImpl implements AtpService {
 
         atpMilestoneRelation.setAtp(atp);
         atpMilestoneRelation.setMilestone(milestone);
-        atpMilestoneRelation.setAtpState(findState(AtpServiceConstants.ATP_MILESTONE_RELATION_PROCESS_KEY, AtpServiceConstants.ATP_MILESTONE_RELATION_ACTIVE_STATE_KEY, contextInfo));
-
-        AtpTypeEntity typeEntity = atpTypeDao.find(AtpServiceConstants.ATP_MILESTONE_RELATION_USES_TYPE_KEY);
-
-        if (typeEntity == null){
-            throw new DoesNotExistException(AtpServiceConstants.ATP_MILESTONE_RELATION_USES_TYPE_KEY);
-        }
-
-        atpMilestoneRelation.setAtpType(typeEntity);
-        atpMilestoneRelation.setEffectiveDate(new Date());
 
         atpMilestoneRelationDao.persist(atpMilestoneRelation);
 
@@ -712,17 +759,19 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<AtpMilestoneRelationEntity> atpMilestoneRel = atpMilestoneRelationDao.getByAtpAndMilestone(atpId,milestoneId);
+    public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId,
+            @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        List<AtpMilestoneRelationEntity> atpMilestoneRel = atpMilestoneRelationDao.getByAtpAndMilestone(atpId,
+                milestoneId);
         StatusInfo status = new StatusInfo();
 
-        if (atpMilestoneRel == null || atpMilestoneRel.isEmpty()){
-            throw new OperationFailedException("Entry not exists for the atp " + atpId + " and milestone " + milestoneId);
+        if (atpMilestoneRel == null || atpMilestoneRel.isEmpty()) {
+            throw new OperationFailedException("Entry not exists for the atp " + atpId + " and milestone "
+                    + milestoneId);
         }
 
-        //get by index of 0 as it's going to be only one entry for a atp-milestone relation
-        atpMilestoneRel.get(0).setExpirationDate(new Date());
-        atpMilestoneRel.get(0).setAtpState(findState(AtpServiceConstants.ATP_MILESTONE_RELATION_PROCESS_KEY, AtpServiceConstants.ATP_MILESTONE_RELATION_CANCELED_STATE_KEY,contextInfo));
         status.setSuccess(true);
 
         return status;
@@ -741,7 +790,10 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(@WebParam(name = "atpAtpRelationIds") List<String> atpAtpRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByIds(
+            @WebParam(name = "atpAtpRelationIds") List<String> atpAtpRelationIds,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<AtpAtpRelationInfo>();
     }
 
@@ -749,7 +801,7 @@ public class AtpServiceImpl implements AtpService {
     public List<String> getAtpAtpRelationIdsByType(String atpAtpRelationTypeKey, ContextInfo context)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-    	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
@@ -768,13 +820,18 @@ public class AtpServiceImpl implements AtpService {
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpId") String atpId,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null; //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<AtpAtpRelationEntity> rels = atpRelDao.getAtpAtpRelationsByAtpAndRelationType(atpId,atpRelationTypeKey);
+    public List<AtpAtpRelationInfo> getAtpAtpRelationsByTypeAndAtp(@WebParam(name = "atpId") String atpId,
+            @WebParam(name = "atpRelationTypeKey") String atpRelationTypeKey,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<AtpAtpRelationEntity> rels = atpRelDao.getAtpAtpRelationsByAtpAndRelationType(atpId, atpRelationTypeKey);
         List<AtpAtpRelationInfo> atpRelation = new ArrayList<AtpAtpRelationInfo>();
         for (AtpAtpRelationEntity rel : rels) {
             atpRelation.add(rel.toDto());
@@ -782,25 +839,30 @@ public class AtpServiceImpl implements AtpService {
         return atpRelation;
     }
 
-
     @Override
-    public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
+    public List<String> searchForAtpAtpRelationIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
-	return new ArrayList<String>();
+        return new ArrayList<String>();
     }
 
     @Override
-    public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context) 
-	throws InvalidParameterException, MissingParameterException, 
-	       OperationFailedException, PermissionDeniedException {
+    public List<AtpAtpRelationInfo> searchForAtpAtpRelations(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
-	return new ArrayList<AtpAtpRelationInfo>();
+        return new ArrayList<AtpAtpRelationInfo>();
     }
 
     @Override
-    public List<ValidationResultInfo> validateAtpAtpRelation(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpId") String atpId, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtprelationTypeKey") String atpAtpRelationTypeKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ValidationResultInfo> validateAtpAtpRelation(
+            @WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "atpId") String atpId,
+            @WebParam(name = "atpPeerKey") String atpPeerKey,
+            @WebParam(name = "atpAtprelationTypeKey") String atpAtpRelationTypeKey,
+            @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return new ArrayList<ValidationResultInfo>();
     }
 
@@ -823,18 +885,23 @@ public class AtpServiceImpl implements AtpService {
 
     @Override
     @Transactional
-    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId, @WebParam(name = "atpPeerKey") String atpPeerKey, @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
-            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+    public AtpAtpRelationInfo createAtpAtpRelation(@WebParam(name = "atpId") String atpId,
+            @WebParam(name = "atpPeerKey") String atpPeerKey,
+            @WebParam(name = "atpAtpRelationInfo") AtpAtpRelationInfo atpAtpRelationInfo,
+            @WebParam(name = "contextInfo") ContextInfo contextInfo)
+            throws DoesNotExistException, DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         if (!checkRelationExistence(atpAtpRelationInfo)) {
             AtpAtpRelationEntity atpRel = new AtpAtpRelationEntity(atpAtpRelationInfo);
             atpRel.setId(UUIDHelper.genStringUUID());
 
             if (null != atpAtpRelationInfo.getStateKey()) {
-            	atpRel.setAtpState(findState(AtpServiceConstants.ATP_ATP_RELATION_PROCESS_KEY, atpAtpRelationInfo.getStateKey(), contextInfo));
+                atpRel.setAtpState(findState(AtpServiceConstants.ATP_ATP_RELATION_PROCESS_KEY,
+                        atpAtpRelationInfo.getStateKey(), contextInfo).getId());
             }
             if (null != atpAtpRelationInfo.getTypeKey()) {
-                atpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
+                atpRel.setAtpType(findType(atpAtpRelationInfo.getTypeKey(), contextInfo).getKey());
             }
             if (null != atpAtpRelationInfo.getAtpId()) {
                 atpRel.setAtp(atpDao.find(atpAtpRelationInfo.getAtpId()));
@@ -867,9 +934,10 @@ public class AtpServiceImpl implements AtpService {
             if (atpAtpRelationInfo.getRelatedAtpId() != null)
                 modifiedAtpRel.setRelatedAtp(atpDao.find(atpAtpRelationInfo.getRelatedAtpId()));
             if (atpAtpRelationInfo.getTypeKey() != null)
-                modifiedAtpRel.setAtpType(atpTypeDao.find(atpAtpRelationInfo.getTypeKey()));
+                modifiedAtpRel.setAtpType(findType(atpAtpRelationInfo.getTypeKey(), context).getKey());
             if (atpAtpRelationInfo.getStateKey() != null)
-            	modifiedAtpRel.setAtpState(findState(AtpServiceConstants.ATP_ATP_RELATION_PROCESS_KEY, atpAtpRelationInfo.getStateKey(), context));
+                modifiedAtpRel.setAtpState(findState(AtpServiceConstants.ATP_ATP_RELATION_PROCESS_KEY,
+                        atpAtpRelationInfo.getStateKey(), context).getId());
 
             atpRelDao.merge(modifiedAtpRel);
             return atpRelDao.find(modifiedAtpRel.getId()).toDto();
@@ -894,92 +962,92 @@ public class AtpServiceImpl implements AtpService {
         return status;
     }
 
-//    // TypeService methods
-//    @Override
-//    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
-//            InvalidParameterException, MissingParameterException, OperationFailedException {
-//        AtpTypeEntity atpType = atpTypeDao.find(typeKey);
-//
-//        if (null == atpType) {
-//            throw new DoesNotExistException();
-//        }
-//        return atpType.toDto();
-//    }
-//
-//    @Override
-//    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
-//            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-//            OperationFailedException {
-//
-//        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-//
-//        if (null == refObjectURI) {
-//            throw new MissingParameterException("refObjectUri parameter cannot be null");
-//        }
-//        if (refObjectURI.startsWith(AtpServiceConstants.NAMESPACE)) {
-//            typeEntities.addAll(atpTypeDao.findAll(refObjectURI));
-//        } else {
-//            throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
-//        }
-//        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-//        for (TypeEntity<? extends BaseAttributeEntity<?>> typeEntity : typeEntities) {
-//            typeInfos.add(typeEntity.toDto());
-//        }
-//        return typeInfos;
-//    }
-//
-//    @Override
-//    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
-//            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-//            OperationFailedException {
-//        
-//        if ( ! relatedRefObjectURI.startsWith(AtpServiceConstants.NAMESPACE) ) {
-//            throw new DoesNotExistException("This method does not know how to handle object type:"
-//                    + relatedRefObjectURI);
-//        }
-//
-//        // get the TypeTypeRelations
-//        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
-//                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-//                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-//        
-//        // create a List of the related Types' IDs
-//        List<String> ids = new ArrayList<String>();
-//        for (TypeTypeRelationEntity entity : typeTypeRelations) {
-//            ids.add(entity.getRelatedTypeId());
-//        }
-//
-//        // now get the List of the related Types based on those IDs
-//        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-//        typeEntities.addAll(atpTypeDao.findByIds(ids));
-//        
-//        // convert them to DTOs and return them
-//        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-//        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
-//            typeInfos.add(entity.toDto());
-//        }
-//        
-//        return typeInfos;
-//    }
-//
-//    @Override
-//    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
-//            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-//            OperationFailedException {
-//
-//        List<TypeTypeRelationEntity> typeTypeReltns = new ArrayList<TypeTypeRelationEntity>();
-//
-//        if (null == relationTypeKey || null == ownerTypeKey) {
-//            throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
-//        } else {
-//            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-//                    relationTypeKey));
-//        }
-//        List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
-//        for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
-//            ttrInfos.add(ttrEntity.toDto());
-//        }
-//        return ttrInfos;
-//    }
-//    // end TypeService methods
+    //    // TypeService methods
+    //    @Override
+    //    public TypeInfo getType(String typeKey, ContextInfo context) throws DoesNotExistException,
+    //            InvalidParameterException, MissingParameterException, OperationFailedException {
+    //        AtpTypeEntity atpType = atpTypeDao.find(typeKey);
+    //
+    //        if (null == atpType) {
+    //            throw new DoesNotExistException();
+    //        }
+    //        return atpType.toDto();
+    //    }
+    //
+    //    @Override
+    //    public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI, ContextInfo context)
+    //            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    //            OperationFailedException {
+    //
+    //        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
+    //
+    //        if (null == refObjectURI) {
+    //            throw new MissingParameterException("refObjectUri parameter cannot be null");
+    //        }
+    //        if (refObjectURI.startsWith(AtpServiceConstants.NAMESPACE)) {
+    //            typeEntities.addAll(atpTypeDao.findAll(refObjectURI));
+    //        } else {
+    //            throw new DoesNotExistException("This method does not know how to handle object type:" + refObjectURI);
+    //        }
+    //        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+    //        for (TypeEntity<? extends BaseAttributeEntity<?>> typeEntity : typeEntities) {
+    //            typeInfos.add(typeEntity.toDto());
+    //        }
+    //        return typeInfos;
+    //    }
+    //
+    //    @Override
+    //    public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo context)
+    //            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    //            OperationFailedException {
+    //        
+    //        if ( ! relatedRefObjectURI.startsWith(AtpServiceConstants.NAMESPACE) ) {
+    //            throw new DoesNotExistException("This method does not know how to handle object type:"
+    //                    + relatedRefObjectURI);
+    //        }
+    //
+    //        // get the TypeTypeRelations
+    //        List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
+    //                .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+    //                        TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
+    //        
+    //        // create a List of the related Types' IDs
+    //        List<String> ids = new ArrayList<String>();
+    //        for (TypeTypeRelationEntity entity : typeTypeRelations) {
+    //            ids.add(entity.getRelatedTypeId());
+    //        }
+    //
+    //        // now get the List of the related Types based on those IDs
+    //        List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
+    //        typeEntities.addAll(atpTypeDao.findByIds(ids));
+    //        
+    //        // convert them to DTOs and return them
+    //        List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
+    //        for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities) {
+    //            typeInfos.add(entity.toDto());
+    //        }
+    //        
+    //        return typeInfos;
+    //    }
+    //
+    //    @Override
+    //    public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(String ownerTypeKey, String relationTypeKey,
+    //            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    //            OperationFailedException {
+    //
+    //        List<TypeTypeRelationEntity> typeTypeReltns = new ArrayList<TypeTypeRelationEntity>();
+    //
+    //        if (null == relationTypeKey || null == ownerTypeKey) {
+    //            throw new MissingParameterException("Neither ownerTypeKey nor relationTypeKey parameters may be null");
+    //        } else {
+    //            typeTypeReltns.addAll(typeTypeRelationDao.getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
+    //                    relationTypeKey));
+    //        }
+    //        List<TypeTypeRelationInfo> ttrInfos = new ArrayList<TypeTypeRelationInfo>();
+    //        for (TypeTypeRelationEntity ttrEntity : typeTypeReltns) {
+    //            ttrInfos.add(ttrEntity.toDto());
+    //        }
+    //        return ttrInfos;
+    //    }
+    //    // end TypeService methods
 }

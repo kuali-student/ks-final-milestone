@@ -1,54 +1,63 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.entity.AttributeOwner;
-import org.kuali.student.r2.common.entity.MetaEntity;
-import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.atp.dto.AtpInfo;
-import org.kuali.student.r2.core.atp.infc.Atp;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.RichText;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.infc.Atp;
 
 @Entity
 @Table(name = "KSEN_ATP")
 public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttributeEntity> {
     @Column(name = "NAME")
     private String name;
-    
+
     @Column(name = "ADMIN_ORG_ID")
     private String adminOrgId;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private AtpRichTextEntity descr;
+    @Column(name = "ATP_CD")
+    private String atpCode;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "START_DT")
+    @Column(name = "START_DT", nullable = false)
     private Date startDate;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "END_DT")
+    @Column(name = "END_DT", nullable = false)
     private Date endDate;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ATP_TYPE_ID")
-    private AtpTypeEntity atpType;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ATP_STATE_ID")
-    private StateEntity atpState;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    private String plain;
+
+    @Column(name = "ATP_TYPE", nullable = false)
+    private String atpType;
+
+    @Column(name = "ATP_STATE", nullable = false)
+    private String atpState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AtpAttributeEntity> attributes = new ArrayList<AtpAttributeEntity>();
 
-
-    public AtpEntity() {
-    }
+    public AtpEntity() {}
 
     public AtpEntity(Atp atp) {
         super(atp);
@@ -62,9 +71,11 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
             this.setEndDate(atp.getEndDate());
         }
         if (atp.getDescr() != null) {
-            this.setDescr(new AtpRichTextEntity(atp.getDescr()));
+            RichText rt = atp.getDescr();
+            this.setDescrFormatted(rt.getFormatted());
+            this.setDescrPlain(rt.getPlain());
         }
-        
+
         this.setAttributes(new ArrayList<AtpAttributeEntity>());
         if (null != atp.getAttributes()) {
             for (Attribute att : atp.getAttributes()) {
@@ -79,14 +90,6 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public AtpRichTextEntity getDescr() {
-        return descr;
-    }
-
-    public void setDescr(AtpRichTextEntity descr) {
-        this.descr = descr;
     }
 
     public Date getStartDate() {
@@ -105,20 +108,19 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         this.endDate = endDate;
     }
 
-
-    public AtpTypeEntity getAtpType() {
+    public String getAtpType() {
         return atpType;
     }
 
-    public void setAtpType(AtpTypeEntity atpType) {
+    public void setAtpType(String atpType) {
         this.atpType = atpType;
     }
 
-    public StateEntity getAtpState() {
+    public String getAtpState() {
         return atpState;
     }
 
-    public void setAtpState(StateEntity atpState) {
+    public void setAtpState(String atpState) {
         this.atpState = atpState;
     }
 
@@ -149,12 +151,16 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         atp.setEndDate(endDate);
         atp.setAdminOrgId(getAdminOrgId());
         if (atpType != null)
-            atp.setTypeKey(atpType.getId());
+            atp.setTypeKey(atpType);
         if (atpState != null)
-            atp.setStateKey(atpState.getId());
+            atp.setStateKey(atpState);
         atp.setMeta(super.toDTO());
-        if (descr != null)
-            atp.setDescr(descr.toDto());
+        if (getDescrPlain() != null) {
+            RichTextInfo rti = new RichTextInfo();
+            rti.setPlain(getDescrPlain());
+            rti.setFormatted(getDescrFormatted());
+            atp.setDescr(rti);
+        }
 
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (AtpAttributeEntity att : getAttributes()) {
@@ -164,5 +170,41 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         atp.setAttributes(atts);
 
         return atp;
+    }
+
+    public String getDescrFormatted() {
+        return formatted;
+    }
+
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
+    }
+
+    public String getAtpCode() {
+        return atpCode;
+    }
+
+    public void setAtpCode(String atpCode) {
+        this.atpCode = atpCode;
+    }
+
+    //Kept this setter for the sake of backwards compatibility
+    public void setDescr(AtpRichTextEntity atpRichTextEntity) {
+        this.setDescrFormatted(atpRichTextEntity.getFormatted());
+        this.setDescrPlain(atpRichTextEntity.getPlain());
+
+    }
+
+    //Kept this getter for the sake of backwards compatibility
+    public AtpRichTextEntity getDescr() {
+        return new AtpRichTextEntity(this.getDescrPlain(), this.getDescrFormatted());
     }
 }

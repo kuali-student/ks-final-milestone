@@ -6,11 +6,10 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpStateEntity;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,28 +25,26 @@ public class AtpDataGenerator {
         AtpEntity atp = createAtpEntity();
         em.persist(atp);
     }
-    
-    private AtpEntity createAtpEntity(){
+
+    private AtpEntity createAtpEntity() {
         AtpEntity atp = new AtpEntity();
         atp.setId("testId");
         atp.setName("testId");
         atp.setDescr(new AtpRichTextEntity("testId plain descr", "testId formatted descr"));
         atp.setStartDate(Calendar.getInstance().getTime());
         atp.setEndDate(Calendar.getInstance().getTime());
-        atp.setAtpState(createState());
-        atp.setAtpType(createType());
+        atp.setAtpState(createState().getId());
+        atp.setAtpType(createType().getId());
         atp.setAttributes(createAttributes());
         return atp;
     }
-    
-    
+
     private List<AtpAttributeEntity> createAttributes() {
         List<AtpAttributeEntity> attributes = new ArrayList<AtpAttributeEntity>();
         attributes.add(new AtpAttributeEntity("key1", "value1"));
         attributes.add(new AtpAttributeEntity("key2", "value2"));
         return attributes;
     }
-
 
     private AtpTypeEntity createType() {
         AtpTypeEntity atpType = new AtpTypeEntity();
