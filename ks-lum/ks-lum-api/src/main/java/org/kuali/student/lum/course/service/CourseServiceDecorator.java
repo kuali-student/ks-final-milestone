@@ -9,6 +9,7 @@ import org.kuali.student.common.exceptions.*;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -114,5 +115,19 @@ public class CourseServiceDecorator implements CourseService {
     public CourseInfo createCourse(CourseInfo courseInfo, ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return getNextDecorator ().createCourse(courseInfo, contextInfo);
     }
+
+	@Override
+	public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri,
+			String verIndId, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<VersionDisplayInfo> getVersions(String courseNamespaceUri,
+			String versionIndId, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }

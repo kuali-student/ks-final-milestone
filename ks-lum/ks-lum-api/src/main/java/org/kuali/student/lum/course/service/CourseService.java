@@ -344,8 +344,8 @@ public interface CourseService {
             OperationFailedException, PermissionDeniedException;
 
     @Deprecated
-    public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri, String verIndId);
+    public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri, String verIndId, ContextInfo contextInfo);
 
     @Deprecated
-    public List<VersionDisplayInfo> getVersions(String courseNamespaceUri, String versionIndId);
+    public List<VersionDisplayInfo> getVersions(String courseNamespaceUri, String versionIndId, ContextInfo contextInfo);
 }
