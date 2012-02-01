@@ -1555,4 +1555,24 @@ public class OrganizationServiceImpl implements OrganizationService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<OrgPersonRelationInfo> getAllOrgPersonRelationsByOrg(
+			String orgId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getPersonIdsForOrgByRelationType(String orgId,
+			String orgPersonRelationTypeKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
