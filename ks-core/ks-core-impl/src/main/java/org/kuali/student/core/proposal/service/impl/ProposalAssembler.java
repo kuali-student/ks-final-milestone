@@ -16,31 +16,27 @@
 package org.kuali.student.core.proposal.service.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.NoResultException;
 
-import org.kuali.student.core.dto.ReferenceTypeInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.common.dto.ReferenceTypeInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.service.impl.BaseAssembler;
 import org.kuali.student.core.proposal.dao.ProposalDao;
-import org.kuali.student.core.proposal.dto.ProposalDocRelationInfo;
-import org.kuali.student.core.proposal.dto.ProposalDocRelationTypeInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.dto.ProposalTypeInfo;
 import org.kuali.student.core.proposal.entity.Proposal;
 import org.kuali.student.core.proposal.entity.ProposalAttribute;
-import org.kuali.student.core.proposal.entity.ProposalDocRelation;
-import org.kuali.student.core.proposal.entity.ProposalDocRelationAttribute;
-import org.kuali.student.core.proposal.entity.ProposalDocRelationType;
 import org.kuali.student.core.proposal.entity.ProposalOrg;
 import org.kuali.student.core.proposal.entity.ProposalPerson;
 import org.kuali.student.core.proposal.entity.ProposalReference;
 import org.kuali.student.core.proposal.entity.ProposalReferenceType;
-import org.kuali.student.core.proposal.entity.ProposalRichText;
 import org.kuali.student.core.proposal.entity.ProposalType;
-import org.kuali.student.core.service.impl.BaseAssembler;
 import org.springframework.beans.BeanUtils;
 
 /**
@@ -91,7 +87,7 @@ public class ProposalAssembler extends BaseAssembler {
             dto.setProposalReference(objectIds);
         }
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
+        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
         dto.setType(entity.getType().getId());
 
         return dto;
@@ -113,29 +109,6 @@ public class ProposalAssembler extends BaseAssembler {
         dto.setDesc(entity.getDescr());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         return dto;
-    }
-
-    public static ProposalDocRelationInfo toProposalDocRelationInfo(ProposalDocRelation entity) {
-        ProposalDocRelationInfo dto = new ProposalDocRelationInfo();
-
-
-        BeanUtils.copyProperties(entity, dto,
-                new String[] { "proposalId", "desc", "attributes", "metaInfo", "type" });
-
-        dto.setProposalId(entity.getProposal().getId());
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionInd()));
-        dto.setType(entity.getType().getId());
-        return dto;
-    }
-
-    public static List<ProposalDocRelationInfo> toProposalDocRelationInfos(List<ProposalDocRelation> entities){
-        List<ProposalDocRelationInfo> dtos = new ArrayList<ProposalDocRelationInfo>(entities.size());
-        for (ProposalDocRelation entity : entities) {
-            dtos.add(toProposalDocRelationInfo(entity));
-        }
-        return dtos;
     }
 
     public static List<ReferenceTypeInfo> toReferenceTypeInfos(List<ProposalReferenceType> entities) {
@@ -160,7 +133,7 @@ public class ProposalAssembler extends BaseAssembler {
         Proposal proposal;
         if (proposalInfo.getId() != null && !proposalInfo.getId().isEmpty()) {
             proposal = dao.fetch(Proposal.class, proposalInfo.getId());
-            if (!String.valueOf(proposal.getVersionInd()).equals(proposalInfo.getMetaInfo().getVersionInd())){
+            if (!String.valueOf(proposal.getVersionNumber()).equals(proposalInfo.getMetaInfo().getVersionInd())){
                 throw new VersionMismatchException("Proposal to be updated is not the current version");
             }
         } else {
@@ -176,50 +149,82 @@ public class ProposalAssembler extends BaseAssembler {
         // Copy Attributes
         proposal.setAttributes(toGenericAttributes(ProposalAttribute.class, proposalInfo.getAttributes(), proposal, dao));
 
-        // TODO Rework when JPA gets cascading deletes (2.0)
-        List<ProposalPerson> persons = proposal.getProposerPerson();
-        for (ProposalPerson person : persons) {
-            dao.getEm().remove(person);
+        //Update proposal to person relations
+        Map<String,ProposalPerson> existingPersons = new HashMap<String,ProposalPerson>();
+        if(proposal.getProposerPerson()==null){
+        	proposal.setProposerPerson(new ArrayList<ProposalPerson>(proposalInfo.getProposerPerson().size()));
         }
-        List<ProposalOrg> orgs = proposal.getProposerOrg();
-        for (ProposalOrg org : orgs) {
-            dao.getEm().remove(org);
+        for(ProposalPerson person:proposal.getProposerPerson()){
+        	existingPersons.put(person.getPersonId(), person);
         }
-        persons.clear();
-        orgs.clear();
-
-        if (proposalInfo.getProposerPerson() != null) {
-            // Copy ProposerPersons
-            for (String proposer : proposalInfo.getProposerPerson()) {
-                ProposalPerson person;
-                try {
-                    person = dao.getProposalPerson(proposer);
-                } catch (NoResultException e) {
-                    person = new ProposalPerson();
-                    person.setPersonId(proposer);
-                    person.setProposal(proposal);
-                }
-                persons.add(person);
-            }
+        proposal.getProposerPerson().clear();
+        for (String proposerId : proposalInfo.getProposerPerson()) {
+        	ProposalPerson person;
+        	if(existingPersons.containsKey(proposerId)){
+        		person = existingPersons.get(proposerId);
+        		existingPersons.remove(proposerId);
+        	}else{
+        		person = new ProposalPerson();
+        	}
+            person.setPersonId(proposerId);
+            person.setProposal(proposal);
+            proposal.getProposerPerson().add(person);
         }
-
-        if (proposalInfo.getProposerOrg() != null) {
-            // Copy ProposerPersons
-            for (String proposer : proposalInfo.getProposerOrg()) {
-                ProposalOrg org;
-                try {
-                    org = dao.getProposalOrg(proposer);
-                } catch (NoResultException e) {
-                    ProposalOrg proposerOrg = new ProposalOrg();
-                    proposerOrg.setOrgId(proposer);
-                    proposerOrg.setProposal(proposal);
-                    org = dao.create(proposerOrg);
-                }
-                orgs.add(org);
-            }
-            proposal.setProposerOrg(orgs);
+        for (ProposalPerson person : existingPersons.values()) {
+            dao.delete(person);
         }
-
+        
+        //Update proposal to org relations
+        Map<String,ProposalOrg> existingOrgs = new HashMap<String,ProposalOrg>();
+        if(proposal.getProposerOrg()==null){
+        	proposal.setProposerOrg(new ArrayList<ProposalOrg>(proposalInfo.getProposerOrg().size()));
+        }
+        for(ProposalOrg org:proposal.getProposerOrg()){
+        	existingOrgs.put(org.getOrgId(), org);
+        }
+        proposal.getProposerOrg().clear();
+        for (String orgId: proposalInfo.getProposerOrg()) {
+        	ProposalOrg org;
+        	if(existingOrgs.containsKey(orgId)){
+        		org = existingOrgs.get(orgId);
+        		existingOrgs.remove(orgId);
+        	}else{
+        		org = new ProposalOrg();
+        	}
+        	org.setOrgId(orgId);
+        	org.setProposal(proposal);
+            proposal.getProposerOrg().add(org);
+        }
+        for (ProposalOrg proposalOrg : existingOrgs.values()) {
+            dao.delete(proposalOrg);
+        }
+        
+//        //Update proposal to reference object relations
+//        Map<String,ProposalReference> existingReferences = new HashMap<String,ProposalReference>();
+//        if(proposal.getProposalReference()==null){
+//        	proposal.setProposalReference(new ArrayList<ProposalReference>(proposalInfo.getProposalReference().size()));
+//        }
+//        for(ProposalReference reference:proposal.getProposalReference()){
+//        	existingReferences.put(reference.getObjectReferenceId(), reference);
+//        }
+//        proposal.getProposalReference().clear();
+//        for (String referenceId: proposalInfo.getProposalReference()) {
+//        	ProposalReference reference;
+//        	if(existingReferences.containsKey(referenceId)){
+//        		reference = existingReferences.get(referenceId);
+//        		existingReferences.remove(referenceId);
+//        	}else{
+//        		reference = new ProposalReference();
+//        	}
+//        	reference.setObjectReferenceId(referenceId);
+//            ProposalReferenceType refType = dao.fetch(ProposalReferenceType.class, proposalInfo.getProposalReferenceType());
+//            reference.setType(refType);
+//            proposal.getProposalReference().add(reference);
+//        }
+//        for (ProposalReference reference : existingReferences.values()) {
+//            dao.delete(reference);
+//        }
+        
         if (proposalInfo.getProposalReference() != null) {
             // Copy propsal references
             List<ProposalReference> references = new ArrayList<ProposalReference>(proposalInfo.getProposalReference().size());
@@ -238,64 +243,9 @@ public class ProposalAssembler extends BaseAssembler {
             }
             proposal.setProposalReference(references);
         }
-
+        
         ProposalType proposalType = dao.fetch(ProposalType.class, proposalTypeKey);
         proposal.setType(proposalType);
         return proposal;
-    }
-
-    public static ProposalDocRelation toProposalDocRelation(String proposalDocRelationType, String documentId, String proposalId, ProposalDocRelationInfo proposalDocRelationInfo, ProposalDao dao) throws DoesNotExistException, VersionMismatchException, InvalidParameterException {
-        ProposalDocRelation proposalDocRelation = new ProposalDocRelation();
-
-        if (proposalDocRelationInfo.getId() != null && !proposalDocRelationInfo.getId().isEmpty()) {
-            proposalDocRelation = dao.fetch(ProposalDocRelation.class, proposalDocRelationInfo.getId());
-            if (!String.valueOf(proposalDocRelation.getVersionInd()).equals(proposalDocRelationInfo.getMetaInfo().getVersionInd())){
-                throw new VersionMismatchException("Proposal to be updated is not the current version");
-            }
-        } else {
-            proposalDocRelation = new ProposalDocRelation();
-        }
-
-        BeanUtils.copyProperties(proposalDocRelationInfo, proposalDocRelation, new String[] { "proposalId", "type",
-                "attributes", "metaInfo", "desc" });
-
-        proposalDocRelation.setDocumentId(documentId);
-        proposalDocRelation.setDescr(toRichText(ProposalRichText.class, proposalDocRelationInfo.getDesc()));
-        proposalDocRelation.setAttributes(toGenericAttributes(ProposalDocRelationAttribute.class, proposalDocRelationInfo.getAttributes(), proposalDocRelation, dao));
-
-        Proposal proposal = dao.fetch(Proposal.class, proposalId);
-        proposalDocRelation.setProposal(proposal);
-
-        ProposalDocRelationType docRelType = dao.fetch(ProposalDocRelationType.class, proposalDocRelationType);
-        proposalDocRelation.setType(docRelType);
-
-        return proposalDocRelation;
-    }
-
-    public static List<ProposalDocRelationTypeInfo> toProposalDocRelationTypeInfos(List<ProposalDocRelationType> entities) {
-        List<ProposalDocRelationTypeInfo> dtos = new ArrayList<ProposalDocRelationTypeInfo>(entities.size());
-        for (ProposalDocRelationType entity : entities) {
-            dtos.add(toProposalDocRelationTypeInfo(entity));
-        }
-        return dtos;
-    }
-
-    public static ProposalDocRelationTypeInfo toProposalDocRelationTypeInfo(ProposalDocRelationType entity) {
-        ProposalDocRelationTypeInfo dto = new ProposalDocRelationTypeInfo();
-
-        BeanUtils.copyProperties(entity, dto, new String[]{"attributes"});
-
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-
-        return dto;
-    }
-    
-    public static List<String> toProposalDocRelationTypeKeyList(List<ProposalDocRelationType> entities){
-        List<String> dtos = new ArrayList<String>(entities.size());
-        for(ProposalDocRelationType entity:entities){
-            dtos.add(entity.getId());
-        }
-        
-        return dtos;
     }
 }

@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
+import org.kuali.student.common.dto.HasAttributes;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -41,6 +41,9 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
     @XmlElement
     private String personId;
 
+    @XmlElement
+    private String personInfoOverride;
+    
     @XmlElement
 	@XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String,String> attributes;
@@ -80,4 +83,18 @@ public class CluInstructorInfo implements Serializable, HasAttributes {
     public void setAttributes(Map<String,String> attributes) {
         this.attributes = attributes;
     }
+
+    /**
+     * @return the personInfoOverride
+     */
+    public String getPersonInfoOverride() {
+        return personInfoOverride;
+    }
+
+    /**
+     * @param personInfoOverride the personInfoOverride to set
+     */
+    public void setPersonInfoOverride(String personInfoOverride) {
+        this.personInfoOverride = personInfoOverride;
+    }     
 }

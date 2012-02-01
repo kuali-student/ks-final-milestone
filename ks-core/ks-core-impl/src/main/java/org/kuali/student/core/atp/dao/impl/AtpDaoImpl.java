@@ -22,13 +22,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
 import org.kuali.student.core.atp.dao.AtpDao;
 import org.kuali.student.core.atp.entity.Atp;
 import org.kuali.student.core.atp.entity.DateRange;
 import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneType;
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
 
 public class AtpDaoImpl extends AbstractSearchableCrudDaoImpl implements AtpDao {
 

@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -38,7 +39,6 @@ import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -158,12 +158,8 @@ public class MembersTable extends Composite{
 
     public void fetchMemberTable(){
         if(orgId!=null){
-            orgProposalRpcServiceAsync.getOrgPersonRelationTypes(new AsyncCallback<List<OrgPersonRelationTypeInfo>>(){
+            orgProposalRpcServiceAsync.getOrgPersonRelationTypes(new KSAsyncCallback<List<OrgPersonRelationTypeInfo>>(){
 
-                @Override
-                public void onFailure(Throwable caught) {
-
-                }
                 @Override
                 public void onSuccess(List<OrgPersonRelationTypeInfo> result) {
                     positionTypes = new HashMap<String, String>();
@@ -182,13 +178,7 @@ public class MembersTable extends Composite{
 
     public void fetchOrgPersonRelations(){
         if(orgId!=null){
-            orgProposalRpcServiceAsync.getOrgPersonRelationsByOrg(orgId, new AsyncCallback<List<OrgPersonRelationInfo>>(){
-
-                @Override
-                public void onFailure(Throwable caught) {
-
-
-                }
+            orgProposalRpcServiceAsync.getOrgPersonRelationsByOrg(orgId, new KSAsyncCallback<List<OrgPersonRelationInfo>>(){
 
                 @Override
                 public void onSuccess(List<OrgPersonRelationInfo> result) {
@@ -212,10 +202,10 @@ public class MembersTable extends Composite{
 
     private void fetchPersonInfo(){
         if (personIds.size() > 0) {
-            orgProposalRpcServiceAsync.getNamesForPersonIds(personIds, new AsyncCallback<Map<String, MembershipInfo>>() {
+            orgProposalRpcServiceAsync.getNamesForPersonIds(personIds, new KSAsyncCallback<Map<String, MembershipInfo>>() {
 
                 @Override
-                public void onFailure(Throwable caught) {
+                public void handleFailure(Throwable caught) {
                     GWT.log("fetch failed", caught);
                 }
 

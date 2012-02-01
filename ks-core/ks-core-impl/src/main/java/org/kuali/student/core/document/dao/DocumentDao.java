@@ -17,11 +17,12 @@ package org.kuali.student.core.document.dao;
 
 import java.util.List;
 
-import org.kuali.student.core.dao.CrudDao;
-import org.kuali.student.core.dao.SearchableDao;
+import org.kuali.student.common.dao.CrudDao;
+import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.document.entity.Document;
 import org.kuali.student.core.document.entity.DocumentCategory;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.core.document.entity.RefDocRelation;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -38,5 +39,10 @@ public interface DocumentDao extends CrudDao, SearchableDao {
     public List<Document> getDocumentsByIdList(List<String> documentIdList) throws DoesNotExistException;
 
     public Boolean removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws DoesNotExistException;
+
+	public List<RefDocRelation> getRefDocRelationsByRef(String refObjectTypeKey,
+			String refObjectId);
+
+	public List<RefDocRelation> getRefDocRelationsByDoc(String documentId);
 
 }

@@ -40,6 +40,10 @@ public class GetCluLoRelationsByCluResponse {
     private java.util.List<CluLoRelationInfo> _return;
 
     public java.util.List<CluLoRelationInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<CluLoRelationInfo>(0);
+		}
+
         return this._return;
     }
 

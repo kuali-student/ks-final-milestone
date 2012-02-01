@@ -50,7 +50,7 @@
 	text-align: left;
 	font-size: 11px;
 	padding-bottom: 20px;
-	vertical-align: middle;	
+	vertical-align: middle;
 }
 
 .KS-FormLayout-Field {
@@ -63,7 +63,7 @@
 }
 
 .KS-Course-Save-Button{
-	margin-left: 100px;	
+	margin-left: 100px;
 }
 
 .KS-Course-Number {
@@ -83,29 +83,28 @@
 }
 
 .KS-LOBuilder-Search-Panel {
-	padding: 0px;
-	width: 100%;
-	
+    line-height:1.5em;
+    width:100%;
 }
 
 .KS-LOBuilder-Spacer-Panel {
 	padding: 10px;
 	width: 250px;
-	
+
 }
 .KS-LOBuilder-Search-Image {
 	cursor: pointer;
-	
+
 }
 .KS-LOBuilder-Search-Link {
 	color: blue;
 	font-size: 70%;
 	cursor: pointer;
-	
+
 }
 
 .KS-LOBuilder-Instructions {
-    font-size:0.916em;
+    font-size:1em;
 }
 
 .KS-LOBuilder-Highlighted-Item {
@@ -121,7 +120,8 @@
 }
 
 .KS-LOBuilder-LO-Panel {
-	margin: 10px;
+margin-bottom: 10px;
+    margin-top: 10px;
 }
 
 .KS-LOWindow {
@@ -157,31 +157,36 @@
 }
 
 .KS-LOCategoryPicker {
-    padding: 5px;
- /*   background-color: #FFE0C2; */
     border-style: dashed;
-    font-size: 75%;
+    font-size: 1em;
+    margin: 0 5px 0 70px;
+    padding: 2px 5px 5px;
+    width: 100%;
+
 }
 
 .KS-LOCategoryPicker-Button {
-    font-size: 75%;
+               font-size:75%;
+               margin:0 0 0 7px;
+
 }
 .KS-LOMainPanel {
 }
 .KS-LONodePanel {
+margin-bottom: 15px;
 }
 .KS-LONodeIndent {
-	width:50px;
+	width:49px;
 }
 .KS-LONodeIndentToolbar {
-    width:50px;
+    width:28px;
     background-color: white;/* so class isn't merged with KS-LONodeIndent */
 }
 .KS-LOaNode {
-	width:400px;
-	height:50px;
-	border: 1px solid gray;
-	background-color: aliceBlue;
+    background-color: #F2F9F9;
+    border: 1px solid #D2D8E3;
+    height: 50px;
+    width: 790px;
 }
 .KS-LOHNodePanel {
 }
@@ -190,12 +195,11 @@
 	height: 32px;
 }
 .KS-LOButtonPanel {
-	border-top: 1px solid gray;
-	border-left: 1px solid gray;
-	border-right: 1px solid gray;
-	border-bottom: none;
-	border-collapse: collapse;
-	width: 100%;
+    border-collapse: collapse;
+    border-color: #D2D8E3;
+    border-style: solid solid none;
+    border-width: 1px 1px medium;
+    width: 100%;
 }
 .KS-LOMoveUpButton{
     background: url("images/ArrowUp.png") no-repeat 2px 2px;
@@ -254,33 +258,48 @@
     margin: 4px 0 0;
 }
 .KS-LODeleteButton{
-    background: url("images/delete_blue_12px.png") no-repeat 2px 2px;
-    width: 22px;
-    height:22px;
-    border:none;
-    margin: 8px 4px 1px 422px;
+    background: none repeat scroll 0 0 transparent;
+    border: medium none;
+    color: blue;
+    float: right;
+    font-size: 0.916em;
+    margin: 8px 4px 1px 320px;  /* not ideal but the quickest fix */
+
 }
 .KS-LODeleteButtonDisabled{
-    background: url("images/delete_gray_12px.png") no-repeat 2px 2px;
-    width: 22px;
-    height:22px;
-    border:none;
-    margin: 8px 4px 1px 442px;
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size:0.916em;
+	margin: 8px 4px 1px 422px;
 }
 .KS-LOBuilder-New{
+	margin-top: 5px;
 	color: blue;
-	font-size: 0.916em;
 	cursor: pointer;
-	width: 24px;
 }
 .KS-LOTextArea {
-	width: 28em;
-	height: 2.75em;
-	margin: 8px;
-	border: 1px solid #888888;
+    border: 1px solid #888888;
+    height: 62px;
+    margin: 8px;
+    width: 35em;
+
 }
+
+.loText-count-label{
+	margin-left: 8px;
+}
+
 .KS-LOSelectedCategories {
-    margin-left: 0px;	
+    margin-left: 0px;
+}
+.KS-LOSelectedCategories .ks-selected-list-value {
+                      border-bottom: #cdcdcd 1px solid;
+                      border-left: #cdcdcd 1px solid;
+                      background: white 0px 0px;
+                      border-top: #cdcdcd 1px solid;
+                      border-right: #cdcdcd 1px solid;
+                      width: 15em;
 }
 .KSLOLightBox {
 }
@@ -307,17 +326,20 @@
 	margin-bottom: 10px;
 	margin-left: 10px;
 }
+.Lum-DocumentHeader-Spacing {
+    margin-left: 0px;
+}
 .KSLOCategoryManagementMainPanel {
-	background-color: white;
-	margin-top: 30px;
-    padding-top: 10px;
-    padding-left: 16px;
+	margin-top: 5px;
+    margin-left: 0px;
 }
 .KSLOCategoryManagementFilterPanel {
+	margin-bottom: 1.2em;
 }
 .KSLOCategoryManagementFilterLabel {
 	font-weight: bold;
-	font-size: 2em;
+	font-size: 1.5em;
+	margin-top: 5px;
 }
 
 .KS-Action-List{
@@ -340,6 +362,58 @@
 .KS-ViewCourseDisplayTableCell {
   border: 1px solid #C0C0C0;
   padding: 2px;
+}
+
+.KS-MultiplicityTable {
+  margin-left: 3px;
+}
+
+.KS-MultiplicityTableBorder {
+  border: thin solid #C0C0C0;
+  border-collapse: collapse;
+}
+
+.KS-MultiplicityTableHeaderCell {
+	font-weight: bold;
+	background-color: #E6E6E6;
+}
+
+.KS-MultiplicityTableCell {
+  padding: 2px;
+}
+.KS-MultiplicityTableCellBorder {
+  border: 1px solid #C0C0C0;
+}
+
+.KS-CommentButton{
+	background: transparent;
+	border: none;
+	color: blue;
+	font-size:0.916em;
+}
+
+.KS-CommentButtonDisabled{
+	background: transparent;
+	border: none;
+	color: #888888;
+	font-size:0.916em;
+}
+
+.KS-CluSetManagement-chooser {
+background-color: lightgrey;
+width:500px;
+padding:10px
+}
+.KS-CluSetManagement-chooser-unselected {
+    background-color: lightgrey;
+    width:500px;
+    height:100px;
+    padding:10px;
+
+}
+
+.browseCatalog .KS-TabPanel-Small .KS-TabPanel-Content{
+	width: 940px;
 }
 
 .cluInfo-officialIdentifier-longName{}
@@ -409,3 +483,222 @@
 .TableIndent-8{text-indent:80px;}
 .SummaryTable-EvenRow{background-color:  #FAFAFA;}
 .SummaryTable-OddRow{background-color: #F0F0F0;}
+
+.KS-LOSecondaryButton {
+	margin-right: 10px;
+}
+
+.LOCategoryDialogSpacing{
+	margin-top: 1.5em;
+}
+
+.LOCategoryDelete .ks-table-plain td{
+	border-bottom: none;
+	vertical-align: bottom;
+}
+
+.KSLOCategoryManagementTablePanel{
+	margin-top: 2em;
+}
+
+.KSLOCategoryManagementTable{
+	margin-top: .5em;
+}
+
+.KS-LOSelectAllHyperlink {
+	margin-right: 7px;
+	font-size: 1.1em;
+}
+.KS-LOClearHyperlink {
+	margin-left: 7px;
+	font-size: 1.1em;
+}
+.KS-LOFunnelImg{
+    background: url("images/funnel-small.png") no-repeat 2px 2px;
+    width: 22px;
+    height:22px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LODialogTitle{
+	font-size: 1.5em;
+	color: red;
+}
+.KS-LODialogFieldLabel{
+	font-weight: bold;
+	margin-right: 10px;
+}
+.KS-LODialogCancel {
+	margin-left: 7px;
+	vertical-align: bottom;
+}
+.KS-LOSpacer {
+    width: 20px;
+    height:20px;
+    border:none;
+    margin: 4px 0 0;
+}
+.KS-LODialogLabel{
+	font-weight: bold;
+	width: 130px;
+	text-align:left
+}
+
+.KS-Program-Rule-ObjectView-Button{
+    padding-top: 16px;
+}
+
+a.KS-Program-Rule-ObjectView-Button{
+    padding-top: 16px;
+}
+
+.acknowledgements{
+	margin-left: 30px;
+	width: 900px;
+	padding-top: 20px;
+}
+
+.acknowledgements p{
+	font-size: 1.1em;
+}
+
+.acknowledgements h1{
+	padding-bottom: 5px;
+	border-bottom: 2px solid black;
+	font-weight: bold;
+}
+
+.acknowledgements h2{
+	font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.acknowledgements h3{
+    font-size: 1.1em;
+    font-weight: bold;
+	margin-bottom: 0px;
+}
+
+.cluSetTitle{
+    font-weight:bold;
+}
+
+.KS-Indent{
+	padding-left: 15px;
+}
+
+.ks-dependency-container{
+	display:inline-block;
+	padding-left:20px;
+	white-space:normal;
+	width:950px;
+}
+
+.ks-dependency-search{	
+	background: #f1f1f2;
+	padding: 15px;
+}
+
+.ks-dependency-search .gwt-SuggestBox {
+    margin-right: 10px;
+}
+
+.ks-dependency-results{	
+	width: 700px;
+	margin-left: 15px;
+	margin-top: 15px;	
+}
+
+.ks-dependency-oversight{
+	padding-top: 10px;
+	font-style: italic;		
+}
+
+.ks-dependency-type-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;
+}
+
+.ks-dependency-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;	
+}
+
+.ks-dependency-section-title{
+	font-weight: bold;
+}
+
+.ks-dependency-section-header{
+	padding-bottom: 2px;
+}
+
+.ks-dependency-details{
+	padding-left: 30px;
+	padding-bottom: 15px;
+}
+
+.ks-dependency-simple-rule{
+	padding-bottom: 5px;
+}
+
+.ks-dependency-complex-rule{
+	padding-bottom: 5px;
+}
+
+.ks-dependency-type-label{
+	font-weight: normal;
+}
+
+.ks-dependency-view-link{
+	padding-left: 10px;
+}
+
+.ks-dependency-highlight{
+	margin-left: 10px;
+	padding-left: 2px;
+	padding-right: 2px;
+	background: #f1f1f2;
+}
+
+.KS-Filter-Options-Parent-Container{
+	border: 1px solid #E8E8E8;
+	background: #F8F8F8;
+	margin-top: 15px;
+	width: 200px;	
+}
+
+.KS-Filter-Options-Title-Panel{
+	padding: 5px;
+}
+
+.KS-Filter-Item-Label{
+	background: #D0D0D0;
+	padding: 5px;
+}
+
+.KS-Filter-Item input[type="checkbox"] + label{
+	display: inline;
+	line-height: 2m;
+	font-weight: normal;
+}
+
+.KS-Filter-Item .gwt-CheckBox{
+	display: block;
+	margin: 10px;
+}
+
+
+.ks-course-admin .ks-menu-layout-menu {
+}
+
+.ks-course-admin .ks-menu-layout-leftColumn{
+	position: fixed;
+}
+
+.ks-course-admin .ks-menu-layout-rightColumn{
+	margin-left: 180px;
+}

@@ -28,11 +28,11 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.HasTypeState;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -56,7 +56,7 @@ public class ResultComponentInfo implements Serializable, Idable, HasTypeState, 
     private RichTextInfo desc;
 
     @XmlElement
-    private List<String> resultValueIds;
+    private List<String> resultValues;
 
     @XmlElement
     private Date effectiveDate;
@@ -103,17 +103,17 @@ public class ResultComponentInfo implements Serializable, Idable, HasTypeState, 
     }
 
     /**
-     * List of result value identifiers. Result values are not unique things themselves, but are instead references to other entities.
+     * List of result values
      */
-    public List<String> getResultValueIds() {
-        if (resultValueIds == null) {
-            resultValueIds = new ArrayList<String>(0);
+    public List<String> getResultValues() {
+        if (resultValues == null) {
+            resultValues = new ArrayList<String>(0);
         }
-        return resultValueIds;
+        return resultValues;
     }
 
-    public void setResultValueIds(List<String> resultValueIds) {
-        this.resultValueIds = resultValueIds;
+    public void setResultValues(List<String> resultValues) {
+        this.resultValues = resultValues;
     }
 
     /**

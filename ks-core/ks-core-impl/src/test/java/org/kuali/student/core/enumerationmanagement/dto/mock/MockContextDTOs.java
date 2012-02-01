@@ -64,7 +64,7 @@ public class MockContextDTOs {
 	 */
 	private EnumContextValueInfo createContext(int i) {
 		EnumContextValueInfo context = new EnumContextValueInfo();
-		context.setType(contextType);
+		context.setKey(contextType);
 		context.setValue(contextValue + i);
 		return context;
 	}
@@ -87,7 +87,7 @@ public class MockContextDTOs {
 	 */
 	private EnumContextValueInfo copyContext(EnumContextValueInfo src) {
 		EnumContextValueInfo copy = new EnumContextValueInfo();
-		copy.setType(src.getType());
+		copy.setKey(src.getKey());
 		copy.setValue(src.getValue());
 		return copy;
 	}

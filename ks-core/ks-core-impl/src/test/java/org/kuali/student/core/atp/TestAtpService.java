@@ -16,6 +16,7 @@
 package org.kuali.student.core.atp;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.text.ParseException;
@@ -26,6 +27,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
@@ -38,19 +45,13 @@ import org.kuali.student.core.atp.dto.DateRangeTypeInfo;
 import org.kuali.student.core.atp.dto.MilestoneInfo;
 import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
 
 @Daos( { @Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpService extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestAtpService.class);
 	
-	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl")
+	@Client(value = "org.kuali.student.core.atp.service.impl.AtpServiceImpl", additionalContextFile="classpath:atp-additional-context.xml")
 	public AtpService client;
 
 	public static final String atpType_fallSemester = "atp.atpType.fallSemester";
@@ -123,8 +124,12 @@ public class TestAtpService extends AbstractServiceTest {
 		atpInfo.getDesc().setFormatted("Atp for fall 2008 semester");
 		atpInfo.getDesc().setPlain("Atp for fall 2008 semester");
 		atpInfo.setName("Fall 2008 Semester");
-		atpInfo.setEffectiveDate(new Date());
-		atpInfo.setExpirationDate(new Date());
+		atpInfo.setStartDate(new Date());
+		atpInfo.setEndDate(new Date());
+		
+		Date stDate = atpInfo.getStartDate();
+		Date enDate = atpInfo.getEndDate();
+		
 		atpInfo.setState("new");
 		
 		atpInfo.getAttributes().put(atpAttribute_notes, "Notes for the Fall 2008 Semester");
@@ -136,6 +141,9 @@ public class TestAtpService extends AbstractServiceTest {
 			LOG.error(e);
 			fail();
 		}
+		
+		assertTrue(stDate.equals(createdAtp.getStartDate()));
+		assertTrue(enDate.equals(createdAtp.getEndDate()));
 		
 		//Make a DateRange
 		DateRangeInfo dateRangeInfo=new DateRangeInfo();

@@ -40,6 +40,10 @@ public class GetCluResultTypesForLuTypeResponse {
     private java.util.List<CluResultTypeInfo> _return;
 
     public java.util.List<CluResultTypeInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<CluResultTypeInfo>(0);
+		}
+
         return this._return;
     }
 

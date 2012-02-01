@@ -15,7 +15,6 @@
 
 package org.kuali.student.core.statement.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -23,14 +22,14 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;;
 
 @Entity
 @Table(name = "KSST_NL_USAGE_TYPE")
 public class NlUsageType extends Type<NlUsageTypeAttribute> {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
-	private List<NlUsageTypeAttribute> attributes = new ArrayList<NlUsageTypeAttribute>();
+	private List<NlUsageTypeAttribute> attributes;
 	
 	@Override
 	public List<NlUsageTypeAttribute> getAttributes() {

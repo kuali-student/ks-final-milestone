@@ -38,6 +38,10 @@ public class GetCluIdsByResultUsageTypeResponse {
     private java.util.List<String> _return;
 
     public java.util.List<String> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<String>(0);
+		}
+
         return this._return;
     }
 

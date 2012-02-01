@@ -25,10 +25,10 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.dto.HasTypeState;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 
 /**
  *Information about a requirement component.
@@ -62,8 +62,12 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
     @XmlAttribute
     private String id;
 
-    @XmlElement
-    private ReqComponentTypeInfo requiredComponentType;
+    /**
+     * <code>naturalLanguageTranslation</code> attribute is a read-only 
+     * attribute which is generated on-the-fly and should not be persisted.
+     */
+    @XmlAttribute
+    private String naturalLanguageTranslation;
     
 	/**
      * Narrative description of the requirement component.
@@ -133,17 +137,6 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
     public void setType(String type) {
         this.type = type;
     }
-
-    public ReqComponentTypeInfo getRequiredComponentType() {
-        return requiredComponentType;
-    }
-
-    public void setRequiredComponentType(ReqComponentTypeInfo requiredComponentType) {
-        this.requiredComponentType = requiredComponentType;
-        if(requiredComponentType != null) {
-            setType(requiredComponentType.getId());
-        }
-    }
     
 	/**
      * The current status of the requirement component. The values for this field are constrained to those in the reqComponentState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
@@ -167,9 +160,21 @@ public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
         this.id = id;
     }
 
+	public String getNaturalLanguageTranslation() {
+		return naturalLanguageTranslation;
+	}
+
+	public void setNaturalLanguageTranslation(String naturalLanguageTranslation) {
+		this.naturalLanguageTranslation = naturalLanguageTranslation;
+	}
+
     @Override
 	public String toString() {
-		return "ReqComponentInfo[id=" + id + ", type=" + type + ", state="
-				+ state + "]";
+        String returnString ="ReqComponentInfo[id=" + id + ", type=" + type + ", state="
+                + state;
+        for(ReqCompFieldInfo info : this.getReqCompFields()){
+            returnString += info.toString() + " ";
+        }
+		return  returnString + "]";
 	}
 }

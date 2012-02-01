@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
@@ -34,7 +35,6 @@ import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -92,12 +92,11 @@ public class PositionTable extends Composite{
 
     public void fetchPosition(){
         if (orgId != null) {
-            orgProposalRpcServiceAsync.getOrgPositionPersonRelation(orgId, new AsyncCallback<List<OrgPositionPersonRelationInfo>>() {
+            orgProposalRpcServiceAsync.getOrgPositionPersonRelation(orgId, new KSAsyncCallback<List<OrgPositionPersonRelationInfo>>() {
 
                 @Override
-                public void onFailure(Throwable caught) {
+                public void handleFailure(Throwable caught) {
                     GWT.log("fetch failed", caught);
-
                 }
 
                 @Override

@@ -18,6 +18,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -25,7 +26,6 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
-import org.kuali.student.core.assembly.data.QueryPath;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -36,7 +36,7 @@ import com.google.gwt.user.client.ui.Composite;
 
 // Skeleton for an action list for View Course.  Actions don't go anywhere yet as most functionality
 // hasn't been coded yet.
-
+@Deprecated
 public class ViewCourseActionList extends Composite {
 	DataModel dataModel=null;
 	
@@ -120,8 +120,8 @@ public class ViewCourseActionList extends Composite {
 //			@Override
 //			public void onClick(ClickEvent event) {
 //				dialog.getConfirmButton().setEnabled(false);
-//				rpcService.submitDocumentWithData(dataModel.getRoot(), new AsyncCallback<DataSaveResult>(){
-//					public void onFailure(
+//				rpcService.submitDocumentWithData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
+//					public void handleFailure(
 //							Throwable caught) {
 //						Window.alert("Error starting Proposal workflow");
 //						dialog.getConfirmButton().setEnabled(true);
@@ -147,8 +147,8 @@ public class ViewCourseActionList extends Composite {
 	        public void onClick(ClickEvent event) {
 				Window.alert("Function not yet implemented");
 	        	
-//				rpcService.acknowledgeDocumentWithId(proposalId, new AsyncCallback<Boolean>(){
-//					public void onFailure(
+//				rpcService.acknowledgeDocumentWithId(proposalId, new KSAsyncCallback<Boolean>(){
+//					public void handleFailure(
 //							Throwable caught) {
 //						Window.alert("Error acknowledging Proposal");
 //					}
@@ -192,39 +192,6 @@ public class ViewCourseActionList extends Composite {
 		items.add(retireCourseAction);
 		courseActionsDropDown.setItems(items);
 
-		//FIXME: apply permissions
-//		rpcService.getActionsRequested(courseId, new AsyncCallback<String>(){
-//
-//			public void onFailure(Throwable caught) {
-//			}
-//
-//			public void onSuccess(String result) {
-//				Window.alert("Permissions string="+result);
-//				items.clear();
-//				if(result.contains("S")){
-//					items.add(wfStartWorkflowItem);
-//				}
-//				if(result.contains("W")){
-//					items.add(wfWithdrawItem);
-//				}
-//				if(result.contains("A")){
-//
-//					items.add(wfApproveItem);
-//					items.add(wfDisApproveItem);
-//
-//				}
-//				if(result.contains("K")){
-//					items.add(wfAcknowledgeItem);
-//				}
-//				
-//				if(result.contains("F")){
-//					items.add(wfFYIWorkflowItem);
-//				}
-//				
-//				courseActionsDropDown.setItems(items);
-//			}
-//			
-//		});
 	}
 
 	/**

@@ -15,7 +15,10 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabbedSectionLayout;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -24,17 +27,15 @@ import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.service.MetadataRpcService;
 import org.kuali.student.common.ui.client.service.MetadataRpcServiceAsync;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.containers.KSTitleContainerImpl;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 
-public class CatalogBrowserController extends TabbedSectionLayout
+public class CatalogBrowserController extends TabMenuController
 {
 	private MetadataRpcServiceAsync metadataService = GWT.create(MetadataRpcService.class);
 	private final DataModel dataModel = new DataModel ();
@@ -42,10 +43,19 @@ public class CatalogBrowserController extends TabbedSectionLayout
 	private Controller controller;
 	private static KSTitleContainerImpl container = new KSTitleContainerImpl("Catalog Browser");
 	private BlockingTask initializingTask = new BlockingTask("Loading");
+	
+	//enum is necessary for the page to be added to breadcrumbs
+	public enum CatalogBrowserViews {
+		COURSE_CATALOG
+    };
 
 	public CatalogBrowserController (Controller controller)	{
-		super (CatalogBrowserController.class.getName (), container);
+		super(CatalogBrowserController.class.getName());
 		this.controller = controller;
+		//sets the name of the page to be used in breadcrumbs
+		super.setName("Course Catalog");
+		//sets enum
+		setViewEnum(CatalogBrowserViews.COURSE_CATALOG);
 		initialize();
 	}
 
@@ -62,6 +72,8 @@ public class CatalogBrowserController extends TabbedSectionLayout
 		});
 	}
 
+ private static final String METADATA_OBJECT_KEY_BROWSE = "browse";
+
 	private void init (final Callback<Boolean> onReadyCallback)
 	{
 
@@ -70,19 +82,25 @@ public class CatalogBrowserController extends TabbedSectionLayout
 		} else	{
     		KSBlockingProgressIndicator.addTask(initializingTask);
     		
-			metadataService.getMetadata ("BrowseCourseCatalog", "default", "default", new AsyncCallback<Metadata> (){
+			metadataService.getMetadata (METADATA_OBJECT_KEY_BROWSE, null, null, new KSAsyncCallback<Metadata> (){
 
 				@Override
-				public void onFailure (Throwable caught)
+				public void handleFailure (Throwable caught)
 				{
 					onReadyCallback.exec (false);
 		    		KSBlockingProgressIndicator.removeTask(initializingTask);
-					throw new RuntimeException ("Failed to get model definition.", caught);
+					throw new RuntimeException ("Failed to get model definition for " + METADATA_OBJECT_KEY_BROWSE, caught);
 				}
 
 				@Override
 				public void onSuccess (Metadata result)
 				{
+     if (result == null)
+     {
+					 onReadyCallback.exec (false);
+		    KSBlockingProgressIndicator.removeTask(initializingTask);
+				 	throw new RuntimeException ("Got null metdata for " + METADATA_OBJECT_KEY_BROWSE);
+     }
 					DataModelDefinition def = new DataModelDefinition (result);
 					dataModel.setDefinition (def);
 					configure (def);
@@ -95,40 +113,29 @@ public class CatalogBrowserController extends TabbedSectionLayout
 	}
 
 	private void configure (DataModelDefinition modelDefinition)	{
-		CatalogBrowserConfigurer cfg = new CatalogBrowserConfigurer ();
+		CatalogBrowserConfigurer cfg = GWT.create(CatalogBrowserConfigurer.class);
 		cfg.setModelDefinition (modelDefinition);
 		cfg.setController (controller);
 		cfg.configureCatalogBrowser (this);
 	}
-
-	/**
-	 * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-	 */
+	
 	@Override
-	public Class<? extends Enum<?>> getViewsEnum (){
-		return CatalogBrowserConfigurer.Sections.class;
-	}
-
-	@Override
-	public void showDefaultView (final Callback<Boolean> onReadyCallback)
-	{
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		WindowTitleUtils.setContextTitle(name);
+		dataModel.setRoot(new Data ());
 		init (new Callback<Boolean> ()	{
 
 			@Override
 			public void exec (Boolean result)
 			{
 				if (result)	{
-					doShowDefaultView (onReadyCallback);
+					showDefaultView (onReadyCallback);
 				} else	{
 					onReadyCallback.exec (false);
 				}
 			}
-
+			
 		});
-	}
-
-	private void doShowDefaultView (final Callback<Boolean> onReadyCallback) {
-		super.showDefaultView (onReadyCallback);
 	}
 
 	@Override

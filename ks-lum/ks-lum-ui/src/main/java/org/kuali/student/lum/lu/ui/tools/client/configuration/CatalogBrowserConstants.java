@@ -22,6 +22,16 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
  */
 public class CatalogBrowserConstants
 {
+// metadata
+ public static final String COURSE_CATALOG = "courseCatalog";
+ public static final String BY_SUBJECT_AREA = "bySubjectArea";
+	public static final String BY_SCHOOL_OR_COLLEGE = "bySchoolOrCollege";
+ public static final String COURSE_ID = "courseId";
+ public static final String FULLY_QUALIFIED_BY_SUBJECT_AREA = 
+   COURSE_CATALOG + "/" + BY_SUBJECT_AREA + "/" + COURSE_ID;
+ public static final String FULLY_QUALIFIED_BY_SCHOOL_OR_COLLEGE =
+   COURSE_CATALOG + "/" + BY_SCHOOL_OR_COLLEGE + "/" + COURSE_ID;
+
 	// Message keys for top-level section label lookup
 	public static final String BROWSE_BY_SUBJECT_AREA_LABEL_KEY =	"browseBySubjectArea";
 	public static final String BROWSE_BY_SCHOOL_LABEL_KEY =			"browseBySchool"; 

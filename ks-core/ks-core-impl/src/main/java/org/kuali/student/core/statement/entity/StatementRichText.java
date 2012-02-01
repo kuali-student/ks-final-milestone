@@ -18,7 +18,7 @@ package org.kuali.student.core.statement.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.RichText;
+import org.kuali.student.common.entity.RichText;
 
 @Entity
 @Table(name = "KSST_RICH_TEXT_T")

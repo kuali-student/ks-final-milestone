@@ -23,17 +23,17 @@ import java.util.Map;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.IdentityService;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchService;
+import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchService;
 /**
  * Proxy Search service to the rice PersonService that adds primitive support for the search() and searchForResult()
  * search methods.
@@ -41,7 +41,7 @@ import org.kuali.student.core.search.service.SearchService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@WebService(endpointInterface = "org.kuali.student.core.search.service.SearchService", name = "PersonSearchService", serviceName = "PersonSearchService", portName = "PersonSearchService", targetNamespace = "http://student.kuali.org/wsdl/personsearch")
+@WebService(endpointInterface = "org.kuali.student.common.search.service.SearchService", name = "PersonSearchService", serviceName = "PersonSearchService", portName = "PersonSearchService", targetNamespace = "http://student.kuali.org/wsdl/personsearch")
 public class PersonSearchServiceImpl implements SearchService {
     protected static final Logger LOG = Logger.getLogger(PersonSearchServiceImpl.class);
 
@@ -52,14 +52,15 @@ public class PersonSearchServiceImpl implements SearchService {
     static final public Map<String,String> PERSON_CRITERIA = new HashMap<String,String>();
 
     static final public Map<String, SearchOperation> searchOperations = new HashMap<String, SearchOperation>();
-
+    
     static {
         PERSON_CRITERIA.put("entityTypes.active", "Y");
         PERSON_CRITERIA.put("principals.active", "Y");
         PERSON_CRITERIA.put("active", "Y");
         PERSON_CRITERIA.put("entityTypes.entityTypeCode", "PERSON|SYSTEM");
-        searchOperations.put("person.search.personQuickViewByGivenName", new QuickViewByGivenName());
+        searchOperations.put(QuickViewByGivenName.SEARCH_TYPE, new QuickViewByGivenName());
     }
+
 
     public PersonSearchServiceImpl() {
     }
@@ -67,15 +68,14 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * Return the list of searches we recognize
      *
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypes()
+     * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
      */
     @Override
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
         final List<SearchTypeInfo> searchTypes =  new ArrayList<SearchTypeInfo>(searchOperations.size());
         for (String searchKey : searchOperations.keySet()) {
-            final SearchTypeInfo searchType = new SearchTypeInfo();
-            searchType.setKey(searchKey);
-            searchTypes.add(searchType);
+            SearchOperation so = searchOperations.get (searchKey);
+            searchTypes.add(so.getType ());
         }
         return searchTypes;
     }
@@ -94,7 +94,7 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
      */
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -104,7 +104,7 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.search.service.SearchService#getSearchCriteriaTypes()
+     * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
      */
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
@@ -114,7 +114,7 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.search.service.SearchService#getSearchResultType(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
      */
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -124,7 +124,7 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.search.service.SearchService#getSearchResultTypes()
+     * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
      */
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
@@ -134,7 +134,7 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.search.service.SearchService#getSearchType(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
      */
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -144,7 +144,7 @@ public class PersonSearchServiceImpl implements SearchService {
     /**
      * This overridden method ...
      *
-     * @see org.kuali.student.core.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+     * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
      */
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

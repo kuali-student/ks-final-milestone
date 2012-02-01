@@ -18,10 +18,12 @@ package org.kuali.student.core.statement.dao.impl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
-import org.kuali.student.core.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.dao.impl.AbstractSearchableCrudDaoImpl;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.statement.dao.StatementDao;
 import org.kuali.student.core.statement.entity.RefStatementRelation;
 import org.kuali.student.core.statement.entity.ReqComponent;
@@ -89,5 +91,26 @@ public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements S
         List<RefStatementRelation> resultList = query.getResultList();
         return resultList;
     }
-    
+
+    @Override
+    public Statement getParentStatement(String childId) throws DoesNotExistException {
+        Query query = em.createNamedQuery("Statement.getParentStatement");
+        query.setParameter("childId", childId);
+        try{
+        	return (Statement)query.getSingleResult();
+        }catch(NoResultException e){
+        	throw new DoesNotExistException("No entity for key '" + childId + "' found",e);
+        }
+    }
+
+	@Override
+	public List<Object[]> getStatementsWithDependencies(
+			List<String> cluVersionIndIds, List<String> cluSetIds) {
+        Query query = em.createNamedQuery("Statement.getStatementsWithDependencies");
+        query.setParameter("cluVersionIndIds", cluVersionIndIds);
+        query.setParameter("cluSetIds", cluSetIds);
+        @SuppressWarnings("unchecked")
+        List<Object[]> resultList = query.getResultList();
+        return resultList;
+	}
 }

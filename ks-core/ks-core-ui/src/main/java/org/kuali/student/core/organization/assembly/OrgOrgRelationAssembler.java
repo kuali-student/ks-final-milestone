@@ -16,34 +16,36 @@
 package org.kuali.student.core.organization.assembly;
 
 
-import static org.kuali.student.core.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isCreated;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isDeleted;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.core.assembly.util.AssemblerUtils.isUpdated;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.isCreated;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.isDeleted;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.common.assembly.util.AssemblerUtils.isUpdated;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.Property;
+import org.kuali.student.common.assembly.old.Assembler;
+import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.common.assembly.util.AssemblerUtils;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.core.assembly.Assembler;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.SaveResult;
-import org.kuali.student.core.assembly.data.Data.Property;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgorgRelationHelper;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 
 public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHelper>{
 	final Logger LOG = Logger.getLogger(OrgOrgRelationAssembler.class);
@@ -160,7 +162,8 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         orgOrgModel.setDefinition(def);
         QueryPath metaPath = QueryPath.concat(null, ORGORG_PATH);
         Metadata orgOrgMeta =orgOrgModel.getMetadata(metaPath);
-        for (Property p : (Data)input.get("orgOrgRelationInfo")) {
+        for (Iterator<Property> propIter = ((Data)input.get("orgOrgRelationInfo")).iterator();propIter.hasNext();) {
+        	Property p = propIter.next();
             OrgorgRelationHelper orgOrgRelation=  OrgorgRelationHelper.wrap((Data)p.getValue());
             if (isUpdated(orgOrgRelation.getData())) {
                 if (orgOrgMeta.isCanEdit()) {
@@ -174,13 +177,15 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                         throw (new AssemblyException());
                     }
                 }
+                AssemblerUtils.setUpdated(orgOrgRelation.getData(), false);
             }
-            else if(isDeleted(orgOrgRelation.getData())){
+            else if(isDeleted(orgOrgRelation.getData())&&orgOrgRelation.getId()!=null){
 //              OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
 //              orgOrgRelationInfo.setId(orgOrgRelation.getId());
               try{
                   if(orgOrgRelation.getId()!=null){
                       StatusInfo  result = orgService.removeOrgOrgRelation(orgOrgRelation.getId());
+                      propIter.remove();
                   }
               }
               catch(Exception e ){
@@ -202,6 +207,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                     LOG.error(e);
                     throw(new AssemblyException());
                 }
+                AssemblerUtils.setCreated(orgOrgRelation.getData(), false);
             }
           
           
