@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 public class AcademicCalendarWrapperInquiryViewHelperServiceImpl extends InquirableImpl {
 //	 public final static String ACADEMIC_CALENDAR_KEY = "academicCalendarInfo.key";
-     public final static String ACADEMIC_CALENDAR_WRAPPER_KEY = "key";
+     public final static String ACADEMIC_CALENDAR_WRAPPER_KEY = "id";
 	 private transient AcademicCalendarService academicCalendarService;
 	 
 	@Override
