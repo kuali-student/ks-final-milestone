@@ -1,5 +1,5 @@
 -- make krms_rule_t.prop_id nullable
-alter table krms_rule_t modify prop_id varchar2(40) DEFAULT NULL
+alter table krms_rule_t modify prop_id null
 /
 
 -- add krms_actn_t.nmspc_cd
