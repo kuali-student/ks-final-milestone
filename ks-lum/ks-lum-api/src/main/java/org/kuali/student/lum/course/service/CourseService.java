@@ -344,8 +344,10 @@ public interface CourseService {
             OperationFailedException, PermissionDeniedException;
 
     @Deprecated
-    public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri, String verIndId, ContextInfo contextInfo);
+    public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri, String verIndId, ContextInfo contextInfo)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
+    OperationFailedException, PermissionDeniedException;
 
     @Deprecated
-    public List<VersionDisplayInfo> getVersions(String courseNamespaceUri, String versionIndId, ContextInfo contextInfo);
+    public List<VersionDisplayInfo> getVersions(String courseNamespaceUri, String versionIndId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
+    OperationFailedException, PermissionDeniedException; 
 }
