@@ -1,20 +1,8 @@
 package org.kuali.student.lum.workflow;
 
-import java.util.Date;
-import java.util.List;
-
-import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.CircularReferenceException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
@@ -25,6 +13,9 @@ import org.kuali.student.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.ProgramServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * This class is called whenever the state of a major discipline changes.
@@ -240,15 +231,12 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      */
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
 
-        AttributeInfo attributeInfo = new AttributeInfo();
-
     	//Set the end terms on the major discipline
+        //TODO KSCM : note used method toGenericMap
     	majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
         majorDisciplineInfo.setEndTermId(endEnrollTerm);
-        attributeInfo.setKey("endInstAdmitTerm");
-        attributeInfo.setValue(endInstAdmitTerm);
-        majorDisciplineInfo.getAttributes().add(attributeInfo);
-        
+        majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+
         //Check if there are variations to process
         if(!majorDisciplineInfo.getVariations().isEmpty()){
         	
@@ -283,14 +271,14 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-	    		if(variation.getAttributes().get(variation.getAttributes().indexOf(attributeInfo)) != null){
-	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp("endInstAdmitTerm", contextInfo);
+	    		if(variation.getAttributes().get("endInstAdmitTerm") != null){
+	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm"));
 	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
 	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
-	    				variation.getAttributes().add(attributeInfo);
+	    				variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
 	    			}
 	    		}else{
-	    			variation.getAttributes().add(attributeInfo);
+	    			variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
 	    		}
 	    		
 	        }
@@ -304,7 +292,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * 
      * @param programRequirementIds
      * @param newState
-     * @param
+     * @param contextInfo
      * @throws Exception
      */
     public void updateRequirementsState(List<String> programRequirementIds, String newState, ContextInfo contextInfo) throws Exception {
