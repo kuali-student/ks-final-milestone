@@ -21,6 +21,7 @@ import javax.jws.WebService;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
@@ -73,7 +74,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
 	public String compareGrades(String gradeKey, String scaleKey,
-			String compareGradeKey, String compareScaleKey)
+			String compareGradeKey, String compareScaleKey,ContextInfo contextInfo)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");
@@ -86,7 +87,7 @@ public class LrcServiceImpl implements LrcService {
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo createResultComponent(
 			String resultComponentTypeKey,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo,ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -95,9 +96,9 @@ public class LrcServiceImpl implements LrcService {
 	    checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
 
 	    // Validate Result component
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName(),contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure,contextInfo);
 
         if (null != validationResults && validationResults.size() > 0) {
             throw new DataValidationErrorException("Validation error!", validationResults);
@@ -113,7 +114,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteResultComponent(String resultComponentId)
+	public StatusInfo deleteResultComponent(String resultComponentId,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -127,7 +128,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredential(java.lang.String)
 	 */
 	@Override
-	public CredentialInfo getCredential(String credentialKey)
+	public CredentialInfo getCredential(String credentialKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -138,7 +139,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
 	public List<String> getCredentialKeysByCredentialType(
-			String credentialTypeKey) throws DoesNotExistException,
+			String credentialTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -148,7 +149,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredentialType(java.lang.String)
 	 */
 	@Override
-	public CredentialTypeInfo getCredentialType(String credentialTypeKey)
+	public CredentialTypeInfo getCredentialType(String credentialTypeKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -158,7 +159,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredentialTypes()
 	 */
 	@Override
-	public List<CredentialTypeInfo> getCredentialTypes()
+	public List<CredentialTypeInfo> getCredentialTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		throw new UnsupportedOperationException();
 	}
@@ -168,7 +169,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
 	public List<CredentialInfo> getCredentialsByKeyList(
-			List<String> credentialKeyList) throws DoesNotExistException,
+			List<String> credentialKeyList,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -178,7 +179,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCredit(java.lang.String)
 	 */
 	@Override
-	public CreditInfo getCredit(String creditKey) throws DoesNotExistException,
+	public CreditInfo getCredit(String creditKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -188,7 +189,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditKeysByCreditType(java.lang.String)
 	 */
 	@Override
-	public List<String> getCreditKeysByCreditType(String creditTypeKey)
+	public List<String> getCreditKeysByCreditType(String creditTypeKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -198,7 +199,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditType(java.lang.String)
 	 */
 	@Override
-	public CreditTypeInfo getCreditType(String creditTypeKey)
+	public CreditTypeInfo getCreditType(String creditTypeKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -208,7 +209,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditTypes()
 	 */
 	@Override
-	public List<CreditTypeInfo> getCreditTypes()
+	public List<CreditTypeInfo> getCreditTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		throw new UnsupportedOperationException();
 	}
@@ -217,7 +218,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getCreditsByKeyList(java.util.List)
 	 */
 	@Override
-	public List<CreditInfo> getCreditsByKeyList(List<String> creditKeyList)
+	public List<CreditInfo> getCreditsByKeyList(List<String> creditKeyList,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -227,7 +228,7 @@ public class LrcServiceImpl implements LrcService {
      * @see org.kuali.student.lum.lrc.service.LrcService#getGrade(java.lang.String)
      */
     @Override
-    public GradeInfo getGrade(String gradeKey) throws DoesNotExistException,
+    public GradeInfo getGrade(String gradeKey,ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -237,7 +238,7 @@ public class LrcServiceImpl implements LrcService {
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradeKeysByGradeType(java.lang.String)
      */
     @Override
-    public List<String> getGradeKeysByGradeType(String gradeTypeKey)
+    public List<String> getGradeKeysByGradeType(String gradeTypeKey,ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -247,7 +248,7 @@ public class LrcServiceImpl implements LrcService {
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradeType(java.lang.String)
      */
     @Override
-    public GradeTypeInfo getGradeType(String gradeTypeKey)
+    public GradeTypeInfo getGradeType(String gradeTypeKey,ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -257,7 +258,7 @@ public class LrcServiceImpl implements LrcService {
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradeTypes()
      */
     @Override
-    public List<GradeTypeInfo> getGradeTypes() throws OperationFailedException {
+    public List<GradeTypeInfo> getGradeTypes(ContextInfo contextInfo) throws OperationFailedException {
 		throw new UnsupportedOperationException();
     }
 
@@ -265,7 +266,7 @@ public class LrcServiceImpl implements LrcService {
      * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByKeyList(java.util.List)
      */
     @Override
-    public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList)
+    public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList,ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -274,7 +275,7 @@ public class LrcServiceImpl implements LrcService {
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByScale(java.lang.String)
 	 */
 	@Override
-	public List<GradeInfo> getGradesByScale(String scale)
+	public List<GradeInfo> getGradesByScale(String scale,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException();
@@ -285,7 +286,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
     @Transactional(readOnly=true)
-	public ResultComponentInfo getResultComponent(String resultComponentId)
+	public ResultComponentInfo getResultComponent(String resultComponentId,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(resultComponentId, "resultComponentId");
@@ -297,10 +298,10 @@ public class LrcServiceImpl implements LrcService {
 	/* (non-Javadoc)
 	 * @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentIdsByResult(java.lang.String, java.lang.String)
 	 */
-	@Override
+	//@Override
     @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResult(String resultValueId,
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(resultValueId, "resultValueId");
@@ -315,7 +316,7 @@ public class LrcServiceImpl implements LrcService {
 	@Override
     @Transactional(readOnly=true)
 	public List<String> getResultComponentIdsByResultComponentType(
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
@@ -329,7 +330,7 @@ public class LrcServiceImpl implements LrcService {
 	@Override
     @Transactional(readOnly=true)
 	public ResultComponentTypeInfo getResultComponentType(
-			String resultComponentTypeKey) throws DoesNotExistException,
+			String resultComponentTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(resultComponentTypeKey, "resultComponentTypeKey");
@@ -342,7 +343,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
     @Transactional(readOnly=true)
-	public List<ResultComponentTypeInfo> getResultComponentTypes()
+	public List<ResultComponentTypeInfo> getResultComponentTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		List<ResultComponentType> rct = lrcDao.find(ResultComponentType.class);
 		return LrcServiceAssembler.toResultComponentTypeInfos(rct);
@@ -353,7 +354,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
     @Transactional(readOnly=true)
-	public ScaleInfo getScale(String scaleKey) throws DoesNotExistException,
+	public ScaleInfo getScale(String scaleKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(scaleKey, "scaleKey");
@@ -366,7 +367,7 @@ public class LrcServiceImpl implements LrcService {
 	 */
 	@Override
 	public List<GradeInfo> translateGrade(String gradeKey, String scaleKey,
-			String translateScaleKey) throws InvalidParameterException,
+			String translateScaleKey,ContextInfo contextInfo) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("Method not yet implemented!");
 	}
@@ -377,7 +378,7 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo updateResultComponent(String resultComponentId,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo,ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -386,9 +387,9 @@ public class LrcServiceImpl implements LrcService {
         checkForMissingParameter(resultComponentInfo, "resultComponentInfo");
         
         // Validate Result component
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName(),contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure,contextInfo);
 
         if (null != validationResults && validationResults.size() > 0) {
             throw new DataValidationErrorException("Validation error!", validationResults);
@@ -423,7 +424,7 @@ public class LrcServiceImpl implements LrcService {
      * Check for missing parameter and throw localized exception if missing
      *
      * @param param
-     * @param parameter name
+     * @param paramName
      * @throws MissingParameterException
      */
     private void checkForMissingParameter(Object param, String paramName)
@@ -435,7 +436,7 @@ public class LrcServiceImpl implements LrcService {
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
@@ -443,13 +444,13 @@ public class LrcServiceImpl implements LrcService {
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		return searchManager.getSearchCriteriaTypes();
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
@@ -457,13 +458,13 @@ public class LrcServiceImpl implements LrcService {
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		return searchManager.getSearchResultTypes();
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	public SearchTypeInfo getSearchType(String searchTypeKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
@@ -471,14 +472,14 @@ public class LrcServiceImpl implements LrcService {
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypes()
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
 		return searchManager.getSearchTypes();
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
@@ -487,7 +488,7 @@ public class LrcServiceImpl implements LrcService {
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+			String searchResultTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
@@ -503,17 +504,17 @@ public class LrcServiceImpl implements LrcService {
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+	public SearchResult search(SearchRequest searchRequest,ContextInfo contextInfo) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
         return searchManager.search(searchRequest, lrcDao);
 	}
 
     @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey,ContextInfo contextInfo) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
     @Override
-    public List<String> getObjectTypes() {
+    public List<String> getObjectTypes(ContextInfo contextInfo) {
         return dictionaryServiceDelegate.getObjectTypes();
     }
 

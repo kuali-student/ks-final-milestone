@@ -21,6 +21,7 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.dto.ContextInfo;
@@ -32,10 +33,10 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.*;
 import org.kuali.student.lum.lrc.LrcServiceConstants;
-import org.kuali.student.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.lum.lrc.dto.ResultScaleInfo;
-import org.kuali.student.lum.lrc.dto.ResultValueInfo;
+import org.kuali.student.lum.lrc.dto.*;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Learning Result Catalog Service is a Class I service which
@@ -105,7 +106,7 @@ public interface LrcService {
      * Retrieves a list of result group identifiers for a specified
      * result component type.
      * 
-     * @param resultValueGroupTypeKey identifier for the result group type
+     * @param resultValuesGroupTypeKey identifier for the result group type
      * @param context Context information containing the principalId
      *                and locale information about the caller of service
      *                operation     
@@ -360,5 +361,310 @@ public interface LrcService {
      */
     public List<ResultValueInfo> getResultValuesForScale(@WebParam(name = "resultScaleKey") String resultScaleKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     //TODO KSCM : I have added from CourseAssembler.java we need to look at what is needed to implement here.
-    Collection<? extends String> getResultComponentIdsByResultComponentType(String courseResultCompTypeCreditFixed) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    public Collection<? extends String> getResultComponentIdsByResultComponentType(String courseResultCompTypeCreditFixed,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#compareGrades(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+*/
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public String compareGrades(String gradeKey, String scaleKey,
+                         String compareGradeKey, String compareScaleKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public ResultComponentInfo createResultComponent(
+            String resultComponentTypeKey,
+            ResultComponentInfo resultComponentInfo,ContextInfo contextInfo)
+            throws AlreadyExistsException, DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#deleteResultComponent(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    public StatusInfo deleteResultComponent(String resultComponentId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCredential(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public CredentialInfo getCredential(String credentialKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCredentialKeysByCredentialType(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<String> getCredentialKeysByCredentialType(
+            String credentialTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCredentialType(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public CredentialTypeInfo getCredentialType(String credentialTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCredentialTypes()
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<CredentialTypeInfo> getCredentialTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCredentialsByKeyList(java.util.List)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<CredentialInfo> getCredentialsByKeyList(
+            List<String> credentialKeyList, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCredit(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public CreditInfo getCredit(String creditKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCreditKeysByCreditType(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<String> getCreditKeysByCreditType(String creditTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCreditType(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public CreditTypeInfo getCreditType(String creditTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCreditTypes()
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<CreditTypeInfo> getCreditTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getCreditsByKeyList(java.util.List)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<CreditInfo> getCreditsByKeyList(List<String> creditKeyList, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+    * @see org.kuali.student.lum.lrc.service.LrcService#getGrade(java.lang.String)
+    */
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public GradeInfo getGrade(String gradeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /* (non-Javadoc)
+    * @see org.kuali.student.lum.lrc.service.LrcService#getGradeKeysByGradeType(java.lang.String)
+    */
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<String> getGradeKeysByGradeType(String gradeTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+    * @see org.kuali.student.lum.lrc.service.LrcService#getGradeTypes()
+    */
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<GradeTypeInfo> getGradeTypes(ContextInfo contextInfo) throws OperationFailedException;
+
+    /* (non-Javadoc)
+    * @see org.kuali.student.lum.lrc.service.LrcService#getGradesByKeyList(java.util.List)
+    */
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<GradeInfo> getGradesByKeyList(List<String> gradeKeyList, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getGradesByScale(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<GradeInfo> getGradesByScale(String scale, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getResultComponent(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    @Transactional(readOnly=true)
+    public ResultComponentInfo getResultComponent(String resultComponentId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentType(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    @Transactional(readOnly=true)
+    public ResultComponentTypeInfo getResultComponentType(
+            String resultComponentTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentTypes()
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    @Transactional(readOnly=true)
+    public List<ResultComponentTypeInfo> getResultComponentTypes()
+            throws OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getResultComponentTypes()
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    @Transactional(readOnly=true)
+    public List<ResultComponentTypeInfo> getResultComponentTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#getScale(java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    @Transactional(readOnly=true)
+    public ScaleInfo getScale(String scaleKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#translateGrade(java.lang.String, java.lang.String, java.lang.String)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<GradeInfo> translateGrade(String gradeKey, String scaleKey,
+                                   String translateScaleKey, ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException;
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey,ContextInfo contextInfo);
+
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public List<String> getObjectTypes(ContextInfo contextInfo);
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lrc.service.LrcService#updateResultComponent(java.lang.String, org.kuali.student.lum.lrc.dto.ResultComponentInfo)
+*/
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    public ResultComponentInfo updateResultComponent(String resultComponentId,
+                                              ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            VersionMismatchException;
+
+    /* (non-Javadoc)
+    * @see org.kuali.student.lum.lrc.service.LrcService#getGradeType(java.lang.String)
+    */
+    //TODO KSCM this method did not exist on the interface
+    @Deprecated
+    public GradeTypeInfo getGradeType(String gradeTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
 }
