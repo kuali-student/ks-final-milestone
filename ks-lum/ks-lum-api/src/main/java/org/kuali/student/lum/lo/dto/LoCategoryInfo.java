@@ -12,6 +12,7 @@
 package org.kuali.student.lum.lo.dto;
 
 import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.lum.lo.infc.LoCategory;
 import org.w3c.dom.Element;
 
@@ -89,9 +90,26 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     }
 
     @Deprecated
-    public Object getLoRepository() {
+    public String getLoRepository() {
         //TODO KSCM
-        //return loRepository;
-        return new Object();
+        return null; //return loRepository;
+    }
+    
+    @Deprecated
+    public RichTextInfo getDesc() {
+        return null; //return desc;
+        //TODO KSCM
+    }
+
+    @Deprecated
+    public void setDesc(RichTextInfo desc) {
+        //this.desc = desc;
+        //TODO KSCM
+    }
+
+    @Deprecated
+    public void setLoRepository(String loRepository) {
+        //this.loRepository = loRepository;
+        //TODO KSCM
     }
 }
