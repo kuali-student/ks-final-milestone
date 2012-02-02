@@ -16,6 +16,7 @@ import org.kuali.student.lum.program.service.ProgramService;
 import org.kuali.student.lum.program.service.ProgramServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
+// TODO KSCM-262
 @Transactional(readOnly=true, rollbackFor={Throwable.class})
 public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(ProgramPostProcessorBase.class);
