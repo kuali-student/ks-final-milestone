@@ -20,21 +20,22 @@ import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlot;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppointmentSlotInfo", propOrder = {"id", "typeKey", "stateKey",
-        "startDateTime", "endDateTime", "windowId", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+        "startDate", "endDate", "windowId", "meta", "attributes", "_futureElements"})
 public class AppointmentSlotInfo extends IdNamelessEntityInfo implements AppointmentSlot {
 
-    private Date startDateTime;
-    private Date endDateTime;
+    @XmlElement
+    private Date startDate;
+    @XmlElement
+    private Date endDate;
+    @XmlElement
     private String windowId;
+    @XmlAnyElement
     private List<Element> _futureElements;
 
     public AppointmentSlotInfo() {
@@ -44,20 +45,20 @@ public class AppointmentSlotInfo extends IdNamelessEntityInfo implements Appoint
     public AppointmentSlotInfo(AppointmentSlot appointmentSlot) {
         super(appointmentSlot);
         if (null != appointmentSlot) {
-            this.startDateTime = (null != appointmentSlot.getStartDateTime()) ? new Date(appointmentSlot.getStartDateTime().getTime()) : null;
-            this.endDateTime = (null != appointmentSlot.getEndDateTime()) ? new Date(appointmentSlot.getEndDateTime().getTime()) : null;
+            this.startDate = (null != appointmentSlot.getStartDate()) ? new Date(appointmentSlot.getStartDate().getTime()) : null;
+            this.endDate = (null != appointmentSlot.getEndDate()) ? new Date(appointmentSlot.getEndDate().getTime()) : null;
             this.windowId = appointmentSlot.getWindowId();
         }
     }
 
     @Override
-    public Date getStartDateTime() {
-        return this.startDateTime;
+    public Date getStartDate() {
+        return this.startDate;
     }
 
     @Override
-    public Date getEndDateTime() {
-        return this.endDateTime;
+    public Date getEndDate() {
+        return this.endDate;
     }
 
     @Override

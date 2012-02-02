@@ -29,10 +29,10 @@ public interface AppointmentSlot extends IdNamelessEntity {
     /**
      * Appointment start date and time ("Aug 05,2012 9:10am")
      *
-     * @name Appointment Start Date Time
+     * @name Start Date Time
      * @required
      */
-    public Date getStartDateTime();
+    public Date getStartDate();
 
     /**
      * Appointment end date and time ("Aug 05,2012 9:20am")
@@ -40,15 +40,15 @@ public interface AppointmentSlot extends IdNamelessEntity {
      * @impl Duration can be used here instead. However, since duration is in
      * AppointmentWindow, it is more useful to have actual end date and time on
      * an individual appointment
-     * @name Appointment End Date Time
+     * @name End Date Time
      * @required
      */
-    public Date getEndDateTime();
+    public Date getEndDate();
 
     /**
      * Appointment window from which this appointment was generated
      *
-     * @name Appointment Window Id
+     * @name Window Id
      * @readOnly
      * @required
      */

@@ -16,15 +16,12 @@
 package org.kuali.student.r2.core.appointment.dto;
 
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
-import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRules;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -32,15 +29,21 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AppointmentSlotRulesInfo", propOrder = {"weekdays", "startTimeOfDay", "endTimeOfday",
+@XmlType(name = "AppointmentSlotRulesInfo", propOrder = {"weekdays", "startTimeOfDay", "endTimeOfDay",
         "interval", "gap", "_futureElements"})
 public class AppointmentSlotRulesInfo implements AppointmentSlotRules {
 
+    @XmlElement
     private List<Integer> weekdays;
-    private Date startTimeOfDay;
-    private Date endTimeOfDay;
-    private TimeAmount interval;
-    private TimeAmount gap;
+    @XmlElement
+    private TimeOfDayInfo startTimeOfDay;
+    @XmlElement
+    private TimeOfDayInfo endTimeOfDay;
+    @XmlElement
+    private TimeAmountInfo interval;
+    @XmlElement
+    private TimeAmountInfo gap;
+    @XmlAnyElement
     private List<Element> _futureElements;
 
     public AppointmentSlotRulesInfo() {
@@ -50,8 +53,8 @@ public class AppointmentSlotRulesInfo implements AppointmentSlotRules {
     public AppointmentSlotRulesInfo(AppointmentSlotRules appointmentSlotRules) {
         if (null != appointmentSlotRules) {
             this.weekdays = new ArrayList<Integer>(appointmentSlotRules.getWeekdays());
-            this.startTimeOfDay = (null != appointmentSlotRules.getStartTimeOfDay()) ? new Date(appointmentSlotRules.getStartTimeOfDay().getTime()) : null;
-            this.endTimeOfDay = (null != appointmentSlotRules.getEndTimeOfDay()) ? new Date(appointmentSlotRules.getEndTimeOfDay().getTime()) : null;
+            this.startTimeOfDay = (null != appointmentSlotRules.getStartTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRules.getStartTimeOfDay()) : null;
+            this.endTimeOfDay = (null != appointmentSlotRules.getEndTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRules.getEndTimeOfDay()) : null;
             this.interval = (null != appointmentSlotRules.getInterval()) ? new TimeAmountInfo(appointmentSlotRules.getInterval()) : null;
             this.gap = (null != appointmentSlotRules.getGap()) ? new TimeAmountInfo(appointmentSlotRules.getGap()) : null;
         }
@@ -63,22 +66,22 @@ public class AppointmentSlotRulesInfo implements AppointmentSlotRules {
     }
 
     @Override
-    public Date getStartTimeOfDay() {
+    public TimeOfDayInfo getStartTimeOfDay() {
         return this.startTimeOfDay;
     }
 
     @Override
-    public Date getEndTimeOfDay() {
+    public TimeOfDayInfo getEndTimeOfDay() {
         return this.endTimeOfDay;
     }
 
     @Override
-    public TimeAmount getInterval() {
+    public TimeAmountInfo getInterval() {
         return this.interval;
     }
 
     @Override
-    public TimeAmount getGap() {
+    public TimeAmountInfo getGap() {
         return this.gap;
     }
 }

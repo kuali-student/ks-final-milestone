@@ -30,8 +30,7 @@ public interface AppointmentWindow extends IdEntity {
     /**
      * Window start date ("Aug 05, 2012")
      *
-     * @impl truncate time portion or use Joda LocalDate
-     * @name Start Date of the window
+     * @name Start Date
      * @required
      */
     public Date getStartDate();
@@ -39,7 +38,6 @@ public interface AppointmentWindow extends IdEntity {
     /**
      * Window end date ("Aug 07, 2012")
      *
-     * @impl truncate time portion or use Joda LocalDate
      * @name End Date
      * @required
      */
@@ -57,7 +55,7 @@ public interface AppointmentWindow extends IdEntity {
      * Appointment period milestone
      *
      * @impl This milestone may be mapped to an ATP ("FALL2013")
-     * @name Appointment Period Milestone Id
+     * @name Period Milestone Id
      * @readOnly
      * @required
      */

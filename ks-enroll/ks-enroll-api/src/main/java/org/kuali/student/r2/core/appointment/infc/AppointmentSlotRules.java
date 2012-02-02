@@ -16,13 +16,13 @@
 package org.kuali.student.r2.core.appointment.infc;
 
 import org.kuali.student.r2.common.infc.TimeAmount;
+import org.kuali.student.r2.common.infc.TimeOfDay;
 
-import java.util.Date;
 import java.util.List;
 
 /**
  * Information about rules used in appointment slot generation
- * 
+ *
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
@@ -39,10 +39,9 @@ public interface AppointmentSlotRules {
     /**
      * Window start time ("9am")
      *
-     * @impl truncate date portion or use Joda LocalTime
      * @name Start Time Of Day
      */
-    Date getStartTimeOfDay();
+    TimeOfDay getStartTimeOfDay();
 
     /**
      * Window end time ("5pm")
@@ -50,19 +49,19 @@ public interface AppointmentSlotRules {
      * @impl truncate date portion or use Joda LocalTime
      * @name End Time Of Day
      */
-    Date getEndTimeOfDay();
+    TimeOfDay getEndTimeOfDay();
 
     /**
      * Appointment slot duration ("20 mins")
      *
-     * @name Appointment Slot Interval
+     * @name  Interval
      */
     TimeAmount getInterval();
 
     /**
      * Gap between appointment slots ("10 mins")
      *
-     * @name Appointment Slot Gap
+     * @name  Gap
      */
     TimeAmount getGap();
 }

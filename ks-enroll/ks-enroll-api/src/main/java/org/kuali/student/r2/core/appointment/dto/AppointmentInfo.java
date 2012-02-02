@@ -19,19 +19,20 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.appointment.infc.Appointment;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AppointmentInfo", propOrder = {"id", "typeKey","stateKey",
-        "personId", "slotId","effectiveDate", "expirationDate",
+@XmlType(name = "AppointmentInfo", propOrder = {"id", "typeKey", "stateKey",
+        "personId", "slotId", "effectiveDate", "expirationDate",
         "meta", "attributes", "_futureElements"})
 public class AppointmentInfo extends RelationshipInfo implements Appointment {
 
+    @XmlElement
     private String personId;
+    @XmlElement
     private String slotId;
+    @XmlAnyElement
     private List<Element> _futureElements;
 
     public AppointmentInfo() {

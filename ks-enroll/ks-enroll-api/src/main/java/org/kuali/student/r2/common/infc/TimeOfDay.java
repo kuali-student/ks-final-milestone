@@ -13,34 +13,18 @@
  *  permissions and limitations under the License.
  */
 
-package org.kuali.student.r2.core.appointment.infc;
-
-import org.kuali.student.r2.common.infc.Relationship;
+package org.kuali.student.r2.common.infc;
 
 /**
- * Information about the person to time slot and appointment window relation
+ * Maintains just the time portion of a day
  *
- * @Version 1.0
+ * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface Appointment extends Relationship {
-
+public interface TimeOfDay {
     /**
-     * Person Identifier
-     *
-     * @name Person Id
-     * @readOnly
-     * @required
+     * Offset from midnight in milliseconds, representing the time portion of a day
+     * @name Milli Seconds
      */
-    public String getPersonId();
-
-    /**
-     * Appointment slot assigned to this person
-     *
-     * @name Slot Id
-     * @readOnly
-     * @required
-     */
-    public String getSlotId();
-
+    public Long getMilliSeconds();
 }

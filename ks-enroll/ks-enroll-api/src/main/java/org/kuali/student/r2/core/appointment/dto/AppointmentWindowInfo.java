@@ -20,25 +20,30 @@ import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRules;
 import org.kuali.student.r2.core.appointment.infc.AppointmentWindow;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppointmentWindowInfo", propOrder = {
-                "id", "typeKey", "stateKey", "name", "descr",
-                "startDate", "endDate", "slotRules", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey",
-                "meta", "attributes", "_futureElements" })
+        "id", "typeKey", "stateKey", "name", "descr",
+        "startDate", "endDate", "slotRules", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey",
+        "meta", "attributes", "_futureElements"})
 public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWindow {
 
+    @XmlElement
     private Date startDate;
+    @XmlElement
     private Date endDate;
-    private AppointmentSlotRules slotRules;
+    @XmlElement
+    private AppointmentSlotRulesInfo slotRules;
+    @XmlElement
     private String periodMilestoneId;
+    @XmlElement
     private String assignedPopulationId;
+    @XmlElement
     private String assignedOrderTypeKey;
+    @XmlAnyElement
     private List<Element> _futureElements;
 
 
