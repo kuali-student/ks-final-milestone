@@ -1888,15 +1888,23 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StateInfo holidayState = stateService.getState(holidayStateKey, contextInfo);
+
+        return holidayState;
     }
 
     @Override
-    public List<StateInfo> getHolidayStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<StateInfo> getHolidayStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StateInfo> results;
+        try {
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.MILESTONE_PROCESS_KEY, contextInfo);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException(AtpServiceConstants.MILESTONE_PROCESS_KEY, ex);
+        }
+
+        return results;
+
     }
 
     @Override
