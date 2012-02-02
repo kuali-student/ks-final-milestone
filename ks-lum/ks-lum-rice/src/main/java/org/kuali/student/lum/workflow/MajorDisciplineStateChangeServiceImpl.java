@@ -239,11 +239,15 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
      * @throws DoesNotExistException 
      */
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
-        
+
+        AttributeInfo attributeInfo = new AttributeInfo();
+
     	//Set the end terms on the major discipline
     	majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
         majorDisciplineInfo.setEndTermId(endEnrollTerm);
-        majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+        attributeInfo.setKey("endInstAdmitTerm");
+        attributeInfo.setValue(endInstAdmitTerm);
+        majorDisciplineInfo.getAttributes().add(attributeInfo);
         
         //Check if there are variations to process
         if(!majorDisciplineInfo.getVariations().isEmpty()){
@@ -279,14 +283,14 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-	    		if(variation.getAttributes().get("endInstAdmitTerm") != null){
-	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm", contextInfo);
+	    		if(variation.getAttributes().get(variation.getAttributes().indexOf(attributeInfo)) != null){
+	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp("endInstAdmitTerm", contextInfo);
 	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
 	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
-	    				variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+	    				variation.getAttributes().add(attributeInfo);
 	    			}
 	    		}else{
-	    			variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+	    			variation.getAttributes().add(attributeInfo);
 	    		}
 	    		
 	        }
