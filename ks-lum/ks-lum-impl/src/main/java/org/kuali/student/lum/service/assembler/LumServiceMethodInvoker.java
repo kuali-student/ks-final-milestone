@@ -7,6 +7,7 @@ import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
@@ -90,7 +91,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	 * @throws UnsupportedOperationException
 	 * @throws CircularReferenceException
 	 */
-	protected void invokeServiceCallOnResult(BaseDTOAssemblyNode results)
+	protected void invokeServiceCallOnResult(BaseDTOAssemblyNode results,ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -111,15 +112,15 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluInfo clu = (CluInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				CluInfo newClu = luService.createClu(clu.getType(), clu);
+				CluInfo newClu = luService.createClu(clu.getType(), clu,contextInfo);
 				if(results.getAssembler() != null) {
-					results.getAssembler().assemble(newClu, results.getBusinessDTORef(), true);
+					results.getAssembler().assemble(newClu, results.getBusinessDTORef(), true,contextInfo);
 				}
 				break;
 			case UPDATE:
 				CluInfo updatedClu = luService.updateClu(clu.getId(), clu);
 				if(results.getAssembler() != null) {
-					results.getAssembler().assemble(updatedClu, results.getBusinessDTORef(), true);
+					results.getAssembler().assemble(updatedClu, results.getBusinessDTORef(), true,contextInfo);
 				}
 				break;
 			case DELETE:
@@ -130,41 +131,41 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			CluCluRelationInfo  relation = (CluCluRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				CluCluRelationInfo newCluRel = luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
+				CluCluRelationInfo newCluRel = luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation,contextInfo);
 				// Update the businessDTO if one exists for the cluclurelation (for e.g. CourseJointInfo)
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(newCluRel, results.getBusinessDTORef(), true);
+					results.getAssembler().assemble(newCluRel, results.getBusinessDTORef(), true,contextInfo);
 				}
 				break;
 			case UPDATE:
-				CluCluRelationInfo updatedCluRel = luService.updateCluCluRelation(relation.getId(), relation);
+				CluCluRelationInfo updatedCluRel = luService.updateCluCluRelation(relation.getId(), relation,contextInfo);
 				// Update the businessDTO if one exists for the cluclurelation (for e.g. CourseJointInfo)
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(updatedCluRel, results.getBusinessDTORef(), true);
+					results.getAssembler().assemble(updatedCluRel, results.getBusinessDTORef(), true,contextInfo);
 				}
 				break;
 			case DELETE:
-				luService.deleteCluCluRelation(relation.getId());
+				luService.deleteCluCluRelation(relation.getId(),contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof CluResultInfo){
 			CluResultInfo cluResult = (CluResultInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				luService.createCluResult(cluResult.getCluId(), cluResult.getType(), cluResult);
+				luService.createCluResult(cluResult.getCluId(), cluResult.getType(), cluResult,contextInfo);
 				break;
 			case UPDATE:
-				luService.updateCluResult(cluResult.getId(), cluResult);
+				luService.updateCluResult(cluResult.getId(), cluResult,contextInfo);
 				break;
 			case DELETE:
-				luService.deleteCluResult(cluResult.getId());
+				luService.deleteCluResult(cluResult.getId(),contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof LoCategoryRelationInfo){
 			LoCategoryRelationInfo loCategoryRelation = (LoCategoryRelationInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				loService.addLoCategoryToLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId());
+				loService.addLoCategoryToLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId(),contextInfo);
 				break;
 			case UPDATE:
 				throw new UnsupportedOperationException("Can't call update on lo category relations, just add and remove");
@@ -176,15 +177,15 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			LoInfo lo = (LoInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo.getType(), lo);
+				LoInfo createdLo = loService.createLo(lo.getLoRepositoryKey(), lo.getType(), lo,contextInfo);
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true);
+					results.getAssembler().assemble(createdLo, results.getBusinessDTORef(), true,contextInfo);
 				}
 				break;
 			case UPDATE:
 				LoInfo updatedLo = loService.updateLo(lo.getId(), lo);
 				if(null != results.getBusinessDTORef()) {
-					results.getAssembler().assemble(updatedLo, results.getBusinessDTORef(), true);
+					results.getAssembler().assemble(updatedLo, results.getBusinessDTORef(), true,contextInfo);
 				}
 				break;
 			case DELETE:

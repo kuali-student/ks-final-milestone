@@ -15,6 +15,7 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.util.UUIDHelper;
@@ -53,7 +54,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	@Override
 	public ProgramRequirementInfo assemble(CluInfo clu,
-			ProgramRequirementInfo progReqInfo, boolean shallowBuild)
+			ProgramRequirementInfo progReqInfo, boolean shallowBuild,ContextInfo contextInfo)
 			throws AssemblyException {
 		ProgramRequirementInfo progReq = (progReqInfo != null ? progReqInfo : new ProgramRequirementInfo());
 
@@ -98,7 +99,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	@Override
 	public BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> disassemble(
-			ProgramRequirementInfo progReq, NodeOperation operation)
+			ProgramRequirementInfo progReq, NodeOperation operation,ContextInfo contextInfo)
 			throws AssemblyException {
 
 		if (progReq == null) {
@@ -115,7 +116,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         statement.setId(UUIDHelper.genStringUUID(statement.getId()));
         BaseDTOAssemblyNode<StatementTreeViewInfo, StatementTreeViewInfo> statementTree;
 		try {
-			statementTree = statementTreeViewAssembler.disassemble(statement, operation);
+			statementTree = statementTreeViewAssembler.disassemble(statement, operation,contextInfo);
 		} catch (AssemblyException e) {
 			throw e;
 		} catch (Exception e) {
