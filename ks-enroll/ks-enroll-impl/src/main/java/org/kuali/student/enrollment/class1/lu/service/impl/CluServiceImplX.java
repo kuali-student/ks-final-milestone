@@ -132,13 +132,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 //@WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 //@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class CluServiceImpl implements CluService {
+public class CluServiceImplX implements CluService {
 
     private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
     private static final String SEARCH_KEY_BROWSE_PROGRAM = "lu.search.browseProgram";
     private static final String SEARCH_KEY_BROWSE_VARIATIONS = "lu.search.browseVariations";
     private static final String SEARCH_KEY_RESULT_COMPONENT = "lrc.search.resultComponent";
-    final Logger logger = Logger.getLogger(CluServiceImpl.class);
+    final Logger logger = Logger.getLogger(CluServiceImplX.class);
     private LuDao luDao;
     private ValidatorFactory validatorFactory;
     private DictionaryService dictionaryServiceDelegate;
