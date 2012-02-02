@@ -31,13 +31,13 @@ import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.lu.dto.FeeInfo;
-import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.lu.dto.RevenueInfo;
-import org.kuali.student.r2.lum.lu.infc.Fee;
-import org.kuali.student.r2.lum.lu.infc.LuCode;
-import org.kuali.student.r2.lum.lu.infc.Revenue;
+import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.clu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
+import org.kuali.student.r2.lum.clu.infc.Fee;
+import org.kuali.student.r2.lum.clu.infc.LuCode;
+import org.kuali.student.r2.lum.clu.infc.Revenue;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

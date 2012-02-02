@@ -33,8 +33,8 @@ import org.kuali.student.r2.lum.course.infc.CourseJoint;
 import org.kuali.student.r2.lum.course.infc.CourseRevenue;
 import org.kuali.student.r2.lum.course.infc.Format;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
-import org.kuali.student.r2.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.infc.CluInstructor;
 import org.w3c.dom.Element;
 
 /**

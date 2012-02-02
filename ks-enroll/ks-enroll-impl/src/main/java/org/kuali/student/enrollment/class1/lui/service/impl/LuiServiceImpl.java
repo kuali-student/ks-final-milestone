@@ -36,7 +36,7 @@ import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
-import org.kuali.student.r2.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
@@ -47,7 +47,7 @@ public class LuiServiceImpl implements LuiService {
     private StateService stateService;
     private TypeTypeRelationDao typeTypeRelationDao;
     private AtpService atpService;
-    private LuService luService;
+    private CluService luService;
 
     public LuiDao getLuiDao() {
         return luiDao;
@@ -98,11 +98,11 @@ public class LuiServiceImpl implements LuiService {
         this.atpService = atpService;
     }
 
-    public LuService getLuService() {
+    public CluService getLuService() {
         return luService;
     }
 
-    public void setLuService(LuService luService) {
+    public void setLuService(CluService luService) {
         this.luService = luService;
     }
 

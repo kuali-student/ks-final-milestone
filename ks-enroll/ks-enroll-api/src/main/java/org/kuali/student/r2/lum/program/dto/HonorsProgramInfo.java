@@ -21,40 +21,41 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.program.infc.HonorsProgram;
 import org.w3c.dom.Element;
 
-/**
- * This is a description of what this class does - sambit don't forget to fill
- * this in.
- * 
- * @author Kuali Student Team (sambitpa@kuali.org)
- */
 
-@XmlType(name = "HonorsProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "credentialProgramId", "programRequirements", "meta", "attributes", "_futureElements"})
+@XmlType(name = "HonorsProgramInfo", propOrder = {"id",
+    "typeKey",
+    "stateKey",
+    "credentialProgramId",
+    "programRequirementIds",
+    "meta",
+    "attributes",
+    "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class HonorsProgramInfo extends IdEntityInfo implements HonorsProgram, Serializable {
-
+public class HonorsProgramInfo extends IdNamelessEntityInfo implements HonorsProgram, Serializable {
+    
     private static final long serialVersionUID = 1L;
-
     @XmlElement
     private String credentialProgramId;
-
     @XmlElement
-    private List<String> programRequirements;
-
+    private List<String> programRequirementIds;
     @XmlAnyElement
     private List<Element> _futureElements;
-
+    
     public HonorsProgramInfo() {
-        this.programRequirements = new ArrayList<String>();
+        this.programRequirementIds = new ArrayList<String>();
     }
-
+    
     public HonorsProgramInfo(HonorsProgram honorsProgram) {
+        super (honorsProgram);
         if (honorsProgram != null) {
             this.credentialProgramId = honorsProgram.getCredentialProgramId();
-            this.programRequirements = honorsProgram.getProgramRequirements() != null ? new ArrayList<String>(honorsProgram.getProgramRequirements()) : new ArrayList<String>();
+            this.programRequirementIds = honorsProgram.getProgramRequirementIds() != null 
+                    ? new ArrayList<String>(honorsProgram.getProgramRequirementIds()) 
+                    : new ArrayList<String>();
         }
     }
 
@@ -65,24 +66,40 @@ public class HonorsProgramInfo extends IdEntityInfo implements HonorsProgram, Se
     public String getCredentialProgramId() {
         return credentialProgramId;
     }
-
+    
     public void setCredentialProgramId(String credentialProgramId) {
         this.credentialProgramId = credentialProgramId;
     }
+    
+    @Override
+    public List<String> getProgramRequirementIds() {
+        if (programRequirementIds == null) {
+            programRequirementIds = new ArrayList<String>(0);
+        }
+        return programRequirementIds;
+    }
+    
+    public void setProgramRequirementIds(List<String> programRequirements) {
+        this.programRequirementIds = programRequirements;
+    }
 
     /**
-     * Honors Program Requirements.
+     * Compatibility method for R1.
+     * Same as getProgramRequirementIds
+     * @deprecated
      */
-    @Override
+    @Deprecated
     public List<String> getProgramRequirements() {
-        if (programRequirements == null) {
-            programRequirements = new ArrayList<String>(0);
-        }
-        return programRequirements;
+        return this.getProgramRequirementIds();
     }
 
+    /**
+     * Compatibility method for R1.
+     * Same as setProgramRequirementIds
+     * @deprecated
+     */
+    @Deprecated
     public void setProgramRequirements(List<String> programRequirements) {
-        this.programRequirements = programRequirements;
+        this.setProgramRequirementIds(programRequirements);
     }
-
 }

@@ -20,10 +20,10 @@ import java.util.List;
 import org.kuali.student.r2.common.infc.HasEffectiveDates;
 import org.kuali.student.r2.common.infc.IdEntity;
 import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.kuali.student.r2.lum.lu.infc.Expenditure;
-import org.kuali.student.r2.lum.lu.infc.Fee;
-import org.kuali.student.r2.lum.lu.infc.LuCode;
-import org.kuali.student.r2.lum.lu.infc.Revenue;
+import org.kuali.student.r2.lum.clu.infc.Expenditure;
+import org.kuali.student.r2.lum.clu.infc.Fee;
+import org.kuali.student.r2.lum.clu.infc.LuCode;
+import org.kuali.student.r2.lum.clu.infc.Revenue;
 
 /**
  * Detailed information about a single LUI.

@@ -9,7 +9,7 @@ import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.common.infc.TimeAmount;
 import org.kuali.student.r2.core.versionmanagement.infc.Version;
 
-import org.kuali.student.r2.lum.lu.infc.CluInstructor;
+import org.kuali.student.r2.lum.clu.infc.CluInstructor;
 
 /**
  * Detailed information about a single course. For specific usage, check the

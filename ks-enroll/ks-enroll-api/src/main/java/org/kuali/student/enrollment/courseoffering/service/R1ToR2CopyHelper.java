@@ -9,10 +9,13 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.lrc.dto.ResultValuesGroupInfo;
-import org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo;
-import org.kuali.student.r2.lum.lu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.lu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.clu.dto.FeeInfo;
 
 /**
  * Utility to copy R1 to R2 structures
@@ -71,6 +74,35 @@ public class R1ToR2CopyHelper {
             r2List.add(r2);
         }
         return r2List;
+    }
+
+    public ValidationResultInfo copyValidationResult(org.kuali.student.common.validation.dto.ValidationResultInfo r1) {
+        if (r1 == null) {
+            return null;
+        }
+        ValidationResultInfo r2 = new ValidationResultInfo();
+        r2.setElement(r1.getElement());
+        r2.setMessage(r1.getMessage());
+        switch (r1.getErrorLevel()) {
+            case ERROR:
+                r2.setErrorLevel(ErrorLevel.ERROR);
+            case OK:
+                r2.setErrorLevel(ErrorLevel.OK);
+            case WARN:
+                r2.setErrorLevel(ErrorLevel.WARN);
+        }
+        return r2;
+    }
+
+    public List<ValidationResultInfo> copyValidationResultList(List<org.kuali.student.common.validation.dto.ValidationResultInfo> r1list) {
+        if (r1list == null) {
+            return null;
+        }
+        List<ValidationResultInfo> list = new ArrayList<ValidationResultInfo>(r1list.size());
+        for (org.kuali.student.common.validation.dto.ValidationResultInfo r1 : r1list) {
+            list.add(copyValidationResult(r1));
+        }
+        return list;
     }
 
     public List<FeeInfo> copyCourseFeeList(List<org.kuali.student.lum.course.dto.CourseFeeInfo> r1List) {
@@ -174,8 +206,8 @@ public class R1ToR2CopyHelper {
         return r2;
 
     }
-    
-    public List<OfferingInstructorInfo> copyInstructors(List<org.kuali.student.lum.lu.dto.CluInstructorInfo> r1List){
+
+    public List<OfferingInstructorInfo> copyInstructors(List<org.kuali.student.lum.lu.dto.CluInstructorInfo> r1List) {
         if (r1List == null) {
             return null;
         }
@@ -183,17 +215,44 @@ public class R1ToR2CopyHelper {
         for (org.kuali.student.lum.lu.dto.CluInstructorInfo r1 : r1List) {
             r2List.add(copyInstructor(r1));
         }
-        return r2List;   	
+        return r2List;
     }
-    
-    public OfferingInstructorInfo copyInstructor(org.kuali.student.lum.lu.dto.CluInstructorInfo r1){
+
+    public OfferingInstructorInfo copyInstructor(org.kuali.student.lum.lu.dto.CluInstructorInfo r1) {
         if (r1 == null) {
             return null;
         }
         OfferingInstructorInfo r2 = new OfferingInstructorInfo();
         r2.setAttributes(copyAttributes(r1.getAttributes()));
         r2.setPersonId(r1.getPersonId());
-        
+
         return r2;
+    }
+
+    public VersionDisplayInfo copyVersionDisplay(org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo r1) {
+        if (r1 == null) {
+            return null;
+        }
+        VersionDisplayInfo r2 = new VersionDisplayInfo();
+        r2.setId(r1.getId());
+        r2.setRefObjectUri(r1.getObjectTypeURI());
+        r2.setCurrentVersionStart(r1.getCurrentVersionStart());
+        r2.setCurrentVersionEnd(r1.getCurrentVersionEnd());
+        r2.setSequenceNumber(r1.getSequenceNumber());
+        r2.setVersionComment(r1.getVersionComment());
+        r2.setVersionIndId(r1.getVersionIndId());
+        r2.setVersionedFromId(r1.getVersionedFromId());
+        return r2;
+    }
+
+    public List<VersionDisplayInfo> copyVersionDisplays(List<org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo> r1List) {
+        if (r1List == null) {
+            return null;
+        }
+        List<VersionDisplayInfo> r2List = new ArrayList<VersionDisplayInfo>(r1List.size());
+        for (org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo r1 : r1List) {
+            r2List.add(copyVersionDisplay(r1));
+        }
+        return r2List;
     }
 }

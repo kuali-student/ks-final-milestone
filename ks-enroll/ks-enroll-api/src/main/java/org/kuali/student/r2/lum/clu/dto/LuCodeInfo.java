@@ -12,10 +12,8 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-
 package org.kuali.student.r2.lum.clu.dto;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
 import org.w3c.dom.Element;
 
@@ -26,37 +24,92 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAttribute;
+import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 
 /**
  * Detailed information about learning unit codes.
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LuCodeInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "value",
-        "meta", "attributes", "_futureElements"})
-public class LuCodeInfo extends IdEntityInfo implements LuCode, Serializable {
+@XmlType(name = "LuCodeInfo", propOrder = {"id",
+    "typeKey",
+    "descr",
+    "value",
+    "meta",
+    "attributes",
+    "_futureElements"})
+public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Serializable {
 
     private static final long serialVersionUID = 1L;
-
+    @XmlAttribute
+    private String id;
+    @XmlAttribute
+    private String typeKey;
     @XmlElement
     private String value;
     @XmlAnyElement
+    @XmlElement
+    private RichTextInfo descr;
     private List<Element> _futureElements;
-
 
     public LuCodeInfo() {
     }
 
     public LuCodeInfo(LuCode luCode) {
         super(luCode);
+        this.id = luCode.getId();
+        this.typeKey = luCode.getTypeKey();
+        if (luCode.getDescr() != null) {
+            this.descr = new RichTextInfo(luCode.getDescr());
+        }
         this.value = luCode.getValue();
     }
 
+    @Override
     public String getValue() {
         return value;
     }
 
     public void setValue(String value) {
         this.value = value;
+    }
+
+    @Override
+    public RichTextInfo getDescr() {
+        return descr;
+    }
+
+    public void setDescr(RichTextInfo descr) {
+        this.descr = descr;
+    }
+
+    @Override
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    @Override
+    public String getTypeKey() {
+        return typeKey;
+    }
+
+    public void setTypeKey(String typeKey) {
+        this.typeKey = typeKey;
+    }
+
+    @Override
+    @Deprecated
+    public String getType() {
+        return typeKey;
+    }
+
+    @Deprecated
+    public void setType(String typeKey) {
+        this.typeKey = typeKey;
     }
 }

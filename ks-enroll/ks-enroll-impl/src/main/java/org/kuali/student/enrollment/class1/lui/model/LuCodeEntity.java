@@ -15,8 +15,8 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.lu.infc.LuCode;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r2.lum.clu.infc.LuCode;
 
 @Entity
 @Table(name = "KSEN_LUI_LUCD")

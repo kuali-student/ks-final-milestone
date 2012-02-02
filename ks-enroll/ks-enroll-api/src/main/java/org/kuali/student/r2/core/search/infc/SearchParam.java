@@ -16,8 +16,6 @@
 
 package org.kuali.student.r2.core.search.infc;
 
-import java.util.List;
-
 public interface SearchParam {
     
     /**
