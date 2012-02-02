@@ -20,6 +20,7 @@ import org.kuali.student.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
+// TODO KSCM-260
 @Transactional(noRollbackFor = { DoesNotExistException.class }, rollbackFor = { Throwable.class })
 public class CourseStateChangeServiceImpl {
 	private CourseService courseService;
