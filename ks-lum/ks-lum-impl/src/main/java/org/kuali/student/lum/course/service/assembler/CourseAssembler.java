@@ -224,6 +224,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getRelatedCluId(), null, false);
 						else
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getCluId(), null, false);
+						if (jointInfo == null)
 						course.getJoints().add(jointInfo);
 					}
 				}
