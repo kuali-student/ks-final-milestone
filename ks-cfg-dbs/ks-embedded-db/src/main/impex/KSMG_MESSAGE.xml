@@ -1062,11 +1062,6 @@
         ID="798a7c35-6bfc-4192-b2df-c0c0c710d628" LOCALE="en"
         MSG_ID="cluExpenditure" MSG_VALUE="Expending Organization"
         OBJ_ID="15fb08db-06e4-44db-b472-0a976bd59208" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
-        ID="7BC908D6831B4FA08FE63914FDF0A281" LOCALE="en"
-        MSG_ID="validation.validChars.positive.numeric.range"
-        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
-        OBJ_ID="F8CB0C3A60D04292BD67BC3EE202473C" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="common"
         ID="7a4e0aca-8534-403d-a545-73cfd819a6f3" LOCALE="es"
         MSG_ID="processing" MSG_VALUE="Proceso..."
@@ -1370,14 +1365,19 @@
         MSG_VALUE="Course Number or Title"
         OBJ_ID="aa3fc620-8c01-4657-9474-1bc27eb8d801" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
-        ID="A815258EA2AE4BB8BFCADF645B4E2210" LOCALE="en"
-        MSG_ID="validation.validChars.numeric.range"
-        MSG_VALUE="Single number or numeric range separated by a dash"
-        OBJ_ID="39BCB2D160AC4B9289A8F4631654E026" VER_NBR="1"/>
-    <KSMG_MESSAGE GRP_NAME="validation"
         ID="AFCFA4BE-8024-4AAC-8539-6342A970AAA1" LOCALE="en"
         MSG_ID="validation.invalid" MSG_VALUE="Invalid value"
         OBJ_ID="3388D5EE-A5A0-4549-8974-9DB22E7DEEA2" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="B8040DEB2D768E89E040C60AF05B2231" LOCALE="en"
+        MSG_ID="validation.validChars.numeric.range"
+        MSG_VALUE="Single number or numeric range separated by a dash"
+        OBJ_ID="B8040DEB2D778E89E040C60AF05B2231" VER_NBR="1"/>
+    <KSMG_MESSAGE GRP_NAME="validation"
+        ID="B8040DEB2D788E89E040C60AF05B2231" LOCALE="en"
+        MSG_ID="validation.validChars.positive.numeric.range"
+        MSG_VALUE="Positive single number or postive numeric range separated by a dash"
+        OBJ_ID="B8040DEB2D798E89E040C60AF05B2231" VER_NBR="1"/>
     <KSMG_MESSAGE GRP_NAME="validation"
         ID="F541324F-BD0D-A2CC-1874-E7F36B73D8FD" LOCALE="en"
         MSG_ID="reqActivate" MSG_VALUE="Required for Activate"

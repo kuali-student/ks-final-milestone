@@ -4371,7 +4371,6 @@
         <column name="ATP_STATE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="ATP_TYPE_ID" required="true" size="255" type="VARCHAR"/>
         <column name="RT_DESCR_ID" size="255" type="VARCHAR"/>
-        <column name="ATP_CD" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_RICH_TEXT_T" name="FKFD3154F6C2F628C">
             <reference foreign="ID" local="RT_DESCR_ID"/>
         </foreign-key>
