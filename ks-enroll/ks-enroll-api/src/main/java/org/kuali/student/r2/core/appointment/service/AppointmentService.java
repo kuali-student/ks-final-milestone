@@ -184,7 +184,7 @@ public interface AppointmentService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateAppointment(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "personId") String personId, @WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "appointmentTypeKey") String appointmentTypeKey, @WebParam(name = "appointmentInfo") AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public List<ValidationResultInfo> validateAppointment(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "personId") String personId, @WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "appointmentTypeKey") String appointmentTypeKey, @WebParam(name = "appointmentInfo") AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates an Appointment
@@ -451,7 +451,7 @@ public interface AppointmentService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<ValidationResultInfo> validateAppointmentWindow(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "periodMilestoneId") String periodMilestoneId, @WebParam(name = "populationId") String populationId, @WebParam(name = "assignedOrderTypeKey") String assignedOrderTypeKey, @WebParam(name = "appointmentWindowTypeKey") String appointmentWindowTypeKey, @WebParam(name = "appointmentWindowInfo") AppointmentWindowInfo appointmentWindowInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public List<ValidationResultInfo> validateAppointmentWindow(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "periodMilestoneId") String periodMilestoneId, @WebParam(name = "populationId") String populationId, @WebParam(name = "assignedOrderTypeKey") String assignedOrderTypeKey, @WebParam(name = "appointmentWindowTypeKey") String appointmentWindowTypeKey, @WebParam(name = "appointmentWindowInfo") AppointmentWindowInfo appointmentWindowInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
@@ -608,14 +608,15 @@ public interface AppointmentService {
      *                            service operation
      * @return created AppointmentSlot for the given AppointmentWindow and slot
      *         information
-     * @throws DoesNotExistException     appointmentWindowId does not exist
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing appointmentWindowId or
-     *                                   contextInfo
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @throws ReadOnlyException         an attempt at supplying information
-     *                                   designated as read only
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        appointmentWindowId does not exist
+     * @throws InvalidParameterException    invalid contextInfo
+     * @throws MissingParameterException    missing appointmentWindowId or
+     *                                      contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
      */
     public AppointmentSlotInfo createAppointmentSlot(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentSlotInfo") AppointmentSlotInfo appointmentSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
@@ -629,14 +630,15 @@ public interface AppointmentService {
      *                            service operation
      * @return created AppointmentSlots for the window using its
      *         AppointmentSlotRules information
-     * @throws DoesNotExistException     appointmentWindowId does not exist
-     * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException missing appointmentWindowId or
-     *                                   contextInfo
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @throws ReadOnlyException         an attempt at supplying information
-     *                                   designated as read only
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        appointmentWindowId does not exist
+     * @throws InvalidParameterException    invalid contextInfo
+     * @throws MissingParameterException    missing appointmentWindowId or
+     *                                      contextInfo
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information
+     *                                      designated as read only
      */
     public List<AppointmentSlotInfo> createAppointmentSlotsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
