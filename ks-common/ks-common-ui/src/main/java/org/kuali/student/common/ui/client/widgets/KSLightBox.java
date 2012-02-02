@@ -191,9 +191,12 @@ public class KSLightBox extends DialogBox {
         mainPanel.addSouth(buttonPanel, BUTTON_HEIGHT);
         mainPanel.add(scrollPanel);
         closeLinkPanel.add(closeLink);
-        //parent element sets overflow to hidden, must reset overflow to visible to show the 'closeLink'
-        Element titlePanelContainer = mainPanel.getWidgetContainerElement(closeLinkPanel);
+        //parent element sets overflow to hidden to allow background and other css styling on the titlePanel
+        Element titlePanelContainer = mainPanel.getWidgetContainerElement(titlePanel);
         titlePanelContainer.getStyle().setOverflow(Overflow.VISIBLE);
+        //parent element sets overflow to hidden, must reset overflow to visible to show the 'closeLink'
+        Element closeLinkPanelContainer = mainPanel.getWidgetContainerElement(closeLinkPanel);
+        closeLinkPanelContainer.getStyle().setOverflow(Overflow.VISIBLE);
         scrollPanel.add(contentPanel);
 
         installResizeHandler();
