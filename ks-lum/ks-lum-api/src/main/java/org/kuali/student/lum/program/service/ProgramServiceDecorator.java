@@ -16,6 +16,7 @@ import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.dto.HonorsProgramInfo;
@@ -302,5 +303,25 @@ public class ProgramServiceDecorator implements ProgramService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.nextDecorator.getProgramRequirementsByIds(programRequirementIds, contextInfo);
     }
+
+
+	@Override
+	public VersionDisplayInfo getCurrentVersion(String programServiceConstant,
+			String versionIndId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return this.nextDecorator.getCurrentVersion(programServiceConstant, versionIndId, contextInfo);
+	}
+
+
+	@Override
+	public List<VersionDisplayInfo> getVersions(String programServiceConstants,
+			String versionIndId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		return this.nextDecorator.getVersions(programServiceConstants, versionIndId, contextInfo);
+	}
 
 }
