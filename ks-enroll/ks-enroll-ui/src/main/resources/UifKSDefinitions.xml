@@ -34,10 +34,6 @@
         </property>
     </bean>
 
-    <!-- TODO: fix me for rice-2.0.0-rc1 -->
-    <!-- add to individual views using additionalCssFiles ks-enroll/css/registration.css,ks-enroll/css/schedule.css -->
-    <!-- add to individual views using additionalScriptFiles ks-enroll/scripts/schedule-plugin.js -->
-
     <bean id="KSFormView" abstract="true" parent="Uif-FormView">
         <property name="theme">
             <bean parent="KSTheme"/>
