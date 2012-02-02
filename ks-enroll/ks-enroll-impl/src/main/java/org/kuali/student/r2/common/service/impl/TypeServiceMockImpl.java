@@ -163,6 +163,16 @@ public class TypeServiceMockImpl implements TypeService{
         typeArrays.add(new String[] {"kuali.atp.type.SummerEve", "Summer Eve", "Summer Eve", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
         typeArrays.add(new String[] {"kuali.atp.type.Winter", "Winter", "Winter", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
         typeArrays.add(new String[] {"kuali.atp.type.Adhoc", "Ad hoc", "Ad hoc", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+
+        //holidays
+        typeArrays.add(new String[] {"kuali.atp.milestone.LaborDay", "Labor Day", "Labor Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.FallBreak", "Fall Break", "Fall Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.ThanksgivingBreak", "Thanksgiving Break", "Thanksgiving Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.MLKDayObserved", "MLKDay Observed", "MLKDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.SpringBreak", "Spring Break", "Spring Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.MemorialDayObserved", "MemorialDay Observed", "MemorialDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.IndependenceDayObserved", "IndependenceDay Observed", "IndependenceDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1]);
         }
@@ -193,6 +203,21 @@ public class TypeServiceMockImpl implements TypeService{
         termGroup.add(getType("kuali.atp.type.Adhoc"));
         for (TypeInfo type : termGroup) {
             createTypeTypeRelationInfo(termGroupType, type);
+        }
+
+        //Holiday types Grouping
+        Set<TypeInfo> holidayGroup = new HashSet<TypeInfo>();
+        TypeInfo holidayGroupType = createTypeInfo("kuali.milestone.type.group.holiday", null);
+
+        holidayGroup.add(getType("kuali.atp.milestone.LaborDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.FallBreak"));
+        holidayGroup.add(getType("kuali.atp.milestone.ThanksgivingBreak"));
+        holidayGroup.add(getType("kuali.atp.milestone.MLKDayObserved"));
+        holidayGroup.add(getType("kuali.atp.milestone.SpringBreak"));
+        holidayGroup.add(getType("kuali.atp.milestone.MemorialDayObserved"));
+        holidayGroup.add(getType("kuali.atp.milestone.IndependenceDayObserved"));
+        for (TypeInfo type : holidayGroup) {
+            createTypeTypeRelationInfo(holidayGroupType, type);
         }
 
         // Allowed type relations
