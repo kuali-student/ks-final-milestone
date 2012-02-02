@@ -479,7 +479,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			throw new AssemblyException("Error getting cluResults", e);
 		}
 		
-		List<BaseDTOAssemblyNode<?, ?>> creditOutcomes = disassembleCreditOutcomes(course, clu, cluResultList, operation);
+		List<BaseDTOAssemblyNode<?, ?>> creditOutcomes = disassembleCreditOutcomes(course, clu, cluResultList, operation, contextInfo);
 		result.getChildNodes().addAll(creditOutcomes);
 		
 		BaseDTOAssemblyNode<?, ?> gradingOptions = disassembleGradingOptions(clu.getId(), course.getState(), course.getGradingOptions(), cluResultList, operation);
@@ -570,7 +570,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return result;
 	}
 
-	private List<BaseDTOAssemblyNode<?, ?>> disassembleCreditOutcomes(CourseInfo course, CluInfo clu, List<CluResultInfo> currentCluResults, NodeOperation operation) throws AssemblyException, NumberFormatException {
+	private List<BaseDTOAssemblyNode<?, ?>> disassembleCreditOutcomes(CourseInfo course, CluInfo clu, List<CluResultInfo> currentCluResults, NodeOperation operation, ContextInfo context) throws AssemblyException, NumberFormatException {
 		
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 		
@@ -584,15 +584,15 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			try{
 				try {
 // TODO KSCM
- rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED));
+ rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED, context));
 				} catch (DoesNotExistException e) {}
 				try {
 					// TODO KSCM
-					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE));
+					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE, context));
 				} catch (DoesNotExistException e) {}
 				try {
 					// TODO KSCM
-					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE));
+					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE, context));
 				} catch (DoesNotExistException e) {}
 
 				//Create any LRCs that do not yet exist
