@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
  * A base post processor class for Course document types in Workflow.
  *
  */
+// TODO KSCM-259
 @Transactional(readOnly=true, rollbackFor={Throwable.class})
 public class CoursePostProcessorBase extends KualiStudentPostProcessorBase {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CoursePostProcessorBase.class);
