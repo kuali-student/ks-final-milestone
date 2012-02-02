@@ -1033,4 +1033,27 @@ public class TestAcademicCalendarServiceImpl {
 
     }
 
+    @Test
+    public void testGetHolidayType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TypeInfo result = acalService.getHolidayType(AtpServiceConstants.MILESTONE_LABOR_DAY_TYPE_KEY, callContext);
+
+        assertNotNull(result);
+        assertEquals(result.getName(), "Labor Day");
+
+        TypeInfo fakeType = null;
+        try {
+            fakeType = acalService.getHolidayType("fakeKey", callContext);
+            fail("Did not get a DoesNotExistException when expected");
+        } catch (DoesNotExistException e) {
+            assertNull(fakeType);
+        }
+    }
+
+    @Test
+    public void testGetHolidayTypes() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeInfo> result = acalService.getHolidayTypes(callContext);
+
+        assertNotNull(result);
+        assertTrue(!result.isEmpty());
+    }
 }

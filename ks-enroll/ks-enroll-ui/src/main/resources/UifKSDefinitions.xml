@@ -20,27 +20,41 @@
     limitations under the License.
     -->
 
+    <bean id="KSTheme" abstract="true" parent="KSTheme-parentBean"/>
+    <bean id="KSTheme-parentBean" parent="Uif-KradTheme">
+        <property name="stylesheets">
+            <list merge="true">
+                <value>/ks-enroll/css/enroll.css</value>
+            </list>
+        </property>
+        <property name="jsFiles">
+            <list merge="true">
+                <value>ks-enroll/scripts/enroll.js</value>
+            </list>
+        </property>
+    </bean>
+
     <bean id="KSFormView" abstract="true" parent="Uif-FormView">
         <property name="theme">
-            <bean parent="Uif-KradTheme"/>
+            <bean parent="KSTheme"/>
         </property>
     </bean>
 
     <bean id="KSLookupView" abstract="true" parent="Uif-LookupView">
         <property name="theme">
-            <bean parent="Uif-KradTheme"/>
+            <bean parent="KSTheme"/>
         </property>
     </bean>
 
     <bean id="KSInquiryView" abstract="true" parent="Uif-InquiryView">
         <property name="theme">
-            <bean parent="Uif-KradTheme"/>
+            <bean parent="KSTheme"/>
         </property>
     </bean>
 
     <bean id="KSMaintenanceView" abstract="true" parent="Uif-MaintenanceView">
         <property name="theme">
-            <bean parent="Uif-KradTheme"/>
+            <bean parent="KSTheme"/>
         </property>
         <property name="footer" ref="KSFooterDocument"/>
     </bean>

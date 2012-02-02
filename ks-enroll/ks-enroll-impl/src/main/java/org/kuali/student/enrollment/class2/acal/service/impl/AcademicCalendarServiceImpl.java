@@ -1042,9 +1042,16 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public TypeInfo getHolidayType(String holidayTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+                MissingParameterException, OperationFailedException, PermissionDeniedException {
+        TypeInfo type = typeService.getType(holidayTypeKey, context);
+
+
+        if (!checkTypeForHolidayType(holidayTypeKey, context)) {
+            throw new InvalidParameterException(holidayTypeKey + " is not a Holiday type");
+        }
+
+        return type;
     }
 
     @Override
@@ -1350,10 +1357,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     private boolean checkTypeForTermType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<TypeInfo> types = getTermTypes(context);
+        return checkTypeInTypes(typeKey, types);
+    }
 
-        for (TypeInfo type : types) {
-            if (type.getKey().equals(typeKey)) {
-                return true;
+    private boolean checkTypeForHolidayType(String typeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<TypeInfo> types = getHolidayTypes(context);
+        return checkTypeInTypes(typeKey, types);
+    }
+
+    private boolean checkTypeInTypes(String typeKey, List<TypeInfo> types){
+        if(types != null && !types.isEmpty()){
+            for (TypeInfo type : types) {
+                if (type.getKey().equals(typeKey)) {
+                    return true;
+                }
             }
         }
 
@@ -1835,10 +1852,33 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TypeInfo> getHolidayTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
+    public List<TypeInfo> getHolidayTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        List<TypeTypeRelationInfo> relations = null;
+
+        try {
+            relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.MILESTONE_HOLIDAY_GROUPING_TYPE_KEY,
+                            TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+
+        if (relations != null) {
+            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
+            for (TypeTypeRelationInfo rel : relations) {
+                try {
+                    results.add(typeService.getType(rel.getRelatedTypeKey(), contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                }
+            }
+
+            return results;
+        }
+
         return null;
     }
+
 
     @Override
     public List<TypeInfo> getHolidayTypesForHolidayCalendarType(String holidayCalendarTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
@@ -1848,15 +1888,23 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public StateInfo getHolidayState(String holidayStateKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StateInfo holidayState = stateService.getState(holidayStateKey, contextInfo);
+
+        return holidayState;
     }
 
     @Override
-    public List<StateInfo> getHolidayStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<StateInfo> getHolidayStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StateInfo> results;
+        try {
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.MILESTONE_PROCESS_KEY, contextInfo);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException(AtpServiceConstants.MILESTONE_PROCESS_KEY, ex);
+        }
+
+        return results;
+
     }
 
     @Override

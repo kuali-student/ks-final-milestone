@@ -130,6 +130,7 @@ public class AtpServiceConstants {
     public static final String MILESTONE_GRADES_DUE_TYPE_KEY = "kuali.atp.milestone.GradesDue";
     public static final String MILESTONE_POST_GRADES_TYPE_KEY = "kuali.atp.milestone.PostGrades";
     // holidays
+    public static final String MILESTONE_HOLIDAY_GROUPING_TYPE_KEY = "kuali.milestone.type.group.holiday";
     public static final String MILESTONE_LABOR_DAY_TYPE_KEY = "kuali.atp.milestone.LaborDay";
     public static final String MILESTONE_FALL_BREAK_TYPE_KEY = "kuali.atp.milestone.FallBreak";
     public static final String MILESTONE_THANKSGIVING_BREAK_TYPE_KEY = "kuali.atp.milestone.ThanksgivingBreak";

@@ -14,6 +14,5 @@
 -- limitations under the License.
 --
 
--- update KSEN_ATP add ATP_CD column
-alter table ksen_atp add atp_cd VARCHAR2(255) NULL
+update KSEN_MSTONE set MSTONE_TYPE='kuali.atp.milestone.ThanksgivingBreak' where id='testId2'
 /
