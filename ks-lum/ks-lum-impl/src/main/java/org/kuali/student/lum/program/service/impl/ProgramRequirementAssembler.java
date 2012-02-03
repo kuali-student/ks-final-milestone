@@ -159,7 +159,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
      // TODO KSCM        programAssemblerUtils.disassembleBasics(clu, progReq);
 
 		//disassembling minCredits & maxCredits
-        disassembleCredits(clu, progReq);
+        disassembleCredits(clu, progReq,contextInfo);
 
         progReq.setId(clu.getId());
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
@@ -176,7 +176,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
         clu.setDescr(progReq.getDescr());
         if (progReq.getLearningObjectives() != null) {
-            disassembleLearningObjectives(progReq, operation, result);
+            disassembleLearningObjectives(progReq, operation, result,contextInfo);
         }
 
         RefStatementRelationInfo relation;
@@ -212,7 +212,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	private void disassembleLearningObjectives(ProgramRequirementInfo progReq,
 			NodeOperation operation,
-			BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result) throws AssemblyException {
+			BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
         try {
             List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(progReq.getId(), progReq.getState(),  progReq.getLearningObjectives(), operation);
             if (loResults != null) {
@@ -224,7 +224,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         }
 	}
 
-	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
+	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq,ContextInfo contextInfo){
 		Map<String,String> attributes = null != clu.getAttributes() ? clu.getAttributes() : new HashMap<String,String>();
 
 		if(progReq.getMinCredits() != null){
