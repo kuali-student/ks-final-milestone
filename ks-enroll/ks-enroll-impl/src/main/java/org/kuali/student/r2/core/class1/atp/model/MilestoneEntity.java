@@ -75,11 +75,9 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     public MilestoneEntity(Milestone milestone) {
         super(milestone);
         this.setId(milestone.getId());
-        this.setAllDay(milestone.getIsAllDay());
-        if (milestone.getIsInstructionalDay() != null) {
-            this.setIsInstructionalDay(milestone.getIsInstructionalDay());
-        }
-        this.setDateRange(milestone.getIsDateRange());
+        this.setAllDay( null != milestone.getIsAllDay() ? milestone.getIsAllDay() : false);
+        this.setIsInstructionalDay(null != milestone.getIsInstructionalDay() ? milestone.getIsInstructionalDay() : false);
+        this.setDateRange(null != milestone.getIsDateRange() ? milestone.getIsDateRange() : false);
         this.setAtpState(milestone.getStateKey());
         this.setAtpType(milestone.getTypeKey());
         this.name = milestone.getName();

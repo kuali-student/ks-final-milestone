@@ -23,6 +23,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -90,8 +91,7 @@ public class HolidayCalendarController extends UifControllerBase {
         HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).createHolidayCalendar(hcForm);
         hcForm.setHolidayCalendarInfo(hcInfo);
 
-        //TODO: fix bugs in service impl
-       //createHolidays(hcInfo.getId(), hcForm);
+        createHolidays(hcInfo.getId(), hcForm);
     }
 
     private void getHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
@@ -119,6 +119,10 @@ public class HolidayCalendarController extends UifControllerBase {
 
         if(holidays != null && !holidays.isEmpty()){
             for (HolidayInfo holiday : holidays){
+                //create dummy descr for db MilestoneEntity.plain is not nullable
+                RichTextInfo rti = new RichTextInfo();
+                rti.setPlain(holiday.getTypeKey());
+                holiday.setDescr(rti);
                 createdHolidays.add(createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, hcForm));
             }
 

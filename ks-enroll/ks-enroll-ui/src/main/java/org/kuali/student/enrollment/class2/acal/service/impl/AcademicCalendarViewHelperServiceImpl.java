@@ -28,6 +28,7 @@ import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import javax.xml.namespace.QName;
@@ -53,6 +54,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
         hcInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         hcInfo.setTypeKey(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
+        //create dummy descr for db AtpEntity.plain is not nullable
+        RichTextInfo rti = new RichTextInfo();
+        rti.setPlain(hcInfo.getName());
+        hcInfo.setDescr(rti);
         HolidayCalendarInfo createdHc = getAcalService().createHolidayCalendar(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY, hcInfo, getContextInfo());
         return createdHc;
     }
@@ -77,7 +82,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     }
 
     public HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo) throws Exception {
-        holidayInfo.setStateKey("kuali.milestone.state.Draft");
+        holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
         HolidayInfo createdHoliday = getAcalService().createHoliday(holidayCalendarId, holidayTypeKey, holidayInfo, getContextInfo());
         return createdHoliday;
     }

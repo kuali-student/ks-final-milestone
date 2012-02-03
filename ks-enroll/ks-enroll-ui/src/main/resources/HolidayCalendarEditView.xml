@@ -54,7 +54,7 @@
             <list>
                  <bean parent="Uif-InputField" p:label="Holiday Calendar Name"
 					p:labelPlacement="TOP" p:labelField.renderColon="false"
-					p:propertyName="holidayCalendarInfo.name" p:labelField.style="display:block;">
+					p:propertyName="holidayCalendarInfo.name" p:required="true">
 					<property name="control">
 						<bean parent="Uif-TextControl" p:size="30" />
 					</property>
@@ -68,14 +68,14 @@
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
                     </property>  -->
                 </bean>
-                <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
+                <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP" p:required="true"
 				     p:labelField.renderColon="false" p:labelField.style="display:block;"
 					p:propertyName="holidayCalendarInfo.startDate">
 					<property name="control">
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-                <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
+                <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:required="true"
 					p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
 					p:propertyName="holidayCalendarInfo.endDate">
 					<property name="control">

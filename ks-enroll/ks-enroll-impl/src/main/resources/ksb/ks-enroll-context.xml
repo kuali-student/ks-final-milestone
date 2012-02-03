@@ -87,12 +87,13 @@
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
     <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
     <property name="stateService" ref="stateService" />
+    <property name="typeService" ref="typeService" />
   </bean>
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">
     <property name="atpService" ref="atpEnrService" />
-      <property name="stateService" ref="stateService" />
-      <property name="typeService" ref="typeService" />
+    <property name="stateService" ref="stateService" />
+    <property name="typeService" ref="typeService" />
     <property name="acalAssembler" ref="acalAssembler" />
     <property name="termAssembler" ref="termAssembler" />
     <property name="holidayCalendarAssembler" ref="holidayCalendarAssembler" />
