@@ -46,6 +46,7 @@ public class AcademicCalendarServiceConstants {
      */
     public static final String ACADEMIC_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY;
     public static final String HOLIDAY_CALENDAR_TYPE_KEY = AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY;
+    public static final String[] TERM_TYPE_KEYS = AtpServiceConstants.ATP_TERM_GROUPING;
 
     /**
      * Dynamic Attributes Keys
@@ -71,4 +72,11 @@ public class AcademicCalendarServiceConstants {
     public static final String ACADEMIC_CALENDAR_DRAFT_STATE_KEY = AtpServiceConstants.ATP_DRAFT_STATE_KEY;
     public static final String ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY = AtpServiceConstants.ATP_OFFICIAL_STATE_KEY;
     public static final String[] ACADEMIC_CALENDAR_PROCESS_STATE_KEYS = {ACADEMIC_CALENDAR_DRAFT_STATE_KEY, ACADEMIC_CALENDAR_OFFICIAL_STATE_KEY};
+
+    public static final String TERM_DRAFT_STATE_KEY = AtpServiceConstants.ATP_DRAFT_STATE_KEY;
+    public static final String TERM_OFFICIAL_STATE_KEY = AtpServiceConstants.ATP_OFFICIAL_STATE_KEY;
+
+    public static final String HOLIDAY_CALENDAR_DRAFT_STATE_KEY = AtpServiceConstants.ATP_DRAFT_STATE_KEY;
+    public static final String HOLIDAY_CALENDAR_OFFICIAL_STATE_KEY = AtpServiceConstants.ATP_OFFICIAL_STATE_KEY;
+
 }

@@ -19,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,7 +46,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.enrollment.acal.constants.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -850,10 +850,43 @@ public class TestAcademicCalendarServiceImpl {
     @Test
     public void testSearchForAcademicCalendars() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
         PermissionDeniedException, ParseException {
+
+        List<String> atpTypes = new ArrayList<String>();
+        List<String> atpStates = new ArrayList<String>();
+
+        atpTypes.add("kuali.atp.type.AcademicCalendar");
+        atpStates.add("kuali.atp.state.Official");
+        atpStates.add("kuali.atp.state.Draft");
+        String acalId = "testAtpId1";
+        String acalName = "";
+        String acalYear = "";
+
+        List<Predicate> predicates = new ArrayList<Predicate>();
+        if (!StringUtils.isEmpty(acalId)) {
+            predicates.add(PredicateFactory.equalIgnoreCase("id", acalId));
+        }
+        if (!atpTypes.isEmpty()) {
+            predicates.add(PredicateFactory.in("atpType", atpTypes.toArray(new String[atpTypes.size()])));
+        }
+        if (!atpStates.isEmpty()) {
+            predicates.add(PredicateFactory.in("atpState", atpStates.toArray(new String[atpStates.size()])));
+        }
+
+        if (acalName != null && acalName.length() > 0) {
+            predicates.add(PredicateFactory.like("name", "%"+acalName+"%"));
+        }
+        if (acalYear != null && acalYear.length() > 0) {
+            int year = Integer.parseInt(acalYear);
+            Date yearStart = new GregorianCalendar(year, Calendar.JANUARY, 1).getTime();
+            Date yearEnd = new GregorianCalendar(year+1, Calendar.JANUARY, 1).getTime();
+            predicates.add(PredicateFactory.greaterThanOrEqual("startDate", yearStart));
+            predicates.add(PredicateFactory.lessThan("startDate", yearEnd));
+        }
+
         QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
-        qbcBuilder.setPredicates(PredicateFactory.equal("id", "testAtpId1"), 
-                PredicateFactory.equal("type", AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY));
+        qbcBuilder.setPredicates(predicates.toArray(new Predicate[predicates.size()]));
         QueryByCriteria qbc = qbcBuilder.build();
+
         try {
             List<AcademicCalendarInfo> calendars = acalService.searchForAcademicCalendars(qbc, callContext);
             assertNotNull(calendars);
