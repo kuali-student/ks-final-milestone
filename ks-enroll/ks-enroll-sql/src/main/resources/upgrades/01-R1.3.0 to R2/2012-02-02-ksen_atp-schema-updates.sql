@@ -137,14 +137,6 @@ ALTER TABLE ksen_mstone MODIFY is_date_range NOT NULL
 /
 ALTER TABLE ksen_mstone MODIFY  is_relative NOT NULL
 /
-ALTER TABLE ksen_mstone MODIFY start_dt NOT NULL
-/
-
--- populate null end date in KSEN_MSTONE with a default value
-UPDATE ksen_mstone SET end_dt=to_timestamp('01-OCT-13 12.00.00.000000000 AM','DD-MON-RR HH.MI.SS.FF AM') WHERE end_dt IS NULL
-/
-ALTER TABLE ksen_mstone MODIFY end_dt NOT NULL
-/
 
 -- move description data to new columns
 ALTER TABLE ksen_mstone ADD (descr_plain VARCHAR2(4000) NULL, descr_formatted VARCHAR2(4000) NULL, is_instrct_day NUMBER(1) DEFAULT 0 NOT NULL)
