@@ -1425,5 +1425,9 @@ public interface OrganizationService extends SearchService {
 
     @Deprecated
     //TODO KSCM
-    public OrgInfo getOrganization(@WebParam(name="orgId") String orgId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;;
+    public OrgInfo getOrganization(@WebParam(name="orgId") String orgId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    @Deprecated
+    //TODO KSCM
+    public List<OrgInfo> getOrganizationsByIdList(@WebParam(name="ids") List<String> ids, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 }

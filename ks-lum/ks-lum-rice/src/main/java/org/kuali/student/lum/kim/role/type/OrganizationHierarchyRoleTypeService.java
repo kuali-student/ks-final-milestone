@@ -31,6 +31,7 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -51,8 +52,9 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
 
 	protected OrganizationService orgService;
 
-	@Override
-    protected boolean performMatch(Map<String,String> inputQualification, Map<String,String> roleMemberQualifier) {
+    //TODO KSCM
+	//@Override
+    protected boolean performMatch(Map<String,String> inputQualification, Map<String,String> roleMemberQualifier, ContextInfo contextInfo) {
         // if no qualification is passed, then we have no basis to reject this
         // (if a null is let through, then we get an NPE below) 
         if ( inputQualification == null || inputQualification.isEmpty() || roleMemberQualifier == null || roleMemberQualifier.isEmpty() ) {
@@ -72,7 +74,7 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
             Boolean b = (Boolean)format.convertFromPresentationFormat(roleMemberQualifier.get(KualiStudentKimAttributes.DESCEND_HIERARCHY));
 	        if (b.booleanValue()) {
 //	        	inputSets.addAll(getHierarchyOrgShortNames(inputOrgId));
-	            inputSets.addAll(getHierarchyOrgIds(inputOrgId));
+	            inputSets.addAll(getHierarchyOrgIds(inputOrgId, contextInfo));
 	        }
 /*
 	        // add in the original org short name
@@ -98,18 +100,18 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
         return false;
     }
 
-    protected List<Map<String,String>> getHierarchyOrgIds(String inputOrgId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    protected List<Map<String,String>> getHierarchyOrgIds(String inputOrgId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<Map<String,String>> returnSets = new ArrayList<Map<String,String>>();
-        returnSets.addAll(getOrgIdsForHierarchy(inputOrgId, "kuali.org.hierarchy.Main"));
-        returnSets.addAll(getOrgIdsForHierarchy(inputOrgId, "kuali.org.hierarchy.Curriculum"));
+        returnSets.addAll(getOrgIdsForHierarchy(inputOrgId, "kuali.org.hierarchy.Main", contextInfo));
+        returnSets.addAll(getOrgIdsForHierarchy(inputOrgId, "kuali.org.hierarchy.Curriculum", contextInfo));
         return returnSets;
     }
 
-    protected List<Map<String,String>> getOrgIdsForHierarchy(String inputOrgId, String orgHierarchy) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+    protected List<Map<String,String>> getOrgIdsForHierarchy(String inputOrgId, String orgHierarchy, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
         List<Map<String,String>> returnSets = new ArrayList<Map<String,String>>();
-        List<String> ids = getOrganizationService().getAllAncestors(inputOrgId, orgHierarchy);
+        List<String> ids = getOrganizationService().getAllAncestors(inputOrgId, orgHierarchy, contextInfo);
         if (ids.size() > 0) {
-            List<OrgInfo> orgs = getOrganizationService().getOrganizationsByIdList(ids);
+            List<OrgInfo> orgs = getOrganizationService().getOrganizationsByIdList(ids, contextInfo);
             for (OrgInfo orgInfo : orgs) {
                 Map<String, String> attrs = new LinkedHashMap<String,String>();
                 attrs.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
