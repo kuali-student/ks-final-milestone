@@ -29,7 +29,7 @@ import org.w3c.dom.Element;
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "CourseCrossListingInfo", propOrder = {"affiliatedOrgs", "attributes", "_futureElements"})
+@XmlType(name = "CourseExpenditureInfo", propOrder = {"affiliatedOrgs", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseExpenditureInfo extends HasAttributesInfo implements CourseExpenditure, Serializable {
 

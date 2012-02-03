@@ -162,7 +162,7 @@
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
-                                <!-- Course registration -->
+<!--                                 Course registration -->
                                 <inputFile>ks-CourseRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegGroupRegistrationInfo-dictionary.xml</inputFile>
@@ -170,22 +170,22 @@
                                 <inputFile>ks-RegRequestItemInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegResponseInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegResponseItemInfo-dictionary.xml</inputFile>
-                                <!-- Exemption -->
+<!--                                 Exemption -->
                                 <inputFile>ks-ExemptionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ExemptionRequestInfo-dictionary.xml</inputFile>
-                                <!-- Grading -->
+<!--                                 Grading -->
                                 <inputFile>ks-GradeRosterInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-GradeRosterEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-GradeValuesGroupInfo-dictionary.xml</inputFile>
-                                <!-- LRR -->
+<!--                                 LRR -->
                                 <inputFile>ks-LearningResultRecordInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultSourceInfo-dictionary.xml</inputFile>
-                                <!-- LRC -->
+<!--                                 LRC -->
                                 <inputFile>ks-ResultValuesGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultValueInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultScaleInfo-dictionary.xml</inputFile>      
                                 <!-- Course -->
-<!--                                <inputFile>ks-CourseInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-CourseInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-CourseJointInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-CourseCrossListingInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-CourseVariationInfo-dictionary.xml</inputFile>  
@@ -197,8 +197,8 @@
                                 <inputFile>ks-FormatInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-ActivityInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-LoDisplayInfo-dictionary.xml</inputFile>   
-                                <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile> -->
-                                <!-- Program -->
+                                <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile> 
+<!--                                 Program 
                                 <inputFile>ks-CoreProgramInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CredentialProgramInfo-dictionary.xml</inputFile> 
                                 <inputFile>ks-HonorsProgramInfo-dictionary.xml</inputFile>  
@@ -210,12 +210,12 @@
                                 <inputFile>ks-ReqComponentInfo-dictionary.xml</inputFile>   
                                 <inputFile>ks-ReqCompFieldInfo-dictionary.xml</inputFile>  
                                 <inputFile>ks-ProgramVariationInfo-dictionary.xml</inputFile> 
-                                <!-- Type -->
+                                 Type 
                                 <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-TypeTypeRelationInfo-dictionary.xml</inputFile>
-                                <!-- State -->
+                                 State 
                                 <inputFile>ks-StateInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>  -->
                             </inputFiles>
                         </configuration>                                    
                     </execution>
