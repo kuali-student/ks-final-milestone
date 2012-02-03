@@ -71,6 +71,7 @@ import org.w3c.dom.Element;
 public class ProgramVariationInfo extends CommonWithProgramVariationInfo implements ProgramVariation, Serializable {
 
     private static final long serialVersionUID = 1L;
+    @XmlAnyElement
     private List<Element> _futureElements;
 
     public ProgramVariationInfo() {

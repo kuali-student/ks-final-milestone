@@ -48,9 +48,9 @@ public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Seri
     private String typeKey;
     @XmlElement
     private String value;
-    @XmlAnyElement
     @XmlElement
     private RichTextInfo descr;
+    @XmlAnyElement
     private List<Element> _futureElements;
 
     public LuCodeInfo() {
