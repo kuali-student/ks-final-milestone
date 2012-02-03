@@ -26,11 +26,11 @@ import java.util.List;
  * @Version 2.0
  * @Author Sri komandur@uw.edu
  */
-public interface AppointmentSlotRules {
+public interface AppointmentSlotRule {
     /**
      * The weekday codes ("MWF = 1,3,5")
      *
-     * @impl ISO 8601: Monday=1 to Sunday=7
+     * @impl Java standard: Sunday=1 to Saturday=7
      * @name Weekdays
      * @required
      */
@@ -46,7 +46,6 @@ public interface AppointmentSlotRules {
     /**
      * Window end time ("5pm")
      *
-     * @impl truncate date portion or use Joda LocalTime
      * @name End Time Of Day
      */
     TimeOfDay getEndTimeOfDay();
@@ -54,14 +53,14 @@ public interface AppointmentSlotRules {
     /**
      * Appointment slot duration ("20 mins")
      *
-     * @name  Interval
+     * @name Interval
      */
     TimeAmount getInterval();
 
     /**
      * Gap between appointment slots ("10 mins")
      *
-     * @name  Gap
+     * @name Gap
      */
     TimeAmount getGap();
 }

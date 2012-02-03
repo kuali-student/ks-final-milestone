@@ -19,7 +19,11 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.appointment.infc.Appointment;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)

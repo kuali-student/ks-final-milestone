@@ -49,7 +49,7 @@ public interface AppointmentWindow extends IdEntity {
      * @name Slot Rules
      * @required
      */
-    public AppointmentSlotRules getSlotRules();
+    public AppointmentSlotRule getSlotRule();
 
     /**
      * Appointment period milestone

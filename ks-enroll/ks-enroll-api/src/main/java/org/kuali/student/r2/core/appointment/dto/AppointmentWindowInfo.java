@@ -16,18 +16,22 @@
 package org.kuali.student.r2.core.appointment.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRules;
+import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRule;
 import org.kuali.student.r2.core.appointment.infc.AppointmentWindow;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppointmentWindowInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "startDate", "endDate", "slotRules", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey",
+        "startDate", "endDate", "slotRule", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey",
         "meta", "attributes", "_futureElements"})
 public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWindow {
 
@@ -36,7 +40,7 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
     @XmlElement
     private Date endDate;
     @XmlElement
-    private AppointmentSlotRulesInfo slotRules;
+    private AppointmentSlotRuleInfo slotRule;
     @XmlElement
     private String periodMilestoneId;
     @XmlElement
@@ -56,7 +60,7 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
         if (null != appointmentWindow) {
             this.startDate = (null != appointmentWindow.getStartDate()) ? new Date(appointmentWindow.getStartDate().getTime()) : null;
             this.endDate = (null != appointmentWindow.getEndDate()) ? new Date(appointmentWindow.getEndDate().getTime()) : null;
-            this.slotRules = (null != appointmentWindow.getSlotRules()) ? new AppointmentSlotRulesInfo(appointmentWindow.getSlotRules()) : null;
+            this.slotRule = (null != appointmentWindow.getSlotRule()) ? new AppointmentSlotRuleInfo(appointmentWindow.getSlotRule()) : null;
             this.periodMilestoneId = appointmentWindow.getPeriodMilestoneId();
             this.assignedPopulationId = appointmentWindow.getAssignedPopulationId();
             this.assignedOrderTypeKey = appointmentWindow.getAssignedOrderTypeKey();
@@ -74,8 +78,8 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
     }
 
     @Override
-    public AppointmentSlotRules getSlotRules() {
-        return this.slotRules;
+    public AppointmentSlotRule getSlotRule() {
+        return this.slotRule;
     }
 
     @Override

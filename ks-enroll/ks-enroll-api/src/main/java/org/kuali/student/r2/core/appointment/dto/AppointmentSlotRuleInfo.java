@@ -17,10 +17,14 @@ package org.kuali.student.r2.core.appointment.dto;
 
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
-import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRules;
+import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRule;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,9 +33,9 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AppointmentSlotRulesInfo", propOrder = {"weekdays", "startTimeOfDay", "endTimeOfDay",
+@XmlType(name = "AppointmentSlotRuleInfo", propOrder = {"weekdays", "startTimeOfDay", "endTimeOfDay",
         "interval", "gap", "_futureElements"})
-public class AppointmentSlotRulesInfo implements AppointmentSlotRules {
+public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
 
     @XmlElement
     private List<Integer> weekdays;
@@ -46,22 +50,25 @@ public class AppointmentSlotRulesInfo implements AppointmentSlotRules {
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public AppointmentSlotRulesInfo() {
+    public AppointmentSlotRuleInfo() {
 
     }
 
-    public AppointmentSlotRulesInfo(AppointmentSlotRules appointmentSlotRules) {
-        if (null != appointmentSlotRules) {
-            this.weekdays = new ArrayList<Integer>(appointmentSlotRules.getWeekdays());
-            this.startTimeOfDay = (null != appointmentSlotRules.getStartTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRules.getStartTimeOfDay()) : null;
-            this.endTimeOfDay = (null != appointmentSlotRules.getEndTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRules.getEndTimeOfDay()) : null;
-            this.interval = (null != appointmentSlotRules.getInterval()) ? new TimeAmountInfo(appointmentSlotRules.getInterval()) : null;
-            this.gap = (null != appointmentSlotRules.getGap()) ? new TimeAmountInfo(appointmentSlotRules.getGap()) : null;
+    public AppointmentSlotRuleInfo(AppointmentSlotRule appointmentSlotRule) {
+        if (null != appointmentSlotRule) {
+            this.weekdays = new ArrayList<Integer>(appointmentSlotRule.getWeekdays());
+            this.startTimeOfDay = (null != appointmentSlotRule.getStartTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRule.getStartTimeOfDay()) : null;
+            this.endTimeOfDay = (null != appointmentSlotRule.getEndTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRule.getEndTimeOfDay()) : null;
+            this.interval = (null != appointmentSlotRule.getInterval()) ? new TimeAmountInfo(appointmentSlotRule.getInterval()) : null;
+            this.gap = (null != appointmentSlotRule.getGap()) ? new TimeAmountInfo(appointmentSlotRule.getGap()) : null;
         }
     }
 
     @Override
     public List<Integer> getWeekdays() {
+        if (null == this.weekdays) {
+            this.weekdays = new ArrayList<Integer>();
+        }
         return this.weekdays;
     }
 

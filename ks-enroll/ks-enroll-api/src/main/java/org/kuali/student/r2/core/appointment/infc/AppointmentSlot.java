@@ -52,5 +52,5 @@ public interface AppointmentSlot extends IdNamelessEntity {
      * @readOnly
      * @required
      */
-    public String getWindowId();
+    public String getAppointmentWindowId();
 }

@@ -20,13 +20,17 @@ import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlot;
 
 import javax.xml.bind.Element;
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppointmentSlotInfo", propOrder = {"id", "typeKey", "stateKey",
-        "startDate", "endDate", "windowId", "meta", "attributes", "_futureElements"})
+        "startDate", "endDate", "appointmentWindowId", "meta", "attributes", "_futureElements"})
 public class AppointmentSlotInfo extends IdNamelessEntityInfo implements AppointmentSlot {
 
     @XmlElement
@@ -34,7 +38,7 @@ public class AppointmentSlotInfo extends IdNamelessEntityInfo implements Appoint
     @XmlElement
     private Date endDate;
     @XmlElement
-    private String windowId;
+    private String appointmentWindowId;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -47,7 +51,7 @@ public class AppointmentSlotInfo extends IdNamelessEntityInfo implements Appoint
         if (null != appointmentSlot) {
             this.startDate = (null != appointmentSlot.getStartDate()) ? new Date(appointmentSlot.getStartDate().getTime()) : null;
             this.endDate = (null != appointmentSlot.getEndDate()) ? new Date(appointmentSlot.getEndDate().getTime()) : null;
-            this.windowId = appointmentSlot.getWindowId();
+            this.appointmentWindowId = appointmentSlot.getAppointmentWindowId();
         }
     }
 
@@ -62,7 +66,7 @@ public class AppointmentSlotInfo extends IdNamelessEntityInfo implements Appoint
     }
 
     @Override
-    public String getWindowId() {
-        return this.windowId;
+    public String getAppointmentWindowId() {
+        return this.appointmentWindowId;
     }
 }
