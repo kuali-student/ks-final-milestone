@@ -18,6 +18,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -320,7 +321,7 @@
         <property name="persistenceUnitName" value="Statement"/>
         <property name="persistenceXmlLocation"
                   value="classpath:META-INF/statement-persistence.xml"/>
-        <property name="dataSource" ref="coreDataSource"/>
+        <property name="dataSource" ref="lumDataSource"/>
     </bean>
 
     <bean id="statementEntityManager"
@@ -349,7 +350,7 @@
         <property name="statementAssembler" ref="statementAssembler"/>
         <property name="statementDao" ref="statementDao"/>
         <property name="searchManager" ref="statementSearchManager"/>
-        <property name="dictionaryServiceDelegate" ref="coreDictionaryService"/>
+        <property name="dictionaryServiceDelegate" ref="lumDictionaryService"/>
         <property name="naturalLanguageTranslator" ref="naturalLanguageTranslator"/>
         <property name="validatorFactory" ref="lumValidatorFactory"/>
         <!-- <property name="statementTreeViewAssembler" ref="statementTreeViewAssembler"/> -->
@@ -511,8 +512,7 @@
 
 
     <bean id="coreServiceValidator" class="org.kuali.student.common.validator.DefaultValidatorImpl">
-        <!--  TODO: Currently core services are not wired for lookup validation -->
-        <!--  <property name="searchDispatcher" ref="coreSearchDispatcher"/> -->
+        <property name="searchDispatcher" ref="coreSearchDispatcher"/>
     </bean>
 
     <bean id="coreValidatorFactory-parent"
@@ -525,6 +525,23 @@
 
     <bean id="coreValidatorFactory" parent="coreValidatorFactory-parent"/>
 
+    <bean id="coreSearchDispatcher"
+          class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+        <property name="services">
+            <list>
+                <ref bean="atpServiceClient"/>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="atpServiceClient"
+          class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface"
+                  value="org.kuali.student.core.atp.service.AtpService"/>
+        <property name="serviceQName"
+                  value="{http://student.kuali.org/wsdl/atp}AtpService"/>
+    </bean>
+    
     
         <bean id="mapExceptionAdvisor"
           class="org.kuali.student.common.util.ExceptionMappingAdvice">
