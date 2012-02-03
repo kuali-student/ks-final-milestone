@@ -136,15 +136,15 @@
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="47" NM="viewId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="B81336D4B3466F4EE040C60AF05B43BD" VER_NBR="1"/>
+        OBJ_ID="E0E15A1FA453463695BD3F9559150481" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="48" NM="actionEvent" NMSPC_CD="KR-KRAD"
-        OBJ_ID="B81336D4B3476F4EE040C60AF05B43BD" VER_NBR="1"/>
+        OBJ_ID="75495A1D973E4C9F9782514B10EDE264" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="49" NM="collectionPropertyName"
-        NMSPC_CD="KR-KRAD" OBJ_ID="B81336D4B3486F4EE040C60AF05B43BD" VER_NBR="1"/>
+        NMSPC_CD="KR-KRAD" OBJ_ID="AC32FC397EDD4A25B0DF497241462275" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="5" NM="componentName" NMSPC_CD="KR-NS"
@@ -152,19 +152,19 @@
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="50" NM="fieldId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="B81336D4B3496F4EE040C60AF05B43BD" VER_NBR="1"/>
+        OBJ_ID="D1E8B25763A044E2AC53103D650B7FDD" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="51" NM="groupId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="B81336D4B34A6F4EE040C60AF05B43BD" VER_NBR="1"/>
+        OBJ_ID="80562131D58A40C0BE7E48185898D9EE" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="52" NM="widgetId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="B81336D4B34B6F4EE040C60AF05B43BD" VER_NBR="1"/>
+        OBJ_ID="58998CBBD7C2494E9B4ED512A5030CEE" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="53" NM="actionId" NMSPC_CD="KR-KRAD"
-        OBJ_ID="B81336D4B34C6F4EE040C60AF05B43BD" VER_NBR="1"/>
+        OBJ_ID="44AEC66AB4AA461181FC63EA79F2758F" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="6" NM="propertyName" NMSPC_CD="KR-NS"
