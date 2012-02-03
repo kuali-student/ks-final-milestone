@@ -18,28 +18,21 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.exceptions.*;
 
 import org.kuali.student.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.HonorsProgramInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
+import org.kuali.student.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.lum.program.dto.*;
 
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * The Program Service allows for the creation and management of programs.
@@ -136,7 +129,7 @@ public interface ProgramService {
      */
     public CredentialProgramInfo createNewCredentialProgramVersion(@WebParam(name = "credentialProgramId") String credentialProgramId, @WebParam(name = "versionComment") String versionComment,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException,ReadOnlyException;
 
     /**
      * Sets a specific version of the Credential Program as current. The
@@ -261,7 +254,7 @@ public interface ProgramService {
      */
     public List<ValidationResultInfo> validateMajorDiscipline(@WebParam(name = "validationType") String validationType,
             @WebParam(name = "majorDisciplineInfo") MajorDisciplineInfo majorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+            MissingParameterException, OperationFailedException,PermissionDeniedException;
 
     /**
      * Creates a Major Discipline Program
@@ -331,7 +324,7 @@ public interface ProgramService {
      */
     public MajorDisciplineInfo createNewMajorDisciplineVersion(@WebParam(name = "majorDisciplineId") String majorDisciplineId, @WebParam(name = "versionComment") String versionComment,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
 
     /**
      * Retrieves a HonorsProgram
@@ -517,7 +510,7 @@ public interface ProgramService {
      */
     public CoreProgramInfo createNewCoreProgramVersion(@WebParam(name = "coreProgramId") String coreProgramId, @WebParam(name = "versionComment") String versionComment,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException,ReadOnlyException;
 
     /**
      * Sets a specific version of the Core Program as current. The sequence
@@ -743,7 +736,7 @@ public interface ProgramService {
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
      */
-    public List<ValidationResultInfo> validateMinorDiscipline(@WebParam(name = "validationType") String validationType,
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateMinorDiscipline(@WebParam(name = "validationType") String validationType,
             @WebParam(name = "minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException;
 
@@ -798,10 +791,118 @@ public interface ProgramService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     @Deprecated
-    public VersionDisplayInfo getCurrentVersion(@WebParam(name="programServiceConstant") String programServiceConstant, @WebParam (name="versionIndId") String versionIndId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+    public VersionDisplayInfo getCurrentVersion(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam (name="refObjectId") String refObjectId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     @Deprecated
     public List<VersionDisplayInfo> getVersions(@WebParam(name="programServiceConstants") String programServiceConstants, @WebParam (name="versionIndId") String versionIndId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    //TODO KSCM I added this methods since the implementation has this method aswell.
+    // The signature is updated on implementation to have a ContexInfo parameter.
+    @Deprecated
+    @Transactional(readOnly=true)
+    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
+                                               String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    @Transactional(readOnly=true)
+    VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
+                                       String refObjectId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    @Transactional(readOnly=true)
+    VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
+                                        String refObjectId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    @Transactional(readOnly=true)
+    VersionDisplayInfo getVersionBySequenceNumber(
+            String refObjectTypeURI, String refObjectId, Long sequence, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Transactional(readOnly=true)
+    List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    LuTypeInfo getCredentialProgramType(String credentialProgramTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    List<LuTypeInfo> getCredentialProgramTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    List<String> getHonorsByCredentialProgramType(String programType, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    List<String> getMajorIdsByCredentialProgramType(String programType, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    @Transactional(readOnly=true)
+    List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
+            String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    CredentialProgramInfo updateCredentialProgram(
+            CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            VersionMismatchException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    HonorsProgramInfo updateHonorsProgram(
+            HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            VersionMismatchException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    MinorDisciplineInfo updateMinorDiscipline(
+            MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            VersionMismatchException, OperationFailedException,
+            PermissionDeniedException;
+
+    ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo);
+
+    List<String> getObjectTypes(ContextInfo contextInfo);
+
+    @Transactional(readOnly=true)
+    ProgramRequirementInfo getProgramRequirement(String programRequirementId, String nlUsageTypeKey, String language, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    MajorDisciplineInfo updateMajorDiscipline(
+            MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            VersionMismatchException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    ProgramRequirementInfo updateProgramRequirement(
+            ProgramRequirementInfo programRequirementInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            VersionMismatchException, OperationFailedException,
+            PermissionDeniedException;
+
+
+
+
 }

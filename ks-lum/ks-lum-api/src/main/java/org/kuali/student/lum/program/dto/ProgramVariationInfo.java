@@ -244,4 +244,10 @@ public class ProgramVariationInfo extends ProgramAttributesInfo implements Progr
     public void setEndTerm(String endTerm) {
         // TODO KSCM
     }
+    @Deprecated
+
+    public void setStartTerm(Object startTerm) {
+       // this.startTerm = startTerm;
+        //TODO KSCM
+    }
 }

@@ -18,6 +18,7 @@ package org.kuali.student.common.search.service;
 import java.util.List;
 
 import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -31,36 +32,37 @@ import org.kuali.student.common.search.dto.SearchTypeInfo;
 public interface SearchManager {
 
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
 			throws OperationFailedException;
 
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
-	public List<SearchResultTypeInfo> getSearchResultTypes()
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
 			throws OperationFailedException;
 
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	public SearchTypeInfo getSearchType(String searchTypeKey,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
-	public List<SearchTypeInfo> getSearchTypes()
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
 			throws OperationFailedException;
 
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+			String searchResultTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 	
-	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) throws MissingParameterException;
+	public SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException;
+    public SearchResult search(SearchRequest searchRequest, SearchableDao dao,ContextInfo contextInfo) throws MissingParameterException;
 }

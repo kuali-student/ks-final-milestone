@@ -67,5 +67,19 @@ public class CoreProgramInfo extends ProgramAttributesInfo implements CoreProgra
 
     //TODO KSCM-247
     public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
+        //TODO KSCM
+    }
+
+    public void setStartTerm(Object o) {
+        //TODO KSCM
+    }
+
+    public void setEndTerm(Object o) {
+        //TODO KSCM
+    }
+
+    public void setEndProgramEntryTerm(Object endProgramEntryTerm) {
+      //  this.endProgramEntryTerm = endProgramEntryTerm;
+        //TODO KSCM
     }
 }
