@@ -129,11 +129,26 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
         // do nothing but allow for child classes to override
     }
 
+    @Override
+    public ProcessDocReport doRouteStatusChange(DocumentRouteStatusChange documentRouteStatusChange) throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange) throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public ProcessDocReport doDeleteRouteHeader(DeleteEvent arg0) throws Exception {
         return new ProcessDocReport(true);
 	}
 
-	public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange, ContextInfo contextInfo) throws Exception {
+    @Override
+    public ProcessDocReport doActionTaken(ActionTakenEvent actionTakenEvent) throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public ProcessDocReport doRouteLevelChange(DocumentRouteLevelChange documentRouteLevelChange, ContextInfo contextInfo) throws Exception {
         ProposalInfo proposalInfo = getProposalService().getProposalByWorkflowId(documentRouteLevelChange.getDocumentId(), contextInfo);
 
 		// if this is the initial route then clear only edit permissions as per KSLUM-192
