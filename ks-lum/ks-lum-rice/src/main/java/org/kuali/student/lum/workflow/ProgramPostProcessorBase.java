@@ -34,13 +34,13 @@ public class ProgramPostProcessorBase extends KualiStudentPostProcessorBase {
     }
 
     @Override
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent,  ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent,  ActionTaken actionTaken, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
     	//TODO Why is this method implemented in course post processor? it might be important for program as well
         return true;
     }
 
     @Override
-    protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
+    protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
         // update the program state based on the route status
     	// Mainly used to approve a proposal
         String programId = getProgramId(proposalInfo);
