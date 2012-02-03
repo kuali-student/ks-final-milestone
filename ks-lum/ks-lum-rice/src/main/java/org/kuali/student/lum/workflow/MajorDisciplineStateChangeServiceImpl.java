@@ -232,10 +232,10 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
 
     	//Set the end terms on the major discipline
-        //TODO KSCM : note used method toGenericMap
     	majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
         majorDisciplineInfo.setEndTermId(endEnrollTerm);
-        majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
+        //TODO KSCM
+        //majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
 
         //Check if there are variations to process
         if(!majorDisciplineInfo.getVariations().isEmpty()){
@@ -271,7 +271,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			variation.setEndTerm(endEnrollTerm);
 	    		}
 	    		//compare dates to get the older of the two end terms
-	    		if(variation.getAttributes().get("endInstAdmitTerm") != null){
+                // TODO KSCM
+	    		/*if(variation.getAttributes().get("endInstAdmitTerm") != null){
 	    			AtpInfo variationEndInstAdmitAtp = atpService.getAtp(variation.getAttributes().get("endInstAdmitTerm"));
 	    			Date variationEndInstAdmitEndDate = variationEndInstAdmitAtp.getEndDate();
 	    			if(majorEndInstAdmitTermEndDate.compareTo(variationEndInstAdmitEndDate)<=0){
@@ -279,7 +280,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	    			}
 	    		}else{
 	    			variation.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
-	    		}
+	    		} */
 	    		
 	        }
         }
