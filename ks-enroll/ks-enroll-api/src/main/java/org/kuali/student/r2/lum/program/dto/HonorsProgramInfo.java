@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
     "typeKey",
     "stateKey",
     "credentialProgramId",
-    "programRequirementIds",
+    "programRequirements",
     "meta",
     "attributes",
     "_futureElements"})
@@ -41,20 +41,20 @@ public class HonorsProgramInfo extends IdNamelessEntityInfo implements HonorsPro
     @XmlElement
     private String credentialProgramId;
     @XmlElement
-    private List<String> programRequirementIds;
+    private List<String> programRequirements;
     @XmlAnyElement
     private List<Element> _futureElements;
     
     public HonorsProgramInfo() {
-        this.programRequirementIds = new ArrayList<String>();
+        this.programRequirements = new ArrayList<String>();
     }
     
     public HonorsProgramInfo(HonorsProgram honorsProgram) {
         super (honorsProgram);
         if (honorsProgram != null) {
             this.credentialProgramId = honorsProgram.getCredentialProgramId();
-            this.programRequirementIds = honorsProgram.getProgramRequirementIds() != null 
-                    ? new ArrayList<String>(honorsProgram.getProgramRequirementIds()) 
+            this.programRequirements = honorsProgram.getProgramRequirements() != null 
+                    ? new ArrayList<String>(honorsProgram.getProgramRequirements()) 
                     : new ArrayList<String>();
         }
     }
@@ -72,34 +72,15 @@ public class HonorsProgramInfo extends IdNamelessEntityInfo implements HonorsPro
     }
     
     @Override
-    public List<String> getProgramRequirementIds() {
-        if (programRequirementIds == null) {
-            programRequirementIds = new ArrayList<String>(0);
+    public List<String> getProgramRequirements() {
+        if (programRequirements == null) {
+            programRequirements = new ArrayList<String>(0);
         }
-        return programRequirementIds;
+        return programRequirements;
     }
     
-    public void setProgramRequirementIds(List<String> programRequirements) {
-        this.programRequirementIds = programRequirements;
-    }
-
-    /**
-     * Compatibility method for R1.
-     * Same as getProgramRequirementIds
-     * @deprecated
-     */
-    @Deprecated
-    public List<String> getProgramRequirements() {
-        return this.getProgramRequirementIds();
-    }
-
-    /**
-     * Compatibility method for R1.
-     * Same as setProgramRequirementIds
-     * @deprecated
-     */
-    @Deprecated
     public void setProgramRequirements(List<String> programRequirements) {
-        this.setProgramRequirementIds(programRequirements);
+        this.programRequirements = programRequirements;
     }
+
 }

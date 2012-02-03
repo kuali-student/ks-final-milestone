@@ -23,7 +23,7 @@ public interface MinorDiscipline extends IdNamelessEntity {
      * 
      * @Name Program Requirement Ids
      */
-    public List<String> getProgramRequirementIds();
+    public List<String> getProgramRequirements();
     
 
 }

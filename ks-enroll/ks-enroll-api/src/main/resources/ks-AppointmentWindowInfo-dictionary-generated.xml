@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
+		This dictionary file was automatically generated on Thu Feb 02 22:30:34 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -205,7 +205,7 @@ Slot rules for appointment slot generation
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="slotRule"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.appointment.infc.AppointmentSlotRule"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo"/>
 				<property name="objectLabel" value="Slot Rules"/>
 				<property name="objectDescription">
 					<value>
@@ -272,7 +272,7 @@ Window start time (&quot;9am&quot;)
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="startTimeOfDay"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.infc.TimeOfDay"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeOfDayInfo"/>
 				<property name="objectLabel" value="Start Time Of Day"/>
 				<property name="objectDescription">
 					<value>
@@ -334,7 +334,7 @@ Window end time (&quot;5pm&quot;)
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="endTimeOfDay"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.infc.TimeOfDay"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeOfDayInfo"/>
 				<property name="objectLabel" value="End Time Of Day"/>
 				<property name="objectDescription">
 					<value>
@@ -396,7 +396,7 @@ Appointment slot duration (&quot;20 mins&quot;)
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="interval"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.infc.TimeAmount"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeAmountInfo"/>
 				<property name="objectLabel" value="Interval"/>
 				<property name="objectDescription">
 					<value>
@@ -478,7 +478,7 @@ Gap between appointment slots (&quot;10 mins&quot;)
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="gap"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.common.infc.TimeAmount"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.TimeAmountInfo"/>
 				<property name="objectLabel" value="Gap"/>
 				<property name="objectDescription">
 					<value>

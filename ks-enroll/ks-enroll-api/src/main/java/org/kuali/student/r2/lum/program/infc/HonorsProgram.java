@@ -23,6 +23,6 @@ public interface HonorsProgram extends IdNamelessEntity {
      * 
      * @name Honors Program Requirement Ids
      */
-    public List<String> getProgramRequirementIds();
+    public List<String> getProgramRequirements();
 
 }

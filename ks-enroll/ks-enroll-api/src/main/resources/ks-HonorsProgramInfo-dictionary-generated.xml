@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
+		This dictionary file was automatically generated on Thu Feb 02 22:30:34 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -104,16 +104,16 @@ Identifier of the credential program under which the honors belongs
 		<property name="required" value="true"/>
 	</bean>
 
-	<bean id="HonorsProgramInfo.programRequirementIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="programRequirementIds"/>
-		<property name="shortLabel" value="Program Requirement Ids"/>
+	<bean id="HonorsProgramInfo.programRequirements-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="programRequirements"/>
+		<property name="shortLabel" value="Program Requirements"/>
 		<property name="summary">
 			<value>
 Identifiers of the requirements associated with this honors program.
 			</value>
 		</property>
 		<property name="label" value="Honors Program Requirement Ids"/>
-		<property name="elementLabel" value="Program Requirement Id"/>
+		<property name="elementLabel" value="Program Requirement"/>
 		<property name="description">
 			<value>
 Identifiers of the requirements associated with this honors program.

@@ -22,7 +22,6 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.r2.lum.program.infc.HonorsProgram;
 import org.kuali.student.r2.lum.program.infc.MinorDiscipline;
 import org.w3c.dom.Element;
 
@@ -31,7 +30,7 @@ import org.w3c.dom.Element;
     "typeKey",
     "stateKey",
     "credentialProgramId",
-    "programRequirementIds",
+    "programRequirements",
     "meta",
     "attributes",
     "_futureElements"})
@@ -42,20 +41,20 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     @XmlElement
     private String credentialProgramId;
     @XmlElement
-    private List<String> programRequirementIds;
+    private List<String> programRequirements;
     @XmlAnyElement
     private List<Element> _futureElements;
     
     public MinorDisciplineInfo() {
-        this.programRequirementIds = new ArrayList<String>();
+        this.programRequirements = new ArrayList<String>();
     }
     
     public MinorDisciplineInfo(MinorDiscipline minorDiscipline) {
         super (minorDiscipline);
         if (minorDiscipline != null) {
             this.credentialProgramId = minorDiscipline.getCredentialProgramId();
-            this.programRequirementIds = minorDiscipline.getProgramRequirementIds() != null 
-                    ? new ArrayList<String>(minorDiscipline.getProgramRequirementIds()) 
+            this.programRequirements = minorDiscipline.getProgramRequirements() != null 
+                    ? new ArrayList<String>(minorDiscipline.getProgramRequirements()) 
                     : new ArrayList<String>();
         }
     }
@@ -73,34 +72,16 @@ public class MinorDisciplineInfo extends IdNamelessEntityInfo implements MinorDi
     }
     
     @Override
-    public List<String> getProgramRequirementIds() {
-        if (programRequirementIds == null) {
-            programRequirementIds = new ArrayList<String>(0);
+    public List<String> getProgramRequirements() {
+        if (programRequirements == null) {
+            programRequirements = new ArrayList<String>(0);
         }
-        return programRequirementIds;
+        return programRequirements;
     }
     
-    public void setProgramRequirementIds(List<String> programRequirements) {
-        this.programRequirementIds = programRequirements;
-    }
-
-    /**
-     * Compatibility method for R1.
-     * Same as getProgramRequirementIds
-     * @deprecated
-     */
-    @Deprecated
-    public List<String> getProgramRequirements() {
-        return this.getProgramRequirementIds();
-    }
-
-    /**
-     * Compatibility method for R1.
-     * Same as setProgramRequirementIds
-     * @deprecated
-     */
-    @Deprecated
     public void setProgramRequirements(List<String> programRequirements) {
-        this.setProgramRequirementIds(programRequirements);
+        this.programRequirements = programRequirements;
     }
+
+  
 }

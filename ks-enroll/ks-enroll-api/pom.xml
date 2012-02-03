@@ -118,33 +118,33 @@
                         </goals>
                         <configuration>
                             <inputFiles>
-                               <!-- ATP -->
-                                <inputFile>ks-AtpInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>
-                               <!-- ACAL -->
+                                <!--                                 Atp -->
+                                <inputFile>ks-AtpInfo-dictionary.xml</inputFile>                    
+                                <inputFile>ks-MilestoneInfo-dictionary.xml</inputFile>                                    
+                                <inputFile>ks-AtpAtpRelationInfo-dictionary.xml</inputFile>  
+<!--                                 Acal -->
                                 <inputFile>ks-AcademicCalendarInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>                                  
                                 <inputFile>ks-HolidayCalendarInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-TermInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>                                
-                                <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>                          
+                                <inputFile>ks-TermInfo-dictionary.xml</inputFile>    
+                                <inputFile>KeyDateInfo</inputFile>                           
 <!--                                 Appointment -->
                                 <inputFile>ks-AppointmentWindowInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  
-                                <inputFile>ks-AppointmentInfo-dictionary.xml</inputFile>   
-                                <!-- LPR -->
+                                <inputFile>ks-AppointmentInfo-dictionary.xml</inputFile>                      
+<!--                                LPR -->
                                 <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprTransactionItemInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RequestOptionInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>
-                                <!-- Hold -->        
+                                <inputFile>ks-LprTransactionItemResultInfo-dictionary.xml</inputFile>                           
+<!--                                Hold         -->
                                 <inputFile>ks-HoldInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-IssueInfo-dictionary.xml</inputFile>
-                                <!-- LUI -->                
+<!--                                LUI                 -->
                                 <inputFile>ks-LuiInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiIdentifierInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuCodeInfo-dictionary.xml</inputFile>
@@ -155,14 +155,14 @@
                                 <inputFile>ks-MeetingScheduleInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiLuiRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LuiCapacityInfo-dictionary.xml</inputFile>
-                                <!-- Course Offering -->      
+<!--                                Course Offering      -->
                                 <inputFile>ks-CourseOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-CourseWaitlistEntryInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-OfferingInstructorInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityOfferingInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegistrationGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-SeatPoolDefinitionInfo-dictionary.xml</inputFile>
-                                <!-- Course Registration  -->
+                                <!-- Course registration -->
                                 <inputFile>ks-CourseRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ActivityRegistrationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-RegGroupRegistrationInfo-dictionary.xml</inputFile>
@@ -183,7 +183,39 @@
                                 <!-- LRC -->
                                 <inputFile>ks-ResultValuesGroupInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-ResultValueInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-ResultScaleInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-ResultScaleInfo-dictionary.xml</inputFile>      
+                                <!-- Course -->
+<!--                                <inputFile>ks-CourseInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-CourseJointInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-CourseCrossListingInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-CourseVariationInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-CluInstructorInfo-dictionary.xml</inputFile>   
+                                <inputFile>ks-CourseFeeInfo-dictionary.xml</inputFile>      
+                                <inputFile>ks-CurrencyAmountInfo-dictionary.xml</inputFile>   
+                                <inputFile>ks-CourseRevenueInfo-dictionary.xml</inputFile>   
+                                <inputFile>ks-CourseExpenditureInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-FormatInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-ActivityInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-LoDisplayInfo-dictionary.xml</inputFile>   
+                                <inputFile>ks-LoCategoryInfo-dictionary.xml</inputFile> -->
+                                <!-- Program -->
+                                <inputFile>ks-CoreProgramInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-CredentialProgramInfo-dictionary.xml</inputFile> 
+                                <inputFile>ks-HonorsProgramInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-MajorDisciplineInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-MinorDisciplineInfo-dictionary.xml</inputFile> 
+                                <className>ks-AccreditationInfo-dictionary.xml</className>  
+                                <inputFile>ks-ProgramRequirementInfo-dictionary.xml</inputFile>   
+                                <className>ks-StatementTreeViewInfo-dictionary.xml</className>   
+                                <inputFile>ks-ReqComponentInfo-dictionary.xml</inputFile>   
+                                <inputFile>ks-ReqCompFieldInfo-dictionary.xml</inputFile>  
+                                <inputFile>ks-ProgramVariationInfo-dictionary.xml</inputFile> 
+                                <!-- Type -->
+                                <inputFile>ks-TypeInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-TypeTypeRelationInfo-dictionary.xml</inputFile>
+                                <!-- State -->
+                                <inputFile>ks-StateInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-LifecycleInfo-dictionary.xml</inputFile>  
                             </inputFiles>
                         </configuration>                                    
                     </execution>
@@ -265,15 +297,29 @@
                                 <className>ResultScaleInfo</className>      
                                 <!-- Course --> 
                                 <className>CourseInfo</className>  
+                                <className>CourseJointInfo</className>  
+                                <className>CourseCrossListingInfo</className>  
+                                <className>CourseVariationInfo</className>  
+                                <className>CluInstructorInfo</className>   
+                                <className>CourseFeeInfo</className>      
+                                <className>CurrencyAmountInfo</className>   
+                                <className>CourseRevenueInfo</className>   
+                                <className>CourseExpenditureInfo</className>  
                                 <className>FormatInfo</className>  
                                 <className>ActivityInfo</className>  
-                                <className>LoDisplayInfo</className> 
+                                <className>LoDisplayInfo</className>   
+                                <className>LoCategoryInfo</className> 
                                 <!-- Program -->
                                 <className>CoreProgramInfo</className>
                                 <className>CredentialProgramInfo</className> 
                                 <className>HonorsProgramInfo</className>  
-                                <className>MajorDisciplineInfo</className>  
+                                <className>MajorDisciplineInfo</className> 
+                                <className>MinorDisciplineInfo</className>   
+                                <className>AccreditationInfo</className>  
                                 <className>ProgramRequirementInfo</className>  
+                                <className>StatementTreeViewInfo</className>   
+                                <className>ReqComponentInfo</className>   
+                                <className>ReqCompFieldInfo</className>   
                                 <className>ProgramVariationInfo</className> 
                                 <!-- Type -->
                                 <className>TypeInfo</className>

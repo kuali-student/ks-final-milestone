@@ -998,7 +998,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
             keyInfo.setStateKey(milestoneInfo.getStateKey());
             keyInfo.setTypeKey(milestoneInfo.getTypeKey());
             keyInfo.setIsRelativeToKeyDate(milestoneInfo.getIsRelative());
-            keyInfo.setRelativeAnchirKeyDateId(milestoneInfo.getRelativeAnchorMilestoneId());
+            keyInfo.setRelativeAnchorKeyDateId(milestoneInfo.getRelativeAnchorMilestoneId());
 
             return keyInfo;
         } else
