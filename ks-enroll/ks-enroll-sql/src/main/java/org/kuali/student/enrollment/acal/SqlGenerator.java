@@ -110,6 +110,7 @@ public class SqlGenerator {
         statement.append(", ").append(getInput(userId));
         statement.append(")");
         statement.append("\n");
+        statement.append("/\n");
 
         if (builder == null) {
             return statement;
@@ -161,6 +162,7 @@ public class SqlGenerator {
         statement.append(", ").append(getInput(userId));
         statement.append(")");
         statement.append("\n");
+        statement.append("/\n");
 
         if (builder == null) {
             return statement;
@@ -200,6 +202,7 @@ public class SqlGenerator {
         statement.append(", ").append(getInput(userId));
         statement.append(")");
         statement.append("\n");
+        statement.append("/\n");
 
         if (builder == null) {
             return statement;
@@ -209,7 +212,7 @@ public class SqlGenerator {
 
     public StringBuilder getAtpMilestoneRelationSql(StringBuilder builder, Atp atp, Milestone milestone, Date created) {
         StringBuilder statement = new StringBuilder();
-        statement.append("INSERT INTO KSEN_ATPATP_RELTN ");
+        statement.append("INSERT INTO KSEN_ATPMSTONE_RELTN ");
         statement.append("( ID");
         statement.append(", OBJ_ID");
         statement.append(", VER_NBR");
@@ -231,6 +234,7 @@ public class SqlGenerator {
         statement.append(", ").append(getInput(milestone.getId()));
         statement.append(")");
         statement.append("\n");
+        statement.append("/\n");
 
         if (builder == null) {
             return statement;
@@ -251,7 +255,8 @@ public class SqlGenerator {
             return "NULL";
         }
         SimpleDateFormat timestamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.S");
-        return "{ts '" + timestamp.format(date) + "'}";
+//        return "{ts '" + timestamp.format(date) + "'}";
+        return "TO_TIMESTAMP('" + timestamp.format(date) + "', 'YYYY-MM-DD HH24:MI:SS.FF')";
     }
 
     private int getInput(boolean value) {
