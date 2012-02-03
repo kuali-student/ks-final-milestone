@@ -67,9 +67,17 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
         }
     }
 
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
     @Override
     public Date getStartDate() {
         return this.startDate;
+    }
+
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     @Override
@@ -77,9 +85,17 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
         return this.endDate;
     }
 
+    public void setSlotRule(AppointmentSlotRuleInfo slotRule) {
+        this.slotRule = slotRule;
+    }
+
     @Override
-    public AppointmentSlotRule getSlotRule() {
+    public AppointmentSlotRuleInfo getSlotRule() {
         return this.slotRule;
+    }
+
+    public void setPeriodMilestoneId(String periodMilestoneId) {
+        this.periodMilestoneId = periodMilestoneId;
     }
 
     @Override
@@ -87,9 +103,17 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
         return this.periodMilestoneId;
     }
 
+    public void setAssignedPopulationId(String assignedPopulationId) {
+        this.assignedPopulationId = assignedPopulationId;
+    }
+
     @Override
     public String getAssignedPopulationId() {
         return this.assignedPopulationId;
+    }
+
+    public void setAssignedOrderTypeKey(String assignedOrderTypeKey) {
+        this.assignedOrderTypeKey = assignedOrderTypeKey;
     }
 
     @Override
