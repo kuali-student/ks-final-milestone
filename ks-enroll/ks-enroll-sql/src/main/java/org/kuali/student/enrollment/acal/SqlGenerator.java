@@ -5,12 +5,18 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class SqlGenerator {
     private String userId = "admin";
     private static final String ATP_STATE = "kuali.atp.state.Official";
     private static final String MILESTONE_STATE = "kuali.milestone.state.Official";
     private static final String ATPATPRELATION_STATE = "kuali.atp.atp.relation.state.active";
+
+    private Set<String> holiCals = new HashSet<String>();
 
     public StringBuilder getSqlForAcademicCalendar (StringBuilder builder, Atp acal) {
         if (null == builder) {
@@ -28,16 +34,22 @@ public class SqlGenerator {
         getAtpInsert(builder, acal, createDate);
 
         for (Atp holiCal : acal.getHolidayCalendars()) {
-            // create HoliCal
-            getAtpInsert(builder, holiCal, createDate);
+            if (!holiCals.contains(holiCal.getId())) {
+                // create HoliCal
+                getAtpInsert(builder, holiCal, createDate);
+            }
+
             // connect HoliCal to Acal
             getAtpAtpRelationSql(builder, acal, holiCal, "kuali.atp.atp.relation.associated", createDate);
 
-            for (Milestone holiday : holiCal.getMilestones()) {
-                // create Holiday
-                getMilestoneInsert(builder, holiday, createDate);
-                // connect Holiday to HoliCal
-                getAtpMilestoneRelationSql(builder, holiCal, holiday, createDate);
+            if (!holiCals.contains(holiCal.getId())) {
+                for (Milestone holiday : holiCal.getMilestones()) {
+                    // create Holiday
+                    getMilestoneInsert(builder, holiday, createDate);
+                    // connect Holiday to HoliCal
+                    getAtpMilestoneRelationSql(builder, holiCal, holiday, createDate);
+                }
+                holiCals.add(holiCal.getId());
             }
         }
 
