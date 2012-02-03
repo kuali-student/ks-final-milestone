@@ -95,14 +95,14 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
     		        }
     	        }
             }
-            success = processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo);
+            success = processCustomActionTaken(actionTakenEvent, actionTaken, proposalInfo, contextInfo);
 		} else {
 		    success = processCustomSaveActionTaken(actionTakenEvent, actionTaken);
 		}
         return new ProcessDocReport(success);
 	}
 
-    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo) throws Exception {
+    protected boolean processCustomActionTaken(ActionTakenEvent actionTakenEvent, ActionTaken actionTaken, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
         // do nothing
         return true;
     }
@@ -191,12 +191,12 @@ public class KualiStudentPostProcessorBase implements PostProcessor{
             // update the proposal state if the proposalState value is not null (allows for clearing of the state)
             String proposalState = getProposalStateForRouteStatus(proposalInfo.getState(), statusChangeEvent.getNewRouteStatus());
             updateProposal(statusChangeEvent, proposalState, proposalInfo, contextInfo);
-            success = processCustomRouteStatusChange(statusChangeEvent, proposalInfo);
+            success = processCustomRouteStatusChange(statusChangeEvent, proposalInfo, contextInfo);
 	    }
         return new ProcessDocReport(success);
 	}
 
-	protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo) throws Exception {
+	protected boolean processCustomRouteStatusChange(DocumentRouteStatusChange statusChangeEvent, ProposalInfo proposalInfo, ContextInfo contextInfo) throws Exception {
 	    // do nothing but allow override
 	    return true;
 	}
