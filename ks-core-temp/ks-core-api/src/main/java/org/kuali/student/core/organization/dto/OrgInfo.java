@@ -161,4 +161,10 @@ public class OrgInfo
     public void setOrgCodes(List<OrgCodeInfo> orgCodes) {
         this.orgCodes = orgCodes;
     }
+
+    @Deprecated
+    // TODO KSCM
+    public String getLongName() {
+        return null; //return longName;
+    }
 }
