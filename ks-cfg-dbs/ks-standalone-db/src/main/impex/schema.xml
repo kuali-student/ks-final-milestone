@@ -842,15 +842,15 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_TYPETYPE_RELTN" name="KSEN_ATPATP_RELTN_ATTR_FK2">
-            <reference foreign="ID" local="OWNER_ID"/>
+            <reference foreign="ID" local="OWNER"/>
         </foreign-key>
         <foreign-key foreignTable="KSEN_ATPATP_RELTN" name="KSEN_ATPATP_RELTN_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
+            <reference foreign="ID" local="OWNER"/>
         </foreign-key>
         <index name="KSEN_ATPATP_RELTN_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
+            <index-column name="OWNER"/>
         </index>
     </table>
     <table name="KSEN_ATPMSTONE_RELTN">
@@ -901,12 +901,12 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_ATP" name="KSEN_ATP_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
+            <reference foreign="ID" local="OWNER"/>
         </foreign-key>
         <index name="KSEN_ATP_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
+            <index-column name="OWNER"/>
         </index>
     </table>
     <table name="KSEN_ATP_STATE">
@@ -1735,12 +1735,12 @@
         <column name="OBJ_ID" size="36" type="VARCHAR"/>
         <column name="ATTR_KEY" size="255" type="VARCHAR"/>
         <column name="ATTR_VALUE" size="4000" type="VARCHAR"/>
-        <column name="OWNER_ID" size="255" type="VARCHAR"/>
+        <column name="OWNER" size="255" type="VARCHAR"/>
         <foreign-key foreignTable="KSEN_MSTONE" name="KSEN_MSTONE_ATTR_FK1">
-            <reference foreign="ID" local="OWNER_ID"/>
+            <reference foreign="ID" local="OWNER"/>
         </foreign-key>
         <index name="KSEN_MSTONE_ATTR_IF1">
-            <index-column name="OWNER_ID"/>
+            <index-column name="OWNER"/>
         </index>
     </table>
     <table name="KSEN_POPULATION">
