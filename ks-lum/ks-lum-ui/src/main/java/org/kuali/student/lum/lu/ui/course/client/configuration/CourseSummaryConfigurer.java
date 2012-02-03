@@ -897,11 +897,10 @@ public class CourseSummaryConfigurer extends Configurer implements
             private void addSubrulePreviewWidget(final FlowPanel panel,
                     List<StatementTreeViewInfo> statementTreeViewInfos) {
                 for (StatementTreeViewInfo rule : statementTreeViewInfos) {
-                    SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(
-                                rule, true,
-                                CourseRequirementsSummaryView
-                                        .getCluSetWidgetList(rule));
-                    panel.add(ruleWidget);
+                    if (!rule.getStatements().isEmpty() || !rule.getReqComponents().isEmpty()) {                        	 
+                    	SubrulePreviewWidget ruleWidget = new SubrulePreviewWidget(rule, true, CourseRequirementsSummaryView.getCluSetWidgetList(rule));
+                    	panel.add(ruleWidget);
+                    }	
                 }
             }
         };
