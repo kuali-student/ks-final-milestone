@@ -1422,4 +1422,8 @@ public interface OrganizationService extends SearchService {
      * @throws PermissionDeniedException authorization failure
      */
     public List<String> getPersonIdsForOrgByRelationType(@WebParam(name="orgId")String orgId, @WebParam(name="orgPersonRelationTypeKey")String orgPersonRelationTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    @Deprecated
+    //TODO KSCM
+    public OrgInfo getOrganization(@WebParam(name="orgId") String orgId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;;
 }
