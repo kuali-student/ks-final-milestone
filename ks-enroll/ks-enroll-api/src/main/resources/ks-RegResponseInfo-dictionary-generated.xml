@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -202,8 +202,8 @@ Returns the warning messages for this transaction.
 		<property name="elementLabel" value="Warning"/>
 		<property name="description">
 			<value>
-Returns the warning messages for this transaction. Returns an empty
-{@link List} if there are no warnings.
+Returns the warning messages for this transaction. Returns an
+empty list if there are no warnings.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
@@ -222,8 +222,8 @@ Returns the error messages for this transaction.
 		<property name="elementLabel" value="Error"/>
 		<property name="description">
 			<value>
-Returns the error messages for this transaction. Returns an empty
-{@link List} if there are no errors.
+Returns the error messages for this transaction. Returns an
+empty list if there are no errors.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>

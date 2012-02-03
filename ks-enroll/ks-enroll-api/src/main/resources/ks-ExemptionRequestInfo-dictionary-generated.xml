@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -172,14 +172,14 @@ A description of the entity.
 		<property name="summary">
 			<value>
 The key of a Process that indicates to what Process in the
-the exemption is applied.
+the exemption is requested, if any.
 			</value>
 		</property>
 		<property name="label" value="Process Key"/>
 		<property name="description">
 			<value>
 The key of a Process that indicates to what Process in the
-the exemption is applied.
+the exemption is requested, if any.
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -191,14 +191,14 @@ the exemption is applied.
 		<property name="summary">
 			<value>
 The Id of a Check that indicates to what Check in the Process
-the exemption is applied.
+the exemption is requested, if any.
 			</value>
 		</property>
 		<property name="label" value="Check Id"/>
 		<property name="description">
 			<value>
 The Id of a Check that indicates to what Check in the Process
-the exemption is applied.
+the exemption is requested, if any.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -209,13 +209,13 @@ the exemption is applied.
 		<property name="shortLabel" value="Person Id"/>
 		<property name="summary">
 			<value>
-The Id of the Person to whom the request should be applied.
+The Id of the Person for whom the request is requested
 			</value>
 		</property>
 		<property name="label" value="Person Id"/>
 		<property name="description">
 			<value>
-The Id of the Person to whom the request should be applied.
+The Id of the Person for whom the request is requested
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -227,12 +227,16 @@ The Id of the Person to whom the request should be applied.
 		<property name="summary">
 			<value>
 The Id of the Person making the request.
+
+
 			</value>
 		</property>
 		<property name="label" value="Requester Id"/>
 		<property name="description">
 			<value>
 The Id of the Person making the request.
+
+This may or may not be the person for who
 			</value>
 		</property>
 		<property name="required" value="true"/>
@@ -307,7 +311,7 @@ The data for a date override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="dateOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.DateOverride"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.DateOverrideInfo"/>
 				<property name="objectLabel" value="Date Override"/>
 				<property name="objectDescription">
 					<value>
@@ -409,7 +413,7 @@ The data for a milestone override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="milestoneOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.MilestoneOverride"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.MilestoneOverrideInfo"/>
 				<property name="objectLabel" value="Milestone Override"/>
 				<property name="objectDescription">
 					<value>
@@ -489,7 +493,7 @@ The data for a learning result override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="learningResultOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.LearningResultOverride"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.LearningResultOverrideInfo"/>
 				<property name="objectLabel" value="Learning Result Override"/>
 				<property name="objectDescription">
 					<value>
@@ -544,7 +548,7 @@ override.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -564,7 +568,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

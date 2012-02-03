@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -63,6 +63,9 @@ point in time or a range depending on the value of isDateRange().
 				<ref bean="MilestoneInfo.stateKey"/>
 				<ref bean="MilestoneInfo.name"/>
 				<ref bean="MilestoneInfo.isAllDay"/>
+				<ref bean="MilestoneInfo.isInstructionalDay"/>
+				<ref bean="MilestoneInfo.isRelative"/>
+				<ref bean="MilestoneInfo.relativeAnchorMilestoneId"/>
 				<ref bean="MilestoneInfo.isDateRange"/>
 				<ref bean="MilestoneInfo.startDate"/>
 				<ref bean="MilestoneInfo.endDate"/>
@@ -167,6 +170,57 @@ Tests if this Milestone is an all day event. An all-day event
 does not have a meaningful time component in the date.
 			</value>
 		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="MilestoneInfo.isInstructionalDay-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isInstructionalDay"/>
+		<property name="shortLabel" value="Is Instructional Day"/>
+		<property name="summary">
+			<value>
+Tests if this Milestone is an instructional day.
+			</value>
+		</property>
+		<property name="label" value="Is Instructional Day"/>
+		<property name="description">
+			<value>
+Tests if this Milestone is an instructional day.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="MilestoneInfo.isRelative-generated" abstract="true" parent="BaseKuali.boolean">
+		<property name="name" value="isRelative"/>
+		<property name="shortLabel" value="Is Relative"/>
+		<property name="summary">
+			<value>
+Tests if this Milestone is relative to another Milestone.
+			</value>
+		</property>
+		<property name="label" value="Is Relative"/>
+		<property name="description">
+			<value>
+Tests if this Milestone is relative to another Milestone.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="MilestoneInfo.relativeAnchorMilestoneId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="relativeAnchorMilestoneId"/>
+		<property name="shortLabel" value="Relative Anchor Milestone Id"/>
+		<property name="summary">
+			<value>
+Gets the anchor Milestone to which this Milestone is relative.
+			</value>
+		</property>
+		<property name="label" value="Relative Anchor Milestone Id"/>
+		<property name="description">
+			<value>
+Gets the anchor Milestone to which this Milestone is relative.
+			</value>
+		</property>
 		<property name="required" value="false"/>
 	</bean>
 
@@ -184,7 +238,7 @@ Tests if this milestone has a date range.
 Tests if this milestone has a date range.
 			</value>
 		</property>
-		<property name="required" value="false"/>
+		<property name="required" value="true"/>
 	</bean>
 
 	<bean id="MilestoneInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
@@ -230,7 +284,7 @@ date must be equal to or greater that the start.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -250,7 +304,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

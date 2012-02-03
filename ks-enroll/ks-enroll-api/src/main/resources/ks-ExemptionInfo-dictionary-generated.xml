@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -70,6 +70,8 @@ org?
 				<ref bean="ExemptionInfo.stateKey"/>
 				<ref bean="ExemptionInfo.name"/>
 				<ref bean="ExemptionInfo.exemptionRequestId"/>
+				<ref bean="ExemptionInfo.processKey"/>
+				<ref bean="ExemptionInfo.checkKey"/>
 				<ref bean="ExemptionInfo.personId"/>
 				<ref bean="ExemptionInfo.effectiveDate"/>
 				<ref bean="ExemptionInfo.expirationDate"/>
@@ -181,18 +183,56 @@ The Id of the Exemption Request.
 		<property name="required" value="false"/>
 	</bean>
 
+	<bean id="ExemptionInfo.processKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="processKey"/>
+		<property name="shortLabel" value="Process Key"/>
+		<property name="summary">
+			<value>
+The key of a Process that indicates to what Process in the
+the exemption is applied.
+			</value>
+		</property>
+		<property name="label" value="Process Key"/>
+		<property name="description">
+			<value>
+The key of a Process that indicates to what Process in the
+the exemption is applied.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="ExemptionInfo.checkKey-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="checkKey"/>
+		<property name="shortLabel" value="Check Key"/>
+		<property name="summary">
+			<value>
+The Id of a Check that indicates to what Check in the Process
+the exemption is applied.
+			</value>
+		</property>
+		<property name="label" value="Check Id"/>
+		<property name="description">
+			<value>
+The Id of a Check that indicates to what Check in the Process
+the exemption is applied.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
 	<bean id="ExemptionInfo.personId-generated" abstract="true" parent="BaseKuali.personId">
 		<property name="name" value="personId"/>
 		<property name="shortLabel" value="Person Id"/>
 		<property name="summary">
 			<value>
-The Id of the Person exempted.
+The Id of the Person who was exempted.
 			</value>
 		</property>
 		<property name="label" value="Person Id"/>
 		<property name="description">
 			<value>
-The Id of the Person exempted.
+The Id of the Person who was exempted.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -258,7 +298,7 @@ The data for a date override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="dateOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.DateOverride"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.DateOverrideInfo"/>
 				<property name="objectLabel" value="Date Override"/>
 				<property name="objectDescription">
 					<value>
@@ -360,7 +400,7 @@ The data for a milestone override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="milestoneOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.MilestoneOverride"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.MilestoneOverrideInfo"/>
 				<property name="objectLabel" value="Milestone Override"/>
 				<property name="objectDescription">
 					<value>
@@ -440,7 +480,7 @@ The data for a learning result override.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="learningResultOverride"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.infc.LearningResultOverride"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.core.exemption.dto.LearningResultOverrideInfo"/>
 				<property name="objectLabel" value="Learning Result Override"/>
 				<property name="objectDescription">
 					<value>
@@ -495,7 +535,7 @@ override.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -515,7 +555,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

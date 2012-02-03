@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:11 EST 2011
+		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -935,7 +935,7 @@ has to be a decimal e.g 0.5)
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -955,7 +955,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -1193,13 +1193,15 @@ Frequency for the waitlist checkin
 		<property name="shortLabel" value="Atp Duration Type Key"/>
 		<property name="summary">
 			<value>
-The kind of units associated with the quantity, such as Semesters
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="label" value="Academic Time Period Duration Type Key"/>
 		<property name="description">
 			<value>
-The kind of units associated with the quantity, such as Semesters
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -1210,13 +1212,13 @@ The kind of units associated with the quantity, such as Semesters
 		<property name="shortLabel" value="Time Quantity"/>
 		<property name="summary">
 			<value>
-The amount of time
+The amount of time.
 			</value>
 		</property>
 		<property name="label" value="Time Quantity"/>
 		<property name="description">
 			<value>
-The amount of time
+The amount of time.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -1257,7 +1259,7 @@ updatable.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.FeeInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.FeeInfo"/>
 	</bean>
 
 	<bean id="CourseRegistrationInfo.courseOffering.revenues-generated" abstract="true" parent="CollectionDefinition">
@@ -1280,7 +1282,7 @@ depending on the configuration it may be updatable.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.RevenueInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.RevenueInfo"/>
 	</bean>
 
 	<bean id="CourseRegistrationInfo.courseOffering.expenditure-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -1305,7 +1307,7 @@ configuration it may be updatable.
 		<property name="dataObjectEntry">
 			<bean parent="DataObjectEntry">
 				<property name="name" value="expenditure"/>
-				<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.ExpenditureInfo"/>
+				<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.ExpenditureInfo"/>
 				<property name="objectLabel" value="Expenditure"/>
 				<property name="objectDescription">
 					<value>
@@ -1356,7 +1358,7 @@ List of affiliated organizations.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
-		<property name="dataObjectClass" value="org.kuali.student.r2.lum.lu.dto.AffiliatedOrgInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo"/>
 	</bean>
 
 	<bean id="CourseRegistrationInfo.courseOffering.expenditure.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -1367,7 +1369,7 @@ List of affiliated organizations.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -1387,7 +1389,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -1507,7 +1509,7 @@ registration
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -1527,7 +1529,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -2011,13 +2013,15 @@ Frequency for the waitlist checkin
 		<property name="shortLabel" value="Atp Duration Type Key"/>
 		<property name="summary">
 			<value>
-The kind of units associated with the quantity, such as Semesters
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="label" value="Academic Time Period Duration Type Key"/>
 		<property name="description">
 			<value>
-The kind of units associated with the quantity, such as Semesters
+The kind of units associated with the quantity, such as
+Semesters.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -2028,13 +2032,13 @@ The kind of units associated with the quantity, such as Semesters
 		<property name="shortLabel" value="Time Quantity"/>
 		<property name="summary">
 			<value>
-The amount of time
+The amount of time.
 			</value>
 		</property>
 		<property name="label" value="Time Quantity"/>
 		<property name="description">
 			<value>
-The amount of time
+The amount of time.
 			</value>
 		</property>
 		<property name="required" value="false"/>
@@ -2118,7 +2122,7 @@ A description of the entity.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -2138,7 +2142,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -2232,7 +2236,7 @@ being thrown.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -2252,7 +2256,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
@@ -2361,7 +2365,7 @@ Returns the grading option
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -2381,7 +2385,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional

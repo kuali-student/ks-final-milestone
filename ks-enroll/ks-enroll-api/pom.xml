@@ -128,7 +128,11 @@
                                 <inputFile>ks-TermInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-HolidayInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-AcalEventInfo-dictionary.xml</inputFile>                                
-                                <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-KeyDateInfo-dictionary.xml</inputFile>                          
+<!--                                 Appointment -->
+                                <inputFile>ks-AppointmentWindowInfo-dictionary.xml</inputFile>
+                                <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  
+                                <inputFile>ks-AppointmentInfo-dictionary.xml</inputFile>   
                                 <!-- LPR -->
                                 <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
                                 <inputFile>ks-LprRosterInfo-dictionary.xml</inputFile>
@@ -204,6 +208,10 @@
                                 <className>HolidayInfo</className>
                                 <className>TermInfo</className>    
                                 <className>KeyDateInfo</className>                           
+<!--                                 Appointment -->
+                                <className>AppointmentWindowInfo</className>
+                                <className>AppointmentSlotInfo</className>                                  
+                                <className>AppointmentInfo</className>                      
 <!--                                LPR -->
                                 <className>LuiPersonRelationInfo</className>
                                 <className>LprRosterInfo</className>

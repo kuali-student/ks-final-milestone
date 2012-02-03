@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Sat Dec 31 12:02:12 EST 2011
+		This dictionary file was automatically generated on Thu Feb 02 19:42:19 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -98,7 +98,7 @@ Information about a mapping between Academic Time Periods.
 A unique identifier for the first ATP in the relation.
 			</value>
 		</property>
-		<property name="label" value="ATP Id"/>
+		<property name="label" value="Atp Id"/>
 		<property name="description">
 			<value>
 A unique identifier for the first ATP in the relation.
@@ -115,7 +115,7 @@ A unique identifier for the first ATP in the relation.
 A unique identifier for the second ATP in the relation.
 			</value>
 		</property>
-		<property name="label" value="Related ATP Id"/>
+		<property name="label" value="Related Atp Id"/>
 		<property name="description">
 			<value>
 A unique identifier for the second ATP in the relation.
@@ -140,7 +140,7 @@ A unique identifier for the second ATP in the relation.
 Create and last update info for the structure. 
 			</value>
 		</property>
-		<property name="label" value="Create/Update meta info"/>
+		<property name="label" value="Meta"/>
 		<property name="description">
 			<value>
 Create and last update info for the structure. This is optional
@@ -160,7 +160,7 @@ being thrown.
 			<bean parent="DataObjectEntry">
 				<property name="name" value="meta"/>
 				<property name="dataObjectClass" value="org.kuali.student.r2.common.dto.MetaInfo"/>
-				<property name="objectLabel" value="Create/Update meta info"/>
+				<property name="objectLabel" value="Meta"/>
 				<property name="objectDescription">
 					<value>
 Create and last update info for the structure. This is optional
