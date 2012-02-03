@@ -251,7 +251,7 @@
             </bean>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
-            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false" p:group.header.render="false"/>
+            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false"/>
         </property>
         <property name="layoutManager.summaryFields">
             <list>
@@ -339,7 +339,7 @@
                   p:styleClasses="activityOffering-item" p:footer-ref="Uif-FooterBase"/>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
-            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false" p:group.header.render="false"/>
+            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false"/>
         </property>
         <property name="items">
             <list>
@@ -368,7 +368,7 @@
                   p:styleClasses="meetingTime-item" p:footer-ref="Uif-FooterBase"/>
         </property>
         <property name="layoutManager.subCollectionFieldGroupPrototype">
-            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false" p:group.header.render="false"/>
+            <bean parent="Uif-VerticalFieldGroup" p:labelField.render="false"/>
         </property>
         <property name="items">
             <list>
