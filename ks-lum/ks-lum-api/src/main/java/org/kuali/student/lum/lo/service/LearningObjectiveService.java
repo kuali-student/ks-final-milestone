@@ -707,5 +707,7 @@ public interface LearningObjectiveService {
      * @throws PermissionDeniedException    an authorization failure occurred
      */
     public StatusInfo deleteLoLoRelation (@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
+    //TODO KSCM : added from LumService MehtodInvoker because it ref this method
+    @Deprecated
+    public void removeLoCategoryFromLo(String categoryId, String loId);
 }
