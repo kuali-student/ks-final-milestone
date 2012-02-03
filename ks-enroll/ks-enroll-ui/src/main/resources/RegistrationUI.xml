@@ -28,7 +28,7 @@
         </property>
         <property name="additionalScriptFiles">
             <list merge="true">
-                <value>ks-enroll/scripts/schedule-plugin.js</value>
+                <value>/ks-enroll/scripts/schedule-plugin.js</value>
             </list>
         </property>
         <property name="id" value="studentRegistrationView"/>
