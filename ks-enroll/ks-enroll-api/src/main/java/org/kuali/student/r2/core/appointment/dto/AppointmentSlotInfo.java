@@ -55,14 +55,27 @@ public class AppointmentSlotInfo extends IdNamelessEntityInfo implements Appoint
         }
     }
 
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+
     @Override
     public Date getStartDate() {
         return this.startDate;
     }
 
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
+    }
+
     @Override
     public Date getEndDate() {
         return this.endDate;
+    }
+
+    public void setAppointmentWindowId(String appointmentWindowId) {
+        this.appointmentWindowId = appointmentWindowId;
     }
 
     @Override

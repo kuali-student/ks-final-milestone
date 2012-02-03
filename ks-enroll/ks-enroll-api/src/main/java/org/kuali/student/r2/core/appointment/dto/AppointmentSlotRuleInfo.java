@@ -64,6 +64,10 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
         }
     }
 
+    public void setWeekdays(List<Integer> weekdays) {
+        this.weekdays = weekdays;
+    }
+
     @Override
     public List<Integer> getWeekdays() {
         if (null == this.weekdays) {
@@ -72,9 +76,17 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
         return this.weekdays;
     }
 
+    public void setStartTimeOfDay(TimeOfDayInfo startTimeOfDay) {
+        this.startTimeOfDay = startTimeOfDay;
+    }
+
     @Override
     public TimeOfDayInfo getStartTimeOfDay() {
         return this.startTimeOfDay;
+    }
+
+    public void setEndTimeOfDay(TimeOfDayInfo endTimeOfDay) {
+        this.endTimeOfDay = endTimeOfDay;
     }
 
     @Override
@@ -82,9 +94,17 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
         return this.endTimeOfDay;
     }
 
+    public void setInterval(TimeAmountInfo interval) {
+        this.interval = interval;
+    }
+
     @Override
     public TimeAmountInfo getInterval() {
         return this.interval;
+    }
+
+    public void setGap(TimeAmountInfo gap) {
+        this.gap = gap;
     }
 
     @Override

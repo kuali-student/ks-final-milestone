@@ -51,9 +51,17 @@ public class AppointmentInfo extends RelationshipInfo implements Appointment {
         }
     }
 
+    public void setPersonId(String personId) {
+        this.personId = personId;
+    }
+
     @Override
     public String getPersonId() {
         return this.personId;
+    }
+
+    public void setSlotId(String slotId) {
+        this.slotId = slotId;
     }
 
     @Override
