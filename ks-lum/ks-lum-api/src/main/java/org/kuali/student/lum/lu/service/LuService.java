@@ -26,23 +26,7 @@ import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.versionmanagement.service.VersionManagementService;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
-import org.kuali.student.lum.lu.dto.CluResultInfo;
-import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
-import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
-import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
-import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
-import org.kuali.student.lum.lu.dto.LuCodeTypeInfo;
-import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
+import org.kuali.student.lum.lu.dto.*;
 import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
@@ -58,6 +42,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.util.constants.LuServiceConstants;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Learning Unit (LU) Service
@@ -2549,11 +2534,144 @@ public interface LuService extends DictionaryService, SearchService, VersionMana
 	 * @throws UnsupportedActionException
 	 *             CLU set is dynamically determined
 	 */
-	public StatusInfo removeCluFromCluSet(
+    @Deprecated   //TODO KSCM This was not in the Interface
+    public StatusInfo removeCluFromCluSet(
 			@WebParam(name = "cluId") String cluId,
 			@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, UnsupportedActionException;
 
+    @Deprecated
+    @Transactional(readOnly=true)
+    List<String> getLuiIdsByCluId(String cluId)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+    //TODO KSCM This was not in the Interface
+
+    @Transactional(readOnly=true)
+    LuiInfo getLui(String luiId) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+     @Deprecated       //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<LuiInfo> getLuisByIdList(List<String> luiIdList)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+   @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<String> getAllowedLuLuRelationTypesByLuiId(String luiId,
+                                                    String relatedLuiId) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<String> getLuiIdsInAtpByCluId(String cluId, String atpKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<LuiInfo> getLuisByRelation(String luiId,
+                                    String luLuRelationTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<String> getLuiIdsByRelation(String luiId,
+                                     String luLuRelationTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<LuiInfo> getRelatedLuisByLuiId(String luiId,
+                                        String luLuRelationTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<String> getRelatedLuiIdsByLuiId(String luiId,
+                                         String luLuRelationTypeKey) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=true)
+    List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    
+    @Deprecated       //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo)
+            throws AlreadyExistsException, DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    LuiInfo updateLui(String luiId, LuiInfo luiInfo)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            VersionMismatchException;
+
+    @Deprecated //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    StatusInfo deleteLui(String luiId)
+            throws DependentObjectsExistException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException;
+
+       List<ValidationResultInfo> validateLuiLuiRelation(
+            String validationType, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    @Deprecated  //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    StatusInfo deleteLuiLuiRelation(String luiLuiRelationId)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Deprecated  //TODO KSCM This was not in the Interface
+    List<ValidationResultInfo> validateLui(String validationType,
+                                           LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Deprecated  //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Deprecated  //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            VersionMismatchException;
 }

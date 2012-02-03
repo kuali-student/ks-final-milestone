@@ -76,4 +76,10 @@ public class StatusInfo implements Status, Serializable {
     public void setMessage(String message) {
         this.message = message;
     }
+      @Deprecated
+    public boolean getSuccess() {
+         //TODO KSCM
+          return isSuccess;
+
+    }
 }
