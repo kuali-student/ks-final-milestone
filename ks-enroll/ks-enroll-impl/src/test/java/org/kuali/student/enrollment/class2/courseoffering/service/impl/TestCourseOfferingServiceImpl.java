@@ -7,7 +7,6 @@ import java.util.List;
 import javax.annotation.Resource;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -99,9 +98,10 @@ public class TestCourseOfferingServiceImpl {
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-    	List<String> formatIdList = new ArrayList<String>();
-    	CourseOfferingInfo created = coServiceAuthDecorator.createCourseOfferingFromCanonical(
-                "CLU-1", "testAtpId1", formatIdList, callContext);
+    	String formatId = null;
+        CourseOfferingInfo coInfo = new CourseOfferingInfo();
+    	CourseOfferingInfo created = coServiceAuthDecorator.createCourseOffering(
+                "CLU-1", "testAtpId1", formatId,coInfo, callContext);
     	assertNotNull(created);
     	assertEquals("CLU-1", created.getCourseId());
     	assertEquals("testAtpId1", created.getTermId());
@@ -176,11 +176,11 @@ public class TestCourseOfferingServiceImpl {
     	instructors.add(instructor);
     	ao.setInstructors(instructors);
 
-        List<String> coIdList = Arrays.asList("Lui-1");
+        List<String> coIdList = Arrays.asList();
 
         try {
             ActivityOfferingInfo created =
-                    coServiceAuthDecorator.createActivityOffering(coIdList, ao, callContext);
+                    coServiceAuthDecorator.createActivityOffering("Lui-1", LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY,ao, callContext);
             assertNotNull(created);
 
             ActivityOfferingInfo retrieved =
@@ -194,9 +194,9 @@ public class TestCourseOfferingServiceImpl {
             assertEquals(2, retrieved.getMeetingSchedules().size());
             assertEquals(1, retrieved.getInstructors().size());
 
-            // test getActivitiesForCourseOffering
+            // test getActivityOfferingsByCourseOffering
             List<ActivityOfferingInfo> activities =
-                    coServiceAuthDecorator.getActivitiesForCourseOffering("Lui-1", callContext);
+                    coServiceAuthDecorator.getActivityOfferingsByCourseOffering("Lui-1", callContext);
             assertNotNull(activities);
             assertEquals(1, activities.size());
             assertEquals(created.getActivityId(), activities.get(0).getActivityId());

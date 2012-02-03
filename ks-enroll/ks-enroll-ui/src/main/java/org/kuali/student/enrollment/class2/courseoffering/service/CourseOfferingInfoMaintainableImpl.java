@@ -89,21 +89,21 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         CourseOfferingInfo coi = null;
         try {
             //create a CourseOfferingInfo coi
-            coi = getCourseOfferingService().createCourseOfferingFromCanonical(courseId, termId, formatIdList, new ContextInfo());
+            coi = getCourseOfferingService().createCourseOffering(courseId, termId, formatIdList, new ContextInfo());
         } catch (OperationFailedException ofe) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get OperationFailedException:  " + ofe.toString());
+            System.out.println("call courseOfferingService.createCourseOffering() method, and get OperationFailedException:  " + ofe.toString());
         } catch (InvalidParameterException ipe) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get InvalidParameterException:  " + ipe.toString());
+            System.out.println("call courseOfferingService.createCourseOffering() method, and get InvalidParameterException:  " + ipe.toString());
         } catch (DoesNotExistException dnee) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get DoesNotExistException:  " + dnee.toString());
+            System.out.println("call courseOfferingService.createCourseOffering() method, and get DoesNotExistException:  " + dnee.toString());
         } catch (PermissionDeniedException pde) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get PermissionDeniedException:  " + pde.toString());
+            System.out.println("call courseOfferingService.createCourseOffering() method, and get PermissionDeniedException:  " + pde.toString());
         } catch (MissingParameterException mpe) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get MissingParameterException:  " + mpe.toString());
+            System.out.println("call courseOfferingService.createCourseOffering() method, and get MissingParameterException:  " + mpe.toString());
         } catch (AlreadyExistsException aee) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get AlreadyExistsException:  " + aee.toString());
+            System.out.println("call courseOfferingService.createCourseOffering() method, and get AlreadyExistsException:  " + aee.toString());
         } catch (DataValidationErrorException dvee) {
-            System.out.println("call courseOfferingService.createCourseOfferingFromCanonical() method, and get DataValidationErrorException:  " + dvee.toString());
+            System.out.println("call courseOfferingService.createCourseOffering() method, and get DataValidationErrorException:  " + dvee.toString());
         }
         // TODO - this entire method needs more complete exception handling; then remove this
         if (null == coi) return;

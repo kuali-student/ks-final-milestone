@@ -7,7 +7,7 @@ package org.kuali.student.enrollment.courseoffering.dto;
  */
 public class ActivityOfferingTemplateInfo {
 
-      private  String activityOfferingType;
+      private  String activityOfferingTypeKey;
 
       private  int position;
 

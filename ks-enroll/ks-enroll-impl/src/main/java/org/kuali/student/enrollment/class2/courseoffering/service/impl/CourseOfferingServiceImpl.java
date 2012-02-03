@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler;
@@ -37,10 +36,12 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.kuali.student.r2.core.state.dto.StateInfo;
+
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+
+import javax.jws.WebParam;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class CourseOfferingServiceImpl implements CourseOfferingService{
@@ -202,17 +203,17 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
     @Override
-    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termId, String instructorId, ContextInfo context) 
+    public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(String termId, String instructorId, ContextInfo context)
                     throws DoesNotExistException, InvalidParameterException, MissingParameterException,
                            OperationFailedException, PermissionDeniedException {
 
         List<LuiPersonRelationInfo> lprInfos = lprService.getLprsByPersonAndTypeForAtp(instructorId,termId,"kuali.lpr.type.instructor.main",context);
-        List<String> coIds = new ArrayList<String>();
+        List<CourseOfferingInfo> cos = new ArrayList<CourseOfferingInfo>();
         for(LuiPersonRelationInfo lprInfo : lprInfos){
-            coIds.add(lprInfo.getLuiId());
+            cos.add(getCourseOffering(lprInfo.getLuiId(), context));
         }
 
-        return coIds;
+        return cos;
     }
         
         
@@ -226,44 +227,53 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		return null;
 	}
 
-	@Override
+    @Override
+    public List<CourseOfferingInfo> getCourseOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public List<CourseOfferingInfo> getPublishedCourseOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
 	@Transactional
-	public CourseOfferingInfo createCourseOfferingFromCanonical(
-			String courseId, String termId, List<String> formatIdList,
-			ContextInfo context) throws AlreadyExistsException,
+	public CourseOfferingInfo createCourseOffering(
+            String courseId, String termId, String courseOfferingTypeKey,
+            CourseOfferingInfo coInfo,
+            ContextInfo context) throws AlreadyExistsException,
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-        CourseOfferingInfo courseOfferingInfo = null;
 
         CourseInfo courseInfo = getCourse(courseId);
         if (courseInfo != null){
-        	courseOfferingInfo = coAssembler.assemble(courseInfo);
-        	courseOfferingInfo.setCourseId(courseId);
+        	coInfo = coAssembler.assemble(courseInfo);
+        	coInfo.setCourseId(courseId);
         }
         else {
         	throw new DoesNotExistException("The course does not exist. course: " + courseId);
         }
 
         if(acalService.getTerm(termId, context) != null) {
-        	courseOfferingInfo.setTermId(termId);
+        	coInfo.setTermId(termId);
         }
         else {
         	throw new DoesNotExistException("The term does not exist. term: " + termId);
         }
 
-        if (checkExistenceForFormats(formatIdList, context)) {
-        	courseOfferingInfo.setFormatIds(formatIdList);
-        }
 
-        courseOfferingInfo.setStateKey(getStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, context));
-        courseOfferingInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+        coInfo.setStateKey(getStateKey(LuiServiceConstants.COURSE_OFFERING_PROCESS_KEY, LuiServiceConstants.LUI_DRAFT_STATE_KEY, context));
+        coInfo.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
         
-        LuiInfo luiInfo = coAssembler.disassemble(courseOfferingInfo, context);
+        LuiInfo luiInfo = coAssembler.disassemble(coInfo, context);
         LuiInfo created = luiService.createLui(courseId, termId, luiInfo, context);
         
         if (created != null) {
-        	courseOfferingInfo.setId(created.getId());
+        	coInfo.setId(created.getId());
 
             // Create an LprRoster for this CourseOffering
             LprRosterInfo lprrInfo = new LprRosterInfo();
@@ -272,7 +282,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
             lprrInfo.setStateKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY);
             // TODO - does LprRoster.maximumCapacity equate to CourseOffering.maximumEnrollment?
             // TODO - remove constant when KSENROLL-247 is resolved
-            lprrInfo.setMaximumCapacity(null != courseOfferingInfo.getMaximumEnrollment() ? courseOfferingInfo.getMaximumEnrollment() : TEMP_MAX_ENROLLMENT_DEFAULT);
+            lprrInfo.setMaximumCapacity(null != coInfo.getMaximumEnrollment() ? coInfo.getMaximumEnrollment() : TEMP_MAX_ENROLLMENT_DEFAULT);
             // TODO - where does this come from?
             lprrInfo.setCheckInRequired(false);
             // lprrInfo.setCheckInFrequency(???);
@@ -285,7 +295,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
                 throw new OperationFailedException(roe.getClass() + ": " + roe.getMessage());
             }
         }
-		return courseOfferingInfo;
+		return coInfo;
 	}
 
 	private CourseInfo getCourse(String courseId)throws DoesNotExistException, DataValidationErrorException,
@@ -522,50 +532,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
     }
 
-	@Override
-	public List<StatementTreeViewInfo> getCourseOfferingRestrictions(
-			String courseOfferingId, String nlUsageTypeKey, String language,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatementTreeViewInfo createCourseOfferingRestriction(
-			String courseOfferingId, StatementTreeViewInfo restrictionInfo,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DataValidationErrorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatementTreeViewInfo updateCourseOfferingRestriction(
-			String courseOfferingId, StatementTreeViewInfo restrictionInfo,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DataValidationErrorException, CircularReferenceException,
-			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatusInfo deleteCourseOfferingRestriction(String courseOfferingId,
-			String restrictionId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+    @Override
 	public TypeInfo getActivityOfferingType(String activityOfferingTypeKey,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -612,16 +579,40 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
 
 	@Override
-	public List<ActivityOfferingInfo> getActivitiesForCourseOffering(
-			String courseOfferingId, ContextInfo context)
+	public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(
+            String courseOfferingId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		return getActivitiesForRelation(courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, "kuali.lui.type.course.finalExam", context);
 	}
 
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsByActivityTypeAndActivityOfferingTemplate(@WebParam(name = "activityTypeKey") String activityTypeKey, @WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
 
-	private List<ActivityOfferingInfo> getActivitiesForRelation(String relatedLuiId, String relType, String exludedLuiType, ContextInfo context)
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsByActivityOfferingTemplateWithoutRegGroup(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public List<ActivityOfferingInfo> getUnscheduledActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public List<ActivityOfferingInfo> getUnpublishedActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+
+    private List<ActivityOfferingInfo> getActivitiesForRelation(String relatedLuiId, String relType, String exludedLuiType, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException{
@@ -650,7 +641,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	@Override
 	@Transactional
 	public ActivityOfferingInfo createActivityOffering(
-			List<String> courseOfferingIdList,
+			String  courseOfferingIdList, String activityOfferingTypeKey,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
@@ -682,11 +673,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
 	}
 	
-	private void processRelationsForActivityOffering(List<String> courseOfferingIdList, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)  
+	private void processRelationsForActivityOffering(String courseOfferingId, ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
 			throws AlreadyExistsException,DataValidationErrorException, InvalidParameterException, MissingParameterException, 
 			OperationFailedException, PermissionDeniedException{
 		
-		processLuiluiRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
+		processLuiluiRelationsForActivityOffering(courseOfferingId, activityOfferingInfo, context);
 		
 		try {
 			processInstructors(activityOfferingInfo.getId(), activityOfferingInfo.getInstructors(), activityOfferingInfo.getTermId(), context);
@@ -701,14 +692,12 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 }
 
 	
-	private void processLuiluiRelationsForActivityOffering(List<String> courseOfferingIdList,
+	private void processLuiluiRelationsForActivityOffering(String courseOfferingId,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
 			DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 
-		for (String courseOfferingId : courseOfferingIdList) {
 			createLuiLuiRelation(activityOfferingInfo.getId(), courseOfferingId, LuiServiceConstants.LUI_LUI_RELATION_DELIVEREDVIA_TYPE_KEY, context);
-		}
-			
+
 	}
 	
 	private void createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws AlreadyExistsException, 
@@ -777,50 +766,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
     }
 
-	@Override
-	public List<StatementTreeViewInfo> getActivityOfferingRestrictions(
-			String activityOfferingId, String nlUsageTypeKey, String language,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatementTreeViewInfo createActivityOfferingRestriction(
-			String activityOfferingId, StatementTreeViewInfo restrictionInfo,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DataValidationErrorException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatementTreeViewInfo updateActivityOfferingRestriction(
-			String activityOfferingId, StatementTreeViewInfo restrictionInfo,
-			ContextInfo context) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			DataValidationErrorException, CircularReferenceException,
-			VersionMismatchException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatusInfo deleteActivityOfferingRestriction(
-			String activityOfferingId, String restrictionId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
+    @Override
 	public Float calculateInClassContactHoursForTerm(String activityOfferingId,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -848,15 +794,6 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		return null;
 	}
 
-	@Override
-	public List<ActivityOfferingInfo> copyActivityOffering(
-			String activityOfferingId, Integer numberOfCopies,
-			String copyContextTypeKey, ContextInfo context)
-			throws InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public RegistrationGroupInfo getRegistrationGroup(
@@ -1114,19 +1051,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
 
     @Override
-    public List<ValidationResultInfo> validateCourseOfferingRestriction(String validationType, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
     public List<ValidationResultInfo> validateActivityOffering(String validationType, ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Kamal - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateActivityOfferingRestriction(String validationType, StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
@@ -1138,7 +1063,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
     
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiInfo> luiInfoList = luiService.getLuisByIdList(courseOfferingIds,context);
         List<CourseOfferingInfo> coList = new ArrayList();
         for (LuiInfo lui : luiInfoList){
@@ -1154,13 +1079,9 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
 
     @Override
-    public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getActivityOfferingsByIdList not supported");
+    public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> activityOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getActivityOfferingsByIds not supported");
     }
-
-    @Override
-    public StatusInfo assignActivityToCourseOffering(String activityOfferingId, List<String> courseOfferingIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("assignActivityToCourseOffering not supported");    }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

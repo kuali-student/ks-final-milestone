@@ -257,7 +257,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
         List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
 
         try{
-            List<String> coIds = getCOService().getCourseOfferingIdsByTermAndInstructorId(term.getId(), context.getPrincipalId(), context);
+            List<String> coIds = getCOService().getCourseOfferingsByTermAndInstructor(term.getId(), context.getPrincipalId(), context);
 
             if (coIds == null || coIds.isEmpty()){
                 GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_COURSE_NOT_FOUND_TO_GRADE,term.getName());
@@ -266,7 +266,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
             form.setCourseOfferingInfoList(new ArrayList<CourseOfferingInfo>());
             if (!coIds.isEmpty()){
-                courseOfferingInfoList = getCOService().getCourseOfferingsByIdList(coIds, context);
+                courseOfferingInfoList = getCOService().getCourseOfferingsByIds(coIds, context);
                 for (CourseOfferingInfo co : courseOfferingInfoList) {
                     if (StringUtils.equals(co.getStateKey(), LuiServiceConstants.LUI_OFFERED_STATE_KEY) &&
                         StringUtils.equals(co.getTypeKey(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)){

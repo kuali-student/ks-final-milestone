@@ -12,7 +12,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
@@ -20,8 +19,9 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
+
+import javax.jws.WebParam;
 
 public class CourseOfferingServiceDecorator implements CourseOfferingService {
 
@@ -38,7 +38,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         this.nextDecorator = nextDecorator;
     }
 
-   
+
     @Override
     public CourseOfferingInfo getCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
@@ -68,6 +68,12 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
+    public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(@WebParam(name = "termId") String termId, @WebParam(name = "instructorId") String instructorId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
     public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(String termId, String unitOwnerId,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -75,12 +81,23 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public CourseOfferingInfo createCourseOfferingFromCanonical(String courseid, String termId,
-            List<String> formatIdList, ContextInfo context) throws AlreadyExistsException, DoesNotExistException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().createCourseOfferingFromCanonical(courseid, termId, formatIdList, context);
-    }
+    public List<CourseOfferingInfo> getCourseOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public List<CourseOfferingInfo> getPublishedCourseOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public CourseOfferingInfo createCourseOffering(@WebParam(name = "courseId") String courseId, @WebParam(name = "termId") String termId, @WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey, @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
 
     @Override
     public CourseOfferingInfo updateCourseOffering(String courseOfferingId, CourseOfferingInfo courseOfferingInfo,
@@ -130,19 +147,42 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<ActivityOfferingInfo> getActivitiesForCourseOffering(String courseOfferingId, ContextInfo context)
+    public List<ActivityOfferingInfo> getActivityOfferingsByCourseOffering(String courseOfferingId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActivitiesForCourseOffering(courseOfferingId, context);
+        return getNextDecorator().getActivityOfferingsByCourseOffering(courseOfferingId, context);
     }
 
     @Override
-    public ActivityOfferingInfo createActivityOffering(List<String> courseOfferingIdList,
-            ActivityOfferingInfo activityOfferingInfo, ContextInfo context) throws AlreadyExistsException,
-            DataValidationErrorException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().createActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
-    }
+    public List<ActivityOfferingInfo> getActivityOfferingsByActivityTypeAndActivityOfferingTemplate(@WebParam(name = "activityTypeKey") String activityTypeKey, @WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public List<ActivityOfferingInfo> getActivityOfferingsByActivityOfferingTemplateWithoutRegGroup(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public List<ActivityOfferingInfo> getUnscheduledActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public List<ActivityOfferingInfo> getUnpublishedActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
+    @Override
+    public ActivityOfferingInfo createActivityOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
+        }
+
 
     @Override
     public ActivityOfferingInfo updateActivityOffering(String activityOfferingId,
@@ -180,12 +220,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().calculateTotalContactHoursForTerm(activityOfferingId, context);
     }
 
-    @Override
-    public List<ActivityOfferingInfo> copyActivityOffering(String activityOfferingId, Integer numberOfCopies,
-            String copyContextTypeKey, ContextInfo context) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().copyActivityOffering(activityOfferingId, numberOfCopies, copyContextTypeKey, context);
-    }
 
     @Override
     public RegistrationGroupInfo getRegistrationGroup(String registrationGroupId, ContextInfo context)
@@ -275,78 +309,10 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<StatementTreeViewInfo> getCourseOfferingRestrictions(String courseOfferingId, String nlUsageTypeKey,
-            String language, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingRestrictions(courseOfferingId, nlUsageTypeKey, language, context);
-    }
-
-    @Override
-    public StatementTreeViewInfo createCourseOfferingRestriction(String courseOfferingId,
-            StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException {
-        return getNextDecorator().createCourseOfferingRestriction(courseOfferingId, restrictionInfo, context);
-    }
-
-    @Override
-    public StatementTreeViewInfo updateCourseOfferingRestriction(String courseOfferingId,
-            StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-        return getNextDecorator().updateCourseOfferingRestriction(courseOfferingId, restrictionInfo, context);
-    }
-
-    @Override
-    public StatusInfo deleteCourseOfferingRestriction(String courseOfferingId, String restrictionId, ContextInfo context)
-            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteCourseOfferingRestriction(courseOfferingId, restrictionId, context);
-    }
-
-    @Override
-    public List<StatementTreeViewInfo> getActivityOfferingRestrictions(String activityOfferingId,
-            String nlUsageTypeKey, String language, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator()
-                .getActivityOfferingRestrictions(activityOfferingId, nlUsageTypeKey, language, context);
-    }
-
-    @Override
-    public StatementTreeViewInfo createActivityOfferingRestriction(String activityOfferingId,
-            StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException {
-        return getNextDecorator().createActivityOfferingRestriction(activityOfferingId, restrictionInfo, context);
-    }
-
-    @Override
-    public StatementTreeViewInfo updateActivityOfferingRestriction(String activityOfferingId,
-            StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
-            DataValidationErrorException, CircularReferenceException, VersionMismatchException {
-        return getNextDecorator().updateActivityOfferingRestriction(activityOfferingId, restrictionInfo, context);
-    }
-
-    @Override
-    public StatusInfo deleteActivityOfferingRestriction(String activityOfferingId, String restrictionId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().deleteActivityOfferingRestriction(activityOfferingId, restrictionId, context);
-    }
-
-    @Override
     public List<ValidationResultInfo> validateCourseOffering(String validationType,
             CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         return getNextDecorator().validateCourseOffering(validationType, courseOfferingInfo, context);
-    }
-
-    @Override
-    public List<ValidationResultInfo> validateCourseOfferingRestriction(String validationType,
-            StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateCourseOfferingRestriction(validationType, restrictionInfo, context);
     }
 
     @Override
@@ -357,13 +323,6 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateActivityOfferingRestriction(String validationType,
-            StatementTreeViewInfo restrictionInfo, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException {
-        return getNextDecorator().validateActivityOfferingRestriction(validationType, restrictionInfo, context);
-    }
-
-    @Override
     public List<ValidationResultInfo> validateRegistrationGroup(String validationType,
             RegistrationGroupInfo registrationGroupInfo, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -371,24 +330,17 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsByIdList(List<String> courseOfferingIds, ContextInfo context)
+    public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingsByIdList(courseOfferingIds, context);
+        return getNextDecorator().getCourseOfferingsByIds(courseOfferingIds, context);
     }
 
     @Override
-    public List<ActivityOfferingInfo> getActivityOfferingsByIdList(List<String> activityOfferingIds, ContextInfo context)
+    public List<ActivityOfferingInfo> getActivityOfferingsByIds(List<String> activityOfferingIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getActivityOfferingsByIdList(activityOfferingIds, context);
-    }
-
-    @Override
-    public StatusInfo assignActivityToCourseOffering(String activityOfferingId, List<String> courseOfferingIdList,
-            ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().assignActivityToCourseOffering(activityOfferingId, courseOfferingIdList, context);
+        return getNextDecorator().getActivityOfferingsByIds(activityOfferingIds, context);
     }
 
     @Override
@@ -454,11 +406,5 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         return getNextDecorator().searchForSeatpoolDefintionIds(criteria, context);
     }
 
-    @Override
-    public List<String> getCourseOfferingIdsByTermAndInstructorId(String termId, String instructorId,
-            ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getCourseOfferingIdsByTermAndInstructorId(termId, instructorId, context);
-    }
 
 }

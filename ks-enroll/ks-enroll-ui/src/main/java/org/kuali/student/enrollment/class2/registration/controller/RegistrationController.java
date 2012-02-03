@@ -305,7 +305,7 @@ public class RegistrationController extends UifControllerBase {
 
     protected List<ActivityOfferingWrapper> getActivityOfferingInfos(RegistrationGroup regGroup, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
         // TODO right now getOfferingsByIdList throws a not supported exception
-//        return getCourseOfferingService().getActivityOfferingsByIdList(regGroup.getActivityOfferingIds(), context);
+//        return getCourseOfferingService().getActivityOfferingsByIds(regGroup.getActivityOfferingIds(), context);
         List<ActivityOfferingWrapper> activityOfferingWrappers = new ArrayList<ActivityOfferingWrapper>(regGroup.getActivityOfferingIds().size());
         for (String activityId : regGroup.getActivityOfferingIds()) {
             ActivityOfferingInfo activityOfferingInfo = getCourseOfferingService().getActivityOffering(activityId, context);

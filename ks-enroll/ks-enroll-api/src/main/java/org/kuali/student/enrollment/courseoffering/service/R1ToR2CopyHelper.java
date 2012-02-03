@@ -19,7 +19,7 @@ import org.kuali.student.r2.lum.clu.dto.FeeInfo;
 
 /**
  * Utility to copy R1 to R2 structures
- * 
+ *
  * @author nwright
  */
 public class R1ToR2CopyHelper {
