@@ -936,4 +936,12 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 			Object o, ObjectStructureDefinition objStructure,Stack<String> elementStack, ContextInfo context) {
 		return null;
 	}
+
+
+    public List<ValidationResultInfo> validateObject(FieldDefinition field,
+                                                     Object o, ObjectStructureDefinition objStructure,
+                                                     Stack<String> elementStack) {
+        // TODO KSCM  the method was not in the class , ProgramManagingBodiesValidator need this method
+        return null;  //To change body of created methods use File | Settings | File Templates.
+    }
 }
