@@ -13,7 +13,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 public class AtpMilestoneRelationAttributeEntity extends BaseAttributeEntity<AtpMilestoneRelationEntity> {
 
     @ManyToOne
-    @JoinColumn(name = "OWNER_ID")
+    @JoinColumn(name = "OWNER")
     private AtpMilestoneRelationEntity owner;
 
     public AtpMilestoneRelationAttributeEntity() {}
