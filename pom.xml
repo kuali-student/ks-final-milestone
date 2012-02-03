@@ -54,7 +54,7 @@
         <module>ks-cfg-dbs</module>
         <module>ks-common</module>
         <module>ks-security</module>
-        <!--module>ks-admin</module--> <!-- TODO: fix for rice 2.0.0-rc1 -->
+        <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
         <module>ks-enroll</module>
@@ -66,7 +66,7 @@
       <modules>
         <module>ks-common</module>
         <module>ks-security</module>
-        <!--module>ks-admin</module--> <!-- TODO: fix for rice 2.0.0-rc1 -->
+        <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
         <module>ks-enroll</module>
@@ -77,7 +77,7 @@
       <modules>
         <module>ks-common</module>
         <module>ks-security</module>
-        <!--<module>ks-admin</module> --> <!-- TODO: fix for rice 2.0.0-rc1 -->
+        <module>ks-admin</module>
         <module>ks-core</module>
         <module>ks-lum</module>
         <module>ks-enroll</module>

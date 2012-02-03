@@ -1,6 +1,7 @@
 package org.kuali.student.admin.messages.service.impl;
 
-import com.google.common.collect.MapMaker;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.common.messages.dto.LocaleKeyList;
@@ -19,6 +20,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 
@@ -30,8 +33,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	protected boolean cachingEnabled = false;
 	protected int msgsCacheMaxSize = 20;
 	protected int msgsCacheMaxAgeSeconds = 90;
-//	protected Map<String,MaxAgeSoftReference<MessageList>> msgsCache;
-    protected Map<String,MessageList> msgsCache;
+    protected Cache<String, MessageList> msgsCache;
 	
     private BusinessObjectService businessObjectService;
 
@@ -96,33 +98,41 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     }
 
     @SuppressWarnings("unchecked")
-    public MessageList getMessages(String localeKey, String messageGroupKey) {
+    public MessageList getMessages(final String localeKey, final String messageGroupKey) {
         
     	if(cachingEnabled){
-    		return msgsCache.get("localeKey="+localeKey+", messageGroupKey="+messageGroupKey);
-		}
-    	
-    	Map<String,String> fieldValues = new HashMap<String,String>();
-    	fieldValues.put("locale", localeKey);
-    	fieldValues.put("groupName", messageGroupKey);
-    	
-    	List<MessageEntity> messageEntityList = (List<MessageEntity>) getBusinessObjectService().findMatching(MessageEntity.class, fieldValues);
-    	
-    	List<Message> messages = new ArrayList<Message>();
-    	
-    	for(MessageEntity messageEntity: messageEntityList){
-    		messages.add(toMessage(messageEntity));
-    	}
-    	
-    	MessageList messageList = new MessageList();
-    	messageList.setMessages(messages);
-    	
-    	if(cachingEnabled){
-    		msgsCache.put("localeKey="+localeKey+", messageGroupKey="+messageGroupKey, messageList );
-    	}
-    	
-    	return messageList;
-    	
+            try {
+                return msgsCache.get("localeKey="+localeKey+", messageGroupKey="+messageGroupKey, new Callable<MessageList>() {
+                    @Override
+                    public MessageList call() throws Exception {
+                        return getMessagesHelper(localeKey, messageGroupKey);
+                    }
+                });
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return getMessagesHelper(localeKey, messageGroupKey);
+        }
+    }
+
+    private MessageList getMessagesHelper(String localeKey, String messageGroupKey) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("locale", localeKey);
+        fieldValues.put("groupName", messageGroupKey);
+
+        List<MessageEntity> messageEntityList = (List<MessageEntity>) getBusinessObjectService().findMatching(MessageEntity.class, fieldValues);
+
+        List<Message> messages = new ArrayList<Message>();
+
+        for (MessageEntity messageEntity : messageEntityList) {
+            messages.add(toMessage(messageEntity));
+        }
+
+        MessageList messageList = new MessageList();
+        messageList.setMessages(messages);
+
+        return messageList;
     }
 
     public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
@@ -192,7 +202,11 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-            msgsCache = new MapMaker().expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(msgsCacheMaxSize).softValues().makeMap();
+            msgsCache = CacheBuilder.newBuilder()
+                    .expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS)
+                    .maximumSize(msgsCacheMaxSize)
+                    .softValues()
+                    .build();
 		}
 	}
 
