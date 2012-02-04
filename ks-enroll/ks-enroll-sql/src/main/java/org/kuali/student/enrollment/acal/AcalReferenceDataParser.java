@@ -152,8 +152,8 @@ public class AcalReferenceDataParser {
 
     public static void main(String[] args) {
         AcalReferenceDataParser parser = new AcalReferenceDataParser();
-        File inputFile = new File("/Users/tapresco/Stash/work/acal_ref_data/Reference Insitution Data_ Terms - Data.tsv");
-        File outputFile = new File("/Users/tapresco/Stash/work/acal_ref_data/output.sql");
+        File inputFile = new File("/kuali/temp/Reference Insitution Data_ Terms - Data.tsv");
+        File outputFile = new File("/kuali/temp/output.sql");
 
         parser.loadDataSet(inputFile);
 
@@ -176,7 +176,7 @@ public class AcalReferenceDataParser {
         parser.alterEndDates(new ArrayList<Atp>(parser.allAcals.values()));
 
 //        System.out.println(parser.getReport(Arrays.asList(new String[]{"1978","2011"})));
-//        System.out.println(parser.getReport(Arrays.asList(new String[]{"1978"})));
+//        System.out.println(parser.getReport(Arrays.asList(new String[]{"1979"})));
 
         SqlGenerator sqlGenerator = new SqlGenerator();
         StringBuilder sql = new StringBuilder();
@@ -977,6 +977,15 @@ public class AcalReferenceDataParser {
                     Atp prevTerm = terms.get(j-1);
                     Date start = term.getStartDate();
                     prevTerm.setEndDate(addToDate(start, Calendar.DATE, -1));
+                }
+                List<Atp> subTerms = term.getTerms();
+                for (int k = subTerms.size()-1; k >= 0; k--) {
+                    Atp subTerm = subTerms.get(k);
+                    if (k > 0) {
+                        Atp prevSubTerm = subTerms.get(k-1);
+                        Date start = subTerm.getStartDate();
+                        prevSubTerm.setEndDate(addToDate(start, Calendar.DATE, -1));
+                    }
                 }
             }
         }
