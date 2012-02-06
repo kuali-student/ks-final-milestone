@@ -31,6 +31,7 @@ import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.util.security.SecurityUtils;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -88,9 +89,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
      */
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey){
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey, ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey);
+            return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey, null);
         } catch (DoesNotExistException e) {
         	LOG.error(e);
         } catch (InvalidParameterException e) {
@@ -109,9 +110,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
      */
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(){
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchCriteriaTypes();
+            return ((SearchService)getService()).getSearchCriteriaTypes(context);
         } catch (OperationFailedException e) {
         	LOG.error(e);
         }
@@ -122,9 +123,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
      */
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey){
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchResultType(searchResultTypeKey);
+            return ((SearchService)getService()).getSearchResultType(searchResultTypeKey, context);
         } catch (DoesNotExistException e) {
         	LOG.error(e);
         } catch (InvalidParameterException e) {
@@ -141,9 +142,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
      */
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes(){
+    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchResultTypes();
+            return ((SearchService)getService()).getSearchResultTypes(context);
         } catch (OperationFailedException e) {
         	LOG.error(e);
         }
@@ -154,9 +155,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
      */
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey){
+    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchType(searchTypeKey);
+            return ((SearchService)getService()).getSearchType(searchTypeKey, context);
         } catch (DoesNotExistException e) {
         	LOG.error(e);
         } catch (InvalidParameterException e) {
@@ -173,9 +174,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
      */
     @Override
-    public List<SearchTypeInfo> getSearchTypes(){
+    public List<SearchTypeInfo> getSearchTypes(ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchTypes();
+            return ((SearchService)getService()).getSearchTypes(context);
         } catch (OperationFailedException e) {
         	LOG.error(e);
         }
@@ -186,9 +187,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
      */
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey){
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchTypes();
+            return ((SearchService)getService()).getSearchTypes(context);
         } catch (OperationFailedException e) {
         	LOG.error(e);
         }
@@ -199,9 +200,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
      */
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey){
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo context){
         try {
-            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey);
+            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey, context);
         } catch (DoesNotExistException e) {
         	LOG.error(e);
         } catch (InvalidParameterException e) {
@@ -218,9 +219,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#search(org.kuali.student.common.search.dto.SearchRequest)
      */
     @Override
-    public SearchResult search(SearchRequest searchRequest) {                
+    public SearchResult search(SearchRequest searchRequest, ContextInfo context) {                
         try {
-			return ((SearchService)getService()).search(searchRequest);
+			return ((SearchService)getService()).search(searchRequest, context);
 		} catch (MissingParameterException e) {
 			LOG.error(e);
 		} 
