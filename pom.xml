@@ -511,21 +511,6 @@
           </exclusion>
         </exclusions>
       </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-core</artifactId>
-            <version>${spring.security.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-support</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-expression</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
 
         <!-- This jar is only needed if you are using CAS with Spring Security
         -->
@@ -1090,10 +1075,10 @@
             <groupId>itext</groupId>
             <artifactId>itext</artifactId>
           </exclusion>
-          <!-- RU exclusion>
+          <exclusion>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-          </exclusion-->
+          </exclusion>
         </exclusions>
       </dependency>
       <dependency>
@@ -1117,11 +1102,11 @@
         <version>${mysql.connector.version}</version>
       </dependency>
       <!-- Caching dependencies -->
-      <!-- RU dependency>
+      <dependency>
         <groupId>net.sf.ehcache</groupId>
         <artifactId>ehcache-core</artifactId>
         <version>${ehcache.version}</version>
-      </dependency-->
+      </dependency>
       <dependency>
         <groupId>backport-util-concurrent</groupId>
         <artifactId>backport-util-concurrent</artifactId>
