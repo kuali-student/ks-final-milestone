@@ -25,7 +25,6 @@
                 <ref bean="AcademicCalendarEditView"/>
             </list>
         </property>
-        <property name="additionalCssFiles" ref="ks-css"/>
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
     </bean>
 
