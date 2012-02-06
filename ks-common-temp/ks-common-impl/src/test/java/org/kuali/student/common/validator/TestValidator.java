@@ -196,48 +196,48 @@ public class TestValidator {
 
 		@Override
 		public SearchCriteriaTypeInfo getSearchCriteriaType(
-				String searchCriteriaTypeKey) throws DoesNotExistException,
+				String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
 				OperationFailedException {
 			return null;
 		}
 
 		@Override
-		public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+		public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context)
 				throws OperationFailedException {
 			return null;
 		}
 
 		@Override
 		public SearchResultTypeInfo getSearchResultType(
-				String searchResultTypeKey) throws DoesNotExistException,
+				String searchResultTypeKey, ContextInfo context) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
 				OperationFailedException {
 			return null;
 		}
 
 		@Override
-		public List<SearchResultTypeInfo> getSearchResultTypes()
+		public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
 				throws OperationFailedException {
 			return null;
 		}
 
 		@Override
-		public SearchTypeInfo getSearchType(String searchTypeKey)
+		public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
 			return null;
 		}
 
 		@Override
-		public List<SearchTypeInfo> getSearchTypes()
+		public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
 				throws OperationFailedException {
 			return null;
 		}
 
 		@Override
 		public List<SearchTypeInfo> getSearchTypesByCriteria(
-				String searchCriteriaTypeKey) throws DoesNotExistException,
+				String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
 				OperationFailedException {
 			return null;
@@ -245,14 +245,14 @@ public class TestValidator {
 
 		@Override
 		public List<SearchTypeInfo> getSearchTypesByResult(
-				String searchResultTypeKey) throws DoesNotExistException,
+				String searchResultTypeKey, ContextInfo context) throws DoesNotExistException,
 				InvalidParameterException, MissingParameterException,
 				OperationFailedException {
 			return null;
 		}
 
 		@Override
-		public SearchResult search(SearchRequest searchRequest)
+		public SearchResult search(SearchRequest searchRequest, ContextInfo context)
 				throws MissingParameterException {
 			if(searchRequest!=null && searchRequest.getParams()!=null
 					&&"param1".equals(searchRequest.getParams().get(0).getKey())

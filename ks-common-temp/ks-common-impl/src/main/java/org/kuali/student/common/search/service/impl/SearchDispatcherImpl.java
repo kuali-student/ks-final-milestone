@@ -21,12 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.search.service.SearchService;
+import org.kuali.student.common.util.ContextUtils;
 
 public class SearchDispatcherImpl implements SearchDispatcher{
 	final Logger LOG = Logger.getLogger(SearchDispatcherImpl.class);
@@ -62,7 +64,8 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 					LOG.warn("Null service passed to SearchDelegator");
 				}else{
 					try {
-						List<SearchTypeInfo> searchTypes = service.getSearchTypes();
+						// TODO KSCM Confirm this is correct
+						List<SearchTypeInfo> searchTypes = service.getSearchTypes(ContextUtils.getContextInfo());
 						if(searchTypes!=null){
 							for(SearchTypeInfo searchType:searchTypes){
 								serviceMap.put(searchType.getKey(),service);
@@ -95,7 +98,7 @@ public class SearchDispatcherImpl implements SearchDispatcher{
 			if(searchService != null){
 				SearchResult searchResult;
 				try {
-					searchResult = searchService.search(searchRequest);
+					searchResult = searchService.search(searchRequest, ContextUtils.getContextInfo());
 				} catch (Exception e) {
 					LOG.warn("Error invoking search",e);
 					return null;

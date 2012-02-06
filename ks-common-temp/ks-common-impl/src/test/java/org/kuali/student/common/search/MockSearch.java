@@ -34,13 +34,13 @@ public class MockSearch implements SearchService {
 		csm.setSearchDispatcher(sd);
 	}
 	@Override
-	public List<SearchTypeInfo> getSearchTypes()
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
 			throws OperationFailedException {
 		return sm.getSearchTypes(context);
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		return sm.getSearchType(searchTypeKey, context);
@@ -48,7 +48,7 @@ public class MockSearch implements SearchService {
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+			String searchResultTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		return sm.getSearchTypesByResult(searchResultTypeKey, context);
@@ -56,41 +56,41 @@ public class MockSearch implements SearchService {
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		return sm.getSearchTypesByCriteria(searchCriteriaTypeKey, context);
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
 			throws OperationFailedException {
 		return sm.getSearchResultTypes(context);
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		return sm.getSearchResultType(searchResultTypeKey, context);
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context)
 			throws OperationFailedException {
 		return sm.getSearchCriteriaTypes(context);
 	}
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		return sm.getSearchCriteriaType(searchCriteriaTypeKey, context);
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest)
+	public SearchResult search(SearchRequest searchRequest, ContextInfo context)
 			throws MissingParameterException {
 		if("test.search1".equals(searchRequest.getSearchKey())){
 			SearchResult searchResult = new SearchResult();
