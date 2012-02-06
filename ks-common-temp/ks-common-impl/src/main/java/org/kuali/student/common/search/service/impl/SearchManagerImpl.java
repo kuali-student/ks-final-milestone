@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dao.SearchableDao;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -66,44 +67,51 @@ public class SearchManagerImpl implements SearchManager{
 		init();
 	}
 
+	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		return searchCriteriaTypeMap.get(searchCriteriaTypeKey);
 	}
 
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context)
 			throws OperationFailedException {
 		return new ArrayList<SearchCriteriaTypeInfo>(searchCriteriaTypeMap
 				.values());
 	}
 
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		return searchResultTypeInfoMap.get(searchResultTypeKey);
 	}
 
-	public List<SearchResultTypeInfo> getSearchResultTypes()
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
 			throws OperationFailedException {
 		return new ArrayList<SearchResultTypeInfo>(searchResultTypeInfoMap
 				.values());
 	}
 
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		return searchInfoTypeMap.get(searchTypeKey);
 	}
 
-	public List<SearchTypeInfo> getSearchTypes()
+	@Override
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
 			throws OperationFailedException {
 		return new ArrayList<SearchTypeInfo>(searchInfoTypeMap.values());
 	}
 
+	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<SearchTypeInfo> searchTypesByCriteria = new ArrayList<SearchTypeInfo>();
@@ -116,8 +124,9 @@ public class SearchManagerImpl implements SearchManager{
 		return searchTypesByCriteria;
 	}
 
+	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+			String searchResultTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<SearchTypeInfo> searchTypesByResult = new ArrayList<SearchTypeInfo>();
@@ -134,12 +143,12 @@ public class SearchManagerImpl implements SearchManager{
 		return searchContextFile;
 	}
 
-	public void setSearchContext(String searchContextFile) {
+	public void setSearchContext(String searchContextFile, ContextInfo context) {
 		this.searchContextFile = searchContextFile;
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest, SearchableDao dao) throws MissingParameterException {
+	public SearchResult search(SearchRequest searchRequest, SearchableDao dao, ContextInfo context) throws MissingParameterException {
 		if(searchRequest == null){
 			throw new MissingParameterException("Search Request can not be null.");
 		}
@@ -167,6 +176,14 @@ public class SearchManagerImpl implements SearchManager{
 
 	public void setCrossSearchManager(CrossSearchManager crossSearchManager) {
 		this.crossSearchManager = crossSearchManager;
+	}
+
+	@Override
+	// TODO KSCM - HOw to implement
+	public SearchResult search(SearchRequest searchRequest,
+			ContextInfo contextInfo) throws MissingParameterException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
