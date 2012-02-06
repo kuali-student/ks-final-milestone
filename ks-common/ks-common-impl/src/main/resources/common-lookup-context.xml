@@ -31,8 +31,7 @@
 		<property name="resultReturnKey" value="subjectCode.resultColumn.orgId" />
 		<property name="params">
 			<list>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="subjectCode.queryParam.optionalOrgId" />
 					<property name="name" value="Org Id" />
 					<property name="desc" value="Identifier of Organization" />
@@ -41,8 +40,7 @@
 					<property name="caseSensitive" value="false" />
 					<property name="usage" value="DEFAULT" />
 				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="subjectCode.queryParam.code" />
 					<property name="name" value="Subject Code" />
 					<property name="desc" value="SubjectCode cross constraint" />
@@ -230,8 +228,7 @@
 		<property name="searchParamIdKey" value="org.queryParam.orgOptionalId" />
 		<property name="params">
 			<list>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalShortName" />
 					<property name="name" value="Abbreviation" />
 					<property name="desc" value="Short organization name." />
@@ -241,8 +238,7 @@
 					<property name="usage" value="ADVANCED_CUSTOM" />
 					<property name="widget" value="SUGGEST_BOX" />
 				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalId" />
 					<property name="name" value="Id" />
 					<property name="desc" value="Unique identifier for an organization." />
@@ -251,8 +247,7 @@
 					<property name="caseSensitive" value="true" />
 					<property name="usage" value="CUSTOM" />
 				</bean>
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLongName" />
 					<property name="name" value="Name" />
 					<property name="desc" value="Long organization name." />
@@ -263,8 +258,7 @@
 					<property name="widget" value="SUGGEST_BOX" />
 				</bean>
 				<!-- 
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalLocation" />
 					<property name="name" value="Location" />
 					<property name="desc" value="Organization location." />
@@ -275,8 +269,7 @@
 					<property name="widget" value="TEXT_BOX" />
 				</bean>
 				 -->
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="org.queryParam.orgOptionalType" />
 					<property name="name" value="Type" />
 					<property name="desc" value="Type of an organization." />
@@ -1679,8 +1672,7 @@
 		<property name="params">
 			<!-- Merge will merge these properties with those of the parent -->
 			<list merge="true">
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="proposal.queryParam.proposalOptionalType" />
 					<property name="name" value="Type" />
 					<property name="desc" value="Type" />
@@ -1704,8 +1696,7 @@
 		<property name="params">
 			<!-- Merge will merge these properties with those of the parent -->
 			<list merge="true">
-				<bean parent="param" autowire-candidate="default"
-					dependency-check="default" autowire="default" lazy-init="default">
+				<bean parent="param" autowire-candidate="default" autowire="default" lazy-init="default">
 					<property name="key" value="proposal.queryParam.proposalOptionalType" />
 					<property name="name" value="Type" />
 					<property name="desc" value="Type" />
