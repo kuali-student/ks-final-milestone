@@ -1710,13 +1710,13 @@
         <column name="CREATETIME" type="TIMESTAMP"/>
         <column name="UPDATEID" size="255" type="VARCHAR"/>
         <column name="UPDATETIME" type="TIMESTAMP"/>
-        <column name="END_DT" required="true" type="TIMESTAMP"/>
+        <column name="END_DT" type="TIMESTAMP"/>
         <column name="IS_ALL_DAY" required="true" size="1" type="DECIMAL"/>
         <column name="IS_DATE_RANGE" required="true" size="1" type="DECIMAL"/>
         <column name="IS_RELATIVE" required="true" size="1" type="DECIMAL"/>
         <column name="RELATIVE_ANCHOR_MSTONE_ID" size="255" type="VARCHAR"/>
         <column name="NAME" size="255" type="VARCHAR"/>
-        <column name="START_DT" required="true" type="TIMESTAMP"/>
+        <column name="START_DT" type="TIMESTAMP"/>
         <column name="MSTONE_STATE" required="true" size="255" type="VARCHAR"/>
         <column name="MSTONE_TYPE" required="true" size="255" type="VARCHAR"/>
         <column name="DESCR_PLAIN" required="true" size="4000" type="VARCHAR"/>
