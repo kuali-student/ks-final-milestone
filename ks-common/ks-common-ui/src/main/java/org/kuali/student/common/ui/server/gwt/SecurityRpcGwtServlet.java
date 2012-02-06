@@ -66,9 +66,10 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		LOG.debug("Retreiving permissions for permission name: " + permissionNames + " for " + principalId);
 		
 		//FIXME: Is there a way to retrieve multiple permissions at once instead of calling isAuthorized multiple times?
+		Map<String, String> permDetails = new LinkedHashMap<String, String>();
 		HashMap<String,Boolean> permissions = new HashMap<String,Boolean>();
 		for (String permissionName:permissionNames){
-			boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, null, null);
+			boolean hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails, permDetails);
 			permissions.put(permissionName, hasAccess);
 		}
 				
@@ -102,8 +103,9 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		LOG.debug("Retreiving permissions for permission name: " + permissionName + " for " + principalId);
 		
 		//TODO: Do we need to worry about permission details when checking by permission name
+		Map<String, String> permDetails = new LinkedHashMap<String, String>();
 		boolean hasAccess = false;
-		hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, null, null);
+		hasAccess = getPermissionService().isAuthorized(principalId, "KS-SYS", permissionName, permDetails, permDetails);
 		
 		LOG.debug(principalId + " access : " + hasAccess);
 		
@@ -124,8 +126,9 @@ public class SecurityRpcGwtServlet extends RemoteServiceServlet implements Secur
 		
 		LOG.debug("Retreiving permissions for template: " + permissionType.getPermissionTemplateName() + " for " + principalId);
  
+		Map<String, String> permDetails = new LinkedHashMap<String, String>();
 		List<Permission> permissions = permissionService.getAuthorizedPermissionsByTemplateName(
-				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), null, null);
+				principalId, permissionType.getPermissionNamespace(), permissionType.getPermissionTemplateName(), permDetails, permDetails);
 
 		for (Permission permissionInfo:permissions){
 			matchingPermissions.add(permissionInfo.getName());
