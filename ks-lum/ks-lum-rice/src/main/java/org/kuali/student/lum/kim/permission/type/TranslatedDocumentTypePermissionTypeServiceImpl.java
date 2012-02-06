@@ -22,6 +22,7 @@ import java.util.*;
 
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.service.impl.DocumentTypePermissionTypeServiceImpl;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;
 
@@ -57,9 +58,8 @@ public class TranslatedDocumentTypePermissionTypeServiceImpl extends DocumentTyp
 
 	}
 
-	//@Override
-    public Map<String,String> translateInputAttributeSet(Map<String,String> qualification) {
-		return KimQualificationHelper.translateInputAttributeSet(qualification);
+    public Map<String,String> translateInputAttributeSet(Map<String,String> qualification, ContextInfo context) {
+		return KimQualificationHelper.translateInputAttributeSet(qualification, context);
 	}
 
 	@Override
