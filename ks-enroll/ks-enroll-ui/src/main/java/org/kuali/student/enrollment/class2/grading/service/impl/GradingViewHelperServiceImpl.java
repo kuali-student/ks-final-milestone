@@ -254,20 +254,19 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
 
         form.setSelectedTerm(term.getName());
 
-        List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
+//        List<CourseOfferingInfo> courseOfferingInfoList = new ArrayList<CourseOfferingInfo>();
 
         try{
-            List<String> coIds = getCOService().getCourseOfferingsByTermAndInstructor(term.getId(), context.getPrincipalId(), context);
+            List<CourseOfferingInfo> cos = getCOService().getCourseOfferingsByTermAndInstructor(term.getId(), context.getPrincipalId(), context);
 
-            if (coIds == null || coIds.isEmpty()){
+            if (cos == null || cos.isEmpty()){
                 GlobalVariables.getMessageMap().putInfo("firstName",GradingConstants.INFO_COURSE_NOT_FOUND_TO_GRADE,term.getName());
                 return;
             }
 
             form.setCourseOfferingInfoList(new ArrayList<CourseOfferingInfo>());
-            if (!coIds.isEmpty()){
-                courseOfferingInfoList = getCOService().getCourseOfferingsByIds(coIds, context);
-                for (CourseOfferingInfo co : courseOfferingInfoList) {
+            if (!cos.isEmpty()){
+                for (CourseOfferingInfo co : cos) {
                     if (StringUtils.equals(co.getStateKey(), LuiServiceConstants.LUI_OFFERED_STATE_KEY) &&
                         StringUtils.equals(co.getTypeKey(),LuiServiceConstants.COURSE_OFFERING_TYPE_KEY)){
                         form.getCourseOfferingInfoList().add(co);

@@ -222,7 +222,10 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public CourseOfferingInfo createCourseOffering(@WebParam(name = "courseId") String courseId,@WebParam(name = "termId") String termId, @WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey,@WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo,@WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException,DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public CourseOfferingInfo createCourseOffering(@WebParam(name = "courseId") String courseId,
+            @WebParam(name = "termId") String termId, 
+            @WebParam(name = "courseOfferingTypeKey") String courseOfferingTypeKey,
+            @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo,@WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException,DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing CourseOffering.
@@ -468,7 +471,11 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public ActivityOfferingInfo createActivityOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ActivityOfferingInfo createActivityOffering(@WebParam(name = "courseOfferingId") String courseOfferingId,
+            @WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey, 
+            @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo,
+            @WebParam(name = "context") ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing ActivityOffering.
