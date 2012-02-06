@@ -24,6 +24,7 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.kim.KimQualificationHelper;
 
 import java.util.*;
@@ -77,7 +78,7 @@ public class KSRouteLogDerivedRoleTypeServiceImpl extends DerivedRoleTypeService
 
     @Override
     public Map<String,String> translateInputAttributes(Map<String,String> qualification) {
-        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributes(qualification));
+        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributes(qualification), ContextUtils.getContextInfo());
     }
 
 	protected String getDocumentNumber(Map<String,String> qualification) throws WorkflowException {
