@@ -22,7 +22,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
     // TODO KSCM-254
     public List<ValidationResultInfo> validateObject(FieldDefinition field,
             Object o, ObjectStructureDefinition objStructure,
-            Stack<String> elementStack) {
+            Stack<String> elementStack, ContextInfo contextInfo) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
         String element = getElementXpath(elementStack) + "/" + field.getName();
