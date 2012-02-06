@@ -96,7 +96,6 @@
     </bean>
     
     <bean id="processServiceImpl" class="org.kuali.student.r2.core.process.service.impl.ProcessServiceImpl">
-        <property name="atpTypeDao" ref="atpTypeDao"/>
         <property name="checkDao" ref="checkDao"/>
         <property name="checkTypeDao" ref="checkTypeDao"/>
         <property name="instructionDao" ref="instructionDao"/>
@@ -118,9 +117,6 @@
     </bean>
     <bean id="permissionService" class="org.kuali.student.kim.permission.mock.PermissionServiceMockImpl" />
 
-    <bean id="atpTypeDao" class="org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao">
-        <property name="em" ref="entityManager"/>
-    </bean>
     <bean id="checkDao" class="org.kuali.student.r2.core.process.dao.CheckDao">
         <property name="em" ref="entityManager"/>
     </bean>
