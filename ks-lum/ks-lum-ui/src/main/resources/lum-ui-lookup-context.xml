@@ -3801,7 +3801,7 @@
      <property name="hidden" value="false"/>
     </bean>
     <!--This result cannot be here because it isn't on the cross search because it isn't on the sub-search-->
-<!--    <bean parent="result" autowire-candidate="default" dependency-check="default" autowire="default" lazy-init="default">
+<!--    <bean parent="result" autowire-candidate="default" autowire="default" lazy-init="default">
      <property name="key" value="lo.resultColumn.loCluOptionalLongName"/>
      <property name="name" value="Title"/>
      <property name="desc" value="Title of Clu."/>
