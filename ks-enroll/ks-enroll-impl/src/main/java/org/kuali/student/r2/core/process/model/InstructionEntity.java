@@ -68,7 +68,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
 
     @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinTable(name = "KSEN_INSTR_ATPTYPE_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
-    private List<AtpTypeEntity> appliedAtpTypes;
+    private List<String> appliedAtpTypes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)
     private List<InstructionAttributeEntity> attributes = new ArrayList<InstructionAttributeEntity>();
@@ -150,8 +150,8 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
 
         List<String> appliedAtpTypeKeys = new ArrayList<String>();
         if (getAppliedAtpTypes() != null){
-            for (AtpTypeEntity atpTypeEntity : getAppliedAtpTypes()) {
-                appliedAtpTypeKeys.add(atpTypeEntity.getId());
+            for (String atpType : getAppliedAtpTypes()) {
+                appliedAtpTypeKeys.add(atpType);
             }
         }
         dto.setAppliedAtpTypeKeys(appliedAtpTypeKeys);
@@ -267,11 +267,11 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
         this.appliedPopulation = appliedPopulation;
     }
 
-    public List<AtpTypeEntity> getAppliedAtpTypes() {
+    public List<String> getAppliedAtpTypes() {
         return appliedAtpTypes;
     }
 
-    public void setAppliedAtpTypes(List<AtpTypeEntity> appliedAtpTypes) {
+    public void setAppliedAtpTypes(List<String> appliedAtpTypes) {
         this.appliedAtpTypes = appliedAtpTypes;
     }
 

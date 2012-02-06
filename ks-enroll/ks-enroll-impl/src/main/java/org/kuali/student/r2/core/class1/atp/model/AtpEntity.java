@@ -64,6 +64,9 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
         this.setId(atp.getId());
         this.setName(atp.getName());
         this.setAdminOrgId(atp.getAdminOrgId());
+        this.setAtpState(atp.getStateKey());
+        this.setAtpType(atp.getTypeKey());
+
         if (atp.getStartDate() != null) {
             this.setStartDate(atp.getStartDate());
         }

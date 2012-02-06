@@ -33,16 +33,12 @@ import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpMilestoneRelationDao;
-import org.kuali.student.r2.core.class1.atp.dao.AtpRichTextDao;
-import org.kuali.student.r2.core.class1.atp.dao.AtpStateDao;
-import org.kuali.student.r2.core.class1.atp.dao.AtpTypeDao;
 import org.kuali.student.r2.core.class1.atp.dao.MilestoneDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -54,14 +50,9 @@ import org.springframework.transaction.annotation.Transactional;
 public class AtpServiceImpl implements AtpService {
 
     private AtpDao atpDao;
-    private AtpTypeDao atpTypeDao;
-    private AtpStateDao atpStateDao;
-    private AtpRichTextDao atpRichTextDao;
     private AtpAtpRelationDao atpRelDao;
     private MilestoneDao milestoneDao;
     private AtpMilestoneRelationDao atpMilestoneRelationDao;
-    // TODO: remove this once the wiring is all working
-    private TypeTypeRelationDao typeTypeRelationDao;
     private StateService stateService;
     private TypeService typeService;
     private DataDictionaryService dataDictionaryService;
@@ -73,30 +64,6 @@ public class AtpServiceImpl implements AtpService {
 
     public void setAtpDao(AtpDao atpDao) {
         this.atpDao = atpDao;
-    }
-
-    public AtpTypeDao getAtpTypeDao() {
-        return atpTypeDao;
-    }
-
-    public void setAtpTypeDao(AtpTypeDao atpTypeDao) {
-        this.atpTypeDao = atpTypeDao;
-    }
-
-    public AtpStateDao getAtpStateDao() {
-        return atpStateDao;
-    }
-
-    public void setAtpStateDao(AtpStateDao atpStateDao) {
-        this.atpStateDao = atpStateDao;
-    }
-
-    public AtpRichTextDao getAtpRichTextDao() {
-        return atpRichTextDao;
-    }
-
-    public void setAtpRichTextDao(AtpRichTextDao atpRichTextDao) {
-        this.atpRichTextDao = atpRichTextDao;
     }
 
     public AtpAtpRelationDao getAtpRelDao() {
@@ -121,14 +88,6 @@ public class AtpServiceImpl implements AtpService {
 
     public void setAtpMilestoneRelationDao(AtpMilestoneRelationDao atpMilestoneRelationDao) {
         this.atpMilestoneRelationDao = atpMilestoneRelationDao;
-    }
-
-    public TypeTypeRelationDao getTypeTypeRelationDao() {
-        return typeTypeRelationDao;
-    }
-
-    public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
-        this.typeTypeRelationDao = typeTypeRelationDao;
     }
 
     public StateService getStateService() {
@@ -281,9 +240,7 @@ public class AtpServiceImpl implements AtpService {
     public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        TypeInfo type = findType(atpTypeKey, context);
-
-        List<AtpEntity> results = atpDao.getByAtpTypeId(type.getKey());
+        List<AtpEntity> results = atpDao.getByAtpTypeId(atpTypeKey);
 
         List<String> keys = new ArrayList<String>(results.size());
 
@@ -336,9 +293,7 @@ public class AtpServiceImpl implements AtpService {
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        TypeInfo type = findType(milestoneTypeKey, contextInfo);
-
-        List<MilestoneEntity> entities = milestoneDao.getByMilestoneTypeId(type.getKey());
+        List<MilestoneEntity> entities = milestoneDao.getByMilestoneTypeId(milestoneTypeKey);
 
         if (entities == null) {
             return Collections.emptyList();
@@ -479,12 +434,6 @@ public class AtpServiceImpl implements AtpService {
             OperationFailedException, PermissionDeniedException, ReadOnlyException {
 
         AtpEntity atp = new AtpEntity(atpInfo);
-        if (null != atpInfo.getStateKey()) {
-            atp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context).getId());
-        }
-        if (null != atpInfo.getTypeKey()) {
-            atp.setAtpType(findType(atpInfo.getTypeKey(), context).getKey());
-        }
         if (null != atpInfo.getDescr()) {
             atp.setDescrFormatted(atpInfo.getDescr().getFormatted());
             atp.setDescrPlain(atpInfo.getDescr().getPlain());
@@ -545,11 +494,6 @@ public class AtpServiceImpl implements AtpService {
 
         if (null != atp) {
             AtpEntity modifiedAtp = new AtpEntity(atpInfo);
-            if (atpInfo.getStateKey() != null)
-                modifiedAtp.setAtpState(findState(AtpServiceConstants.ATP_PROCESS_KEY, atpInfo.getStateKey(), context)
-                        .getId());
-            if (atpInfo.getTypeKey() != null)
-                modifiedAtp.setAtpType(findType(atpInfo.getTypeKey(), context).getKey());
             atpDao.merge(modifiedAtp);
             return atpDao.find(modifiedAtp.getId()).toDto();
         } else
@@ -639,20 +583,6 @@ public class AtpServiceImpl implements AtpService {
 
         MilestoneEntity entity = new MilestoneEntity(milestoneInfo);
 
-        if (milestoneInfo.getTypeKey() != null) {
-            entity.setAtpType(findType(milestoneInfo.getTypeKey(), contextInfo).getKey());
-        }
-
-        if (milestoneInfo.getStateKey() != null) {
-            entity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(),
-                    contextInfo).getId());
-        }
-
-        if (milestoneInfo.getDescr() != null) {
-            entity.setDescrFormatted(milestoneInfo.getDescr().getFormatted());
-            entity.setDescrPlain(milestoneInfo.getDescr().getPlain());
-        }
-
         if (milestoneInfo.getRelativeAnchorMilestoneId() != null) {
             entity.setRelativeAnchorMilestone(milestoneDao.find(milestoneInfo.getRelativeAnchorMilestoneId()));
         }
@@ -677,10 +607,6 @@ public class AtpServiceImpl implements AtpService {
         }
 
         MilestoneEntity updatedEntity = new MilestoneEntity(milestoneInfo);
-        updatedEntity.setAtpState(findState(AtpServiceConstants.MILESTONE_PROCESS_KEY, milestoneInfo.getStateKey(),
-                context).getId());
-        updatedEntity.setAtpType(findType(milestoneInfo.getTypeKey(), context).getKey());
-
         milestoneDao.merge(updatedEntity);
 
         return updatedEntity.toDto();
