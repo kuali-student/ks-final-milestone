@@ -214,6 +214,7 @@ public abstract class AbstractDataService implements DataService{
 						//Populate attributes with additional attributes required for permission check
 						if (proposalInfo != null){
 							attributes.put(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString(), proposalInfo.getId());
+							attributes.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, proposalInfo.getId()); // this is what most of the permissions/roles check
 							attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
 							attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getType());
 							attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, routeStatusCode);
