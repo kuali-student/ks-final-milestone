@@ -50,13 +50,6 @@ public class AcademicCalendarController extends UifControllerBase {
         return new AcademicCalendarForm();
     }
 
-    @RequestMapping(params = "methodToCall=start")
-    public ModelAndView start(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
-
-        return getUIFModelAndView(academicCalendarForm);
-    }
-
     /**
      * Method used to save AcademicCalendar
      */
