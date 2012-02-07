@@ -46,7 +46,7 @@ public class LoCategoryDataService extends AbstractDataService {
         return null;
     }
 
-    @Override
+
     protected Object get(String id,ContextInfo contextInfo) throws Exception {
 
         //TODO Check that only LO categories are coming through this way. LOs are persisted only in the context of a CLU?
@@ -61,7 +61,7 @@ public class LoCategoryDataService extends AbstractDataService {
         return  returnDTO;
     }
 
-    @Override
+
     protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
         if (dto instanceof LoCategoryInfo) {
             LoCategoryInfo loCatInfo = (LoCategoryInfo) dto;
@@ -76,7 +76,7 @@ public class LoCategoryDataService extends AbstractDataService {
         }
     }
 
-    @Override
+
 	protected List<ValidationResultInfo> validate(Object dto,ContextInfo contextInfo) throws Exception {
 		return loService.validateLoCategory("OBJECT", (LoCategoryInfo)dto, contextInfo );
 	}
