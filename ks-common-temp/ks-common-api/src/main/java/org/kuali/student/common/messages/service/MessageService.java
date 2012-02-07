@@ -25,7 +25,10 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.common.messages.dto.MessageInfo;
+import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.util.constants.MessageServiceConstants;
 
 import javax.jws.WebParam;
@@ -179,5 +182,12 @@ public interface MessageService {
 
     @Deprecated
     public MessageInfo updateMessage(LocaleInfo localeKey, String messageGroupKey, String messageKey, MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo);
+
+    // TODO KSCM-266
+    @Deprecated
+	public MessageList getMessagesByGroups(String locale,
+			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo);
+
+	public Message addMessage(Message messageInfo, ContextInfo contextInfo);
 
 }

@@ -60,5 +60,7 @@ public class StudentIdentityConstants {
     public static final String KSCM_ADMIN_ROLE_NAME = "Kuali Student CM Admin";
     // KSCM-144
     public static final String KSCM_USER_ROLE_NAME = "Kuali Student CM User";
+    
+    public static final String SCREEN_COMPONENT = "screenComponent";
 
 }

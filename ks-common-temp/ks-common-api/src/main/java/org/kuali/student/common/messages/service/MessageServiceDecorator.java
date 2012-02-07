@@ -24,7 +24,10 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.common.messages.dto.MessageInfo;
+import org.kuali.student.common.messages.dto.MessageList;
 
 import javax.jws.WebParam;
 import java.util.List;
@@ -94,4 +97,19 @@ public class MessageServiceDecorator implements MessageService {
     public MessageInfo updateMessage(LocaleInfo localeKey, String messageGroupKey, String messageKey, MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
+
+    // TODO KSCM-266
+    @Override
+	public MessageList getMessagesByGroups(String locale,
+			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+    
+    // TODO KSCM-266
+	@Override
+	public Message addMessage(Message messageInfo, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
