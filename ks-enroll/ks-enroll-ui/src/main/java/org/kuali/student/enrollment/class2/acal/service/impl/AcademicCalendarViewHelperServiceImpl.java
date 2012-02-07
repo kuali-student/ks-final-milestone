@@ -16,9 +16,14 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import java.util.List;
+import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
+
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
@@ -29,11 +34,7 @@ import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
-import javax.xml.namespace.QName;
 
 /**
  * This class implement ViewHelperServiceImpl for  all AcademicCalendar views
@@ -100,6 +101,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
         acalInfo.setTypeKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY);
+        //create dummy descr for db AtpEntity.plain is not nullable
+        RichTextInfo rti = new RichTextInfo();
+        rti.setPlain(acalInfo.getName());
+        acalInfo.setDescr(rti);
         AcademicCalendarInfo newAcal = getAcalService().createAcademicCalendar(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, acalInfo, getContextInfo());
         return newAcal;
     }
