@@ -19,14 +19,15 @@ import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 
 public interface AssemblerRpcService {
 	//Data operations
-	public Data getData(String dataId) throws OperationFailedException;
+	public Data getData(String dataId, ContextInfo contextInfo) throws OperationFailedException;
 	
-	public Metadata getMetadata(String id, Map<String,String> idAttributes) throws OperationFailedException;
+	public Metadata getMetadata(String id, Map<String,String> idAttributes, ContextInfo contextInfo) throws OperationFailedException;
 
-	public DataSaveResult saveData(Data data) throws OperationFailedException;
+	public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException;
 
 }
