@@ -18,17 +18,8 @@ package org.kuali.student.lum.lo.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.ReadOnlyException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.util.constants.LearningObjectiveServiceConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -382,7 +373,7 @@ public interface LearningObjectiveService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
      */
-    public StatusInfo deleteLo (@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteLo (@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
 
     /**
@@ -528,7 +519,7 @@ public interface LearningObjectiveService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
      */
-    public StatusInfo deleteLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
     /**
      * Deletes existing LoCategories of a Lo.

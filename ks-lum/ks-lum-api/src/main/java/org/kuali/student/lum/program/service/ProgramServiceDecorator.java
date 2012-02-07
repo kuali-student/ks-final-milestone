@@ -4,25 +4,14 @@ import java.util.Date;
 import java.util.List;
 
 
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.HonorsProgramInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.lum.program.dto.*;
 
 public class ProgramServiceDecorator implements ProgramService {
     private ProgramService nextDecorator;
@@ -48,7 +37,7 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateCredentialProgram(String validationType, CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo) throws InvalidParameterException,
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateCredentialProgram(String validationType, CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return this.nextDecorator.validateCredentialProgram(validationType, credentialProgramInfo, contextInfo);
     }
@@ -61,7 +50,7 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public CredentialProgramInfo createNewCredentialProgramVersion(String credentialProgramId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
         return this.nextDecorator.createNewCredentialProgramVersion(credentialProgramId, versionComment, contextInfo);
     }
 
@@ -96,8 +85,8 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateMajorDiscipline(String validationType, MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateMajorDiscipline(String validationType, MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.nextDecorator.validateMajorDiscipline(validationType, majorDisciplineInfo, contextInfo);
     }
 
@@ -121,7 +110,7 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public MajorDisciplineInfo createNewMajorDisciplineVersion(String majorDisciplineId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
         return this.nextDecorator.createNewMajorDisciplineVersion(majorDisciplineId, versionComment, contextInfo);
     }
 
@@ -138,7 +127,7 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateHonorsProgram(String validationType, HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo) throws InvalidParameterException,
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateHonorsProgram(String validationType, HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return this.nextDecorator.validateHonorsProgram(validationType, honorsProgramInfo, contextInfo);
     }
@@ -170,7 +159,7 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateCoreProgram(String validationType, CoreProgramInfo coreProgramInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateCoreProgram(String validationType, CoreProgramInfo coreProgramInfo, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
             OperationFailedException {
         return this.nextDecorator.validateCoreProgram(validationType, coreProgramInfo, contextInfo);
     }
@@ -183,7 +172,7 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public CoreProgramInfo createNewCoreProgramVersion(String coreProgramId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
         return this.nextDecorator.createNewCoreProgramVersion(coreProgramId, versionComment, contextInfo);
     }
 
@@ -212,7 +201,7 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateProgramRequirement(String validationType, ProgramRequirementInfo programRequirementInfo, ContextInfo contextInfo) throws InvalidParameterException,
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateProgramRequirement(String validationType, ProgramRequirementInfo programRequirementInfo, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return this.nextDecorator.validateProgramRequirement(validationType, programRequirementInfo, contextInfo);
     }
@@ -255,7 +244,7 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
     @Override
-    public List<ValidationResultInfo> validateMinorDiscipline(String validationType, MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo) throws InvalidParameterException,
+    public List<org.kuali.student.common.validation.dto.ValidationResultInfo> validateMinorDiscipline(String validationType, MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return this.nextDecorator.validateMinorDiscipline(validationType, minorDisciplineInfo, contextInfo);
     }
@@ -323,5 +312,95 @@ public class ProgramServiceDecorator implements ProgramService {
 			PermissionDeniedException {
 		return this.nextDecorator.getVersions(programServiceConstants, versionIndId, contextInfo);
 	}
+
+    @Override
+    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public VersionDisplayInfo getFirstVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public VersionDisplayInfo getLatestVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public VersionDisplayInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public LuTypeInfo getCredentialProgramType(String credentialProgramTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<LuTypeInfo> getCredentialProgramTypes(ContextInfo contextInfo) throws OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getHonorsByCredentialProgramType(String programType, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getMajorIdsByCredentialProgramType(String programType, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public CredentialProgramInfo updateCredentialProgram(CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public HonorsProgramInfo updateHonorsProgram(HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public MinorDisciplineInfo updateMinorDiscipline(MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> getObjectTypes(ContextInfo contextInfo) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ProgramRequirementInfo getProgramRequirement(String programRequirementId, String nlUsageTypeKey, String language, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public MajorDisciplineInfo updateMajorDiscipline(MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
 
 }
