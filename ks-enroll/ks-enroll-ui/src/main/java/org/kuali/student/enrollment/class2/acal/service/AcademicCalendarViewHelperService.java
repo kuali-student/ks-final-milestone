@@ -22,6 +22,8 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
     public List<HolidayInfo> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
     public HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo) throws Exception;
+    public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo) throws Exception;
+    public void deleteHoliday(String holidayId) throws Exception;
 
     //Acal
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;

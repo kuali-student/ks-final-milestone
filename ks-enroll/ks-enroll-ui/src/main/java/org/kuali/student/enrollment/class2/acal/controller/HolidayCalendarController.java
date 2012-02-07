@@ -23,7 +23,12 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -110,7 +115,8 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHolidayCalendarInfo(getAcademicCalendarViewHelperService(hcForm).getHolidayCalendar(hcId));
 
         //update hc-holidays
-
+        List<HolidayInfo> holidays = hcForm.getHolidays();
+        processHolidays(hcForm, holidays, hcId);
     }
 
     private void createHolidays(String holidayCalendarId, HolidayCalendarForm hcForm) throws Exception {
@@ -119,10 +125,6 @@ public class HolidayCalendarController extends UifControllerBase {
 
         if(holidays != null && !holidays.isEmpty()){
             for (HolidayInfo holiday : holidays){
-                //create dummy descr for db MilestoneEntity.plain is not nullable
-                RichTextInfo rti = new RichTextInfo();
-                rti.setPlain(holiday.getTypeKey());
-                holiday.setDescr(rti);
                 createdHolidays.add(createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, hcForm));
             }
 
@@ -132,9 +134,65 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo, HolidayCalendarForm hcForm)throws Exception {
+        //create dummy descr for db MilestoneEntity.plain is not nullable
+        RichTextInfo rti = new RichTextInfo();
+        rti.setPlain(holidayInfo.getTypeKey());
+        holidayInfo.setDescr(rti);
         return getAcademicCalendarViewHelperService(hcForm).createHoliday(holidayCalendarId, holidayTypeKey, holidayInfo);
     }
 
+    private List<String> getHolidayIds(HolidayCalendarForm hcForm) throws Exception{
+        List<HolidayInfo> holidays = getAcademicCalendarViewHelperService(hcForm).getHolidaysForHolidayCalendar(hcForm);
+        List<String> holidayIds = new ArrayList<String>();
+
+        if(holidays != null && !holidays.isEmpty()){
+            for(HolidayInfo holiday : holidays){
+                holidayIds.add(holiday.getId());
+            }
+        }
+
+        return holidayIds;
+    }
+
+    private void processHolidays(HolidayCalendarForm hcForm, List<HolidayInfo> holidays, String hcId)throws Exception{
+        List<HolidayInfo> updatedHolidays = new ArrayList<HolidayInfo>();
+        List<String> currentHolidays = getHolidayIds(hcForm);
+
+        if(holidays != null && !holidays.isEmpty()){
+            for(HolidayInfo holiday : holidays){
+                if(currentHolidays.contains(holiday.getId())){
+                    //upate holiday
+                    HolidayInfo updatedHoliday = upateHoliday(holiday.getId(), holiday, hcForm);
+                    updatedHolidays.add(updatedHoliday);
+                    currentHolidays.remove(holiday.getId());
+                }
+                else {
+                    //create Holiday
+                    HolidayInfo createdHoliday = createHoliday(hcId, holiday.getTypeKey(), holiday, hcForm);
+                    updatedHolidays.add(createdHoliday);
+                }
+            }
+        }
+
+        hcForm.setHolidays(updatedHolidays);
+
+        if (currentHolidays != null && currentHolidays.size() > 0){
+            for(String holidayId: currentHolidays){
+                //delete holiday
+                //TODO: delete completely from db, when "deleted" state is available, update the holiday with state ="deleted"
+                deleteHoliday(holidayId, hcForm);
+            }
+        }
+
+	}
+
+    private HolidayInfo upateHoliday(String holidayId, HolidayInfo holidayInfo, HolidayCalendarForm hcForm)throws Exception {
+        return getAcademicCalendarViewHelperService(hcForm).updateHoliday(holidayId, holidayInfo);
+    }
+
+    private void deleteHoliday(String holidayId, HolidayCalendarForm hcForm)throws Exception {
+        getAcademicCalendarViewHelperService(hcForm).deleteHoliday(holidayId);
+    }
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(HolidayCalendarForm hcForm){
         return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
     }

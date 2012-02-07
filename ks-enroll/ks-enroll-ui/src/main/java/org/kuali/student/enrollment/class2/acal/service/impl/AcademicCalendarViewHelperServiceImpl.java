@@ -85,6 +85,15 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return createdHoliday;
     }
 
+    public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo) throws Exception {
+        getAcalService().updateHoliday(holidayId, holidayInfo, getContextInfo());
+        return getAcalService().getHoliday(holidayId, getContextInfo());
+    }
+
+    public void deleteHoliday(String holidayId) throws Exception{
+        getAcalService().deleteHoliday(holidayId, getContextInfo());
+    }
+
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
