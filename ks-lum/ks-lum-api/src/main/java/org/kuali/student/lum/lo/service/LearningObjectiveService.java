@@ -844,7 +844,7 @@ OperationFailedException;
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException;
 
-    SearchResult search(SearchRequest searchRequest) throws MissingParameterException;
+    SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException;
 
     /* (non-Javadoc)
 * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)

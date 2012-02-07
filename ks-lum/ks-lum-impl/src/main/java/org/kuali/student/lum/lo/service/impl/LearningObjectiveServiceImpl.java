@@ -845,7 +845,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		
 		request.setParams(searchParams);
 		
-		SearchResult result = search(request);
+		SearchResult result = search(request, contextInfo);
 		
 		if(loCategoryId != null && !loCategoryId.trim().equals("")){
 			if (result.getRows().size() > 0) {
@@ -888,7 +888,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
 
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, contextInfo);
     }
 
 	/* (non-Javadoc)
@@ -897,7 +897,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
     throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
 	/* (non-Javadoc)
@@ -908,7 +908,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
+        return searchManager.getSearchResultType(searchResultTypeKey, contextInfo);
     }
 
 	/* (non-Javadoc)
@@ -917,7 +917,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
     throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
+        return searchManager.getSearchResultTypes(contextInfo);
     }
 
 	/* (non-Javadoc)
@@ -928,7 +928,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     throws DoesNotExistException, InvalidParameterException,
     MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
 	/* (non-Javadoc)
@@ -937,7 +937,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     @Override
     public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
     throws OperationFailedException {
-        return searchManager.getSearchTypes();
+        return searchManager.getSearchTypes(contextInfo);
     }
 
 	/* (non-Javadoc)
@@ -949,7 +949,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
 	/* (non-Javadoc)
@@ -961,7 +961,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
 	@Override
@@ -1148,9 +1148,9 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+	public SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
-        SearchResult result =  searchManager.search(searchRequest, loDao);
+        SearchResult result =  searchManager.search(searchRequest, loDao, contextInfo);
         if("lo.search.loByCategory".equals(searchRequest.getSearchKey())){
 //        	for(SearchParam param:searchRequest.getParams()){
 //        		if("lo.queryParam.groupCategories".equals(param.getKey())&&"true".equals(param.getValue())){
