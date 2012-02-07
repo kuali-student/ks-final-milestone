@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.common.server;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
@@ -46,13 +47,13 @@ public class LoCategoryDataService extends AbstractDataService {
     }
 
     @Override
-    protected Object get(String id) throws Exception {
+    protected Object get(String id,ContextInfo contextInfo) throws Exception {
 
         //TODO Check that only LO categories are coming through this way. LOs are persisted only in the context of a CLU?
         Object returnDTO ;
 
         try {
-            returnDTO = loService.getLoCategory(id);
+            returnDTO = loService.getLoCategory(id,contextInfo);
         }
         catch (DoesNotExistException e) {
             throw new InvalidParameterException("Only LoCategoryInfo supported by this DataService implementation.");
@@ -61,13 +62,13 @@ public class LoCategoryDataService extends AbstractDataService {
     }
 
     @Override
-    protected Object save(Object dto, Map<String, Object> properties) throws Exception {
+    protected Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception {
         if (dto instanceof LoCategoryInfo) {
             LoCategoryInfo loCatInfo = (LoCategoryInfo) dto;
             if (loCatInfo.getId() == null ) {
-            	loCatInfo = loService.createLoCategory(loCatInfo.getLoRepository(), loCatInfo.getType(), loCatInfo);
+            	loCatInfo = loService.createLoCategory(loCatInfo.getLoRepository(), loCatInfo, contextInfo);
             } else {
-                loCatInfo = loService.updateLoCategory(loCatInfo.getId(), loCatInfo);
+                loCatInfo = loService.updateLoCategory(loCatInfo.getId(), loCatInfo,contextInfo);
             }
             return loCatInfo;
         } else  {
@@ -76,8 +77,8 @@ public class LoCategoryDataService extends AbstractDataService {
     }
 
     @Override
-	protected List<ValidationResultInfo> validate(Object dto) throws Exception {
-		return loService.validateLoCategory("OBJECT", (LoCategoryInfo)dto);
+	protected List<ValidationResultInfo> validate(Object dto,ContextInfo contextInfo) throws Exception {
+		return loService.validateLoCategory("OBJECT", (LoCategoryInfo)dto, contextInfo );
 	}
 
 	@Override

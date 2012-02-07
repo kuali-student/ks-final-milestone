@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.server.gwt;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +15,7 @@ import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
 import org.kuali.student.common.assembly.transform.TransformationManager;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -23,6 +25,7 @@ import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -43,8 +46,8 @@ public abstract class AbstractDataService implements DataService{
 	private ProposalService proposalService;
 
 	@Override
-	public Data getData(String id) throws OperationFailedException {
-		Map<String, Object> filterProperties = getDefaultFilterProperties();
+	public Data getData(String id,ContextInfo contextInfo) throws OperationFailedException {
+		Map<String, Object> filterProperties = getDefaultFilterProperties(contextInfo);
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.GET);
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
@@ -59,7 +62,7 @@ public abstract class AbstractDataService implements DataService{
 				dtoId = proposalInfo.getProposalReference().get(0);
 			}			
 
-			Object dto = get(dtoId);
+			Object dto = get(dtoId,contextInfo);
 			if (dto != null){
 				return transformationManager.transform(dto, filterProperties);
 			}
@@ -72,8 +75,8 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-	public Metadata getMetadata(String id, Map<String, String> attributes) {
-		Map<String, Object> filterProperties = getDefaultFilterProperties();
+	public Metadata getMetadata(String id, Map<String, String> attributes,ContextInfo contextInfo) {
+		Map<String, Object> filterProperties = getDefaultFilterProperties(contextInfo);
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
 		//Place id attributes into filter properties
@@ -112,12 +115,12 @@ public abstract class AbstractDataService implements DataService{
 
 	@Override
 	@Transactional(readOnly=false)
-	public DataSaveResult saveData(Data data) throws OperationFailedException, DataValidationErrorException {
-		Map<String, Object> filterProperties = getDefaultFilterProperties();
+	public DataSaveResult saveData(Data data,ContextInfo contextInfo) throws OperationFailedException, DataValidationErrorException {
+		Map<String, Object> filterProperties = getDefaultFilterProperties(contextInfo);
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.SAVE);
 		try {
 			Object dto = transformationManager.transform(data, getDtoClass(), filterProperties);
-			dto = save(dto, filterProperties);
+			dto = save(dto, filterProperties,contextInfo);
 				
 			Data persistedData = transformationManager.transform(dto, filterProperties);
 			return new DataSaveResult(null, persistedData);
@@ -129,7 +132,7 @@ public abstract class AbstractDataService implements DataService{
 	}
 
 	@Override
-	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
+	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes,ContextInfo contextInfo) {
 		String user = SecurityUtils.getCurrentUserId();
 		boolean result = false;
 		if (checkDocumentLevelPermissions()) {
@@ -177,7 +180,7 @@ public abstract class AbstractDataService implements DataService{
 		return Boolean.valueOf(result);
 	}
 	
-	public Map<String, Object> getDefaultFilterProperties(){
+	public Map<String, Object> getDefaultFilterProperties(ContextInfo contextInfo){
 		Map<String, Object> filterProperties = new HashMap<String,Object>();
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
 		filterProperties.put(ProposalWorkflowFilter.WORKFLOW_USER, SecurityUtils.getCurrentUserId());
@@ -185,12 +188,12 @@ public abstract class AbstractDataService implements DataService{
 		return filterProperties;
 	}
 	
-	protected DataSaveResult _saveData(Data data, Map<String, Object> filterProperties) throws OperationFailedException{
+	protected DataSaveResult _saveData(Data data, Map<String, Object> filterProperties,ContextInfo contextInfo) throws OperationFailedException{
 		try {
 			filterProperties.put(MetadataFilter.METADATA_ID_VALUE, (String)data.query("id"));	
 
 			Object dto = transformationManager.transform(data, getDtoClass(),filterProperties);
-			dto = save(dto, filterProperties);
+			dto = save(dto, filterProperties,contextInfo);
 				
 			Data persistedData = transformationManager.transform(dto,filterProperties);
 			return new DataSaveResult(null, persistedData);
@@ -244,17 +247,17 @@ public abstract class AbstractDataService implements DataService{
 	 * @return the dto retrieved by calling the appropriate service method
 	 * @throws Exception
 	 */
-	protected abstract Object get(String id) throws Exception;
+	protected abstract Object get(String id,ContextInfo contextInfo) throws Exception;
 	
 	/**
 	 * Implement this method to make to make service call to get DTO object. The method is called	 
 	 * by the get(Data) method before it invokes transformationManager to convert DTO to a Data map
 	 * 
-	 * @param id DTO id
-	 * @return the dto retrieved by calling the appropriate service method
+	 * @param dto
+     * * @return the dto retrieved by calling the appropriate service method
 	 * @throws Exception
 	 */ 
-	protected abstract Object save(Object dto, Map<String, Object> properties) throws Exception;
+	protected abstract Object save(Object dto, Map<String, Object> properties,ContextInfo contextInfo) throws Exception;
 	
 	/**
 	 * Implement this method to return the type of the dto object.
@@ -262,4 +265,6 @@ public abstract class AbstractDataService implements DataService{
 	 * @return The object type returned and expected by the get & save dto methods
 	 */
 	protected abstract Class<?> getDtoClass();
+
+    protected abstract List<ValidationResultInfo> validate(Object dto, ContextInfo contextInfo) throws Exception;
 }
