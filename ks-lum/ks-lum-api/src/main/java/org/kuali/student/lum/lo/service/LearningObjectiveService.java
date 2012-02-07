@@ -16,15 +16,15 @@
 package org.kuali.student.lum.lo.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.*;
+import org.kuali.student.common.search.dto.*;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.util.constants.LearningObjectiveServiceConstants;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
+import org.kuali.student.lum.lo.dto.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -700,5 +700,170 @@ public interface LearningObjectiveService {
     public StatusInfo deleteLoLoRelation (@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     //TODO KSCM : added from LumService MehtodInvoker because it ref this method
     @Deprecated
-    public void removeLoCategoryFromLo(String categoryId, String loId);
+    public StatusInfo removeLoCategoryFromLo(String categoryId, String loId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /*
+* (non-Javadoc)
+* @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoTypes()
+*/
+    @Transactional(readOnly=true)
+    List<LoTypeInfo> getLoTypes(ContextInfo contextInfo) throws OperationFailedException;
+
+    /*
+* (non-Javadoc)
+* @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoType(java.lang.String)
+*/
+    @Transactional(readOnly=true)
+    LoTypeInfo getLoType(String loTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /*
+* (non-Javadoc)
+* @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoLoRelationTypes()
+*/
+    @Transactional(readOnly=true)
+    List<LoLoRelationTypeInfo> getLoLoRelationTypes(ContextInfo contextInfo)
+            throws OperationFailedException;
+
+    /*
+* (non-Javadoc)
+* @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoLoRelationType(java.lang.String)
+*/
+    @Transactional(readOnly=true)
+    LoLoRelationTypeInfo getLoLoRelationType(String loLoRelationTypeKey, ContextInfo contextInfo)
+            throws OperationFailedException, MissingParameterException, DoesNotExistException;
+
+    @Transactional(readOnly=true)
+    List<String> getAllowedLoLoRelationTypesForLoType(String loTypeKey, String relatedLoTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+                    MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoByIdList(java.util.List)
+*/
+    @Transactional(readOnly=true)
+    List<LoInfo> getLoByIdList(List<String> loIds, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategories(java.lang.String)
+*/
+    @Transactional(readOnly=true)
+    List<LoCategoryInfo> getLoCategories(String loRepositoryKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoCategoriesForLo(java.lang.String)
+*/
+    @Transactional(readOnly=true)
+    List<LoCategoryInfo> getLoCategoriesForLo(String loId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo);
+
+    List<String> getObjectTypes(ContextInfo contextInfo);
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
+*/
+    SearchCriteriaTypeInfo getSearchCriteriaType(
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+InvalidParameterException, MissingParameterException,
+OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
+*/
+    List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+throws OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
+*/
+    SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
+throws DoesNotExistException, InvalidParameterException,
+MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
+*/
+    List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
+throws OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
+*/
+    List<SearchTypeInfo> getSearchTypesByCriteria(
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+InvalidParameterException, MissingParameterException,
+OperationFailedException;
+
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    StatusInfo deleteLoLoRelation(String loLoRelationId)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException,
+            PermissionDeniedException;
+
+    @Transactional(readOnly=true)
+    List<LoLoRelationInfo> getLoLoRelationsByLoId(String loId)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    @Transactional(readOnly=true)
+    LoLoRelationInfo getLoLoRelation(String loLoRelationId)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    @Transactional(readOnly=true)
+    List<LoInfo> getLosByRelatedLoId(String relatedLoId,
+                                     String loLoRelationType) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Transactional(readOnly=true)
+    LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    @Transactional(readOnly=true)
+    List<LoInfo> getLosByRepository(String loRepositoryKey,
+                                    String loTypeKey, String loStateKey)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException;
+
+    @Transactional(readOnly=true)
+    List<LoCategoryTypeInfo> getLoCategoryTypes()
+            throws OperationFailedException;
+
+    @Transactional(readOnly=true)
+    List<LoInfo> getRelatedLosByLoId(String loId, String loLoRelationTypeKey)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException;
+
+    SearchResult search(SearchRequest searchRequest) throws MissingParameterException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
+*/
+    SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo)
+throws DoesNotExistException, InvalidParameterException,
+MissingParameterException, OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
+*/
+    List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+throws OperationFailedException;
+
+    /* (non-Javadoc)
+* @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
+*/
+    List<SearchTypeInfo> getSearchTypesByResult(
+            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+InvalidParameterException, MissingParameterException,
+OperationFailedException;
 }
