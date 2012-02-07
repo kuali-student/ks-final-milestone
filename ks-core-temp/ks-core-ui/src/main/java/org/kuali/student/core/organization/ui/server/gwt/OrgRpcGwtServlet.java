@@ -35,7 +35,9 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -342,7 +344,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
 
         try {
-            DataSaveResult s = this.saveData(proposal);
+            DataSaveResult s = this.saveData(proposal, null);
             if (s == null) {
                 return null;
             } else {
@@ -436,7 +438,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public Data fetchOrg(String orgId) {
         try {
-            return (Data)this.getData(orgId);
+            return (Data)this.getData(orgId,null);
         }
         catch(Exception e){
         	LOG.error(e);
@@ -526,5 +528,12 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     protected String getDefaultWorkflowDocumentType() {
         return null;
     }
+
+	@Override
+	public Boolean isAuthorized(PermissionType type,
+			Map<String, String> attributes, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
 }
