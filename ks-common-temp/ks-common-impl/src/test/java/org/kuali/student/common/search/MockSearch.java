@@ -19,10 +19,13 @@ import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.common.search.service.impl.CrossSearchManager;
 import org.kuali.student.common.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.common.search.service.impl.SearchManagerImpl;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
 
 public class MockSearch implements SearchService {
-	SearchManagerImpl sm;
-	ContextInfo context = new ContextInfo();	// TODO KSCM-264
+	private SearchManagerImpl sm;
+	private ContextInfo testContext;
+	
+	
 	public MockSearch(){
 		sm = new SearchManagerImpl("classpath:test-cross-search.xml");
 		CrossSearchManager csm = new CrossSearchManager();
@@ -32,18 +35,20 @@ public class MockSearch implements SearchService {
 		services.add(this);
 		sd.setServices(services);
 		csm.setSearchDispatcher(sd);
+		testContext = ContextInfoTestUtility.getEnglishContextInfo();
 	}
+	
 	@Override
 	public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
 			throws OperationFailedException {
-		return sm.getSearchTypes(context);
+		return sm.getSearchTypes(testContext);
 	}
 
 	@Override
 	public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return sm.getSearchType(searchTypeKey, context);
+		return sm.getSearchType(searchTypeKey, testContext);
 	}
 
 	@Override
@@ -51,7 +56,7 @@ public class MockSearch implements SearchService {
 			String searchResultTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return sm.getSearchTypesByResult(searchResultTypeKey, context);
+		return sm.getSearchTypesByResult(searchResultTypeKey, testContext);
 	}
 
 	@Override
@@ -59,26 +64,26 @@ public class MockSearch implements SearchService {
 			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return sm.getSearchTypesByCriteria(searchCriteriaTypeKey, context);
+		return sm.getSearchTypesByCriteria(searchCriteriaTypeKey, testContext);
 	}
 
 	@Override
 	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
 			throws OperationFailedException {
-		return sm.getSearchResultTypes(context);
+		return sm.getSearchResultTypes(testContext);
 	}
 
 	@Override
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return sm.getSearchResultType(searchResultTypeKey, context);
+		return sm.getSearchResultType(searchResultTypeKey, testContext);
 	}
 
 	@Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context)
 			throws OperationFailedException {
-		return sm.getSearchCriteriaTypes(context);
+		return sm.getSearchCriteriaTypes(testContext);
 	}
 
 	@Override
@@ -86,7 +91,7 @@ public class MockSearch implements SearchService {
 			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return sm.getSearchCriteriaType(searchCriteriaTypeKey, context);
+		return sm.getSearchCriteriaType(searchCriteriaTypeKey, testContext);
 	}
 
 	@Override
@@ -151,7 +156,7 @@ public class MockSearch implements SearchService {
 			searchResult.getRows().add(row);
 			return searchResult;
 		}else if("test.crossSearch".equals(searchRequest.getSearchKey())){
-			return sm.search(searchRequest, null);
+			return sm.search(searchRequest, testContext);
 		}
 		return null;
 	}
