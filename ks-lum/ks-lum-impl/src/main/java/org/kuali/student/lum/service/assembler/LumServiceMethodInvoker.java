@@ -159,7 +159,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			case UPDATE:
 				throw new UnsupportedOperationException("Can't call update on lo category relations, just add and remove");
 			case DELETE:
-				loService.removeLoCategoryFromLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId());
+				loService.removeLoCategoryFromLo(loCategoryRelation.getCategoryId(), loCategoryRelation.getLoId(),contextInfo);
 				break;
 			}
 		}else if(nodeData instanceof LoInfo){
