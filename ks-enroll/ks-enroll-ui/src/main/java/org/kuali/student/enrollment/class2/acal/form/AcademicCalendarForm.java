@@ -14,15 +14,15 @@
  */
 package org.kuali.student.enrollment.class2.acal.form;
 
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.text.SimpleDateFormat;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 
 /**
  * This class //TODO ...
@@ -34,30 +34,11 @@ public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
+    private String updateTimeString;
+    private List<AcalEventInfo> events;
 
     private List<AcademicTermWrapper> termWrapperList;
 
-/*
-    private Date startDate;
-
-    private Date endDate;
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-*/
     public AcademicCalendarForm() {
         super();
         termWrapperList = new ArrayList<AcademicTermWrapper>();
@@ -78,4 +59,27 @@ public class AcademicCalendarForm extends UifFormBase {
     public List<AcademicTermWrapper> getTermWrapperList() {
         return termWrapperList;
     }
+
+    public String getUpdateTimeString(){
+        updateTimeString = new String("");
+        if (getAcademicCalendarInfo() == null){
+            return updateTimeString;
+        }
+        else {
+            Date updateTime = academicCalendarInfo.getMeta().getUpdateTime();
+            if (updateTime != null){
+                updateTimeString = "Last saved at "+new SimpleDateFormat("MMM/dd/yyyy HH:mm:ss").format(updateTime);
+            }
+            return updateTimeString;
+        }
+    }
+
+    public List<AcalEventInfo> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<AcalEventInfo> events) {
+        this.events = events;
+    }
+
 }

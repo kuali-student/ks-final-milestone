@@ -22,7 +22,7 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="AcademicCalendarEditView"/>
+                <ref bean="KS-AcademicCalendar-EditSection"/>
                 <ref bean="academicTermEdit"/>
             </list>
         </property>
@@ -30,10 +30,18 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
     </bean>
 
-    <bean id="AcademicCalendarEditView" parent="Uif-Page" p:disclosure.render="false">
+    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
-                <ref bean="AcademicCalendarEditView-Meta"/>
+                <!--
+                <bean parent ="Uif-InputField" p:propertyName="updateTimeString">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="50" p:disabled="true"/>
+                    </property>
+                </bean> -->
+                <bean parent="Uif-MessageField" p:messageText="@{updateTimeString}" p:styleClasses="font-light12"/>
+                <ref bean="KS-AcademicCalendar-MetaSection"/>
+                <ref bean="KS-AcademicCalendar-EventSection"/>
             </list>
         </property>
         <property name="footer">
@@ -47,7 +55,7 @@
         </property>
     </bean>
 
-    <bean id="AcademicCalendarEditView-Meta" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL">
+    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL">
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -85,6 +93,38 @@
             </list>
         </property>
     </bean>
+
+	<bean id="KS-AcademicCalendar-EventSection" parent="Uif-Disclosure-TableCollectionSection"
+		p:layoutManager.numberOfColumns="3">
+		<property name="title" value="Events" />
+		<property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.AcalEventInfo" />
+		<property name="propertyName" value="events" />
+		<property name="layoutManager.sequencePropertyName" value="name" />
+		<property name="layoutManager.renderSequenceField" value="false" />
+		<property name="layoutManager.generateAutoSequence" value="false" />
+        <property name="layoutManager.separateAddLine" value="false" />
+		<property name="items">
+			<list>
+				<bean parent="Uif-InputField" p:label="Event" p:propertyName="typeKey" p:required="true" />
+				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
+                    <property name="control">
+						<bean parent="Uif-DateControl" />
+					</property>
+				</bean>
+                <bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true">
+                   <property name="control">
+						<bean parent="Uif-DateControl" />
+					</property>
+				</bean>
+                <!--
+				<bean parent="InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay" p:required="true">
+					<property name="control">
+						<bean parent="CheckboxControl" />
+					</property>
+				</bean>  -->
+			</list>
+		</property>
+	</bean>
 
     <util:list id="org-options">
         <bean parent="Uif-KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
