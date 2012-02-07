@@ -857,8 +857,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public MinorDisciplineInfo updateMinorDiscipline(
-            MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
+	public MinorDisciplineInfo updateMinorDiscipline(String minorDisciplineId, String minorDisciplineTypeKey, MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             VersionMismatchException, OperationFailedException,
@@ -962,7 +961,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Auto-generated method stub
@@ -970,14 +969,14 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
             throws OperationFailedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Auto-generated method stub
@@ -985,14 +984,14 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     }
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes()
+    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
             throws OperationFailedException {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey)
+    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         // TODO Auto-generated method stub
@@ -1000,7 +999,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes()
+    public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
             throws OperationFailedException {
         // TODO Auto-generated method stub
         return null;
@@ -1008,7 +1007,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey) throws DoesNotExistException,
+            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Auto-generated method stub
