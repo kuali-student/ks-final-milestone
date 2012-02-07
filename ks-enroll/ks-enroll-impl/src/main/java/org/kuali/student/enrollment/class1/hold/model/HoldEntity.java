@@ -31,13 +31,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
     @JoinColumn(name = "RT_DESCR_ID")
     private HoldRichTextEntity descr;   
    
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
+    @Column(name = "TYPE_ID")
     private String holdType;
 
-    @ManyToOne(optional=false)
     @JoinColumn(name = "STATE_ID")
-    private StateEntity holdState;
+    private String holdState;
  
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
@@ -109,7 +107,7 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
         if(holdType != null)
             obj.setTypeKey(holdType);
         if(holdState != null)
-            obj.setStateKey(holdState.getId());
+            obj.setStateKey(holdState);
         if(issue != null)
         	obj.setIssueKey(issue.getId());
         obj.setMeta(super.toDTO());
@@ -151,11 +149,11 @@ public class HoldEntity extends MetaEntity implements AttributeOwner<HoldAttribu
 		this.holdType = holdType;
 	}
 
-	public StateEntity getHoldState() {
+	public String getHoldState() {
 		return holdState;
 	}
 
-	public void setHoldState(StateEntity holdState) {
+	public void setHoldState(String holdState) {
 		this.holdState = holdState;
 	}
 

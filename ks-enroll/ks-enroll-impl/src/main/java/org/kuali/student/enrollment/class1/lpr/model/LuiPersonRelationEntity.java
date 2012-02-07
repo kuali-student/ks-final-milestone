@@ -35,12 +35,10 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "RELATION_TYPE_ID")
+    @Column(name = "RELATION_TYPE_ID")
     private String personRelationType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "RELATION_STATE_ID")
+    @Column(name = "RELATION_STATE_ID")
     private String personRelationState;
 
     @ManyToMany(cascade = CascadeType.ALL)

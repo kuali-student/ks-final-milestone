@@ -30,12 +30,10 @@ public class ProcessEntity extends MetaEntity implements AttributeOwner<ProcessA
     @JoinColumn(name = "RT_DESCR_ID")
     private ProcessRichTextEntity descr;
 
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "PROCESS_STATE")
+	@Column(name = "PROCESS_STATE")
 	private String processState;
 
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "PROCESS_TYPE")
+	@Column(name = "PROCESS_TYPE")
 	private String processType;
 
 	@Column(name = "OWNER_ORG_ID")

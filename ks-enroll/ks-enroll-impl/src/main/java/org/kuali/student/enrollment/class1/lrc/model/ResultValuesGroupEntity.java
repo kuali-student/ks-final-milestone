@@ -31,8 +31,7 @@ public class ResultValuesGroupEntity extends MetaEntity implements AttributeOwne
     @JoinTable(name = "KSEN_LRC_RVGP_RV_RELTN", joinColumns = @JoinColumn(name = "RES_VAL_GRP_ID"), inverseJoinColumns = @JoinColumn(name = "RES_VAL_ID"))
     private List<ResultValueEntity> resultValues;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
+    @Column(name = "TYPE_ID")
     private String type;
 
     @Column(name = "MIN_VALUE")

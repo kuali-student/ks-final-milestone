@@ -39,12 +39,10 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @JoinColumn(name = "LPR_TRANS_ID")
     private List<LprTransactionItemEntity> lprTransactionItems;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "LPR_TRANS_TYPE")
+    @Column(name = "LPR_TRANS_TYPE")
     private String lprTransType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "STATE_ID")
+    @Column(name = "STATE_ID")
     private String lprTransState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

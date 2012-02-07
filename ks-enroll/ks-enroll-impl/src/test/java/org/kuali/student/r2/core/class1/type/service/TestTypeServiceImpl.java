@@ -1,12 +1,17 @@
 package org.kuali.student.r2.core.class1.type.service;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 import java.util.List;
@@ -19,6 +24,10 @@ import static junit.framework.Assert.*;
  * @author Kuali Student Team
  */
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"classpath:em-test-context.xml"})
+@TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
+@Transactional
 public class TestTypeServiceImpl {
      private TypeService typeService;
 

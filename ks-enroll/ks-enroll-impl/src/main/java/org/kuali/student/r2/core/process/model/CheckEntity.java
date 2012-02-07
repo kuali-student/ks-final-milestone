@@ -32,13 +32,11 @@ public class CheckEntity extends MetaEntity implements AttributeOwner<CheckAttri
     private CheckRichTextEntity descr;
 
 	//STATE_ID
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "CHECK_STATE")
+	@Column(name = "CHECK_STATE")
 	private String checkState;
 
     //TYPE_ID
-	@ManyToOne(optional=false)
-	@JoinColumn(name = "CHECK_TYPE")
+	@Column(name = "CHECK_TYPE")
 	private String checkType;
 
     @Column(name = "ISSUE_ID")

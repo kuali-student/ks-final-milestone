@@ -29,8 +29,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "INSTRUCTION_TYPE")
+    @Column(name = "INSTRUCTION_TYPE")
     private String instructionType;
 
     @ManyToOne(optional = false)
@@ -65,8 +64,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @JoinTable(name = "KSEN_INSTR_POPLTN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "POPLTN_ID"))
     private List<PopulationEntity> appliedPopulation;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinTable(name = "KSEN_INSTR_ATPTYPE_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
+    @ElementCollection
     private List<String> appliedAtpTypes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)

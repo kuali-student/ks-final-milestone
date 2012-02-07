@@ -34,12 +34,10 @@ public class AtpEntity extends MetaEntity implements AttributeOwner<AtpAttribute
     @Column(name = "END_DT")
     private Date endDate;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ATP_TYPE_ID")
+    @Column(name = "ATP_TYPE_ID")
     private String atpType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ATP_STATE_ID")
+    @Column(name = "ATP_STATE_ID")
     private String atpState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

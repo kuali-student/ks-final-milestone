@@ -43,8 +43,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     @Column(name = "CHECK_IN_REQ")
     private boolean checkInRequired;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "LPR_ROSTER_TYPE")
+    @Column(name = "LPR_ROSTER_TYPE")
     private String lprRosterType;
 
     @ManyToOne(optional = false)

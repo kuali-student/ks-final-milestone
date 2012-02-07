@@ -46,12 +46,10 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
     @JoinColumn(name = "RT_DESCR_ID")
     private LprRichTextEntity descr;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "KSEN_LPR_TRANS_TYPE")
+    @Column(name = "KSEN_LPR_TRANS_TYPE")
     private String lprTransactionItemType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "KSEN_LPR_TRANS_STATE")
+    @Column(name = "KSEN_LPR_TRANS_STATE")
     private String lprTransactionItemState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

@@ -42,12 +42,11 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     @Column(name = "END_DT")
     private Date endDate;
     
-    @ManyToOne
-    @JoinColumn(name = "MILESTONE_TYPE")
+
+    @Column(name = "MILESTONE_TYPE")
     private String milestoneType;
 
-    @ManyToOne
-    @JoinColumn(name = "MILESTONE_STATE")
+    @Column(name = "MILESTONE_STATE")
     private String milestoneState;
     
     @Column(name="IS_ALL_DAY")

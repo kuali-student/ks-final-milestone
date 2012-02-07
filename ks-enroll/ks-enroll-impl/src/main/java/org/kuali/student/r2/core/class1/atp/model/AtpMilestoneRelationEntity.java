@@ -48,8 +48,7 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     @JoinColumn(name="MSTONE_ID")
     private MilestoneEntity milestone;
     
-    @ManyToOne
-    @JoinColumn(name="AM_RELTN_TYPE")
+    @Column(name="AM_RELTN_TYPE")
     private String atpMilestoneRelationType;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -60,8 +59,8 @@ public class AtpMilestoneRelationEntity extends MetaEntity implements AttributeO
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "AM_RELTN_STATE")
+
+    @Column(name = "AM_RELTN_STATE")
     private String atpMilestoneRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

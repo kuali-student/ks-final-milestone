@@ -40,12 +40,10 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	@JoinColumn(name = "RELATED_LUI_ID")
 	private LuiEntity relatedLui;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "LUI_LUI_REL_TYPE")
+    @Column(name = "LUI_LUI_REL_TYPE")
     private String luiLuiRelationType;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "LUI_LUI_REL_STATE")
+    @Column(name = "LUI_LUI_REL_STATE")
     private String luiLuiRelationState;
 
 	@Temporal(TemporalType.TIMESTAMP)

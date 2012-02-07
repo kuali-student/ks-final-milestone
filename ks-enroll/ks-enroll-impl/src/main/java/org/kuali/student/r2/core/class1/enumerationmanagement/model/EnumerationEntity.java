@@ -45,12 +45,10 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
     @JoinColumn(name = "RT_DESCR_ID")
     private EnumerationRichTextEntity descr;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ENUM_TYPE")
+    @Column(name = "ENUM_TYPE")
     private String enumerationType;
     
-    @ManyToOne
-    @JoinColumn(name = "ENUM_STATE")
+    @Column(name = "ENUM_STATE")
     private String enumerationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

@@ -31,12 +31,10 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @JoinColumn(name = "RT_DESCR_ID")
     private LuiRichTextEntity descr;   
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "LUI_TYPE")
+    @Column(name = "LUI_TYPE")
     private String luiType;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "LUI_STATE")
+    @Column(name = "LUI_STATE")
     private String luiState;
     
 	@Column(name = "CLU_ID")

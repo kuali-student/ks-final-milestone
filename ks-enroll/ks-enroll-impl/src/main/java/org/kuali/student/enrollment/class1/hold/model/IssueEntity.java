@@ -51,8 +51,7 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
     @Column(name = "ORG_ID")
     private String organizationId;
     
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "TYPE_ID")
+    @Column(name = "TYPE_ID")
     private String issueType;
     
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
@@ -62,9 +61,8 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<IssueAttributeEntity> attributes;
     
-    @ManyToOne
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity issueState;
+    @Column(name = "STATE_ID")
+    private String issueState;
     
     public IssueEntity() {
     }
@@ -75,9 +73,8 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         setOrganizationId(issue.getOrganizationId());
         setIssueType(issue.getTypeKey());
       
-        setIssueState(new StateEntity());
-        issueState.setId(issue.getStateKey());
-        
+        setIssueState(issue.getStateKey());
+
         setDescr(new HoldRichTextEntity(issue.getDescr()));
     }
     
@@ -115,11 +112,11 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         this.issueType = issueType;
     }
 
-    public StateEntity getIssueState() {
+    public String getIssueState() {
         return issueState;
     }
 
-    public void setIssueState(StateEntity issueState) {
+    public void setIssueState(String issueState) {
         this.issueState = issueState;
     }
 
@@ -137,7 +134,7 @@ public class IssueEntity extends MetaEntity implements AttributeOwner<IssueAttri
         info.setKey(getId());
         info.setName(getName());
         info.setTypeKey(getIssueType());
-        info.setStateKey(getIssueState().getId());
+        info.setStateKey(getIssueState());
         info.setOrganizationId(getOrganizationId());
         info.setMeta(super.toDTO());
         

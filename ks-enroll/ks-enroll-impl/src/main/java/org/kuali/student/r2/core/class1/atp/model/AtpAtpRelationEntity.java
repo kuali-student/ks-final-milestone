@@ -34,8 +34,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     @JoinColumn(name="RELATED_ATP_ID")
     private AtpEntity relatedAtp;
     
-    @ManyToOne
-    @JoinColumn(name="ATP_ATP_RELTN_TYPE")
+    @Column(name="ATP_ATP_RELTN_TYPE")
     private String atpAtpRelationType;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -46,8 +45,7 @@ public class AtpAtpRelationEntity extends MetaEntity implements AttributeOwner<A
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
-    @ManyToOne
-    @JoinColumn(name = "ATP_ATP_RELTN_STATE")
+    @Column(name = "ATP_ATP_RELTN_STATE")
     private String atpAtpRelationState;
  
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")

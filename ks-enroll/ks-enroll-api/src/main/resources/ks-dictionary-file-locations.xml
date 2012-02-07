@@ -69,15 +69,11 @@
     <bean id="issueInfoDictionaryLocation" class="java.lang.String">
         <constructor-arg value="classpath:ks-IssueInfo-dictionary.xml" />
     </bean>
-    <bean id="restrictionInfoDictionaryLocation" class="java.lang.String">
-        <constructor-arg value="classpath:ks-RestrictionInfo-dictionary.xml" />
-    </bean>
     <bean name="holdServiceDictionaryLocations" class="java.util.ArrayList">
         <constructor-arg>
             <list>
                 <bean parent="holdInfoDictionaryLocation" />
                 <bean parent="issueInfoDictionaryLocation" />                
-                <bean parent="restrictionInfoDictionaryLocation" />
             </list>
         </constructor-arg>
      </bean>
@@ -124,7 +120,6 @@
                 <bean parent="keyDateInfoDictionaryLocation" />   
                 <bean parent="holdInfoDictionaryLocation" />
                 <bean parent="issueInfoDictionaryLocation" />                
-                <bean parent="restrictionInfoDictionaryLocation" />    
                 <bean parent="luiInfoDictionaryLocation" />
                 <bean parent="luiLuiRelationInfoDictionaryLocation" />  
                 <bean parent="courseOfferingInfoDictionaryLocation" />                  

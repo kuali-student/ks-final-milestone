@@ -30,13 +30,11 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Rest
     @JoinColumn(name = "RT_DESCR_ID")
     private HoldRichTextEntity descr;   
    
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "RESTRICTION_TYPE")
+    @Column(name = "RESTRICTION_TYPE_ID")
     private String restrictionType;
 
-    @ManyToOne(optional=false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity restrictionState;
+    @Column(name = "RESTRICTION_STATE_ID")
+    private String restrictionState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<RestrictionAttributeEntity> attributes;
@@ -71,7 +69,7 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Rest
         if(restrictionType != null)
             obj.setTypeKey(restrictionType);
         if(restrictionState != null)
-            obj.setStateKey(restrictionState.getId());
+            obj.setStateKey(restrictionState);
         obj.setMeta(super.toDTO());
         if(descr != null)
             obj.setDescr(descr.toDto());
@@ -110,11 +108,11 @@ public class RestrictionEntity extends MetaEntity implements AttributeOwner<Rest
 		this.descr = descr;
 	}
 
-	public StateEntity getRestrictionState() {
+	public String getRestrictionState() {
 		return restrictionState;
 	}
 
-	public void setRestrictionState(StateEntity restrictionState) {
+	public void setRestrictionState(String restrictionState) {
 		this.restrictionState = restrictionState;
 	}
 

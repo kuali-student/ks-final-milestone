@@ -31,12 +31,10 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     @Temporal(TemporalType.TIMESTAMP)
     private Date expirationDate;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RELATION_TYPE_ID")
+    @Column(name = "RELATION_TYPE_ID")
     private String lprEntryRelationType;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RELATION_STATE_ID")
+    @Column(name = "RELATION_STATE_ID")
     private String lprEntryRelationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner", fetch = FetchType.EAGER)

@@ -191,7 +191,7 @@ public class HoldServiceImpl implements HoldService {
         	entity.setIssue(findIssue(holdInfo.getIssueKey()));
 
         if (null != holdInfo.getStateKey())
-        	entity.setHoldState(findState(holdInfo.getStateKey(), context));
+        	entity.setHoldState(holdInfo.getStateKey());
         
         if (null != holdInfo.getTypeKey())
         	entity.setHoldType(holdInfo.getTypeKey());
@@ -218,7 +218,7 @@ public class HoldServiceImpl implements HoldService {
             if(null != holdInfo.getIssueKey())
             	modifiedEntity.setIssue(findIssue(holdInfo.getIssueKey()));
             if(holdInfo.getStateKey() != null)
-            	modifiedEntity.setHoldState(findState(holdInfo.getStateKey(), context));
+            	modifiedEntity.setHoldState(holdInfo.getStateKey());
             if(holdInfo.getTypeKey() != null)
             	modifiedEntity.setHoldType(holdInfo.getTypeKey());
             
@@ -233,7 +233,7 @@ public class HoldServiceImpl implements HoldService {
     	HoldEntity entity = holdDao.find(holdId);
         
         if( null != entity){
-        	entity.setHoldState(findState(stateKey, context));
+        	entity.setHoldState(stateKey);
         	entity.setReleasedDate(new Date());
         	
         	holdDao.merge(entity);

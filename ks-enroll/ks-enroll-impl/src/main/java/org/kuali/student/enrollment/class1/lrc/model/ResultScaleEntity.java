@@ -24,12 +24,10 @@ public class ResultScaleEntity extends MetaEntity implements AttributeOwner<Resu
     @JoinColumn(name = "RT_DESCR_ID")
     private ResultScaleRichTextEntity descr;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
+    @Column(name = "TYPE_ID")
     private String type;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "STATE_ID")
+    @Column(name = "STATE_ID")
     private String state;
 
     @Temporal(TemporalType.TIMESTAMP)

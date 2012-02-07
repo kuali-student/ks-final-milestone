@@ -21,8 +21,7 @@ public class ResultSourceEntity extends MetaEntity implements AttributeOwner<Res
     @JoinColumn(name = "RT_DESCR_ID")
     private ResultSourceRichTextEntity descr;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "TYPE_ID")
+    @Column(name = "TYPE_ID")
     private String type;
 
     @Column(name = "ARTICULATE_ID")

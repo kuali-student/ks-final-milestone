@@ -32,13 +32,11 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @Column(name = "VALUE")
     private String value;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "LRC_TYPE")
+    @Column(name = "LRC_TYPE")
     private String lrcType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity state;
+    @Column(name = "STATE_ID")
+    private String state;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
@@ -140,11 +138,11 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.lrcType = type;
     }
 
-    public StateEntity getState() {
+    public String getState() {
         return state;
     }
 
-    public void setState(StateEntity state) {
+    public void setState(String state) {
         this.state = state;
     }
 
@@ -175,7 +173,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         info.setScaleKey(getResultScaleId());
 
         if (getState() != null){
-            info.setStateKey(getState().getId());
+            info.setStateKey(getState());
         }
         if (getLrcType() != null){
             info.setTypeKey(getLrcType());
