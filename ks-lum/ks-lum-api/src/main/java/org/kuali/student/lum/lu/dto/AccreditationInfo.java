@@ -20,6 +20,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.common.dto.HasAttributes;
 import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
@@ -30,22 +36,29 @@ import org.kuali.student.common.dto.MetaInfo;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
+//KSCM-130:  Add all Xml annotations
+@XmlType(name = "AccreditationInfo", propOrder = {"id", "orgId", "effectiveDate", "expirationDate", "attributes", "metaInfo"})
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AccreditationInfo implements Serializable, Idable, HasAttributes {
 
     private static final long serialVersionUID = 1L;
-
+    
+    @XmlAttribute
     private String id;
-
+    
+    @XmlElement
     private String orgId;
 
-
+    @XmlElement
     private Date effectiveDate;
 
-
+    @XmlElement
     private Date expirationDate;
 
+    @XmlElement
     private Map<String, String> attributes;
 
+    @XmlElement
     private MetaInfo metaInfo;
 
 

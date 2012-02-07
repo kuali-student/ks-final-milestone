@@ -1,6 +1,7 @@
 package org.kuali.student.lum.common.client.widgets;
 
-import java.text.SimpleDateFormat;
+//import java.text.SimpleDateFormat;
+import com.google.gwt.i18n.client.DateTimeFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -39,7 +40,7 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
     private FlexTable detailsTable = new FlexTable();
     private boolean showClus;
     private Map<String, Boolean> showCluSetFlags = new HashMap<String, Boolean>();
-    private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
+    //private static final SimpleDateFormat DT_FOMRAT = new SimpleDateFormat("MM/dd/yyyy");
     private CluSetRetriever cluSetRetriever;
     // private CluSetManagementRpcServiceAsync cluSetManagementRpcServiceAsync;
     private BlockingTask retrievingTask = new BlockingTask("Retrieving details");
@@ -225,7 +226,10 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
                     Object value = searchParam.getValue();
                     String displayValue = "";
                     if (value instanceof Date) {
-                        displayValue = DT_FOMRAT.format((Date) value);
+                        DateTimeFormat DT_FORMAT =  com.google.gwt.i18n.client.DateTimeFormat.getFormat("MM/dd/yyyy") ;
+                        //java.text.SimpleDateFormat DT_FOMRAT = new  java.text.SimpleDateFormat("MM/dd/yyyy");
+
+                        displayValue = DT_FORMAT.format((Date) value);
                     } else {
                         displayValue = value.toString();
                     }
