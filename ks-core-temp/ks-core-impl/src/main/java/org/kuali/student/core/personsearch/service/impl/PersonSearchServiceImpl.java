@@ -24,6 +24,7 @@ import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.api.identity.IdentityService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -70,7 +71,7 @@ public class PersonSearchServiceImpl implements SearchService {
      *
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
      */
-    @Override
+    // @Override
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
         final List<SearchTypeInfo> searchTypes =  new ArrayList<SearchTypeInfo>(searchOperations.size());
         for (String searchKey : searchOperations.keySet()) {
@@ -81,7 +82,7 @@ public class PersonSearchServiceImpl implements SearchService {
     }
 
 
-    @Override
+    //@Override
     public SearchResult search(SearchRequest searchRequest) {
         final SearchOperation search = searchOperations.get(searchRequest.getSearchKey());
         if (search != null) {
@@ -96,7 +97,7 @@ public class PersonSearchServiceImpl implements SearchService {
      *
      * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
      */
-    @Override
+    //@Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
        throw new RuntimeException("Not implemented yet");
     }
@@ -106,7 +107,7 @@ public class PersonSearchServiceImpl implements SearchService {
      *
      * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
      */
-    @Override
+    //@Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
         throw new RuntimeException("Not implemented yet");
     }
@@ -116,7 +117,7 @@ public class PersonSearchServiceImpl implements SearchService {
      *
      * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
      */
-    @Override
+    //@Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new RuntimeException("Not implemented yet");
     }
@@ -126,7 +127,7 @@ public class PersonSearchServiceImpl implements SearchService {
      *
      * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
      */
-    @Override
+    //@Override
     public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
         throw new RuntimeException("Not implemented yet");
     }
@@ -136,7 +137,7 @@ public class PersonSearchServiceImpl implements SearchService {
      *
      * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
      */
-    @Override
+    //@Override
     public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new RuntimeException("Not implemented yet");
     }
@@ -146,12 +147,12 @@ public class PersonSearchServiceImpl implements SearchService {
      *
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
      */
-    @Override
+    //@Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new RuntimeException("Not implemented yet");
     }
 
-    @Override
+    //@Override
     public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new RuntimeException("Not implemented yet");
     }
@@ -164,5 +165,78 @@ public class PersonSearchServiceImpl implements SearchService {
     public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(
+			ContextInfo context) throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(
+			String searchCriteriaTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest, ContextInfo context)
+			throws MissingParameterException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
