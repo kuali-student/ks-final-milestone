@@ -16,6 +16,7 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import java.util.Date;
 import java.util.List;
+import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
