@@ -2620,7 +2620,7 @@ public interface LuService extends DictionaryService, SearchService, VersionMana
     
     @Deprecated       //TODO KSCM This was not in the Interface
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo)
+    LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo contextInfo)
             throws AlreadyExistsException, DataValidationErrorException,
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
@@ -2661,17 +2661,36 @@ public interface LuService extends DictionaryService, SearchService, VersionMana
 
     @Deprecated  //TODO KSCM This was not in the Interface
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo context)
-            throws AlreadyExistsException, DataValidationErrorException,
-            DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
-
-    @Deprecated  //TODO KSCM This was not in the Interface
-    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
             throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException,
             VersionMismatchException;
+    
+    @Deprecated  //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId,
+			String luLuRelationTypeKey, LuiLuiRelationInfo luiLuiRelationInfo,
+			ContextInfo context) throws AlreadyExistsException,
+			CircularRelationshipException, DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+    @Deprecated  //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})    
+	LuiInfo updateLuiState(String luiId, String luiState,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+    @Deprecated  //TODO KSCM This was not in the Interface
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})    
+	LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
+			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException;
 }

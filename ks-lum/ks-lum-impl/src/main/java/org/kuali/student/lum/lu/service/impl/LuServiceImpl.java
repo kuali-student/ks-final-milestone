@@ -2528,7 +2528,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public LuiInfo updateLuiState(String luiId, String luiState)
+	public LuiInfo updateLuiState(String luiId, String luiState, ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -2536,7 +2536,8 @@ public class LuServiceImpl implements LuService {
 		// check for missing params
 		checkForMissingParameter(luiId, "luiId");
 		checkForMissingParameter(luiState, "luiState");
-		Lui lui = luDao.fetch(Lui.class, luiId);
+		Lui lui = null;
+		// TODO KSCM DAO lui = luDao.fetch(Lui.class, luiId);
 		lui.setState(luiState);
 		Lui updated = luDao.update(lui);
 		return LuServiceAssembler.toLuiInfo(updated);
@@ -2623,8 +2624,9 @@ public class LuServiceImpl implements LuService {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
 
-		LuiLuiRelation luiLuiRelation = luDao.fetch(LuiLuiRelation.class,
-				luiLuiRelationId);
+		LuiLuiRelation luiLuiRelation = null;
+		// TODO KSCM DAO luDao.fetch(LuiLuiRelation.class,
+		// TODO KSCM DAO 		luiLuiRelationId);
 
 		if (!String.valueOf(luiLuiRelation.getVersionNumber()).equals(
 				luiLuiRelationInfo.getMetaInfo().getVersionInd())) {
@@ -2686,68 +2688,68 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, contextInfo);
 	}
 
-    @Override
+    // TODO KSCM @Override
     public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
+		return searchManager.getSearchCriteriaTypes(contextInfo);
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchResultType(searchResultTypeKey);
+		return searchManager.getSearchResultType(searchResultTypeKey, contextInfo);
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+		return searchManager.getSearchResultTypes(contextInfo);
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		return searchManager.getSearchType(searchTypeKey);
+		return searchManager.getSearchType(searchTypeKey, contextInfo);
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypes()
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+		return searchManager.getSearchTypes(contextInfo);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+			String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
 	}
 
 	private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
@@ -2904,7 +2906,7 @@ public class LuServiceImpl implements LuService {
 				throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
 			}
         }else if(SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequest.getSearchKey())){
-        	return doBrowseProgramSearch();
+        	return doBrowseProgramSearch(context);
         }else if(SEARCH_KEY_PROPOSALS_BY_COURSE_CODE.equals(searchRequest.getSearchKey())){
         	String courseCode = null;
     		for(SearchParam param:searchRequest.getParams()){
@@ -2915,9 +2917,9 @@ public class LuServiceImpl implements LuService {
     		}
         	return doSearchProposalsByCourseCode(courseCode);
         }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
-        	return doBrowseVersionsSearch(searchRequest);
+        	return doBrowseVersionsSearch(searchRequest, context);
         }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
-        	return doResultComponentTypesForCluSearch(searchRequest);
+        	return doResultComponentTypesForCluSearch(searchRequest, context);
         }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequest.getSearchKey())){
     		//If any clu specific params are set, use a search key that has the clu defined in the JPQL 
         	for(SearchParam param:searchRequest.getParams()){
@@ -2927,7 +2929,7 @@ public class LuServiceImpl implements LuService {
     			}
     		}
         }
-        return searchManager.search(searchRequest, luDao);
+        return searchManager.search(searchRequest, luDao, context);
 	}
 
 	
@@ -2937,9 +2939,9 @@ public class LuServiceImpl implements LuService {
 	 * @return
 	 * @throws MissingParameterException
 	 */
-	private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest) throws MissingParameterException {
+	private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest, ContextInfo contextInfo) throws MissingParameterException {
 
-		SearchResult searchResult = searchManager.search(cluSearchRequest, luDao);
+		SearchResult searchResult = searchManager.search(cluSearchRequest, luDao, contextInfo);
 		
 		//Get the result Component Ids using a search
 		Map<String,List<SearchResultRow>> rcIdToRowMapping = new HashMap<String,List<SearchResultRow>>();
@@ -2991,8 +2993,8 @@ public class LuServiceImpl implements LuService {
 	 * @return
 	 * @throws MissingParameterException 
 	 */
-	private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest) throws MissingParameterException {
-		SearchResult searchResult = searchManager.search(searchRequest, luDao);
+	private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
+		SearchResult searchResult = searchManager.search(searchRequest, luDao, contextInfo);
 		
 		Map<String,List<SearchResultCell>> atpIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
 		
@@ -3035,15 +3037,15 @@ public class LuServiceImpl implements LuService {
 		return searchResult;
 	}
 
-	private SearchResult doBrowseProgramSearch() throws MissingParameterException {
+	private SearchResult doBrowseProgramSearch(ContextInfo contextInfo) throws MissingParameterException {
 		//This is our main result
 		SearchRequest request = new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM);
 		request.setSortDirection(SortDirection.ASC);
 		request.setSortColumn("lu.resultColumn.luOptionalLongName");
-		SearchResult programSearchResults = searchManager.search(request, luDao);
+		SearchResult programSearchResults = searchManager.search(request, luDao, contextInfo);
 		
 		//These variations need to be mapped back to the program search results
-		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao);
+		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao, contextInfo);
 		
 		//Get a mapping of program id to variation long name mapping:
 		Map<String,List<String>> variationMapping = new HashMap<String,List<String>>();
@@ -3966,5 +3968,15 @@ public class LuServiceImpl implements LuService {
 
 	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
+	}
+
+	@Override
+	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
