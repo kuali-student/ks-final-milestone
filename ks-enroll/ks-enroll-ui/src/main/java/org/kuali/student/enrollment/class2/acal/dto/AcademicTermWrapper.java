@@ -1,11 +1,13 @@
-package org.kuali.student.enrollment.class2.acal.form;
+package org.kuali.student.enrollment.class2.acal.dto;
 
-import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-public class AcademicTermForm  extends UifFormBase {
+public class AcademicTermWrapper {
 
     private static final long serialVersionUID = 4898118410378641665L;
 
@@ -18,7 +20,9 @@ public class AcademicTermForm  extends UifFormBase {
     private Date startDate;
     private Date endDate;
 
-    public AcademicTermForm(){
+    private List<KeyDateWrapper> keydates = new ArrayList<KeyDateWrapper>();
+
+    public AcademicTermWrapper(){
        termInfo = new TermInfo();
     }
 
@@ -78,4 +82,11 @@ public class AcademicTermForm  extends UifFormBase {
         this.termLength = termLength;
     }
 
+    public List<KeyDateWrapper> getKeydates() {
+        return keydates;
+    }
+
+    public void setKeydates(List<KeyDateWrapper> keydates) {
+        this.keydates = keydates;
+    }
 }

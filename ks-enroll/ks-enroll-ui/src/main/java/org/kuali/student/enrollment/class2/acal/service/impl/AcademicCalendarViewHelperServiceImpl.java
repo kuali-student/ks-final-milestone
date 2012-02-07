@@ -23,7 +23,9 @@ import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConsta
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
@@ -112,6 +114,44 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         AcademicCalendarInfo updatedAcalInfo = getAcalService().updateAcademicCalendar(acalInfo.getId(), acalInfo, getContextInfo());
         return updatedAcalInfo;
     }
+
+    public void saveTerm(AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception {
+        //Create Term
+         List<AcademicTermWrapper> termWrappers = academicCalendarForm.getTermWrapperList();
+
+        for (AcademicTermWrapper termWrapper : termWrappers) {
+            TermInfo termInfo = termWrapper.getTermInfo();
+            termInfo.setStartDate(termWrapper.getStartDate());
+            termInfo.setEndDate(termWrapper.getEndDate());
+            termInfo.setName(termWrapper.getName());
+            termInfo.setTypeKey(termWrapper.getTermType());
+
+            TermInfo term = getAcalService().updateTerm(termInfo.getId(), termInfo, context);
+
+    //        int instructionalDays = getAcalService().getInstructionalDaysForTerm(term.getId(),context);
+    //        academicTermForm.setInstructionalDays(instructionalDays);
+        }
+    }
+
+    public void buildTerm(String termId,AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception {
+
+        List<AcademicTermWrapper> termWrappers = academicCalendarForm.getTermWrapperList();
+
+        for (AcademicTermWrapper termWrapper : termWrappers) {
+            TermInfo term = getAcalService().getTerm(termId, context);
+
+            termWrapper.setTermInfo(term);
+         termWrapper.setStartDate(term.getStartDate());
+         termWrapper.setEndDate(term.getEndDate());
+         termWrapper.setTermType(term.getTypeKey());
+         termWrapper.setName(term.getName());
+        }
+
+        //Commented out for now as there are no keydates in ref data.
+//         int instructionalDays = getAcalService().getInstructionalDaysForTerm(termId,context);
+//         academicTermForm.setInstructionalDays(instructionalDays);
+    }
+
     private ContextInfo getContextInfo(){
         return new ContextInfo();
     }

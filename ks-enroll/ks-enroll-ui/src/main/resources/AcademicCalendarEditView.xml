@@ -23,8 +23,10 @@
         <property name="items">
             <list>
                 <ref bean="AcademicCalendarEditView"/>
+                <ref bean="academicTermEdit"/>
             </list>
         </property>
+        <!--<property name="additionalCssFiles" ref="ks-css"/>-->
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
     </bean>
 
@@ -89,6 +91,114 @@
         <bean parent="Uif-KeyLabelPair" p:key="34" p:value="Medical School"/>
 <!--        <bean parent="Uif-KeyLabelPair" p:key="103" p:value="Law School"/>
         <bean parent="Uif-KeyLabelPair" p:key="105" p:value="Continuing Study"/>    -->
+    </util:list>
+
+    <!-- Academic terms -->
+    <bean id="academicTermEdit" parent="Uif-Disclosure-StackedCollectionSection">
+     <property name="title"
+       value="Terms" />
+     <!--<property name="instructionalText" value="This is a stacked layout of a collection - CollectionGroup" />-->
+     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
+     <property name="propertyName" value="termWrapperList" />
+     <!--<property name="layoutManager.summaryTitle" value="Line Summary '@{#line.field1}' With Expression" />-->
+     <property name="items">
+       <list>
+         <bean parent="Uif-InputField" p:propertyName="name" p:label="Name" p:labelPlacement="TOP" p:labelField.renderColon="false" p:labelField.style="display:block;" p:required="true">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="20" />
+            </property>
+        </bean>
+         <bean parent="Uif-InputField" p:propertyName="termType" p:label="Term Type" p:labelPlacement="TOP" p:required="true" >
+             <property name="control">
+                <bean parent="Uif-DropdownControl"/><!--  p:options-ref="termTypes-options" /> -->
+             </property>
+             <property name="optionsFinder">
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermTypeKeyValues"/>
+             </property>
+         </bean>
+        <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:labelPlacement="TOP" p:labelField.renderColon="false" p:labelField.style="display:block;" p:required="true">
+            <property name="control">
+                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:labelPlacement="TOP" p:labelField.renderColon="false" p:labelField.style="display:block;" p:required="true">
+            <property name="control">
+                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="instructionalDays" p:label="Instructional Days" p:readOnly="true" p:labelPlacement="TOP" p:labelField.renderColon="false" p:labelField.style="display:block;" p:required="true">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="5" />
+            </property>
+        </bean>
+       </list>
+     </property>
+     <property name="subCollections">
+       <list>
+         <ref bean="keyDateSubCollection" />
+       </list>
+     </property>
+   </bean>
+
+   <bean id="keyDateSubCollection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7">
+     <property name="title" value="KEY DATES" />
+     <!--<property name="instructionalText" value="A table collection within an item of a stacked collection" /> -->
+     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
+     <property name="propertyName" value="keydates" />
+     <property name="layoutManager.sequencePropertyName" value="keyDateType" />
+     <property name="layoutManager.richTable.render" value="true" />
+     <property name="items">
+       <list>
+         <bean parent="Uif-InputField" p:propertyName="keyDateType" p:label="Key Date Type" p:required="true" >
+             <property name="control">
+                <bean parent="Uif-DropdownControl"/><!--  p:options-ref="termTypes-options" /> -->
+             </property>
+             <property name="optionsFinder">
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermTypeKeyValues"/>
+             </property>
+         </bean>
+         <bean parent="Uif-InputField" p:propertyName="startDate" p:label="Start Date" p:required="true">
+            <property name="control">
+                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="startTime" p:label="Start Time" p:required="true">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="5" />
+            </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:label="" p:required="true" >
+             <property name="control">
+                <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
+             </property>
+         </bean>
+        <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:required="true">
+            <property name="control">
+                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="endTime" p:label="End Time" p:required="true">
+            <property name="control">
+                <bean parent="Uif-TextControl" p:size="5" />
+            </property>
+        </bean>
+        <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:label="" p:required="true" >
+             <property name="control">
+                <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
+             </property>
+         </bean>
+       </list>
+     </property>
+     <property name="actionFields">
+          <list>
+              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="X" p:title="No Grade"/>
+          </list>
+    </property>
+   </bean>
+
+    <util:list id="time-options">
+       <bean parent="Uif-KeyLabelPair" p:key="am" p:value="am"/>
+       <bean parent="Uif-KeyLabelPair" p:key="pm" p:value="pm"/>
     </util:list>
 
 </beans>

@@ -18,6 +18,7 @@ package org.kuali.student.enrollment.class2.acal.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -25,10 +26,13 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
@@ -53,7 +57,7 @@ public class AcademicCalendarController extends UifControllerBase {
     /**
      * Method used to save AcademicCalendar
      */
-    @RequestMapping(params = "methodToCall=save")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                              HttpServletRequest request, HttpServletResponse response) throws Exception{
         AcademicCalendarInfo academicCalendarInfo = academicCalendarForm.getAcademicCalendarInfo();
@@ -68,6 +72,27 @@ public class AcademicCalendarController extends UifControllerBase {
             AcademicCalendarInfo acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
             academicCalendarForm.setAcademicCalendarInfo(acalInfo);
         }
+        return getUIFModelAndView(academicCalendarForm);
+    }
+
+    /**
+     * Method used to save AcademicCalendar
+     */
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=saveTerm")
+    public ModelAndView saveTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                             HttpServletRequest request, HttpServletResponse response) {
+
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        try{
+            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).saveTerm(academicCalendarForm, context);
+            GlobalVariables.getMessageMap().putInfo("name","info.enroll.term.saved");
+        }catch (Exception e){
+            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
+           throw new RuntimeException(e);
+        }
+
         return getUIFModelAndView(academicCalendarForm);
     }
 

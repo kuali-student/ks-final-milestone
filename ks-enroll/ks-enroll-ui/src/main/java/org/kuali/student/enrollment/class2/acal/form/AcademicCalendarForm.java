@@ -16,8 +16,12 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 
 
 /**
@@ -30,6 +34,9 @@ public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
+
+    private List<AcademicTermWrapper> termWrapperList;
+
 /*
     private Date startDate;
 
@@ -53,6 +60,7 @@ public class AcademicCalendarForm extends UifFormBase {
 */
     public AcademicCalendarForm() {
         super();
+        termWrapperList = new ArrayList<AcademicTermWrapper>();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
@@ -61,5 +69,13 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
         this.academicCalendarInfo = academicCalendarInfo;
+    }
+
+    public void setTermWrapperList(List<AcademicTermWrapper> termWrapperList) {
+        this.termWrapperList = termWrapperList;
+    }
+
+    public List<AcademicTermWrapper> getTermWrapperList() {
+        return termWrapperList;
     }
 }
