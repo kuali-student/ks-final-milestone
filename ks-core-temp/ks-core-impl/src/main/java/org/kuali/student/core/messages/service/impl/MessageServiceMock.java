@@ -354,4 +354,21 @@ public class MessageServiceMock implements MessageService {
 		return null;
 	}
 
+	// TODO KSCM-266
+	@Override
+	@Deprecated
+	public MessageList getMessagesByGroups(String locale,
+			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	// TODO KSCM-266
+	@Override
+	@Deprecated
+	public Message addMessage(Message messageInfo, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
