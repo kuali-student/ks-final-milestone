@@ -523,13 +523,13 @@ public class LrcServiceImpl implements LrcService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, contextInfo);
 	}
 
 	@Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
+		return searchManager.getSearchCriteriaTypes(contextInfo);
 	}
 
 	@Override
@@ -537,13 +537,13 @@ public class LrcServiceImpl implements LrcService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchResultType(searchResultTypeKey);
+		return searchManager.getSearchResultType(searchResultTypeKey, contextInfo);
 	}
 
 	@Override
 	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+		return searchManager.getSearchResultTypes(contextInfo);
 	}
 
 	@Override
@@ -551,13 +551,13 @@ public class LrcServiceImpl implements LrcService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		return searchManager.getSearchType(searchTypeKey);
+		return searchManager.getSearchType(searchTypeKey, contextInfo);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+		return searchManager.getSearchTypes(contextInfo);
 	}
 
 	@Override
@@ -566,7 +566,7 @@ public class LrcServiceImpl implements LrcService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
 	}
 
 	@Override
@@ -575,7 +575,7 @@ public class LrcServiceImpl implements LrcService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
 	}
 
 	public SearchManager getSearchManager() {
@@ -589,7 +589,7 @@ public class LrcServiceImpl implements LrcService {
 	@Override
 	public SearchResult search(SearchRequest searchRequest,ContextInfo contextInfo) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
-        return searchManager.search(searchRequest, lrcDao);
+        return searchManager.search(searchRequest, lrcDao, contextInfo);
 	}
 
     @Override
