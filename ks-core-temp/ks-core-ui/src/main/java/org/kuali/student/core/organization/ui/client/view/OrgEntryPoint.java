@@ -107,13 +107,13 @@ public class OrgEntryPoint implements EntryPoint{
 
         securityRpc.getPrincipalUsername(new KSAsyncCallback<String>(){
             public void handleFailure(Throwable caught) {
-                context.setUserId("Unknown");
+            	// TODO KSCM-268  context.setUserId("Unknown");
                 initScreen();
             }
 
             @Override
             public void onSuccess(String principalId) {
-                context.setUserId(principalId);
+            	// TODO KSCM-268 context.setUserId(principalId);
                 initScreen();
             }
         });

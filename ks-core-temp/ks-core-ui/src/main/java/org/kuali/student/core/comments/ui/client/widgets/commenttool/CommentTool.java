@@ -136,7 +136,8 @@ public class CommentTool implements HasReferenceId {
         // comments section
         HTML loggedInAsLabel = new HTML("<b>Logged in as:<b/>");
         loggedInLabelsPanel.add(loggedInAsLabel);
-        final String userId = Application.getApplicationContext().getUserId();
+        final String userId = null; 
+     // TODO KSCM-268 Application.getApplicationContext().getUserId();
         commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
             @Override
             public void onFailure(Throwable caught) {

@@ -427,6 +427,13 @@ public class DecisionPanel implements HasReferenceId, ToolView {
     public boolean isExportButtonActive() {
         return false;
     }
+
+ // TODO KSCM-268 
+    @Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 class FieldAscendingRowComparator extends RowComparator {
