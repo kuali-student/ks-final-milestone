@@ -44,7 +44,7 @@ public class TestPersonSearchServiceImpl extends AbstractServiceTest {
 
     @Test
     public void testCall() throws MissingParameterException {
-        SearchResult result = client.search(new SearchRequest());
+        SearchResult result = client.search(new SearchRequest(),null);
         assertNotNull(result);
     }
 

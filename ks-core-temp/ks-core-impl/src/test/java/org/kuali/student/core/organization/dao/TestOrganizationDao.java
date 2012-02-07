@@ -73,7 +73,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		searchRequest.setParams(searchParams);
 		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
 		
-		SearchResult result = sm.search(searchRequest, dao);
+		SearchResult result = sm.search(searchRequest, dao, null);
 		assertEquals(6,result.getRows().size());
 		assertEquals(2,result.getRows().get(0).getCells().size());
 		
@@ -81,7 +81,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		searchRequest.setSortDirection(SortDirection.DESC);
 		searchRequest.setSortColumn("org.resultColumn.orgShortName");
 		searchRequest.setStartAt(2);
-		result = sm.search(searchRequest, dao);
+		result = sm.search(searchRequest, dao,null);
 		assertEquals(4,result.getRows().size());
 		assertEquals(2,result.getRows().get(0).getCells().size());
 		
@@ -89,7 +89,7 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		assertEquals("CollegeArtsHum",result.getRows().get(3).getCells().get(1).getValue());
 
 		searchRequest.setSortDirection(SortDirection.ASC);
-		result = sm.search(searchRequest, dao);
+		result = sm.search(searchRequest, dao,null);
 		assertEquals("DistanceEducation",result.getRows().get(3).getCells().get(1).getValue());
 		assertEquals("CollegeEducation",result.getRows().get(0).getCells().get(1).getValue());
 	}
@@ -106,14 +106,14 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		SearchRequest searchRequest = new SearchRequest();
 		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
 		searchRequest.setParams(queryParamValues);
-		SearchResult result = sm.search(searchRequest, dao);
+		SearchResult result = sm.search(searchRequest, dao,null);
 		assertEquals(6,result.getRows().size());
 		assertEquals(2,result.getRows().get(0).getCells().size());
 
 		qpv1.setKey("org.queryParam.orgId");
 		qpv1.setValue("31");
 		searchRequest.setSearchKey("org.search.hierarchiesOrgIsIn");
-		result = sm.search(searchRequest, dao);
+		result = sm.search(searchRequest, dao,null);
 		
 		assertEquals(1, result.getRows().size());
 		assertEquals("kuali.org.hierarchy.Main", result.getRows().get(0).getCells().get(0).getValue());
