@@ -169,8 +169,8 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
                 List<String> orgIds = new ArrayList<String>();
                 // add the existing org in to the list to check for the given type
                 orgIds.add(orgId);
-                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode()));
-                orgsForRouting = getOrganizationService().getOrganizationsByIdList(orgIds);
+                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode(), null));		// TODO KSCM-267
+                orgsForRouting = getOrganizationService().getOrganizationsByIdList(orgIds, null);		// TODO KSCM-267
             } catch (Exception e) {
                 LOG.error("Error calling org service");
                 throw new RuntimeException(e);

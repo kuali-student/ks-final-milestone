@@ -51,7 +51,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
         try {
             List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
             // find the OrgOrgRelationInfo objects associated with the org from the route node instance
-            List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue);
+            List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue, null);	// TODO KSCM-267
             for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                 // check that the relationship is active
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getState())) {
@@ -86,7 +86,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
 
     protected OrgInfo getOrganization(String orgId) throws Exception {
         try {
-            return getOrganizationService().getOrganization(orgId);
+            return getOrganizationService().getOrganization(orgId, null);	// TODO KSCM-267
         } catch (DoesNotExistException e) {
             LOG.error("No valid organization found for id '" + orgId + "'", e);
             throw e;
