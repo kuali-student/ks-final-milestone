@@ -102,7 +102,7 @@
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayTypeKeyValues"/>
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayTypeKeyValues" p:blankOption="true" />
                     </property>
                 </bean>
 				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
