@@ -15,6 +15,7 @@
 
 package org.kuali.student.lum.common.client.widgets;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -22,5 +23,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 // TODO KSCM-242
 public interface CluSetManagementRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
 
-    public void getCluSetInformation(String cluSetId, AsyncCallback<CluSetInformation> callback);
+    public void getCluSetInformation(String cluSetId,ContextInfo contextInfo, AsyncCallback<CluSetInformation> callback);
 }
