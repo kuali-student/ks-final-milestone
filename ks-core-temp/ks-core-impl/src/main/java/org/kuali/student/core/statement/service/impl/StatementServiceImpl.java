@@ -669,46 +669,46 @@ public class StatementServiceImpl implements StatementService {
 
     // @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey,null);
     }
 
     // @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+        return searchManager.getSearchCriteriaTypes(null);
     }
 
     // @Override
     public SearchResultTypeInfo getSearchResultType(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
+        return searchManager.getSearchResultType(searchResultTypeKey,null);
     }
 
     // @Override
     public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
+        return searchManager.getSearchResultTypes(null);
     }
 
     // @Override
     public SearchTypeInfo getSearchType(final String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey,null);
     }
 
     // @Override
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        return searchManager.getSearchTypes();
+        return searchManager.getSearchTypes(null);
     }
 
     // @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(final String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey,null);
     }
 
     // @Override
     public List<SearchTypeInfo> getSearchTypesByResult(final String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey,null);
     }
 
 	// @Override
@@ -736,7 +736,7 @@ public class StatementServiceImpl implements StatementService {
 			return doDependencyAnalysisSearch(cluVersionIndIds,cluSetIds);
         }
         
-        return searchManager.search(searchRequest, statementDao);
+        return searchManager.search(searchRequest, statementDao,null);
     }
 
     private SearchResult doDependencyAnalysisSearch(
