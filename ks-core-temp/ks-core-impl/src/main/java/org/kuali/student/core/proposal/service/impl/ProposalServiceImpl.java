@@ -344,7 +344,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey,null);
     }
 
     /**
@@ -352,7 +352,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+        return searchManager.getSearchCriteriaTypes(null);
     }
 
     /**
@@ -361,7 +361,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
+        return searchManager.getSearchResultType(searchResultTypeKey,null);
     }
 
     /**
@@ -369,7 +369,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
+        return searchManager.getSearchResultTypes(null);
     }
 
     /**
@@ -378,7 +378,7 @@ public class ProposalServiceImpl implements ProposalService {
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);    
+        return searchManager.getSearchType(searchTypeKey,null);    
     }
 
     /**
@@ -386,7 +386,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        return searchManager.getSearchTypes();
+        return searchManager.getSearchTypes(null);
     }
 
     /**
@@ -394,7 +394,7 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey,null);
     }
 
     /**
@@ -402,12 +402,12 @@ public class ProposalServiceImpl implements ProposalService {
      */
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey,null);
     }
 
 	@Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-		return searchManager.search(searchRequest, proposalDao);
+		return searchManager.search(searchRequest, proposalDao,null);
 	}
 
     /**
