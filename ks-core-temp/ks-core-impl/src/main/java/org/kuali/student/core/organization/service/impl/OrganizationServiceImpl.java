@@ -808,13 +808,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, null);
 	}
 
 	// @Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
+		return searchManager.getSearchCriteriaTypes(null);
 	}
 
 	// @Override
@@ -822,13 +822,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchResultType(searchResultTypeKey);
+		return searchManager.getSearchResultType(searchResultTypeKey, null);
 	}
 
 	// @Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+		return searchManager.getSearchResultTypes(null);
 	}
 
 	// @Override
@@ -836,13 +836,13 @@ public class OrganizationServiceImpl implements OrganizationService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		return searchManager.getSearchType(searchTypeKey);
+		return searchManager.getSearchType(searchTypeKey, null);
 	}
 
 	// @Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+		return searchManager.getSearchTypes(null);
 	}
 
 	// @Override
@@ -851,7 +851,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, null);
 	}
 
 	// @Override
@@ -860,7 +860,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey, null);
 	}
 
 	public OrganizationDao getOrganizationDao() {
@@ -958,7 +958,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	// @Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
-        return searchManager.search(searchRequest, organizationDao);
+        return searchManager.search(searchRequest, organizationDao, null);
 	}
 
 	@Override
@@ -1569,6 +1569,107 @@ public class OrganizationServiceImpl implements OrganizationService {
 	@Override
 	public List<String> getPersonIdsForOrgByRelationType(String orgId,
 			String orgPersonRelationTypeKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
+			throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,
+			ContextInfo context) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(
+			ContextInfo context) throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(
+			String searchCriteriaTypeKey, ContextInfo context)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SearchResult search(SearchRequest searchRequest, ContextInfo context)
+			throws MissingParameterException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OrgInfo getOrganization(String orgId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OrgInfo> getOrganizationsByIdList(List<String> ids,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<OrgOrgRelationInfo> getOrgOrgRelationsByRelatedOrg(
+			String orgId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
