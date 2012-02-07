@@ -286,6 +286,14 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
+    public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, ContextInfo context) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        return getNextDecorator().getLuiCapacitiesByLui(luiId, context);
+    }
+
+    
+    
+    @Override
     public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {

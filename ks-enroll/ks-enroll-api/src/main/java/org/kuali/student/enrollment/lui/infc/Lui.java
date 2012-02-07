@@ -102,30 +102,32 @@ public interface Lui extends IdEntity, HasEffectiveDates {
     public String getReferenceURL();
 
     /**
-     * Organization(s) that is responsible for the delivery - and all
+     * Identifiers for Organization(s) that is responsible for the delivery - and all
      * associated logistics - of the Lui.
      *
-     * @name Units Deployment
+     * @name Units Deployment Org Id
      */
     public List<String> getUnitsDeployment();
 
     /**
-     * Organization(s) that is responsible for the academic content of
+     * Identifiers for Organization(s) that is responsible for the academic content of
      * the Lui as approved in its canonical form.
      *
-     * @name Units Content Owner
+     * @name Units Content Owner Org Id
      */
     public List<String> getUnitsContentOwner();
 
     /**
      * The options/scales that indicate the allowable grades that can
-     * be awarded.  If the value is set here then the Clu must have a
-     * grading option set on the canonical activity.
+     * be awarded or credits applied.  
+     * 
+     * If the value is set here then the Clu must have a
+     * grading option or credit options set on the canonical activity.
      * 
      * ResultValuesGroup will contain grade values valid for this
-     * course offering
+     * course offering.
      * 
-     * @name: Result Options Ids
+     * @name: Result Values Group Ids
      */
     public List<String> getResultValuesGroupKeys();
     

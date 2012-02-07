@@ -49,15 +49,15 @@ import org.kuali.student.test.utilities.MockHelper;
  * @author nwright
  */
 public class LuiServiceMockImpl implements LuiService {
+
     private final Map<String, LuiInfo> luiCache = new HashMap<String, LuiInfo>();
     private final Map<String, LuiLuiRelationInfo> llrCache = new HashMap<String, LuiLuiRelationInfo>();
     private final Map<String, LuiCapacityInfo> lcapCache = new HashMap<String, LuiCapacityInfo>();
 
-
     @Override
-    public LuiInfo getLui(String luiId, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, 
-               MissingParameterException, OperationFailedException {
+    public LuiInfo getLui(String luiId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiId == null) {
             throw new MissingParameterException("luiId is null");
@@ -72,9 +72,9 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiInfo> getLuisByIdList(List<String> luiIdList, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, 
-               MissingParameterException, OperationFailedException {
+    public List<LuiInfo> getLuisByIdList(List<String> luiIdList, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiIdList == null) {
             throw new MissingParameterException("luiIdList is null");
@@ -89,9 +89,9 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context) 
-        throws DoesNotExistException, InvalidParameterException, 
-               MissingParameterException, OperationFailedException {
+    public List<String> getLuiIdsByType(String luiTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiTypeKey == null) {
             throw new MissingParameterException("luiTypeKey is null");
@@ -109,8 +109,8 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public List<String> getLuiIdsByCluId(String cluId, ContextInfo context)
-        throws InvalidParameterException, MissingParameterException, 
-               OperationFailedException {
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException {
 
         if (cluId == null) {
             throw new MissingParameterException("cluId is null");
@@ -128,8 +128,8 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public List<String> getLuiIdsInAtpByCluId(String cluId, String atpId, ContextInfo context)
-        throws DoesNotExistException, InvalidParameterException, 
-               MissingParameterException, OperationFailedException {
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         List<String> luiIds = new ArrayList<String>();
         for (LuiInfo info : getLuisInAtpByCluId(cluId, atpId, context)) {
@@ -141,7 +141,7 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public List<LuiInfo> getLuisInAtpByCluId(String cluId, String atpId, ContextInfo context)
-        throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         if (cluId == null) {
             throw new MissingParameterException("cluId is null");
@@ -163,7 +163,7 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public List<String> getLuiIdsByRelation(String relatedLuiId, String luLuRelationTypeKey, ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         List<LuiInfo> infos = getLuisByRelation(relatedLuiId, luLuRelationTypeKey, context);
         List<String> luiIds = new ArrayList<String>();
@@ -176,7 +176,7 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luLuRelationType, ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         if (relatedLuiId == null) {
             throw new MissingParameterException("relatedLuiId is null");
@@ -193,8 +193,7 @@ public class LuiServiceMockImpl implements LuiService {
                     try {
                         infos.add(this.getLui(info.getLuiId(), context));
                     } catch (DoesNotExistException ex) {
-                        throw new OperationFailedException
-                        ("Referenetial integrity bad for luiId on llr"
+                        throw new OperationFailedException("Referenetial integrity bad for luiId on llr"
                                 + info.getLuiId() + " llr.id=" + info.getId());
                     }
                 }
@@ -206,9 +205,9 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public List<String> getRelatedLuiIdsByLuiId(String luiId, String luLuRelationType, ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        List<String> luiIds = new ArrayList<String>();	
+        List<String> luiIds = new ArrayList<String>();
         for (LuiInfo lui : getRelatedLuisByLuiId(luiId, luLuRelationType, context)) {
             luiIds.add(lui.getId());
         }
@@ -218,7 +217,7 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public List<LuiInfo> getRelatedLuisByLuiId(String luiId, String luLuRelationType, ContextInfo context)
-    throws InvalidParameterException, MissingParameterException, OperationFailedException {
+            throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         if (luiId == null) {
             throw new MissingParameterException("luiId is null");
@@ -235,8 +234,7 @@ public class LuiServiceMockImpl implements LuiService {
                     try {
                         infos.add(this.getLui(info.getRelatedLuiId(), context));
                     } catch (DoesNotExistException ex) {
-                        throw new OperationFailedException
-                        ("Referenetial integrity bad for luiId on llr"
+                        throw new OperationFailedException("Referenetial integrity bad for luiId on llr"
                                 + info.getLuiId() + " llr.id=" + info.getId());
                     }
                 }
@@ -247,24 +245,24 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> searchForLuiIds(QueryByCriteria criteria, ContextInfo context) 
-    throws InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLuiIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<String>();
     }
 
     @Override
-    public List<LuiInfo> searchForLuis(QueryByCriteria criteria, ContextInfo context) 
-    throws InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public List<LuiInfo> searchForLuis(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<LuiInfo>();
     }
 
-    public List<ValidationResultInfo> validateLui(String validationType, LuiInfo luiInfo, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateLui(String validationType, LuiInfo luiInfo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (validationType == null) {
             throw new MissingParameterException("validationType is null");
@@ -279,9 +277,9 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public LuiInfo createLui(String cluId, String atpId, LuiInfo luiInfo, ContextInfo context)
-    throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
-    InvalidParameterException, MissingParameterException, OperationFailedException,
-    PermissionDeniedException {
+            throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
 
         if (cluId == null) {
             throw new MissingParameterException("cluId is null");
@@ -304,11 +302,11 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context) 
-    throws DataValidationErrorException, DoesNotExistException, 
-    InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException, 
-    VersionMismatchException {
+    public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            VersionMismatchException {
 
         if (luiId == null) {
             throw new MissingParameterException("luiId is null");
@@ -340,9 +338,9 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public StatusInfo deleteLui(String luiId, ContextInfo context) 
-    throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteLui(String luiId, ContextInfo context)
+            throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         if (luiId == null) {
             throw new MissingParameterException("luiId is null");
@@ -359,8 +357,8 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public LuiInfo updateLuiState(String luiId, String luState, ContextInfo context)
-    throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException, PermissionDeniedException {
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         LuiInfo existing = this.getLui(luiId, context);
         LuiInfo luiInfo = new LuiInfo(existing);
@@ -374,9 +372,9 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiLuiRelationId == null) {
             throw new MissingParameterException("luiLuiRelationId is null");
@@ -390,9 +388,9 @@ public class LuiServiceMockImpl implements LuiService {
         return info;
     }
 
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiLuiRelationIdList == null) {
             throw new MissingParameterException("luiLuiRelationIdList is null");
@@ -406,10 +404,9 @@ public class LuiServiceMockImpl implements LuiService {
         return infos;
     }
 
-
-    public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<String> getLuiLuiRelationIdsByType(String luiLuiRelationTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiLuiRelationTypeKey == null) {
             throw new MissingParameterException("luiLuiRelationTypeKey is null");
@@ -425,11 +422,10 @@ public class LuiServiceMockImpl implements LuiService {
         return llrIds;
     }
 
-
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(String luiId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiId == null) {
             throw new MissingParameterException("luiId is null");
@@ -446,24 +442,24 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo context) 
-    throws InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLuiLuiRelationIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<String>();
     }
 
     @Override
-    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, ContextInfo context) 
-    throws InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public List<LuiLuiRelationInfo> searchForLuiLuiRelations(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<LuiLuiRelationInfo>();
     }
 
-    public List<ValidationResultInfo> validateLuiLuiRelation(String validationType, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateLuiLuiRelation(String validationType, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (validationType == null) {
             throw new MissingParameterException("validationType is null");
@@ -478,9 +474,9 @@ public class LuiServiceMockImpl implements LuiService {
 
     @Override
     public LuiLuiRelationInfo createLuiLuiRelation(String luiId, String relatedLuiId, String luLuRelationType, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
-    throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException,
-    DoesNotExistException, InvalidParameterException, MissingParameterException,
-    OperationFailedException, PermissionDeniedException {
+            throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         if (luiId == null) {
             throw new MissingParameterException("luiId is null");
@@ -507,10 +503,10 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) 
-    throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException, PermissionDeniedException, 
-    VersionMismatchException {
+    public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException,
+            VersionMismatchException {
 
         if (luiLuiRelationId == null) {
             throw new MissingParameterException("luiLuiRelationId is null");
@@ -542,9 +538,9 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         if (luiLuiRelationId == null) {
             throw new MissingParameterException("luiLuiRelationId is null");
@@ -560,9 +556,9 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public LuiCapacityInfo getLuiCapacity(String luiCapacityId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiCapacityId == null) {
             throw new MissingParameterException("luiCapacityId is null");
@@ -577,9 +573,9 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiCapacityIdList == null) {
             throw new MissingParameterException("luiCapacityIdList is null");
@@ -594,9 +590,29 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+        if (luiId == null) {
+            throw new MissingParameterException("luiCapacityIdList is null");
+        }
+
+        List<LuiCapacityInfo> infos = new ArrayList<LuiCapacityInfo>();
+        for (LuiCapacityInfo info : lcapCache.values()) {
+            if (info.getLuiIds() == null) {
+                continue;
+            }
+            if (info.getLuiIds().contains(luiId)) {
+                infos.add(info);
+            }
+        }
+
+        return infos;
+    }
+
+    @Override
+    public List<String> getLuiCapacityIdsByType(String luiCapacityTypeKey, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (luiCapacityTypeKey == null) {
             throw new MissingParameterException("luiCapacityTypeKey is null");
@@ -613,25 +629,25 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, ContextInfo context) 
-    throws InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public List<String> searchForLuiCapacityIds(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<String>();
     }
 
     @Override
-    public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, ContextInfo context) 
-    throws InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public List<LuiCapacityInfo> searchForLuiCapacities(QueryByCriteria criteria, ContextInfo context)
+            throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         return new ArrayList<LuiCapacityInfo>();
     }
 
     @Override
-    public List<ValidationResultInfo> validateLuiCapacity(String validationType, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-    throws DoesNotExistException, InvalidParameterException, 
-    MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateLuiCapacity(String validationType, LuiCapacityInfo luiCapacityInfo, ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
 
         if (validationType == null) {
             throw new MissingParameterException("validationType is null");
@@ -645,10 +661,10 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiCapacityInfo createLuiCapacity(LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-    throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, 
-    InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public LuiCapacityInfo createLuiCapacity(LuiCapacityInfo luiCapacityInfo, ContextInfo context)
+            throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         if (luiCapacityInfo == null) {
             throw new MissingParameterException("luiCapacityInfo is null");
@@ -665,11 +681,11 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo context) 
-    throws DataValidationErrorException, DoesNotExistException, 
-    InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException, 
-    VersionMismatchException {
+    public LuiCapacityInfo updateLuiCapacity(String luiCapacityId, LuiCapacityInfo luiCapacityInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException,
+            VersionMismatchException {
 
         if (luiCapacityId == null) {
             throw new MissingParameterException("luiCapacityId is null");
@@ -701,10 +717,10 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo context) 
-    throws DependentObjectsExistException, DoesNotExistException, 
-    InvalidParameterException, MissingParameterException, 
-    OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteLuiCapacity(String luiCapacityId, ContextInfo context)
+            throws DependentObjectsExistException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
 
         if (luiCapacityId == null) {
             throw new MissingParameterException("luiCapacityId is null");
@@ -719,4 +735,3 @@ public class LuiServiceMockImpl implements LuiService {
         return status;
     }
 }
-

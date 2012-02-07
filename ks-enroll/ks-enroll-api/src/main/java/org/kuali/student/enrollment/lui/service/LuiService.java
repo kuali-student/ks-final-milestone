@@ -593,6 +593,23 @@ public interface LuiService {
      * @throws OperationFailedException unable to complete request
      */
     public List<LuiCapacityInfo> getLuiCapacitiesByIdList(@WebParam(name = "luiCapacityIdList") List<String> luiCapacityIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    
+  /**
+     * Retrieves LuiCapacities associated with a Lui
+     *
+     * @param luiId     Learning Unit Instance identifier
+     * @param context   Context information containing the principalId
+     *                  and locale information about the caller of service
+     *                  operation
+     * @return a list of LuiCapacities
+     * @throws DoesNotExistException One or more lui capacities not found
+     * @throws InvalidParameterException One or more invalid luiCapacityIds
+     * @throws MissingParameterException missing luiCapacityIdList
+     * @throws OperationFailedException unable to complete request
+     */
+    public List<LuiCapacityInfo> getLuiCapacitiesByLui(@WebParam(name = "luiId") String luiId, 
+            @WebParam(name = "context") ContextInfo context) 
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
      * Retrieves a list of LuiCapacity Ids by LuiCapacity Type.
