@@ -205,13 +205,13 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey,null);
 	}
 
 	// @Override
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
+		return searchManager.getSearchCriteriaTypes(null);
 	}
 
 	// @Override
@@ -219,13 +219,13 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchResultType(searchResultTypeKey);
+		return searchManager.getSearchResultType(searchResultTypeKey,null);
 	}
 
 	// @Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+		return searchManager.getSearchResultTypes(null);
 	}
 
 	// @Override
@@ -233,13 +233,13 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		return searchManager.getSearchType(searchTypeKey);
+		return searchManager.getSearchType(searchTypeKey,null);
 	}
 
 	// @Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+		return searchManager.getSearchTypes(null);
 	}
 
 	// @Override
@@ -248,7 +248,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey,null);
 	}
 
 	// @Override
@@ -257,12 +257,12 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey,null);
 	}
 
 	// @Override
 	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-		return searchManager.search(searchRequest, enumDAO);
+		return searchManager.search(searchRequest, enumDAO,null);
 	}
 	
 	/**
