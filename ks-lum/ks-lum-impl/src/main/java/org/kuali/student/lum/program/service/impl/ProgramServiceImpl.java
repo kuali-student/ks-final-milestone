@@ -1560,4 +1560,147 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 		return documentService;
 	}
 
+	// TODO KSCM-267
+	@Override
+	public SearchResult search(SearchRequest searchRequest,
+			ContextInfo contextInfo) throws MissingParameterException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CredentialProgramInfo> getCredentialProgramsByIds(
+			List<String> credentialProgramIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public CredentialProgramInfo updateCredentialProgram(
+			String credentialProgramId,
+			CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			VersionMismatchException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<MajorDisciplineInfo> getMajorDisciplinesByIds(
+			List<String> majorDisciplineIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getMajorDisciplineIdsByCredentialProgramType(
+			String programType, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MajorDisciplineInfo updateMajorDiscipline(String majorDisciplineId,
+			MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			VersionMismatchException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<HonorsProgramInfo> getHonorsProgramsByIds(
+			List<String> honorsProgramIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<String> getHonorProgramIdsByCredentialProgramType(
+			String programType, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public HonorsProgramInfo updateHonorsProgram(String honorsProgramId,
+			String honorsProgramTypeKey, HonorsProgramInfo honorsProgramInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, VersionMismatchException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<CoreProgramInfo> getCoreProgramsByIds(
+			List<String> coreProgramIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProgramRequirementInfo getProgramRequirement(
+			String programRequirementId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ProgramRequirementInfo> getProgramRequirementsByIds(
+			List<String> programRequirementIds, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProgramRequirementInfo updateProgramRequirement(
+			String programRequirementId, String programRequirementTypeKey,
+			ProgramRequirementInfo programRequirementInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, VersionMismatchException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MinorDisciplineInfo updateMinorDiscipline(
+			MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			VersionMismatchException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
