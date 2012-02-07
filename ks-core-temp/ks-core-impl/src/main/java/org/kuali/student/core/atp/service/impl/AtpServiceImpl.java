@@ -533,53 +533,53 @@ public class AtpServiceImpl implements AtpService {
     }
 
     // @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, contextInfo);
     }
 
     // @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes();
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) throws OperationFailedException {
+        return searchManager.getSearchCriteriaTypes(contextInfo);
     }
 
     // @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey);
+        return searchManager.getSearchResultType(searchResultTypeKey, contextInfo);
     }
 
     // @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
-        return searchManager.getSearchResultTypes();
+    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo) throws OperationFailedException {
+        return searchManager.getSearchResultTypes(contextInfo);
     }
 
     // @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey);
+        return searchManager.getSearchType(searchTypeKey, contextInfo);
     }
 
     // @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
-        return searchManager.getSearchTypes();
+    public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo) throws OperationFailedException {
+        return searchManager.getSearchTypes(contextInfo);
     }
 
     // @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
     }
 
     // @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey);
+        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
     }
 
     // @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
-        return searchManager.search(searchRequest, atpDao);
+    public SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
+        return searchManager.search(searchRequest, atpDao, contextInfo);
     }
 
     // @Override
