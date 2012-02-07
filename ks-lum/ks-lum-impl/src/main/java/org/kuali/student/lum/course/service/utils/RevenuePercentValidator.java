@@ -7,6 +7,7 @@ import java.util.Stack;
 
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.BeanConstraintDataProvider;
@@ -20,7 +21,7 @@ public class RevenuePercentValidator extends DefaultValidatorImpl {
     private static final String COURSE_REVENUE_FIELD = "revenues";
 
     @Override
-    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
+    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, ContextInfo contextInfo) {
         // Custom validators are required to only override the other validateObject method
         return null;
     }
@@ -30,7 +31,7 @@ public class RevenuePercentValidator extends DefaultValidatorImpl {
      *      java.lang.Object, org.kuali.student.common.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
      */
     @Override
-    public List<ValidationResultInfo> validateObject(FieldDefinition field, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack) {
+    public List<ValidationResultInfo> validateObject(FieldDefinition field, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack, ContextInfo contextInfo) {
 
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -69,7 +70,7 @@ public class RevenuePercentValidator extends DefaultValidatorImpl {
         if (((Collection<?>) revenuesObj).size() > 0 && totalOrgPercent != 100l) {
             ValidationResultInfo valRes = new ValidationResultInfo(getElementXpath(elementStack));
             valRes.setElement("/revenues");
-            valRes.setError(MessageUtils.interpolate(getMessage("validation.revenueTotal"), toMap(field)));
+            valRes.setError(MessageUtils.interpolate(getMessage("validation.revenueTotal", contextInfo), toMap(field)));
             results.add(valRes);
         }
 

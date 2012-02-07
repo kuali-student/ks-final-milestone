@@ -10,13 +10,13 @@ import org.kuali.student.lum.program.client.major.edit.LearningObjectivesEditCon
 public class CoreEditConfigurer extends AbstractProgramConfigurer {
 
     public CoreEditConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(new CoreInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreManagingBodiesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreCatalogInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreRequirementsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreDocsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CoreSummaryConfiguration());
+        programSectionConfigManager = new ConfigurationManager();
+        programSectionConfigManager.registerConfiguration(new CoreInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CoreManagingBodiesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CoreCatalogInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CoreRequirementsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CoreDocsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CoreSummaryConfiguration(this));
     }
 }

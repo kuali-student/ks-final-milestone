@@ -16,10 +16,11 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -530,9 +531,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 	}
 
 	@Override
-	protected AttributeSet getQualification(String idType, String id) {   //FIXME
+	protected Map<String,String> getQualification(String idType, String id) {   //FIXME
 		String DOCUMENT_TYPE_NAME = "documentTypeName";
-		AttributeSet qualification = new AttributeSet();
+		Map<String,String> qualification = new LinkedHashMap<String,String>();
 		qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourse");
 		/*
 		 *	This commented out for permission changes

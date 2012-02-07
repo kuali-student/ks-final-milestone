@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramUtils;
@@ -33,7 +34,6 @@ import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.StateChangeEvent;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
 import com.google.gwt.core.client.GWT;
@@ -47,8 +47,8 @@ import com.google.gwt.user.client.Window;
  */
 public class CoreEditController extends CoreController {
 
-    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final KSButton saveButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_SAVE));
+    private final KSButton cancelButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
 
 
     /**
@@ -71,8 +71,8 @@ public class CoreEditController extends CoreController {
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
             excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
             excludedViews.add(ProgramSections.SUMMARY);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), saveButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), cancelButton, excludedViews);
             initialized = true;
         }
     }
@@ -185,7 +185,7 @@ public class CoreEditController extends CoreController {
         versionData.set(new Data.StringKey("versionComment"), "Core Program Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -233,7 +233,7 @@ public class CoreEditController extends CoreController {
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -268,7 +268,7 @@ public class CoreEditController extends CoreController {
 	    				isValid(result.getValidationResults(), false, true);	    				
     					KSNotifier.show("Saved with Warnings");
     				} else {
-                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                        KSNotifier.show(getLabel(ProgramMsgConstants.COMMON_SUCCESSFULSAVE));
     				}  				
 
                     okCallback.exec(true);

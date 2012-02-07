@@ -32,9 +32,9 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  *
  */
 public interface LuRpcServiceAsync extends BaseRpcServiceAsync{
-    public void createClu(String luTypeKey, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
-    public void updateClu(String cluId, CluInfo cluInfo, AsyncCallback<CluInfo> callback);
-    public void getCluLoRelationsByClu(String cluId,  AsyncCallback<List<CluLoRelationInfo>> callback);
-    public void getClu(String cluId, AsyncCallback<CluInfo> callback);
-    public void getCurrentVersion(String refObjectTypeURI, String refObjectId, AsyncCallback<VersionDisplayInfo> callback);
+    public void createClu(String luTypeKey, CluInfo cluInfo, AsyncCallback<CluInfo> callback, ContextInfo contextInfo);
+    public void updateClu(String cluId, CluInfo cluInfo, AsyncCallback<CluInfo> callback, ContextInfo contextInfo);
+    public void getCluLoRelationsByClu(String cluId,  AsyncCallback<List<CluLoRelationInfo>> callback, ContextInfo contextInfo);
+    public void getClu(String cluId, AsyncCallback<CluInfo> callback, ContextInfo contextInfo);
+    public void getCurrentVersion(String refObjectTypeURI, String refObjectId, AsyncCallback<VersionDisplayInfo> callback, ContextInfo contextInfo);
 }

@@ -18,9 +18,7 @@ package org.kuali.student.lum.common.client.lu;
 
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
- *
+ * List of constants used in the Lum UI  
  * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
@@ -50,7 +48,7 @@ public class LUUIConstants {
     //Section names
     public static final String COURSE_SECTIONS = "Course Sections";
     public static final String SECTION_PROPOSAL_INFORMATION = "Proposal Information";
-    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "Authors & Collaborators";
+    public static final String SECTION_AUTHORS_AND_COLLABORATORS = "cluAuthorsAndCollaborators";
     public static final String SECTION_GOVERNANCE = "Governance";
     public static final String SECTION_COURSE_LOGISTICS = "Course Logistics";
 
@@ -228,6 +226,8 @@ public class LUUIConstants {
     public static final String LO_SEARCH_AGAIN_LINK_KEY = "cluLOSearchAgain";
     public static final String LO_INSTRUCTIONS_KEY = "cluLOInstructions";
     public static final String LO_CATEGORY_KEY = "cluLOCategory";
+    public static final String LO_CATEGORY_BROWSE_LABEL_KEY = "cluLOCategoryBrowse";
+    public static final String LO_CATEGORY_BROWSE_POPUP_LABEL_KEY = "cluLOCategoryBrowsePopup";
 
     
     //    public static final String SYLLABUS_LABEL_KEY = "cluSyllabus";
