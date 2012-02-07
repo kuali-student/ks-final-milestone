@@ -15,9 +15,11 @@
 
 package org.kuali.student.lum.common.server;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -89,6 +91,14 @@ public class LoCategoryDataService extends AbstractDataService {
     public void setLearningObjectiveService(LearningObjectiveService loService) {
         this.loService = loService;
     }
+
+    // TODO KSCM
+	@Override
+	public List<ValidationResultInfo> validateData(Data data,
+			ContextInfo contextInfo) throws OperationFailedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 
 }
