@@ -17,17 +17,22 @@ package org.kuali.student.core.workflow.ui.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.MenuEditableSectionController;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
@@ -44,6 +49,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.RejectCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
@@ -156,6 +162,33 @@ public class WorkflowUtilities{
 		setupDialog();
 	}
 	
+	public WorkflowUtilities(Object courseProposalController,
+			String proposalPath2, String string,
+			Object wfApproveDialog, String string2, String modelId) {
+	super();
+	this.parentController = new LayoutController() {
+		
+		@Override
+		protected void renderView(View view) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		protected void hideView(View view) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void updateModel() {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+		// TODO Auto-generated constructor stub
+	}
+
 	public void requestAndSetupModel() {
 		
 		if(null==dataModel){
@@ -979,6 +1012,71 @@ public class WorkflowUtilities{
 
 	public void addSubmitCallback(Callback<Boolean> callback) {
 		this.submitCallback = callback;
+		
+	}
+
+	// TODO KSCM - Paul you can overrite this class with your changes
+	public Data getAdditionalItems() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Widget getProposalStatusLabel() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void blanketApprove(Callback<Boolean> callback) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void cancel(Callback<Boolean> callback) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public Object getApproveDialogue() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public void addApproveDialogField(String string, String string2,
+			MessageKeyInfo generateMessageInfo,
+			DataModelDefinition modelDefinition, boolean b, boolean c) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addApproveDialogField(String string, String string2,
+			MessageKeyInfo generateMessageInfo,
+			DataModelDefinition modelDefinition, boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateApproveFields() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void progressiveEnableFields() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void addIgnoreDialogField(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public static void updateCrossField(FieldDescriptor fd, DataModel model) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void requestAndSetupModel(Callback<Boolean> noOpCallback) {
+		// TODO Auto-generated method stub
 		
 	}
 }

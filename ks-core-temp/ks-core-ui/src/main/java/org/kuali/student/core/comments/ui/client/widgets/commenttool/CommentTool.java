@@ -76,10 +76,10 @@ public class CommentTool implements HasReferenceId {
     private KSLabel proposalTitle = new KSLabel();
     private String title;
 
-    private enum EditMode {
-        ADD_COMMENT, UPDATE_COMMENT
+    public enum EditMode {
+        ADD_COMMENT, UPDATE_COMMENT, VIEW_COMMENT
     }
-    
+
     public CommentTool(Enum<?> viewEnum, String viewName, String commentTypeKey, String title) {
         this.viewName = viewName;
         this.viewEnum = viewEnum;

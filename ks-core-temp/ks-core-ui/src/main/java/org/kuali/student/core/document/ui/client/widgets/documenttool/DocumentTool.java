@@ -580,4 +580,16 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
 		// TODO Auto-generated method stub
 		
 	}
+
+    // TODO KSCM - Paul you can overwrite the whole class with your changes
+	public void setShowAllLink(Composite container) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	// TODO KSCM - Paul you can overwrite the whole class with your changes
+	public void showShowAllLink(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
 }

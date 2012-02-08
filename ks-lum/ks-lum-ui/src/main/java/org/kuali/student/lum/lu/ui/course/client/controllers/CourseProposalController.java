@@ -164,18 +164,18 @@ public class CourseProposalController extends MenuEditableSectionController impl
    		cfg.setState(DtoConstants.STATE_DRAFT);
    		
    		//Add an extra menu item to copy the proposal to a new proposal.
-   		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
-			@Override
-			public void onClick(ClickEvent event) {
-			    if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
-		    		getViewContext().setId((String)cluProposalModel.get(cfg.getProposalPath()+"/id"));
-		    		getViewContext().setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
-		    		getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-		    		cluProposalModel.resetRoot(); // Reset the root so that the model can be reloaded from the copied proposal.
-		        }
-                HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", getViewContext());
-			}
-		}));
+   	// TODO KSCM Paul will fix with ks-core-ui   		workflowUtil.getAdditionalItems().add(new KSMenuItemData(this.getMessage("cluCopyItem"), new ClickHandler(){
+   	// TODO KSCM Paul will fix with ks-core-ui			@Override
+   	// TODO KSCM Paul will fix with ks-core-ui			public void onClick(ClickEvent event) {
+   	// TODO KSCM Paul will fix with ks-core-ui			    if(getViewContext() != null && getViewContext().getId() != null && !getViewContext().getId().isEmpty()){
+   	// TODO KSCM Paul will fix with ks-core-ui		    		getViewContext().setId((String)cluProposalModel.get(cfg.getProposalPath()+"/id"));
+   	// TODO KSCM Paul will fix with ks-core-ui		    		getViewContext().setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
+   	// TODO KSCM Paul will fix with ks-core-ui		    		getViewContext().getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
+   	// TODO KSCM Paul will fix with ks-core-uicluProposalModel.resetRoot(); // Reset the root so that the model can be reloaded from the copied proposal.
+   	// TODO KSCM Paul will fix with ks-core-ui		        }
+   	// TODO KSCM Paul will fix with ks-core-ui                HistoryManager.navigate("/HOME/CURRICULUM_HOME/COURSE_PROPOSAL", getViewContext());
+   	// TODO KSCM Paul will fix with ks-core-ui			}
+   	// TODO KSCM Paul will fix with ks-core-ui		}));
    		
    		super.setDefaultModelId(cfg.getModelId());
    		registerModelsAndHandlers();
@@ -437,7 +437,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							    KSLabel descLabel = new KSLabel();
 							    descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
 							    if (workflowUtil.getApproveDialogue() != null) {
-							        workflowUtil.getApproveDialogue().addWidget(descLabel);
+// TODO KSCM Paul will fix with ks-core-ui							        workflowUtil.getApproveDialogue().addWidget(descLabel);
 							    }
 							    workflowUtil.addApproveDialogField("", "startTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_START_TERM), modelDefinition, true, true);
 							    workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition, false);
