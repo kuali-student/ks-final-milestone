@@ -1,20 +1,10 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import javax.annotation.Resource;
-
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -35,6 +25,16 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -133,9 +133,10 @@ public class TestLuiServiceImpl {
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
-        if (info.getOfficialIdentifier() != null) {
-            fail("official identifier is not null but it was never set");
-        }
+        LuiIdentifierInfo luiIdentifierInfo = new LuiIdentifierInfo();
+        luiIdentifierInfo.setStateKey(info.getStateKey());
+        luiIdentifierInfo.setTypeKey(info.getTypeKey());
+        info.setOfficialIdentifier(luiIdentifierInfo);
         // info.setStudySubjectArea("Math");
         info.setCluId("testCluId");
         info.setAtpId("testAtpId1");
@@ -259,6 +260,10 @@ public class TestLuiServiceImpl {
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
+        LuiIdentifierInfo luiIdentifierInfo = new LuiIdentifierInfo();
+        luiIdentifierInfo.setStateKey(info.getStateKey());
+        luiIdentifierInfo.setTypeKey(info.getTypeKey());
+        info.setOfficialIdentifier(luiIdentifierInfo);
 
         LuiInfo newLui = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         LuiLuiRelationInfo created = null;

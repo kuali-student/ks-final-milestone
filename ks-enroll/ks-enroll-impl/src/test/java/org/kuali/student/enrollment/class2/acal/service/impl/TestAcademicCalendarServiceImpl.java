@@ -97,6 +97,7 @@ public class TestAcademicCalendarServiceImpl {
         acal.setName("testAcal");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        populateRequiredFields(acal);
         AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
         assertNotNull(created);
         assertNotNull(created.getId());
@@ -151,6 +152,7 @@ public class TestAcademicCalendarServiceImpl {
         ccKeys.add("testAtpId2");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        populateRequiredFields(acal);
         try {
             AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
             assertNotNull(created);
@@ -167,6 +169,7 @@ public class TestAcademicCalendarServiceImpl {
         acal.setName("testNewAcal");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        populateRequiredFields(acal);
         AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
         assertNotNull(created);
         assertNotNull(created.getId());
@@ -188,6 +191,7 @@ public class TestAcademicCalendarServiceImpl {
         acal.setName("testDeletedAcal");
         acal.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         acal.setTypeKey(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY);
+        populateRequiredFields(acal);
         try {
             AcademicCalendarInfo created = acalService.createAcademicCalendar(null, acal, callContext);
             assertNotNull(created);
@@ -264,6 +268,7 @@ public class TestAcademicCalendarServiceImpl {
         term.setName("testNewTerm");
         term.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         term.setTypeKey(AtpServiceConstants.ATP_FALL_TYPE_KEY);
+        populateRequiredFields(term);
 
         TermInfo created;
 
@@ -1088,5 +1093,21 @@ public class TestAcademicCalendarServiceImpl {
 
         assertNotNull(result);
         assertTrue(!result.isEmpty());
+    }
+    
+    private void populateRequiredFields(AcademicCalendarInfo acal) {
+        acal.setEndDate(new Date());
+        acal.setStartDate(new Date());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("");
+        acal.setDescr(richTextInfo);
+    }
+
+    private void populateRequiredFields(TermInfo term) {
+        term.setEndDate(new Date());
+        term.setStartDate(new Date());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("");
+        term.setDescr(richTextInfo);
     }
 }
