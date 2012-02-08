@@ -16,10 +16,12 @@ import java.util.List;
 import javax.xml.bind.annotation.*;
 
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.infc.CoreProgram;
 import org.w3c.dom.Element;
+
 
 @XmlType(name = "CoreProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "code", "universityClassification", "startTermId",
         "endTermId", "endProgramEntryTermId", "programRequirements", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight", "referenceURL",
@@ -62,6 +64,14 @@ public class CoreProgramInfo extends ProgramAttributesInfo implements CoreProgra
 
     public void setVersionInfo(VersionInfo versionInfo) {
         //To change body of created methods use File | Settings | File Templates.
+    }
+    
+    //TODO KSCM-247
+    @Deprecated 
+    public VersionInfo getVersionInfo(ContextInfo contextInfo) {
+        //To change body of created methods use File | Settings | File Templates.
+    	//TODO KSCM
+    	return new VersionInfo();
     }
 
 

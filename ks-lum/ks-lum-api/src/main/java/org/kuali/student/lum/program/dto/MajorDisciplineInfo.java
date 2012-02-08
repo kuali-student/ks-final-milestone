@@ -700,25 +700,37 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         return null; //return versionInfo;
         //TODO KSCM
     }
-
     @Deprecated
-	public Boolean getEndProgramEntryTerm() {
+	public String getEndTerm() {
 		// TODO Auto-generated method stub
+    	//TODO KSCM
 		return null;
-		// TODO KSCM
 	}
 
     @Deprecated
-	public Boolean getEndTerm() {
+	public String getEndProgramEntryTerm() {
 		// TODO Auto-generated method stub
+    	//TODO KSCM
 		return null;
-		//TODO KSCM
 	}
-
     @Deprecated
 	public String getStartTerm() {
 		// TODO Auto-generated method stub
+		//TODO KSCM
 		return null;
-		// TODO KSCM
+	}
+
+	@Deprecated
+	public void setEndProgramEntryTerm(String endEntryTerm) {
+		// TODO Auto-generated method stub
+		// TODO KSCM 
+		
+	}
+	@Deprecated
+	public void setEndTerm(String endEnrollTerm) {
+		// TODO Auto-generated method stub
+		//TODO KSCM
+		
+		
 	}
 }

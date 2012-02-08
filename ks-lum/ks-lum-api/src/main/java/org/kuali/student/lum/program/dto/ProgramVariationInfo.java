@@ -250,6 +250,12 @@ public class ProgramVariationInfo extends ProgramAttributesInfo implements Progr
        // this.startTerm = startTerm;
         //TODO KSCM
     }
+    @Deprecated
+	public String getStartTerm() {
+		// TODO Auto-generated method stub
+    	// TODO KSCM
+		return null;
+	}
     
     @Deprecated
 	public String getStartTerm() {

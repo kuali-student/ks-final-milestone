@@ -20,6 +20,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.infc.LoDisplay;
@@ -153,18 +154,11 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
     public void setEndProgramEntryTerm(Object endProgramEntryTerm) {
         //TODO KSCM  this.endProgramEntryTerm = endProgramEntryTerm;
     }
-
-    @Deprecated
-	public Boolean getEndProgramEntryTerm() {
-		// TODO Auto-generated method stub
-		return null;
-		// TODO KSCM
-	}
     
+    //TOD KSCM : Fix this logic
     @Deprecated
-	public Boolean getEndTerm() {
+	public VersionInfo getVersionInfo(ContextInfo contextInfo) {
 		// TODO Auto-generated method stub
 		return null;
-		// TODO KSCM
 	}
 }
