@@ -1645,8 +1645,32 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<TypeInfo> getAcalEventTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getAcalEventTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
+        List<TypeTypeRelationInfo> relations = null;
+
+        try {
+            //MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
+            //TYPE_TYPE_RELATION_GROUP_TYPE_KEY = "kuali.type.type.relation.type.group";
+            relations = typeService.getTypeTypeRelationsByOwnerType(AtpServiceConstants.MILESTONE_EVENT_GROUPING_TYPE_KEY,
+                    TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY, contextInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException(e.getMessage(), e);
+        }
+
+        if (relations != null) {
+            List<TypeInfo> results = new ArrayList<TypeInfo>(relations.size());
+            for (TypeTypeRelationInfo rel : relations) {
+                try {
+                    results.add(typeService.getType(rel.getRelatedTypeKey(), contextInfo));
+                } catch (DoesNotExistException e) {
+                    throw new OperationFailedException(e.getMessage(), e);
+                }
+            }
+
+            return results;
+        }
+
         return null;
     }
 

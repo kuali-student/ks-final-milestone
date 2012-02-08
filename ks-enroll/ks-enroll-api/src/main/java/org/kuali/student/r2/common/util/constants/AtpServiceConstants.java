@@ -139,8 +139,11 @@ public class AtpServiceConstants {
     public static final String MILESTONE_MEMORIAL_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.MemorialDayObserved";
     public static final String MILESTONE_INDEPENDENCE_DAY_OBSERVED_TYPE_KEY = "kuali.atp.milestone.IndependenceDayObserved";
     // events
+    public static final String MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
     public static final String MILESTONE_HOMECOMING_TYPE_KEY = "kuali.atp.milestone.Homecoming";
     public static final String MILESTONE_FAMILY_WEEKEND_TYPE_KEY = "kuali.atp.milestone.FamilyWeekend";
+    //notes:  kuali.atp.milestone.AlumniDay and  kuali.atp.milestone.Commencement can be  event types as well.
+
     // orientation
     public static final String MILESTONE_MOVE_IN_DATE_TYPE_KEY = "kuali.atp.milestone.Move-inDate";
     public static final String MILESTONE_NEW_STUDENT_CONVOCATION_TYPE_KEY = "kuali.atp.milestone.NewStudentConvocation";
