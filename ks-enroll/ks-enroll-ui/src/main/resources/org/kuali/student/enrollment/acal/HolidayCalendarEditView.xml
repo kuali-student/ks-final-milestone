@@ -64,12 +64,9 @@
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hcorg-options"/>
                     </property>
-                   <!-- <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
-                    </property>  -->
                 </bean>
                 <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP" p:required="true"
-				     p:labelField.renderColon="false" p:labelField.style="display:block;"
+				     p:labelField.renderColon="false" p:labelField.styleClasses="labelTop"
 					p:propertyName="holidayCalendarInfo.startDate">
 					<property name="control">
 						<bean parent="Uif-DateControl" />
@@ -86,7 +83,7 @@
         </property>
     </bean>
 
-	<bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-Disclosure-TableCollectionSection"
+	<bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
 		p:layoutManager.numberOfColumns="4">
 		<property name="title" value="Holidays" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayInfo" />
@@ -95,9 +92,10 @@
 		<property name="layoutManager.renderSequenceField" value="false" />
 		<property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
 		<property name="items">
 			<list>
-                <bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="typeKey" p:required="true">
+                <bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="typeKey"  p:labelField.style="display:block;" p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
@@ -122,23 +120,6 @@
 				</bean>
 			</list>
 		</property>
-        <!-- <property name="layoutManager.richTable.componentOptions">
-            <map merge="true">
-                <entry key="bFilter" value="false"/>
-                <entry key="bInfo" value="false"/>
-                <entry key="bLengthChange" value="false"/>
-                <entry key="bSort" value="false"/>
-                <entry key="iDisplayLength" value="50"/>
-                <entry key="aoColumns"
-                       value="[ {'sTitle':'Holiday Type', 'sWidth':'20%'},
-                                {'sTitle':'Start Date', 'sWidth':'20%'},
-                                {'sTitle':'End Date', 'sWidth':'20%'},
-                                {'sTitle':'Non Instructional', 'sWidth':'20%', 'sClass':'ks-cell-align-center'},
-                                {'sTitle':'Actions', 'sWidth':'20%'}
-                            ]"/>
-
-            </map>
-        </property> -->
 	</bean>
 
     <util:list id="hcorg-options">

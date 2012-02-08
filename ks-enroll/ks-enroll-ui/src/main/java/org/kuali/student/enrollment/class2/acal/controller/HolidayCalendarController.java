@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -39,7 +40,10 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 
 /**
  * This class implement controller for HolidayCalendar
@@ -102,6 +106,7 @@ public class HolidayCalendarController extends UifControllerBase {
     private void getHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
         HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).getHolidayCalendar(hcId);
         hcForm.setHolidayCalendarInfo(hcInfo);
+        hcForm.setAdminOrg(hcInfo.getAdminOrgId());
 
         List<HolidayInfo> holidays = getAcademicCalendarViewHelperService(hcForm).getHolidaysForHolidayCalendar(hcForm);
         if (holidays != null && !holidays.isEmpty()){
@@ -193,6 +198,20 @@ public class HolidayCalendarController extends UifControllerBase {
     private void deleteHoliday(String holidayId, HolidayCalendarForm hcForm)throws Exception {
         getAcademicCalendarViewHelperService(hcForm).deleteHoliday(holidayId);
     }
+
+    private String getAdminOrgById(String id){
+        //TODO: harcoded for now, going to call OrgService
+        String adminOrg = null;
+        Map<String, String> allHcOrgs = new HashMap<String, String>();
+        allHcOrgs.put("102", "Registrar's Office");
+
+        if(allHcOrgs.containsKey(id)){
+            adminOrg = allHcOrgs.get(id);
+        }
+
+        return adminOrg;
+    }
+
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(HolidayCalendarForm hcForm){
         return (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
     }

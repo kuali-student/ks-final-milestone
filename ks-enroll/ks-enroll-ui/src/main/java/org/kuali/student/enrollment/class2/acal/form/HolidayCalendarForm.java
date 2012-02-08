@@ -32,6 +32,7 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     private HolidayCalendarInfo holidayCalendarInfo;
     private List<HolidayInfo> holidays;
+    private String adminOrg;
 
     public HolidayCalendarForm() {
         super();
@@ -53,5 +54,13 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     public void setHolidays(List<HolidayInfo> holidays) {
         this.holidays = holidays;
+    }
+
+    public String getAdminOrg() {
+        return adminOrg;
+    }
+
+    public void setAdminOrg(String adminOrg) {
+        this.adminOrg = adminOrg;
     }
 }
