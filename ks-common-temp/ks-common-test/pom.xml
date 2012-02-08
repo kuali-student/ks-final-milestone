@@ -93,7 +93,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <type>pom</type>
     </dependency>
 
