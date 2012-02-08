@@ -66,9 +66,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @JoinTable(name = "KSEN_INSTR_POPLTN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "POPLTN_ID"))
     private List<PopulationEntity> appliedPopulation;
 
-    @OneToMany(cascade = CascadeType.ALL,orphanRemoval = true)
-    @JoinTable(name = "KSEN_INSTR_ATPTYPE_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "ATP_TYPE_ID"))
-    private List<String> appliedAtpTypes;
+    private transient List<String> appliedAtpTypes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)
     private List<InstructionAttributeEntity> attributes = new ArrayList<InstructionAttributeEntity>();
