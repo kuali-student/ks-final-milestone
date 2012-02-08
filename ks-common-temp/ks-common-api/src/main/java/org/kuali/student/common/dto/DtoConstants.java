@@ -15,7 +15,8 @@ public class DtoConstants {
 
 	
 	public static final String DTO_STATE = "DtoState";
-	public static final String DTO_NEXT_STATE = "DtoNextState"; 
+	public static final String DTO_NEXT_STATE = "DtoNextState";
+	public static final String DTO_WORKFLOW_NODE = null; 
 
 	//FIXME: Need to split out proposal states (ie. workflow states) versus dto states
 	public enum DtoState {
