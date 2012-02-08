@@ -20,7 +20,7 @@ public class ActivityOfferingTransformer {
         ao.setMeetingSchedules(lui.getMeetingSchedules());
 
         // TODO: ao.setGradingOptionIds --- lui.getResultOptionIds() call
-        // LRCService.getResultValuesByIdList
+        // LRCService.getResultValuesByIds
 
         // rest fields no mapping doc
 

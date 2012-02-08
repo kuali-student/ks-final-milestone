@@ -70,7 +70,7 @@ public class RegistrationHoldProposition extends AbstractLeafProposition {
             // if there are no blocking holds, the result of the evaluation is true
             result = new PropositionResult(blockingHolds.isEmpty());
 
-            // check the warning holds, add the hold ids to the environment attributes if any have been found for the student
+            // check the warning holds, add the hold Ids to the environment attributes if any have been found for the student
             if(!warningHolds.isEmpty()) {
                 List<String> warningHoldIds = (List<String>) environment.getEngineResults().getAttribute(RulesExecutionConstants.REGISTRATION_HOLD_WARNINGS_ATTRIBUTE);
                 if(warningHoldIds == null) {

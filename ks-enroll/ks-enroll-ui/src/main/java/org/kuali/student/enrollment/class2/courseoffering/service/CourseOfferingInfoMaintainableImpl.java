@@ -71,19 +71,19 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         // TODO - this entire method needs more complete exception handling; then remove this
         if (null == course) return;
 
-        //form the formatIdList
-        List<String> formatIdList = new ArrayList<String>();
+        //form the formatIds
+        List<String> formatIds = new ArrayList<String>();
         /*
                             List<FormatInfo> formatList = course.getFormats();
                             for (FormatInfo format : formatList){
-                                formatIdList.add(format.getId());
+                                formatIds.add(format.getId());
                             }
             */
         FormatInfo firstFormat = null;
         // only pick the first format based on Larry's suggestion to simplify core slice development
         if (course != null) {
             firstFormat = course.getFormats().get(0);
-            formatIdList.add(firstFormat.getId());
+            formatIds.add(firstFormat.getId());
         }
 
         CourseOfferingInfo coi = new CourseOfferingInfo ();
@@ -138,11 +138,11 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
         }
 
         //create a list of ActivityOfferingInfo based on activities defined in the format of the course
-        List<String> courseOfferingIdList = new ArrayList<String>();
-        courseOfferingIdList.add(coi.getId());
+        List<String> courseOfferingIds = new ArrayList<String>();
+        courseOfferingIds.add(coi.getId());
 
         List<ActivityOfferingInfo> activityOfferingInfoList = new ArrayList<ActivityOfferingInfo>();
-        List<String> activityOfferingIdList = new ArrayList<String>();
+        List<String> activityOfferingIds = new ArrayList<String>();
         if (firstFormat != null) {
             List<ActivityInfo> activities = firstFormat.getActivities();
             for (ActivityInfo activity : activities) {
@@ -171,13 +171,13 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                             new ContextInfo());
 
                     activityOfferingInfoList.add(activityOfferingInfo);
-                    activityOfferingIdList.add(activityOfferingInfo.getId());
+                    activityOfferingIds.add(activityOfferingInfo.getId());
 
                     //create a RegiistrationGroup after successfully create all activityOfferingInfos
                     RegistrationGroupInfo registrationGroupInfo = new RegistrationGroupInfo();
                     registrationGroupInfo.setCourseOfferingId(coi.getId());
                     registrationGroupInfo.setMaximumEnrollment(courseOfferingInfo.getMaximumEnrollment());
-                    registrationGroupInfo.setActivityOfferingIds(activityOfferingIdList);
+                    registrationGroupInfo.setActivityOfferingIds(activityOfferingIds);
                     registrationGroupInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                     registrationGroupInfo.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
                     try {

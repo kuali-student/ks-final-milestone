@@ -134,18 +134,18 @@ public class AtpServiceMockImpl implements AtpService {
 
     @Override
     public List<String> getAtpIdsByType(String atpTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<String> atpIdList = new ArrayList<String>();
+        List<String> atpIds = new ArrayList<String>();
 
         Set<String> keys = atpCache.keySet();
 
         for (String key : keys) {
             AtpInfo atp = atpCache.get(key);
             if (atp.getTypeKey().equalsIgnoreCase(atpTypeKey)) {
-                atpIdList.add(atp.getId());
+                atpIds.add(atp.getId());
             }
         }
 
-        return atpIdList;
+        return atpIds;
     }
 
     @Override
@@ -156,11 +156,11 @@ public class AtpServiceMockImpl implements AtpService {
 
 
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context) throws InvalidParameterException, DoesNotExistException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         List<AtpInfo> atpList = new ArrayList<AtpInfo>();
 
-        for (String key : atpIdList) {
+        for (String key : atpIds) {
             atpList.add(this.getAtp(key, context));
         }
 
@@ -235,11 +235,11 @@ public class AtpServiceMockImpl implements AtpService {
     }
 
     @Override
-    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<MilestoneInfo> getMilestonesByIds(List<String> milestoneIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<MilestoneInfo> milestoneList = new ArrayList<MilestoneInfo>();
 
-        for (String key : milestoneIdList) {
+        for (String key : milestoneIds) {
             milestoneList.add(this.getMilestone(key, context));
         }
 
@@ -249,18 +249,18 @@ public class AtpServiceMockImpl implements AtpService {
     @Override
     public List<String> getMilestoneIdsByType(String milestoneTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        List<String> milestoneIdList = new ArrayList<String>();
+        List<String> milestoneIds = new ArrayList<String>();
 
         Set<String> keys = milestoneCache.keySet();
 
         for (String key : keys) {
             MilestoneInfo milestone = milestoneCache.get(key);
             if (milestone.getTypeKey().equalsIgnoreCase(milestoneTypeKey)) {
-                milestoneIdList.add(milestone.getId());
+                milestoneIds.add(milestone.getId());
             }
         }
 
-        return milestoneIdList;
+        return milestoneIds;
     }
 
     @Override

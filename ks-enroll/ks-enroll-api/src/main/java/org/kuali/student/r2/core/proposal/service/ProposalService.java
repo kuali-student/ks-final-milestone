@@ -62,14 +62,14 @@ public interface ProposalService {
     /**
      * Retrieves the list of Proposals for the supplied list of proposalIds
      * 
-     * @param proposalIdList list of proposal identifiers
+     * @param proposalIds list of proposal identifiers
      * @return List of proposals that match the supplied proposalId list
      * @throws DoesNotExistException One or more proposalIds not found
      * @throws InvalidParameterException One or more invalid proposalId
-     * @throws MissingParameterException missing proposalIdList
+     * @throws MissingParameterException missing proposalIds
      * @throws OperationFailedException unable to complete request
      */
-    public List<ProposalInfo> getProposalsByIdList(@WebParam(name = "proposalIdList") List<String> proposalIdList, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+    public List<ProposalInfo> getProposalsByIds(@WebParam(name = "proposalIds") List<String> proposalIds, @WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**

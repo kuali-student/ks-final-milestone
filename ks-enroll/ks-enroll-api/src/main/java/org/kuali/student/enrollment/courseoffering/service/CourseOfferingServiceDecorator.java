@@ -344,10 +344,10 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
     }
 
     @Override
-    public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds,
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIds(List<String> registrationGroupIds,
             ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getRegistrationGroupsByIdList(registrationGroupIds, context);
+        return getNextDecorator().getRegistrationGroupsByIds(registrationGroupIds, context);
     }
 
     @Override

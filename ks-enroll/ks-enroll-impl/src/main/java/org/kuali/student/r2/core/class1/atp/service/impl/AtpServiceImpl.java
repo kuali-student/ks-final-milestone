@@ -914,15 +914,15 @@ public class AtpServiceImpl implements AtpService {
     // TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
     //
     // // create a List of the related Types' IDs
-    // List<String> ids = new ArrayList<String>();
+    // List<String> Ids = new ArrayList<String>();
     // for (TypeTypeRelationEntity entity : typeTypeRelations) {
-    // ids.add(entity.getRelatedTypeId());
+    // Ids.add(entity.getRelatedTypeId());
     // }
     //
     // // now get the List of the related Types based on those IDs
     // List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new
     // ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-    // typeEntities.addAll(atpTypeDao.findByIds(ids));
+    // typeEntities.addAll(atpTypeDao.findByIds(Ids));
     //
     // // convert them to DTOs and return them
     // List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();

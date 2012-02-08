@@ -149,7 +149,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList,
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIds,
                 String relationState, String luiPersonRelationTypeKey,
                 LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, DisabledIdentifierException,
@@ -159,7 +159,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         if (null == personId || personId.isEmpty()) {
             throw new MissingParameterException("Person ID is required");
         }
-        if (null == luiIdList || luiIdList.isEmpty()) {
+        if (null == luiIds || luiIds.isEmpty()) {
             throw new MissingParameterException("A list of LUI's is required");
         }
         if (null == luiPersonRelationTypeKey || luiPersonRelationTypeKey.isEmpty()) {
@@ -173,7 +173,7 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
         }
 
         return getNextDecorator().createBulkRelationshipsForPerson(
-                personId, luiIdList, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
+                personId, luiIds, relationState, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
     }
 
 

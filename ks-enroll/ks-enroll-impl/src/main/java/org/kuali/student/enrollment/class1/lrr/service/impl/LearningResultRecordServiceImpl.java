@@ -47,9 +47,9 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
-    public List<LearningResultRecordInfo> getLearningResultRecordsForLprIdList(@WebParam(name = "lprIdList") List<String> lprIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<LearningResultRecordInfo> getLearningResultRecordsForLprIds(@WebParam(name = "lprIds") List<String> lprIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         List<LearningResultRecordInfo> dtos = new ArrayList<LearningResultRecordInfo>();
-        List<LearningResultRecordEntity> lrrs = lrrDao.getLearningResultRecordsForLprIdList(lprIdList);
+        List<LearningResultRecordEntity> lrrs = lrrDao.getLearningResultRecordsForLprIds(lprIds);
         for (LearningResultRecordEntity lrr : lrrs) {
             LearningResultRecordInfo dto = lrr.toDto();
             dtos.add(dto);
@@ -58,7 +58,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
-    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name = "lprIdList") List<String> sourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<LearningResultRecordInfo> getLearningResultRecordsBySourceId(@WebParam(name = "lprIds") List<String> sourceIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 
@@ -72,8 +72,8 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
             LearningResultRecordEntity newLrr = new LearningResultRecordEntity(learningResultRecord);
 
             List<ResultSourceEntity> resultSourceEntities = new ArrayList();
-            if (learningResultRecord.getResultSourceIdList() != null && !learningResultRecord.getResultSourceIdList().isEmpty()){
-                resultSourceEntities = resultSourceDao.findByIds(learningResultRecord.getResultSourceIdList());
+            if (learningResultRecord.getResultSourceIds() != null && !learningResultRecord.getResultSourceIds().isEmpty()){
+                resultSourceEntities = resultSourceDao.findByIds(learningResultRecord.getResultSourceIds());
             }
             newLrr.setResultSourceList(resultSourceEntities);
 
@@ -96,8 +96,8 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
 
         LearningResultRecordEntity modifiedLrr = new LearningResultRecordEntity(learningResultRecordInfo);
         List<ResultSourceEntity> resultSourceEntities = new ArrayList();
-        if (learningResultRecordInfo.getResultSourceIdList() != null && !learningResultRecordInfo.getResultSourceIdList().isEmpty()){
-            resultSourceEntities = resultSourceDao.findByIds(learningResultRecordInfo.getResultSourceIdList());
+        if (learningResultRecordInfo.getResultSourceIds() != null && !learningResultRecordInfo.getResultSourceIds().isEmpty()){
+            resultSourceEntities = resultSourceDao.findByIds(learningResultRecordInfo.getResultSourceIds());
         }
         modifiedLrr.setResultSourceList(resultSourceEntities);
 
@@ -158,7 +158,7 @@ public class LearningResultRecordServiceImpl implements LearningResultRecordServ
     }
 
     @Override
-    public List<ResultSourceInfo> getResultSourcesByIdList(@WebParam(name = "resultSourceIdList") List<String> resultSourceIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<ResultSourceInfo> getResultSourcesByIds(@WebParam(name = "resultSourceIds") List<String> resultSourceIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("Method not implemented."); // TODO implement method
     }
 

@@ -186,11 +186,11 @@ public class TestLuiPersonRelationServiceImpl {
         lprInfo.setTypeKey(LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY);
         lprInfo.setStateKey(LuiPersonRelationServiceConstants.REGISTERED_STATE_KEY);
 
-        List<String> luiIdList = Arrays.asList("Lui-1", "Lui-2", "Lui-3");
+        List<String> luiIds = Arrays.asList("Lui-1", "Lui-2", "Lui-3");
 
         try {
             List<String> createResults = lprServiceValidationDecorator.createBulkRelationshipsForPerson(
-                    PERSONID1, luiIdList, lprInfo.getStateKey(), lprInfo.getTypeKey(), lprInfo, callContext);
+                    PERSONID1, luiIds, lprInfo.getStateKey(), lprInfo.getTypeKey(), lprInfo, callContext);
             assertNotNull(createResults);
             assertEquals(3, createResults.size());
 
@@ -201,7 +201,7 @@ public class TestLuiPersonRelationServiceImpl {
                 assertEquals(PERSONID1, lprInfo2.getPersonId());
                 assertEquals(lprInfo.getTypeKey(), lprInfo2.getTypeKey());
                 assertEquals(lprInfo.getStateKey(), lprInfo2.getStateKey());
-                assertTrue(luiIdList.contains(lprInfo2.getLuiId()));
+                assertTrue(luiIds.contains(lprInfo2.getLuiId()));
             }
         }
         catch(Exception x) {

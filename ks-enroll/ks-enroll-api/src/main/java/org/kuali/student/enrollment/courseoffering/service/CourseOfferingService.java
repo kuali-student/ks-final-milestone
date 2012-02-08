@@ -109,7 +109,7 @@ public interface CourseOfferingService {
     public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(@WebParam(name = "courseId") String courseId, @WebParam(name = "termId") String termId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve CourseOffering ids for a given term and if useIncludedTerms is
+     * Retrieve CourseOffering Ids for a given term and if useIncludedTerms is
      * set to 'true' then use included terms also
      *
      * @param termId          Unique key of the term in which the course is being offered
@@ -127,7 +127,7 @@ public interface CourseOfferingService {
     public List<String> getCourseOfferingIdsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "useIncludedTerm") Boolean useIncludedTerm, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve CourseOffering ids for a given term and subject area
+     * Retrieve CourseOffering Ids for a given term and subject area
      *
      * @param termId      Unique key of the term in which the course is being offered
      * @param subjectArea subject area
@@ -143,7 +143,7 @@ public interface CourseOfferingService {
     public List<String> getCourseOfferingIdsByTermAndSubjectArea(@WebParam(name = "termId") String termId, @WebParam(name = "subjectArea") String subjectArea, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve CourseOffering ids for a given term and instructor id
+     * Retrieve CourseOffering Ids for a given term and instructor id
      *
      *
      *
@@ -162,7 +162,7 @@ public interface CourseOfferingService {
             OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve CourseOffering ids for a given term and unit content owner
+     * Retrieve CourseOffering Ids for a given term and unit content owner
      *
      * @param termId      Unique key of the term in which the course is being offered
      * @param unitOwnerId Unit content owner Id
@@ -207,7 +207,7 @@ public interface CourseOfferingService {
     /**
      * Creates a new CourseOffering from a canonical course.
      *
-     * @param courseId     Canonical course IdList of courseOffering Ids that the
+     * @param courseId     Canonical course Id of courseOffering Id that the
      *                     ActivityOffering will belong to
      * @param termId       Unique key of the term in which the course is being offered
      *                     course offering
@@ -638,7 +638,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIds(
             @WebParam(name = "registrationGroupIds") List<String> registrationGroupIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;

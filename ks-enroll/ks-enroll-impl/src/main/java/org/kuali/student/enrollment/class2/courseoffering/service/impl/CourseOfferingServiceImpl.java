@@ -641,13 +641,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	@Override
 	@Transactional
 	public ActivityOfferingInfo createActivityOffering(
-			String  courseOfferingIdList, String activityOfferingTypeKey,
+			String  courseOfferingIds, String activityOfferingTypeKey,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
-        if (null == courseOfferingIdList || courseOfferingIdList.isEmpty()) {
+        if (null == courseOfferingIds || courseOfferingIds.isEmpty()) {
             throw new MissingParameterException("Course offering ID list parameter is required");
         }
 
@@ -665,7 +665,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
                 throw new OperationFailedException("LUI service did not create LUI");
             }
             activityOfferingInfo.setId(created.getId());
-            processRelationsForActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
+            processRelationsForActivityOffering(courseOfferingIds, activityOfferingInfo, context);
             return activityOfferingInfo;
         }
         catch (DoesNotExistException e) {
@@ -1064,7 +1064,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     
     @Override
     public List<CourseOfferingInfo> getCourseOfferingsByIds(List<String> courseOfferingIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiInfo> luiInfoList = luiService.getLuisByIdList(courseOfferingIds,context);
+        List<LuiInfo> luiInfoList = luiService.getLuisByIds(courseOfferingIds,context);
         List<CourseOfferingInfo> coList = new ArrayList();
         for (LuiInfo lui : luiInfoList){
             CourseOfferingInfo coInfo = null;
@@ -1084,8 +1084,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
 
     @Override
-    public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        throw new UnsupportedOperationException("getRegistrationGroupsByIdList not supported");
+    public List<RegistrationGroupInfo> getRegistrationGroupsByIds(List<String> registrationGroupIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        throw new UnsupportedOperationException("getRegistrationGroupsByIds not supported");
     }
 
     @Override

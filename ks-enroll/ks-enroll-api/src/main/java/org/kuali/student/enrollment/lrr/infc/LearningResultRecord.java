@@ -30,9 +30,9 @@ public interface LearningResultRecord extends IdEntity {
     public String getResultValueKey();
 
     /**
-     * List of source record ids that were responsible in generating the result value. 
+     * List of source record Ids that were responsible in generating the result value. 
      * E.g Manual Entry, Articulation or Result transformation
      * @name Result Source
      */
-    public List<String> getResultSourceIdList();
+    public List<String> getResultSourceIds();
 }

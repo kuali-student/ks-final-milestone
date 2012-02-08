@@ -76,10 +76,10 @@ public interface AtpService {
 
     /**
      * Retrieves a list of Academic Time Periods from a list of ATP
-     * ids. The returned list may be in any order and if duplicate ids
+     * Ids. The returned list may be in any order and if duplicate Ids
      * are supplied, a unique set may or may not be returned.
      * 
-     * @param atpIds a list of ATP ids
+     * @param atpIds a list of ATP Ids
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
      * @return a list of ATPs
@@ -98,7 +98,7 @@ public interface AtpService {
      * @param atpTypeKey an identifier for the ATP type
      * @param contextInfo information containing the principalId and
      *        locale information about the caller of service operation
-     * @return a list of Academic Time Period ids matching atpTypeKey or an
+     * @return a list of Academic Time Period Ids matching atpTypeKey or an
      *         empty list if none found
      * @throws InvalidParameterException contextInfo is invalid
      * @throws MissingParameterException atpTypeKey or contextInfo is
@@ -251,7 +251,7 @@ public interface AtpService {
     //
 
     /**
-     * Searches for Academic Time Period ids that meet the given
+     * Searches for Academic Time Period Ids that meet the given
      * search criteria.
      * 
      * @param criteria the search criteria
@@ -406,7 +406,7 @@ public interface AtpService {
      * @return a list of AtpAtpRelations
      * @throws DoesNotExistException an atpAtpRelationId in the list not found
      * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException atpAtpRelationids, an
+     * @throws MissingParameterException atpAtpRelationIds, an
      *         atpAtpRelationId in the atpAtpRelationIds, or
      *         contextInfo is missing or null
      * @throws OperationFailedException unable to complete request
@@ -557,7 +557,7 @@ public interface AtpService {
 
     /**
      * Creates a new AtpAtpRelation. The AtpAtpRelation Id, Type, ATP
-     * ids, and Meta information may not be set in the supplied data.
+     * Ids, and Meta information may not be set in the supplied data.
      * 
      * @param atpId a peer of the relationship
      * @param atpPeerId a peer of the relationship
@@ -582,7 +582,7 @@ public interface AtpService {
 
     /**
      * Updates an ATP Milestone Relationship. The AtpAtpRelation Id,
-     * Type, ATP ids, and Meta information may not be changed.
+     * Type, ATP Ids, and Meta information may not be changed.
      * 
      * @param atpAtpRelationId the identifier for the AtpAtpRelation updated
      * @param atpAtpRelationInfo the new data for the AtpAtpRelation

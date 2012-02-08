@@ -138,9 +138,9 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<OrgInfo> getOrgsByIds(List<String> orgIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgIdList, "orgIdList");
+        //checkForMissingParameter(orgIds, "orgIds");
 
-        //List<Org> orgs = this.organizationDao.getOrganizationsByIdList(orgIdList);
+        //List<Org> orgs = this.organizationDao.getOrganizationsByIds(orgIds);
         //return OrganizationAssembler.toOrgInfos(orgs);
         return null;
     }

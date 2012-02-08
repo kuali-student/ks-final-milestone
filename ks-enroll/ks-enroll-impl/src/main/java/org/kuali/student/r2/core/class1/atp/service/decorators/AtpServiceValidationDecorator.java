@@ -50,12 +50,12 @@ public class AtpServiceValidationDecorator extends AtpServiceDecorator implement
     }
 
     @Override
-    public List<AtpInfo> getAtpsByIds(List<String> atpIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<AtpInfo> getAtpsByIds(List<String> atpIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        if (null == atpIdList || atpIdList.size() == 0) {
+        if (null == atpIds || atpIds.size() == 0) {
             throw new DoesNotExistException("Null parameter in the input:atpId");
         }
-        return getNextDecorator().getAtpsByIds(atpIdList, context);
+        return getNextDecorator().getAtpsByIds(atpIds, context);
     }
 
     @Override

@@ -152,7 +152,7 @@ public class LearningResultRecordEntity extends MetaEntity implements AttributeO
         for(ResultSourceEntity resultSourceEntity : getResultSourceList()){
             resSource.add(resultSourceEntity.getId());
         }
-        info.setResultSourceIdList(resSource);
+        info.setResultSourceIds(resSource);
 
         if (getLrrState() != null){
             info.setStateKey(getLrrState());

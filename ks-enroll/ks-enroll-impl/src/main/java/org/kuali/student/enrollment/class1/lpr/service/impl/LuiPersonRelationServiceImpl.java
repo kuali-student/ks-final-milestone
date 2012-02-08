@@ -168,19 +168,19 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     @Transactional
-    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIdList,
+    public List<String> createBulkRelationshipsForPerson(String personId, List<String> luiIds,
                 String relationState, String luiPersonRelationTypeKey,
                 LuiPersonRelationInfo luiPersonRelationInfo, ContextInfo context)
             throws AlreadyExistsException, DataValidationErrorException, DisabledIdentifierException,
                 DoesNotExistException, InvalidParameterException, MissingParameterException,
                 OperationFailedException, PermissionDeniedException, ReadOnlyException {
         String lprId;
-        List<String> lprIdList = new ArrayList<String>();
-        for (String luiId : luiIdList) {
+        List<String> lprIds = new ArrayList<String>();
+        for (String luiId : luiIds) {
             lprId = createLpr(personId, luiId, luiPersonRelationTypeKey, luiPersonRelationInfo, context);
-            lprIdList.add(lprId);
+            lprIds.add(lprId);
         }
-        return lprIdList;
+        return lprIds;
     }
 
     @Override
@@ -191,10 +191,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByIdList(List<String> luiPersonRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<LuiPersonRelationInfo> getLprsByIds(List<String> luiPersonRelationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationInfo> lprInfos = new ArrayList<LuiPersonRelationInfo>();
-        List<LuiPersonRelationEntity> lprEntities = lprDao.findByIds(luiPersonRelationIdList);
+        List<LuiPersonRelationEntity> lprEntities = lprDao.findByIds(luiPersonRelationIds);
         for (LuiPersonRelationEntity lprEntity : lprEntities) {
             LuiPersonRelationInfo lprInfo = lprEntity.toDto();
             lprInfos.add(lprInfo);
@@ -302,7 +302,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> createBulkRelationshipsForLui(String luiId, List<String> personIdList, String relationState, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo,
+    public List<String> createBulkRelationshipsForLui(String luiId, List<String> personIds, String relationState, String luiPersonRelationType, LuiPersonRelationInfo luiPersonRelationInfo,
             ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
@@ -532,10 +532,10 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprRosterEntryInfo> getLprRosterEntriesByIdList(List<String> lprRosterEntryIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<LprRosterEntryInfo> getLprRosterEntriesByIds(List<String> lprRosterEntryIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<LprRosterEntryEntity> entities = lprRosterEntryDao.findByIds(lprRosterEntryIdList);
+        List<LprRosterEntryEntity> entities = lprRosterEntryDao.findByIds(lprRosterEntryIds);
 
         List<LprRosterEntryInfo> infos = new ArrayList<LprRosterEntryInfo>();
         if (entities != null) {
@@ -864,7 +864,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsByIdList(List<String> lprIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<LprTransactionInfo> getLprTransactionsByIds(List<String> lprIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;

@@ -65,7 +65,7 @@ public interface AppointmentService {
 
     /**
      * Retrieves a list of Appointments corresponding to the given list of
-     * Appointment ids.
+     * Appointment Ids.
      *
      * @param appointmentIds list of Appointments to be retrieved
      * @param contextInfo    Context information containing the principalId and
@@ -374,7 +374,7 @@ public interface AppointmentService {
 
     /**
      * Retrieves a list of AppointmentWindows corresponding to the given list of
-     * AppointmentWindow ids.
+     * AppointmentWindow Ids.
      *
      * @param appointmentWindowIds list of AppointmentWindows to be retrieved
      * @param contextInfo          Context information containing the

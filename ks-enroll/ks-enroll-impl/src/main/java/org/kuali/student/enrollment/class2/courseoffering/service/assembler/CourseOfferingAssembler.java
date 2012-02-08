@@ -91,7 +91,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			
 			assembleIdentifier(lui, co);
 			
-			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIdList
+			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIds
 			
 			//instructors
 			assembleInstructors(co, lui.getId(), context);

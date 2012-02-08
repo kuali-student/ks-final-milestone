@@ -43,8 +43,8 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<ResultValuesGroupInfo> getResultValuesGroupsByIdList(@WebParam(name = "resultValuesGroupIdList") List<String> resultValuesGroupIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ResultValuesGroupEntity> entities = resultValuesGroupDao.findByIds(resultValuesGroupIdList);
+    public List<ResultValuesGroupInfo> getResultValuesGroupsByIds(@WebParam(name = "resultValuesGroupIds") List<String> resultValuesGroupIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ResultValuesGroupEntity> entities = resultValuesGroupDao.findByIds(resultValuesGroupIds);
         List<ResultValuesGroupInfo> resultValuesGroupInfos = new ArrayList<ResultValuesGroupInfo>();
         for (ResultValuesGroupEntity entity : entities){
             resultValuesGroupInfos.add(entity.toDto());
@@ -112,8 +112,8 @@ public class LRCServiceImpl implements LRCService {
     }
 
     @Override
-    public List<ResultValueInfo> getResultValuesByIdList(@WebParam(name = "resultValueIdList") List<String> resultValueIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<ResultValueEntity> entities = resultValueDao.findByIds(resultValueIdList);
+    public List<ResultValueInfo> getResultValuesByIds(@WebParam(name = "resultValueIds") List<String> resultValueIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<ResultValueEntity> entities = resultValueDao.findByIds(resultValueIds);
         List<ResultValueInfo> infos = new ArrayList<ResultValueInfo>();
         for (ResultValueEntity entity : entities){
             infos.add(entity.toDto());

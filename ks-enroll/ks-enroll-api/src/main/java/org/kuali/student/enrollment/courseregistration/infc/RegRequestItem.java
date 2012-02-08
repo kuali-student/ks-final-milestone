@@ -20,7 +20,7 @@ import org.kuali.student.r2.common.infc.IdEntity;
  * to be registered for 2. Register for course but waitlist if seat not
  * available OR waitlist for course - same as above and okToWaitlist is true 3.
  * Swap between reg group within same course offering - Type is swap, both new
- * and existing reg group ids populated. new is to be the one replaced with the
+ * and existing reg group Ids populated. new is to be the one replaced with the
  * old one. Reg groups are in the same course offering. 4.Save reg request -
  * Type is UPDATE and newRegGroupId is populated
  * 

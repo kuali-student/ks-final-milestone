@@ -486,7 +486,7 @@ public interface CluService extends VersionManagementService {
     public CluInfo getClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves information about CLUs from a list of ids
+     * Retrieves information about CLUs from a list of Ids
      *
      * @param cluIds      List of CLU identifiers
      * @param contextInfo Context information containing the principalId and
@@ -520,7 +520,7 @@ public interface CluService extends VersionManagementService {
     public List<CluInfo> getClusByLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "luState") String luState, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves the list of CLU ids for the specified LU Type and state
+     * Retrieves the list of CLU Ids for the specified LU Type and state
      *
      * @param luTypeKey   Type of the CLUs whose identifiers should be
      *                    retrieved
@@ -755,7 +755,7 @@ public interface CluService extends VersionManagementService {
     public List<CluResultInfo> getCluResultByClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Retrieves the list of clu ids with the results of the specified usage
+     * Retrieves the list of clu Ids with the results of the specified usage
      * type. This would for example allow requests for all clus which have a
      * final grade.
      *
@@ -763,7 +763,7 @@ public interface CluService extends VersionManagementService {
      * @param contextInfo        Context information containing the principalId
      *                           and locale information about the caller of
      *                           service operation
-     * @return list of clu ids
+     * @return list of clu Ids
      * @throws DoesNotExistException     resultUsageType not found
      * @throws InvalidParameterException invalid resultUsageTypeKey
      * @throws MissingParameterException missing resultUsageTypeKey
@@ -772,13 +772,13 @@ public interface CluService extends VersionManagementService {
     public List<String> getCluIdsByResultUsageType(@WebParam(name = "resultUsageTypeKey") String resultUsageTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     * Retrieves the list of clu ids which use a particular result component
+     * Retrieves the list of clu Ids which use a particular result component
      *
      * @param resultComponentId identifier of the result component
      * @param contextInfo       Context information containing the principalId
      *                          and locale information about the caller of
      *                          service operation
-     * @return list of clu ids
+     * @return list of clu Ids
      * @throws DoesNotExistException     resultComponent not found
      * @throws InvalidParameterException invalid resultComponentId
      * @throws MissingParameterException missing resultComponentId

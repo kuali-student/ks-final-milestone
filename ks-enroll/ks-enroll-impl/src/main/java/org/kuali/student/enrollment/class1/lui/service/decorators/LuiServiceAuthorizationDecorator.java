@@ -56,7 +56,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	}
 
 	@Override
-	public List<LuiInfo> getLuisByIdList(List<String> luiIdList,
+	public List<LuiInfo> getLuisByIds(List<String> luiIds,
 			ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
@@ -64,8 +64,8 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisByIdList", null, null)) {
-	        return getNextDecorator().getLuisByIdList(luiIdList, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisByIds", null, null)) {
+	        return getNextDecorator().getLuisByIds(luiIds, context);
         }
         else {
         	throw new OperationFailedException("Permission Denied.");
@@ -346,16 +346,16 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	}
 
 	@Override
-	public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(
-			List<String> luiLuiRelationIdList, ContextInfo context)
+	public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(
+			List<String> luiLuiRelationIds, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
         if (null == context) {
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationsByIdList", null, null)) {
-	        return getNextDecorator().getLuiLuiRelationsByIdList(luiLuiRelationIdList, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationsByIds", null, null)) {
+	        return getNextDecorator().getLuiLuiRelationsByIds(luiLuiRelationIds, context);
         }
         else {
         	throw new OperationFailedException("Permission Denied.");
@@ -522,16 +522,16 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
 	}
 
 	@Override
-	public List<LuiCapacityInfo> getLuiCapacitiesByIdList(
-			List<String> luiCapacityIdList, ContextInfo context)
+	public List<LuiCapacityInfo> getLuiCapacitiesByIds(
+			List<String> luiCapacityIds, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
         if (null == context) {
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacitiesByIdList", null, null)) {
-	        return getNextDecorator().getLuiCapacitiesByIdList(luiCapacityIdList, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacitiesByIds", null, null)) {
+	        return getNextDecorator().getLuiCapacitiesByIds(luiCapacityIds, context);
         }
         else {
         	throw new OperationFailedException("Permission Denied.");

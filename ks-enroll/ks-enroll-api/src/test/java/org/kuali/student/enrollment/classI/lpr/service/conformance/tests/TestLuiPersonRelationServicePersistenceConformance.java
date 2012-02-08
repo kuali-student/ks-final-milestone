@@ -110,10 +110,10 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 	public void testCreateBulkRelationshipsForPerson() throws Exception {
 		System.out.println("createBulkRelationshipsForPerson");
 		String personId = "personId1";
-		List<String> luiIdList = new ArrayList<String>();
-		luiIdList.add("luiId1");
-		luiIdList.add("luiId2");
-		luiIdList.add("luiId3");
+		List<String> luiIds = new ArrayList<String>();
+		luiIds.add("luiId1");
+		luiIds.add("luiId2");
+		luiIds.add("luiId3");
 		String relationState = LuiPersonRelationServiceConstants.APPLIED_STATE_KEY;
 		String luiPersonRelationType = LuiPersonRelationServiceConstants.REGISTRANT_TYPE_KEY;
 		LuiPersonRelationInfo lprInfo = new LuiPersonRelationInfo();
@@ -121,7 +121,7 @@ public class TestLuiPersonRelationServicePersistenceConformance {
 		ContextInfo context = TestHelper.getContext1();
 
 		List<String> lprIds = getService().createBulkRelationshipsForPerson(
-				personId, luiIdList, relationState, luiPersonRelationType,
+				personId, luiIds, relationState, luiPersonRelationType,
 				lprInfo, context);
 		assertEquals(3, lprIds.size());
 		Set<String> unique = new HashSet<String>(lprIds.size());

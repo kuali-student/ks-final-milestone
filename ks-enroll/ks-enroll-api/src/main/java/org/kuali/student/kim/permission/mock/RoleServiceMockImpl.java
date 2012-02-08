@@ -209,9 +209,9 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     /**
-     * This method gets all the members, then traverses down into members of type role and group to obtain the nested principal ids
+     * This method gets all the members, then traverses down into members of type role and group to obtain the nested principal Ids
      *
-     * @return list of member principal ids
+     * @return list of member principal Ids
      */
     @Override
     public Collection<String> getRoleMemberPrincipalIds(String namespaceCode, String roleName, Map<String,String> qualification) {
@@ -323,11 +323,11 @@ public class RoleServiceMockImpl implements RoleService {
 
 
     /**
-     * Gets all direct members of the roles that have ids within the given list
-     * of role ids.  This method does not recurse into any nested roles.
+     * Gets all direct members of the roles that have Ids within the given list
+     * of role Ids.  This method does not recurse into any nested roles.
      *
      *  <p>The resulting List of role membership will contain membership for
-     *  all the roles with the specified ids.  The list is not guaranteed to be
+     *  all the roles with the specified Ids.  The list is not guaranteed to be
      *  in any particular order and may have membership info for the
      *  different roles interleaved with each other.
      */

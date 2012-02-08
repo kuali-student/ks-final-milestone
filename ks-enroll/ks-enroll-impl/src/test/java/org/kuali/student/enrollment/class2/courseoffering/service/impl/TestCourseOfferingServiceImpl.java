@@ -176,7 +176,7 @@ public class TestCourseOfferingServiceImpl {
     	instructors.add(instructor);
     	ao.setInstructors(instructors);
 
-        List<String> coIdList = Arrays.asList();
+        List<String> coIds = Arrays.asList();
 
         try {
             ActivityOfferingInfo created =

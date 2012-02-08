@@ -73,7 +73,7 @@ public interface TypeService {
 
     /**
      * Retrieves a list of Types from a list of keys. The returned
-     * list may be in any order and if duplicate ids are supplied, a
+     * list may be in any order and if duplicate Ids are supplied, a
      * unique set may or may not be returned.
      * 
      * @param typeKeys a list of Type keys
@@ -235,8 +235,8 @@ public interface TypeService {
     public TypeTypeRelationInfo getTypeTypeRelation(@WebParam(name = "typeTypeRelationId") String typeTypeRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves a list of TypeTypeRelations from a list of idss. The
-     * returned list may be in any order and if duplicate ids are
+     * Retrieves a list of TypeTypeRelations from a list of Idss. The
+     * returned list may be in any order and if duplicate Ids are
      * supplied, a unique set may or may not be returned.
      * 
      * @param typeTypeRelationIds a list of TypeTypeRelation Ids

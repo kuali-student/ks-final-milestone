@@ -329,14 +329,14 @@ public class AcademicCalendarServiceAuthorizationDecorator
     }
 
     @Override
-    public List<HolidayCalendarInfo> getHolidayCalendarsByIds(List<String> holidayCalendarIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<HolidayCalendarInfo> getHolidayCalendarsByIds(List<String> holidayCalendarIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarsByKeyList", null, null)) {
-            return getNextDecorator().getHolidayCalendarsByIds(holidayCalendarIdList, context);
+            return getNextDecorator().getHolidayCalendarsByIds(holidayCalendarIds, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -556,7 +556,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
     }
 
     @Override
-    public List<TermInfo> getTermsByIds(List<String> termIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<TermInfo> getTermsByIds(List<String> termIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
         if (null == context) {
@@ -564,7 +564,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermsByKeyList", null, null)) {
-            return getNextDecorator().getTermsByIds(termIdList, context);
+            return getNextDecorator().getTermsByIds(termIds, context);
         } else {
             throw new PermissionDeniedException();
         }
@@ -811,14 +811,14 @@ public class AcademicCalendarServiceAuthorizationDecorator
     }
 
     @Override
-    public List<KeyDateInfo> getKeyDatesByIds(List<String> keyDateIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<KeyDateInfo> getKeyDatesByIds(List<String> keyDateIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
 
         if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDatesByKeyList", null, null)) {
-            return getNextDecorator().getKeyDatesByIds(keyDateIdList, context);
+            return getNextDecorator().getKeyDatesByIds(keyDateIds, context);
         } else {
             throw new PermissionDeniedException();
         }

@@ -434,12 +434,12 @@ public class CluServiceImpl implements CluService {
     }
 
     @Override
-    public List<CluInfo> getClusByIds(List<String> cluIdList, ContextInfo context)
+    public List<CluInfo> getClusByIds(List<String> cluIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
-        checkForMissingParameter(cluIdList, "cluIdList");
-        checkForEmptyList(cluIdList, "cluIdList");
-        List<Clu> clus = luDao.getClusByIdList(cluIdList);
+        checkForMissingParameter(cluIds, "cluIds");
+        checkForEmptyList(cluIds, "cluIds");
+        List<Clu> clus = luDao.getClusByIdList(cluIds);
         return LuServiceAssembler.toCluInfos(clus);
     }
 
@@ -460,11 +460,11 @@ public class CluServiceImpl implements CluService {
         checkForMissingParameter(luTypeKey, "luTypeKey");
         checkForMissingParameter(luState, "luState");
         List<Clu> clus = luDao.getClusByLuType(luTypeKey, luState);
-        List<String> ids = new ArrayList<String>(clus.size());
+        List<String> Ids = new ArrayList<String>(clus.size());
         for (Clu clu : clus) {
-            ids.add(clu.getId());
+            Ids.add(clu.getId());
         }
-        return ids;
+        return Ids;
     }
 
     // ****** Relations
@@ -771,8 +771,8 @@ public class CluServiceImpl implements CluService {
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
-        checkForMissingParameter(cluSetIds, "cluSetIdList");
-        checkForEmptyList(cluSetIds, "cluSetIdList");
+        checkForMissingParameter(cluSetIds, "cluSetIds");
+        checkForEmptyList(cluSetIds, "cluSetIds");
         List<CluSet> cluSets = luDao.getCluSetInfoByIdList(cluSetIds);
         return LuServiceAssembler.toCluSetInfos(cluSets);
     }
@@ -789,13 +789,13 @@ public class CluServiceImpl implements CluService {
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(cluSetId);
         }
-        List<String> ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
+        List<String> Ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
         if (cluSet.getCluSets() != null) {
             for (CluSet cluSet2 : cluSet.getCluSets()) {
-                ids.add(cluSet2.getId());
+                Ids.add(cluSet2.getId());
             }
         }
-        return ids;
+        return Ids;
     }
 
     @Override
@@ -837,11 +837,11 @@ public class CluServiceImpl implements CluService {
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(cluSetId);
         }
-        List<String> ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
+        List<String> Ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
         for (CluSetJoinVersionIndClu cluSetJnClu : cluSet.getCluVerIndIds()) {
-            ids.add(cluSetJnClu.getCluVersionIndId());
+            Ids.add(cluSetJnClu.getCluVersionIndId());
         }
-        return ids;
+        return Ids;
     }
 
     @Override
@@ -880,7 +880,7 @@ public class CluServiceImpl implements CluService {
         }
         if (parentCluSet.getCluSets() != null) {
             for (CluSet cluSet : parentCluSet.getCluSets()) {
-                // This condition avoids infinite recursion problem
+                // This condition avoIds infinite recursion problem
                 if (!processedCluSetIds.contains(cluSet.getId())) {
                     processedCluSetIds.add(cluSet.getId());
                     doFindClusInCluSet(processedCluSetIds, clus, cluSet);
@@ -895,15 +895,15 @@ public class CluServiceImpl implements CluService {
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         checkForMissingParameter(cluSetId, "cluSetId");
-        List<String> ids = new ArrayList<String>();
+        List<String> Ids = new ArrayList<String>();
         CluSet cluSet;
         try {
             cluSet = luDao.fetch(CluSet.class, cluSetId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException ex) {
             throw new DoesNotExistException(cluSetId);
         }
-        findClusInCluSet(ids, cluSet);
-        return ids;
+        findClusInCluSet(Ids, cluSet);
+        return Ids;
     }
 
     @Override
@@ -2320,7 +2320,7 @@ public class CluServiceImpl implements CluService {
             throw new DataValidationErrorException("Validation error!", val);
         }
 
-        List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
+        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
 
         CluSet cluSet = null;
         try {
@@ -2333,8 +2333,8 @@ public class CluServiceImpl implements CluService {
 
         CluSetInfo newCluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);
 
-        if (cluIdList != null) {
-            newCluSetInfo.getCluIds().addAll(cluIdList);
+        if (cluIds != null) {
+            newCluSetInfo.getCluIds().addAll(cluIds);
         }
 
         return newCluSetInfo;
@@ -2414,7 +2414,7 @@ public class CluServiceImpl implements CluService {
 
         validateCluSet(cluSetInfo);
 
-        List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
+        List<String> cluIds = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
 
         CluSet cluSet;
         try {
@@ -2507,8 +2507,8 @@ public class CluServiceImpl implements CluService {
 
         CluSetInfo updatedCluSetInfo = LuServiceAssembler.toCluSetInfo(updated);
 
-        if (cluIdList != null) {
-            updatedCluSetInfo.getCluIds().addAll(cluIdList);
+        if (cluIds != null) {
+            updatedCluSetInfo.getCluIds().addAll(cluIds);
         }
 
         return updatedCluSetInfo;
@@ -2769,14 +2769,14 @@ public class CluServiceImpl implements CluService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo addCluSetsToCluSet(String cluSetId, List<String> cluSetIdList, ContextInfo context)
+    public StatusInfo addCluSetsToCluSet(String cluSetId, List<String> cluSetIds, ContextInfo context)
             throws CircularRelationshipException,
             DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, UnsupportedActionException {
 
         checkForMissingParameter(cluSetId, "cluSetId");
-        checkForMissingParameter(cluSetIdList, "cluSetIdList");
+        checkForMissingParameter(cluSetIds, "cluSetIds");
         try {
             // Check that CluSet exists
             luDao.fetch(CluSet.class, cluSetId);
@@ -2784,7 +2784,7 @@ public class CluServiceImpl implements CluService {
             throw new DoesNotExistException(cluSetId);
         }
 
-        for (String cluSetIdToAdd : cluSetIdList) {
+        for (String cluSetIdToAdd : cluSetIds) {
             StatusInfo status = addCluSetToCluSet(cluSetId, cluSetIdToAdd, context);
             if (!status.getIsSuccess()) {
                 return status;
@@ -2799,15 +2799,15 @@ public class CluServiceImpl implements CluService {
 
     @Override
     @Transactional(readOnly = false)
-    public StatusInfo addClusToCluSet(List<String> cluIdList, String cluSetId, ContextInfo context)
+    public StatusInfo addClusToCluSet(List<String> cluIds, String cluSetId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException, UnsupportedActionException {
 
-        checkForMissingParameter(cluIdList, "cluIdList");
+        checkForMissingParameter(cluIds, "cluIds");
         checkForMissingParameter(cluSetId, "cluSetId");
 
-        for (String cluId : cluIdList) {
+        for (String cluId : cluIds) {
             StatusInfo status = addCluToCluSet(cluId, cluSetId, context);
             if (!status.getIsSuccess()) {
                 return status;
@@ -2878,7 +2878,7 @@ public class CluServiceImpl implements CluService {
     }
 
     private void clearCluIds(CluInfo clu) {
-        // Clear out all ids so a copy can be made
+        // Clear out all Ids so a copy can be made
         clu.setStateKey(DtoConstants.STATE_DRAFT);// TODO check if this should be set from outside
         clu.setId(null);
 

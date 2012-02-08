@@ -89,18 +89,18 @@ public class TestGradingServiceImpl {
 
         List<String> activityIds = roster.getActivityOfferingIds();
         assertNotNull("Null activity id list.", activityIds);
-        assertEquals("Different number of activity ids returned than expected.", expcActivityIds.size(), activityIds.size());
-        assertTrue("Unexpected activity ids returned.", activityIds.containsAll(expcActivityIds));
+        assertEquals("Different number of activity Ids returned than expected.", expcActivityIds.size(), activityIds.size());
+        assertTrue("Unexpected activity Ids returned.", activityIds.containsAll(expcActivityIds));
 
         List<String> graderIds = roster.getGraderIds();
         assertNotNull("Null grader id list.", graderIds);
-        assertEquals("Different number of grader ids returned than expected.", expcGraderIds.size(), graderIds.size());
-        assertTrue("Unexpected grader ids returned.", graderIds.containsAll(expcGraderIds));
+        assertEquals("Different number of grader Ids returned than expected.", expcGraderIds.size(), graderIds.size());
+        assertTrue("Unexpected grader Ids returned.", graderIds.containsAll(expcGraderIds));
 
         List<String> entryIds = roster.getGradeRosterEntryIds();
         assertNotNull("Null entry id list.", entryIds);
-        assertEquals("Different number of entry ids returned than expected.", expcEntryIds.size(), entryIds.size());
-        assertTrue("Unexpected entry ids returned.", entryIds.containsAll(expcEntryIds));
+        assertEquals("Different number of entry Ids returned than expected.", expcEntryIds.size(), entryIds.size());
+        assertTrue("Unexpected entry Ids returned.", entryIds.containsAll(expcEntryIds));
     }
 
     @Test
@@ -153,7 +153,7 @@ public class TestGradingServiceImpl {
 
     @Test
     @Ignore("Not implemented.") // TODO implement method
-    public void testGetGradeRosterEntriesByIdList() throws Exception {
+    public void testGetGradeRosterEntriesByIds() throws Exception {
 
     }
 

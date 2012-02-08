@@ -78,7 +78,7 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
     }
 
     @Test
-    public void testGetLearningResultRecordsForLprIdList() {
+    public void testGetLearningResultRecordsForLprIds() {
         List<String> lprIds = new ArrayList<String>();
         lprIds.add("student1");
         lprIds.add("student2");
@@ -89,7 +89,7 @@ public class TestLrrDao extends AbstractTransactionalDaoTest {
         expected.add(dao.find("student1-grade-interim-lecture"));
         expected.add(dao.find("student2-grade-interim-lecture"));
 
-        List<LearningResultRecordEntity> lrrs = dao.getLearningResultRecordsForLprIdList(lprIds);
+        List<LearningResultRecordEntity> lrrs = dao.getLearningResultRecordsForLprIds(lprIds);
         assertNotNull("Null list returned.", lrrs);
         assertEquals("Number of results not as expected.", expected.size(), lrrs.size());
         assertTrue("Expected LRRs not returned.", lrrs.containsAll(expected));

@@ -51,13 +51,13 @@ public class TestLRCServiceImpl {
     }
 
     @Test
-    public void testGetResultValuesGroupsByIdList() throws Exception {
+    public void testGetResultValuesGroupsByIds() throws Exception {
 
         List<String> resultValuesGroupKeys = new ArrayList<String>();
         resultValuesGroupKeys.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
         resultValuesGroupKeys.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_PASSFAIL);
 
-        List<ResultValuesGroupInfo> groups = lrcService.getResultValuesGroupsByIdList(resultValuesGroupKeys,contextInfo);
+        List<ResultValuesGroupInfo> groups = lrcService.getResultValuesGroupsByIds(resultValuesGroupKeys,contextInfo);
 
         assertNotNull(groups);
         assertEquals(2,groups.size());
@@ -249,7 +249,7 @@ public class TestLRCServiceImpl {
 
     @Test
     @Ignore("Not implemented.") // TODO implement method
-    public void testGetResultValuesByIdList() throws Exception {
+    public void testGetResultValuesByIds() throws Exception {
 
     }
 

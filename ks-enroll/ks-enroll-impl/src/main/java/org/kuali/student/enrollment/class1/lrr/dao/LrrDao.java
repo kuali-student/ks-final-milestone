@@ -7,7 +7,7 @@ import java.util.List;
 
 public class LrrDao extends GenericEntityDao<LearningResultRecordEntity> {
 
-    public List<LearningResultRecordEntity> getLearningResultRecordsForLprIdList(List<String> lprIds) {
+    public List<LearningResultRecordEntity> getLearningResultRecordsForLprIds(List<String> lprIds) {
         return em.createQuery("from LearningResultRecordEntity lrr where lrr.lprId in :lprIds")
                 .setParameter("lprIds", lprIds)
                 .getResultList();

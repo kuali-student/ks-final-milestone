@@ -113,7 +113,7 @@ public class GradingViewHelperServiceImpl extends ViewHelperServiceImpl implemen
                     return students;
                 }
 
-                List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIdList(rosterInfo.getGradeRosterEntryIds(), context);
+                List<GradeRosterEntryInfo> entryInfos = getGradingService().getGradeRosterEntriesByIds(rosterInfo.getGradeRosterEntryIds(), context);
 
                 if (!entryInfos.isEmpty() && entryInfos.get(0).getValidGradeGroupKeys().isEmpty()){
                     GlobalVariables.getMessageMap().putWarning("selectedGrade",GradingConstants.WARNING_GRADING_OPTIONS_NOT_FOUND,"test");

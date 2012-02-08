@@ -348,7 +348,7 @@ public interface ProgramService {
 
     /**
      * 
-     * Retrieves a list of honors program by ids
+     * Retrieves a list of honors program by Ids
      * 
      * @param honorsProgramIds
      * @param contextInfo
@@ -455,7 +455,7 @@ public interface ProgramService {
     
     /**
      * 
-     * Retrieves a list of core program by ids
+     * Retrieves a list of core program by Ids
      * 
      * @param coreProgramIds
      * @param contextInfo
@@ -596,7 +596,7 @@ public interface ProgramService {
     
     /**
      * 
-     * Retrieves a list of ProgramRequirements by ids
+     * Retrieves a list of ProgramRequirements by Ids
      * 
      * @param programRequirementIds
      * @param contextInfo

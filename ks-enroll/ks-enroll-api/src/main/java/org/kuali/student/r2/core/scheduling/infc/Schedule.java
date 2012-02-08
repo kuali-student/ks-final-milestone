@@ -55,12 +55,12 @@ public interface Schedule extends IdEntity {
     public List<DateRange> getBlackoutDates();
 
     /**
-     * A list of Milestone ids where a meeting time that occurs
+     * A list of Milestone Ids where a meeting time that occurs
      * within a Milestone is considered a blackout date. Milestones of
      * any of the Milestone Types that exist in the related ATP are
      * used to determine the blackout dates.
      *
-     * @name Blackout Milestone ids
+     * @name Blackout Milestone Ids
      */
     public List<String> getBlackoutMilestoneIds();
 

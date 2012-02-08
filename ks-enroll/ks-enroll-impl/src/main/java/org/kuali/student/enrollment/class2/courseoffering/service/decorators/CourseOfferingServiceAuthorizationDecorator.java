@@ -508,7 +508,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	}
 
 	@Override
-	public List<RegistrationGroupInfo> getRegistrationGroupsByIdList(
+	public List<RegistrationGroupInfo> getRegistrationGroupsByIds(
 			List<String> registrationGroupIds, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -517,8 +517,8 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationGroupsByIdList", null, null)) {
-	        return getNextDecorator().getRegistrationGroupsByIdList(registrationGroupIds, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationGroupsByIds", null, null)) {
+	        return getNextDecorator().getRegistrationGroupsByIds(registrationGroupIds, context);
         }
         else {
            throw new PermissionDeniedException();

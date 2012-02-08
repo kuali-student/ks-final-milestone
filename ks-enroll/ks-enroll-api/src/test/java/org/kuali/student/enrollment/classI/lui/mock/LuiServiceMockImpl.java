@@ -72,16 +72,16 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiInfo> getLuisByIdList(List<String> luiIdList, ContextInfo context)
+    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
 
-        if (luiIdList == null) {
-            throw new MissingParameterException("luiIdList is null");
+        if (luiIds == null) {
+            throw new MissingParameterException("luiIds is null");
         }
 
         List<LuiInfo> infos = new ArrayList<LuiInfo>();
-        for (String id : luiIdList) {
+        for (String id : luiIds) {
             infos.add(getLui(id, context));
         }
 
@@ -388,16 +388,16 @@ public class LuiServiceMockImpl implements LuiService {
         return info;
     }
 
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context)
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
 
-        if (luiLuiRelationIdList == null) {
-            throw new MissingParameterException("luiLuiRelationIdList is null");
+        if (luiLuiRelationIds == null) {
+            throw new MissingParameterException("luiLuiRelationIds is null");
         }
 
         List<LuiLuiRelationInfo> infos = new ArrayList<LuiLuiRelationInfo>();
-        for (String id : luiLuiRelationIdList) {
+        for (String id : luiLuiRelationIds) {
             infos.add(getLuiLuiRelation(id, context));
         }
 
@@ -573,16 +573,16 @@ public class LuiServiceMockImpl implements LuiService {
     }
 
     @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context)
+    public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
 
-        if (luiCapacityIdList == null) {
-            throw new MissingParameterException("luiCapacityIdList is null");
+        if (luiCapacityIds == null) {
+            throw new MissingParameterException("luiCapacityIds is null");
         }
 
         List<LuiCapacityInfo> infos = new ArrayList<LuiCapacityInfo>();
-        for (String id : luiCapacityIdList) {
+        for (String id : luiCapacityIds) {
             infos.add(getLuiCapacity(id, context));
         }
 
@@ -593,7 +593,7 @@ public class LuiServiceMockImpl implements LuiService {
     public List<LuiCapacityInfo> getLuiCapacitiesByLui(String luiId, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         if (luiId == null) {
-            throw new MissingParameterException("luiCapacityIdList is null");
+            throw new MissingParameterException("luiCapacityIds is null");
         }
 
         List<LuiCapacityInfo> infos = new ArrayList<LuiCapacityInfo>();

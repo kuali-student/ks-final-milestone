@@ -152,15 +152,15 @@ public class LuiServiceImpl implements LuiService {
     // " for ownerTypeKey="+ownerTypeKey+" and RelationType="+TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
     //
     // // create a List of the related Types' IDs
-    // List<String> ids = new ArrayList<String>();
+    // List<String> Ids = new ArrayList<String>();
     // for (TypeTypeRelationEntity entity : typeTypeRelations) {
-    // ids.add(entity.getRelatedTypeId());
+    // Ids.add(entity.getRelatedTypeId());
     // }
     //
     // // now get the List of the related Types based on those IDs
     // List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new
     // ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-    // typeEntities.addAll(luiTypeDao.findByIds(ids));
+    // typeEntities.addAll(luiTypeDao.findByIds(Ids));
     //
     // // convert them to DTOs and return them
     // List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
@@ -196,9 +196,9 @@ public class LuiServiceImpl implements LuiService {
     }
 
     @Override
-    public List<LuiInfo> getLuisByIdList(List<String> luiIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
-        List<LuiEntity> entityList = luiDao.findByIds(luiIdList);
+        List<LuiEntity> entityList = luiDao.findByIds(luiIds);
         List<LuiInfo> infoList = new ArrayList<LuiInfo>();
 
         for (LuiEntity luiEntity : entityList) {
@@ -286,7 +286,7 @@ public class LuiServiceImpl implements LuiService {
     }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return new ArrayList<LuiLuiRelationInfo>();
     }
@@ -567,7 +567,7 @@ public class LuiServiceImpl implements LuiService {
     }
 
     @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
         return new ArrayList<LuiCapacityInfo>();
     }

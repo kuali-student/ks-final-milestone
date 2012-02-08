@@ -79,7 +79,7 @@ public interface LuiPersonRelationService  {
     /**
      * Retrieves the Relation for the specified list of LUI Person Relation Ids
      *
-     * @param luiPersonRelationIdList List of identifiers for LUI Person
+     * @param luiPersonRelationIds List of identifiers for LUI Person
      *                                Relations
      * @param context                 Context information containing the principalId and locale
      *                                information about the caller of service operation
@@ -87,11 +87,11 @@ public interface LuiPersonRelationService  {
      * @throws DoesNotExistException     One or more luiPersonRelationIds not found
      * @throws InvalidParameterException One or more invalid
      *                                   luiPersonRelationIds
-     * @throws MissingParameterException missing luiPersonRelationIdList
+     * @throws MissingParameterException missing luiPersonRelationIds
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LuiPersonRelationInfo> getLprsByIdList(@WebParam(name = "luiPersonRelationIdList") List<String> luiPersonRelationIdList, @WebParam(name = "context") ContextInfo context)
+    public List<LuiPersonRelationInfo> getLprsByIds(@WebParam(name = "luiPersonRelationIds") List<String> luiPersonRelationIds, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
@@ -462,7 +462,7 @@ public interface LuiPersonRelationService  {
      * nothing transaction - any error will invalidate the entire transaction.
      *
      * @param personId                 Identifier for Person
-     * @param luiIdList                Simple list of LUI identifiers
+     * @param luiIds                Simple list of LUI identifiers
      * @param relationState            Relation state
      * @param luiPersonRelationTypeKey Type of LUI Person relation
      * @param luiPersonRelationInfo    Information required to create the LUI
@@ -484,7 +484,7 @@ public interface LuiPersonRelationService  {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public List<String> createBulkRelationshipsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "luiIdList") List<String> luiIdList,
+    public List<String> createBulkRelationshipsForPerson(@WebParam(name = "personId") String personId, @WebParam(name = "luiIds") List<String> luiIds,
                                                          @WebParam(name = "relationState") String relationState, @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
                                                          @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
             AlreadyExistsException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -495,7 +495,7 @@ public interface LuiPersonRelationService  {
      * nothing transaction - any error will invalidate the entire transaction.
      *
      * @param luiId                    Identifier for Lui
-     * @param personIdList             Simple list of Person identifiers
+     * @param personIds             Simple list of Person identifiers
      * @param relationState            Relation state
      * @param luiPersonRelationTypeKey Type of LUI Person relation
      * @param luiPersonRelationInfo    Information required to create the LUI
@@ -517,7 +517,7 @@ public interface LuiPersonRelationService  {
      * @throws ReadOnlyException            attempt to update a read only attribute
      * @throws PermissionDeniedException    authorization failure
      */
-    public List<String> createBulkRelationshipsForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "personIdList") List<String> personIdList,
+    public List<String> createBulkRelationshipsForLui(@WebParam(name = "luiId") String luiId, @WebParam(name = "personIds") List<String> personIds,
                                                       @WebParam(name = "relationState") String relationState, @WebParam(name = "luiPersonRelationTypeKey") String luiPersonRelationTypeKey,
                                                       @WebParam(name = "luiPersonRelationInfo") LuiPersonRelationInfo luiPersonRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,
             DataValidationErrorException, DoesNotExistException, DisabledIdentifierException, ReadOnlyException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -651,17 +651,17 @@ public interface LuiPersonRelationService  {
     /**
      * Retrieves the LPR Roster Entries for the specified list of LPR Roster Entry Ids
      *
-     * @param lprRosterEntryIdList List of identifiers for LPR Roster Entries
+     * @param lprRosterEntryIds List of identifiers for LPR Roster Entries
      * @param context
      * @return List of LPR Roster Entry information
      * @throws DoesNotExistException     One or more lprRosterEntryIds not found
      * @throws InvalidParameterException One or more invalid lprRosterEntryIds
-     * @throws MissingParameterException missing lprRosterEntryIdList
+     * @throws MissingParameterException missing lprRosterEntryIds
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<LprRosterEntryInfo> getLprRosterEntriesByIdList(
-            @WebParam(name = "lprRosterEntryIdList") List<String> lprRosterEntryIdList,
+    public List<LprRosterEntryInfo> getLprRosterEntriesByIds(
+            @WebParam(name = "lprRosterEntryIds") List<String> lprRosterEntryIds,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -767,7 +767,7 @@ public interface LuiPersonRelationService  {
      * entries in the roster. If a roster contains other entries, rank them from
      * end of the entries in the input list onwards.
      *
-     * @param lprRosterEntryIds ordered list of {@link LprRosterEntryInfo} ids
+     * @param lprRosterEntryIds ordered list of {@link LprRosterEntryInfo} Ids
      *                          The ordered
      * @param context
      * @return
@@ -899,7 +899,7 @@ public interface LuiPersonRelationService  {
      * @throws PermissionDeniedException
      */
 
-    public List<LprTransactionInfo> getLprTransactionsByIdList(@WebParam(name = "lprIds") List<String> lprIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
+    public List<LprTransactionInfo> getLprTransactionsByIds(@WebParam(name = "lprIds") List<String> lprIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**

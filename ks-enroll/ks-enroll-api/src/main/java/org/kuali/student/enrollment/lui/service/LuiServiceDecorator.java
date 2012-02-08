@@ -51,11 +51,11 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<LuiInfo> getLuisByIdList(List<String> luiIdList, ContextInfo context) 
+    public List<LuiInfo> getLuisByIds(List<String> luiIds, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuisByIdList(luiIdList, context);
+        return getNextDecorator().getLuisByIds(luiIds, context);
     }
 
     @Override
@@ -193,11 +193,11 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIdList(List<String> luiLuiRelationIdList, ContextInfo context) 
+    public List<LuiLuiRelationInfo> getLuiLuiRelationsByIds(List<String> luiLuiRelationIds, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuiLuiRelationsByIdList(luiLuiRelationIdList, context);
+        return getNextDecorator().getLuiLuiRelationsByIds(luiLuiRelationIds, context);
     }
 
     @Override
@@ -278,11 +278,11 @@ public class LuiServiceDecorator implements LuiService
     }
 
     @Override
-    public List<LuiCapacityInfo> getLuiCapacitiesByIdList(List<String> luiCapacityIdList, ContextInfo context) 
+    public List<LuiCapacityInfo> getLuiCapacitiesByIds(List<String> luiCapacityIds, ContextInfo context) 
         throws DoesNotExistException, InvalidParameterException, 
                MissingParameterException, OperationFailedException {
 
-        return getNextDecorator().getLuiCapacitiesByIdList(luiCapacityIdList, context);
+        return getNextDecorator().getLuiCapacitiesByIds(luiCapacityIds, context);
     }
 
     @Override

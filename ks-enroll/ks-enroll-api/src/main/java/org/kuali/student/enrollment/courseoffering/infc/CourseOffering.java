@@ -236,7 +236,7 @@ public interface CourseOffering extends IdEntity {
      * point to Pass/Fail or Letter Graded option.
      * 
      * @name: Grading Option Ids
-     * @impl these are actually ids to ResultValuesGroup. Lui.resultOptionIds
+     * @impl these are actually Ids to ResultValuesGroup. Lui.resultOptionIds
      *       returns a list of resultOptions. Filter options with grading type
      *       and those should give the resultValueGroupIds
      */
