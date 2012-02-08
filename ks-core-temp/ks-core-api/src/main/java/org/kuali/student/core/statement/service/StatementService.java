@@ -15,6 +15,12 @@
 
 package org.kuali.student.core.statement.service;
 
+import java.util.List;
+
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.dto.ValidationResultInfo;
@@ -33,11 +39,6 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
-import java.util.List;
 import org.kuali.student.core.type.dto.TypeInfo;
 
 
@@ -951,5 +952,5 @@ public interface StatementService {
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
     //TODO KSCM
     @Deprecated    
-	public StatementTypeInfo getStatementType(String topStatementType);
+	public StatementTypeInfo getStatementType(String topStatementType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }
