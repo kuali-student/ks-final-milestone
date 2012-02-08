@@ -73,6 +73,8 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                        if (result) {
 	                            // Make sure workflow actions and status updated before showing.
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().refresh();
+	                         // TODO KSCM wait for ks-core-ui/paul begin
+	                            /*
 	                            ((WorkflowEnhancedNavController) controller).getWfUtilities().requestAndSetupModel(new Callback<Boolean>(){
 									public void exec(Boolean modelReadyResult) {
 			                            // Show validation error if they exist
@@ -96,6 +98,8 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 	                                    });
 									}
 								});
+	                            */
+	                         // TODO KSCM wait for ks-core-ui/paul end
 	                        }else{
 	                        	onReadyCallback.exec(result);
 	                        }
@@ -144,17 +148,17 @@ public class MajorProposalSummaryConfiguration extends AbstractControllerConfigu
 						String versionedFromId = model.get("versionInfo/versionedFromId");
 						if(versionedFromId!=null && !versionedFromId.isEmpty()){
 							//Add the previous start term since we need it as a widget so it can act as a cross field constraint
-							workflowUtilities.addApproveDialogField("", "startTerm",  generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(), true, true);
-						    workflowUtilities.addApproveDialogField("proposal", "prevEndTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
-							workflowUtilities.addApproveDialogField("proposal", "prevEndProgramEntryTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDPROGRAMENTRYTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
-							workflowUtilities.addApproveDialogField("proposal", "prevEndInstAdmitTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDINSTADMITTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
-							workflowUtilities.updateApproveFields();
-							workflowUtilities.progressiveEnableFields();	
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.addApproveDialogField("", "startTerm",  generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(), true, true);
+							// TODO KSCM wait for ks-core-ui/paul						    workflowUtilities.addApproveDialogField("proposal", "prevEndTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.addApproveDialogField("proposal", "prevEndProgramEntryTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDPROGRAMENTRYTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.addApproveDialogField("proposal", "prevEndInstAdmitTerm", generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVENDINSTADMITTERM), MajorProposalSummaryConfiguration.this.configurer.getModelDefinition(),false);
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.updateApproveFields();
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.progressiveEnableFields();	
 						}else{
 							//Ignore this field (so blanket approve works if this is a new course proposal and not modifiaction)
-							workflowUtilities.addIgnoreDialogField("proposal/prevEndTerm");
-							workflowUtilities.addIgnoreDialogField("proposal/prevEndProgramEntryTerm");
-							workflowUtilities.addIgnoreDialogField("proposal/prevEndInstAdmitTerm");
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.addIgnoreDialogField("proposal/prevEndTerm");
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.addIgnoreDialogField("proposal/prevEndProgramEntryTerm");
+							// TODO KSCM wait for ks-core-ui/paul							workflowUtilities.addIgnoreDialogField("proposal/prevEndInstAdmitTerm");
 						}
 					}
 					public void onRequestFail(Throwable cause) {

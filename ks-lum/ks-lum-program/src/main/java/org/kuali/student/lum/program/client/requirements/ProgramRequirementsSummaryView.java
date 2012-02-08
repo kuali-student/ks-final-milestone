@@ -321,7 +321,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 newSubRule.setType(stmtTypeId);
                 RichTextInfo text = new RichTextInfo();
                 text.setPlain("");
-                newSubRule.setDesc(text);
+                newSubRule.setDescr(text);
                 parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>() {
 
                     @Override
@@ -569,8 +569,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             stmtTree.setType(stmtTypeId);
             RichTextInfo text2 = new RichTextInfo();
             text2.setPlain("");
-            stmtTree.setDesc(text2);
-            stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
+            stmtTree.setDescr(text2);
+         // TODO KSCM wait for ks-core-ui/paul            stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
 
             //add new statement to the rule because even if user cancel on rule manage screen, we want to have at least one statement present
             progReqInfo.setStatement(stmtTree);
