@@ -29,6 +29,7 @@ import org.kuali.student.common.assembly.old.BaseAssembler;
 import org.kuali.student.common.assembly.old.data.SaveResult;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
@@ -49,7 +50,6 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
-@Deprecated
 public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 //  TODO Split out CluInfo assembly to its own class
 
@@ -57,7 +57,6 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
     public static final String JOINT_RELATION_TYPE = "kuali.lu.relation.type.co-located";
 // FIXME: should have it's own proposal types
-    public static final String PROPOSAL_TYPE_CREATE_COURSE = "kuali.proposal.type.course.create";
     public static final String FORMAT_LU_TYPE = "kuali.lu.type.CreditCourseFormatShell";
 
     public static final String FORMAT_RELATION_TYPE = "luLuRelationType.hasCourseFormat";
@@ -148,7 +147,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     }
 
     @Override
-	@Transactional(readOnly=false)
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
     public SaveResult<Data> save(Data input)     throws AssemblyException {
 
         try {

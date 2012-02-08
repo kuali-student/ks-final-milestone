@@ -230,7 +230,7 @@ public class CourseRequirementsDataModel {
                     }
                 }
 
-                KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+                KSNotifier.add(new KSNotification("Requirements Save Successful", false, 4000));
                 //MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
                 callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }

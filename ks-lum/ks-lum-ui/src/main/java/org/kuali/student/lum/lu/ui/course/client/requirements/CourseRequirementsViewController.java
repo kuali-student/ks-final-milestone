@@ -2,11 +2,17 @@ package org.kuali.student.lum.lu.ui.course.client.requirements;
 
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+
+import com.google.gwt.core.client.GWT;
 
 public class CourseRequirementsViewController extends BasicLayout {
 
@@ -16,11 +22,11 @@ public class CourseRequirementsViewController extends BasicLayout {
     }
 
     public static final String COURSE_RULES_MODEL_ID = "courseRulesModelId";
-    public static final String CLU_PROPOSAL_MODEL = "cluProposalModel";    
+    public static final String COURSE_PROPOSAL_MODEL = "courseProposalModel";    
 
     private CourseRequirementsSummaryView preview;
 
-    public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly) {
+    public CourseRequirementsViewController(Controller controller, String name, Enum<?> viewType, boolean isReadOnly, boolean showSaveButtons) {
 		super(CourseRequirementsViewController.class.getName());
 		super.setController(controller);
 		super.setName(name);
@@ -39,13 +45,20 @@ public class CourseRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        preview = new CourseRequirementsSummaryView(this, CourseRequirementsViews.PREVIEW, (isReadOnly ? "Course Requirements" : ""), CLU_PROPOSAL_MODEL,
-                                                new CourseRequirementsDataModel(this), isReadOnly);
+        preview = GWT.create(CourseRequirementsSummaryView.class);
+        preview.init(
+                this,
+                CourseRequirementsViews.PREVIEW,
+                (isReadOnly ? "Course Requirements" : ""),
+                COURSE_PROPOSAL_MODEL,
+                (controller instanceof HasRequirements ? ((HasRequirements) controller).getReqDataModel()
+                        : new CourseRequirementsDataModel(this)),
+                isReadOnly, showSaveButtons);
         super.addView(preview);
 
         if (!isReadOnly) {
-            CourseRequirementsManageView manageView = new CourseRequirementsManageView(this, CourseRequirementsViews.MANAGE,
-                                                "Add and Combine Rules", COURSE_RULES_MODEL_ID);
+            CourseRequirementsManageView manageView = GWT.create(CourseRequirementsManageView.class);
+            manageView.init(this, CourseRequirementsViews.MANAGE, "Add and Combine Rules", COURSE_RULES_MODEL_ID);
             super.addView(manageView);
         }
     }
@@ -127,4 +140,8 @@ public class CourseRequirementsViewController extends BasicLayout {
 	public void beforeShow(final Callback<Boolean> onReadyCallback){
 		showDefaultView(onReadyCallback);
 	}
+    
+    public void storeRules(Callback<Boolean> callback){
+    	preview.storeRules(true, callback);
+    }
 }

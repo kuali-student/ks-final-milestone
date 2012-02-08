@@ -27,6 +27,7 @@ import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.kim.KimQualificationHelper;
 
 import java.util.*;
@@ -36,14 +37,14 @@ import java.util.*;
  */
 public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
     protected final Logger LOG = Logger.getLogger(getClass());
-	
+
 	private static final String APPROVE_REQUEST_RECIPIENT_ROLE_CONTENT = "Approve";
 	private static final String ACKNOWLEDGE_REQUEST_RECIPIENT_ROLE_CONTENT = "Acknowledge";
 	private static final String FYI_REQUEST_RECIPIENT_ROLE_CONTENT = "FYI";
         private static final String ACTION_REQUEST_INITIALIZED = ActionRequestStatus.INITIALIZED.getCode();
         private static final String ACTION_REQUEST_ACTIVATED = ActionRequestStatus.ACTIVATED.getCode();
         private static final String ACTION_REQUEST_DONE_STATE = ActionRequestStatus.DONE.getCode();
-        
+
     protected Set<List<String>> newRequiredAttributes = new HashSet<List<String>>();
 
 	protected enum REQUESTS_TYPES_TO_CHECK {
@@ -51,8 +52,8 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	}
 
 	protected enum REQUESTS_STATUS_TO_CHECK {
-		INITIALIZED(ACTION_REQUEST_INITIALIZED), 
-                ACTIVE(ACTION_REQUEST_ACTIVATED), 
+		INITIALIZED(ACTION_REQUEST_INITIALIZED),
+                ACTIVE(ACTION_REQUEST_ACTIVATED),
 		DONE(ACTION_REQUEST_DONE_STATE);
 
 		private String kewActionRequestStatusCode;
@@ -94,9 +95,9 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
         }
 	}
 
-	/** 
+	/**
 	 * The part about where the receivedAttributes list being empty does not return errors is copied from Rice base class.
-	 * 
+	 *
 	 * @see org.kuali.rice.kim.service.support.impl.KimTypeServiceBase#validateRequiredAttributesAgainstReceived(org.kuali.rice.kim.bo.types.dtoMap<String,String>)
 	 **/
 	@Override
@@ -107,7 +108,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 
     @Override
     public Map<String,String> translateInputAttributes(Map<String,String> qualification) {
-        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributes(translateInputAttributes(qualification)));
+        return KimQualificationHelper.translateInputAttributeSet(super.translateInputAttributes(translateInputAttributes(qualification)), ContextUtils.getContextInfo());
     }
 
 	protected String getDocumentNumber(Map<String,String> qualification) throws WorkflowException {
@@ -150,10 +151,10 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
-	public List<RoleMembership> getRoleMembersFromDerivedRole(
+	public List<RoleMembership> getRoleMembersFromApplicationRole(
 			String namespaceCode, String roleName, Map<String,String> paramQualification) {
 		// validate required attributes
 		validateRequiredAttributesAgainstReceived(paramQualification);
@@ -194,10 +195,10 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasDerivedRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+	 * @see org.kuali.rice.kew.role.service.impl.ActionRequestDerivedRoleTypeServiceImpl#hasApplicationRole(java.lang.String, java.util.List, java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
 	 */
 	@Override
-	public boolean hasDerivedRole(String principalId,
+	public boolean hasApplicationRole(String principalId,
 			List<String> groupIds, String namespaceCode, String roleName,
 			Map<String,String> paramQualification) {
         validateRequiredAttributesAgainstReceived(paramQualification);
@@ -255,7 +256,7 @@ public class KSActionRequestDerivedRoleTypeServiceImpl extends DerivedRoleTypeSe
 
 	/**
 	 * Returns false, as the Action Requests change often enough that role membership is highly volatile
-	 * 
+	 *
 	 * @see org.kuali.rice.kim.service.support.impl.KimRoleTypeServiceBase#shouldCacheRoleMembershipResults(java.lang.String, java.lang.String)
 	 */
 //	@Override

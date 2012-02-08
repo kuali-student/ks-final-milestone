@@ -97,7 +97,7 @@ public class LOBuilderBinding extends ModelWidgetBindingSupport<LOBuilder> {
                 sortedDisplayInfos.add(loDisplayInfoHelper);
             }
             for (LoDisplayInfoHelper loDisplayInfoHelper : sortedDisplayInfos) {
-                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey());
+                LOPicker picker = new LOPicker(LOBuilder.getMessageGroup(), LOBuilder.getType(), LOBuilder.getState(), LOBuilder.getRepoKey(), LOBuilder.getLoListDescLength());
                 
                 LoInfoHelper loInfoHelper = new LoInfoHelper(loDisplayInfoHelper.getLoInfo());
                 RichTextHelper descriptionHelper = new RichTextHelper(loInfoHelper.getDesc());

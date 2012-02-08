@@ -16,8 +16,8 @@
 package org.kuali.student.security;
 
 import javax.servlet.http.HttpServletRequest;
-import org.kuali.rice.kim.api.identity.AuthenticationService;
 
+import org.kuali.rice.kim.api.identity.AuthenticationService;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 public class KSRiceAuthenticationServiceImpl implements AuthenticationService {

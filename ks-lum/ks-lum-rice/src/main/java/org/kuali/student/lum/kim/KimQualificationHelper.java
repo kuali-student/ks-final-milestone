@@ -14,7 +14,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.student.lum.kim;
 
@@ -27,6 +27,7 @@ import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.service.KEWServiceLocator;
 import org.kuali.rice.kim.api.KimConstants;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
@@ -65,9 +66,9 @@ public class KimQualificationHelper {
 		}
 		// if attributes are null or empty, they're all missing
 		if ( receivedAttributes == null || receivedAttributes.isEmpty() ) {
-			return;		
+			return;
 		}
-		
+
 		Set<List<String>> totalMissingAttributes = new HashSet<List<String>>();
 		for (List<String> currentReqAttributes : requiredAttributes) {
 			List<String> missingAttributes = new ArrayList<String>();
@@ -112,7 +113,7 @@ public class KimQualificationHelper {
         return null;
     }
 
-    public static Map<String,String> translateInputAttributeSet(Map<String,String> qualification) {
+    public static Map<String,String> translateInputAttributeSet(Map<String,String> qualification, ContextInfo context) {
 		try {
 			DocumentDetail docDetail = null;
 			// first get a valid DocumentDetailDTO object if possible
@@ -121,7 +122,7 @@ public class KimQualificationHelper {
 			if (StringUtils.isBlank(documentNumber)) {
 			    // if document number is not in qualification try to get it using proposal id qualification
 	            if (StringUtils.isNotBlank(proposalId)) {
-	                ProposalInfo propInfo = getProposalService().getProposal(proposalId);
+	                ProposalInfo propInfo = getProposalService().getProposal(proposalId,context);
 	                documentNumber = propInfo.getWorkflowId();
 	            }
 			}
@@ -203,11 +204,11 @@ public class KimQualificationHelper {
 		else {
 			LOG.warn("Could not find KEW document instance for qualifications: " + qualifications);
 			// add KS object type code if necessary
-			if ((!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) && 
+			if ((!qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) &&
 					qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) {
 				qualifications.put(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE, translationMap.getKeyForValue(qualifications.get(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)));
 			}
-			else if ((!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) && 
+			else if ((!qualifications.containsKey(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME)) &&
 					qualifications.containsKey(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)) {
 				qualifications.put(KimConstants.AttributeConstants.DOCUMENT_TYPE_NAME, translationMap.get(qualifications.get(StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_TYPE)));
 			}

@@ -78,6 +78,11 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	private List<LoAttribute> attributes;
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="lo")
+    @JoinTable(
+    		name="KSLO_LO_JN_LOCATEGORY",
+	        joinColumns=@JoinColumn(name="LO_ID", insertable=false, updatable=false),
+	        inverseJoinColumns=@JoinColumn(name="ID", insertable=false, updatable=false)
+	)
 	private List<LoLoCategoryJoin> categories;
 	
 	@ManyToOne
@@ -110,7 +115,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	}
 
 	/**
-	 * @param loHierarchy the loHierarchy to set
+	 * @param loRepository the loHierarchy to set
 	 */
 	public void setLoRepository(LoRepository loRepository) {
 		this.loRepository = loRepository;
