@@ -39,7 +39,8 @@ public interface AppointmentWindow extends IdEntity {
      * Window end date ("Aug 07, 2012")
      *
      * @name End Date
-     * @required
+     * @impl This field can only be specified in exclusion of Max Per Slot. Choosing this field expands number_of_persons_per_slot so all the persons in a population are assigned to the available slots.
+     * @impl If there is no End Date, then use either end of Reg Period or end of Drop/Add milestone as End Date milestone (TBD during PDT impl)
      */
     public Date getEndDate();
 
@@ -78,6 +79,14 @@ public interface AppointmentWindow extends IdEntity {
      * @required
      */
     public String getAssignedOrderTypeKey();
+
+    /**
+     * Maximum number of persons that can be assigned to an appointment slot
+     *
+     * @name Max Per Slot
+     * @impl This field can only be specified in exclusion of End Date. Choosing this field expands the number_of_appointment_slots so all the persons in a population are assigned.
+     */
+    public Integer getMaxPerSlot();
 
 
 }
