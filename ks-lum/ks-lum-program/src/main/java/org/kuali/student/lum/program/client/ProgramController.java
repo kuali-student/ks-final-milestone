@@ -33,6 +33,7 @@ import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGrou
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
@@ -465,7 +466,7 @@ public abstract class ProgramController extends MenuSectionController {
                 	}
                }
                 
-            }); 
+            }, ContextUtils.getContextInfo()); 
     	 
      }
      /**

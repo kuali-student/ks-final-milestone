@@ -9,6 +9,7 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -93,7 +94,7 @@ public class CoreViewController extends CoreController {
                 public void onSuccess(Boolean isLatest) {
                     actionBox.setList(ActionType.getValuesForCoreProgram(isLatest));
                 }
-            });
+            }, ContextUtils.getContextInfo());
         } else {
             actionBox.setList(ActionType.getValuesForCoreProgram(false));
         }

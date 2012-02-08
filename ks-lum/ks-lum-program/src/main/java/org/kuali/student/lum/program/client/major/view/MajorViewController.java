@@ -18,6 +18,7 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -369,7 +370,7 @@ public class MajorViewController extends MajorController {
                 }
 
  			}        	
-        });
+        }, ContextUtils.getContextInfo());
     	
    	
     	// Get the reference ID of the proposal from the XML model
@@ -392,7 +393,7 @@ public class MajorViewController extends MajorController {
 	                }
 	              
 	            }           
-	        });
+	        }, ContextUtils.getContextInfo());
         }
     } 
   
