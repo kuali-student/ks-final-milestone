@@ -48,6 +48,8 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
         
 	// below string MUST match org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME	= "info";
+    //TODO KSCM : have to specify a string here 
+	public static final String PROPOSAL_ATTRIBUTES = null;
 
     final Logger LOG = Logger.getLogger(ProposalWorkflowFilter.class);
     
