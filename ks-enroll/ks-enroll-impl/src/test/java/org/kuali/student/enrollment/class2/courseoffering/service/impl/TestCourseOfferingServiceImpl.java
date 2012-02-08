@@ -159,11 +159,11 @@ public class TestCourseOfferingServiceImpl {
 		List<MeetingScheduleInfo> schedules = new ArrayList<MeetingScheduleInfo>();
 		MeetingScheduleInfo schedule1 = new MeetingScheduleInfo();
 		schedule1.setSpaceId("room 314");
-		schedule1.setTimePeriods("19960415T083000");
+		schedule1.setScheduleId("19960415T083000");
 		schedules.add(schedule1);
 		MeetingScheduleInfo schedule2 = new MeetingScheduleInfo();
 		schedule2.setSpaceId("room 316");
-		schedule2.setTimePeriods("19960415T083000Z");
+		schedule2.setScheduleId("19960415T083000Z");
 		schedules.add(schedule2);
 		ao.setMeetingSchedules(schedules);
 		
