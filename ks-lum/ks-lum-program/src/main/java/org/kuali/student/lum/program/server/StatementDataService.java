@@ -76,7 +76,9 @@ public class StatementDataService implements StatementRpcService{
 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
         try { 
-            reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
+        	//TODO KSCM : Paul en Nina, I have instantiated the list to make it compile 
+            //reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
+        	reqComponentTypeInfoList = new ArrayList<ReqComponentTypeInfo>();
         } catch (Exception ex) {
             LOG.error(ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);

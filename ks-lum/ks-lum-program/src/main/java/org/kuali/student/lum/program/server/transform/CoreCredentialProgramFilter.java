@@ -83,7 +83,7 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
 
         request.setParams(searchParams);
 
-        SearchResult searchResult = luService.search(request, ContextUtils.getContextInfo());
+        SearchResult searchResult = luService.search(request,ContextUtils.getContextInfo());
         if (searchResult.getRows().size() > 0) {
             for(SearchResultRow srrow : searchResult.getRows()){
                 List<SearchResultCell> srCells = srrow.getCells();
