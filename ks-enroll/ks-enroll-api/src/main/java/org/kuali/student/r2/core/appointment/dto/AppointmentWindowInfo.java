@@ -31,7 +31,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppointmentWindowInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "startDate", "endDate", "slotRule", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey",
+        "startDate", "endDate", "slotRule", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey", "maxPerSlot",
         "meta", "attributes", "_futureElements"})
 public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWindow {
 
@@ -47,6 +47,8 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
     private String assignedPopulationId;
     @XmlElement
     private String assignedOrderTypeKey;
+    @XmlElement
+    private Integer maxPerSlot;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -64,6 +66,7 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
             this.periodMilestoneId = appointmentWindow.getPeriodMilestoneId();
             this.assignedPopulationId = appointmentWindow.getAssignedPopulationId();
             this.assignedOrderTypeKey = appointmentWindow.getAssignedOrderTypeKey();
+            this.maxPerSlot = appointmentWindow.getMaxPerSlot();
         }
     }
 
@@ -119,5 +122,15 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
     @Override
     public String getAssignedOrderTypeKey() {
         return this.assignedOrderTypeKey;
+    }
+
+
+    public void setMaxPerSlot(Integer maxPerSlot) {
+        this.maxPerSlot = maxPerSlot;
+    }
+
+    @Override
+    public Integer getMaxPerSlot() {
+        return this.maxPerSlot;
     }
 }
