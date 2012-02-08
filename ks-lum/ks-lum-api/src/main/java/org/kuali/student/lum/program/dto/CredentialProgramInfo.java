@@ -160,16 +160,17 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
 	public VersionInfo getVersionInfo(ContextInfo contextInfo) {
 		// TODO Auto-generated method stub
 		return null;
-	}    
-
-	// TODO KSCM
-    @Deprecated
+	}
+    
+    //TODO KSCM
+    @Deprecated 
 	public Boolean getEndProgramEntryTerm() {
 		// TODO Auto-generated method stub
+		//TODO KSCM 
 		return null;
 	}
     
-    // TODO KSCM
+    //TODO KSCM
     @Deprecated
 	public Boolean getEndTerm() {
 		// TODO Auto-generated method stub
