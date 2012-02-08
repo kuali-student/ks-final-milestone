@@ -16,7 +16,10 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
+import org.kuali.rice.krad.inquiry.Inquirable;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.KRADUtils;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -66,12 +69,29 @@ public class HolidayCalendarController extends UifControllerBase {
         HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
 
         String hcId = request.getParameter("hcId");
-        if(hcId != null && !hcId.trim().isEmpty()){
-            try{
-                getHolidayCalendar(hcId, hcForm);
-            } catch (Exception ex){
-
+        if (hcId != null && !hcId.trim().isEmpty()) {
+            String viewId = request.getParameter("viewId");
+            if ("holidayCalendarView".equals(viewId)) {
+                hcForm.setViewTypeName(UifConstants.ViewType.INQUIRY);
+                /* OUT UNTIL HOLIDAYCALENDARVIEW.XML USES INQUIRYVIEW INSTEAD OF FORMVIEW
+                HolidayCalendarViewHelperServiceInquirableImpl hcHelper =
+                        (HolidayCalendarViewHelperServiceInquirableImpl) hcForm.getView().getViewHelperService();
+                HolidayCalendarInfo hcInfo = (HolidayCalendarInfo) ((Inquirable)hcHelper).retrieveDataObject(
+                                KRADUtils.translateRequestParameterMap(request.getParameterMap()));
+                hcForm.setHolidayCalendarInfo(hcInfo);
+                try {
+                    hcForm.setHolidays(hcHelper.getHolidaysForHolidayCalendar(hcForm));
+                }
+                catch(Exception ex) {
+                }
+                */
             }
+            //else {
+                try {
+                    getHolidayCalendar(hcId, hcForm);
+                } catch (Exception ex) {
+                }
+            //}
         }
 
         return super.start(form, result, request, response);
@@ -109,9 +129,7 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setAdminOrg(hcInfo.getAdminOrgId());
 
         List<HolidayInfo> holidays = getAcademicCalendarViewHelperService(hcForm).getHolidaysForHolidayCalendar(hcForm);
-        if (holidays != null && !holidays.isEmpty()){
-            hcForm.setHolidays(holidays);
-        }
+        hcForm.setHolidays(holidays);
     }
 
     public void updateHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {

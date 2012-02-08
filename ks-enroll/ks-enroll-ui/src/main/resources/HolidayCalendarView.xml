@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+<!-- THE VIEW BEAN SHOULD BE UIF-INQUIRYVIEW BUT THERE'S A DATADICT PROBLEM OF SOME KIND.
+     FOR NOW UIF-FORMVIEW IS BEING USED, BELOW.  THIS BEAN IS A SIMPLE TEST BEAN THAT FAILS.
+    <bean id="KS-HolidayCalendar-View" parent="KSInquiryView">
+        <property name="id" value="holidayCalendarView"/>
+        <property name="title" value="Holiday Calendar Inquiry"/>
+        <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo"/>
+        <property name="viewHelperServiceClassName"
+                  value="org.kuali.student.enrollment.class2.acal.service.impl.HolidayCalendarViewHelperServiceInquirableImpl"/>
+    </bean>
+-->
+
+    <bean id="KS-HolidayCalendar-View" parent="KSFormView"
+          p:id="holidayCalendarView"
+          p:title="@{holidayCalendarInfo.name}"
+          p:viewHelperServiceClassName="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"
+          p:formClass="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"
+          p:header.id="KS-HolidayCalendar-View_header">
+          <!--p:footer.render="false"-->
+        <property name="header">
+            <bean parent="Uif-HeaderField-Two"/>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="additionalCssFiles">
+            <list merge="true">
+                <value>/ks-enroll/css/calendar.css</value>
+            </list>
+        </property>
+        <property name="header.items">
+            <list>
+                <bean parent="Uif-Link"
+                      p:linkLabel="Copy"
+                      p:target="_self"
+                      p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/holidayCalendar?viewId=holidayCalendarCopyView&amp;methodToCall=start&amp;hcId=@{holidayCalendarInfo.id}"/>
+                <bean parent="Uif-Link"
+                      p:linkLabel="Edit"
+                      p:target="_self"
+                      p:hrefText="@{#ConfigProperties['application.url']}/kr-krad/holidayCalendar?viewId=holidayCalendarEditView&amp;methodToCall=start&amp;hcId=@{holidayCalendarInfo.id}"/>
+            </list>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Page"
+                      p:header.render="false"
+                      p:disclosure.render="false"
+                      p:id="KS-HolidayCalendar-View-Page">
+                    <property name="items">
+                        <list>
+                            <ref bean="KS-HolidayCalendar-View-Meta"/>
+                            <ref bean="KS-HolidayCalendar-View-Holidays"/>
+                        </list>
+                    </property>
+                </bean>
+                <ref bean="KS-HolidayCalendar-View-Holidays"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HolidayCalendar-View-Meta" parent="Uif-Disclosure-VerticalBoxSection"
+          p:title="Holiday Calendar Information"
+          p:id="KS-HolidayCalendar-View-Meta">
+        <property name="header">
+            <bean parent="Uif-HeaderField-Three"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-GridGroup"
+                      p:id="KS-HolidayCalendar-View-Meta_group"
+                      p:layoutManager.numberOfColumns="2"
+                      p:layoutManager.applyDefaultCellWidths="false">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="holidayCalendarInfo.name"
+                                  p:label="Holiday Calendar Name"
+                                  p:id="KS-HolidayCalendar-View-Meta_name"
+                                  p:labelField.width="40%"
+                                  p:width="60%"
+                                  p:labelField.renderColon="false"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="holidayCalendarInfo.adminOrgId"
+                                  p:label="Organization"
+                                  p:id="KS-HolidayCalendar-View-Meta_org"
+                                  p:labelField.renderColon="false"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="holidayCalendarInfo.startDate"
+                                  p:label="Start Date"
+                                  p:id="KS-HolidayCalendar-View-Meta_startDate"
+                                  p:labelField.renderColon="false"/>
+                            <bean parent="Uif-DataField"
+                                  p:propertyName="holidayCalendarInfo.endDate"
+                                  p:label="End Date"
+                                  p:id="KS-HolidayCalendar-View-Meta_endDate"
+                                  p:labelField.renderColon="false"/>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-HolidayCalendar-View-Holidays" parent="Uif-TableCollectionSection"
+            p:title="Holidays"
+            p:id="KS-HolidayCalendar-View-Holidays"
+            p:collectionObjectClass="org.kuali.student.enrollment.acal.dto.HolidayInfo"
+            p:propertyName="holidays"
+            p:renderAddLine="false"
+            p:renderLineActions="false"
+            p:layoutManager.numberOfColumns="4"
+            p:layoutManager.applyDefaultCellWidths="false"
+            p:layoutManager.renderSequenceField="false"
+            p:layoutManager.sequencePropertyName="startDate">
+        <property name="header">
+            <bean parent="Uif-HeaderField-Three"/>
+        </property>
+        <property name="items">
+            <list>
+                <bean parent="Uif-DataField"
+                      p:propertyName="descr.plain"
+                      p:id="KS-HolidayCalendar-View-Holidays_descr"
+                      p:style="font-weight:bold;"/>
+                <bean parent="Uif-DataField"
+                      p:label="Start Date"
+                      p:propertyName="startDate"
+                      p:id="KS-HolidayCalendar-View-Holidays_startDate"/>
+                <bean parent="Uif-DataField"
+                      p:label="End Date"
+                      p:propertyName="endDate"
+                      p:id="KS-HolidayCalendar-View-Holidays_endDate"/>
+                <bean parent="Uif-DataField"
+                      p:label="Non Instructional"
+                      p:propertyName="isInstructionalDay"
+                      p:id="KS-HolidayCalendar-View-Holidays_isInstructionalDay"
+                      p:alternateDisplayValue="@{#line.isInstructionalDay ? 'Yes' : 'No'}"
+                      p:align="center"/>
+            </list>
+        </property>
+        <property name="layoutManager.richTable.componentOptions">
+            <!-- see http://datatables.net/ref for all options -->
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bPaginate" value="false"/>
+                <entry key="aaSorting" value="[[1,'asc'],[2,'asc']]"/>
+                <entry key="aoColumns"
+                       value="[ {'bSortable':false, 'sWidth':'40%'},
+                                {'bSortable':false, 'sTitle':'Start Date', 'sWidth':'20%'},
+                                {'bSortable':false, 'sTitle':'End Date', 'sWidth':'20%'},
+                                {'bSortable':false, 'sTitle':'Non Instructional', 'sWidth':'20%', 'sClass':'ks-cell-align-center'}
+                            ]"/>
+            </map>
+        </property>
+    </bean>
+
+</beans>

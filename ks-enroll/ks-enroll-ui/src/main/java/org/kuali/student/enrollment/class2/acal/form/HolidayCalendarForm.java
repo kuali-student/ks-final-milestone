@@ -53,7 +53,9 @@ public class HolidayCalendarForm  extends UifFormBase {
     }
 
     public void setHolidays(List<HolidayInfo> holidays) {
-        this.holidays = holidays;
+        if (null != holidays) {
+            this.holidays = holidays;
+        }
     }
 
     public String getAdminOrg() {
