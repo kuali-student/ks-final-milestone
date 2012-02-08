@@ -153,4 +153,18 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
     public void setEndProgramEntryTerm(Object endProgramEntryTerm) {
         //TODO KSCM  this.endProgramEntryTerm = endProgramEntryTerm;
     }
+
+    @Deprecated
+	public Boolean getEndProgramEntryTerm() {
+		// TODO Auto-generated method stub
+		return null;
+		// TODO KSCM
+	}
+    
+    @Deprecated
+	public Boolean getEndTerm() {
+		// TODO Auto-generated method stub
+		return null;
+		// TODO KSCM
+	}
 }
