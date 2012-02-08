@@ -309,12 +309,12 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
 
         String time = daysString + ";" + generateHours();
         MeetingScheduleInfo m1 = new MeetingScheduleInfo();
-        m1.setTimePeriods(time);
+        m1.setScheduleId(time);
         infos.add(m1);
         if (StringUtils.isNotBlank(daysString2)) {
             String time2 = daysString2 + ";" + generateHours();
             MeetingScheduleInfo m2 = new MeetingScheduleInfo();
-            m2.setTimePeriods(time2);
+            m2.setScheduleId(time2);
             infos.add(m2);
         }
         return infos;
