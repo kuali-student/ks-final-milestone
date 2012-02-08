@@ -43,6 +43,7 @@ public class AcademicCalendarForm extends UifFormBase {
     public AcademicCalendarForm() {
         super();
         termWrapperList = new ArrayList<AcademicTermWrapper>();
+        events = new ArrayList<AcalEventWrapper>();
     }
 
     public AcademicCalendarInfo getAcademicCalendarInfo() {
