@@ -29,7 +29,7 @@ public class MeetingScheduleEntity extends MetaEntity {
     	try{
     		this.setId(meetingSchedule.getId());
     		this.setSpaceId(meetingSchedule.getSpaceId());
-    		this.setTimePeriods(meetingSchedule.getTimePeriods());
+    		this.setTimePeriods(meetingSchedule.getScheduleId());
     		this.setVersionNumber((long) 0);
     	} catch (Exception e){
             e.printStackTrace();
@@ -40,7 +40,7 @@ public class MeetingScheduleEntity extends MetaEntity {
     	MeetingScheduleInfo obj = new MeetingScheduleInfo();
     	obj.setId(getId());
     	obj.setSpaceId(spaceId);
-    	obj.setTimePeriods(timePeriods);
+    	obj.setScheduleId(timePeriods);
     	
     	return obj;
     }
