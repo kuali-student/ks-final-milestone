@@ -40,6 +40,7 @@ public interface AppointmentSlotRule {
      * Window start time ("9am")
      *
      * @name Start Time Of Day
+     * @impl If the slot is open ended, then startTimeOfDay applies only for the first day and it is time portion of the window start date
      */
     TimeOfDay getStartTimeOfDay();
 
@@ -47,20 +48,23 @@ public interface AppointmentSlotRule {
      * Window end time ("5pm")
      *
      * @name End Time Of Day
+     * @impl If the slot is open ended, then endTimeOfDay applies only for the last day and it is time portion of the window end date
      */
     TimeOfDay getEndTimeOfDay();
 
     /**
-     * Appointment slot duration ("20 mins")
+     * Interval between start times of two consecutive appointment slots ("30 mins")
      *
      * @name Interval
+     * @impl If the slot is open ended, then slotStartInterval is null
      */
-    TimeAmount getInterval();
+    TimeAmount getSlotStartInterval();
 
     /**
-     * Gap between appointment slots ("10 mins")
+     * Duration of the appointment slot ("20 mins") - advertised duration of the slot. (slotStartInterval - slotDuration) = some grace period complete activity
      *
-     * @name Gap
+     * @name Slot Duration
+     * @impl If the slot is open ended, then slotDuration is null and actual duration is the time between window start and end dates
      */
-    TimeAmount getGap();
+    TimeAmount getSlotDuration();
 }
