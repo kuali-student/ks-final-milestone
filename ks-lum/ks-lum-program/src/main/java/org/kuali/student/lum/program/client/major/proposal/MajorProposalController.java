@@ -46,6 +46,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
@@ -127,7 +128,7 @@ public class MajorProposalController extends MajorController implements Workflow
         
         proposalPath = configurer.getProposalPath();
         workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions",
-   				ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID);
+   				ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID,ContextUtils.getContextInfo());
 
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
