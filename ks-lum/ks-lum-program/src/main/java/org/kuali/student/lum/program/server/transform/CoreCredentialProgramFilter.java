@@ -17,6 +17,7 @@ import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.ProgramConstants;
 
@@ -82,7 +83,7 @@ public class CoreCredentialProgramFilter extends AbstractDataFilter {
 
         request.setParams(searchParams);
 
-        SearchResult searchResult = luService.search(request);
+        SearchResult searchResult = luService.search(request, ContextUtils.getContextInfo());
         if (searchResult.getRows().size() > 0) {
             for(SearchResultRow srrow : searchResult.getRows()){
                 List<SearchResultCell> srCells = srrow.getCells();
