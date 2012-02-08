@@ -700,4 +700,25 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
         return null; //return versionInfo;
         //TODO KSCM
     }
+
+    @Deprecated
+	public Boolean getEndProgramEntryTerm() {
+		// TODO Auto-generated method stub
+		return null;
+		// TODO KSCM
+	}
+
+    @Deprecated
+	public Boolean getEndTerm() {
+		// TODO Auto-generated method stub
+		return null;
+		//TODO KSCM
+	}
+
+    @Deprecated
+	public String getStartTerm() {
+		// TODO Auto-generated method stub
+		return null;
+		// TODO KSCM
+	}
 }
