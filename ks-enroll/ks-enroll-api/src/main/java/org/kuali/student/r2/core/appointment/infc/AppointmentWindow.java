@@ -86,7 +86,7 @@ public interface AppointmentWindow extends IdEntity {
      * @name Max Per Slot
      * @impl This field can only be specified in exclusion of End Date. Choosing this field expands the number_of_appointment_slots so all the persons in a population are assigned.
      */
-    public Integer getMaxPerSlot();
+    public Integer getMaxAppointmentsPerSlot();
 
 
 }
