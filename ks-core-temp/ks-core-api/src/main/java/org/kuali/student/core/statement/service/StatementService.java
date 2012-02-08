@@ -32,6 +32,7 @@ import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.dto.StatementTypeInfo;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
@@ -948,4 +949,7 @@ public interface StatementService {
 
     List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    //TODO KSCM
+    @Deprecated    
+	public StatementTypeInfo getStatementType(String topStatementType);
 }
