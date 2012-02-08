@@ -29,6 +29,7 @@ import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.old.Assembler;
 import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
@@ -62,7 +63,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	private IdentityService identityService;
 
 	@Override
-	public Data getData(String dataId) {
+	public Data getData(String dataId, ContextInfo contextInfo) {
 		try {
 			return assembler.get(dataId);
 		} catch (AssemblyException e) {
@@ -72,7 +73,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
-	public Metadata getMetadata(String id, Map<String,String> idAttributes) {
+	public Metadata getMetadata(String id, Map<String,String> idAttributes, ContextInfo contextInfo) {
 
 		try {
 		    //FIXME: should not pass empty id. What to do here?
@@ -88,7 +89,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
-	public DataSaveResult saveData(Data data) throws OperationFailedException {
+	public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException {
 		try {
 			SaveResult<Data> saveResult = assembler.save(data);
 			if (saveResult != null) {
