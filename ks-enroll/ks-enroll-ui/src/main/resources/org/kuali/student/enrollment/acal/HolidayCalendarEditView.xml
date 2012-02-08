@@ -22,13 +22,13 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-HolidayCalendar-EditSection"/>
+                <ref bean="KS-HolidayCalendar-EditPage"/>
             </list>
         </property>
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm"/>
     </bean>
 
-    <bean id="KS-HolidayCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false">
+    <bean id="KS-HolidayCalendar-EditPage" parent="Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
                 <ref bean="KS-HolidayCalendar-MetaSection"/>
@@ -62,7 +62,7 @@
                 <bean parent="Uif-InputField" p:propertyName="holidayCalendarInfo.adminOrgId"
                       p:label="Organizations" p:labelField.renderColon="false" p:labelField.style="display:block;">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="org-options"/>
+                        <bean parent="Uif-DropdownControl" p:options-ref="hcorg-options"/>
                     </property>
                    <!-- <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.OrgKeyValues"/>
@@ -115,16 +115,33 @@
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay" p:required="true">
+				<bean parent="Uif-InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>
 				</bean>
 			</list>
 		</property>
+        <!-- <property name="layoutManager.richTable.componentOptions">
+            <map merge="true">
+                <entry key="bFilter" value="false"/>
+                <entry key="bInfo" value="false"/>
+                <entry key="bLengthChange" value="false"/>
+                <entry key="bSort" value="false"/>
+                <entry key="iDisplayLength" value="50"/>
+                <entry key="aoColumns"
+                       value="[ {'sTitle':'Holiday Type', 'sWidth':'20%'},
+                                {'sTitle':'Start Date', 'sWidth':'20%'},
+                                {'sTitle':'End Date', 'sWidth':'20%'},
+                                {'sTitle':'Non Instructional', 'sWidth':'20%', 'sClass':'ks-cell-align-center'},
+                                {'sTitle':'Actions', 'sWidth':'20%'}
+                            ]"/>
+
+            </map>
+        </property> -->
 	</bean>
 
-    <util:list id="org-options">
+    <util:list id="hcorg-options">
        <bean parent="Uif-KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
     </util:list>
 
