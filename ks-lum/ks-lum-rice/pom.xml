@@ -54,6 +54,11 @@
       <version>${kuali.rice.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.kuali.rice</groupId>
+      <artifactId>rice-edl-impl</artifactId>
+      <version>${kuali.rice.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
       <version>${project.version}</version>
