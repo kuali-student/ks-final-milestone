@@ -20,10 +20,10 @@
             <scope>provided</scope>
         </dependency>
         <!-- TODO NINA CONFIRM -->
-        <!-- dependency>
+        <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-ui-common</artifactId>
             <version>${project.version}</version>
-        </dependency-->
+        </dependency>
     </dependencies>
 </project>
