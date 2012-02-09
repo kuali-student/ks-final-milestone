@@ -34,7 +34,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppointmentSlotRuleInfo", propOrder = {"weekdays", "startTimeOfDay", "endTimeOfDay",
-        "interval", "gap", "_futureElements"})
+        "slotStartInterval", "slotDuration", "_futureElements"})
 public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
 
     @XmlElement
@@ -44,9 +44,9 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
     @XmlElement
     private TimeOfDayInfo endTimeOfDay;
     @XmlElement
-    private TimeAmountInfo interval;
+    private TimeAmountInfo slotStartInterval;
     @XmlElement
-    private TimeAmountInfo gap;
+    private TimeAmountInfo slotDuration;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -59,8 +59,8 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
             this.weekdays = new ArrayList<Integer>(appointmentSlotRule.getWeekdays());
             this.startTimeOfDay = (null != appointmentSlotRule.getStartTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRule.getStartTimeOfDay()) : null;
             this.endTimeOfDay = (null != appointmentSlotRule.getEndTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRule.getEndTimeOfDay()) : null;
-            this.interval = (null != appointmentSlotRule.getInterval()) ? new TimeAmountInfo(appointmentSlotRule.getInterval()) : null;
-            this.gap = (null != appointmentSlotRule.getGap()) ? new TimeAmountInfo(appointmentSlotRule.getGap()) : null;
+            this.slotStartInterval = (null != appointmentSlotRule.getSlotStartInterval()) ? new TimeAmountInfo(appointmentSlotRule.getSlotStartInterval()) : null;
+            this.slotDuration = (null != appointmentSlotRule.getSlotDuration()) ? new TimeAmountInfo(appointmentSlotRule.getSlotDuration()) : null;
         }
     }
 
@@ -94,21 +94,21 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
         return this.endTimeOfDay;
     }
 
-    public void setInterval(TimeAmountInfo interval) {
-        this.interval = interval;
+    public void setSlotStartInterval(TimeAmountInfo slotStartInterval) {
+        this.slotStartInterval = slotStartInterval;
     }
 
     @Override
-    public TimeAmountInfo getInterval() {
-        return this.interval;
+    public TimeAmountInfo getSlotStartInterval() {
+        return this.slotStartInterval;
     }
 
-    public void setGap(TimeAmountInfo gap) {
-        this.gap = gap;
+    public void setSlotDuration(TimeAmountInfo slotDuration) {
+        this.slotDuration = slotDuration;
     }
 
     @Override
-    public TimeAmountInfo getGap() {
-        return this.gap;
+    public TimeAmountInfo getSlotDuration() {
+        return this.slotDuration;
     }
 }
