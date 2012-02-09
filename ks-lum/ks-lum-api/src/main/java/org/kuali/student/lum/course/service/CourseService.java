@@ -339,15 +339,37 @@ public interface CourseService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo setCurrentCourseVersion(@WebParam(name = "courseVersionId") String courseVersionId, @WebParam(name = "currentVersionStart") Date currentVersionStart,
-            @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-            OperationFailedException, PermissionDeniedException;
+    public StatusInfo setCurrentCourseVersion(@WebParam(name = "courseVersionId") String courseVersionId, @WebParam(name = "currentVersionStart") Date currentVersionStart, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param courseNamespaceUri
+     * @param verIndId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws IllegalVersionSequencingException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Deprecated
-    public VersionDisplayInfo getCurrentVersion(String courseNamespaceUri, String verIndId, ContextInfo contextInfo)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-    OperationFailedException, PermissionDeniedException;
+    public VersionDisplayInfo getCurrentVersion(@WebParam(name = "courseNamespaceUri") String courseNamespaceUri, @WebParam(name = "verIndId") String verIndId, @WebParam(name = "contextInfo") ContextInfo contextInfo)  throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param courseNamespaceUri
+     * @param versionIndId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws IllegalVersionSequencingException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Deprecated
-    public List<VersionDisplayInfo> getVersions(String courseNamespaceUri, String versionIndId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-    OperationFailedException, PermissionDeniedException; 
+    public List<VersionDisplayInfo> getVersions(@WebParam(name = "courseNamespaceUri") String courseNamespaceUri, @WebParam(name = "versionIndId") String versionIndId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException; 
 }
