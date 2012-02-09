@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
@@ -365,7 +366,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
  	        		stateChangeCallback.exec(newState);
  	        	}
  	        }
-    	});
+    	}, ContextUtils.getContextInfo());
     	
     }
     

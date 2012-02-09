@@ -3,6 +3,7 @@ package org.kuali.student.lum.lu.ui.dependency.server;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -39,8 +40,9 @@ public class DependencyAnalysisRpcServlet extends RemoteServiceServlet implement
 
 		
 	@Override
-	public ProgramRequirementInfo getProgramRequirement(String reqId) throws Exception {
-		ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(reqId, null, null);
+	public ProgramRequirementInfo getProgramRequirement(String reqId, ContextInfo contextInfo) throws Exception {
+		//TODO fix null parameters?
+		ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(reqId, null, null, contextInfo);
 		
 		setProgReqNL(programRequirementInfo);
 		return programRequirementInfo;

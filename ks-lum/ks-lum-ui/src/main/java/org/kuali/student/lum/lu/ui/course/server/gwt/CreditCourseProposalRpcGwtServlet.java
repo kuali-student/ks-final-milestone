@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
@@ -35,10 +36,10 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	private CopyCourseServiceImpl copyCourseService;
 	
 	@Override
-	public DataSaveResult createCopyCourse(String originalCluId)
+	public DataSaveResult createCopyCourse(String originalCluId, ContextInfo contextInfo)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourse(originalCluId);
+			return copyCourseService.createCopyCourse(originalCluId, ContextInfo contextInfo);
 		} catch (Exception e) {
 			LOG.error("Error copying course with id:" + originalCluId, e);
 			throw e;
@@ -46,10 +47,10 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	}
 
 	@Override
-	public DataSaveResult createCopyCourseProposal(String originalProposalId)
+	public DataSaveResult createCopyCourseProposal(String originalProposalId, ContextInfo contextInfo)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourseProposal(originalProposalId);
+			return copyCourseService.createCopyCourseProposal(originalProposalId, ContextInfo contextInfo);
 		} catch (Exception e) {
 			LOG.error("Error copying proposal with id:" + originalProposalId, e);
 			throw e;
@@ -58,41 +59,42 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	}
 	
     @Override
-    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws Exception {
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
 
     @Override
-    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states, Map<Integer, StatementTreeViewInfo> rules) throws Exception {
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
+    			Map<Integer, StatementTreeViewInfo> rules, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
 
     @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
 
     @Override
-    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
     
     @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo) throws Exception {
+    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
     
     @Override
-    public StatusInfo changeState(String courseId, String newState) throws Exception {
+    public StatusInfo changeState(String courseId, String newState, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
     
-    public StatusInfo changeState(String courseId, String newState, String prevEndTerm) throws Exception {
+    public StatusInfo changeState(String courseId, String newState, String prevEndTerm, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
     }
 	
     @Override
-	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber, ContextInfo contextInfo) throws Exception {
     	throw new UnsupportedOperationException("This method is not implemented.");
 	}
 

@@ -56,7 +56,8 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
         }
         return rules;
     }
-
+    
+    @Override
     public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
                                                                         Map<Integer, StatementTreeViewInfo> rules, ContextInfo contextInfo) throws Exception {
 
@@ -164,7 +165,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     	states.add("Draft");
     	states.add("Superseded");
     	request.addParam("lu.queryParam.luOptionalState", states);
-    	SearchResult result = luService.search(request);
+    	SearchResult result = luService.search(request, contextInfo);
     	
     	String resultString = result.getRows().get(0).getCells().get(0).getValue();
     	return "0".equals(resultString);

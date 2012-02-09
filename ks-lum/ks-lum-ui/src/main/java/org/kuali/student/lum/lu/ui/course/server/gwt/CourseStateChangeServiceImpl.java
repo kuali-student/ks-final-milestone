@@ -108,7 +108,7 @@ public class CourseStateChangeServiceImpl {
 
 		// Get id of current version of course given the versionindependen id
 		VersionDisplayInfo curVerDisplayInfo = courseService.getCurrentVersion(
-				CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId);
+				CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId, contextInfo);
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -185,7 +185,7 @@ public class CourseStateChangeServiceImpl {
 
 			List<VersionDisplayInfo> versions = courseService.getVersions(
 					CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-							.getVersionInfo().getVersionIndId());
+							.getVersionInfo().getVersionIndId(), contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {

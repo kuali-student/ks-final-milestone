@@ -35,7 +35,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Window;
 
 /**
- * Curriculum home controller which controls the main LayoutController views of the lum application.  The
+ *   Curriculum home controller which controls the main LayoutController views of the lum application.  The
  * default view of this controller is the Curriculum Home Landing page.  The following views are views within
  * this controller's scope:<br>
  * 		COURSE_PROPOSAL<br>
