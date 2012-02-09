@@ -131,7 +131,7 @@
                                 <inputFile>KeyDateInfo</inputFile>                           
 <!--                                 Appointment -->
                                 <inputFile>ks-AppointmentWindowInfo-dictionary.xml</inputFile>
-                                <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  
+<!--                                <inputFile>ks-AppointmentSlotInfo-dictionary.xml</inputFile>                                  -->
                                 <inputFile>ks-AppointmentInfo-dictionary.xml</inputFile>                      
 <!--                                LPR -->
                                 <inputFile>ks-LuiPersonRelationInfo-dictionary.xml</inputFile>
