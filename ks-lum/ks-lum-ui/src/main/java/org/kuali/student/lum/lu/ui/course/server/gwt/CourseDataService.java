@@ -99,13 +99,13 @@ public class CourseDataService extends AbstractDataService {
 			        throw new OperationFailedException("Error creating new version for course, this course is currently under modification.");
 			    }
 			}else{
-				courseInfo = courseService.updateCourse(courseInfo, contextInfo);
+				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
 			}
 		}else{
 			if (courseInfo.getId() == null){
 				courseInfo = courseService.createCourse(courseInfo, contextInfo);
 			} else {
-				courseInfo = courseService.updateCourse(courseInfo, contextInfo);
+				courseInfo = courseService.updateCourse(courseInfo.getId(), courseInfo, contextInfo);
 			}
 		}
 		return courseInfo;
