@@ -787,122 +787,285 @@ public interface ProgramService {
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param refObjectTypeURI
+     * @param refObjectId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Deprecated
-    public VersionDisplayInfo getCurrentVersion(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam (name="refObjectId") String refObjectId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public VersionDisplayInfo getCurrentVersion(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam (name="refObjectId") String refObjectId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param programServiceConstants
+     * @param versionIndId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Deprecated
-    public List<VersionDisplayInfo> getVersions(@WebParam(name="programServiceConstants") String programServiceConstants, @WebParam (name="versionIndId") String versionIndId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<VersionDisplayInfo> getVersions(@WebParam(name="programServiceConstants") String programServiceConstants, @WebParam (name="versionIndId") String versionIndId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param refObjectTypeURI
+     * @param refObjectId
+     * @param date
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     //TODO KSCM I added this methods since the implementation has this method aswell.
     // The signature is updated on implementation to have a ContexInfo parameter.
     @Deprecated
     @Transactional(readOnly=true)
-    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
-                                               String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
+    public VersionDisplayInfo getCurrentVersionOnDate(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam(name="refObjectId") String refObjectId, @WebParam(name="date") Date date, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param refObjectTypeURI
+     * @param refObjectId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=true)
-    VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
-                                       String refObjectId, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
+    public VersionDisplayInfo getFirstVersion(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam(name="refObjectId") String refObjectId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param refObjectTypeURI
+     * @param refObjectId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=true)
-    VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
-                                        String refObjectId, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
+    public VersionDisplayInfo getLatestVersion(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam(name="refObjectId") String refObjectId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param refObjectTypeURI
+     * @param refObjectId
+     * @param sequence
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=true)
-    VersionDisplayInfo getVersionBySequenceNumber(
-            String refObjectTypeURI, String refObjectId, Long sequence, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
+    public VersionDisplayInfo getVersionBySequenceNumber(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam(name="refObjectId") String refObjectId, @WebParam(name="sequence") Long sequence, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param refObjectTypeURI
+     * @param refObjectId
+     * @param from
+     * @param to
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=true)
-    List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException,
-            PermissionDeniedException;
+    public List<VersionDisplayInfo> getVersionsInDateRange(@WebParam(name="refObjectTypeURI") String refObjectTypeURI, @WebParam(name="refObjectId") String refObjectId, @WebParam(name="from") Date from, @WebParam(name="to") Date to, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    LuTypeInfo getCredentialProgramType(String credentialProgramTypeKey, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+    /**
+     * 
+     * @param credentialProgramTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public LuTypeInfo getCredentialProgramType(@WebParam(name="credentialProgramTypeKey") String credentialProgramTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    List<LuTypeInfo> getCredentialProgramTypes(ContextInfo contextInfo)
-            throws OperationFailedException;
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    public List<LuTypeInfo> getCredentialProgramTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws OperationFailedException;
 
-    List<String> getHonorsByCredentialProgramType(String programType, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+    /**
+     * 
+     * @param programType
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public List<String> getHonorsByCredentialProgramType(@WebParam(name="programType") String programType, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    List<String> getMajorIdsByCredentialProgramType(String programType, ContextInfo contextInfo)
-            throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+    /**
+     * 
+     * @param programType
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public List<String> getMajorIdsByCredentialProgramType(@WebParam(name="programType") String programType, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     * 
+     * @param majorDisciplineId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
     @Transactional(readOnly=true)
-    List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
-            String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException;
+    public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(@WebParam(name="majorDisciplineId") String majorDisciplineId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
+    /**
+     * 
+     * @param credentialProgramInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    CredentialProgramInfo updateCredentialProgram(
-            CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            VersionMismatchException, OperationFailedException,
-            PermissionDeniedException;
+    public CredentialProgramInfo updateCredentialProgram(@WebParam(name="credentialProgramInfo") CredentialProgramInfo credentialProgramInfo, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param honorsProgramInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    HonorsProgramInfo updateHonorsProgram(
-            HonorsProgramInfo honorsProgramInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            VersionMismatchException, OperationFailedException,
-            PermissionDeniedException;
+    public HonorsProgramInfo updateHonorsProgram(@WebParam(name="honorsProgramInfo") HonorsProgramInfo honorsProgramInfo, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param minorDisciplineInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    MinorDisciplineInfo updateMinorDiscipline(
-            MinorDisciplineInfo minorDisciplineInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            VersionMismatchException, OperationFailedException,
-            PermissionDeniedException;
+    public MinorDisciplineInfo updateMinorDiscipline(@WebParam(name="minorDisciplineInfo") MinorDisciplineInfo minorDisciplineInfo, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
 
-    ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo);
+    /**
+     * 
+     * @param objectTypeKey
+     * @param contextInfo
+     * @return
+     */
+    public ObjectStructureDefinition getObjectStructure(@WebParam(name="objectTypeKey") String objectTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo);
 
-    List<String> getObjectTypes(ContextInfo contextInfo);
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     */
+    public List<String> getObjectTypes(@WebParam(name="contextInfo") ContextInfo contextInfo);
 
+    /**
+     * 
+     * @param programRequirementId
+     * @param nlUsageTypeKey
+     * @param language
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=true)
-    ProgramRequirementInfo getProgramRequirement(String programRequirementId, String nlUsageTypeKey, String language, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
+    public ProgramRequirementInfo getProgramRequirement(@WebParam(name="programRequirementId") String programRequirementId, @WebParam(name="nlUsageTypeKey") String nlUsageTypeKey, @WebParam(name="language") String language, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param majorDisciplineInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    MajorDisciplineInfo updateMajorDiscipline(
-            MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            VersionMismatchException, OperationFailedException,
-            PermissionDeniedException;
+    public MajorDisciplineInfo updateMajorDiscipline(@WebParam(name="majorDisciplineInfo") MajorDisciplineInfo majorDisciplineInfo, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * 
+     * @param programRequirementInfo
+     * @param contextInfo
+     * @return
+     * @throws DataValidationErrorException
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws VersionMismatchException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    ProgramRequirementInfo updateProgramRequirement(
-            ProgramRequirementInfo programRequirementInfo, ContextInfo contextInfo)
-            throws DataValidationErrorException, DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            VersionMismatchException, OperationFailedException,
-            PermissionDeniedException;
-
-
-
-
+    public ProgramRequirementInfo updateProgramRequirement(@WebParam(name="programRequirementInfo") ProgramRequirementInfo programRequirementInfo, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException;
 }
