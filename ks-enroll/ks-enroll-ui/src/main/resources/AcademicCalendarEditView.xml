@@ -48,7 +48,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Calendar Draft" p:methodToCall="save"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Calendar Draft"  p:clientSideJs="saveForm();" />
                     </list>
                 </property>
             </bean>
@@ -105,7 +105,15 @@
         <property name="layoutManager.separateAddLine" value="false" />
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:label="Event" p:propertyName="eventType" p:required="true" />
+				<bean parent="Uif-InputField" p:label="Event" p:propertyName="eventType" p:required="true" >
+                    <!--
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" />
+                    </property> -->
+                </bean>
 				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
                     <property name="control">
 						<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
