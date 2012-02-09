@@ -741,34 +741,9 @@ public interface AppointmentService {
      * @throws ReadOnlyException            an attempt at supplying information
      *                                      designated as read only
      * @impl Check out blackout milestone type and corresponding milestones
-     * @impl throw DataValidationErrorException if MaxPerSlot is specified
+     * @impl throw OperationFailedException if unable to create needed slots either because  both EndDate and MaxAppointmentsPerSlot were specified and cannot be satisfied or due to some other reason
      */
-    public List<AppointmentSlotInfo> generateAppointmentSlotsByWindowUsingEndDate(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
-    /**
-     * Create AppointmentSlots for the AppointmentWindow using its
-     * AppointmentSlotRule information
-     *
-     * @param appointmentWindowId appointment slot of the person
-     * @param contextInfo         context information containing the principalId
-     *                            and locale information about the caller of
-     *                            service operation
-     * @return created AppointmentSlots for the window using its
-     *         AppointmentSlotRule information
-     * @throws DataValidationErrorException supplied data is invalid
-     * @throws DoesNotExistException        appointmentWindowId does not exist
-     * @throws InvalidParameterException    invalid contextInfo
-     * @throws MissingParameterException    appointmentWindowId or contextInfo
-     *                                      is missing or null
-     * @throws OperationFailedException     unable to complete request
-     * @throws PermissionDeniedException    an authorization failure occurred
-     * @throws ReadOnlyException            an attempt at supplying information
-     *                                      designated as read only
-     * @impl Check out blackout milestone type and corresponding milestones
-     * @impl throw DataValidationErrorException if EndDate is specified
-     */
-    public List<AppointmentSlotInfo> generateAppointmentSlotsByWindowUsingMaxPerSlot(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
-
+    public List<AppointmentSlotInfo> generateAppointmentSlotsByWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an appointment slot
