@@ -55,7 +55,7 @@ public interface AppointmentSlotRule {
     /**
      * Interval between start times of two consecutive appointment slots ("30 mins")
      *
-     * @name Interval
+     * @name Slot Start Interval
      * @impl If the slot is open ended, then slotStartInterval is null
      */
     TimeAmount getSlotStartInterval();
