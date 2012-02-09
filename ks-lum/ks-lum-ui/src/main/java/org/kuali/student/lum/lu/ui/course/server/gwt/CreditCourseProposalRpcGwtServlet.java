@@ -39,7 +39,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	public DataSaveResult createCopyCourse(String originalCluId, ContextInfo contextInfo)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourse(originalCluId, ContextInfo contextInfo);
+			return copyCourseService.createCopyCourse(originalCluId, contextInfo);
 		} catch (Exception e) {
 			LOG.error("Error copying course with id:" + originalCluId, e);
 			throw e;
@@ -50,7 +50,7 @@ public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
 	public DataSaveResult createCopyCourseProposal(String originalProposalId, ContextInfo contextInfo)
 			throws Exception {
 		try {
-			return copyCourseService.createCopyCourseProposal(originalProposalId, ContextInfo contextInfo);
+			return copyCourseService.createCopyCourseProposal(originalProposalId, contextInfo);
 		} catch (Exception e) {
 			LOG.error("Error copying proposal with id:" + originalProposalId, e);
 			throw e;

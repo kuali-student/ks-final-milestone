@@ -69,15 +69,15 @@ public class CopyCourseServiceImpl {
 		return result;
 	}
 
-	public DataSaveResult createCopyCourseProposal(String originalProposalId) throws Exception {
+	public DataSaveResult createCopyCourseProposal(String originalProposalId, ContextInfo contextInfo) throws Exception {
 		//Copy the proposal and use the data service to return
 		ProposalInfo copiedProposal = copyProposal(originalProposalId);
 		
 		//Grab the data object so it is transformed
-		Data data = courseProposalDataService.getData(copiedProposal.getId());
+		Data data = courseProposalDataService.getData(copiedProposal.getId(), contextInfo);
 		
 		//Save it so that it goes through the filters and creates workflow
-		return courseProposalDataService.saveData(data);
+		return courseProposalDataService.saveData(data, contextInfo);
 	}
 	
 	private CourseInfo copyCourse(String originalCluId) throws Exception{
