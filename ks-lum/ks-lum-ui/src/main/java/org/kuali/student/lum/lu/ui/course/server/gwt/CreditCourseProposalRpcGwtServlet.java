@@ -15,124 +15,91 @@
 
 package org.kuali.student.lum.lu.ui.course.server.gwt;
 
-import java.io.StringWriter;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.common.ui.server.gwt.AbstractBaseDataOrchestrationRpcGwtServlet;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.lum.lu.assembly.ModifyCreditCourseProposalManager;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseHelper;
-import org.kuali.student.lum.lu.assembly.data.client.refactorme.orch.CreditCourseProposalHelper;
-import org.kuali.student.lum.lu.dto.workflow.CluProposalDocInfo;
-import org.kuali.student.lum.lu.ui.course.client.configuration.LUConstants;
+import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;
 
-public class CreditCourseProposalRpcGwtServlet extends
-		AbstractBaseDataOrchestrationRpcGwtServlet implements
-		CreditCourseProposalRpcService {
+public class CreditCourseProposalRpcGwtServlet extends DataGwtServlet implements
+        CreditCourseProposalRpcService {
+
+	final static Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
 
 	private static final long serialVersionUID = 1L;
-	final Logger LOG = Logger.getLogger(CreditCourseProposalRpcGwtServlet.class);
-    private static final String WF_TYPE_CLU_DOCUMENT = "CluCreditCourseProposal";
-	private static final String DEFAULT_METADATA_STATE = "draft";
-	private static final String DEFAULT_METADATA_TYPE = null;
-
-	private ModifyCreditCourseProposalManager modifyCourseManager;
+	private CopyCourseServiceImpl copyCourseService;
 	
 	@Override
-	public DataSaveResult submitDocumentWithData(Data data) throws OperationFailedException{
-	    
-	    CreditCourseHelper course = null;
-	    CreditCourseProposalHelper helper = CreditCourseProposalHelper.wrap(data);
-        course = CreditCourseHelper.wrap(helper.getCourse().getData());               
-	    course.setState(LUConstants.LU_STATE_SUBMITTED);
-        
-	    return super.submitDocumentWithData(data);
-	}
-	
-	@Override
-	public Data getNewProposalWithCopyOfClu(String dataId) throws OperationFailedException {
+	public DataSaveResult createCopyCourse(String originalCluId, ContextInfo contextInfo)
+			throws Exception {
 		try {
-			return modifyCourseManager.getNewProposalWithCopyOfClu(dataId);
-		} catch (AssemblyException e) {
-			LOG.error("Copy Failed on id:"+dataId, e);
-			throw new OperationFailedException("Copy Failed on id:"+dataId,e);
+			return copyCourseService.createCopyCourse(originalCluId, contextInfo);
+		} catch (Exception e) {
+			LOG.error("Error copying course with id:" + originalCluId, e);
+			throw e;
 		}
+	}
+
+	@Override
+	public DataSaveResult createCopyCourseProposal(String originalProposalId, ContextInfo contextInfo)
+			throws Exception {
+		try {
+			return copyCourseService.createCopyCourseProposal(originalProposalId, contextInfo);
+		} catch (Exception e) {
+			LOG.error("Error copying proposal with id:" + originalProposalId, e);
+			throw e;
+		}
+
 	}
 	
     @Override
-	protected String deriveAppIdFromData(Data data) {
-		CreditCourseProposalHelper cluProposal = CreditCourseProposalHelper.wrap(data);
-		if(cluProposal!=null&&cluProposal.getProposal()!=null){
-			return cluProposal.getProposal().getId();
-		}
-		return null;
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+
+    @Override
+    public Map<Integer, StatementTreeViewInfo> storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
+    			Map<Integer, StatementTreeViewInfo> rules, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+
+    @Override
+    public StatementTreeViewInfo createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+
+    @Override
+    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+    
+    @Override
+    public StatementTreeViewInfo updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+    
+    @Override
+    public StatusInfo changeState(String courseId, String newState, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+    
+    public StatusInfo changeState(String courseId, String newState, String prevEndTerm, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
+    }
+	
+    @Override
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber, ContextInfo contextInfo) throws Exception {
+    	throw new UnsupportedOperationException("This method is not implemented.");
 	}
 
-	@Override
-	protected String deriveDocContentFromData(Data data) {
-    	try{
-    		CreditCourseProposalHelper cluProposal = CreditCourseProposalHelper.wrap(data);
-    		
-    		CluProposalDocInfo docContent = new CluProposalDocInfo();
-    		
-    		if(null == cluProposal.getCourse()){
-    			throw new OperationFailedException("CluInfo must be set.");
-    		}
-    		
-    		String cluId = cluProposal.getCourse().getId()==null?"":cluProposal.getCourse().getId(); 
-    		String adminOrg = cluProposal.getCourse().getDepartment()==null?"":cluProposal.getCourse().getDepartment(); 
-    		String proposalId = cluProposal.getProposal().getId()==null?"":cluProposal.getProposal().getId();
-    		
-    		docContent.setCluId(cluId);
-            docContent.setOrgId(adminOrg);
-            docContent.setProposalId(proposalId);
-            
-    		JAXBContext context = JAXBContext.newInstance(docContent.getClass());
-    		Marshaller marshaller = context.createMarshaller();
-            StringWriter writer = new StringWriter();
-    		marshaller.marshal(docContent, writer);
-    		return writer.toString();
-
-    	} catch(Exception e) {
-    		LOG.error("Error creating Document content for Clu. ", e);
-    	}
-    	return null;
+	public void setCopyCourseService(CopyCourseServiceImpl copyCourseService) {
+		this.copyCourseService = copyCourseService;
 	}
 
-	@Override
-	protected String getDefaultMetaDataState() {
-		return DEFAULT_METADATA_STATE;
-	}
-
-	@Override
-	protected String getDefaultMetaDataType() {
-		return DEFAULT_METADATA_TYPE;
-	}
-
-	@Override
-	protected String getDefaultWorkflowDocumentType() {
-		return WF_TYPE_CLU_DOCUMENT;
-	}
-
-
-	@Override
-	protected boolean checkDocumentLevelPermissions() {
-		return true;
-	}
-
-	public ModifyCreditCourseProposalManager getModifyCourseManager() {
-		return modifyCourseManager;
-	}
-
-	public void setModifyCourseManager(
-			ModifyCreditCourseProposalManager modifyCourseManager) {
-		this.modifyCourseManager = modifyCourseManager;
-	}
 }

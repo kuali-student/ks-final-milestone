@@ -16,21 +16,20 @@
 package org.kuali.student.lum.lo.dto;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.HasAttributes;
 
 /**
  * Information about a LO to LO relationship type.
@@ -41,6 +40,8 @@ import org.kuali.student.core.dto.HasAttributes;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/loLoRelationTypeInfo+Structure+v1.0-rc2">LoLoRelationTypeInfo</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "LoLoRelationTypeInfo", propOrder = {"id", "name", "desc", "revName", "revDesc", "effectiveDate", "expirationDate", "attributes"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoLoRelationTypeInfo implements Serializable, Idable, HasAttributes {
 

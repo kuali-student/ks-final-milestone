@@ -26,20 +26,27 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.AmountInfo;
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.dto.TimeAmountInfo;
+import org.kuali.student.common.dto.AmountInfo;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.HasTypeState;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  *Detailed information about a single CLU.
- */ 
+ */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "CluInfo", propOrder = {"id", "type", "state", "officialIdentifier", "alternateIdentifiers", "studySubjectArea", "descr", "campusLocations", "accreditations", "adminOrgs",
+		"primaryInstructor", "instructors",	"expectedFirstAtp", "lastAtp", "lastAdmitAtp", "effectiveDate", "expirationDate", "intensity", "stdDuration", "canCreateLui", "referenceURL",
+		"luCodes", "nextReviewPeriod", "isEnrollable", "offeredAtpTypes", "hasEarlyDropDeadline", "defaultEnrollmentEstimate", "defaultMaximumEnrollment", "isHazardousForDisabledStudents",
+		"feeInfo", "accountingInfo", "attributes", "metaInfo", "versionInfo"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
@@ -50,9 +57,6 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private List<CluIdentifierInfo> alternateIdentifiers;
-
-    @XmlElement
-    private List<AcademicSubjectOrgInfo> academicSubjectOrgs;
 
     @XmlElement
     private String studySubjectArea;
@@ -67,10 +71,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     private List<AccreditationInfo> accreditations;
 
     @XmlElement
-    private AdminOrgInfo primaryAdminOrg;
-
-    @XmlElement
-    private List<AdminOrgInfo> alternateAdminOrgs;
+    private List<AdminOrgInfo> adminOrgs;
 
     @XmlElement
     private CluInstructorInfo primaryInstructor;
@@ -80,6 +81,12 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private String expectedFirstAtp;
+
+    @XmlElement
+    private String lastAtp;
+
+    @XmlElement
+    private String lastAdmitAtp;
 
     @XmlElement
     private Date effectiveDate;
@@ -101,22 +108,22 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private List<LuCodeInfo> luCodes;
-    
+
     @XmlElement
     private String nextReviewPeriod;
 
     @XmlElement
     private boolean isEnrollable;
-    
+
     @XmlElement
     private List<String> offeredAtpTypes;
-    
+
     @XmlElement
     private boolean hasEarlyDropDeadline;
 
     @XmlElement
     private int defaultEnrollmentEstimate;
-    
+
     @XmlElement
     private int defaultMaximumEnrollment;
 
@@ -135,6 +142,9 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private MetaInfo metaInfo;
+
+    @XmlElement
+    private VersionInfo versionInfo;
 
     @XmlAttribute
     private String type;
@@ -171,19 +181,6 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.alternateIdentifiers = alternateIdentifiers;
     }
 
-    /*
-     * The organizations that represents the Subject area of the Clu, if different from the PrimaryAdminOrg
-     */
-    public List<AcademicSubjectOrgInfo> getAcademicSubjectOrgs() {
-        if (academicSubjectOrgs == null) {
-            academicSubjectOrgs = new ArrayList<AcademicSubjectOrgInfo>();
-        }
-        return academicSubjectOrgs;
-    }
-
-    public void setAcademicSubjectOrgs(List<AcademicSubjectOrgInfo> academicSubjectOrgs) {
-        this.academicSubjectOrgs = academicSubjectOrgs;
-    }
 
     /**
      * The Study Subject Area is used to identify the area of study associated with the clu. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture) depending on the level of specificity of the clu.
@@ -234,24 +231,16 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public void setCampusLocations(List<String> campusLocations) {
         this.campusLocations = campusLocations;
     }
-    
-    public AdminOrgInfo getPrimaryAdminOrg() {
-        return primaryAdminOrg;
-    }
 
-    public void setPrimaryAdminOrg(AdminOrgInfo primaryAdminOrg) {
-        this.primaryAdminOrg = primaryAdminOrg;
-    }
-
-    public List<AdminOrgInfo> getAlternateAdminOrgs() {
-        if (alternateAdminOrgs == null) {
-            alternateAdminOrgs = new ArrayList<AdminOrgInfo>();
+    public List<AdminOrgInfo> getAdminOrgs() {
+        if (adminOrgs == null) {
+        	adminOrgs = new ArrayList<AdminOrgInfo>();
         }
-        return alternateAdminOrgs;
+        return adminOrgs;
     }
 
-    public void setAlternateAdminOrgs(List<AdminOrgInfo> alternateAdminOrgs) {
-        this.alternateAdminOrgs = alternateAdminOrgs;
+    public void setAdminOrgs(List<AdminOrgInfo> adminOrgs) {
+        this.adminOrgs = adminOrgs;
     }
 
     /**
@@ -358,7 +347,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
     public void setLuCodes(List<LuCodeInfo> luCodes) {
         this.luCodes = luCodes;
     }
-    
+
     /**
      * When the next review should be
      */
@@ -486,6 +475,15 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
         this.metaInfo = metaInfo;
     }
 
+
+    public VersionInfo getVersionInfo() {
+        return versionInfo;
+    }
+
+    public void setVersionInfo(VersionInfo versionInfo) {
+        this.versionInfo = versionInfo;
+    }
+
     /**
      * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
      */
@@ -526,4 +524,26 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 	public void setExpectedFirstAtp(String expectedFirstAtp) {
 		this.expectedFirstAtp = expectedFirstAtp;
 	}
+
+    public String getLastAtp() {
+        return lastAtp;
+    }
+
+    public void setLastAtp(String lastAtp) {
+        this.lastAtp = lastAtp;
+    }
+
+    public String getLastAdmitAtp() {
+        return lastAdmitAtp;
+    }
+
+    public void setLastAdmitAtp(String lastAdmitAtp) {
+        this.lastAdmitAtp = lastAdmitAtp;
+    }
+
+    @Override
+    public String toString() {
+    	return "CluInfo[id=" + id + ", type=" + type + "]";
+    }
+
 }

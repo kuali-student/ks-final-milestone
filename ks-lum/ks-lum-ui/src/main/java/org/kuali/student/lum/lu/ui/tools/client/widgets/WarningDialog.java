@@ -67,7 +67,7 @@ public class WarningDialog {
             public void onClick(ClickEvent event) {
                 if (confirmationCallbacks != null) {
                     for (Callback<Boolean> confirmationCallback : confirmationCallbacks) {
-                        confirmationCallback.exec(new Boolean(true));
+                        confirmationCallback.exec(Boolean.TRUE);
                     }
                 }
             }
@@ -77,7 +77,7 @@ public class WarningDialog {
             public void onClick(ClickEvent event) {
                 if (confirmationCallbacks != null) {
                     for (Callback<Boolean> confirmationCallback : confirmationCallbacks) {
-                        confirmationCallback.exec(new Boolean(false));
+                        confirmationCallback.exec(Boolean.FALSE);
                     }
                 }
             }

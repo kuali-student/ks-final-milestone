@@ -15,17 +15,15 @@
 
 package org.kuali.student.lum.lo.entity;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -34,30 +32,27 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 
 /**
  * @author Kuali Student Team
  */
 @Entity
-@Table(name = "KSLU_LO")
+@Table(name = "KSLO_LO")
 @NamedQueries( {
 	@NamedQuery(name = "Lo.getAllowedLoLoRelationTypes", query = "SELECT relType.relationTypeId FROM AllowedLoLoRelationType relType WHERE relType.loTypeId = :loTypeKey AND relType.relatedLoTypeId = :relatedLoTypeKey"),	
 	@NamedQuery(name = "Lo.getRelatedLosByLoId", query = "SELECT rel.relatedLo FROM LoLoRelation rel WHERE rel.lo.id = :loId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
 	@NamedQuery(name = "Lo.getLosByRelatedLoId", query = "SELECT rel.lo FROM LoLoRelation rel WHERE rel.relatedLo.id = :relatedLoId AND rel.loLoRelationType.id = :loLoRelationTypeId"),
 	@NamedQuery(name = "Lo.getLoCategories", query = "SELECT c FROM LoCategory c WHERE c.loRepository.id = :repositoryId"),
 	@NamedQuery(name = "Lo.findLosByIdList", query = "SELECT l FROM Lo l WHERE l.id IN (:idList)"),
-	@NamedQuery(name = "Lo.getLoCategoriesForLo", query = "SELECT c FROM LoCategory c, IN (c.los) lo WHERE lo.id = :loId"),
-	@NamedQuery(name = "Lo.getLosByLoCategory", query = "SELECT l FROM Lo l, IN (l.categories) category WHERE category.id = :loCategoryId"),
+	@NamedQuery(name = "Lo.getLoCategoriesForLo", query = "SELECT j.loCategory FROM LoLoCategoryJoin j WHERE j.lo.id = :loId"),
+	@NamedQuery(name = "Lo.getLosByLoCategory", query = "SELECT j.lo FROM LoLoCategoryJoin j WHERE j.loCategory.id = :loCategoryId"),
 	@NamedQuery(name = "Lo.getLosByRepository", query = "SELECT l FROM Lo l WHERE l.loRepository.id = :loRepositoryId"),
-	@NamedQuery(name = "Lo.getLoLoRelationsByLoId", query = "SELECT llRel FROM LoLoRelation llRel WHERE llRel.lo.id = :loId OR llRel.relatedLo.id = :loId")
+	@NamedQuery(name = "Lo.getLoLoRelationsByLoId", query = "SELECT llRel FROM LoLoRelation llRel WHERE llRel.lo.id = :loId OR llRel.relatedLo.id = :loId"),
+	@NamedQuery(name = "Lo.getLoCategoryJoin", query = "SELECT j FROM LoLoCategoryJoin j WHERE j.lo.id = :loId AND j.loCategory.id = :loCategoryId")
 })
 public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@Column(name = "NAME")
 	private
@@ -71,18 +66,6 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	@JoinColumn(name = "LO_REPO_ID")
 	private LoRepository loRepository;
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "KSLU_LOLO_RELTN",
-				joinColumns = { @JoinColumn(name = "LO_ID")},
-				inverseJoinColumns = { @JoinColumn(name = "RELATED_LO_ID")})
-	private List<Lo> relatedLos;
-
-	@ManyToMany
-	@JoinTable(name = "KSLU_LO_JN_LOCATEGORY",
-				joinColumns = { @JoinColumn(name = "LO_ID")},
-				inverseJoinColumns = { @JoinColumn(name = "LOCATEGORY_ID")})
-	private List<LoCategory> categories;
-
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "EFF_DT")
 	private Date effectiveDate;
@@ -94,25 +77,20 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
 	private List<LoAttribute> attributes;
 
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="lo")
+    @JoinTable(
+    		name="KSLO_LO_JN_LOCATEGORY",
+	        joinColumns=@JoinColumn(name="LO_ID", insertable=false, updatable=false),
+	        inverseJoinColumns=@JoinColumn(name="ID", insertable=false, updatable=false)
+	)
+	private List<LoLoCategoryJoin> categories;
+	
 	@ManyToOne
 	@JoinColumn(name = "LOTYPE_ID")
 	private LoType loType;
 
 	@Column(name = "ST")
 	private String state;
-	
-	@Override
-	protected void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	/**
 	 * @param name the name to set
@@ -137,7 +115,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	}
 
 	/**
-	 * @param loHierarchy the loHierarchy to set
+	 * @param loRepository the loHierarchy to set
 	 */
 	public void setLoRepository(LoRepository loRepository) {
 		this.loRepository = loRepository;
@@ -148,34 +126,6 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 */
 	public LoRepository getLoRepository() {
 		return loRepository;
-	}
-
-	/**
-	 * @param relatedLos the relatedLos to set
-	 */
-	public void setRelatedLos(List<Lo> relatedLos) {
-		this.relatedLos = relatedLos;
-	}
-
-	/**
-	 * @return the relatedLos
-	 */
-	public List<Lo> getRelatedLos() {
-		if (null == relatedLos) {
-			relatedLos = new ArrayList<Lo>(0);
-		}
-		return relatedLos;
-	}
-
-	public void setCategories(List<LoCategory> categories) {
-		this.categories = categories;
-	}
-
-	public List<LoCategory> getCategories() {
-		if (null == categories) {
-			categories = new ArrayList<LoCategory>(0);
-		}
-		return categories;
 	}
 
 	public Date getEffectiveDate() {
@@ -195,18 +145,15 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#getAttributes()
+	 * @see org.kuali.student.common.entity.AttributeOwner#getAttributes()
 	 */
 	@Override
 	public List<LoAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LoAttribute>(0);
-		}
 		return attributes;
 	}
 
 	/* (non-Javadoc)
-	 * @see org.kuali.student.core.entity.AttributeOwner#setAttributes(java.util.List)
+	 * @see org.kuali.student.common.entity.AttributeOwner#setAttributes(java.util.List)
 	 */
 	@Override
 	public void setAttributes(List<LoAttribute> attributes) {
@@ -239,5 +186,13 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	 */
 	public String getState() {
 		return state;
+	}
+
+	public void setCategories(List<LoLoCategoryJoin> categories) {
+		this.categories = categories;
+	}
+
+	public List<LoLoCategoryJoin> getCategories() {
+		return categories;
 	}
 }

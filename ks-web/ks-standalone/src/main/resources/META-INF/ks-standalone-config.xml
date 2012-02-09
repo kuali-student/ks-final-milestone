@@ -28,7 +28,7 @@
     <param name="jpa.vendor">hibernate</param>
 
     <param name="app.code">ks-standalone</param>
-    <param name="appserver.url">http://localhost:8080</param>
+    <param name="appserver.url">http://localhost:8084</param>
 	
     <param name="serviceNamespace">ks-standalone</param>
     <param name="rice.ksb.loadKNSModuleConfiguration">false</param>
@@ -51,7 +51,8 @@
     <param name="rice.ksb.message.jpa.PersistenceUnitName.oracle">ksb-message-sequence-unit</param>
     <param name="rice.ksb.message.jpa.PersistenceUnitName">${rice.ksb.message.jpa.PersistenceUnitName.${db.vendor}}</param>
     <param name="rice.ksb.message.jpa.GenerateDdl">false</param>
-    
+	
+	<param name="rice.jpa.JpaProperties.hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JOTMTransactionManagerLookup</param>    
     <!-- can't validate because of bad clob vs varchar in rice annotations -->
     <!-- 
     <param name="rice.ksb.registry.jpa.JpaProperties.hibernate.hbm2ddl.auto">validate</param>
@@ -108,7 +109,7 @@
         Setting this property allows selective loading lum or core project or both
     -->
     <param name="ks.projects">classpath:ksb/ks-core-context.xml,classpath:ksb/ks-lu-context.xml,
-        classpath:ks-spring-security-saml.xml
+        classpath:ks-spring-security-saml.xml,classpath:ksb/ks-standalone-admin-context.xml
 	</param>
 
     <!-- additional context files -->
@@ -118,7 +119,7 @@
     
     
     <param name="ks.rice.label">RICE</param>
-    <param name="ks.rice.url">http://localhost:8081/ks-rice-${environment}</param>
+    <param name="ks.rice.url">http://localhost:8080/ks-rice-${environment}</param>
     
     <param name="serviceServletUrl">${application.url}/services/</param>
     
@@ -138,12 +139,21 @@
     <param name="lum.application.url" override="false">${application.url}</param>
     <param name="ks.lum.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.lum.lu.ui.main.LUMMain/LUMMain.jsp</param>
     
-    <param name="ks.application.version">Kuali Student Version : 1.0.0-rc1</param>
-    
     <!-- system params for derby network version -->
     <param name="derby.system.home" system="true" override="false">target</param>
     <param name="derby.drda.startNetworkServer" system="true" override="false">true</param>
     
+    <!-- KS caching config -->
+    <param name="ks.cache.config.file">classpath:ks-ehcache.xml</param>
+    <param name="ks.enum.enable.caching">true</param>
+    <param name="ks.atp.enable.caching">true</param>
+    <param name="ks.org.enable.caching">true</param>
+    <param name="ks.lrc.enable.caching">true</param>
+    <param name="ks.statement.enable.caching">true</param>
+        
+	<param name="ks.lum.gwt.cache.config.file">classpath:ks-lum-gwt-ehcache.xml</param>
+    <param name="ks.lum.gwt.metadata.enable.caching">true</param>
+        
     <!-- Config defaults and overrides -->
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-config.xml</param>
     <param name="config.location">${user.home}/kuali/main/${environment}/ks-standalone-config.xml</param>

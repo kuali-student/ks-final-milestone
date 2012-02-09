@@ -1,5 +1,5 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
+ * Copyright 2011 The Kuali Foundation Licensed under the
  * Educational Community License, Version 2.0 (the "License"); you may
  * not use this file except in compliance with the License. You may
  * obtain a copy of the License at
@@ -15,447 +15,1004 @@
 
 package org.kuali.student.lum.lo.service;
 
-import java.util.List;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.*;
+import org.kuali.student.common.search.dto.*;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.util.constants.LearningObjectiveServiceConstants;
+import org.kuali.student.lum.lo.dto.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
-
-import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.service.SearchService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.lum.lo.dto.LoLoRelationTypeInfo;
-import org.kuali.student.lum.lo.dto.LoRepositoryInfo;
-import org.kuali.student.lum.lo.dto.LoTypeInfo;
+import java.util.List;
 
 /**
- *
- * @Author KSContractMojo
- * @Author jimt
- * @Since Tue Dec 08 10:00:55 PST 2009
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Learning+Objective+Service+v1.0-rc3">LearningObjectiveService</>
- *
+ * The Learning Objective Service allows for the creation and management of Learning Objectives.
  */
-@WebService(name = "LearningObjectiveService", targetNamespace = "http://student.kuali.org/wsdl/lo") // TODO CHECK THESE VALUES
+@WebService(name = "LearningObjectiveService", targetNamespace = LearningObjectiveServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface LearningObjectiveService extends DictionaryService, SearchService { 
-    /** 
-     * Retrieves the list of learning objective repositories known by this service.
-     * @return list of learning objective repository information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoRepositoryInfo> getLoRepositories() throws OperationFailedException;
+public interface LearningObjectiveService {
 
-    /** 
-     * Retrieves information about a particular learning objective repository.
-     * @param loRepositoryKey learning objective repository identifier
-     * @return information about a learning objective repository
-     * @throws DoesNotExistException specified learning objective repository not found
-     * @throws InvalidParameterException invalid loRepositoryKey
-     * @throws MissingParameterException loRepositoryKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LoRepositoryInfo getLoRepository(@WebParam(name="loRepositoryKey")String loRepositoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    /**
+     * Retrieves a single LoRepository by an LoRepository Key.
+     *
+     * @param loRepositoryKey   the identifier for the LoRepository to be retrieved
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return the LoRepository requested
+     * @throws DoesNotExistException        loRepositoryKey is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryKey or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public LoRepositoryInfo getLoRepository (@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    /** 
-     * Retrieves the list of learning objective category types known by this service.
-     * @return list of learning objective category type information
-     * @throws OperationFailedException unable to complete request
-	 */
+    /**
+     * Retrieves a list of LoRepositories from a list of LoRepository Keys. The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param loRepositoryKeys  a list of LoRepository Keys
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoRepositories
+     * @throws DoesNotExistException        an loRepositoryKey in the list was not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryKeys, a key in the loRepositoryKeys, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoRepositoryInfo> getLoRepositoriesByKeys (@WebParam(name = "loRepositoryKeys") List<String> loRepositoryKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoRepositories.
+     *
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoRepositories or an empty list if none found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoRepositoryInfo> getLoRepositories(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoRepository keys by LoRepository Type.
+     *
+     * @param loRepositoryTypeKey   a unique key for an LoRepository Type
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoRepository keys matching loRepositoryTypeKey or an empty list if none found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryTypeKey or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> getLoRepositoryKeysByType (@WebParam(name = "loRepositoryTypeKey") String loRepositoryTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LoRepositories that meet the given search criteria.
+     *
+     * @param criteria      the search criteria
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoRepository keys matching the criteria
+     * @throws InvalidParameterException    criteria or contextInfo is not valid
+     * @throws MissingParameterException    criteria or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> searchForLoRepositoryKeys (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LoRepositories that meet the given search criteria.
+     *
+     * @param criteria      the search criteria
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoRepositories matching the criteria
+     * @throws InvalidParameterException    criteria or context is not valid
+     * @throws MissingParameterException    criteria or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoRepositoryInfo> searchForLoRepositories (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates an LoRepository. Depending on the value of validationType, this validation could be limited to tests on just the current LoRepository and its directly contained sub-objects or expanded to perform all tests related to this LoRepository. If an identifier is present for the LoRepository (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the LoRepository can be updated to the new values. If an identifier is not present or a record does not exist, the validation checks if the LoRepository with the given data can be created.
+     *
+     * @param validationTypeKey     the identifier for the validation Type
+     * @param loRepositoryTypeKey   the identifier for the LoRepository Type
+     * @param loRepositoryInfo      the LoRepository to be validated
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException        validationTypeKey or loRepositoryTypeKey is not found
+     * @throws InvalidParameterException    loRepositoryInfo or contextInfo is not valid
+     * @throws MissingParameterException    validationTypeKey, loRepositoryTypeKey, loRepositoryInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateLoRepository (@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "loRepositoryTypeKey") String loRepositoryTypeKey, @WebParam(name = "loRepositoryInfo") LoRepositoryInfo loRepositoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new LoRepository. The LoRepository Type, and Meta information may not be set in the supplied data object.
+     *
+     * @param loRepositoryKey       a unique key for the new LoRepository
+     * @param loRepositoryTypeKey   the identifier for the Type of LoRepository to be created
+     * @param loRepositoryInfo      the data with which to create the LoRepository
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return the new LoRepository
+     * @throws AlreadyExistsException       loRepositoryKey already exists
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loRepositoryTypeKey does not exist or is not supported
+     * @throws InvalidParameterException    loRepositoryInfo or contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryTypeKey, loRepositoryInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information designated as read only
+     */
+    public LoRepositoryInfo createLoRepository (@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loRepositoryTypeKey") String loRepositoryTypeKey, @WebParam(name = "loRepositoryInfo") LoRepositoryInfo loRepositoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing LoRepository. The LoRepository Key, Type, and Meta information may not be changed.
+     *
+     * @param loRepositoryKey   the identifier for the LoRepository to be updated
+     * @param loRepositoryInfo  the new data for the LoRepository
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return the updated LoRepository
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loRepositoryKey is not found
+     * @throws InvalidParameterException    loRepositoryInfo or contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryKey, loRepositoryInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at changing information designated as read only
+     * @throws VersionMismatchException     an optimistic locking failure or the action was attempted on an out of date version
+     */
+    public LoRepositoryInfo updateLoRepository (@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loRepositoryInfo") LoRepositoryInfo loRepositoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing LoRepository.
+     *
+     * @param loRepositoryKey   the identifier for the LoRepository to be deleted
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException        loRepositoryKey is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryKey or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public StatusInfo deleteLoRepository (@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a single Lo by an Lo Id.
+     *
+     * @param loId          the identifier for the Lo to be retrieved
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the Lo requested
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public LoInfo getLo (@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Los from a list of Lo Ids. The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param loIds         a list of Lo identifiers
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los
+     * @throws DoesNotExistException        an loId in the list was not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loIds, an Id in the loIds, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> getLosByIds (@WebParam(name = "loIds") List<String> loIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Lo Ids by Lo Type.
+     *
+     * @param loTypeKey     an identifier for an Lo Type
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Lo identifiers matching loTypeKey or an empty list if none found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loTypeKey or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> getLoIdsByType (@WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Los by LoRepository.
+     *
+     * @param loRepositoryKey   a key for the LoRepository
+     * @param loTypeKey   the identifier for the Lo Type
+     * @param loStateKey   the identifier for the Lo State
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los for the LoRepository
+     * @throws DoesNotExistException        loRepositoryId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loRepositoryId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> getLosByLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name="loTypeKey")String loTypeKey, @WebParam(name="loStateKey")String loStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Los by LoCategory.
+     *
+     * @param loCategoryId  an identifier for the LoCategory
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los for the LoCategory
+     * @throws DoesNotExistException        loCategoryId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> getLosByLoCategory(@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of Los by related Lo.
+     *
+     * @param relatedLoId       an identifier for the related Lo
+     * @param loLoRelationTypeKey   the identifier for the LoLoRelation Type
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los for the related Lo
+     * @throws DoesNotExistException        relatedLoId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    relatedLoId, loLoRelationTypeKey, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of related Los by Lo.
+     *
+     * @param loId                  an identifier for the Lo
+     * @param loLoRelationTypeKey   the identifier for the LoLoRelation Type
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return a list of related Los for the Lo
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Los that meet the given search criteria.
+     *
+     * @param criteria      the search criteria
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Lo identifiers matching the criteria
+     * @throws InvalidParameterException    criteria or contextInfo is not valid
+     * @throws MissingParameterException    criteria or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> searchForLoIds (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for Los that meet the given search criteria.
+     *
+     * @param criteria    the search criteria
+     * @param contextInfo information containing the principalId and locale information about the caller of the service operation
+     * @return a list of Los matching the criteria
+     * @throws InvalidParameterException    criteria or context is not valid
+     * @throws MissingParameterException    criteria or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoInfo> searchForLos (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates an Lo. Depending on the value of validationType, this validation could be limited to tests on just the current Lo and its directly contained sub-objects or expanded to perform all tests related to this Lo. If an identifier is present for the Lo (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the Lo can be updated to the new values. If an identifier is not present or a record does not exist, the validation checks if the Lo with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the Lo Type to be validated
+     * @param loInfo            the Lo to be validated
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException        validationTypeKey or loTypeKey is not found
+     * @throws InvalidParameterException    loInfo or contextInfo is not valid
+     * @throws MissingParameterException    validationTypeKey, loTypeKey, loInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateLo (@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "loInfo") LoInfo loInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new Lo. The Lo Id, Type, and Meta information may not be set in the supplied data object.
+     *
+     * @param loTypeKey     the identifier for the Type of Lo to be created
+     * @param loInfo        the data with which to create the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the new Lo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loTypeKey does not exist or is not supported
+     * @throws InvalidParameterException    loInfo or contextInfo is not valid
+     * @throws MissingParameterException    loTypeKey, loInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information designated as read only
+     */
+    public LoInfo createLo (@WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loInfo") LoInfo loInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing Lo. The Lo Id, Type, and Meta information may not be changed.
+     *
+     * @param loId          the identifier for the Lo to be updated
+     * @param loInfo        the new data for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the updated Lo
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    loInfo or contextInfo is not valid
+     * @throws MissingParameterException    loId, loInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at changing information designated as read only
+     * @throws VersionMismatchException     an optimistic locking failure or the action was attempted on an out of date version
+     */
+    public LoInfo updateLo (@WebParam(name = "loId") String loId, @WebParam(name = "loInfo") LoInfo loInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing Lo.
+     *
+     * @param loId          the identifier for the Lo to be deleted
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public StatusInfo deleteLo (@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
+
+
+    /**
+     * Retrieves a single LoCategory by an LoCategory Id.
+     *
+     * @param loCategoryId  the identifier for the LoCategory to be retrieved
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the LoCategory requested
+     * @throws DoesNotExistException        loCategoryId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public LoCategoryInfo getLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoCategories from a list of LoCategory Ids. The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param loCategoryIds a list of LoCategory identifiers
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoCategories
+     * @throws DoesNotExistException        an loCategoryId in the list was not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryIds, an Id in the loCategoryIds, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoCategoryInfo> getLoCategoriesByIds (@WebParam(name = "loCategoryIds") List<String> loCategoryIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoCategory Ids by LoCategory Type.
+     *
+     * @param loCategoryTypeKey an identifier for an LoCategory Type
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoCategory identifiers matching loCategoryTypeKey or an empty list if none found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryTypeKey or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> getLoCategoryIdsByType (@WebParam(name = "loCategoryTypeKey") String loCategoryTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoCategories by Lo.
+     *
+     * @param loId          an identifier for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoCategories for the Lo
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoCategoryInfo> getLoCategoriesByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LoCategories that meet the given search criteria.
+     *
+     * @param criteria      the search criteria
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoCategory identifiers matching the criteria
+     * @throws InvalidParameterException    criteria or contextInfo is not valid
+     * @throws MissingParameterException    criteria or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> searchForLoCategoryIds (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LoCategories that meet the given search criteria.
+     *
+     * @param criteria      the search criteria
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoCategories matching the criteria
+     * @throws InvalidParameterException    criteria or context is not valid
+     * @throws MissingParameterException    criteria or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoCategoryInfo> searchForLoCategories (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates an LoCategory. Depending on the value of validationType, this validation could be limited to tests on just the current LoCategory and its directly contained sub-objects or expanded to perform all tests related to this LoCategory. If an identifier is present for the LoCategory (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the LoCategory can be updated to the new values. If an identifier is not present or a record does not exist, the validation checks if the LoCategory with the given data can be created.
+     *
+     * @param validationTypeKey the identifier for the LoCategory Type to be validated
+     * @param loCategoryInfo    the LoCategory to be validated
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException     validationTypeKey or loCategoryTypeKey is not found
+     * @throws InvalidParameterException loCategoryInfo or contextInfo is not valid
+     * @throws MissingParameterException validationTypeKey, loCategoryTypeKey, loCategoryInfo, or contextInfo is missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateLoCategory (@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "loCategoryInfo") LoCategoryInfo loCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new LoCategory. The LoCategory Id, Type, and Meta information may not be set in the supplied data object.
+     *
+     * @param loCategoryTypeKey   the identifier for the Type of LoCategory to be created
+     * @param loCategoryInfo      the data with which to create the LoCategory
+     * @param contextInfo         information containing the principalId and locale information about the caller of the service operation
+     * @return the new LoCategory
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loCategoryTypeKey does not exist or is not supported
+     * @throws InvalidParameterException    loCategoryInfo or contextInfo is not valid
+     * @throws MissingParameterException    loCategoryTypeKey, loCategoryInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information designated as read only
+     */
+    public LoCategoryInfo createLoCategory (@WebParam(name = "loCategoryTypeKey") String loCategoryTypeKey, @WebParam(name = "loCategoryInfo") LoCategoryInfo loCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing LoCategory. The LoCategory Id, Type, and Meta information may not be changed.
+     *
+     * @param loCategoryId   the identifier for the LoCategory to be updated
+     * @param loCategoryInfo the new data for the LoCategory
+     * @param contextInfo    information containing the principalId and locale information about the caller of the service operation
+     * @return the updated LoCategory
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loCategoryId is not found
+     * @throws InvalidParameterException    loCategoryInfo or contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId, loCategoryInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at changing information designated as read only
+     * @throws VersionMismatchException     an optimistic locking failure or the action was attempted on an out of date version
+     */
+    public LoCategoryInfo updateLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "loCategoryInfo") LoCategoryInfo loCategoryInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing LoCategory.
+     *
+     * @param loCategoryId  the identifier for the LoCategory to be deleted
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException        loCategoryId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public StatusInfo deleteLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
+
+    /**
+     * Deletes existing LoCategories of a Lo.
+     *
+     * @param loId          the identifier for the Lo for which LoCategories are to be deleted
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public StatusInfo deleteLoCategoryByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Adds a LoCategory to a Lo
+     *
+     * @param loCategoryId  the identifier for the LoCategory
+     * @param loId          the identifier for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws AlreadyExistsException       LoCategory already exists for Lo
+     * @throws DoesNotExistException        loCategoryId or loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loCategoryId, loId, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws UnsupportedActionException   loCategoryId and loId are not in the same repository
+     */
+    public StatusInfo addLoCategoryToLo(@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "loId")String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+
+    /**
+     * Retrieves a single LoLoRelation by an LoLoRelation Id.
+     *
+     * @param loLoRelationId    the identifier for the LoLoRelation to be retrieved
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return the LoLoRelation requested
+     * @throws DoesNotExistException        loLoRelationId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loLoRelationId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public LoLoRelationInfo getLoLoRelation (@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoLoRelations from a list of LoLoRelation Ids. The returned list may be in any order and if duplicate Ids are supplied, a unique set may or may not be returned.
+     *
+     * @param loLoRelationIds   a list of LoLoRelation identifiers
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoLoRelations
+     *
+     * @throws DoesNotExistException        an loLoRelationId in the list was not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loLoRelationIds, an Id in the loLoRelationIds, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoLoRelationInfo> getLoLoRelationsByIds (@WebParam(name = "loLoRelationIds") List<String> loLoRelationIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoLoRelation Ids by LoLoRelation Type.
+     *
+     * @param loLoRelationTypeKey   an identifier for an LoLoRelation Type
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoLoRelation identifiers matching loLoRelationTypeKey or an empty list if none found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loLoRelationTypeKey or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> getLoLoRelationIdsByType (@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a list of LoLoRelations by Lo.
+     *
+     * @param loId      an identifier for the Lo
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoLoRelations for the Lo
+     * @throws DoesNotExistException        loId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LoLoRelations that meet the given search criteria.
+     *
+     * @param criteria      the search criteria
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoLoRelation identifiers matching the criteria
+     * @throws InvalidParameterException    criteria or contextInfo is not valid
+     * @throws MissingParameterException    criteria or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<String> searchForLoLoRelationIds (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Searches for LoLoRelations that meet the given search criteria.
+     *
+     * @param criteria      the search criteria
+     * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
+     * @return a list of LoLoRelations matching the criteria
+     * @throws InvalidParameterException    criteria or context is not valid
+     * @throws MissingParameterException    criteria or context is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<LoLoRelationInfo> searchForLoLoRelations (@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Validates an LoLoRelation. Depending on the value of validationType, this validation could be limited to tests on just the current LoLoRelation and its directly contained sub-objects or expanded to perform all tests related to this LoLoRelation. If an identifier is present for the LoLoRelation (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the LoLoRelation can be updated to the new values. If an identifier is not present or a record does not exist, the validation checks if the LoLoRelation with the given data can be created.
+     *
+     * @param validationTypeKey     the identifier for the LoLoRelation Type to be validated
+     * @param loLoRelationInfo      the LoLoRelation to be validated
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return a list of validation results or an empty list if validation succeeded
+     * @throws DoesNotExistException        validationTypeKey or loLoRelationTypeKey is not found
+     * @throws InvalidParameterException    loLoRelationInfo or contextInfo is not valid
+     * @throws MissingParameterException    validationTypeKey, loLoRelationTypeKey, loLoRelationInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public List<ValidationResultInfo> validateLoLoRelation (@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "loLoRelationInfo") LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Creates a new LoLoRelation. The LoLoRelation Id, Type, and Meta information may not be set in the supplied data object.
+     *
+     * @param loLoRelationTypeKey   the identifier for the Type of LoLoRelation to be created
+     * @param loLoRelationInfo      the data with which to create the LoLoRelation
+     * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
+     * @return the new LoLoRelation
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loLoRelationTypeKey does not exist or is not supported
+     * @throws InvalidParameterException    loLoRelationInfo or contextInfo is not valid
+     * @throws MissingParameterException    loLoRelationTypeKey, loLoRelationInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at supplying information designated as read only
+     */
+    public LoLoRelationInfo createLoLoRelation (@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "loLoRelationInfo") LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+
+    /**
+     * Updates an existing LoLoRelation. The LoLoRelation Id, Type, and Meta information may not be changed.
+     *
+     * @param loLoRelationId    the identifier for the LoLoRelation to be updated
+     * @param loLoRelationInfo  the new data for the LoLoRelation
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return the updated LoLoRelation
+     * @throws DataValidationErrorException supplied data is invalid
+     * @throws DoesNotExistException        loLoRelationId is not found
+     * @throws InvalidParameterException    loLoRelationInfo or contextInfo is not valid
+     * @throws MissingParameterException    loLoRelationId, loLoRelationInfo, or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws ReadOnlyException            an attempt at changing information designated as read only
+     * @throws VersionMismatchException     an optimistic locking failure or the action was attempted on an out of date version
+     */
+    public LoLoRelationInfo updateLoLoRelation (@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "loLoRelationInfo") LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException;
+
+    /**
+     * Deletes an existing LoLoRelation.
+     *
+     * @param loLoRelationId    the identifier for the LoLoRelation to be deleted
+     * @param contextInfo       information containing the principalId and locale information about the caller of the service operation
+     * @return the status of the delete operation. This must always be true.
+     * @throws DoesNotExistException        loLoRelationId is not found
+     * @throws InvalidParameterException    contextInfo is not valid
+     * @throws MissingParameterException    loLoRelationId or contextInfo is missing or null
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    an authorization failure occurred
+     */
+    public StatusInfo deleteLoLoRelation (@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    //TODO KSCM : added from LumService MehtodInvoker because it ref this method
+    
+    /**
+     * 
+     * @param categoryId
+     * @param loId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     * @throws UnsupportedActionException
+     */
+    @Deprecated
+    public StatusInfo removeLoCategoryFromLo(@WebParam(name="categoryId") String categoryId, @WebParam(name="loId") String loId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoTypeInfo> getLoTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws OperationFailedException;
+
+    /**
+     * 
+     * @param loTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public LoTypeInfo getLoType(@WebParam(name="loTypeKey") String loTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+  
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoLoRelationTypeInfo> getLoLoRelationTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws OperationFailedException;
+
+    /**
+     * 
+     * @param loLoRelationTypeKey
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     * @throws MissingParameterException
+     * @throws DoesNotExistException
+     */
+    @Transactional(readOnly=true)
+    public LoLoRelationTypeInfo getLoLoRelationType(@WebParam(name="loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws OperationFailedException, MissingParameterException, DoesNotExistException;
+
+    /**
+     * 
+     * @param loTypeKey
+     * @param relatedLoTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<String> getAllowedLoLoRelationTypesForLoType(@WebParam(name="loTypeKey") String loTypeKey, @WebParam(name="relatedLoTypeKey") String relatedLoTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param loIds
+     * @param contextInfo
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoInfo> getLoByIdList(@WebParam(name="loIds") List<String> loIds, @WebParam(name="contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param loRepositoryKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoCategoryInfo> getLoCategories(@WebParam(name="loRepositoryKey") String loRepositoryKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param loId
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoCategoryInfo> getLoCategoriesForLo(@WebParam(name="loId") String loId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param objectTypeKey
+     * @param contextInfo
+     * @return
+     */
+    public ObjectStructureDefinition getObjectStructure(@WebParam(name="objectTypeKey") String objectTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo);
+
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     */
+    public List<String> getObjectTypes(@WebParam(name="contextInfo") ContextInfo contextInfo);
+
+    /**
+     * 
+     * @param searchCriteriaTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws OperationFailedException;
+
+    /**
+     * 
+     * @param searchTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey") String searchTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    public List<SearchTypeInfo> getSearchTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws OperationFailedException;
+    
+    /**
+     * 
+     * @param searchCriteriaTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param loLoRelationId
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     * @throws PermissionDeniedException
+     */
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId") String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * 
+     * @param loId
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name="loId") String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param loLoRelationId
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public LoLoRelationInfo getLoLoRelation(@WebParam(name="loLoRelationId") String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param relatedLoId
+     * @param loLoRelationType
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoInfo> getLosByRelatedLoId(@WebParam(name="relatedLoId") String relatedLoId, @WebParam(name="loLoRelationType") String loLoRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param loCategoryTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public LoCategoryTypeInfo getLoCategoryType(@WebParam(name="loCategoryTypeKey") String loCategoryTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @param loRepositoryKey
+     * @param loTypeKey
+     * @param loStateKey
+     * @return
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoInfo> getLosByRepository(@WebParam(name="loRepositoryKey") String loRepositoryKey, @WebParam(name="loTypeKey") String loTypeKey, @WebParam(name="loStateKey") String loStateKey) throws InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    /**
+     * 
+     * @return
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
     public List<LoCategoryTypeInfo> getLoCategoryTypes() throws OperationFailedException;
 
-    /** 
-     * Retrieves information about a particular learning objective category type.
-     * @param loCategoryTypeKey learning objective category type identifier
-     * @return information about a learning objective category type
-     * @throws DoesNotExistException specified learning objective category type not found
-     * @throws InvalidParameterException invalid loCategoryTypeKey
-     * @throws MissingParameterException loCategoryTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LoCategoryTypeInfo getLoCategoryType(@WebParam(name="loCategoryTypeKey")String loCategoryTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    /**
+     * 
+     * @param loId
+     * @param loLoRelationTypeKey
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    @Transactional(readOnly=true)
+    public List<LoInfo> getRelatedLosByLoId(@WebParam(name="loId") String loId, @WebParam(name="loLoRelationTypeKey") String loLoRelationTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /** 
-     * Retrieves the list of learning objective types known by this service.
-     * @return list of learning objective type information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoTypeInfo> getLoTypes() throws OperationFailedException;
+    /**
+     * 
+     * @param searchRequest
+     * @param contextInfo
+     * @return
+     * @throws MissingParameterException
+     */
+    public SearchResult search(@WebParam(name="searchRequest") SearchRequest searchRequest, @WebParam(name="contextInfo") ContextInfo contextInfo) throws MissingParameterException;
 
-    /** 
-     * Retrieves information about a particular learning objective type.
-     * @param loTypeKey learning objective type identifier
-     * @return information about a learning objective type
-     * @throws DoesNotExistException specified learning objective type not found
-     * @throws InvalidParameterException invalid loTypeKey
-     * @throws MissingParameterException loTypeKey not specified
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LoTypeInfo getLoType(@WebParam(name="loTypeKey")String loTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+    /**
+     * 
+     * @param searchResultTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public SearchResultTypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey") String searchResultTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
-    /** 
-     * Retrieves the complete list of LO to LO relation types
-     * @return list of LO to LO relation type information
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoLoRelationTypeInfo> getLoLoRelationTypes() throws OperationFailedException;
+    /**
+     * 
+     * @param contextInfo
+     * @return
+     * @throws OperationFailedException
+     */
+    public List<SearchResultTypeInfo> getSearchResultTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws OperationFailedException;
 
-    /** 
-     * Retrieves the LO to LO relation type
-     * @param loLoRelationTypeKey Key of the LO to LO Relation Type
-     * @return LO to LO relation type information
-     * @throws OperationFailedException unable to complete request
-     * @throws MissingParameterException 
-     * @throws DoesNotExistException 
-	 */
-    public LoLoRelationTypeInfo getLoLoRelationType(@WebParam(name="loLoRelationTypeKey")String loLoRelationTypeKey) throws OperationFailedException, MissingParameterException, DoesNotExistException;
-
-    /** 
-     * Retrieves the list of allowed relation types between the two specified LO Types
-     * @param loTypeKey Key of the first LO Type
-     * @param relatedLoTypeKey Key of the second LO Type
-     * @return list of LO to LO relation types
-     * @throws DoesNotExistException loTypeKey, relatedLoTypeKey not found
-     * @throws InvalidParameterException invalid loTypeKey, relatedLoTypeKey
-     * @throws MissingParameterException missing loTypeKey, relatedLoTypeKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<String> getAllowedLoLoRelationTypesForLoType(@WebParam(name="loTypeKey")String loTypeKey, @WebParam(name="relatedLoTypeKey")String relatedLoTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves information about all the learning objective categories in a given learning objective repository.
-     * @param loRepositoryKey loRepository identifier
-     * @return list of learning objective category information
-     * @throws DoesNotExistException loRepositoryKey not found
-     * @throws InvalidParameterException invalid loRepositoryKey
-     * @throws MissingParameterException missing loRepositoryKey
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoCategoryInfo> getLoCategories(@WebParam(name="loRepositoryKey")String loRepositoryKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves information about an learning objective category.
-     * @param loCategoryId loCategory identifier
-     * @return LoCategory
-     * @throws DoesNotExistException loCategoryId not found
-     * @throws InvalidParameterException invalid loCategoryId
-     * @throws MissingParameterException missing loCategoryId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LoCategoryInfo getLoCategory(@WebParam(name="loCategoryId")String loCategoryId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves information on a single learning objective.
-     * @param loId learning objective identifier
-     * @return information about a single learning objective
-     * @throws DoesNotExistException loId not found
-     * @throws InvalidParameterException invalid loId
-     * @throws MissingParameterException missing loId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LoInfo getLo(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves information on multiple learning objectives.
-     * @param loId list of learning objective identifiers
-     * @return list of learning objective information
-     * @throws InvalidParameterException invalid loIdList
-     * @throws MissingParameterException missing loIdList
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoInfo> getLoByIdList(@WebParam(name="loId")List<String> loId) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves learning objectives from a given repository of a given type and state.
-     * @param loRepositoryKey repository identifier
-     * @param loTypeKey learning objective type identifier
-     * @param loStateKey learning objective state identifier
-     * @return list of learning objectives
-     * @throws InvalidParameterException one or more parameters invalid
-     * @throws MissingParameterException one or more missing parameters missing
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoInfo> getLosByRepository(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loTypeKey")String loTypeKey, @WebParam(name="loStateKey")String loStateKey) throws InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves a list of learning objective categories for a specific learning objective.
-     * @param loId learning objective identifier
-     * @return list of learning objective category information
-     * @throws DoesNotExistException loCategoryId not found
-     * @throws InvalidParameterException invalid loId
-     * @throws MissingParameterException missing loId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoCategoryInfo> getLoCategoriesForLo(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves a list of learning objectives that have a specific learning objective category.
-     * @param loCategoryId learning objective category identifier
-     * @return list of learning objective information
-     * @throws DoesNotExistException loCategoryId not found
-     * @throws InvalidParameterException invalid loCategoryId
-     * @throws MissingParameterException missing loCategoryId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoInfo> getLosByLoCategory(@WebParam(name="loCategoryId")String loCategoryId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of LO information for the LOs related to a specified LO Id with a certain LU to LU relation type (getRelatedLosByLoId from the other direction)
-     * @param relatedLoId identifier of the LO
-     * @param loLoRelationType the LO to LO relation type
-     * @return list of LO information
-     * @throws DoesNotExistException relatedLoId, loLoRelationType not found
-     * @throws InvalidParameterException invalid relatedLoId, loLoRelationType
-     * @throws MissingParameterException missing relatedLoId, loLoRelationType
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoInfo> getLosByRelatedLoId(@WebParam(name="relatedLoId")String relatedLoId, @WebParam(name="loLoRelationType")String loLoRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the list of related LO information for the specified LO Id and LU to LU relation type (getLosByRelatedLoId from the other direction)
-     * @param loId identifier of the LO
-     * @param loLoRelationType the LO to LO relation type
-     * @return list of LO information
-     * @throws DoesNotExistException loId, loLoRelationType not found
-     * @throws InvalidParameterException invalid loId, loLoRelationType
-     * @throws MissingParameterException missing loId, loLoRelationType
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoInfo> getRelatedLosByLoId(@WebParam(name="loId")String loId, @WebParam(name="loLoRelationType")String loLoRelationType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the relationship information between LOs for a particular relationship identifier
-     * @param loLoRelationId identifier of the LO to LO relationship
-     * @return information on the relation between two LOs
-     * @throws DoesNotExistException loLoRelationId not found
-     * @throws InvalidParameterException invalid loLoRelationId
-     * @throws MissingParameterException missing loLoRelationId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public LoLoRelationInfo getLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Retrieves the relationship information between LOs for a particular LO.
-     * @param loId identifier of the LO
-     * @return all relations (both directions) from an LO
-     * @throws DoesNotExistException loId not found
-     * @throws InvalidParameterException invalid loId
-     * @throws MissingParameterException missing loId
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Validates a learning objective category. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective category (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective category can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
-     * @param validationType identifier of the extent of validation
-     * @param loCategoryInfo learning objective category information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, loCategoryInfo
-     * @throws MissingParameterException missing validationTypeKey, loCategoryInfo
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<ValidationResultInfo> validateLoCategory(@WebParam(name="validationType")String validationType, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Create a learning objective category in a particular learning objective repository.
-     * @param loRepositoryKey identifier of the learning objective repository
-     * @param loCategoryTypeKey identifier of the learning objective category type
-     * @param loCategoryInfo information to create the learning objective category
-     * @return information on the created learning objective category
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loRepositoryKey, loCategoryTypeKey not found
-     * @throws InvalidParameterException invalid loRepositoryKey, loCategoryTypeKey, loCategoryInfo
-     * @throws MissingParameterException missing loRepositoryKey, loCategoryTypeKey, loCategoryInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public LoCategoryInfo createLoCategory(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loCategoryTypeKey")String loCategoryTypeKey, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Updates a learning objective category in a particular learning objective repository.
-     * @param loCategoryId the learning objective category identifier
-     * @param loCategoryInfo information to create the learning objective category
-     * @return information on the uppdated learning objective category
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loCategoryId not found
-     * @throws InvalidParameterException invalid loCategoryId, loCategoryInfo
-     * @throws MissingParameterException missing loCategoryId, loCategoryInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException action was attempted on an out of date version.
-	 */
-    public LoCategoryInfo updateLoCategory(@WebParam(name="loCategoryId")String loCategoryId, @WebParam(name="loCategoryInfo")LoCategoryInfo loCategoryInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /** 
-     * Deletes a learning objective category.
-     * @param loCategoryId learning objective category identifier
-     * @return status of the operation (success/failure)
-     * @throws DependentObjectsExistException learning objective category is still attached to one or more learning objectives
-     * @throws DoesNotExistException loCategoryId not found
-     * @throws InvalidParameterException invalid loCategoryId
-     * @throws MissingParameterException missing loCategoryId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public StatusInfo deleteLoCategory(@WebParam(name="loCategoryId")String loCategoryId) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Validates a learning objective. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the learning objective (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the learning objective can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
-     * @param validationType identifier of the extent of validation
-     * @param loInfo learning objective information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, loInfo
-     * @throws MissingParameterException missing validationTypeKey, loInfo
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<ValidationResultInfo> validateLo(@WebParam(name="validationType")String validationType, @WebParam(name="loInfo")LoInfo loInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Create a learning objective.
-     * @param loRepositoryKey identifier of the learning objective repository
-     * @param loType type for the learning objective
-     * @param loInfo information to create the learning objective
-     * @return information on the created learning objective
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loRepositoryKey, loType not found
-     * @throws InvalidParameterException invalid loRepositoryKey, loType, loInfo
-     * @throws MissingParameterException missing loRepositoryKey, loType, loInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public LoInfo createLo(@WebParam(name="loRepositoryKey")String loRepositoryKey, @WebParam(name="loType")String loType, @WebParam(name="loInfo")LoInfo loInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Update a learning objective.
-     * @param loId identifier of the learning objective to update
-     * @param loInfo updated information on the learning objective
-     * @return information on the updated learning objective
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loId not found
-     * @throws InvalidParameterException invalid loId, loInfo
-     * @throws MissingParameterException missing loId, loInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException action was attempted on an out of date version.
-	 */
-    public LoInfo updateLo(@WebParam(name="loId")String loId, @WebParam(name="loInfo")LoInfo loInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /** 
-     * Delete a learning objective.
-     * @param loId identifier of the learning objective to delete
-     * @return status of the operation (success or failure)
-     * @throws DependentObjectsExistException removing the learning objective will orphan one or more child learning objectives
-     * @throws DoesNotExistException loId not found
-     * @throws InvalidParameterException invalid loId
-     * @throws MissingParameterException missing loId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public StatusInfo deleteLo(@WebParam(name="loId")String loId) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Add a existing learning objective category to an existing learning objective in the same repository.
-     * @param loCategoryId identifier of the learning objective category to add
-     * @param loId identifier of the learning objective
-     * @return status of the operation (success or failure)
-     * @throws AlreadyExistsException loCategoryId is already set as a category of the LoId
-     * @throws DoesNotExistException loId, loCategoryId not found
-     * @throws InvalidParameterException invalid loId, loCategoryId
-     * @throws MissingParameterException missing loId, loCategoryId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws UnsupportedActionException loId, loCategoryId are not in the same repository
-	 */
-    public StatusInfo addLoCategoryToLo(@WebParam(name="loCategoryId")String loCategoryId, @WebParam(name="loId")String loId) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
-
-    /** 
-     * Remove a existing learning objective category from an existing learning objective in the same repository.
-     * @param loCategoryId identifier of the learning objective category to remove
-     * @param loId identifier of the learning objective
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException loId, loCategoryId not found
-     * @throws InvalidParameterException invalid loId, loCategoryId
-     * @throws MissingParameterException missing loId, loCategoryId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws UnsupportedActionException loId, loCategoryId are not in the same repository
-	 */
-    public StatusInfo removeLoCategoryFromLo(@WebParam(name="loCategoryId")String loCategoryId, @WebParam(name="loId")String loId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
-
-    /** 
-     * Validates a loLoRelation. Depending on the value of validationType, this validation could be limited to tests on just the current object and its directly contained sub-objects or expanded to perform all tests related to this object. If an identifier is present for the loLoRelation (and/or one of its contained sub-objects) and a record is found for that identifier, the validation checks if the relationship can be shifted to the new values. If an identifier is not present or a record cannot be found for the identifier, it is assumed that the record does not exist and as such, the checks performed will be much shallower, typically mimicking those performed by setting the validationType to the current object.
-     * @param validationType identifier of the extent of validation
-     * @param loLoRelationInfo loLoRelation information to be tested.
-     * @return results from performing the validation
-     * @throws DoesNotExistException validationTypeKey not found
-     * @throws InvalidParameterException invalid validationTypeKey, loLoRelationInfo
-     * @throws MissingParameterException missing validationTypeKey, loLoRelationInfo
-     * @throws OperationFailedException unable to complete request
-	 */
-    public List<ValidationResultInfo> validateLoLoRelation(@WebParam(name="validationType")String validationType, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
-
-    /** 
-     * Create a directional relationship between two LOs
-     * @param loId identifier of the first LO in the relationship - The From or Parent of the relation
-     * @param relatedLoId identifier of the second LO in the relationship to be related to - the To or Child of the Relation
-     * @param loLoRelationType the type of the LO to LO relationship
-     * @param loLoRelationInfo information about the relationship between the two LOs
-     * @return the created LO to LO relation information
-     * @throws AlreadyExistsException relationship already exists
-     * @throws CircularRelationshipException Relation would create a loop (with ancestor Lo)
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loId, relatedLoId, luLuRelationType not found
-     * @throws InvalidParameterException invalid loId, relatedLoId, luluRelationType, loLoRelationInfo
-     * @throws MissingParameterException missing loId, relatedLoId, luluRelationType, loLoRelationInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-	 */
-    public LoLoRelationInfo createLoLoRelation(@WebParam(name="loId")String loId, @WebParam(name="relatedLoId")String relatedLoId, @WebParam(name="loLoRelationType")String loLoRelationType, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /** 
-     * Updates a relationship between two LOs
-     * @param loLoRelationId identifier of the LO to LO relation to be updated
-     * @param loLoRelationInfo changed information about the LO to LO relationship
-     * @return the updated LO to LO relation information
-     * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException loLoRelationId not found
-     * @throws InvalidParameterException invalid loLoRelationId, loLoRelationInfo
-     * @throws MissingParameterException missing loLoRelationId, loLoRelationInfo
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws VersionMismatchException The action was attempted on an out of date version.
-	 */
-    public LoLoRelationInfo updateLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId, @WebParam(name="loLoRelationInfo")LoLoRelationInfo loLoRelationInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
-
-    /** 
-     * Deletes a relationship between two LOs
-     * @param loLoRelationId identifier of LO to LO relationship to delete
-     * @return status of the operation (success or failure)
-     * @throws DoesNotExistException loLoRelationId not found
-     * @throws InvalidParameterException invalid loLoRelationId
-     * @throws MissingParameterException missing loLoRelationId
-     * @throws OperationFailedException unable to complete request
-     * @throws PermissionDeniedException authorization failure
-     * @throws DependentObjectsExistException 
-	 */
-    public StatusInfo deleteLoLoRelation(@WebParam(name="loLoRelationId")String loLoRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
-
+    /**
+     * 
+     * @param searchResultTypeKey
+     * @param contextInfo
+     * @return
+     * @throws DoesNotExistException
+     * @throws InvalidParameterException
+     * @throws MissingParameterException
+     * @throws OperationFailedException
+     */
+    public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }

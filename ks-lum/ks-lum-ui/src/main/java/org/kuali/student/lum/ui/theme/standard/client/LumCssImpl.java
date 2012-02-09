@@ -17,22 +17,22 @@ package org.kuali.student.lum.ui.theme.standard.client;
 
 import org.kuali.student.lum.lu.ui.main.client.theme.LumCss;
 
-import com.google.gwt.libideas.resources.client.CssResource;
-import com.google.gwt.libideas.resources.client.ResourcePrototype;
+import com.google.gwt.resources.client.CssResource;
+import com.google.gwt.resources.client.ResourcePrototype;
 
 public class LumCssImpl implements LumCss{
 
 	@Override
 	public String getCssString() {
-       String injectString = "";
+       StringBuffer injectString = new StringBuffer("");
         for(ResourcePrototype r: LumClientBundle.INSTANCE.getResources()){
             if(r instanceof CssResource){
                 if(((CssResource)r).getText() != null){
-                    injectString = injectString + "\n" + (((CssResource)r).getText());
+                    injectString.append("\n" + (((CssResource)r).getText()));
                 }
             }
         }
-        return injectString;
+        return injectString.toString();
 	}
 
 }

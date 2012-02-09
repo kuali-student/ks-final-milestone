@@ -15,7 +15,6 @@
 
 package org.kuali.student.lum.lu.entity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -24,7 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;
 
 @Entity
 @Table(name = "KSLU_LUTYPE")
@@ -39,11 +38,7 @@ public class LuType extends Type<LuTypeAttribute> {
 	@Column(name = "DLVR_MTHD")
     private String deliveryMethod;
 	
-	
 	public List<LuTypeAttribute> getAttributes() {
-		if (attributes == null) {
-			attributes = new ArrayList<LuTypeAttribute>();
-		}
 		return attributes;
 	}
 

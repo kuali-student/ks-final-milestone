@@ -40,6 +40,10 @@ public class GetCluPublicationsByCluIdResponse {
     private java.util.List<CluPublicationInfo> _return;
 
     public java.util.List<CluPublicationInfo> getReturn() {
+        if(this._return == null){
+			this._return = new java.util.ArrayList<CluPublicationInfo>(0);
+		}
+
         return this._return;
     }
 

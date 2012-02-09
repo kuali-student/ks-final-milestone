@@ -15,6 +15,9 @@
 
 package org.kuali.student.security.exceptions;
 
+import javax.xml.ws.WebFault;
+
+@WebFault(faultBean="org.kuali.student.security.exceptions.KSSecurityExceptionFaultBean", targetNamespace="http://student.kuali.org/wsdl/exceptions")
 public class KSSecurityException extends Exception {
 
     private static final long serialVersionUID = 2941300199692497512L;

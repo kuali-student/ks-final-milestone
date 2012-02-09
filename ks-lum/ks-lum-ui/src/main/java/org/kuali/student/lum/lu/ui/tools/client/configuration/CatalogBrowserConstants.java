@@ -15,29 +15,29 @@
 
 package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
-import java.util.HashMap;
-import java.util.Map;
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in. 
- * 
- *
- * 
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
 public class CatalogBrowserConstants
 {
- // Message keys for top-level section label lookup
- public static final String BROWSE_BY_SUBJECT_AREA_LABEL_KEY =
-  "browseBySubjectArea";
- public static final String BROWSE_BY_SCHOOL_LABEL_KEY =
-	  "browseBySchool"; 
- public static final String BROWSE_BY_SUBJECT_AREA =
-  "Browse Catalog by Subject Area";
- public static final String BROWSE_BY_SUBJECT_AREA_INFO =
-  "Subject Area Information";
- public static final String BROWSE_BY_SCHOOL = "Browse Catalog by School";
- public static final String BROWSE_BY_SCHOOL_INFO = "School Information";
+// metadata
+ public static final String COURSE_CATALOG = "courseCatalog";
+ public static final String BY_SUBJECT_AREA = "bySubjectArea";
+	public static final String BY_SCHOOL_OR_COLLEGE = "bySchoolOrCollege";
+ public static final String COURSE_ID = "courseId";
+ public static final String FULLY_QUALIFIED_BY_SUBJECT_AREA = 
+   COURSE_CATALOG + "/" + BY_SUBJECT_AREA + "/" + COURSE_ID;
+ public static final String FULLY_QUALIFIED_BY_SCHOOL_OR_COLLEGE =
+   COURSE_CATALOG + "/" + BY_SCHOOL_OR_COLLEGE + "/" + COURSE_ID;
+
+	// Message keys for top-level section label lookup
+	public static final String BROWSE_BY_SUBJECT_AREA_LABEL_KEY =	"browseBySubjectArea";
+	public static final String BROWSE_BY_SCHOOL_LABEL_KEY =			"browseBySchool"; 
+	public static final String BROWSE_BY_SUBJECT_AREA =				"Browse Catalog by Subject Area";
+	public static final String BROWSE_BY_SUBJECT_AREA_INFO =		"Subject Area Information";
+	public static final String BROWSE_BY_SCHOOL = 					"Browse Catalog by School";
+	public static final String BROWSE_BY_SCHOOL_INFO = 				"School Information";
 }
 
