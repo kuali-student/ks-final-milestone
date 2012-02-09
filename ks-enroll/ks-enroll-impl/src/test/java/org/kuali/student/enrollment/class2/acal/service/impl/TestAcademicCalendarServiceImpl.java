@@ -378,17 +378,11 @@ public class TestAcademicCalendarServiceImpl {
 
         termIds = acalService.getTermIdsByType(expectedEmptyTermType, callContext);
 
-        assertTrue(termIds == null || termIds.isEmpty());
+        assertTrue(termIds.isEmpty());
 
-        String fakeTermType = "fakeTypeKey";
-
-        List<String> shouldBeNull = null;
-        try {
-            shouldBeNull = acalService.getTermIdsByType(fakeTermType, callContext);
-            fail("Did not get a InvalidParameterException when expected");
-        } catch (InvalidParameterException e) {
-            assertNull(shouldBeNull);
-        }
+        termIds = acalService.getTermIdsByType("fakeTypeKey", callContext);
+        // fake key returns an empty list as well
+        assertTrue("Term IDs should be empty", termIds.isEmpty());
     }
 
     @Test
@@ -802,6 +796,8 @@ public class TestAcademicCalendarServiceImpl {
         cal.set(Calendar.YEAR, 2005);
 
         keyDate.setStartDate(cal.getTime());
+        cal.set(Calendar.YEAR, 2006);
+        keyDate.setEndDate(cal.getTime());
         keyDate.setIsAllDay(false);
         keyDate.setIsDateRange(true);
         keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
@@ -910,7 +906,6 @@ public class TestAcademicCalendarServiceImpl {
     public void testCopyAcademicCalendar() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ParseException {
         final String originalCalendarKey = "ACADEMICCALENDAR1990";
-        final String copiedCalendarKey = null;
 
         AcademicCalendar originalCalendar = acalService.getAcademicCalendar(originalCalendarKey, callContext);
         Date startDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2008-09-01");

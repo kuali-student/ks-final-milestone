@@ -172,6 +172,10 @@ public class TypeServiceMockImpl implements TypeService{
         typeArrays.add(new String[] {"kuali.atp.milestone.SpringBreak", "Spring Break", "Spring Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.MemorialDayObserved", "MemorialDay Observed", "MemorialDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.IndependenceDayObserved", "IndependenceDay Observed", "IndependenceDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        
+        //for AtpAtpRelations
+        typeArrays.add(new String[] {"kuali.atp.atp.relation.includes", "kuali.atp.atp.relation.includes"});
+        typeArrays.add(new String[] {"kuali.atp.atp.relation.associated", "kuali.atp.atp.relation.associated"});
 
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1]);
