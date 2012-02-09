@@ -52,8 +52,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 
-	<bean id="MeetingScheduleInfo.timePeriods" parent="MeetingScheduleInfo.timePeriods-parent"/>
-	<bean id="MeetingScheduleInfo.timePeriods-parent" abstract="true" parent="MeetingScheduleInfo.timePeriods-generated">
+	<bean id="MeetingScheduleInfo.scheduleId" parent="MeetingScheduleInfo.scheduleId-parent"/>
+	<bean id="MeetingScheduleInfo.scheduleId-parent" abstract="true" parent="MeetingScheduleInfo.scheduleId-generated">
 	<!-- insert any overrides to the generated attribute definitions here -->
 	</bean>
 </beans>

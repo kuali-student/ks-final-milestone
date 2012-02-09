@@ -59,7 +59,7 @@ Scheduling service.
 			<list>
 				<ref bean="MeetingScheduleInfo.id"/>
 				<ref bean="MeetingScheduleInfo.spaceId"/>
-				<ref bean="MeetingScheduleInfo.timePeriods"/>
+				<ref bean="MeetingScheduleInfo.scheduleId"/>
 			</list>
 		</property>
 
@@ -95,8 +95,8 @@ Space code where the meeting is going to take place.
 		<property name="required" value="false"/>
 	</bean>
 
-	<bean id="MeetingScheduleInfo.timePeriods-generated" abstract="true" parent="BaseKuali.string">
-		<property name="name" value="timePeriods"/>
+	<bean id="MeetingScheduleInfo.scheduleId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="scheduleId"/>
 		<property name="shortLabel" value="Time Periods"/>
 		<property name="summary">
 			<value>
