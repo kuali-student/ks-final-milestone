@@ -8,6 +8,7 @@ import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -172,7 +173,16 @@ public class TypeServiceMockImpl implements TypeService{
         typeArrays.add(new String[] {"kuali.atp.milestone.SpringBreak", "Spring Break", "Spring Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.MemorialDayObserved", "MemorialDay Observed", "MemorialDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.IndependenceDayObserved", "IndependenceDay Observed", "IndependenceDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
-        
+
+        //events
+        typeArrays.add(new String[] {"kuali.atp.milestone.FamilyWeekend", "Family Weekend", "Family Weekend", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.Homecoming", "Homecoming", "Homecoming", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.GraduationApplicationDeadline", "Deadline to apply for Graduation", "Graduation Application Deadline", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.AlumniDay", "Alumni Day", "Alumni Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.Baccalaureate", "Baccalaureate", "Baccalaureate", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.Commencement", "Commencement", "Commencement", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+
+
         //for AtpAtpRelations
         typeArrays.add(new String[] {"kuali.atp.atp.relation.includes", "kuali.atp.atp.relation.includes"});
         typeArrays.add(new String[] {"kuali.atp.atp.relation.associated", "kuali.atp.atp.relation.associated"});
@@ -222,6 +232,21 @@ public class TypeServiceMockImpl implements TypeService{
         holidayGroup.add(getType("kuali.atp.milestone.IndependenceDayObserved"));
         for (TypeInfo type : holidayGroup) {
             createTypeTypeRelationInfo(holidayGroupType, type);
+        }
+
+        //Event types Grouping
+        Set<TypeInfo> eventGroup = new HashSet<TypeInfo>();
+        //MILESTONE_EVENT_GROUPING_TYPE_KEY = "kuali.milestone.type.group.event";
+        TypeInfo eventGroupType = createTypeInfo("kuali.milestone.type.group.event", null);
+
+        eventGroup.add(getType("kuali.atp.milestone.FamilyWeekend"));
+        eventGroup.add(getType("kuali.atp.milestone.Homecoming"));
+        eventGroup.add(getType("kuali.atp.milestone.GraduationApplicationDeadline"));
+        eventGroup.add(getType("kuali.atp.milestone.AlumniDay"));
+        eventGroup.add(getType("kuali.atp.milestone.Baccalaureate"));
+        eventGroup.add(getType("kuali.atp.milestone.Commencement"));
+        for (TypeInfo type : eventGroup) {
+            createTypeTypeRelationInfo(eventGroupType, type);
         }
 
         // Allowed type relations
