@@ -379,17 +379,10 @@ public class LuServiceAssembler extends BaseAssembler {
         SearchParameter entity = new SearchParameter();
         entity.setKey(dto.getKey());
         List<SearchParameterValue> values = new ArrayList<SearchParameterValue>();
-        if (dto.getValue() instanceof String) {
+        for (String s : dto.getValues()) {
             SearchParameterValue value = new SearchParameterValue();
-            value.setValue((String) dto.getValue());
+            value.setValue(s);
             values.add(value);
-        } else if (dto.getValue() instanceof List<?>) {
-            List<String> stringList = (List<String>) dto.getValue();
-            for (String s : stringList) {
-                SearchParameterValue value = new SearchParameterValue();
-                value.setValue(s);
-                values.add(value);
-            }
         }
         entity.setValues(values);
         return entity;
