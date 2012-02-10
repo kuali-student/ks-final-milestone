@@ -14,7 +14,7 @@
  *
  * Created by bobhurt on 9/9/11
  */
-package org.kuali.student.r2.core.service.util;
+package org.kuali.student.r2.core.class1.util;
 
 
 

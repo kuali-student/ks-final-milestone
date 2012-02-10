@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;
 import org.kuali.student.r2.core.hold.service.HoldServiceDecorator;
-import org.kuali.student.r2.core.service.util.ValidationUtils;
+import org.kuali.student.r2.core.class1.util.ValidationUtils;
 
 public class HoldServiceValidationDecorator extends HoldServiceDecorator implements HoldsDataDictionaryService, HoldsValidator
 {

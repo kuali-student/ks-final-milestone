@@ -1,14 +1,12 @@
 package org.kuali.student.r2.core.process.model;
 
 
-import org.kuali.rice.kim.impl.identity.PersonImpl;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.population.infc.Population;
-import org.kuali.student.r2.core.population.model.PopulationEntity;
+import org.kuali.student.r2.core.class1.population.model.PopulationEntity;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
 
@@ -64,7 +62,7 @@ public class InstructionEntity extends MetaEntity implements AttributeOwner<Inst
     @JoinTable(name = "KSEN_INSTR_POPLTN_RELTN", joinColumns = @JoinColumn(name = "INSTR_ID"), inverseJoinColumns = @JoinColumn(name = "POPLTN_ID"))
     private List<PopulationEntity> appliedPopulation;
 
-    @ElementCollection
+    @Transient
     private List<String> appliedAtpTypes;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner",orphanRemoval = true)

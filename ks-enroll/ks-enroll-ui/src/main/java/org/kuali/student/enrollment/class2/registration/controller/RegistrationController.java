@@ -300,7 +300,7 @@ public class RegistrationController extends UifControllerBase {
     }
 
     protected List<RegistrationGroupInfo> getRegistrationGroupInfos(String coId, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {
-        return getCourseOfferingService().getRegGroupsForCourseOffering(coId, context);
+        return getCourseOfferingService().getRegistrationGroupsForCourseOffering(coId, context);
     }
 
     protected List<ActivityOfferingWrapper> getActivityOfferingInfos(RegistrationGroup regGroup, CourseOfferingInfo courseOfferingInfo, ContextInfo context) throws InvalidParameterException, MissingParameterException, DoesNotExistException, PermissionDeniedException, OperationFailedException {

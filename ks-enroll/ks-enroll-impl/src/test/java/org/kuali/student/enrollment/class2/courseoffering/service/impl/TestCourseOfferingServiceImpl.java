@@ -236,9 +236,9 @@ public class TestCourseOfferingServiceImpl {
 		    assertEquals(rg.getStateKey(), retrieved.getStateKey());
 		    assertEquals(rg.getTypeKey(), retrieved.getTypeKey());
 		    
-		    // test getRegGroupsForCourseOffering
+		    // test getRegistrationGroupsForCourseOffering
 		    List<RegistrationGroupInfo> rgs =
-                    coServiceAuthDecorator.getRegGroupsForCourseOffering(courseOfferingId, callContext);
+                    coServiceAuthDecorator.getRegistrationGroupsForCourseOffering(courseOfferingId, callContext);
 		    assertNotNull(rgs);
 		    assertEquals(1, rgs.size());
 		    assertEquals(created.getFormatId(), rgs.get(0).getFormatId());

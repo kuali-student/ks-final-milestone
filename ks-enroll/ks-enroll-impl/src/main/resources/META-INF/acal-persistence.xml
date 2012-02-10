@@ -117,7 +117,7 @@
     <class>org.kuali.student.r2.core.process.model.ProcessTypeAttributeEntity</class>
     <class>org.kuali.student.r2.core.process.model.ProcessTypeEntity</class>
 
-    <class>org.kuali.student.r2.core.population.model.PopulationEntity</class-->
+    <class>org.kuali.student.r2.core.class1.population.model.PopulationEntity</class-->
 
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
 
