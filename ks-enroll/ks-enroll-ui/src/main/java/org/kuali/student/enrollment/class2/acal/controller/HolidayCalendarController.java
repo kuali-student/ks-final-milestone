@@ -126,7 +126,7 @@ public class HolidayCalendarController extends UifControllerBase {
     private void getHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
         HolidayCalendarInfo hcInfo = getAcademicCalendarViewHelperService(hcForm).getHolidayCalendar(hcId);
         hcForm.setHolidayCalendarInfo(hcInfo);
-        hcForm.setAdminOrg(hcInfo.getAdminOrgId());
+        hcForm.setAdminOrg(getAdminOrgById(hcInfo.getAdminOrgId()));
 
         List<HolidayInfo> holidays = getAcademicCalendarViewHelperService(hcForm).getHolidaysForHolidayCalendar(hcForm);
         hcForm.setHolidays(holidays);
