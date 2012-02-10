@@ -89,16 +89,16 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
         this.expirationDate = expirationDate;
     }
 
+    // TODO KSCM replaced implementation with ENR
     @Deprecated
     public String getLoRepository() {
-        //TODO KSCM
-        return null; //return loRepository;
+        return this.getLoRepositoryKey();
     }
     
+    // TODO KSCM replaced implementation with ENR
     @Deprecated
     public RichTextInfo getDesc() {
-        return null; //return desc;
-        //TODO KSCM
+       return this.getDescr();
     }
 
     @Deprecated
