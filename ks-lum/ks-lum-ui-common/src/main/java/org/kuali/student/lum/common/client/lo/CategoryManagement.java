@@ -17,6 +17,7 @@ package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
@@ -59,6 +60,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
+// TODO KSCM-244
 public class CategoryManagement extends Composite {
     private KSButton addButton = new KSButton("Create", ButtonStyle.SECONDARY);
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.SECONDARY);
@@ -324,6 +326,7 @@ public class CategoryManagement extends Composite {
         if(accreditationCheckBox.getValue() == true){
             bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.accreditation"));
         }
+        Collections.sort(bufferList);
         categoryManagementTable.redraw(bufferList);
 
     }
@@ -434,7 +437,14 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             categoryNameLabel.setText(categoryInfo.getName());
-            categoryTypeLabel.setText(categoryInfo.getType());
+            if (categoryTypeList != null) {
+                for (LoCategoryTypeInfo catTypeInfo : categoryTypeList) {
+                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getType())) {
+                        categoryTypeLabel.setText(catTypeInfo.getName());
+                        break;
+                    }
+                }
+            }
         }
     }
     class UpdateCategoryDialog extends KSLightBox {
