@@ -49,7 +49,7 @@ public class MajorCredentialProgramFilter extends AbstractDataFilter implements 
         if (credentialProgramId != null && !credentialProgramId.isEmpty()){
 	        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId, ContextUtils.getContextInfo());
 	        // and convert to Data
-	        Data credPgmData = mapper.convertFromBean(credPgm);
+	        Data credPgmData = mapper.convertFromBean(credPgm, metadata );
 	
 	        // Add the CredentialProgram to the data passed in
 	        data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
