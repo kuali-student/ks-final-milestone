@@ -725,10 +725,9 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     public ResultComponentInfo[] getCreditOptions() {
         return null;
     }
+    // TODO KSCM replaced implementation with ENR
     @Deprecated
     public List<String>  getGradingOptions() {
-        //TODO KSCM gradingOptions
-        //Cache d;
-        return new ArrayList<String>() ;
+        return this.getGradingOptionIds();
     }
 }
