@@ -39,6 +39,12 @@ public class AcalEventTypeKeyValues extends KeyValuesBase implements Serializabl
     public List<KeyValue> getKeyValues() {
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
+        //Hard code "Select Event Type"
+        ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
+        topKeyValue.setKey("");
+        topKeyValue.setValue("Select Event Type...");
+        keyValues.add(topKeyValue);
+
         //TODO:Build real context.
         ContextInfo context = TestHelper.getContext1();
 
