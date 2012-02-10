@@ -3,10 +3,7 @@
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
@@ -14,21 +11,20 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.XmlHelper;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,13 +36,21 @@ import org.w3c.dom.NodeList;
  */
 public abstract class AbstractOrganizationServiceQualifierResolver implements QualifierResolver {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AbstractOrganizationServiceQualifierResolver.class);
-
+    
     protected static final String DOCUMENT_CONTENT_XML_DEFAULT_ORG_ID_KEY = "orgId";
     protected static final String DOCUMENT_CONTENT_XML_ORG_ID_KEY = "organizationIdDocumentContentKey";
 
     // below string MUST match
-    // org.kuali.student.core.assembly.transform.WorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
+    // org.kuali.student.common.assembly.transform.ProposalWorkflowFilter.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME constant
     public static final String DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME = "info";
+
+    public static final String KUALI_ORG_TYPE_CURRICULUM_PARENT = "kuali.org.CurriculumParent";
+    public static final String KUALI_ORG_HIERARCHY_CURRICULUM  = "kuali.org.hierarchy.Curriculum";
+    public static final String KUALI_ORG_DEPARTMENT               = "kuali.org.Department";
+    public static final String KUALI_ORG_COLLEGE                  = "kuali.org.College";
+    public static final String KUALI_ORG_COC                      = "kuali.org.COC";
+    public static final String KUALI_ORG_DIVISION                 = "kuali.org.Division";
+    public static final String KUALI_ORG_PROGRAM                  = "kuali.org.Program";
 
     private OrganizationService organizationService;
 
@@ -70,15 +74,14 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
      *         KS code)
      */
     protected Set<String> getOrganizationIdsFromDocumentContent(RouteContext context) {
-        String baseXpathExpression = "/" + KEWConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KEWConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
+        String baseXpathExpression = "/" + KewApiConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KewApiConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
         String orgXpathExpression = "./" + getOrganizationIdDocumentContentFieldKey(context);
         Document xmlContent = context.getDocumentContent().getDocument();
         XPath xPath = XPathHelper.newXPath();
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:");
-                XmlHelper.printDocumentStructure(xmlContent);
+                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:" + XmlJotter.jotDocument(xmlContent));
             }
             Set<String> distinctiveOrganizationIds = new HashSet<String>();
             for (int i = 0; i < baseElements.getLength(); i++) {
@@ -107,7 +110,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     protected List<SearchResultRow> relatedOrgsFromOrgId(String orgId, String relationType, String relatedOrgType) {
         List<SearchResultRow> results = null;
         if (null != orgId) {
-            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(2);
+            List<SearchParam> queryParamValues = new ArrayList<SearchParam>(3);
             SearchParam qpRelType = new SearchParam();
             qpRelType.setKey("org.queryParam.relationType");
             qpRelType.setValue(relationType);
@@ -127,7 +130,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             searchRequest.setParams(queryParamValues);
             try {
-                SearchResult result = getOrganizationService().search(searchRequest);
+                SearchResult result = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");
@@ -136,12 +139,15 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
         }
         return results;
     }
-
-    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgShortNameKey, String orgIdKey) {
-        List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
+    
+    /*
+     *  Add attributes for derived role and adhoc routing participants to the results
+     */
+    protected List<Map<String,String>> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
+        List<Map<String,String>> returnAttrSetList = new ArrayList<Map<String,String>>();
         if (results != null) {
             for (SearchResultRow result : results) {
-                AttributeSet attributeSet = new AttributeSet();
+                Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                 String resolvedOrgId = "";
                 String resolvedOrgShortName = "";
                 for (SearchResultCell resultCell : result.getCells()) {
@@ -151,13 +157,9 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
                         resolvedOrgShortName = resultCell.getValue();
                     }
                 }
-                if (orgShortNameKey != null) {
-                    attributeSet.put(orgShortNameKey, resolvedOrgShortName);
-                }
                 if (orgIdKey != null) {
                     attributeSet.put(orgIdKey, resolvedOrgId);
                 }
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, resolvedOrgShortName);
                 attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, resolvedOrgId);
                 returnAttrSetList.add(attributeSet);
             }

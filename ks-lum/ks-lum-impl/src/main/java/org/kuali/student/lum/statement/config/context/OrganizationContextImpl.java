@@ -17,10 +17,10 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.Map;
 
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
@@ -41,7 +41,8 @@ public class OrganizationContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			return organizationService.getOrganization(orgId);
+			return null;
+			// TODO KSCM			return organizationService.getOrganization(orgId);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}

@@ -17,8 +17,10 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.dto.StatusInfo;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
@@ -63,7 +65,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     @Override
     public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey) {
         try {
-            return loService.getLoCategoryType(loCategoryTypeKey);
+            return loService.getLoCategoryType(loCategoryTypeKey,ContextUtils.getContextInfo());
 
         } catch (Exception e) {
             LOG.error(e);
@@ -74,7 +76,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     @Override
     public List<LoCategoryInfo> getLoCategories(String loRepositoryKey) {
         try {
-            return loService.getLoCategories(loRepositoryKey);
+            return loService.getLoCategories(loRepositoryKey,ContextUtils.getContextInfo());
 
         } catch (Exception e) {
             LOG.error(e);
@@ -85,7 +87,7 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     @Override
     public StatusInfo deleteLoCategory(String loCategoryId) {
         try {
-            return loService.deleteLoCategory(loCategoryId);
+            return loService.deleteLoCategory(loCategoryId,ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error(e);
         }

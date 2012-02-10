@@ -26,13 +26,13 @@
     xmlns:jee="http://www.springframework.org/schema/jee"
     xmlns:tx="http://www.springframework.org/schema/tx"
     xsi:schemaLocation="
-          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+          http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
           http://jax-ws.dev.java.net/spring/core http://jax-ws.dev.java.net/spring/core.xsd
           http://jax-ws.dev.java.net/spring/servlet http://jax-ws.dev.java.net/spring/servlet.xsd
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-2.5.xsd
-          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+          http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
 
     <context:annotation-config/>
 
@@ -166,14 +166,14 @@
     <bean id="mapExceptionAdvisor"
         class="org.kuali.student.common.util.ExceptionMappingAdvice">
         <property name="defaultException"
-            value="org.kuali.student.core.exceptions.OperationFailedException" />
+            value="org.kuali.student.common.exceptions.OperationFailedException" />
         <property name="exceptionMapping">
             <map>
                 <entry key="javax.persistence.EntityExistsException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
                 <entry
                     key="org.hibernate.exception.ConstraintViolationException"
-                    value="org.kuali.student.core.exceptions.AlreadyExistsException" />
+                    value="org.kuali.student.common.exceptions.AlreadyExistsException" />
             </map>
         </property>
     </bean>
@@ -213,7 +213,7 @@
         <property name="em" ref="emEntityManager" />
     </bean>
 
-    <bean id="emSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+    <bean id="emSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:em-search-config.xml" />
     </bean>
 
@@ -224,7 +224,7 @@
     </bean>
 
     <!--  Organization Service Config -->
-    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+    <bean id="coreDictionaryServiceDelegate" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <!--<constructor-arg index="0" value="${ks.core.dictionary.serviceContextLocations}" />-->
     </bean>
 
@@ -251,7 +251,7 @@
     </bean>
 
     <bean id="orgSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:organization-search-config.xml" />
     </bean>
 
@@ -275,10 +275,12 @@
         class="org.kuali.student.core.atp.service.impl.AtpServiceImpl">
         <property name="atpDao" ref="atpDao" />
         <property name="searchManager" ref="atpSearchManager"/>
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>        
     </bean>
 
     <bean id="atpSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:atp-search-config.xml" />
     </bean>
 
@@ -316,12 +318,12 @@
         <property name="em" ref="luEntityManager" />
     </bean>
 
-    <bean id="luSearchManager" class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+    <bean id="luSearchManager" class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:lu-search-config.xml" />
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
 
-    <bean id="lumDictionary" class="org.kuali.student.core.dictionary.service.impl.old.DictionaryServiceSpringImpl">
+    <bean id="lumDictionary" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
         <constructor-arg index="0" value="classpath:lu-dictionary-config.xml" />
     </bean>
 
@@ -365,7 +367,7 @@
     </bean>
 
     <bean id="statementSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:lu-search-config.xml" />
     </bean>
 
@@ -404,7 +406,7 @@
     </bean>
 
     <bean id="loSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:lo-search-config.xml" />
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
@@ -435,7 +437,7 @@
     </bean>
 
     <bean id="lrcSearchManager"
-        class="org.kuali.student.core.search.service.impl.SearchManagerImpl">
+        class="org.kuali.student.common.search.service.impl.SearchManagerImpl">
         <constructor-arg index="0" value="classpath:lrc-search-config.xml" />
         <property name="crossSearchManager" ref="lumCrossServiceSearchManager"/>
     </bean>
@@ -444,14 +446,16 @@
         class="org.kuali.student.lum.lrc.service.impl.LrcServiceImpl">
         <property name="lrcDao" ref="lrcDao" />
         <property name="searchManager" ref="lrcSearchManager" />
+        <property name="dictionaryServiceDelegate" ref="dictionaryService"/>
+		<property name="validatorFactory" ref="validatorFactory"/>                
     </bean>
 
     <!-- Search -->
-    <bean id="lumCrossServiceSearchManager" class="org.kuali.student.core.search.service.impl.CrossSearchManager">
+    <bean id="lumCrossServiceSearchManager" class="org.kuali.student.common.search.service.impl.CrossSearchManager">
         <property name="searchDispatcher" ref="lumSearchDispatcher"/>
     </bean>
 
-    <bean id="lumSearchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+    <bean id="lumSearchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
         <property name="services">
             <list>
                 <ref bean="loServiceImpl"/>
@@ -472,10 +476,18 @@
     <bean id="validatorFactory"
         class="org.kuali.student.common.validator.ValidatorFactory">
 	     <property name="defaultValidator" ref="businessServiceValidator"/>
+	     <property name="validatorList">
+		     <list>
+		     	<bean class="org.kuali.student.lum.program.service.validation.ProgramManagingBodiesValidator" >
+	        		<property name="messageService" ref="ks.messageServiceMock"/>
+	       			<property name="searchDispatcher" ref="lumSearchDispatcher"/>
+				</bean>
+		     </list>
+	     </property>
     </bean>
 
     <bean id="dictionaryService"
-          class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+          class="org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl">
         <constructor-arg>
             <list>
                 <value>classpath:ks-programInfo-dictionary-context.xml</value>

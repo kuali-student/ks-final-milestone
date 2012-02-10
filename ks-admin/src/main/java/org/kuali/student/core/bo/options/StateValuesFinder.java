@@ -18,8 +18,9 @@ package org.kuali.student.core.bo.options;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 
 /**
  * This class returns list of State key value pairs.
@@ -29,10 +30,10 @@ public class StateValuesFinder extends KeyValuesBase {
     /**
      * @see org.kuali.rice.kns.lookup.keyvalues.KeyValuesFinder#getKeyValues()
      */
-    public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> labels = new ArrayList<KeyLabelPair>();
-        labels.add(new KeyLabelPair("Actual", "Actual"));
-        labels.add(new KeyLabelPair("Tentative", "Tentative"));
+    public List<KeyValue> getKeyValues() {
+        List<KeyValue> labels = new ArrayList<KeyValue>();
+        labels.add(new ConcreteKeyValue("Actual", "Actual"));
+        labels.add(new ConcreteKeyValue("Tentative", "Tentative"));
 
         return labels;
     }
