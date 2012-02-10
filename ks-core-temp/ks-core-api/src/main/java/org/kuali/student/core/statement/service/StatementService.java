@@ -953,4 +953,9 @@ public interface StatementService {
     //TODO KSCM
     @Deprecated    
 	public StatementTypeInfo getStatementType(String topStatementType) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+    // TODO KSCM
+    @Deprecated
+	public String getNaturalLanguageForReqComponent(String reqComponentId,
+			String string, String string2);
 }

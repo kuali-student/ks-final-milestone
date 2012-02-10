@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -81,8 +82,8 @@ public class DependencyAnalysisRpcServlet extends RemoteServiceServlet implement
             // retrieve all req. component LEAFS
         	for (int i = 0; i < reqComponentInfos.size(); i++) {
         		ReqComponentInfoUi reqUi = RulesUtil.clone(reqComponentInfos.get(i));
-        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en"));
-        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en"));
+        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en", ContextUtils.getContextInfo()));
+        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en", ContextUtils.getContextInfo()));
         		reqComponentInfos.set(i, reqUi);
         	}
         }
