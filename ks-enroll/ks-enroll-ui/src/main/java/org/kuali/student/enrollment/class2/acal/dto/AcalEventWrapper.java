@@ -2,7 +2,6 @@ package org.kuali.student.enrollment.class2.acal.dto;
 
 import java.util.Date;
 
-import org.apache.xpath.operations.String;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
 
 public class AcalEventWrapper {
@@ -15,6 +14,10 @@ public class AcalEventWrapper {
     private String startTimeAmPm;
     private String endTime;
     private String endTimeAmPm;
+
+    public AcalEventWrapper() {
+        acalEventInfo = new AcalEventInfo();
+    }
 
     public AcalEventInfo getAcalEventInfo(){
         return acalEventInfo;

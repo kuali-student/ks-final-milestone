@@ -106,13 +106,12 @@
 		<property name="items">
 			<list>
 				<bean parent="Uif-InputField" p:label="Event" p:propertyName="eventType" p:required="true" >
-                    <!--
                     <property name="control">
                         <bean parent="Uif-DropdownControl"/>
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" />
-                    </property> -->
+                    </property>
                 </bean>
 				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
                     <property name="control">
