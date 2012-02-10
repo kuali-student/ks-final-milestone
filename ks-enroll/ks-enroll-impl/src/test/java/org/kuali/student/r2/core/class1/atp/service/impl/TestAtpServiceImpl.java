@@ -544,7 +544,7 @@ public class TestAtpServiceImpl {
         try {
             List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
             assertNotNull(milestoneInfos);
-            assertEquals(2, milestoneInfos.size());
+            assertEquals(4, milestoneInfos.size());
 
         } catch (Exception e) {
             fail(e.getMessage());
