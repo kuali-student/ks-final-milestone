@@ -15,12 +15,16 @@
  */
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Date;
 import javax.xml.namespace.QName;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 
+import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
@@ -118,6 +122,75 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         AcademicCalendarInfo updatedAcalInfo = getAcalService().updateAcademicCalendar(acalInfo.getId(), acalInfo, getContextInfo());
         return updatedAcalInfo;
+    }
+
+    public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception{
+        AcalEventInfo eventInfo = assembleEventInfo (event);
+        AcalEventInfo createdEventInfo = getAcalService().createAcalEvent(acalId, eventInfo.getTypeKey(), eventInfo, getContextInfo());
+        event.setAcalEventInfo(createdEventInfo);
+        return event;
+    }
+
+    private AcalEventInfo assembleEventInfo(AcalEventWrapper eventWrapper) throws Exception{
+        AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
+        //create dummy descr for db MilestoneEntity.plain is not nullable
+        RichTextInfo rti = new RichTextInfo();
+        rti.setPlain(eventWrapper.getEventType());
+        eventInfo.setDescr(rti);
+        eventInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        eventInfo.setTypeKey(eventWrapper.getEventType());
+
+        Date startDate = eventWrapper.getStartDate();
+        Date endDate = eventWrapper.getEndDate();
+        String startTime =  eventWrapper.getStartTime();
+        String endTime =   eventWrapper.getEndTime();
+        if (endDate == null && !endTime.isEmpty())
+            throw new Exception ("End Time can't be associated with an empty End Date.");
+
+        if (endDate == null)  {
+            eventInfo.setIsDateRange(false);
+        }else if(startDate.compareTo(endDate)>0)  {
+            throw new Exception("Error: Start Date can't be date after the End Date.");
+        }else if (startDate.compareTo(endDate) == 0) {
+            eventInfo.setIsDateRange(false);
+            endDate = null;
+        }else if (startDate.compareTo(endDate)<0)    {
+            eventInfo.setIsDateRange(true);
+        }
+        
+        if (startTime.isEmpty() & endTime.isEmpty())  {
+            eventInfo.setIsAllDay(true);
+        }else if (!startTime.isEmpty()) {
+            eventInfo.setIsAllDay(false);
+        }
+
+        if(startDate != null && !startTime.isEmpty())  {
+            String fullStartDateString = new SimpleDateFormat("MM/dd/yyyy").format(startDate);
+            fullStartDateString = fullStartDateString.concat(" "+startTime+" "+eventWrapper.getStartTimeAmPm());
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+            Date fullStartDate = formatter.parse(fullStartDateString);
+            eventInfo.setStartDate(fullStartDate);
+        }
+        else if (startTime.isEmpty()){
+            eventInfo.setStartDate(eventWrapper.getStartDate());
+        }
+
+        if (endDate == null) {
+            //DB schema does not allow a null value for the endDate -- therefore set EndDate = StartDate
+            eventInfo.setEndDate(eventWrapper.getStartDate());
+        }
+        else if (endDate != null && endTime.isEmpty()) {
+            eventInfo.setEndDate(eventWrapper.getEndDate());
+        }
+        else {
+            String fullEndDateString = new SimpleDateFormat("MM/dd/yyyy").format(endDate);
+            fullEndDateString = fullEndDateString.concat(" "+endTime+" "+eventWrapper.getEndTimeAmPm());
+            SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+            Date fullEndDate = formatter.parse(fullEndDateString);
+            eventInfo.setEndDate(fullEndDate);
+        }
+
+        return eventInfo;
     }
 
     public void saveTerm(AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception {

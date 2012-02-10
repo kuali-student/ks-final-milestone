@@ -70,7 +70,7 @@ public class AcademicCalendarForm extends UifFormBase {
         else {
             Date updateTime = academicCalendarInfo.getMeta().getUpdateTime();
             if (updateTime != null){
-                updateTimeString = "Last saved at "+new SimpleDateFormat("MMM/dd/yyyy HH:mm:ss").format(updateTime);
+                updateTimeString = "Last saved at "+new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(updateTime);
             }
             return updateTimeString;
         }
