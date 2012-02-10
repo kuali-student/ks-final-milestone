@@ -187,7 +187,7 @@ EW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
         HELP_DEF_URL="default.htm?turl=WordDocuments%2Fpermission.htm"
         LBL="Permission" OBJ_ID="A3AE4787-018E-1F17-6EB6-F2F0F366774F"
         PARNT_ID="2994" RTE_VER_NBR="2" VER_NBR="0"/>
-    <KRE    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
+    <KREW_DOC_TYP_T ACTV_IND="1" CUR_IND="1"
 DOC_TYP_DESC="Kuali Student Parent Document" DOC_TYP_ID="3000"
         DOC_TYP_NM="KualiStudentDocument" DOC_TYP_VER_NBR="0"
         LBL="Kuali Student Parent Document"
