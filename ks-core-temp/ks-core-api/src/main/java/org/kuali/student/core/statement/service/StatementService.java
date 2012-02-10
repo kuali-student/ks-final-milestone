@@ -957,5 +957,5 @@ public interface StatementService {
     // TODO KSCM
     @Deprecated
 	public String getNaturalLanguageForReqComponent(String reqComponentId,
-			String string, String string2);
+			String string, String string2) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 }
