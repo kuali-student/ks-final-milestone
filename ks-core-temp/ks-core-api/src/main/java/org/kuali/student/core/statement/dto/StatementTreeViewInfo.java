@@ -101,4 +101,11 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
     public String toString() {
         return "StatementTreeViewInfo[id=" + getId() + "]";
     }
+
+    // TODO KSCM
+    @Deprecated
+	public void setOperator(StatementOperatorTypeKey and) {
+		// TODO Auto-generated method stub
+		
+	}
 }

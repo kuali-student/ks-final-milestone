@@ -274,7 +274,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                                 newRule.setType(stmtId);
                                 RichTextInfo text = new RichTextInfo();
                                 text.setPlain("");
-                                newRule.setDesc(text);
+                                newRule.setDescr(text);
                                 parentController.getView(
                                         CourseRequirementsViewController.CourseRequirementsViews.MANAGE,
                                         new Callback<View>() {

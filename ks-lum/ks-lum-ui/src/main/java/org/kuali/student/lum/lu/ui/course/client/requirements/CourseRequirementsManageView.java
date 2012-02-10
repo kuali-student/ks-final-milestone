@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
@@ -313,7 +314,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     ruleManageWidget.redraw(rule, true);
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                 }
-            });
+            }, ContextUtils.getContextInfo());
         }
     };
 
@@ -341,7 +342,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
                 editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
             }
-        });
+        }, ContextUtils.getContextInfo());
     }
 
     private Map<String, Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
@@ -380,9 +381,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             courseWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    });
+                                    }, ContextUtils.getContextInfo());
                                 }
-                            });
+                            }, ContextUtils.getContextInfo());
 
 
                         }
@@ -417,9 +418,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             programWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    });
+                                    }, ContextUtils.getContextInfo());
                                 }
-                            });
+                            }, ContextUtils.getContextInfo());
                         }
                     });
 
@@ -442,7 +443,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 public void onSuccess(final String compositionTemplate) {
                     editReqCompWidget.displayFieldsStart(compositionTemplate);
                 }
-            });
+            }, ContextUtils.getContextInfo());
         }
     };
 
