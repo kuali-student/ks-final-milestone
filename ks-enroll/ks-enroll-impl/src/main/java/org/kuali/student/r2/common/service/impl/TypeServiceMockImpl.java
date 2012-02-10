@@ -174,10 +174,10 @@ public class TypeServiceMockImpl implements TypeService{
         typeArrays.add(new String[] {"kuali.atp.milestone.MemorialDayObserved", "MemorialDay Observed", "MemorialDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.IndependenceDayObserved", "IndependenceDay Observed", "IndependenceDay Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
 
-        //events
+        //events    -- type_key, name, type_descr, REF_OBJECT_URI
         typeArrays.add(new String[] {"kuali.atp.milestone.FamilyWeekend", "Family Weekend", "Family Weekend", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.Homecoming", "Homecoming", "Homecoming", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
-        typeArrays.add(new String[] {"kuali.atp.milestone.GraduationApplicationDeadline", "Deadline to apply for Graduation", "Graduation Application Deadline", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.GraduationApplicationDeadline", "Graduation Application Deadline", "Deadline to apply for Graduation", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.AlumniDay", "Alumni Day", "Alumni Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.Baccalaureate", "Baccalaureate", "Baccalaureate", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.Commencement", "Commencement", "Commencement", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
