@@ -2,7 +2,6 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-jta</artifactId>
   <packaging>pom</packaging>
-    <version>0.0.1-SNAPSHOT</version>
   <name>KS JTA Pom</name>
   <description>Atomikos and JTA Dependencies</description>
   <parent>

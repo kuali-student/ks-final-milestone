@@ -12,13 +12,17 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-        <version>${ks-temp-project.version}</version>
+              <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
     </dependency>
     <!-- KSCM-264 Added for ContextInfo change -->
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-        <version>${ks-temp-project.version}</version>
+              <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
