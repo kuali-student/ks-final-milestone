@@ -971,41 +971,41 @@ public class MajorProposalController extends MajorController implements Workflow
 	}
 
 	@Override
-	public void checkAuthorization(final PermissionType permissionType,	final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
-		
-		Map<String,String> attributes = new HashMap<String,String>();
-		GWT.log("Attempting Auth Check.", null);
-		if (programModel != null && programModel.getRoot() != null) {
-			//This is to handle the case where entry into the proposal screens is by clicking parent breadcrumb or 
-			//parent link from within specialization
-			attributes.put(IdType.KS_KEW_OBJECT_ID.toString(), ProgramUtils.getProposalId(programModel));
-    		attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
-		} else if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
-			if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.DOCUMENT_ID){
-				attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
-			}
-		}
-		programRemoteService.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+    public void checkAuthorization(final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
+        
+        Map<String,String> attributes = new HashMap<String,String>();
+        GWT.log("Attempting Auth Check.", null);
+        if (programModel != null && programModel.getRoot() != null) {
+            //This is to handle the case where entry into the proposal screens is by clicking parent breadcrumb or 
+            //parent link from within specialization
+            attributes.put(IdType.KS_KEW_OBJECT_ID.toString(), ProgramUtils.getProposalId(programModel));
+            attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY);
+        } else if ( (getViewContext().getId() != null) && (!"".equals(getViewContext().getId())) && getViewContext().getIdType() != null ) {
+            if (getViewContext().getIdType() == IdType.KS_KEW_OBJECT_ID || getViewContext().getIdType() == IdType.DOCUMENT_ID){
+                attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
+            }
+        }
+        programRemoteService.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
 
-			@Override
-			public void handleFailure(Throwable caught) {
-				callbackLocatedOnBaseControllerClass.isNotAuthorized("Error checking authorization.");
-				GWT.log("Error checking proposal authorization.", caught);
+            @Override
+            public void handleFailure(Throwable caught) {
+                callbackLocatedOnBaseControllerClass.isNotAuthorized("Error checking authorization.");
+                GWT.log("Error checking proposal authorization.", caught);
                 Window.alert("Error Checking Proposal Authorization: "+caught.getMessage());
-			}
+            }
 
-			@Override
-			public void onSuccess(Boolean result) {
-				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
-				if (Boolean.TRUE.equals(result)) {
-					callbackLocatedOnBaseControllerClass.isAuthorized();
-				}
-				else {
-					callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + permissionType);
-				}
-			}
-    	});
-	}
+            @Override
+            public void onSuccess(Boolean result) {
+                GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionType().toString() + "' with result: " + result, null);
+                if (Boolean.TRUE.equals(result)) {
+                    callbackLocatedOnBaseControllerClass.isAuthorized();
+                }
+                else {
+                    callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionType().toString());
+                }
+            }
+        });
+    }
 
 
 	@Override

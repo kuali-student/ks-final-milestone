@@ -136,7 +136,7 @@ public class LuContextImpl extends BasicContextImpl {
 	    	CluSetTreeViewInfo tree = null;
 	    	// TODO KSCM	    	luService.getCluSetTreeView(cluSetId);
 	    	findClusInCluSet(tree, list);
-	    	return new NLCluSet(cluSet.getId(), list);
+	    	return new NLCluSet(cluSet.getId(), list, cluSet);
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}

@@ -15,6 +15,8 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
+import static org.kuali.student.common.service.impl.BaseAssembler.toGenericMap;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -68,9 +70,6 @@ import org.kuali.student.lum.lu.dto.ResultOptionInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 import org.springframework.util.StringUtils;
-
-import static org.kuali.student.common.service.impl.BaseAssembler.toAttributeMap;
-import static org.kuali.student.common.service.impl.BaseAssembler.toGenericMap;
 
 /**
  * Assembler for CourseInfo. Provides assemble and disassemble operation on
@@ -163,14 +162,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					courseRevenue.setAffiliatedOrgs(cluFeeRecord.getAffiliatedOrgs());
 					courseRevenue.setAttributes(cluFeeRecord.getAttributes());
 					courseRevenue.setId(cluFeeRecord.getId());
-					courseRevenue.setMetaInfo(cluFeeRecord.getMetaInfo());
+					courseRevenue.setMeta(cluFeeRecord.getMetaInfo());
 					revenues.add(courseRevenue);
 				}else{
 					CourseFeeInfo courseFee = new CourseFeeInfo();
 					courseFee.setFeeType(feeType);
 					courseFee.setRateType(cluFeeRecord.getRateType());
 					courseFee.setDescr(cluFeeRecord.getDescr());
-					courseFee.setMetaInfo(cluFeeRecord.getMetaInfo());
+					courseFee.setMeta(cluFeeRecord.getMetaInfo());
 					courseFee.setId(cluFeeRecord.getId());
 					courseFee.setFeeAmounts(cluFeeRecord.getFeeAmounts());
 					courseFee.setAttributes(cluFeeRecord.getAttributes());
@@ -189,21 +188,21 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		
 		course.setId(clu.getId());
-		course.setType(clu.getType());
+		course.setTypeKey(clu.getType());
 		course.setTermsOffered(clu.getOfferedAtpTypes());
 		course.setPrimaryInstructor(clu.getPrimaryInstructor());
 		course.setInstructors(clu.getInstructors());
-		course.setState(clu.getState());
+		course.setStateKey(clu.getState());
 		course.setSubjectArea(clu.getOfficialIdentifier().getDivision());
 		course.setTranscriptTitle(clu.getOfficialIdentifier().getShortName());
-		course.setMetaInfo(clu.getMetaInfo());
+		course.setMeta(clu.getMetaInfo());
 		course.setVersionInfo(clu.getVersionInfo());
 
 		
 		//Special topics code
 		course.setSpecialTopicsCourse(false);
 		for(LuCodeInfo luCode : clu.getLuCodes()){
-			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getType())){
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getTypeKey())){
 				course.setSpecialTopicsCourse(Boolean.parseBoolean(luCode.getValue()));
 				break;
 			}
@@ -211,7 +210,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		//Pilot Course code
 		course.setPilotCourse(false);
 		for(LuCodeInfo luCode : clu.getLuCodes()){
-			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getType())){
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getTypeKey())){
 				course.setPilotCourse(Boolean.parseBoolean(luCode.getValue()));
 				break;
 			}
@@ -231,6 +230,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getRelatedCluId(), null, false);
 						else
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getCluId(), null, false);
+						if (jointInfo == null)
 						course.getJoints().add(jointInfo);
 					}
 				}
@@ -323,11 +323,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			course.setId(clu.getId());
 		}
 		clu.setType(CourseAssemblerConstants.COURSE_TYPE);
-		clu.setState(course.getState());
+		clu.setState(course.getStateKey());
 
 		CluIdentifierInfo identifier = new CluIdentifierInfo();
 		identifier.setType(CourseAssemblerConstants.COURSE_OFFICIAL_IDENT_TYPE);
-		identifier.setState(course.getState());
+		identifier.setState(course.getStateKey());
 		identifier.setLongName(course.getCourseTitle());
 		identifier.setShortName(course.getTranscriptTitle());
 		identifier.setSuffixCode(course.getCourseNumberSuffix());
@@ -366,7 +366,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setDivision(course.getSubjectArea());
 			cluIdentifier.setVariation(variation.getVariationCode());
 			cluIdentifier.setLongName(variation.getVariationTitle());
-			cluIdentifier.setState(course.getState());
+			cluIdentifier.setState(course.getStateKey());
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
 		//Add in crosslistings
@@ -376,7 +376,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setType(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE);
 			cluIdentifier.setSuffixCode(crossListing.getCourseNumberSuffix());
 			cluIdentifier.setDivision(crossListing.getSubjectArea());
-			cluIdentifier.setState(course.getState());
+			cluIdentifier.setState(course.getStateKey());
 			cluIdentifier.setOrgId(crossListing.getDepartment());
 			cluIdentifier.setAttributes(toGenericMap(crossListing.getAttributes()));
             cluIdentifier.setCode(crossListing.getCode());	        			
@@ -386,7 +386,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		List<AdminOrgInfo> adminOrgInfos = new ArrayList<AdminOrgInfo>();
 		for(String org:course.getUnitsDeployment()){
 			AdminOrgInfo adminOrg = new AdminOrgInfo();
-			adminOrg.setType(CourseAssemblerConstants.ADMIN_ORG);
+			adminOrg.setTypeKey(CourseAssemblerConstants.ADMIN_ORG);
 			adminOrg.setOrgId(org);
 			adminOrgInfos.add(adminOrg);
 		}
@@ -395,7 +395,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		List<AdminOrgInfo> subjectOrgs = new ArrayList<AdminOrgInfo>();
 		for (String subOrg : course.getUnitsContentOwner()) {
 			AdminOrgInfo subjectOrg = new AdminOrgInfo();
-			subjectOrg.setType(CourseAssemblerConstants.SUBJECT_ORG);
+			subjectOrg.setTypeKey(CourseAssemblerConstants.SUBJECT_ORG);
 			subjectOrg.setOrgId(subOrg);
 			subjectOrgs.add(subjectOrg);
 		}
@@ -437,7 +437,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		clu.setExpectedFirstAtp(course.getStartTerm());
 		clu.setLastAtp(course.getEndTerm());
 		
-		clu.setMetaInfo(course.getMetaInfo());
+		clu.setMetaInfo(course.getMeta());
 		clu.setVersionInfo(course.getVersionInfo());
 
 		// Add the Clu to the result
@@ -482,7 +482,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		List<BaseDTOAssemblyNode<?, ?>> creditOutcomes = disassembleCreditOutcomes(course, clu, cluResultList, operation, contextInfo);
 		result.getChildNodes().addAll(creditOutcomes);
 		
-		BaseDTOAssemblyNode<?, ?> gradingOptions = disassembleGradingOptions(clu.getId(), course.getState(), course.getGradingOptions(), cluResultList, operation);
+		BaseDTOAssemblyNode<?, ?> gradingOptions = disassembleGradingOptions(clu.getId(), course.getStateKey(), course.getGradingOptions(), cluResultList, operation);
 		result.getChildNodes().add(gradingOptions);
 		
 		//Use the LoAssembler to disassemble Los
@@ -498,7 +498,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		boolean alreadyHadSpecialTopicsCode = false;
 		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
 			LuCodeInfo luCode = luCodeIterator.next();
-			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getType())){
+			if(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS.equals(luCode.getTypeKey())){
 				alreadyHadSpecialTopicsCode = true;
 				if(!course.isSpecialTopicsCourse()){
 					luCodeIterator.remove();
@@ -508,7 +508,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		if(!alreadyHadSpecialTopicsCode && course.isSpecialTopicsCourse()){
 			LuCodeInfo luCode = new LuCodeInfo();
-			luCode.setType(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS);
+			luCode.setTypeKey(CourseAssemblerConstants.COURSE_CODE_SPECIAL_TOPICS);
 			luCode.setValue("true");
 			clu.getLuCodes().add(luCode);
 		}
@@ -517,7 +517,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		boolean alreadyHadPilotCourseCode = false;
 		for(Iterator<LuCodeInfo> luCodeIterator = clu.getLuCodes().iterator();luCodeIterator.hasNext();){
 			LuCodeInfo luCode = luCodeIterator.next();
-			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getType())){
+			if(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE.equals(luCode.getTypeKey())){
 				alreadyHadPilotCourseCode = true;
 				if(!course.isPilotCourse()){
 					luCodeIterator.remove();
@@ -527,7 +527,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		if(!alreadyHadPilotCourseCode && course.isPilotCourse()){
 			LuCodeInfo luCode = new LuCodeInfo();
-			luCode.setType(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE);
+			luCode.setTypeKey(CourseAssemblerConstants.COURSE_CODE_PILOT_COURSE);
 			luCode.setValue("true");
 			clu.getLuCodes().add(luCode);
 		}
@@ -545,7 +545,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluFeeRecord.setAttributes(toGenericMap(courseRevenue.getAttributes()));
 			cluFeeRecord.setAffiliatedOrgs(courseRevenue.getAffiliatedOrgs());
 			cluFeeRecord.setId(courseRevenue.getId());
-			cluFeeRecord.setMetaInfo(courseRevenue.getMetaInfo());
+			cluFeeRecord.setMetaInfo(courseRevenue.getMeta());
 			clu.getFeeInfo().getCluFeeRecords().add(cluFeeRecord);
 		}
 		for(CourseFeeInfo courseFee : course.getFees()){
@@ -553,7 +553,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluFeeRecord.setFeeType(courseFee.getFeeType());
 			cluFeeRecord.setRateType(courseFee.getRateType());
 			cluFeeRecord.setDescr(courseFee.getDescr());
-			cluFeeRecord.setMetaInfo(courseFee.getMetaInfo());
+			cluFeeRecord.setMetaInfo(courseFee.getMeta());
 			cluFeeRecord.setId(courseFee.getId());
 			cluFeeRecord.setFeeAmounts(courseFee.getFeeAmounts());
 			cluFeeRecord.setAttributes(toGenericMap(courseFee.getAttributes()));
@@ -659,7 +659,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						ResultComponentInfo resultComponent = new ResultComponentInfo();
 						resultComponent.setId(id);
 						resultComponent.setType(type);
-						resultComponent.setState (course.getState());
+						resultComponent.setState (course.getStateKey());
 						resultComponent.setResultValues(resultValues);
 						resultComponent.setAttributes(attributes);
 						BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo> node = new BaseDTOAssemblyNode<ResultComponentInfo, ResultComponentInfo>(null);
@@ -708,12 +708,12 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		            || (NodeOperation.UPDATE == operation && !currentResults.containsKey(creditOption.getId()) )) {
 		    	
 		    	ResultOptionInfo resultOption = new ResultOptionInfo();
-		    	resultOption.setState(course.getState());
+		    	resultOption.setState(course.getStateKey());
 		    	resultOption.setResultComponentId(creditOption.getId());
 		    	
 		    	CluResultInfo cluResult = new CluResultInfo();
 				cluResult.setCluId(clu.getId());
-				cluResult.setState(course.getState());
+				cluResult.setState(course.getStateKey());
 				cluResult.setType(courseResultType);
 				
 				cluResult.getResultOptions().add(resultOption);
@@ -775,9 +775,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					try {
-						ResultComponentInfo resultComponent = null;
-// TODO KSCM						lrcService.getResultComponent(resultOption.getResultComponentId());
-						results.add(resultComponent);
+					    if(resultOption.getResultComponentId()!=null){
+                            ResultComponentInfo resultComponent = null;
+    // TODO KSCM						lrcService.getResultComponent(resultOption.getResultComponentId());
+    						results.add(resultComponent);
+					    }
 // TODO KSCM					} catch (DoesNotExistException e) {
 						LOG.warn("Course Credit option:"+resultOption.getId()+" refers to non-existant ResultComponentInfo "+resultOption.getResultComponentId());
 					} catch (Exception e) {
@@ -820,7 +822,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 // the lo does not exist, so create
                 // Assemble and add the lo
 		    	loDisplay.getLoInfo().setId(null);
-		    	loDisplay.getLoInfo().setState(course.getState());
+		    	loDisplay.getLoInfo().setStateKey(course.getStateKey());
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                         .disassemble(loDisplay, NodeOperation.CREATE,contextInfo);
                 results.add(loNode);
@@ -831,7 +833,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 relation.setLoId(loNode.getNodeData().getId());
                 relation
                         .setType(CourseAssemblerConstants.COURSE_LO_COURSE_SPECIFIC_RELATION);
-                relation.setState(course.getState());
+                relation.setState(course.getStateKey());
 
                 BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo> relationNode = new BaseDTOAssemblyNode<LoDisplayInfo, CluLoRelationInfo>(
                         null);
@@ -841,7 +843,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 results.add(relationNode);
             } else if (NodeOperation.UPDATE == operation
 					&& currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
-            	loDisplay.getLoInfo().setState(course.getState());
+            	loDisplay.getLoInfo().setStateKey(course.getStateKey());
             	// If the clu already has this lo, then just update the lo
                 BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
                 		.disassemble(loDisplay, NodeOperation.UPDATE,contextInfo);
@@ -1018,7 +1020,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		            || (NodeOperation.UPDATE == operation && !currentformatIds.containsKey(format.getId()) )) {
                 // the format does not exist, so create
                 // Assemble and add the format
-		    	format.setState(course.getState());
+		    	format.setStateKey(course.getStateKey());
                 BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
                         .disassemble(format, NodeOperation.CREATE,contextInfo);
                 results.add(formatNode);
@@ -1034,7 +1036,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                 // it's a create
                 relation
                         .setType(CourseAssemblerConstants.COURSE_FORMAT_RELATION_TYPE);
-                relation.setState(course.getState());
+                relation.setState(course.getStateKey());
 
                 BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo> relationNode = new BaseDTOAssemblyNode<CourseInfo, CluCluRelationInfo>(
                         null);
@@ -1046,7 +1048,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 					&& currentformatIds.containsKey(format.getId())) {
 				// If the course already has this format, then just update the
 				// format
-            	format.setState(course.getState());
+            	format.setStateKey(course.getStateKey());
 				BaseDTOAssemblyNode<FormatInfo, CluInfo> formatNode = formatAssembler
 						.disassemble(format, NodeOperation.UPDATE,contextInfo);
 				results.add(formatNode);
@@ -1106,7 +1108,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						cluIdent.getType().equals(CourseAssemblerConstants.COURSE_VARIATION_IDENT_TYPE)) {
 					CourseVariationInfo variation = new CourseVariationInfo();
 					variation.setId(cluIdent.getId());
-					variation.setType(cluIdent.getType());
+					variation.setTypeKey(cluIdent.getType());
 					variation.setCourseNumberSuffix(cluIdent.getSuffixCode());
 					variation.setSubjectArea(cluIdent.getDivision());
 					variation.setVariationCode(cluIdent.getVariation());
@@ -1130,10 +1132,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                     if (cluIdent.getAttributes().containsKey("courseId")) {
                         try {
                             CluInfo cluInfo = luService.getClu(cluIdent.getAttributes().get("courseId") , new ContextInfo());
-                            crosslisting.setId(cluInfo.getId());
+                            crosslisting.setId(cluIdent.getId());
                             crosslisting.setCode(cluInfo.getOfficialIdentifier().getCode());
                             crosslisting.setAttributes(cluIdent.getAttributes());
-                            crosslisting.setType(cluInfo.getType());
+                            crosslisting.setTypeKey(cluInfo.getType());
                             crosslisting.setCourseNumberSuffix(cluInfo.getOfficialIdentifier().getSuffixCode());
                             crosslisting.setSubjectArea(cluInfo.getOfficialIdentifier().getDivision());
                             crosslisting.setDepartment(cluIdent.getOrgId());
@@ -1144,7 +1146,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
                         crosslisting.setId(cluIdent.getId());
                         crosslisting.setCode(cluIdent.getCode());
                         crosslisting.setAttributes(cluIdent.getAttributes());
-                        crosslisting.setType(cluIdent.getType());
+                        crosslisting.setTypeKey(cluIdent.getType());
                         crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
                         crosslisting.setSubjectArea(cluIdent.getDivision());
                         crosslisting.setDepartment(cluIdent.getOrgId());
@@ -1206,7 +1208,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				// be deleted at the end
 				CluCluRelationInfo relation = currentJointIds.remove(joint.getRelationId());
 				relation.setRelatedCluId(joint.getCourseId());
-				relation.setState(course.getState());
+				relation.setState(course.getStateKey());
 				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = new BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo>(courseJointAssembler);
 				jointNode.setBusinessDTORef(joint);
 				jointNode.setNodeData(relation);
@@ -1217,7 +1219,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				BaseDTOAssemblyNode<CourseJointInfo, CluCluRelationInfo> jointNode = courseJointAssembler
 						.disassemble(joint, NodeOperation.CREATE,contextInfo);
 				jointNode.getNodeData().setCluId(nodeId);
-				jointNode.getNodeData().setState(course.getState());
+				jointNode.getNodeData().setState(course.getStateKey());
 				results.add(jointNode);
 			}
 		}

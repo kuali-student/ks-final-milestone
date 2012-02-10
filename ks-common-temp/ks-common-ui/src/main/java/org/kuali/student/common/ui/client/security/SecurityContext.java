@@ -84,25 +84,40 @@ public class SecurityContext {
 	}
 	
 	/**
-	 * Used to check if user has a screen permission. If the permission has been cached
-	 * in the browser, it will use the cached permission.
-	 * 
-	 * @param screenComponent
-	 * @return true if user has access to the screen component
-	 */
-	public void checkScreenPermission(final String screenComponent, final Callback<Boolean> checkPermissionCallback){
+     * Used to check if user has a screen permission. If the permission has been cached
+     * in the browser, it will use the cached permission.
+     * 
+     * @param screenComponent
+     * @return true if user has access to the screen component
+     */
+    public void checkScreenPermission(final String screenComponent, final Callback<Boolean> checkPermissionCallback){
         if (permissionCache.containsKey(screenComponent)){
-        	checkPermissionCallback.exec(permissionCache.get(screenComponent));
+            checkPermissionCallback.exec(permissionCache.get(screenComponent));
         } else {
-			securityRpcService.hasScreenPermission(screenComponent, new KSAsyncCallback<Boolean>() {
-	            @Override
-	            public void onSuccess(Boolean result) {
-	            	permissionCache.put(screenComponent, result);
-	            	checkPermissionCallback.exec(result);
-	            }
-	        });
+            securityRpcService.hasScreenPermission(screenComponent, new KSAsyncCallback<Boolean>() {
+                @Override
+                public void onSuccess(Boolean result) {
+                    permissionCache.put(screenComponent, result);
+                    checkPermissionCallback.exec(result);
+                }
+            });
         }
-	}
+    }
+    
+    /**
+     * Used to check a pre-loaded or cached screen permission.  Note: This should only be called if the permission has
+     * been loaded via the loadScreenPermissions method.  
+     * 
+     * @param screenComponent
+     * @return true if user has access to the screen component
+     */
+    public boolean checkCachedScreenPermission(final String screenComponent){       
+        if (permissionCache.containsKey(screenComponent)){
+            return permissionCache.get(screenComponent);
+        } else{
+            throw new RuntimeException("Permission not cached " + screenComponent);
+        }
+    }
 	
 	/**
 	 * Used to check if user has a permission by its permission name. If the permission has been cached
@@ -197,4 +212,22 @@ public class SecurityContext {
 			}			
 		});
 	}
+	
+	/**
+     * Loads into the permission cache all the permissions user has for a permission type.
+     */
+    public void loadScreenPermissions(final ArrayList<String> screenComponents, final Callback<Boolean> loadPermissionsCallback){
+        securityRpcService.getScreenPermissions(screenComponents, new KSAsyncCallback<HashMap<String, Boolean>>(){
+
+            @Override
+            public void onSuccess(HashMap<String, Boolean> result) {
+                for (Entry<String,Boolean> entry:result.entrySet()){
+                    permissionCache.put(entry.getKey(), entry.getValue());
+                }
+                loadPermissionsCallback.exec(true);
+            }
+            
+        });
+    }
+    
 }

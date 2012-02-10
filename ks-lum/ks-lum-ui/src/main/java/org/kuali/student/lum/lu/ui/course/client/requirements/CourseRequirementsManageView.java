@@ -294,8 +294,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                         if (rule.getStatements() != null && !rule.getStatements().isEmpty()) {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
                             newStatementTreeViewInfo.setId(CourseRequirementsSummaryView.NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeViewInfoID++));
-                            newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
+                            newStatementTreeViewInfo.setOperator(rule.getOperator());
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
+                            newStatementTreeViewInfo.setTypeKey(rule.getTypeKey());
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
                             rule.getReqComponents().add(reqComp);

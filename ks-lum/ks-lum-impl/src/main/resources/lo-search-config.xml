@@ -534,7 +534,7 @@
     
     
     
-	<bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+	<bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="lo.search.los">
@@ -637,4 +637,6 @@ JOIN
             </map>
 		</property>
 	</bean>
+	
+	<bean id="queryMap" parent="queryMap-parent"/>
 </beans>
