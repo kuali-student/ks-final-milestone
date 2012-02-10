@@ -79,22 +79,22 @@ public class CourseServiceImpl implements CourseService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    // TODO KSCM Service Method Comparison Implementation
     @Override
     public List<FormatInfo> getCourseFormatsByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+       return this.getCourseFormats(courseId);
     }
 
+    // TODO KSCM Service Method Comparison Implementation
     @Override
     public List<ActivityInfo> getCourseActivitiesByCourseFormat(@WebParam(name = "formatId") String formatId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getCourseActivities(formatId);
     }
-
+    
+    // TODO KSCM replaced implementation with ENR
     @Override
     public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO KSCM
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getCourseLos(courseId);
     }
 
     final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
