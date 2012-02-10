@@ -49,6 +49,9 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     @XmlAnyElement
     private List<Element> _futureElements;
 
+    @XmlAnyElement
+	private RichTextInfo descr;
+
     public LoCategoryInfo() {
 
     }
@@ -101,15 +104,15 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
        return this.getDescr();
     }
 
+    // TODO KSCM replaced implementation with ENR
     @Deprecated
     public void setDesc(RichTextInfo desc) {
-        //this.desc = desc;
-        //TODO KSCM
+        this.descr = desc;
     }
 
+    // TODO KSCM replaced implementation with ENR
     @Deprecated
     public void setLoRepository(String loRepository) {
-        //this.loRepository = loRepository;
-        //TODO KSCM
+        this.loRepositoryKey = loRepository;
     }
 }

@@ -33,6 +33,12 @@ public class LoLoRelationInfo extends RelationshipInfo implements LoLoRelation, 
     @XmlElement
     private String relatedLoId;
 
+    @XmlElement
+	private String typeKey;
+
+    @XmlElement
+	private String stateKey;
+
     public LoLoRelationInfo() {
 
     }
@@ -66,12 +72,10 @@ public class LoLoRelationInfo extends RelationshipInfo implements LoLoRelation, 
 
     @Deprecated
     public void setState(String state) {
-        //TODO KSCM
-        //this.state = state;
+        this.stateKey = state;
     }
     @Deprecated
     public void setType(String type) {
-        //TODO KSCM
-       // this.type = type;
+       this.typeKey = type;
     }
 }
