@@ -20,14 +20,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import org.kuali.student.core.bo.TypeBusinessObjectBase;
+import org.kuali.student.core.bo.KsTypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_DT_RANGE_TYPE")
 @NamedQueries( { 
 	@NamedQuery(name = "DateRangeType.findDateRangeTypesForAtpType", query = "SELECT dateRange.type FROM DateRange dateRange WHERE dateRange.atp.type.id = :atpTypeId") 
 })
-public class DateRangeType extends TypeBusinessObjectBase {
+public class DateRangeType extends KsTypeBusinessObjectBase {
     
 	private static final long serialVersionUID = 556525490322814285L;
 

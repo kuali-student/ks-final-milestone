@@ -19,12 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
 import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.lum.statement.config.context.util.NLCluSet;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
@@ -78,7 +80,10 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			CluInfo clu = this.luService.getClu(cluId);
+			VersionDisplayInfo versionInfo = null;
+			// TODO KSCM			luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
+			CluInfo clu = null;
+			// TODO KSCM			this.luService.getClu(versionInfo.getId());
 			return clu;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -106,7 +111,8 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-	    	CluSetInfo cluSet = this.luService.getCluSetInfo(cluSetId);
+	    	CluSetInfo cluSet = null;
+	    	// TODO KSCM	    	this.luService.getCluSetInfo(cluSetId);
 	    	return cluSet;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -127,9 +133,10 @@ public class LuContextImpl extends BasicContextImpl {
     	CluSetInfo cluSet = getCluSetInfo(cluSetId);
 		try {
 	    	List<CluInfo> list = new ArrayList<CluInfo>();
-	    	CluSetTreeViewInfo tree = luService.getCluSetTreeView(cluSetId);
+	    	CluSetTreeViewInfo tree = null;
+	    	// TODO KSCM	    	luService.getCluSetTreeView(cluSetId);
 	    	findClusInCluSet(tree, list);
-	    	return new NLCluSet(cluSet.getId(), list);
+	    	return new NLCluSet(cluSet.getId(), list, cluSet);
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}

@@ -18,7 +18,7 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 	<bean id="enCourse" abstract="true"
 		class="org.kuali.student.core.messages.entity.MessageEntity">
@@ -31,7 +31,7 @@
 		<property name="locale" value="es" />
 		<property name="groupName" value="course" />
 	</bean>
-	
+
 	<bean id="enClusetmanagement" abstract="true"
 		class="org.kuali.student.core.messages.entity.MessageEntity">
 		<property name="locale" value="en" />
@@ -44,19 +44,20 @@
 	 <bean parent="enCourse" p:messageId="createDesc" p:value="Curriculum Management" />
 	 <bean parent="enCourse" p:messageId="howTo" p:value="How do I...?" />
 	 <bean parent="enCourse" p:messageId="create" p:value="Proposals" />
-	 <bean parent="enCourse" p:messageId="createDesc" p:value="Propose a new course, start a new program, or find and review submitted proposals." />
+	 <bean parent="enCourse" p:messageId="createDesc" p:value="Propose a new course or start a new program." /> <!--  KSLAB-2062 -->
 	 <bean parent="enCourse" p:messageId="viewModify" p:value="Find Courses and Programs" />
 	 <bean parent="enCourse" p:messageId="viewModifyDesc" p:value="Search for proposals, courses and programs to view, modify or retire." />
 	 <bean parent="enCourse" p:messageId="tools" p:value="Management Tools" />
 	 <bean parent="enCourse" p:messageId="toolsDesc" p:value="Support tools for courses and programs." />
-	 <bean parent="enCourse" p:messageId="createCourse" p:value="Propose a Course" />
-	 <bean parent="enCourse" p:messageId="createProgram" p:value="Create a Program" />
+	 <bean parent="enCourse" p:messageId="createCourse" p:value="Create a Course" />
+	 <bean parent="enCourse" p:messageId="createProgram" p:value="Create a Major Discipline" />
 	 <bean parent="enCourse" p:messageId="findProposals" p:value="Find Course Proposals" />
 	 <bean parent="enCourse" p:messageId="actionList" p:value="My Actionlist" />
 	 <bean parent="enCourse" p:messageId="actionListDesc" p:value="" />
 	 <bean parent="enCourse" p:messageId="browseCatalog" p:value="Browse Course Catalog" />
 	 <bean parent="enCourse" p:messageId="findCourses" p:value="Find Courses" />
-	 <bean parent="enCourse" p:messageId="findMajors" p:value="Find Programs (major disciplines)" />
+	 <bean parent="enCourse" p:messageId="findCredentials" p:value="Find Credential Programs" />
+	 <bean parent="enCourse" p:messageId="findCores" p:value="Find Core Programs" />
 	 <bean parent="enCourse" p:messageId="courseSets" p:value="Course Set Management" />
 	 <bean parent="enCourse" p:messageId="loCategories" p:value="Learning Objective Categories" />
 	 <bean parent="enCourse" p:messageId="depAnalysis" p:value="Dependency Analysis (coming soon)" />
@@ -203,10 +204,10 @@
 		<property name="value">
 			<value>
 				Can't find the course?&lt;/br&gt;
-				If a course is still in proposal (pre-approval) stage, 
-				you may not be able to find it without being designated 
+				If a course is still in proposal (pre-approval) stage,
+				you may not be able to find it without being designated
 				as a collaborator on that proposal. If you can't find a
-				proposal you know exists, contact the author and ask 
+				proposal you know exists, contact the author and ask
 				them to make you a collaborator.
 			</value>
 		</property>
@@ -247,7 +248,7 @@
 	<bean parent="enCourse" p:messageId="cluCoRequisites" p:value="Co-Requisites" />
 	<bean parent="enCourse" p:messageId="cluAntiRequisites" p:value="Anti-Requisites" />
 	<bean parent="enCourse" p:messageId="cluEnrollRequisites" p:value="Enrollment-Requisites" />
-	
+
 	<bean parent="enCourse" p:messageId="cluAdministration" p:value="Administration" />
 	<bean parent="enCourse" p:messageId="cluEffectiveDate" p:value="Course active on" />
 
@@ -362,12 +363,42 @@
 		<property name="groupName" value="program" />
 	</bean>
 
-	<bean parent="enProgram" p:messageId="cluAcademicContent" p:value="Academic Content" />
-	<bean parent="enProgram" p:messageId="cluInformation" p:value="Program Information" />
-	<bean parent="enProgram" p:messageId="cluShortTitle" p:value="Short Program Title" />
+	<bean parent="enProgram" p:messageId="cluAcademicContent"     p:value="Academic Content" />
+	<bean parent="enProgram" p:messageId="cluInformation"         p:value="Program Information" />
+	<bean parent="enProgram" p:messageId="cluShortTitle"          p:value="Short Program Title" />
+
+    <bean parent="enProgram" p:messageId="shortTitle"             p:value="Name" />
+    <bean parent="enProgram" p:messageId="shortTitle-help">
+        <property name="value">
+            <value></value>
+        </property>
+    </bean>
+    <bean parent="enProgram" p:messageId="shortTitle-watermark"   p:value="Enter a name for this completion requirement"/>
+    <bean parent="enProgram" p:messageId="minCredits"             p:value="Minimum expected credits" />
+    <bean parent="enProgram" p:messageId="minCredits-help">
+        <property name="value">
+            <value></value>
+        </property>
+    </bean>
+    <bean parent="enProgram" p:messageId="minCredits-watermark"   p:value="e.g.: 50"/>
+    <bean parent="enProgram" p:messageId="maxCredits"             p:value="Maximum expected credits" />
+    <bean parent="enProgram" p:messageId="maxCredits-help">
+        <property name="value">
+            <value></value>
+        </property>
+    </bean>
+    <bean parent="enProgram" p:messageId="maxCredits-watermark"   p:value="e.g.: 60"/>
+    <bean parent="enProgram" p:messageId="descr"                  p:value="Description" />
+    <bean parent="enProgram" p:messageId="descr-help">
+        <property name="value">
+            <value></value>
+        </property>
+    </bean>
+    <bean parent="enProgram" p:messageId="descr-watermark"        p:value="Enter a description for this completion requirement"/>
+    <bean parent="enProgram" p:messageId="descrLimit"             p:value=" characters maximum"/>
 
     <!-- Learning Results labels -->
-    
+
 	<bean parent="enCourse" p:messageId="cluLearningResults"                   p:value="Learning Results"/>
 	<bean parent="enCourse" p:messageId="cluLearningResults-instruct"          p:value="There are two types of learning results, Grades/Assessments and Credits/Outcomes. You can add multiple options &lt;br/&gt;for either type, which can be used for multiple course formats, or to account for variations in course offerings."/>
 	<bean parent="enCourse" p:messageId="cluAddLearningResultAssessmentScale"  p:value="Add Grading Scale Option"/>
@@ -403,9 +434,9 @@
 	<bean parent="enCourse" p:messageId="cluLearningResultsOutcomeMinCredits"  p:value="Minimum Credit Value"/>
 	<bean parent="enCourse" p:messageId="cluLearningResultsOutcomeMaxCredits"  p:value="Maximum Credit Value"/>
 	<bean parent="enCourse" p:messageId="cluLearningResultsOutcomeFixedCredits" p:value="Credit Value"/>
-	
+
     <!-- Financial Section labels -->
-    
+
 	<bean parent="enCourse" p:messageId="cluCourseFeesTitle"                   p:value="Course Fees"/>
 	<bean parent="enCourse" p:messageId="cluCourseFeesTitle-instruct"          p:value="These are the required fees for the course, for example lab, material, field trips."/>
 	<bean parent="enCourse" p:messageId="cluJustificationOfFees"               p:value="Justification of Fees"/>
@@ -430,12 +461,12 @@
 	<bean parent="enCourse" p:messageId="cluAddAfee"                           p:value="Add a fee"/>
 	<bean parent="enCourse" p:messageId="cluTo"                                p:value="To"/>
 	<bean parent="enCourse" p:messageId="cluRateType"                          p:value="Rate Type"/>
-	<bean parent="enCourse" p:messageId="cluAddAnotherFee"                     p:value="Add another Fee"/>		
+	<bean parent="enCourse" p:messageId="cluAddAnotherFee"                     p:value="Add another Fee"/>
 	<bean parent="enCourse" p:messageId="cluFee"                               p:value="Fee"/>
 	<bean parent="enCourse" p:messageId="cluOrganization"                      p:value="Organization"/>
 	<bean parent="enCourse" p:messageId="cluAddAnotherOrganization"                      p:value="Add another Organization"/>
 	<bean parent="enCourse" p:messageId="cluPercentage"                      p:value="Percentage"/>
-	
+
 	 <!-- CluSet Management  labels -->
 	<bean parent="enClusetmanagement" p:messageId="cluSetInformation"                      p:value="CluSet Information"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetNew"                      p:value="Create New Clu Set"/>
@@ -450,16 +481,21 @@
 	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetCourse"                 p:value="Course Sets"/>
 	<bean parent="enClusetmanagement" p:messageId="clusetSubCluSetProgram"                 p:value="Program Sets"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetOrganization"                      p:value="Organization"/>
-	<bean parent="enClusetmanagement" p:messageId="cluSetTitle"                      p:value="Title"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetDefineCourse"                      p:value="Define Course Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetDefineProgram"                      p:value="Define Program Set"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetTitleCourse"                      p:value="Course Set Name"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetTitleProgram"                      p:value="Program Set Name"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetDescription"                      p:value="Description"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetEffectiveDate"                      p:value="Effective Date"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetEffectiveDate-watermark"                      p:value="mm/dd/yyyy"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetExpirationDate"                      p:value="Expiration Date"/>
+	<bean parent="enClusetmanagement" p:messageId="cluSetExpirationDate-watermark"                      p:value="mm/dd/yyyy"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetName"                      p:value="Name"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetEditInformation"                      p:value="Search CLU set"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetEditCluSet"                      p:value="Edit Clu Set"/>
 	<bean parent="enClusetmanagement" p:messageId="cluSetViewCluSet"                      p:value="View Clu Set"/>
-	
-	
-	
+
+
+
 
 </beans>

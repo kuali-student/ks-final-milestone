@@ -1,128 +1,93 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.lum.program.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.lum.program.infc.CredentialProgram;
+import org.w3c.dom.Element;
 
 /**
- * Detailed information about a single credential program, e.g. Baccalaureate, Master, Doctoral, Graduate Certificate, Undergraduate Certificate
-.
- *
- * @Author KSContractMojo
- * @Author Li Pan
- * @Since Wed Jun 30 14:55:47 PDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/credentialProgramInfo+Structure">CredentialProgramInfo</>
- *
+ * Detailed information about a single credential program, e.g. Baccalaureate,
+ * Master, Doctoral, Graduate Certificate, Undergraduate Certificate
+ * 
+ * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "CredentialProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "programLevel", "code", "universityClassification",
+        "institution", "resultOptions", "startTermId", "endTermId", "endProgramEntryTermId", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight",
+        "learningObjectives", "coreProgramIds", "programRequirements", "catalogPublicationTargets", "catalogDescr", "credentialProgramType", "diplomaTitle", "selectiveEnrollmentCode", "hegisCode",
+        "cip2000Code", "cip2010Code", "meta", "attributes", "_futureElements"})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CredentialProgramInfo implements Serializable, Idable, HasAttributes {
+public class CredentialProgramInfo extends ProgramAttributesInfo implements CredentialProgram, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String shortTitle;
-
-    @XmlElement
-    private String longTitle;
-    
-    @XmlElement
-    private String transcriptTitle;
-
-    @XmlElement 
     private String programLevel;
-    
-    @XmlElement
-    private String code;
-    
-    @XmlElement
-    private String universityClassification;
 
-    @XmlElement
-    private AdminOrgInfo institution;
-    
-    @XmlElement
-    private List<String> resultOptions;
-    
-    @XmlElement
-    private String startTerm;
-
-    @XmlElement
-    private String endTerm;
-
-    @XmlElement
-    private String endProgramEntryTerm;
-
-    @XmlElement
-    private List<String> divisionsContentOwner;
-    
-    @XmlElement
-    private List<String> divisionsStudentOversight;
-
-    @XmlElement
-    private List<String> unitsContentOwner;
-    
-    @XmlElement
-    private List<String> unitsStudentOversight;
-
-    @XmlElement
-    private RichTextInfo descr;
-    
-    @XmlElement
-    private List<LoDisplayInfo> learningObjectives;
-    
     @XmlElement
     private List<String> coreProgramIds;
 
     @XmlElement
-    private List<String> programRequirements;
-
-    @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
-
-    @XmlAttribute
     private String credentialProgramType;
 
-    @XmlAttribute
-    private String state;
+    @XmlElement
+    private ArrayList<String> resultOptions;
 
-    @XmlAttribute
-    private String id;
-    
+    @XmlElement
+    private AdminOrgInfo institution;
+
+    @XmlAnyElement
+    private List<Element> _futureElements;
+
+    public CredentialProgramInfo() {
+
+    }
+
+    public CredentialProgramInfo(CredentialProgram credentialProgram) {
+        super(credentialProgram);
+        if (credentialProgram != null) {
+            this.programLevel = credentialProgram.getProgramLevel();
+            this.institution = new AdminOrgInfo(credentialProgram.getInstitution());
+            this.resultOptions = credentialProgram.getResultOptions() != null ? new ArrayList<String>(credentialProgram.getResultOptions()) : new ArrayList<String>();
+            List<LoDisplayInfo> learningObjectives = new ArrayList<LoDisplayInfo>();
+
+            if (credentialProgram.getLearningObjectives() != null) {
+                for (LoDisplay loDisplay : credentialProgram.getLearningObjectives()) {
+                    LoDisplayInfo loDisplayInfo = new LoDisplayInfo(loDisplay);
+                    learningObjectives.add(loDisplayInfo);
+                }
+            }
+
+            this.coreProgramIds = credentialProgram.getCoreProgramIds() != null ? new ArrayList<String>(credentialProgram.getCoreProgramIds()) : new ArrayList<String>();
+            this.credentialProgramType = credentialProgram.getCredentialProgramType();
+
+        }
+    }
+
+    @Override
     public List<String> getCoreProgramIds() {
         return coreProgramIds;
     }
@@ -132,49 +97,10 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
     }
 
     /**
-     * Credential Program Requirements.
-     */
-    public List<String> getProgramRequirements() {
-        if (programRequirements == null) {
-            programRequirements = new ArrayList<String>(0);
-        }
-        return programRequirements;
-    }
-
-    public void setProgramRequirements(List<String> programRequirements) {
-        this.programRequirements = programRequirements;
-    }
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
+     * Unique identifier for a learning unit type. Once set at create time, this
+     * field may not be updated.
      */
     @Override
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    @Override
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
-     */
     public String getCredentialProgramType() {
         return credentialProgramType;
     }
@@ -183,66 +109,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
         this.credentialProgramType = credentialProgramType;
     }
 
-    /**
-     * The current status of the credential program. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for an Credential Program. This is optional, due to the identifier being set at the time of creation. Once the Program has been created, this should be seen as required.
-     */
     @Override
-    public String getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
-     * Abbreviated name of the Credential program   
-     */
-    public String getShortTitle() {
-        return shortTitle;
-    }
-
-    public void setShortTitle(String shortTitle) {
-        this.shortTitle = shortTitle;
-    }
-
-    /**
-     * Full name of the Credential Program  
-     */
-    public String getLongTitle() {
-        return longTitle;
-    }
-
-    public void setLongTitle(String longTitle) {
-        this.longTitle = longTitle;
-    }
-
-    /*
-     * Information related to the official identification of the credential program, typically in human readable form. Used to officially reference or publish.  
-     */
-    public String getTranscriptTitle() {
-        return transcriptTitle;
-    }
-
-    public void setTranscriptTitle(String transcriptTitle) {
-        this.transcriptTitle = transcriptTitle;
-    }
-    
-    /**
-     * A code that indicates whether this is Graduate, Undergraduage etc    
-     */
     public String getProgramLevel() {
         return programLevel;
     }
@@ -251,31 +118,7 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
         this.programLevel = programLevel;
     }
 
-    /**
-     * The composite string that is used to officially reference or publish the Credential program. 
-     */
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    /**
-     * University specific classification   
-     */
-    public String getUniversityClassification() {
-        return universityClassification;
-    }
-
-    public void setUniversityClassification(String universityClassification) {
-        this.universityClassification = universityClassification;
-    }
-
-    /**
-     * Institution owning the program.  
-     */
+    @Override
     public AdminOrgInfo getInstitution() {
         return institution;
     }
@@ -284,113 +127,53 @@ public class CredentialProgramInfo implements Serializable, Idable, HasAttribute
         this.institution = institution;
     }
 
-    /**
-     * Result outcomes from taking the Credential program.  
-     */
+    @Override
     public List<String> getResultOptions() {
         return resultOptions;
     }
 
-    public void setResultOptions(List<String> resultOptions) {
-        this.resultOptions = resultOptions;
+//TODO    KSCM-248
+
+    public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
+    }
+   //TODO KSCM-248
+
+    public void setResultOptions(List<String> strings) {
+    }
+    //TODO KSCM-248
+    public void setVersionInfo(VersionInfo versionInfo) {
     }
 
-    /**
-     * The first academic time period that this credential program would be effective. This may not reflect the first "real" academic time period for this program. 
-     */
-    public String getStartTerm() {
-        return startTerm;
+    public void setStartTerm(Object o) {
     }
 
-    public void setStartTerm(String startTerm) {
-        this.startTerm = startTerm;
+    public void setEndTerm(Object endTerm) {
+      //TODO KSCM  this.endTerm = endTerm;
+    }
+
+    public void setEndProgramEntryTerm(Object endProgramEntryTerm) {
+        //TODO KSCM  this.endProgramEntryTerm = endProgramEntryTerm;
     }
     
-    /**
-     * The last academic time period that this credential program would be effective.   
-     */
-    public String getEndTerm() {
-        return endTerm;
-    }
-
-    public void setEndTerm(String endTerm) {
-        this.endTerm = endTerm;
-    }
+    //TODO KSCM : Fix this logic
+    @Deprecated
+	public VersionInfo getVersionInfo(ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
     
-    /**
-     * The last academic time period that this credential program would be available for enrollment. This may not reflect the last "real" academic time period for this program.    
-     */
-    public String getEndProgramEntryTerm() {
-        return endProgramEntryTerm;
-    }
-
-    public void setEndProgramEntryTerm(String endProgramEntryTerm) {
-        this.endProgramEntryTerm = endProgramEntryTerm;
-    }
-
-    /**
-     * Divisions responsible to make changes to the credential program  
-     */
-    public List<String> getDivisionsContentOwner() {
-        return divisionsContentOwner;
-    }
-
-    public void setDivisionsContentOwner(List<String> divisionsContentOwner) {
-        this.divisionsContentOwner = divisionsContentOwner;
-    }
-
-    /**
-     * Divisions responsible for student exceptions to the credential program.  
-     */
-    public List<String> getDivisionsStudentOversight() {
-        return divisionsStudentOversight;
-    }
-
-    public void setDivisionsStudentOversight(List<String> divisionsStudentOversight) {
-        this.divisionsStudentOversight = divisionsStudentOversight;
-    }
-
-    /*
-     * Unit responsible to make changes to the credential program   
-     */
-    public List<String> getUnitsContentOwner() {
-        return unitsContentOwner;
-    }
-
-    public void setUnitsContentOwner(List<String> unitsContentOwner) {
-        this.unitsContentOwner = unitsContentOwner;
-    }
-
-    /**
-     * Unit responsible for student exceptions to the credential program.   
-     */
-    public List<String> getUnitsStudentOversight() {
-        return unitsStudentOversight;
-    }
-
-    public void setUnitsStudentOversight(List<String> unitsStudentOversight) {
-        this.unitsStudentOversight = unitsStudentOversight;
-    }
-
-    /**
-     * Narrative description of the Credential program. 
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-
-    /**
-     * Learning Objectives associated with this credential program. 
-     */
-    public List<LoDisplayInfo> getLearningObjectives() {
-        return learningObjectives;
-    }
-
-    public void setLearningObjectives(List<LoDisplayInfo> learningObjectives) {
-        this.learningObjectives = learningObjectives;
-    }    
+    //TODO KSCM
+    @Deprecated 
+	public Boolean getEndProgramEntryTerm() {
+		// TODO Auto-generated method stub
+		//TODO KSCM 
+		return null;
+	}
+    
+    //TODO KSCM
+    @Deprecated
+	public Boolean getEndTerm() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

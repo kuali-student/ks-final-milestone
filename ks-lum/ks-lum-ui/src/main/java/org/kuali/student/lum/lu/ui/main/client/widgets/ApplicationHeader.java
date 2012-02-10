@@ -50,8 +50,6 @@ import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.Frame;
-import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.PopupPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -71,27 +69,26 @@ public class ApplicationHeader extends Composite{
 
     private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);
 
-	private KSHeader ksHeader = new KSHeader();
+	private KSHeader ksHeader = GWT.create(KSHeader.class);
 
-	private StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
-	private Anchor versionAnchor = new Anchor(" ( Version ) ");
+	protected StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
 	private SimplePanel content = new SimplePanel();
-	private KSLightBox docSearchDialog = new KSLightBox();
+	protected KSLightBox docSearchDialog = new KSLightBox();
 
 	private Frame docSearch;
     private String docSearchUrl = "";
     private String appUrl = "..";
     private String lumAppUrl = "..";
-    private String riceURL ="..";
+    protected String riceURL ="..";
     private String riceLinkLabel="Rice";
     private String appVersion = "";
     private String codeServer = "";
 
     private boolean loaded = false;
 
-    private static class WrapperNavigationHandler extends NavigationHandler{
+    protected static class WrapperNavigationHandler extends NavigationHandler{
 		public WrapperNavigationHandler(String url) {
 			super(url);
 		}
@@ -126,7 +123,6 @@ public class ApplicationHeader extends Composite{
 	                    riceURL         = result.get(RICE_URL);
 	                    riceLinkLabel 	= result.get(RICE_LINK_LABEL);
 	                    appVersion		= result.get(APP_VERSION);
-	                    
 	                    if (result.get(CODE_SERVER) != null){
 	                    	codeServer	= result.get(CODE_SERVER);
 	                    }
@@ -144,20 +140,17 @@ public class ApplicationHeader extends Composite{
 		createUserDropDown();
 		//headerBottomLinks.add(userDropDown);
 		ksHeader.setHiLabelText("Hi,");
-		ksHeader.setUserName(Application.getApplicationContext().getUserId());
+		ksHeader.setUserName(Application.getApplicationContext().getSecurityContext().getUserId());
 		Anchor logoutLink = new Anchor(getMessage("wrapperPanelLogout"));
 		logoutLink.addClickHandler(new WrapperNavigationHandler("j_spring_security_logout"));
 		ksHeader.addLogout(logoutLink);
-		ksHeader.addLogout(versionAnchor);
-
-		//headerBottomLinks.add(logoutLink);
-		createHelpInfo();
 		createNavDropDown();
 		ksHeader.addNavigation(navDropDown);
 		ksHeader.addBottomContainerWidget(BreadcrumbManager.getBreadcrumbPanel());
 		BreadcrumbManager.setParentPanel(ksHeader.getBottomContainer());
 		
 		List<KSLabel> topLinks = new ArrayList<KSLabel>();
+		//FIXME the following code gets overridden
 		topLinks.add(buildLink(riceLinkLabel,riceLinkLabel,riceURL+"/portal.do"));
 		setHeaderCustomLinks(topLinks);
 
@@ -165,30 +158,12 @@ public class ApplicationHeader extends Composite{
 		content.addStyleName("KS-Wrapper-Content");
 	}
 
-	private void createHelpInfo(){
-	    versionAnchor.addClickHandler(new ClickHandler(){
-
-	           public void onClick(ClickEvent event) {
-	               final PopupPanel helpPopup = new PopupPanel(true);
-	               helpPopup.setWidget(new HTML("<br><h3>&nbsp;&nbsp; " + appVersion + "&nbsp;&nbsp;<h3>"));
-
-	               helpPopup.setPopupPositionAndShow(new PopupPanel.PositionCallback() {
-	                   public void setPosition(int offsetWidth, int offsetHeight) {
-	                     int left = (Window.getClientWidth() - offsetWidth);
-	                     int top = 0;
-	                     helpPopup.setPopupPosition(left, top);
-	                   }
-	               });
-	           }
-	    });
-	}
-
 	private void createUserDropDown() {
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
     	items.add(new KSMenuItemData(getMessage("wrapperPanelLogout"),new WrapperNavigationHandler("j_spring_security_logout")));
 	}
 
-	private void createNavDropDown() {
+	protected void createNavDropDown() {
 		navDropDown.setImageLocation(MenuImageLocation.LEFT);
 
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
@@ -220,12 +195,12 @@ public class ApplicationHeader extends Composite{
     	);
     	items.add(new KSMenuItemData(getMessage("wrapperPanelTitleRice"), Theme.INSTANCE.getCommonImages().getRiceIcon(),
     			new WrapperNavigationHandler(
-    					appUrl+"/portal.do?selectedTab=main"))
+    					riceURL+"/portal.do?selectedTab=main"))
     	);
 
     	navDropDown.setItems(items);
     	navDropDown.setArrowImage(Theme.INSTANCE.getCommonImages().getDropDownIconWhite());
-
+    	navDropDown.ensureDebugId("Application-Header");
 	}
 
 	public void setContent(Widget wrappedContent){
@@ -282,7 +257,7 @@ public class ApplicationHeader extends Composite{
     }
 
     //Method to build the light box for the doc search
-    private void buildDocSearchPanel(){
+    protected void buildDocSearchPanel(){
     	if (docSearch == null){
 	        docSearch = new Frame();
 	    	docSearch.setSize("700px", "500px");
@@ -303,7 +278,12 @@ public class ApplicationHeader extends Composite{
     	}
     }
 
-    private static String getMessage(final String messageId) {
+    protected static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
     }
+    
+    public void setHeaderTitle(String title) {
+    	ksHeader.setApplicationTitle(title);
+    }
+    
 }

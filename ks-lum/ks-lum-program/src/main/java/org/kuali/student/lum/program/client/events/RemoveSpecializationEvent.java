@@ -1,13 +1,14 @@
 package org.kuali.student.lum.program.client.events;
 
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author Igor
  */
-public class RemoveSpecializationEvent extends GwtEvent<RemoveSpecializationEventHandler> {
+public class RemoveSpecializationEvent extends GwtEvent<RemoveSpecializationEvent.Handler> {
 
-    public static Type<RemoveSpecializationEventHandler> TYPE = new Type<RemoveSpecializationEventHandler>();
+    public static Type<Handler> TYPE = new Type<Handler>();
 
     private String id;
 
@@ -15,17 +16,17 @@ public class RemoveSpecializationEvent extends GwtEvent<RemoveSpecializationEven
         this.id = id;
     }
 
-    public static Type<RemoveSpecializationEventHandler> getTYPE() {
+    @Override
+    public Type<Handler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    public Type<RemoveSpecializationEventHandler> getAssociatedType() {
-        return TYPE;
-    }
-
-    @Override
-    protected void dispatch(RemoveSpecializationEventHandler handler) {
+    protected void dispatch(Handler handler) {
         handler.onEvent(this);
+    }
+
+    public static interface Handler extends EventHandler {
+        void onEvent(RemoveSpecializationEvent event);
     }
 }

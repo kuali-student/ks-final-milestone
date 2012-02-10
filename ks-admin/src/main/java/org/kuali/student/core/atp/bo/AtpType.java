@@ -20,11 +20,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.kuali.student.core.bo.TypeBusinessObjectBase;
+import org.kuali.student.core.bo.KsTypeBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_ATP_TYPE")
-public class AtpType extends TypeBusinessObjectBase {
+public class AtpType extends KsTypeBusinessObjectBase {
     
 	private static final long serialVersionUID = 3559054373937794275L;
 

@@ -3,9 +3,9 @@ package org.kuali.student.lum.common.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 
 public class CluSetRangeModelUtil {
@@ -25,18 +25,25 @@ public class CluSetRangeModelUtil {
         cluSetRangeHelper.setSearchTypeKey(searchRequest.getSearchKey());
         if (searchParams != null) {
             for (SearchParam searchParam : searchParams) {
-                if (((String)searchParam.getValue()).isEmpty()) {
-                    // skip the value if the user did not entered anything for this search parameter
-                    continue;
-                }
                 QueryParamHelper queryParamHelper = QueryParamHelper.wrap(new Data());
-                queryParamHelper.setValue((String)searchParam.getValue());
+                queryParamHelper.setValue(null);
                 queryParamHelper.setListValue(null);
                 queryParamHelper.setKey(searchParam.getKey());
-                if (cluSetRangeHelper.getQueryParams() == null) {
-                    cluSetRangeHelper.setQueryParams(new Data());
-                }
-                cluSetRangeHelper.getQueryParams().add(queryParamHelper.getData());
+
+                
+                if (searchParam.getValue() != null) {
+                	if (searchParam.getValue().getClass().equals(String.class)) {                		
+                		queryParamHelper.setValue((String)searchParam.getValue());
+                		if (cluSetRangeHelper.getQueryParams() == null) {
+                            cluSetRangeHelper.setQueryParams(new Data());
+                        }
+                    	cluSetRangeHelper.getQueryParams().add(queryParamHelper.getData());
+                	}
+                }                
+                
+                
+                    
+
             }
         }
         
