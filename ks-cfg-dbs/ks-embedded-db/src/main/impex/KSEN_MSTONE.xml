@@ -19021,15 +19021,15 @@
         ID="hc-holiday1" IS_ALL_DAY="0" IS_DATE_RANGE="1"
         IS_INSTRCT_DAY="0" IS_RELATIVE="0"
         MSTONE_STATE="kuali.milestone.state.Draft"
-        MSTONE_TYPE="kuali.atp.milestone.LaborDay" NAME="hc-holiday-one"
+        MSTONE_TYPE="kuali.atp.milestone.LaborDay" NAME="Labor Day"
         START_DT="20120903000000" VER_NBR="0"/>
     <KSEN_MSTONE DESCR_FORMATTED="&lt;p>2012 Fall Break&lt;/p>"
         DESCR_PLAIN="2012 Fall Break" END_DT="20121001000000"
         ID="hc-holiday2" IS_ALL_DAY="0" IS_DATE_RANGE="1"
         IS_INSTRCT_DAY="0" IS_RELATIVE="0"
         MSTONE_STATE="kuali.milestone.state.Draft"
-        MSTONE_TYPE="kuali.atp.milestone.FallBreak"
-        NAME="hc-holiday-two" START_DT="20120801000000" VER_NBR="0"/>
+        MSTONE_TYPE="kuali.atp.milestone.FallBreak" NAME="Fall Break"
+        START_DT="20120801000000" VER_NBR="0"/>
     <KSEN_MSTONE DESCR_FORMATTED="&lt;p>Desc 108&lt;/p>"
         DESCR_PLAIN="Desc 108" ID="testDeleteId" IS_ALL_DAY="0"
         IS_DATE_RANGE="0" IS_INSTRCT_DAY="0" IS_RELATIVE="0"
@@ -19047,7 +19047,7 @@
         IS_ALL_DAY="0" IS_DATE_RANGE="1" IS_INSTRCT_DAY="0"
         IS_RELATIVE="0" MSTONE_STATE="kuali.milestone.state.Draft"
         MSTONE_TYPE="kuali.atp.milestone.ThanksgivingBreak"
-        NAME="testId2" START_DT="20110801000000" VER_NBR="0"/>
+        NAME="Thanksgiving Break" START_DT="20110801000000" VER_NBR="0"/>
     <KSEN_MSTONE DESCR_FORMATTED="&lt;p>Desc 107&lt;/p>"
         DESCR_PLAIN="Desc 107" ID="testId3" IS_ALL_DAY="1"
         IS_DATE_RANGE="0" IS_INSTRCT_DAY="0" IS_RELATIVE="0"
