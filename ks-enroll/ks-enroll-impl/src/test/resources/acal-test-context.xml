@@ -156,6 +156,7 @@
   </bean>
 
     <bean id="acalServiceCalculation" class="org.kuali.student.enrollment.class2.acal.service.decorators.AcademicCalendarServiceCalculationDecorator">
+        <property name="atpService" ref="atpServiceAuthorization"/>
         <property name="nextDecorator" ref="acalService" />
     </bean>
 

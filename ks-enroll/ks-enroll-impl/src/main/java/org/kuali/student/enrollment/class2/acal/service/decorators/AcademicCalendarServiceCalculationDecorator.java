@@ -38,7 +38,9 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         AcademicCalendarInfo templateAcademicCalendar = getAcademicCalendar(academicCalendarId, contextInfo);
         AcademicCalendarInfo academicCalendar = new AcademicCalendarInfo(templateAcademicCalendar);
-        academicCalendar.setName(null);
+        academicCalendar.setName(templateAcademicCalendar.getName());
+        academicCalendar.setStartDate(startDate);
+        academicCalendar.setEndDate(endDate);
         academicCalendar.setId(null);
         academicCalendar.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         try {
@@ -127,9 +129,11 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
             return newHolidayCalendarIds;
         }
 
+        Date startDate = academicCalendar.getStartDate();
+        Date endDate = academicCalendar.getEndDate();
 
         for (String templateHolidayCalendar : academicCalendar.getHolidayCalendarIds()) {
-            HolidayCalendarInfo holidayCalendar =   copyHolidayCalendar(templateHolidayCalendar, null, null,contextInfo);
+            HolidayCalendarInfo holidayCalendar =   copyHolidayCalendar(templateHolidayCalendar, startDate, endDate, contextInfo);
 
             newHolidayCalendarIds.add(holidayCalendar.getId());
 
@@ -149,6 +153,8 @@ public class AcademicCalendarServiceCalculationDecorator extends AcademicCalenda
             atpRelationInfo.setRelatedAtpId(holidayCalendarId);
             atpRelationInfo.setEffectiveDate(new Date());
             atpRelationInfo.setExpirationDate(null);
+            atpRelationInfo.setStateKey(AtpServiceConstants.ATP_ATP_RELATION_ACTIVE_STATE_KEY);
+            atpRelationInfo.setTypeKey(AtpServiceConstants.ATP_ATP_RELATION_ASSOCIATED_TYPE_KEY);
             getAtpService().createAtpAtpRelation(academicCalendarId, holidayCalendarId, atpRelationInfo, contextInfo);
 
         }

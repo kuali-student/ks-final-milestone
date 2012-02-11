@@ -15,6 +15,9 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
+import java.util.List;
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -23,10 +26,13 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -68,9 +74,11 @@ public class AcademicCalendarController extends UifControllerBase {
             academicCalendarForm.setAcademicCalendarInfo(getAcademicCalendarViewHelperService(academicCalendarForm).getAcademicCalendar(acalInfo.getId()));
         }
         else {
-            // create ac
+            // create acalInfo
             AcademicCalendarInfo acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).createAcademicCalendar(academicCalendarForm);
             academicCalendarForm.setAcademicCalendarInfo(acalInfo);
+            // then create events if any
+            createEvents(acalInfo.getId(), academicCalendarForm);
         }
         return getUIFModelAndView(academicCalendarForm);
     }
@@ -94,6 +102,19 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         return getUIFModelAndView(academicCalendarForm);
+    }
+
+    private void createEvents(String acalId, AcademicCalendarForm acalForm) throws Exception {
+        List<AcalEventWrapper> events = acalForm.getEvents();
+
+        if(events != null && !events.isEmpty()){
+            List<AcalEventWrapper> createdEvents = new ArrayList<AcalEventWrapper>();
+            for (AcalEventWrapper event : events){
+                createdEvents.add(getAcademicCalendarViewHelperService(acalForm).createEvent(acalId, event));
+            }
+            acalForm.setEvents(createdEvents);
+        }
+
     }
 
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(AcademicCalendarForm academicCalendarForm){

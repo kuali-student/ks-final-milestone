@@ -48,7 +48,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Calendar Draft" p:methodToCall="save"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Calendar Draft"  p:clientSideJs="saveForm();" />
                     </list>
                 </property>
             </bean>
@@ -103,9 +103,19 @@
 		<property name="layoutManager.renderSequenceField" value="false" />
 		<property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
+        <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="false" />
+
 		<property name="items">
 			<list>
-				<bean parent="Uif-InputField" p:label="Event" p:propertyName="eventType" p:required="true" />
+				<bean parent="Uif-InputField" p:label="Event" p:propertyName="eventType" p:required="true" >
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl"/>
+                    </property>
+                    <property name="optionsFinder">
+                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcalEventTypeKeyValues" />
+                    </property>
+                </bean>
 				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
                     <property name="control">
 						<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
@@ -113,25 +123,25 @@
 				</bean>
                 <bean parent="Uif-InputField"  p:label="Start Time" p:propertyName="startTime" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="HH:mm"/>
+                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="startTimeAmPm"  p:required="true" >
+                <bean parent="Uif-InputField" p:label="" p:propertyName="startTimeAmPm"  p:required="false" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true">
+                <bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="false">
                    <property name="control">
 						<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
 					</property>
 				</bean>
                 <bean parent="Uif-InputField"  p:label="End Time" p:propertyName="endTime" p:required="false">
                     <property name="control">
-                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="HH:mm"/>
+                        <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="" p:propertyName="endTimeAmPm"  p:required="true" >
+                <bean parent="Uif-InputField" p:label="" p:propertyName="endTimeAmPm"  p:required="false" >
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
                     </property>
@@ -257,8 +267,8 @@
    </bean>
 
     <util:list id="time-options">
-       <bean parent="Uif-KeyLabelPair" p:key="am" p:value="am"/>
-       <bean parent="Uif-KeyLabelPair" p:key="pm" p:value="pm"/>
+       <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
+       <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
     </util:list>
 
 </beans>

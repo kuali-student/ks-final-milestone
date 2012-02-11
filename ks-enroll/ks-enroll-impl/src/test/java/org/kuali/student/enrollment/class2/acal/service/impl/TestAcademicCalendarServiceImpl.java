@@ -378,17 +378,11 @@ public class TestAcademicCalendarServiceImpl {
 
         termIds = acalService.getTermIdsByType(expectedEmptyTermType, callContext);
 
-        assertTrue(termIds == null || termIds.isEmpty());
+        assertTrue(termIds.isEmpty());
 
-        String fakeTermType = "fakeTypeKey";
-
-        List<String> shouldBeNull = null;
-        try {
-            shouldBeNull = acalService.getTermIdsByType(fakeTermType, callContext);
-            fail("Did not get a InvalidParameterException when expected");
-        } catch (InvalidParameterException e) {
-            assertNull(shouldBeNull);
-        }
+        termIds = acalService.getTermIdsByType("fakeTypeKey", callContext);
+        // fake key returns an empty list as well
+        assertTrue("Term IDs should be empty", termIds.isEmpty());
     }
 
     @Test
@@ -802,6 +796,8 @@ public class TestAcademicCalendarServiceImpl {
         cal.set(Calendar.YEAR, 2005);
 
         keyDate.setStartDate(cal.getTime());
+        cal.set(Calendar.YEAR, 2006);
+        keyDate.setEndDate(cal.getTime());
         keyDate.setIsAllDay(false);
         keyDate.setIsDateRange(true);
         keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
@@ -910,7 +906,6 @@ public class TestAcademicCalendarServiceImpl {
     public void testCopyAcademicCalendar() throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, ParseException {
         final String originalCalendarKey = "ACADEMICCALENDAR1990";
-        final String copiedCalendarKey = null;
 
         AcademicCalendar originalCalendar = acalService.getAcademicCalendar(originalCalendarKey, callContext);
         Date startDate = new SimpleDateFormat ("yyyy-MM-dd").parse ("2008-09-01");
@@ -1018,8 +1013,10 @@ public class TestAcademicCalendarServiceImpl {
         }
 
         Calendar calendar = Calendar.getInstance();
+        // Note 2nd value is month -1 so June is 5, January is 1
         calendar.set(2011, 5, 1);
         Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
+        // Note 2nd value is month -1 so June is 5, January is 1
         calendar.set(2011, 11, 30);
         Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
@@ -1027,7 +1024,7 @@ public class TestAcademicCalendarServiceImpl {
         try {
             List<AcalEventInfo> acalEventInfos = acalService.searchForAcalEvents(qbc, callContext);
             assertNotNull(acalEventInfos);
-            assertEquals(2, acalEventInfos.size());
+            assertEquals(4, acalEventInfos.size());
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -1054,8 +1051,10 @@ public class TestAcademicCalendarServiceImpl {
         }
 
         Calendar calendar = Calendar.getInstance();
+        // Note 2nd value is month -1 so June is 5, January is 1
         calendar.set(2011, 5, 1);
         Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
+        // Note 2nd value is month -1 so June is 5, January is 1
         calendar.set(2011, 11, 30);
         Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
@@ -1063,7 +1062,7 @@ public class TestAcademicCalendarServiceImpl {
         try {
             List<HolidayInfo> holidayInfos = acalService.searchForHolidays(qbc, callContext);
             assertNotNull(holidayInfos);
-            assertEquals(2, holidayInfos.size());
+            assertEquals(4, holidayInfos.size());
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -1111,3 +1110,4 @@ public class TestAcademicCalendarServiceImpl {
         term.setDescr(richTextInfo);
     }
 }
+

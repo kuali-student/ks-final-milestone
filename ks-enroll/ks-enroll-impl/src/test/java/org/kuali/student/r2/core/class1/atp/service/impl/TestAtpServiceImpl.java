@@ -480,14 +480,8 @@ public class TestAtpServiceImpl {
         List<String> milestoneIds = atpService.getMilestoneIdsByType(expectedMilestoneType, callContext);
         assertTrue(milestoneIds.contains("testId2"));
 
-        String fakeMilestoneType = "fakeTypeKey";
-        List<String> shouldBeNull = null;
-        try {
-            shouldBeNull = atpService.getMilestoneIdsByType(fakeMilestoneType, callContext);
-            fail("Did not get a InvalidParameterException when expected");
-        } catch (InvalidParameterException e) {
-            assertNull(shouldBeNull);
-        }
+        milestoneIds = atpService.getMilestoneIdsByType("fakeTypeKey", callContext);
+        assertTrue("Milestone IDs should be empty for fake type key", milestoneIds.isEmpty());
     }
 
     @Test
@@ -550,7 +544,7 @@ public class TestAtpServiceImpl {
         try {
             List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(qbc, callContext);
             assertNotNull(milestoneInfos);
-            assertEquals(2, milestoneInfos.size());
+            assertEquals(4, milestoneInfos.size());
 
         } catch (Exception e) {
             fail(e.getMessage());
@@ -729,6 +723,9 @@ public class TestAtpServiceImpl {
         atpInfo.setStateKey("kuali.atp.state.Draft");
         atpInfo.setStartDate(Calendar.getInstance().getTime());
         atpInfo.setEndDate(Calendar.getInstance().getTime());
+        RichTextInfo richTextInfo = new RichTextInfo();
+        richTextInfo.setPlain("");
+        atpInfo.setDescr(richTextInfo);
         AtpInfo cc = null;
         cc = atpService.createAtp(atpInfo, callContext);
         assertNotNull(cc);
@@ -871,16 +868,11 @@ public class TestAtpServiceImpl {
 
         String expectedEmptyAtpType = AtpServiceConstants.ATP_SESSION_G2_TYPE_KEY;
         atpIds = atpService.getAtpIdsByType(expectedEmptyAtpType, callContext);
-        assertTrue(atpIds == null || atpIds.isEmpty());
+        assertTrue(atpIds.isEmpty());
 
-        String fakeAtpType = "fakeTypeKey";
-        List<String> shouldBeNull = null;
-        try {
-            shouldBeNull = atpService.getAtpIdsByType(fakeAtpType, callContext);
-            fail("Did not get a InvalidParameterException when expected");
-        } catch (InvalidParameterException e) {
-            assertNull(shouldBeNull);
-        }
+        atpIds = atpService.getAtpIdsByType("fakeTypeKey", callContext);
+        // fake type key should result in empty ATP IDs as well
+        assertTrue("ATP IDs should be empty for fake type key", atpIds.isEmpty());
     }
 
     //    @Test

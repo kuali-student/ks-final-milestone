@@ -39,7 +39,7 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:methodToCall="save"/>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:clientSideJs="saveForm();" />
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Cancel" p:methodToCall="close"/>
                     </list>
                 </property>
@@ -68,6 +68,9 @@
                 <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP" p:required="true"
 				     p:labelField.renderColon="false" p:labelField.styleClasses="labelTop"
 					p:propertyName="holidayCalendarInfo.startDate">
+                    <property name="validCharactersConstraint">
+						<bean parent="DatePatternConstraint" />
+					</property>
 					<property name="control">
 						<bean parent="Uif-DateControl" />
 					</property>
@@ -75,6 +78,9 @@
                 <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:required="true"
 					p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
 					p:propertyName="holidayCalendarInfo.endDate">
+                    <property name="validCharactersConstraint">
+						<bean parent="DatePatternConstraint" />
+					</property>
 					<property name="control">
 						<bean parent="Uif-DateControl" />
 					</property>
@@ -93,23 +99,30 @@
 		<property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.disableTableSort" value="true" />
+        <property name="layoutManager.richTable.render" value="false" />
 		<property name="items">
 			<list>
-                <bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="typeKey"  p:labelField.style="display:block;" p:required="true">
+                <bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="typeKey"  p:required="true">
                     <property name="control">
-                        <bean parent="Uif-DropdownControl"/>
+                        <bean parent="Uif-DropdownControl" />
                     </property>
                     <property name="optionsFinder">
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayTypeKeyValues" />
                     </property>
                 </bean>
-				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true">
+				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true" p:width="200px">
+                    <property name="validCharactersConstraint">
+						<bean parent="DatePatternConstraint" />
+					</property>
                     <property name="control">
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true">
-                   <property name="control">
+				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true" p:width="200px">
+                    <property name="validCharactersConstraint">
+						<bean parent="DatePatternConstraint" />
+					</property>
+                    <property name="control">
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>

@@ -4,14 +4,12 @@
  */
 package org.kuali.student.process.poc;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
-import static org.junit.Assert.*;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.enrollment.classI.hold.mock.HoldServiceMockImpl;
 import org.kuali.student.enrollment.courseregistration.service.CourseRegistrationService;
@@ -32,10 +30,18 @@ import org.kuali.student.r2.core.hold.service.HoldService;
 import org.kuali.student.r2.core.population.service.PopulationService;
 import org.kuali.student.r2.core.process.service.ProcessServiceMockImpl;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 /**
  *
  * @author nwright
  */
+@Ignore // TODO: re-enable after refactoring
 public class ProcessPocJavaIntegrationTest {
 
     public ProcessPocJavaIntegrationTest() {
