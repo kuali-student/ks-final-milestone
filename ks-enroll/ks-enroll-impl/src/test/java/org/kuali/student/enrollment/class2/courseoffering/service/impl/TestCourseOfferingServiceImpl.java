@@ -75,31 +75,28 @@ public class TestCourseOfferingServiceImpl {
     public void testGetCourseOffering() throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
-    	try {
-            try{
-    			coServiceAuthDecorator.getCourseOffering("Lui-blah", callContext);
-                fail("Lui-blah should have thrown DoesNotExistException");
-    		}
-            catch (DoesNotExistException enee) {
-                // expected
-            }
-    		
-    		CourseOfferingInfo co = coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
-    		assertNotNull(co);
-            assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, co.getStateKey());
-            assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co.getTypeKey());
-            assertEquals("Lui Desc 101", co.getDescr().getPlain());
-    	} catch (Exception ex) {
-    		fail(ex.getMessage());
-    	}    	
+        try{
+            coServiceAuthDecorator.getCourseOffering("Lui-blah", callContext);
+            fail("Lui-blah should have thrown DoesNotExistException");
+        }
+        catch (DoesNotExistException enee) {
+            // expected
+        }
+
+        CourseOfferingInfo co = coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
+        assertNotNull(co);
+        assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, co.getStateKey());
+        assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, co.getTypeKey());
+        assertEquals("Lui Desc 101", co.getDescr().getPlain());
     }
 
     @Test
     public void testCreateCourseOfferingFromCanonical() throws AlreadyExistsException,
 			DoesNotExistException, DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+			OperationFailedException, PermissionDeniedException, VersionMismatchException {
     	List<String> formatIdList = new ArrayList<String>();
+
     	CourseOfferingInfo created = coServiceAuthDecorator.createCourseOfferingFromCanonical(
                 "CLU-1", "testAtpId1", formatIdList, callContext);
     	assertNotNull(created);
@@ -135,21 +132,17 @@ public class TestCourseOfferingServiceImpl {
         rv.setResultValueRange(rvr);
         lrcService.createResultValuesGroup(rv, callContext);
         retrieved.setCreditOptions(rv);
-        try {
-			coServiceAuthDecorator.updateCourseOffering(retrieved.getId(), retrieved, callContext);
-			
-			CourseOfferingInfo retrieved2 =
-                    coServiceAuthDecorator.getCourseOffering(retrieved.getId(), callContext);
-			assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, retrieved2.getStateKey()); 
-		} catch (VersionMismatchException ex) {
-			fail("Exception from service call :" + ex.getMessage());
-		}
+        coServiceAuthDecorator.updateCourseOffering(retrieved.getId(), retrieved, callContext);
+
+        CourseOfferingInfo retrieved2 =
+                coServiceAuthDecorator.getCourseOffering(retrieved.getId(), callContext);
+        assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, retrieved2.getStateKey());
     }
     
     @Test
     public void testCreateAndGetActivityOffering()
             throws AlreadyExistsException, DataValidationErrorException,InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		ActivityOfferingInfo ao = new ActivityOfferingInfo();
 		ao.setActivityId("CLU-1");
 		ao.setTermId("testAtpId1");
@@ -178,36 +171,30 @@ public class TestCourseOfferingServiceImpl {
 
         List<String> coIdList = Arrays.asList("Lui-1");
 
-        try {
-            ActivityOfferingInfo created =
-                    coServiceAuthDecorator.createActivityOffering(coIdList, ao, callContext);
-            assertNotNull(created);
+        ActivityOfferingInfo created =
+                coServiceAuthDecorator.createActivityOffering(coIdList, ao, callContext);
+        assertNotNull(created);
 
-            ActivityOfferingInfo retrieved =
-                    coServiceAuthDecorator.getActivityOffering(created.getId(), callContext);
-            assertNotNull(retrieved);
+        ActivityOfferingInfo retrieved =
+                coServiceAuthDecorator.getActivityOffering(created.getId(), callContext);
+        assertNotNull(retrieved);
 
-            assertEquals(created.getActivityId(), retrieved.getActivityId());
-            assertEquals(created.getTermId(), retrieved.getTermId());
-            assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey());
-            assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, retrieved.getTypeKey());
-            assertEquals(2, retrieved.getMeetingSchedules().size());
-            assertEquals(1, retrieved.getInstructors().size());
+        assertEquals(created.getActivityId(), retrieved.getActivityId());
+        assertEquals(created.getTermId(), retrieved.getTermId());
+        assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey());
+        assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, retrieved.getTypeKey());
+        assertEquals(2, retrieved.getMeetingSchedules().size());
+        assertEquals(1, retrieved.getInstructors().size());
 
-            // test getActivitiesForCourseOffering
-            List<ActivityOfferingInfo> activities =
-                    coServiceAuthDecorator.getActivitiesForCourseOffering("Lui-1", callContext);
-            assertNotNull(activities);
-            assertEquals(1, activities.size());
-            assertEquals(created.getActivityId(), activities.get(0).getActivityId());
-            assertEquals(created.getId(), activities.get(0).getId());
-            assertEquals(2, activities.get(0).getMeetingSchedules().size());
-            assertEquals(1, activities.get(0).getInstructors().size());
-        }
-        catch (Exception ex) {
-            //ex.printStackTrace();
-            fail("Exception from service call :" + ex.getMessage());
-        }
+        // test getActivitiesForCourseOffering
+        List<ActivityOfferingInfo> activities =
+                coServiceAuthDecorator.getActivitiesForCourseOffering("Lui-1", callContext);
+        assertNotNull(activities);
+        assertEquals(1, activities.size());
+        assertEquals(created.getActivityId(), activities.get(0).getActivityId());
+        assertEquals(created.getId(), activities.get(0).getId());
+        assertEquals(2, activities.get(0).getMeetingSchedules().size());
+        assertEquals(1, activities.get(0).getInstructors().size());
     }
     
     @Test
@@ -222,31 +209,27 @@ public class TestCourseOfferingServiceImpl {
 		rg.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
 		rg.setTypeKey(LuiServiceConstants.REGISTRATION_GROUP_TYPE_KEY);
 		
-		try {
-			RegistrationGroupInfo created =
-                    coServiceAuthDecorator.createRegistrationGroup(courseOfferingId, rg, callContext);
-			assertNotNull(created);
-			
-			RegistrationGroupInfo retrieved =
-                    coServiceAuthDecorator.getRegistrationGroup(created.getId(), callContext);
-			assertNotNull(retrieved);
+        RegistrationGroupInfo created =
+                coServiceAuthDecorator.createRegistrationGroup(courseOfferingId, rg, callContext);
+        assertNotNull(created);
 
-			assertEquals(rg.getFormatId(), retrieved.getFormatId());
-			assertEquals(rg.getName(), retrieved.getName());
-		    assertEquals(rg.getStateKey(), retrieved.getStateKey());
-		    assertEquals(rg.getTypeKey(), retrieved.getTypeKey());
-		    
-		    // test getRegGroupsForCourseOffering
-		    List<RegistrationGroupInfo> rgs =
-                    coServiceAuthDecorator.getRegGroupsForCourseOffering(courseOfferingId, callContext);
-		    assertNotNull(rgs);
-		    assertEquals(1, rgs.size());
-		    assertEquals(created.getFormatId(), rgs.get(0).getFormatId());
-		    assertEquals(created.getId(), rgs.get(0).getId());
-		    assertEquals(courseOfferingId, rgs.get(0).getCourseOfferingId());
-		} catch (Exception ex) {
-    		fail("Exception from service call :" + ex.getMessage());
-		}
+        RegistrationGroupInfo retrieved =
+                coServiceAuthDecorator.getRegistrationGroup(created.getId(), callContext);
+        assertNotNull(retrieved);
+
+        assertEquals(rg.getFormatId(), retrieved.getFormatId());
+        assertEquals(rg.getName(), retrieved.getName());
+        assertEquals(rg.getStateKey(), retrieved.getStateKey());
+        assertEquals(rg.getTypeKey(), retrieved.getTypeKey());
+
+        // test getRegGroupsForCourseOffering
+        List<RegistrationGroupInfo> rgs =
+                coServiceAuthDecorator.getRegGroupsForCourseOffering(courseOfferingId, callContext);
+        assertNotNull(rgs);
+        assertEquals(1, rgs.size());
+        assertEquals(created.getFormatId(), rgs.get(0).getFormatId());
+        assertEquals(created.getId(), rgs.get(0).getId());
+        assertEquals(courseOfferingId, rgs.get(0).getCourseOfferingId());
 	}
     
 	@Test
@@ -254,62 +237,57 @@ public class TestCourseOfferingServiceImpl {
             throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, 
             MissingParameterException, OperationFailedException, PermissionDeniedException,
             VersionMismatchException {
-        try {
-            CourseOfferingInfo coi = coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
-            assertNotNull(coi);
-            
-            coi.setTermId("testAtpId1");
-            coi.setIsHonorsOffering(true);
-            coi.setMaximumEnrollment(40);
-            coi.setMinimumEnrollment(10);
-            List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
-            OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-            instructor.setPersonId("Pers-1");
-            instructor.setPercentageEffort(Float.valueOf("60"));
-            instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-            instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
-            instructors.add(instructor);
-            coi.setInstructors(instructors);
-            CourseOfferingInfo updated =
-                    coServiceAuthDecorator.updateCourseOffering("Lui-1", coi, callContext);
-            assertNotNull(updated);
-            
-            CourseOfferingInfo retrieved =
-                    coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
-            assertNotNull(retrieved);
-            
-            assertTrue(retrieved.getIsHonorsOffering());
-            assertEquals(1, retrieved.getInstructors().size());
-            assertEquals(coi.getMaximumEnrollment(), retrieved.getMaximumEnrollment());
-            assertEquals(coi.getMinimumEnrollment(), retrieved.getMinimumEnrollment());
-            
-            retrieved.setIsHonorsOffering(false);
-            List<OfferingInstructorInfo> instructors1 = new ArrayList<OfferingInstructorInfo>();
-            OfferingInstructorInfo instructor1 = new OfferingInstructorInfo();
-            instructor1.setPersonId("Pers-2");
-            instructor1.setPercentageEffort(Float.valueOf("60"));
-            instructor1.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-            instructor1.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
-            instructors1.add(instructor1);
-            OfferingInstructorInfo instructor2 = new OfferingInstructorInfo();
-            instructor2.setPersonId("Pers-1");
-            instructor2.setPercentageEffort(Float.valueOf("30"));
-            instructor2.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
-            instructor2.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
-            instructors1.add(instructor2);
-            retrieved.setInstructors(instructors1);            
-            CourseOfferingInfo updated1 =
-                    coServiceAuthDecorator.updateCourseOffering("Lui-1", retrieved, callContext);
-            assertNotNull(updated1);
-            
-            CourseOfferingInfo retrieved1 =
-                    coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
-            assertNotNull(retrieved1);
-            assertEquals(2, retrieved1.getInstructors().size());
-        }
-        catch (Exception ex) {
-            fail("Exception from service call :" + ex.getMessage());
-        }
+        CourseOfferingInfo coi = coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
+        assertNotNull(coi);
+
+        coi.setTermId("testAtpId1");
+        coi.setIsHonorsOffering(true);
+        coi.setMaximumEnrollment(40);
+        coi.setMinimumEnrollment(10);
+        List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+        OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+        instructor.setPersonId("Pers-1");
+        instructor.setPercentageEffort(Float.valueOf("60"));
+        instructor.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        instructor.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+        instructors.add(instructor);
+        coi.setInstructors(instructors);
+        CourseOfferingInfo updated =
+                coServiceAuthDecorator.updateCourseOffering("Lui-1", coi, callContext);
+        assertNotNull(updated);
+
+        CourseOfferingInfo retrieved =
+                coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
+        assertNotNull(retrieved);
+
+        assertTrue(retrieved.getIsHonorsOffering());
+        assertEquals(1, retrieved.getInstructors().size());
+        assertEquals(coi.getMaximumEnrollment(), retrieved.getMaximumEnrollment());
+        assertEquals(coi.getMinimumEnrollment(), retrieved.getMinimumEnrollment());
+
+        retrieved.setIsHonorsOffering(false);
+        List<OfferingInstructorInfo> instructors1 = new ArrayList<OfferingInstructorInfo>();
+        OfferingInstructorInfo instructor1 = new OfferingInstructorInfo();
+        instructor1.setPersonId("Pers-2");
+        instructor1.setPercentageEffort(Float.valueOf("60"));
+        instructor1.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        instructor1.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+        instructors1.add(instructor1);
+        OfferingInstructorInfo instructor2 = new OfferingInstructorInfo();
+        instructor2.setPersonId("Pers-1");
+        instructor2.setPercentageEffort(Float.valueOf("30"));
+        instructor2.setTypeKey(LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY);
+        instructor2.setStateKey(LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY);
+        instructors1.add(instructor2);
+        retrieved.setInstructors(instructors1);
+        CourseOfferingInfo updated1 =
+                coServiceAuthDecorator.updateCourseOffering("Lui-1", retrieved, callContext);
+        assertNotNull(updated1);
+
+        CourseOfferingInfo retrieved1 =
+                coServiceAuthDecorator.getCourseOffering("Lui-1", callContext);
+        assertNotNull(retrieved1);
+        assertEquals(2, retrieved1.getInstructors().size());
     }   
 
     @Test

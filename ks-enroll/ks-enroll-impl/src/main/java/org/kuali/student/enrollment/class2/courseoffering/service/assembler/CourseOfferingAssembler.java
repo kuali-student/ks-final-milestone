@@ -243,13 +243,18 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 
 	private void disassembleLuiCodes(CourseOfferingInfo co, LuiInfo lui){
 		lui.setLuiCodes(new ArrayList<LuCodeInfo>());
-		
-        LuCodeInfo code = new LuCodeInfo();
-        code.setTypeKey("kuali.lu.code.honorsOffering");
-        code.setValue(co.getIsHonorsOffering().toString());
-        code.setAttributes(new ArrayList<AttributeInfo>());
-        lui.getLuiCodes().add(code);
-				
+
+        Boolean isHonorsOffering = co.getIsHonorsOffering();
+
+        //TODO needs review: when creating a new CO from a CLU the honorsOffering is never set so we get
+        //                  NPEs when getting value.  Should we be setting the value to false on null?
+        if (isHonorsOffering != null) {
+            LuCodeInfo code = new LuCodeInfo();
+            code.setTypeKey("kuali.lu.code.honorsOffering");
+            code.setValue(co.getIsHonorsOffering().toString());
+            code.setAttributes(new ArrayList<AttributeInfo>());
+            lui.getLuiCodes().add(code);
+        }
 	}
 	
 	private void disassembleIdentifier(CourseOfferingInfo co, LuiInfo lui){
