@@ -19,23 +19,19 @@ package org.kuali.student.enrollment.courseoffering.infc;
 import java.util.List;
 
 /**
- * The Registration Template lists the allowable combinations of
- * activity offerings to constrain or generate RegistrationGroups.
- *
+ * This template is to assist in the constraining and generation of
+ * Activity Offerings. Presently, it only constrains the allowable
+ * combinations of activity offering types.
+ * 
  * @author tom
  */
 
-public interface RegistrationGroupTemplate {
+public interface ActivityOfferingTemplate {
 
     /**
-     * Gets the activity offering Id combinations. Each list within
-     * this list contains a list of Activity Offering Ids.
+     * List of activity offering options.
      *
-     * This rule says that a RegistrationGroup comprising of a single
-     * activity offering Id from each and every list within the
-     * activity offering cominations should be created.
-     *
-     * @name Activity Offering combinations
+     * @name Activity Offering Template Options
      */
-    public List<List<? extends String>> getActivityOfferingCombinations();
+    public List<? extends ActivityOfferingTemplateOption> getActivityOfferingTemplateOptions();
 }

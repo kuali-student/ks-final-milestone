@@ -28,10 +28,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
-import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.dto.TypeStateEntityInfo;
-import org.kuali.student.r2.common.infc.MeetingSchedule;
+import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 /**
@@ -42,20 +39,14 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ActivityOfferingInfo", propOrder = {"activityId",
-        "activityCode", "termId", "isHonorsOffering", "gradingOptionKeys", "instructors",
+"activityCode", "termId", "scheduleId", "isHonorsOffering", "gradingOptionKeys", "instructors",
         "finalExamStartTime", "finalExamEndTime", "finalExamSpaceCode", "meetingSchedules", "weeklyInclassContactHours",
         "weeklyOutofclassContactHours", "weeklyTotalContactHours", "maximumEnrollment", "minimumEnrollment", 
-        "id", "typeKey", "stateKey", "descr", "meta", "attributes", "_futureElements"})
-public class ActivityOfferingInfo extends TypeStateEntityInfo implements ActivityOffering {
+    "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
+public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOffering {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    private String id;
-
-    @XmlElement
-    private RichTextInfo descr;
-            
     @XmlElement
     private String activityId;
         
@@ -64,6 +55,9 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     
     @XmlElement
     private String termId;
+
+    @XmlElement
+    private String scheduleId;
 
     @XmlElement
     private Boolean isHonorsOffering;
@@ -82,18 +76,15 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     
     @XmlElement
     private String finalExamSpaceCode;
-    
-    @XmlElement
-    private List<MeetingScheduleInfo> meetingSchedules;
 
     @XmlElement
-    private Float weeklyInclassContactHours;
+    private String weeklyInclassContactHours;
     
     @XmlElement
-    private Float weeklyOutofclassContactHours;
+    private String weeklyOutofclassContactHours;
 
     @XmlElement
-    private Float weeklyTotalContactHours;
+    private String weeklyTotalContactHours;
 
     @XmlElement
     private Integer maximumEnrollment;
@@ -105,24 +96,6 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     private List<Element> _futureElements;
     
     public ActivityOfferingInfo() {
-        this.id = null;
-        this.descr = null;
-        this.activityCode = null;
-        this.activityId = null;
-        this.finalExamSpaceCode = null;
-        this.finalExamEndTime = null;
-        this.meetingSchedules = new ArrayList<MeetingScheduleInfo>();
-        this.instructors = new ArrayList<OfferingInstructorInfo>();
-        this.finalExamStartTime = null;
-        this.gradingOptionKeys = new ArrayList<String>();
-        this.isHonorsOffering = new Boolean(false);
-        this.maximumEnrollment = null;
-        this.minimumEnrollment = null;
-        this.termId = null;
-        this.weeklyInclassContactHours = null;
-        this.weeklyOutofclassContactHours = null;
-        this.weeklyTotalContactHours = null;
-        this._futureElements = null;
     }
 
     public ActivityOfferingInfo(ActivityOffering activity) {
@@ -130,10 +103,9 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         
         if(null == activity) return;      
 
-        this.id = activity.getId();
-        this.descr = (null != activity.getDescr()) ? new RichTextInfo(activity.getDescr()) : null;        
         this.activityCode = activity.getActivityCode();
         this.activityId = activity.getActivityId();
+        this.scheduleId = activity.getScheduleId();
         this.finalExamSpaceCode = activity.getFinalExamSpaceCode();
         this.finalExamEndTime = (null != activity.getFinalExamEndTime()) ? new Date(activity.getFinalExamEndTime().getTime()) : null;
         this.finalExamStartTime = (null != activity.getFinalExamStartTime()) ? new Date(activity.getFinalExamStartTime().getTime()) : null;
@@ -142,16 +114,9 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.maximumEnrollment = activity.getMaximumEnrollment();
         this.minimumEnrollment = activity.getMinimumEnrollment();        
         this.termId = activity.getTermId();
-        this.weeklyInclassContactHours = (null != activity.getWeeklyInclassContactHours()) ? new Float(activity.getWeeklyInclassContactHours()) : null;
-        this.weeklyOutofclassContactHours = (null != activity.getWeeklyOutofclassContactHours()) ? new Float(activity.getWeeklyOutofclassContactHours()) : null;
-        this.weeklyTotalContactHours = (null != activity.getWeeklyTotalContactHours()) ? new Float(activity.getWeeklyTotalContactHours()) : null;
-        
-        this.meetingSchedules = new ArrayList<MeetingScheduleInfo>();        
-        if(null != activity.getMeetingSchedules()) {
-            for(MeetingSchedule m : activity.getMeetingSchedules()) {
-                this.meetingSchedules.add(new MeetingScheduleInfo(m));
-            }
-        }
+        this.weeklyInclassContactHours = activity.getWeeklyInclassContactHours();
+        this.weeklyOutofclassContactHours = activity.getWeeklyOutofclassContactHours();
+        this.weeklyTotalContactHours = activity.getWeeklyTotalContactHours();
         
         this.instructors = new ArrayList<OfferingInstructorInfo>();
         if(null != activity.getInstructors()) {
@@ -161,16 +126,6 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         }
         
         this._futureElements = null;        
-    }
-    
-    @Override
-    public String getId() {
-        return id;
-    }
-    
-    @Override
-    public RichTextInfo getDescr() {
-        return descr;
     }
     
     @Override
@@ -186,6 +141,15 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     @Override
     public String getTermId() {
         return termId;
+    }
+
+    @Override
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
     }
 
     @Override
@@ -214,22 +178,17 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     }
 
     @Override
-    public List<MeetingScheduleInfo> getMeetingSchedules() {
-        return this.meetingSchedules;
-    }
-    
-    @Override
-    public Float getWeeklyInclassContactHours() {
+    public String getWeeklyInclassContactHours() {
         return weeklyInclassContactHours;
     }
 
     @Override
-    public Float getWeeklyOutofclassContactHours() {
+    public String getWeeklyOutofclassContactHours() {
         return weeklyOutofclassContactHours;
     }
 
     @Override
-    public Float getWeeklyTotalContactHours() {
+    public String getWeeklyTotalContactHours() {
         return weeklyTotalContactHours;
     }
 
@@ -246,15 +205,6 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     @Override
     public List<OfferingInstructorInfo> getInstructors() {
         return instructors;
-    }
-
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
     }
 
     public void setInstructors(List<OfferingInstructorInfo> instructors) {
@@ -293,19 +243,15 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
         this.finalExamSpaceCode = finalExamSpaceCode;
     }
 
-    public void setMeetingSchedules(List<MeetingScheduleInfo> meetingSchedules) {
-        this.meetingSchedules = meetingSchedules;
-    }
-    
-    public void setWeeklyInclassContactHours(Float weeklyInclassContactHours) {
+    public void setWeeklyInclassContactHours(String weeklyInclassContactHours) {
         this.weeklyInclassContactHours = weeklyInclassContactHours;
     }
 
-    public void setWeeklyOutofclassContactHours(Float weeklyOutofclassContactHours) {
+    public void setWeeklyOutofclassContactHours(String weeklyOutofclassContactHours) {
         this.weeklyOutofclassContactHours = weeklyOutofclassContactHours;
     }
 
-    public void setWeeklyTotalContactHours(Float weeklyTotalContactHours) {
+    public void setWeeklyTotalContactHours(String weeklyTotalContactHours) {
         this.weeklyTotalContactHours = weeklyTotalContactHours;
     }
 
@@ -316,5 +262,4 @@ public class ActivityOfferingInfo extends TypeStateEntityInfo implements Activit
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
     }
-        
 }

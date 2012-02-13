@@ -11,9 +11,7 @@ import java.util.List;
  *
  * @author Kuali Student Team
  */
-public class RegistrationGroupTemplateInfo implements RegistrationGroupTemplate, Serializable {
+public abstract class RegistrationGroupTemplateInfo implements RegistrationGroupTemplate, Serializable {
 
-
-    List<RegistrationGroupActiviesOptionsInfo> regGroupActivitiesOptionsInfo;
 
 }
