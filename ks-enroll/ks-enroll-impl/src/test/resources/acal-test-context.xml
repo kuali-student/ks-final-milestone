@@ -111,7 +111,6 @@
     <property name="keyDateAssembler" ref="keyDateAssembler" />
     <property name="acalEventAssembler" ref="acalEventAssembler" />
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAcal" />
-    <property name="criteriaLookupService" ref="acalCriteriaLookupService"/>
   </bean>
 
   <bean id="acalAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.AcademicCalendarAssembler">
