@@ -276,7 +276,7 @@ public class TestEnumerationManagementServiceImpl {
         dtoContext.add(newContext);
         dto.setContexts(dtoContext);
         //add first
-        enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto.getCode(), dto, callContext);
+        dto = enumService.addEnumeratedValue("kuali.enum.type.cip2000", dto.getCode(), dto, callContext);
 
         List<EnumeratedValueInfo> list = enumService.getEnumeratedValues("kuali.enum.type.cip2000", "ContextA", "1", new Date(baseTime), callContext);
         assertEquals(list.size(), 1);

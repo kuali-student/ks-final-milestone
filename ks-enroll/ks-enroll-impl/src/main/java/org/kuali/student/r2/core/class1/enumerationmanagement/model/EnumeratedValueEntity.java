@@ -31,14 +31,15 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.r2.common.entity.BaseEntity;
+import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.core.enumerationmanagement.dto.EnumContextValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumeratedValue;
 
 @Entity
 @Table(name = "KSEM_ENUM_VAL_T")
-public class EnumeratedValueEntity extends BaseEntity{
+public class EnumeratedValueEntity extends MetaEntity{
 
     @Column(name = "CD")
     private String code;
@@ -72,7 +73,7 @@ public class EnumeratedValueEntity extends BaseEntity{
     }
 
     public EnumeratedValueEntity(EnumeratedValue enumeratedValue) {
-
+        super(enumeratedValue);
         this.setCode(enumeratedValue.getCode());
         this.setAbbrevValue(enumeratedValue.getAbbrevValue());
         this.setValue(enumeratedValue.getValue());
@@ -158,15 +159,21 @@ public class EnumeratedValueEntity extends BaseEntity{
         enumeratedValue.setCode(this.getCode());
         enumeratedValue.setAbbrevValue(this.getAbbrevValue());
         enumeratedValue.setValue(this.getValue());
-        enumeratedValue.setSortKey(this.getSortKey()) ;
+        enumeratedValue.setSortKey(this.getSortKey());
+        enumeratedValue.setMeta(super.toDTO());
         
-        //enumeratedValue.setContexts(this.getContextValueEntities());
+        List<EnumContextValueInfo> contextInfos = new ArrayList<EnumContextValueInfo>();
+        for (EnumContextValueEntity contexts : getContextValueEntities()) {
+            EnumContextValueInfo contextInfo = contexts.toDto();
+            contextInfos.add(contextInfo);
+        }
+        enumeratedValue.setContexts(contextInfos);
         
         enumeratedValue.setEnumerationKey(this.getEnumeration().getId());
         
         enumeratedValue.setEffectiveDate(this.getEffectiveDate());
         enumeratedValue.setExpirationDate(this.getExpirationDate());
-
+        
         return enumeratedValue;
     }
 

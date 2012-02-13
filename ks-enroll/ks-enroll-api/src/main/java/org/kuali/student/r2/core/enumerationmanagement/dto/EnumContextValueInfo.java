@@ -15,6 +15,8 @@
 
 package org.kuali.student.r2.core.enumerationmanagement.dto;
 
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.infc.Meta;
 import org.kuali.student.r2.core.enumerationmanagement.infc.EnumContextValue;
 
 import javax.xml.bind.Element;
@@ -38,6 +40,8 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
     @XmlElement
     private String value;
     @XmlAnyElement
+    @XmlElement
+    private MetaInfo meta;
     private List<Element> _futureElements;
 
     public EnumContextValueInfo() {
@@ -45,6 +49,7 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
 
     public EnumContextValueInfo(EnumContextValue enumContextValue) {
         if (null != enumContextValue) {
+            this.meta = new MetaInfo(enumContextValue.getMeta());
             this.key = enumContextValue.getKey();
             this.value = enumContextValue.getValue();
         }
@@ -67,4 +72,14 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
     public void setValue(String value) {
         this.value = value;
     }
+
+    @Override
+    public Meta getMeta() {
+        return meta;
+    }
+    
+    public void setMeta(MetaInfo meta) {
+        this.meta = meta;
+    }
+    
 }

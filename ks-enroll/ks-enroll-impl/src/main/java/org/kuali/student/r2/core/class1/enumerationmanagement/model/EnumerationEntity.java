@@ -18,40 +18,43 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.infc.Enumeration;
 
 @Entity
 @Table(name = "KSEM_ENUM_T")
+@AttributeOverrides({
+    @AttributeOverride(name="id", column=@Column(name="ENUM_KEY"))})
 public class EnumerationEntity extends MetaEntity implements AttributeOwner<EnumerationAttributeEntity> {
     
     @Column(name = "NAME")
     private String name;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private EnumerationRichTextEntity descr;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    private String plain;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "ENUM_TYPE_ID")
-    private EnumerationTypeEntity enumerationType;
-    
-    @ManyToOne
-    @JoinColumn(name = "ENUM_STATE_ID")
-    private StateEntity enumerationState;
+    @Column(name = "ENUM_TYPE", nullable = false)
+    private String enumerationType;
+
+    @Column(name = "ENUM_STATE", nullable = false)
+    private String enumerationState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<EnumerationAttributeEntity> attributes = new ArrayList<EnumerationAttributeEntity>();
@@ -64,7 +67,8 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
         this.setId(enumeration.getKey());
         this.setName(enumeration.getName());
         if (enumeration.getDescr() != null) {
-            this.setDescr(new EnumerationRichTextEntity(enumeration.getDescr()));
+            this.setDescrFormatted(enumeration.getDescr().getFormatted());
+            this.setDescrPlain(enumeration.getDescr().getPlain());
         }
         
         this.setAttributes(new ArrayList<EnumerationAttributeEntity>());
@@ -83,27 +87,35 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
         this.name = name;
     }
     
-    public EnumerationRichTextEntity getDescr() {
-        return descr;
+    public String getDescrFormatted() {
+        return formatted;
     }
 
-    public void setDescr(EnumerationRichTextEntity descr) {
-        this.descr = descr;
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
     }
     
-    public EnumerationTypeEntity getEnumerationType() {
+    public String getEnumerationType() {
         return enumerationType;
     }
 
-    public void setEnumerationType(EnumerationTypeEntity enumerationType) {
+    public void setEnumerationType(String enumerationType) {
         this.enumerationType = enumerationType;
     }
 
-    public StateEntity getEnumerationState() {
+    public String getEnumerationState() {
         return enumerationState;
     }
 
-    public void setEnumerationState(StateEntity enumerationState) {
+    public void setEnumerationState(String enumerationState) {
         this.enumerationState = enumerationState;
     }
     
@@ -121,13 +133,14 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
         EnumerationInfo enumeration = new EnumerationInfo();
         enumeration.setKey(getId());
         enumeration.setName(name);
-        if (enumerationType != null)
-            enumeration.setTypeKey(enumerationType.getId());
-        if (enumerationState != null)
-            enumeration.setStateKey(enumerationState.getId());
+        enumeration.setTypeKey(enumerationType);
+        enumeration.setStateKey(enumerationState);
         enumeration.setMeta(super.toDTO());
-        if (descr != null)
-            enumeration.setDescr(descr.toDto());
+
+        RichTextInfo rti = new RichTextInfo();
+        rti.setPlain(getDescrPlain());
+        rti.setFormatted(getDescrFormatted());
+        enumeration.setDescr(rti);
 
         List<AttributeInfo> enumerations = new ArrayList<AttributeInfo>();
         for (EnumerationAttributeEntity att : getAttributes()) {
@@ -135,7 +148,7 @@ public class EnumerationEntity extends MetaEntity implements AttributeOwner<Enum
             enumerations.add(attInfo);
         }
         enumeration.setAttributes(enumerations);
-
+        
         return enumeration;
     }
 
