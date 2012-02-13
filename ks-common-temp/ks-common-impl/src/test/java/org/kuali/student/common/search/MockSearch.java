@@ -19,7 +19,7 @@ import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.common.search.service.impl.CrossSearchManager;
 import org.kuali.student.common.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.common.search.service.impl.SearchManagerImpl;
-import org.kuali.student.common.test.util.ContextInfoTestUtility;
+//import org.kuali.student.common.test.util.ContextInfoTestUtility;
 
 public class MockSearch implements SearchService {
 	private SearchManagerImpl sm;
@@ -35,7 +35,7 @@ public class MockSearch implements SearchService {
 		services.add(this);
 		sd.setServices(services);
 		csm.setSearchDispatcher(sd);
-		testContext = ContextInfoTestUtility.getEnglishContextInfo();
+		//testContext = ContextInfoTestUtility.getEnglishContextInfo();
 	}
 	
 	@Override

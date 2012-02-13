@@ -60,50 +60,56 @@ public class CoreProgramInfo extends ProgramAttributesInfo implements CoreProgra
     }
 
 
-   //TODO KSCM-247
 
+    @Deprecated
     public void setVersionInfo(VersionInfo versionInfo) {
         //To change body of created methods use File | Settings | File Templates.
+        //TODO KSCM  KSCM-302
     }
     
-    //TODO KSCM-247
+
     @Deprecated 
     public VersionInfo getVersionInfo(ContextInfo contextInfo) {
         //To change body of created methods use File | Settings | File Templates.
-    	//TODO KSCM
+    	//TODO KSCM  KSCM-302
     	return new VersionInfo();
     }
 
-
+    @Deprecated
     //TODO KSCM-247
     public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
-        //TODO KSCM
+        // We have a    this.getLearningObjectives();
+        // but no setter ... the getter is inherited from ProgramAttributes.java
+        //TODO KSCM  KSCM-303
+
     }
 
+    @Deprecated
     public void setStartTerm(Object o) {
-        //TODO KSCM
+        //TODO KSCM-305
     }
-
+    @Deprecated
     public void setEndTerm(Object o) {
-        //TODO KSCM
-    }
+        //TODO KSCM-305
 
+    }
+    @Deprecated
     public void setEndProgramEntryTerm(Object endProgramEntryTerm) {
       //  this.endProgramEntryTerm = endProgramEntryTerm;
-        //TODO KSCM
+        //TODO KSCM  KSCM-304
+
     }
     
     @Deprecated
-	public Boolean getEndProgramEntryTerm() {
-		// TODO Auto-generated method stub
-		return null;
-		// TODO KSCM
+	public String getEndProgramEntryTerm() {
+		return this.getEndProgramEntryTermId();
+
 	}
 
     @Deprecated
-	public Boolean getEndTerm() {
-		// TODO Auto-generated method stub
-		return null;
-		// TODO KSCM
+	public String getEndTerm() {
+
+		return  this.getEndTermId();
+
 	}
 }

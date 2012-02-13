@@ -24,7 +24,7 @@ import org.w3c.dom.Element;
 public final class AttributeInfo implements Attribute, Serializable {
 
     private static final long serialVersionUID = 1L;
-    
+
     @XmlElement
     private String id;
     
