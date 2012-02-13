@@ -16,6 +16,7 @@
 package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -41,12 +42,14 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+
 /**
  * This is a description of what this class does - Gary Struthers don't forget to fill this in. 
  * 
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
+//TODO KSCM-244
 public class CategoryManagementTable extends Composite {
     static String NAME_COLUMN_HEADER = "Category";
     static String TYPE_COLUMN_HEADER = "Type";
@@ -422,6 +425,7 @@ public class CategoryManagementTable extends Composite {
                 resultRows.add(resultRow);                
             }
         }	//Correct resultRows now loaded [KSLAB-2091]
+        Collections.sort(resultRows);
         redraw();
     }
 

@@ -25,6 +25,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 
@@ -33,7 +34,7 @@ import org.kuali.student.common.entity.MetaEntity;
 public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute> {
     
 	@Column(name = "DESCR")
-	private String descr;
+	private RichTextInfo descr;
 
 	@Column(name = "VALUE")
 	private String value;
@@ -48,11 +49,11 @@ public class LuCode extends MetaEntity implements AttributeOwner<LuCodeAttribute
 	@JoinColumn(name="CLU_ID")
 	private Clu clu;
 	
-	public String getDescr() {
+	public RichTextInfo getDescr() {
 		return descr;
 	}
 
-	public void setDescr(String descr) {
+	public void setDescr(RichTextInfo descr) {
 		this.descr = descr;
 	}
 

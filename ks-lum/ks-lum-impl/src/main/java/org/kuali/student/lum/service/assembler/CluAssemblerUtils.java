@@ -18,14 +18,15 @@ package org.kuali.student.lum.service.assembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.service.assembler.LoAssembler;
 import org.kuali.student.lum.lo.dto.LoInfo;
 import org.kuali.student.lum.lo.service.LearningObjectiveService;
 import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
@@ -49,7 +50,7 @@ import java.util.Map.Entry;
 public class CluAssemblerUtils {
     private LuService luService;
     private LearningObjectiveService loService;
-    private LoAssembler loAssembler;
+ // TODO KSCM    private LoAssembler loAssembler;
 
     public List<String> assembleCluResults(List<String> resultTypes, List<CluResultInfo> cluResults) throws AssemblyException{
 		if(resultTypes==null){
@@ -85,7 +86,7 @@ public class CluAssemblerUtils {
 		//If this is not a create, lookup the results for this clu
 		if (!NodeOperation.CREATE.equals(operation)) {
 			try {
-				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId);
+				List<CluResultInfo> cluResultList = luService.getCluResultByClu(cluId, new ContextInfo());
 
 				for (CluResultInfo currentResult : cluResultList) {
 					if (resultType.equals(currentResult.getType())) {
@@ -172,11 +173,11 @@ public class CluAssemblerUtils {
     public List<LoDisplayInfo> assembleLos(String cluId, boolean shallowBuild) throws AssemblyException {
         List<LoDisplayInfo> loInfos = new ArrayList<LoDisplayInfo>();
         try {
-            List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
+            List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId, new ContextInfo());
             for (CluLoRelationInfo cluLoRelation : cluLoRelations) {
                 String loId = cluLoRelation.getLoId();
-                LoInfo lo = loService.getLo(loId);
-                loInfos.add(loAssembler.assemble(lo, null, shallowBuild));
+                LoInfo lo = loService.getLo(loId, new ContextInfo());
+// TODO KSCM                loInfos.add(loAssembler.assemble(lo, null, shallowBuild));
             }
         } catch (Exception e) {
             throw new AssemblyException("Error getting learning objectives", e);
@@ -194,11 +195,11 @@ public class CluAssemblerUtils {
 		// id
 		Map<String, CluLoRelationInfo> currentCluLoRelations = new HashMap<String, CluLoRelationInfo>();
 		try {
-			List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId);
+			List<CluLoRelationInfo> cluLoRelations = luService.getCluLoRelationsByClu(cluId, new ContextInfo());
 			for(CluLoRelationInfo cluLoRelation:cluLoRelations){
-				if(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION.equals(cluLoRelation.getType())){
-					currentCluLoRelations.put(cluLoRelation.getLoId(), cluLoRelation);
-				}
+// TODO KSCM				if(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION.equals(cluLoRelation.getType())){
+// TODO KSCM					currentCluLoRelations.put(cluLoRelation.getLoId(), cluLoRelation);
+				// TODO KSCM}
 			}
 		} catch (DoesNotExistException e) {
 		} catch (Exception e) {
@@ -215,16 +216,16 @@ public class CluAssemblerUtils {
                 // the lo does not exist, so create
                 // Assemble and add the lo
 		    	loDisplay.getLoInfo().setId(null);
-		    	loDisplay.getLoInfo().setState(cluState);
-                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
-                        .disassemble(loDisplay, NodeOperation.CREATE);
-                results.add(loNode);
+// TODO KSCM		    	loDisplay.getLoInfo().setState(cluState);
+		    	// TODO KSCM                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+		    	// TODO KSCM                        .disassemble(loDisplay, NodeOperation.CREATE);
+		    	// TODO KSCM                results.add(loNode);
 
                 // Create the relationship and add it as well
                 CluLoRelationInfo relation = new CluLoRelationInfo();
                 relation.setCluId(cluId);
-                relation.setLoId(loNode.getNodeData().getId());
-                relation.setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
+             // TODO KSCM                relation.setLoId(loNode.getNodeData().getId());
+             // TODO KSCM                relation.setType(CluAssemblerConstants.CLU_LO_CLU_SPECIFIC_RELATION);
                 
                 // Relations can be either Active or Suspended
                 // For now, we set them all to Active
@@ -241,10 +242,10 @@ public class CluAssemblerUtils {
 					&& currentCluLoRelations.containsKey(loDisplay.getLoInfo().getId())) {
 				// On update, we need to change the state of the LO to
                 // match the state of the parent program
-                loDisplay.getLoInfo().setState(cluState);
-                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
-                		.disassemble(loDisplay, NodeOperation.UPDATE);
-				results.add(loNode);
+            	// TODO KSCM                loDisplay.getLoInfo().setState(cluState);
+            	// TODO KSCM                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+            	// TODO KSCM                		.disassemble(loDisplay, NodeOperation.UPDATE);
+            	// TODO KSCM				results.add(loNode);
 
 				// remove this entry from the map so we can tell what needs to
 				// be deleted at the end
@@ -260,9 +261,9 @@ public class CluAssemblerUtils {
                 relationToDeleteNode.setOperation(NodeOperation.DELETE);
                 results.add(relationToDeleteNode);
 
-                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
-        				.disassemble(loDisplay, NodeOperation.DELETE);
-                results.add(loNode);
+             // TODO KSCM                BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+             // TODO KSCM        				.disassemble(loDisplay, NodeOperation.DELETE);
+             // TODO KSCM                results.add(loNode);
 
                 // remove this entry from the map so we can tell what needs to
                 // be deleted at the end
@@ -282,11 +283,16 @@ public class CluAssemblerUtils {
             relationToDeleteNode.setOperation(NodeOperation.DELETE);
             results.add(relationToDeleteNode);
 
-            LoInfo loToDelete = loService.getLo(entry.getKey());
-            LoDisplayInfo loDisplayToDelete = loAssembler.assemble(loToDelete, null, false);
-            BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
-            		.disassemble(loDisplayToDelete, NodeOperation.DELETE);
-            results.add(loNode);
+            try {
+				LoInfo loToDelete = loService.getLo(entry.getKey(), new ContextInfo());
+			} catch (PermissionDeniedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+         // TODO KSCM            LoDisplayInfo loDisplayToDelete = loAssembler.assemble(loToDelete, null, false);
+         // TODO KSCM            BaseDTOAssemblyNode<LoDisplayInfo, LoInfo> loNode = loAssembler
+         // TODO KSCM            		.disassemble(loDisplayToDelete, NodeOperation.DELETE);
+         // TODO KSCM            results.add(loNode);
         }
 
 		return results;
@@ -301,7 +307,7 @@ public class CluAssemblerUtils {
         this.loService = loService;
     }
 
-    public void setLoAssembler(LoAssembler loAssembler) {
-        this.loAssembler = loAssembler;
-    }
+ // TODO KSCM    public void setLoAssembler(LoAssembler loAssembler) {
+ // TODO KSCM        this.loAssembler = loAssembler;
+ // TODO KSCM    }
 }
