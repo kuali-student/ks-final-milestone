@@ -11,11 +11,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 
+import javax.jws.WebParam;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.Days;
 import org.joda.time.Period;
 import org.joda.time.Weeks;
-import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -32,7 +33,6 @@ import org.kuali.student.enrollment.class2.acal.service.assembler.HolidayCalenda
 import org.kuali.student.enrollment.class2.acal.service.assembler.KeyDateAssembler;
 import org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler;
 import org.kuali.student.r2.common.assembler.AssemblyException;
-import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.DateRangeInfo;
@@ -53,16 +53,12 @@ import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
-import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
-
-import javax.jws.WebParam;
 
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AcademicCalendarServiceImpl implements AcademicCalendarService {
@@ -76,7 +72,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     private HolidayAssembler holidayAssembler;
     private KeyDateAssembler keyDateAssembler;
     private AcalEventAssembler acalEventAssembler;
-    private CriteriaLookupService criteriaLookupService;
 
     public AcalEventAssembler getAcalEventAssembler() {
         return acalEventAssembler;
@@ -132,14 +127,6 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
 
     public void setStateService(StateService stateService) {
         this.stateService = stateService;
-    }
-    
-    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
-        this.criteriaLookupService = criteriaLookupService;
-    }
-
-    public CriteriaLookupService getCriteriaLookupService() {
-        return criteriaLookupService;
     }
 
     @Override
@@ -1291,16 +1278,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<AcademicCalendarInfo> searchForAcademicCalendars(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
-        List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>(results.getResults().size());
+        List<AcademicCalendarInfo> academicCalendars = new ArrayList<AcademicCalendarInfo>();
+        List<AtpInfo> atps = atpService.searchForAtps(criteria, context);
         
-        if (null != results && results.getResults().size() > 0) {
-            for (AtpEntity atp : results.getResults()) {
-                try {
-                    academicCalendars.add(acalAssembler.assemble(atp.toDto(), context));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
-                }
+        for (AtpInfo atp : atps) {
+            try {
+                academicCalendars.add(acalAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
             }
         }
         
@@ -1311,16 +1296,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<TermInfo> searchForTerms(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<AtpEntity> results = criteriaLookupService.lookup(AtpEntity.class, criteria);
-        List<TermInfo> terms = new ArrayList<TermInfo>(results.getResults().size());
-        
-        if (null != results && results.getResults().size() > 0) {
-            for (AtpEntity atp : results.getResults()) {
-                try {
-                    terms.add(termAssembler.assemble(atp.toDto(), context));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("AssemblyException : " + e.getMessage());
-                }
+        List<AtpInfo> results = atpService.searchForAtps(criteria, context);
+        List<TermInfo> terms = new ArrayList<TermInfo>(results.size());
+
+        for (AtpInfo atp : results) {
+            try {
+                terms.add(termAssembler.assemble(atp, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
             }
         }
 
@@ -1338,17 +1321,14 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<HolidayInfo> searchForHolidays(QueryByCriteria criteria, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
-        List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>(results.getResults().size());
-        
-        if (null != results && results.getResults().size() > 0) {
-            for (MilestoneEntity milestone : results.getResults()) {
-                MilestoneInfo milestoneInfo = milestone.toDto();
-                try {
-                    holidayInfos.add(holidayAssembler.assemble(milestoneInfo, context));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("Error assembling holiday with Id " + milestoneInfo.getId(), e);
-                }
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, context);
+        List<HolidayInfo> holidayInfos = new ArrayList<HolidayInfo>();
+
+        for (MilestoneInfo milestoneInfo : milestoneInfos) {
+            try {
+                holidayInfos.add(holidayAssembler.assemble(milestoneInfo, context));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error assembling holiday with Id " + milestoneInfo.getId(), e);
             }
         }
         
@@ -1787,20 +1767,17 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<AcalEventInfo> searchForAcalEvents(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         
-        GenericQueryResults<MilestoneEntity> results = criteriaLookupService.lookup(MilestoneEntity.class, criteria);
-        List<AcalEventInfo> acalEventInfos = new ArrayList<AcalEventInfo>(results.getResults().size());
+        List<MilestoneInfo> milestoneInfos = atpService.searchForMilestones(criteria, contextInfo);
+        List<AcalEventInfo> acalEventInfos = new ArrayList<AcalEventInfo>();
 
-        if (null != results && results.getResults().size() > 0) {
-            for (MilestoneEntity milestone : results.getResults()) {
-                MilestoneInfo milestoneInfo = milestone.toDto();
-                try {
-                    acalEventInfos.add(acalEventAssembler.assemble(milestoneInfo, contextInfo));
-                } catch (AssemblyException e) {
-                    throw new OperationFailedException("Error assembling AcalEvent " + milestoneInfo.getId(), e);
-                }
+        for (MilestoneInfo milestoneInfo : milestoneInfos) {
+            try {
+                acalEventInfos.add(acalEventAssembler.assemble(milestoneInfo, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("Error assembling AcalEvent", e);
             }
         }
-
+        
         return acalEventInfos;
     }
 
