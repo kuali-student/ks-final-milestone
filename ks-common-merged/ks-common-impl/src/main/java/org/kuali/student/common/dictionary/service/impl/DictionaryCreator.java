@@ -15,7 +15,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.olddictionary.dto.FieldDefinition;
 import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
 

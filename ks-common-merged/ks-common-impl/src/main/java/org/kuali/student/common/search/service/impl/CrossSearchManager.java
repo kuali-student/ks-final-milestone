@@ -24,20 +24,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.search.dto.CrossSearchTypeInfo;
-import org.kuali.student.common.search.dto.JoinComparisonInfo;
-import org.kuali.student.common.search.dto.JoinCriteriaInfo;
-import org.kuali.student.common.search.dto.JoinResultMappingInfo;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SortDirection;
-import org.kuali.student.common.search.dto.SubSearchInfo;
-import org.kuali.student.common.search.dto.SubSearchParamMappingInfo;
-import org.kuali.student.common.search.dto.JoinComparisonInfo.ComparisonType;
-import org.kuali.student.common.search.dto.JoinCriteriaInfo.JoinType;
+import org.kuali.student.common.oldsearch.dto.CrossSearchTypeInfo;
+import org.kuali.student.common.oldsearch.dto.JoinComparisonInfo;
+import org.kuali.student.common.oldsearch.dto.JoinCriteriaInfo;
+import org.kuali.student.common.oldsearch.dto.JoinResultMappingInfo;
+import org.kuali.student.common.oldsearch.dto.SearchParam;
+import org.kuali.student.common.oldsearch.dto.SearchRequest;
+import org.kuali.student.common.oldsearch.dto.SearchResult;
+import org.kuali.student.common.oldsearch.dto.SearchResultCell;
+import org.kuali.student.common.oldsearch.dto.SearchResultRow;
+import org.kuali.student.common.oldsearch.dto.SortDirection;
+import org.kuali.student.common.oldsearch.dto.SubSearchInfo;
+import org.kuali.student.common.oldsearch.dto.SubSearchParamMappingInfo;
+import org.kuali.student.common.oldsearch.dto.JoinComparisonInfo.ComparisonType;
+import org.kuali.student.common.oldsearch.dto.JoinCriteriaInfo.JoinType;
 import org.kuali.student.common.search.service.SearchDispatcher;
 
 /**

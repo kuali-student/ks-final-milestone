@@ -3,9 +3,9 @@ package org.kuali.student.common.validator;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.olddictionary.dto.FieldDefinition;
+import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.oldvalidation.dto.ValidationResultInfo;
 import org.kuali.student.common.dto.ContextInfo;
 
 public interface Validator {

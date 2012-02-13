@@ -8,13 +8,13 @@ import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
-import org.kuali.student.common.dictionary.dto.CaseConstraint;
-import org.kuali.student.common.dictionary.dto.DataType;
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.LookupConstraint;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.dto.ValidCharsConstraint;
-import org.kuali.student.common.dictionary.dto.WhenConstraint;
+import org.kuali.student.common.olddictionary.dto.CaseConstraint;
+import org.kuali.student.common.olddictionary.dto.DataType;
+import org.kuali.student.common.olddictionary.dto.FieldDefinition;
+import org.kuali.student.common.olddictionary.dto.LookupConstraint;
+import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.olddictionary.dto.ValidCharsConstraint;
+import org.kuali.student.common.olddictionary.dto.WhenConstraint;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.ValidatorUtils;
 

@@ -17,8 +17,8 @@ package org.kuali.student.common.assembly.dictionary.old;
 
 import java.util.List;
 
-import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.common.olddictionary.old.dto.ObjectStructure;
+import org.kuali.student.common.olddictionary.service.old.DictionaryService;
 
 /**
  * This is a description of what this class does - Will Gomes don't forget to fill this in. 

@@ -22,7 +22,7 @@ import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.old.Assembler;
 import org.kuali.student.common.assembly.old.data.SaveResult;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.oldvalidation.dto.ValidationResultInfo;
 
 public class AddOneAssembler implements Assembler<Integer,Integer>{
 	final Logger LOG = Logger.getLogger(AddOneAssembler.class);

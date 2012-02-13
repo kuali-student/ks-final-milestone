@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 

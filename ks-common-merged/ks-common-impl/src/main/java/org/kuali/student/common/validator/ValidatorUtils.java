@@ -20,9 +20,9 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.student.common.dictionary.dto.DataType;
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.olddictionary.dto.FieldDefinition;
+import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.oldvalidation.dto.ValidationResultInfo;
 
 public class ValidatorUtils {
 

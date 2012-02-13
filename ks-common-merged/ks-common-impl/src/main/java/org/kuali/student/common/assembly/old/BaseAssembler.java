@@ -30,8 +30,8 @@ import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.old.MetadataServiceImpl;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.oldvalidation.dto.ValidationResultInfo;
+import org.kuali.student.common.oldvalidation.dto.ValidationResultInfo.ErrorLevel;
 
 @Deprecated
 public abstract class BaseAssembler<TargetType, SourceType> implements Assembler<TargetType, SourceType> {

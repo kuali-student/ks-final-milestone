@@ -17,9 +17,9 @@ package org.kuali.student.common.dao;
 
 import java.util.Map;
 
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.oldsearch.dto.SearchRequest;
+import org.kuali.student.common.oldsearch.dto.SearchResult;
+import org.kuali.student.common.oldsearch.dto.SearchTypeInfo;
 
 public interface SearchableDao {
 

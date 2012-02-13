@@ -23,11 +23,11 @@ import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.oldsearch.dto.SearchParam;
+import org.kuali.student.common.oldsearch.dto.SearchRequest;
+import org.kuali.student.common.oldsearch.dto.SearchResult;
+import org.kuali.student.common.oldsearch.dto.SearchResultCell;
+import org.kuali.student.common.oldsearch.dto.SearchResultRow;
 import org.kuali.student.common.search.service.SearchDispatcher;
 
 /**

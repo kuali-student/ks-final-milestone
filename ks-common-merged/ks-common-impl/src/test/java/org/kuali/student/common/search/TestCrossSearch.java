@@ -5,8 +5,8 @@ import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.oldsearch.dto.SearchRequest;
+import org.kuali.student.common.oldsearch.dto.SearchResult;
 
 public class TestCrossSearch {
 

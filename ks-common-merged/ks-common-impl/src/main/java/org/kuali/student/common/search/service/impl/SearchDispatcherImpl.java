@@ -23,11 +23,11 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.oldsearch.dto.SearchRequest;
+import org.kuali.student.common.oldsearch.dto.SearchResult;
+import org.kuali.student.common.oldsearch.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchDispatcher;
-import org.kuali.student.common.search.service.SearchService;
+import org.kuali.student.common.oldsearch.service.SearchService;
 import org.kuali.student.common.util.ContextUtils;
 
 public class SearchDispatcherImpl implements SearchDispatcher{

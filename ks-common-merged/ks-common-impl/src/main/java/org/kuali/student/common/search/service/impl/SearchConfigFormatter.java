@@ -2,10 +2,10 @@ package org.kuali.student.common.search.service.impl;
 
 import java.util.Map;
 
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.search.dto.QueryParamInfo;
-import org.kuali.student.common.search.dto.ResultColumnInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.oldsearch.dto.QueryParamInfo;
+import org.kuali.student.common.oldsearch.dto.ResultColumnInfo;
+import org.kuali.student.common.oldsearch.dto.SearchTypeInfo;
 
 public class SearchConfigFormatter
 {

@@ -27,15 +27,15 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dao.SearchableDao;
-import org.kuali.student.common.search.dto.QueryParamInfo;
-import org.kuali.student.common.search.dto.ResultColumnInfo;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.dto.SortDirection;
+import org.kuali.student.common.oldsearch.dto.QueryParamInfo;
+import org.kuali.student.common.oldsearch.dto.ResultColumnInfo;
+import org.kuali.student.common.oldsearch.dto.SearchParam;
+import org.kuali.student.common.oldsearch.dto.SearchRequest;
+import org.kuali.student.common.oldsearch.dto.SearchResult;
+import org.kuali.student.common.oldsearch.dto.SearchResultCell;
+import org.kuali.student.common.oldsearch.dto.SearchResultRow;
+import org.kuali.student.common.oldsearch.dto.SearchTypeInfo;
+import org.kuali.student.common.oldsearch.dto.SortDirection;
 
 public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {

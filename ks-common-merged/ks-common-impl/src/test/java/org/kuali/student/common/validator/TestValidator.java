@@ -6,23 +6,23 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.oldsearch.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.oldsearch.dto.SearchRequest;
+import org.kuali.student.common.oldsearch.dto.SearchResult;
+import org.kuali.student.common.oldsearch.dto.SearchResultRow;
+import org.kuali.student.common.oldsearch.dto.SearchResultTypeInfo;
+import org.kuali.student.common.oldsearch.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchDispatcher;
-import org.kuali.student.common.search.service.SearchService;
+import org.kuali.student.common.oldsearch.service.SearchService;
 import org.kuali.student.common.search.service.impl.SearchDispatcherImpl;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.oldvalidation.dto.ValidationResultInfo;
 
 public class TestValidator {
 	DefaultValidatorImpl val = null;
