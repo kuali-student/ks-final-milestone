@@ -22,6 +22,7 @@ import org.kuali.rice.core.api.uif.DataType;
  *
  * @author nwright
  */
+@Deprecated
 public interface AttributeDefinitionInfc {
 
     /**

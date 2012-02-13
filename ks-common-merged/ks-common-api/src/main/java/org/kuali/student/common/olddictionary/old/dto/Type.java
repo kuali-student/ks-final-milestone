@@ -59,6 +59,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * 
  * 
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Type implements Serializable{
     

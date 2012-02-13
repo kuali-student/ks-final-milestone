@@ -23,6 +23,7 @@ import org.kuali.rice.core.api.uif.DataType;
 import org.kuali.student.common.olddictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.common.olddictionary.infc.ValidCharactersConstraintInfc;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AttributeDefinitionInfo implements AttributeDefinitionInfc, Serializable {
 

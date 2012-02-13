@@ -20,6 +20,7 @@ package org.kuali.student.common.olddictionary.infc;
  *
  * @author nwright
  */
+@Deprecated
 public interface ValidCharactersConstraintInfc extends BaseConstraintInfc {
 
 	 /**

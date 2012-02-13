@@ -19,6 +19,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.oldcommon.infc.ValidationResult;
 import org.w3c.dom.Element;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidationResultInfo", propOrder = {"element", "level", "message", "_futureElements"})
 public class ValidationResultInfo implements ValidationResult, Serializable {

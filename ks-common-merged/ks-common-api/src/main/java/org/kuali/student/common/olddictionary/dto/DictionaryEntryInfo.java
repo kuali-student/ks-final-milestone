@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import org.kuali.student.common.olddictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.common.olddictionary.infc.DictionaryEntry;
 
-
+@Deprecated
 @XmlAccessorType(XmlAccessType.NONE)
 public class DictionaryEntryInfo implements DictionaryEntry, Serializable {
 

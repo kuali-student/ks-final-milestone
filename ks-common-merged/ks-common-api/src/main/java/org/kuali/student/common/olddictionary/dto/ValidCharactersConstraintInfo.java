@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.common.olddictionary.infc.ValidCharactersConstraintInfc;
 
-
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ValidCharactersConstraintInfo implements ValidCharactersConstraintInfc, Serializable {
 

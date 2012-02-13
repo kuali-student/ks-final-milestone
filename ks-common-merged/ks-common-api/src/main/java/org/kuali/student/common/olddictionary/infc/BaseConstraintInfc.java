@@ -22,6 +22,7 @@ import org.kuali.rice.krad.datadictionary.validation.constraint.Constraint;
  *
  * @author nwright
  */
+@Deprecated
 public interface BaseConstraintInfc extends Constraint {
 	/**
      * Name: Label Key

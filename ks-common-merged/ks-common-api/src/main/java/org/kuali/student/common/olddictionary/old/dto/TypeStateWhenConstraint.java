@@ -22,7 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
-
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TypeStateWhenConstraint implements Serializable {
 

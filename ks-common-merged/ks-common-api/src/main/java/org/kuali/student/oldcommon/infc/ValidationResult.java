@@ -15,6 +15,7 @@
  */
 package org.kuali.student.oldcommon.infc;
 
+@Deprecated
 public interface ValidationResult {
 
     public enum ErrorLevel {
