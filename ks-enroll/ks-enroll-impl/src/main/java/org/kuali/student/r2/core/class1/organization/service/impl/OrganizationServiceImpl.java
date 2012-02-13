@@ -1,25 +1,35 @@
 /**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+ * Copyright 2010 The Kuali Foundation Licensed under the Educational Community License, Version 2.0 (the "License"); you may
+ * not use this file except in compliance with the License. You may obtain a copy of the License at
+ * http://www.osedu.org/licenses/ECL-2.0 Unless required by applicable law or agreed to in writing, software distributed
+ * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied. See the License for the specific language governing permissions and limitations under the License.
  */
 
 package org.kuali.student.r2.core.class1.organization.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.jws.WebService;
 
+import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.validator.old.Validator;
+import org.kuali.student.core.organization.dao.OrganizationDao;
+import org.kuali.student.core.organization.entity.Org;
+import org.kuali.student.core.organization.entity.OrgHierarchy;
+import org.kuali.student.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.core.organization.entity.OrgOrgRelationType;
+import org.kuali.student.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.core.organization.entity.OrgPersonRelationType;
+import org.kuali.student.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.core.organization.entity.OrgType;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -31,11 +41,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.organization.dao.OrgCodeDao;
-import org.kuali.student.r2.core.class1.organization.dao.OrgDao;
-import org.kuali.student.r2.core.class1.organization.dao.OrgHierarchyDao;
-import org.kuali.student.r2.core.class1.organization.dao.OrgOrgRelationDao;
-import org.kuali.student.r2.core.class1.organization.dao.OrgPersonRelationDao;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
@@ -47,61 +52,63 @@ import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-public class OrganizationServiceImpl implements OrganizationService{
-    
-    private OrgCodeDao orgCodeDao;
-    private OrgDao orgDao;
-    private OrgHierarchyDao orgHierarchyDao;
-    private OrgOrgRelationDao orgOrgRelationDao;
-    private OrgPersonRelationDao orgPersonRelationDao;
-    
-    public OrgCodeDao getOrgCodeDao() {
-        return orgCodeDao;
+@Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
+public class OrganizationServiceImpl implements OrganizationService {
+
+    final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
+
+    private OrganizationDao organizationDao;
+    private DictionaryService dictionaryServiceDelegate;
+    private SearchManager searchManager;
+    private Validator validator;
+
+    /**
+     * Check for missing parameter and throw localized exception if missing
+     * 
+     * @param param
+     * @param parameter
+     *            name
+     * @throws MissingParameterException
+     */
+    private void checkForMissingParameter(Object param, String paramName) throws MissingParameterException {
+        if (param == null) {
+            throw new MissingParameterException(paramName + " can not be null");
+        }
     }
 
-    public void setOrgCodeDao(OrgCodeDao orgCodeDao) {
-        this.orgCodeDao = orgCodeDao;
+    public SearchManager getSearchManager() {
+        return searchManager;
     }
 
-    public OrgDao getOrgDao() {
-        return orgDao;
+    public void setSearchManager(SearchManager searchManager) {
+        this.searchManager = searchManager;
     }
 
-    public void setOrgDao(OrgDao orgDao) {
-        this.orgDao = orgDao;
+    public DictionaryService getDictionaryServiceDelegate() {
+        return dictionaryServiceDelegate;
     }
 
-    public OrgHierarchyDao getOrgHierarchyDao() {
-        return orgHierarchyDao;
+    public void setDictionaryServiceDelegate(DictionaryService dictionaryServiceDelegate) {
+        this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    public void setOrgHierarchyDao(OrgHierarchyDao orgHierarchyDao) {
-        this.orgHierarchyDao = orgHierarchyDao;
+    public Validator getValidator() {
+        return validator;
     }
 
-    public OrgOrgRelationDao getOrgOrgRelationDao() {
-        return orgOrgRelationDao;
-    }
-
-    public void setOrgOrgRelationDao(OrgOrgRelationDao orgOrgRelationDao) {
-        this.orgOrgRelationDao = orgOrgRelationDao;
-    }
-
-    public OrgPersonRelationDao getOrgPersonRelationDao() {
-        return orgPersonRelationDao;
-    }
-
-    public void setOrgPersonRelationDao(OrgPersonRelationDao orgPersonRelationDao) {
-        this.orgPersonRelationDao = orgPersonRelationDao;
+    public void setValidator(Validator validator) {
+        this.validator = validator;
     }
 
     @Override
     public OrgHierarchyInfo getOrgHierarchy(String orgHierarchyId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgHierarchyKey, "orgHierarchyKey");
+        checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
-        //return OrganizationAssembler.toOrgHierarchyInfo(organizationDao.fetch(OrgHierarchy.class, orgHierarchyKey));
-        return null;
+        try {
+            return OrganizationAssembler.toOrgHierarchyInfo(organizationDao.fetch(OrgHierarchy.class, orgHierarchyId));
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException();
+        }
     }
 
     @Override
@@ -118,31 +125,31 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<OrgHierarchyInfo> getOrgHierarchies(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // return OrganizationAssembler.toOrgHierarchyInfos(organizationDao.find(OrgHierarchy.class));
-        return null;
+        return OrganizationAssembler.toOrgHierarchyInfos(organizationDao.find(OrgHierarchy.class));
     }
 
     @Override
     public List<TypeInfo> getOrgTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // return OrganizationAssembler.toOrgTypeInfos(organizationDao.find(OrgType.class));
-        return null;
+        return OrganizationAssembler.toOrgTypeInfos(organizationDao.find(OrgType.class));
     }
 
     @Override
     public OrgInfo getOrg(String orgId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgId, "orgId");
 
-        //return OrganizationAssembler.toOrgInfo(organizationDao.fetch(Org.class, orgId));
-        return null;
+        try {
+            return OrganizationAssembler.toOrgInfo(organizationDao.fetch(Org.class, orgId));
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException();
+        }
     }
 
     @Override
     public List<OrgInfo> getOrgsByIds(List<String> orgIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgIdList, "orgIdList");
+        checkForMissingParameter(orgIds, "orgIds");
 
-        //List<Org> orgs = this.organizationDao.getOrganizationsByIdList(orgIdList);
-        //return OrganizationAssembler.toOrgInfos(orgs);
-        return null;
+        List<Org> orgs = this.organizationDao.getOrganizationsByIdList(orgIds);
+        return OrganizationAssembler.toOrgInfos(orgs);
     }
 
     @Override
@@ -165,118 +172,153 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<ValidationResultInfo> validateOrg(String validationTypeKey, String orgTypeKey, OrgInfo orgInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(validationTypeKey, "validationTypeKey");
+        checkForMissingParameter(orgInfo, "orgInfo");
+
+        // FIXME redo validation here and for all calls to create/update
+        // return validator.validateTypeStateObject(orgInfo, getObjectStructure("orgInfo"));
+
+        return new ArrayList<ValidationResultInfo>(0);
     }
 
     @Override
     public OrgInfo createOrg(String orgTypeKey, OrgInfo orgInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         // Check Missing params
-        //checkForMissingParameter(orgTypeKey, "orgTypeKey");
-        //checkForMissingParameter(orgInfo, "orgInfo");
+        checkForMissingParameter(orgTypeKey, "orgTypeKey");
+        checkForMissingParameter(orgInfo, "orgInfo");
 
-        //Set all the values on orgInfo
-        //orgInfo.setType(orgTypeKey);
+        // Set all the values on orgInfo
+        orgInfo.setTypeKey(orgTypeKey);
 
-        //try {
-        //    List<ValidationResultInfo> validations = validateOrg("", orgInfo);
-        //    for (ValidationResultInfo validationResult : validations) {
-        //        if(validationResult.isError())
-        //            throw new DataValidationErrorException(validationResult.toString());
-        //    }
-        //} catch (DoesNotExistException e1) {
-        //    logger.error("Exception occured: ", e1);
-        //}
+        try {
+            List<ValidationResultInfo> validations = validateOrg("", "", orgInfo, contextInfo);
+            for (ValidationResultInfo validationResult : validations) {
+                if (validationResult.isError())
+                    throw new DataValidationErrorException(validationResult.toString());
+            }
+        } catch (DoesNotExistException e1) {
+            logger.error("Exception occured: ", e1);
+        }
 
-        //Org org = null;
+        Org org = null;
 
-        //Create a new persistence entity from the orgInfo
-        //try {
-        //    org = OrganizationAssembler.toOrg(false, orgInfo, organizationDao);
-        //} catch (DoesNotExistException e) {
-        //    // OrgAssembler should not be throwing this exception for create!
-        //    logger.info(e.getMessage(), e);
-        //    throw new OperationFailedException(e.getMessage(), e);
-        //} catch (VersionMismatchException e) {
-        //    // OrgAssembler should not be throwing this exception for create!
-        //    logger.info(e.getMessage(), e);
-        //    throw new OperationFailedException(e.getMessage(), e);          
-        //}
+        // Create a new persistence entity from the orgInfo
+        try {
+            org = OrganizationAssembler.toOrg(false, orgInfo, organizationDao);
+        } catch (DoesNotExistException e) {
+            // // OrgAssembler should not be throwing this exception for create!
+            logger.info(e.getMessage(), e);
+            throw new OperationFailedException(e.getMessage(), e);
+        } catch (VersionMismatchException e) {
+            // // OrgAssembler should not be throwing this exception for create!
+            logger.info(e.getMessage(), e);
+            throw new OperationFailedException(e.getMessage(), e);
+        }
 
-        //Persist the org
-        //organizationDao.create(org);
+        // Persist the org
+        organizationDao.create(org);
 
-        //Copy back to an orgInfo and return
-        //OrgInfo createdOrgInfo = OrganizationAssembler.toOrgInfo(org);
-        //return createdOrgInfo;
-        return null;
+        // Copy back to an orgInfo and return
+        OrgInfo createdOrgInfo = OrganizationAssembler.toOrgInfo(org);
+        return createdOrgInfo;
     }
 
     @Override
     public OrgInfo updateOrg(String orgId, OrgInfo orgInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // Check Missing params
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgInfo, "orgInfo");
+
+        // Set all the values on orgInfo
+        orgInfo.setId(orgId);
+
+        Org org = null;
+
+        // Update persistence entity from the orgInfo
+        org = OrganizationAssembler.toOrg(true, orgInfo, organizationDao);
+
+        // Update the org
+        Org updatedOrg = organizationDao.update(org);
+
+        // Copy back to an orgInfo and return
+        OrgInfo updatedOrgInfo = OrganizationAssembler.toOrgInfo(updatedOrg);
+        return updatedOrgInfo;
     }
 
     @Override
     public StatusInfo deleteOrg(String orgId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgId, "orgId");
 
-        //Org org = organizationDao.fetch(Org.class, orgId);
+        Org org = null;
+        try {
+            org = organizationDao.fetch(Org.class, orgId);
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException(e.getMessage());
+        }
 
-        //if(org==null){
-        //    throw new DoesNotExistException("Org does not exist for id: "+orgId);
-        //}
+        if (org == null) {
+            throw new DoesNotExistException("Org does not exist for id: " + orgId);
+        }
 
-        //organizationDao.delete(org);
+        organizationDao.delete(org);
 
-        //StatusInfo statusInfo = new StatusInfo();
-       // statusInfo.setSuccess(true);
-        //return statusInfo;
-        return null;
+        StatusInfo statusInfo = new StatusInfo();
+        statusInfo.setSuccess(true);
+        return statusInfo;
     }
 
     @Override
     public List<TypeInfo> getOrgOrgRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.find(OrgOrgRelationType.class);
+        return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
     }
 
     @Override
     public List<TypeInfo> getOrgOrgRelationTypesForOrgType(String orgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgTypeKey, "orgTypeKey");
+
+        List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgType(orgTypeKey);
+        return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
     }
 
     @Override
     public List<TypeInfo> getOrgOrgRelationTypesForOrgHierarchy(String orgHierarchyId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
+
+        List<OrgOrgRelationType> orgOrgRelationTypes = organizationDao.getOrgOrgRelationTypesForOrgHierarchy(orgHierarchyId);
+        return OrganizationAssembler.toOrgOrgRelationTypeInfos(orgOrgRelationTypes);
     }
 
     @Override
     public Boolean hasOrgOrgRelation(String orgId, String comparisonOrgId, String orgOrgRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-      //Check Missing params
-        //checkForMissingParameter(orgId, "orgId");
-        //checkForMissingParameter(comparisonOrgId, "comparisonOrgId");
-        //checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
+        // Check Missing params
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(comparisonOrgId, "comparisonOrgId");
+        checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
 
-        //boolean result = organizationDao.hasOrgOrgRelation(orgId, comparisonOrgId,
-        //        orgOrgRelationTypeKey);
-        //return Boolean.valueOf(result);
-        return null;
+        boolean result = organizationDao.hasOrgOrgRelation(orgId, comparisonOrgId, orgOrgRelationTypeKey);
+        return Boolean.valueOf(result);
     }
 
     @Override
     public OrgOrgRelationInfo getOrgOrgRelation(String orgOrgRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
+
+        OrgOrgRelationInfo orgOrgRelationInfo = null;
+        try {
+            orgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(organizationDao.fetch(OrgOrgRelation.class, orgOrgRelationId));
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException(e.getMessage());
+        }
+        return orgOrgRelationInfo;
     }
 
     @Override
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByIds(List<String> orgOrgRelationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgOrgRelationIds, "orgOrgRelationIds");
+
+        List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByIdList(orgOrgRelationIds);
+        return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
     }
 
     @Override
@@ -287,8 +329,11 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // TODO Flush out exceptions
+        checkForMissingParameter(orgId, "orgId");
+
+        List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByOrg(orgId);
+        return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
     }
 
     @Override
@@ -317,70 +362,119 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<ValidationResultInfo> validateOrgOrgRelation(String validationTypeKey, String orgId, String orgPeerId, String orgOrgRelationTypeKey, OrgOrgRelationInfo orgOrgRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        checkForMissingParameter(validationTypeKey, "validationTypeKey");
+        checkForMissingParameter(orgOrgRelationInfo, "orgOrgRelationInfo");
+
+        // List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgOrgRelationInfo,
+        // getObjectStructure("orgOrgRelationInfo"));
+        // return valResults;
         return null;
     }
 
     @Override
     public OrgOrgRelationInfo createOrgOrgRelation(String orgId, String orgPeerId, String orgOrgRelationTypeKey, OrgOrgRelationInfo orgOrgRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // Check Missing params
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgPeerId, "orgPeerId");
+        checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
+        checkForMissingParameter(orgOrgRelationInfo, "orgOrgRelationInfo");
+
+        // Set all the values on OrgOrgRelationInfo
+        orgOrgRelationInfo.setOrgId(orgId);
+        orgOrgRelationInfo.setRelatedOrgId(orgPeerId);
+        orgOrgRelationInfo.setTypeKey(orgOrgRelationTypeKey);
+
+        OrgOrgRelation orgOrgRelation = null;
+
+        // Create a new persistence entity from the orgInfo
+        try {
+            orgOrgRelation = OrganizationAssembler.toOrgOrgRelation(false, orgOrgRelationInfo, organizationDao);
+        } catch (VersionMismatchException e) {}
+
+        // Persist the orgOrgRelation
+        organizationDao.create(orgOrgRelation);
+
+        // Copy back to an OrgOrgRelationInfo and return
+        OrgOrgRelationInfo createdOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(orgOrgRelation);
+        return createdOrgOrgRelationInfo;
     }
 
     @Override
     public OrgOrgRelationInfo updateOrgOrgRelation(String orgOrgRelationId, OrgOrgRelationInfo orgOrgRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // Check Missing params
+        checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
+        checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
+
+        // Set all the values on OrgOrgRelationInfo
+        orgOrgRelationInfo.setId(orgOrgRelationId);
+
+        OrgOrgRelation orgOrgRelation = null;
+
+        // Update the persistence entity from the Info
+        orgOrgRelation = OrganizationAssembler.toOrgOrgRelation(true, orgOrgRelationInfo, organizationDao);
+
+        // Update the orgOrgRelation
+        OrgOrgRelation updatedOrgOrgRelation = organizationDao.update(orgOrgRelation);
+
+        // Copy back to an OrgOrgRelationInfo and return
+        OrgOrgRelationInfo updatedOrgOrgRelationInfo = OrganizationAssembler.toOrgOrgRelationInfo(updatedOrgOrgRelation);
+        return updatedOrgOrgRelationInfo;
     }
 
     @Override
     public StatusInfo deleteOrgOrgRelation(String orgOrgRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
+        checkForMissingParameter(orgOrgRelationId, "orgOrgRelationId");
 
-        //organizationDao.delete(OrgOrgRelation.class, orgOrgRelationId);
-        //return new StatusInfo();
-        return null;
+        try {
+            organizationDao.delete(OrgOrgRelation.class, orgOrgRelationId);
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException(e.getMessage());
+        }
+        return new StatusInfo();
     }
 
     @Override
     public List<TypeInfo> getOrgPersonRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //List<OrgPersonRelationType> oprts = organizationDao.find(OrgPersonRelationType.class);
-        //return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
-        return null;
+        List<OrgPersonRelationType> oprts = organizationDao.find(OrgPersonRelationType.class);
+        return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
     }
 
     @Override
     public List<TypeInfo> getOrgPersonRelationTypesForOrgType(String orgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgTypeKey, "orgTypeKey");
+        checkForMissingParameter(orgTypeKey, "orgTypeKey");
 
-        //List<OrgPersonRelationType> oprts = organizationDao.getOrgPersonRelationTypesForOrgType(orgTypeKey);
-        //return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
-        return null;
+        List<OrgPersonRelationType> oprts = organizationDao.getOrgPersonRelationTypesForOrgType(orgTypeKey);
+        return OrganizationAssembler.toOrgPersonRelationTypeInfos(oprts);
     }
 
     @Override
     public Boolean hasOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgId, "orgId");
-        //checkForMissingParameter(personId, "personId");
-        //checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(personId, "personId");
+        checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
 
-        //return organizationDao.hasOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey);
-        return null;
+        return organizationDao.hasOrgPersonRelation(orgId, personId, orgPersonRelationTypeKey);
     }
 
     @Override
     public OrgPersonRelationInfo getOrgPersonRelation(String orgPersonRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgPersonRelationId, "orgPersonRelationId");
+        checkForMissingParameter(orgPersonRelationId, "orgPersonRelationId");
 
-        //OrgPersonRelation opr = organizationDao.fetch(OrgPersonRelation.class, orgPersonRelationId);
-        //return OrganizationAssembler.toOrgPersonRelationInfo(opr);
-        return null;
+        OrgPersonRelation opr = null;
+        try {
+            opr = organizationDao.fetch(OrgPersonRelation.class, orgPersonRelationId);
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException(e.getMessage());
+        }
+        return OrganizationAssembler.toOrgPersonRelationInfo(opr);
     }
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByIds(List<String> orgPersonRelationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPersonRelationIds, "orgPersonRelationIds");
+
+        List<OrgPersonRelation> oprts = organizationDao.getOrgPersonRelationsByIdList(orgPersonRelationIds);
+        return OrganizationAssembler.toOrgPersonRelationInfos(oprts);
     }
 
     @Override
@@ -391,8 +485,10 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrg(String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgId, "orgId");
+
+        List<OrgPersonRelation> relations = organizationDao.getAllOrgPersonRelationsByOrg(orgId);
+        return OrganizationAssembler.toOrgPersonRelationInfos(relations);
     }
 
     @Override
@@ -403,7 +499,11 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        checkForMissingParameter(personId, "personId");
+        //checkForMissingParameter(orgId, "orgId");
+
+        //List<OrgPersonRelation> oprts = organizationDao.getOrgPersonRelationsByPerson(personId, orgId);
+        //return OrganizationAssembler.toOrgPersonRelationInfos(oprts);
         return null;
     }
 
@@ -439,26 +539,84 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<ValidationResultInfo> validateOrgPersonRelation(String validationTypeKey, String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
+        checkForMissingParameter(validationTypeKey, "validationTypeKey");
+
+        // List<ValidationResultInfo> valResults = validator.validateTypeStateObject(orgPersonRelationInfo,
+        // getObjectStructure("orgPersonRelationInfo"));
+        // return valResults;
         return null;
     }
 
     @Override
     public OrgPersonRelationInfo createOrgPersonRelation(String orgId, String personId, String orgPersonRelationTypeKey, OrgPersonRelationInfo orgPersonRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // Check Missing params
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(personId, "personId");
+        checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+        checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+
+        // Make sure that only valid org person relations are done
+        if (!organizationDao.validatePositionRestriction(orgId, orgPersonRelationTypeKey)) {
+            throw new InvalidParameterException("There is no Position for this relationship");
+        }
+
+        // Set all the values on OrgOrgRelationInfo
+        orgPersonRelationInfo.setOrgId(orgId);
+        orgPersonRelationInfo.setPersonId(personId);
+        orgPersonRelationInfo.setTypeKey(orgPersonRelationTypeKey);
+
+        OrgPersonRelation orgPersonRelation = null;
+
+        // Create a new persistence entity from the orgInfo
+        try {
+            orgPersonRelation = OrganizationAssembler.toOrgPersonRelation(false, orgPersonRelationInfo, organizationDao);
+        } catch (VersionMismatchException e) {}
+
+        // Persist the orgPersonRelation
+        organizationDao.create(orgPersonRelation);
+
+        // Copy back to an orgPersonRelationInfo and return
+        OrgPersonRelationInfo createdOrgPersonRelationInfo = OrganizationAssembler.toOrgPersonRelationInfo(orgPersonRelation);
+        return createdOrgPersonRelationInfo;
     }
 
     @Override
     public OrgPersonRelationInfo updateOrgPersonRelation(String orgPersonRelationId, OrgPersonRelationInfo orgPersonRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        // Check Missing params
+        checkForMissingParameter(orgPersonRelationId, "orgPersonRelationId");
+        checkForMissingParameter(orgPersonRelationInfo, "orgPersonRelationInfo");
+
+        // Make sure that only valid org person relations are done
+        if (!organizationDao.validatePositionRestriction(orgPersonRelationInfo.getOrgId(), orgPersonRelationInfo.getTypeKey())) {
+            throw new InvalidParameterException("There is no Position for this relationship");
+        }
+
+        // Set all the values on OrgPersonRelationInfo
+        orgPersonRelationInfo.setId(orgPersonRelationId);
+
+        OrgPersonRelation orgPersonRelation = null;
+
+        // Update persistence entity from the orgInfo
+        orgPersonRelation = OrganizationAssembler.toOrgPersonRelation(true, orgPersonRelationInfo, organizationDao);
+
+        // Update the orgPersonRelation
+        orgPersonRelation = organizationDao.update(orgPersonRelation);
+
+        // Copy back to an orgPersonRelationInfo and return
+        OrgPersonRelationInfo createdOrgPersonRelationInfo = OrganizationAssembler.toOrgPersonRelationInfo(orgPersonRelation);
+        return createdOrgPersonRelationInfo;
     }
 
     @Override
     public StatusInfo deleteOrgPersonRelation(String orgPersonRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPersonRelationId, "orgPersonRelationId");
+
+        try {
+            organizationDao.delete(OrgPersonRelation.class, orgPersonRelationId);
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException(e.getMessage());
+        }
+        return new StatusInfo();
     }
 
     @Override
@@ -481,8 +639,15 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<String> getOrgPositionRestrictionIdsByOrg(String orgId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgId, "orgId");
+
+        List<OrgPositionRestriction> restrictions = organizationDao.getPositionRestrictionsByOrg(orgId);
+
+        List<String> restrictionIds = new ArrayList<String>(restrictions.size());
+        for (OrgPositionRestriction restriction : restrictions) {
+            restrictionIds.add(restriction.getId());
+        }
+        return restrictionIds;
     }
 
     @Override
@@ -499,117 +664,139 @@ public class OrganizationServiceImpl implements OrganizationService{
 
     @Override
     public List<ValidationResultInfo> validateOrgPositionRestriction(String validationTypeKey, String orgId, String orgPositionRestrictionTypeKey, OrgPositionRestrictionInfo orgPositionRestrictionInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(validationType, "validationType");
-        //checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
+        checkForMissingParameter(validationTypeKey, "validationTypeKey");
+        checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
 
-        //return null;
         return null;
     }
 
     @Override
     public OrgPositionRestrictionInfo createOrgPositionRestriction(String orgId, String orgPositionRestrictionTypeKey, OrgPositionRestrictionInfo orgPositionRestrictionInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-      //Check Missing params
-        //checkForMissingParameter(orgId, "orgId");
-        //checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
-        //checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
+        // Check Missing params
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgPositionRestrictionTypeKey, "orgPositionRestrictionTypeKey");
+        checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
 
-        //Set all the values on OrgOrgRelationInfo
-        //orgPositionRestrictionInfo.setOrgId(orgId);
-        //orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPersonRelationTypeKey);
+        // Set all the values on OrgOrgRelationInfo
+        orgPositionRestrictionInfo.setOrgId(orgId);
+        orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPositionRestrictionTypeKey);
 
-        //OrgPositionRestriction orgPositionRestriction = null;
+        OrgPositionRestriction orgPositionRestriction = null;
 
-        //Create a new persistence entity from the Info
-        //try {
-        //    orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(false, orgPositionRestrictionInfo, organizationDao);
-        //} catch (VersionMismatchException e) {
-        //}
+        // Create a new persistence entity from the Info
+        try {
+            orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(false, orgPositionRestrictionInfo, organizationDao);
+        } catch (VersionMismatchException e) {}
 
-        //Persist the positionRestriction
-        //organizationDao.create(orgPositionRestriction);
+        // Persist the positionRestriction
+        organizationDao.create(orgPositionRestriction);
 
-        //Copy back to an OrgOrgRelationInfo and return
-        //OrgPositionRestrictionInfo createdOrgPositionRestrictionInfo = OrganizationAssembler.toOrgPositionRestrictionInfo(orgPositionRestriction);
-        //return createdOrgPositionRestrictionInfo;
-        return null;
+        // Copy back to an OrgOrgRelationInfo and return
+        OrgPositionRestrictionInfo createdOrgPositionRestrictionInfo = OrganizationAssembler.toOrgPositionRestrictionInfo(orgPositionRestriction);
+        return createdOrgPositionRestrictionInfo;
     }
 
     @Override
     public OrgPositionRestrictionInfo updateOrgPositionRestriction(String orgPositionRestrictionId, OrgPositionRestrictionInfo orgPositionRestrictionInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        //checkForMissingParameter(validationType, "validationType");
-        //checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
+        // Check Missing params
+        checkForMissingParameter(orgPositionRestrictionId, "orgPositionRestrictionId");
+        checkForMissingParameter(orgPositionRestrictionInfo, "orgPositionRestrictionInfo");
 
-        //return null;
-        return null;
+        // Set all the values on OrgOrgRelationInfo
+        // orgPositionRestrictionInfo.setOrgId(orgId);
+        // orgPositionRestrictionInfo.setOrgPersonRelationTypeKey(orgPersonRelationTypeKey);
+
+        OrgPositionRestriction orgPositionRestriction = null;
+
+        // Update persistence entity from the Info
+        try {
+            orgPositionRestriction = OrganizationAssembler.toOrgPositionRestriction(true, orgPositionRestrictionInfo, organizationDao);
+        } catch (VersionMismatchException e) {}
+
+        // Update the positionRestriction
+        OrgPositionRestriction updated = organizationDao.update(orgPositionRestriction);
+
+        // Copy back to an OrgOrgRelationInfo and return
+        OrgPositionRestrictionInfo updatedOrgPositionRestrictionInfo = OrganizationAssembler.toOrgPositionRestrictionInfo(updated);
+        return updatedOrgPositionRestrictionInfo;
     }
 
     @Override
     public StatusInfo deleteOrgPositionRestriction(String orgPositionRestrictionId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgId, "orgId");
-        //checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
-        //OrgPositionRestriction opr = null;
-        //try {
-        //    opr = organizationDao.getPositionRestrictionByOrgAndPersonRelationTypeKey(orgId, orgPersonRelationTypeKey);
-        //    if (opr == null) {
-        //        throw new DoesNotExistException();
-        //    }
-        //} catch (NoResultException e) {
-        //    throw new DoesNotExistException();
-        //}
-        //organizationDao.delete(opr);
-        //return new StatusInfo();
-        return null;
+        checkForMissingParameter(orgPositionRestrictionId, "orgPositionRestrictionId");
+                
+        try {
+            organizationDao.delete(OrgPositionRestriction.class, orgPositionRestrictionId);
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException(e.getMessage());
+        }
+        return new StatusInfo();
     }
 
     @Override
     public Boolean isDescendant(String orgId, String descendantOrgId, String orgHierarchyId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgId, "orgId");
-        //checkForMissingParameter(descendantOrgId, "descendantOrgId");
-        //checkForMissingParameter(orgHierarchy, "orgHierarchy");
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(descendantOrgId, "descendantOrgId");
+        checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
         // get ancestors of the descendant, as it will be more efficient in most cases
-        //List<String> ancestors = organizationDao.getAllAncestors(descendantOrgId, orgHierarchy);
-        //boolean result = ancestors.contains(orgId);
-        //return Boolean.valueOf(result);
-        return null;
+        List<String> ancestors = organizationDao.getAllAncestors(descendantOrgId, orgHierarchyId);
+        boolean result = ancestors.contains(orgId);
+        return Boolean.valueOf(result);
     }
 
     @Override
     public List<String> getAllDescendants(String orgId, String orgHierarchyId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgId, "orgId");
-        //checkForMissingParameter(orgId, "orgHierarchy");
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
-        //List<String> descendants = this.organizationDao.getAllDescendants(orgId, orgHierarchy);
-        //return descendants;
-        return null;
+        List<String> descendants = this.organizationDao.getAllDescendants(orgId, orgHierarchyId);
+        return descendants;
     }
 
     @Override
     public List<String> getAllAncestors(String orgId, String orgHierarchyId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(orgId, "orgId");
-        //checkForMissingParameter(orgHierarchy, "orgHierarchy");
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
-        //List<String> ancestors = this.organizationDao.getAllAncestors(orgId, orgHierarchy);
-        //return ancestors;
-        return null;
+        List<String> ancestors = this.organizationDao.getAllAncestors(orgId, orgHierarchyId);
+        return ancestors;
     }
 
     @Override
     public List<OrgTreeInfo> getOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        //checkForMissingParameter(rootOrgId, "rootOrgId");
-        //checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
+        checkForMissingParameter(rootOrgId, "rootOrgId");
+        checkForMissingParameter(orgHierarchyId, "orgHierarchyId");
 
-        //Set<OrgTreeInfo> results = new HashSet<OrgTreeInfo>();
-        //Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
-        //OrgTreeInfo root = new OrgTreeInfo(rootOrgId,null,rootOrg.getLongName());
-        //root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
-        //root.setOrgHierarchyId(orgHierarchyId);
-        //results.add(root);
-        //if(maxLevels>=0){
-        //    results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels,0));
-        //}
-        //return new ArrayList<OrgTreeInfo>(results);
-        return null;
+        Set<OrgTreeInfo> results = new HashSet<OrgTreeInfo>();
+        try {
+            Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
+            /*
+             * OrgTreeInfo root = new OrgTreeInfo(rootOrgId, null, rootOrg.getLongName());
+             * root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
+             * root.setOrgHierarchyId(orgHierarchyId); results.add(root); if (maxLevels >= 0) {
+             * results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels, 0)); }
+             */
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException();
+        }
+
+        return new ArrayList<OrgTreeInfo>(results);
     }
 
+    private List<OrgTreeInfo> parseOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels, int currentLevel) {
+        List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
+        /*
+         * if(maxLevels==0||currentLevel<maxLevels){ List<OrgTreeInfo> orgTreeInfos =
+         * this.organizationDao.getOrgTreeInfo(rootOrgId,orgHierarchyId); for(OrgTreeInfo orgTreeInfo:orgTreeInfos){
+         * orgTreeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
+         * results.addAll(parseOrgTree(orgTreeInfo.getOrgId(),orgHierarchyId, maxLevels, currentLevel+1)); }
+         * results.addAll(orgTreeInfos); }
+         */
+        return results;
+    }
+
+    public ObjectStructure getObjectStructure(String objectTypeKey) {
+        return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+    }
 }
