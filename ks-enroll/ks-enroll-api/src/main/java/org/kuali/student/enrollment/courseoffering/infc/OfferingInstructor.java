@@ -20,19 +20,25 @@ import org.kuali.student.r2.common.infc.HasId;
 import org.kuali.student.r2.common.infc.TypeStateEntity;
 
 /**
- * Information about a potential instructor for a LUI (learning unit instance). These are built from Lui Person Relations with instructor type
+ * Information about a potential instructor for a LUI (learning unit
+ * instance). These are built from Lui Person Relations with
+ * instructor type
  */ 
-public interface OfferingInstructor extends TypeStateEntity, HasId {
+
+public interface OfferingInstructor 
+    extends TypeStateEntity, HasId {
         
     /**
      * Unique identifier for a person record.
+     *
      * @name Person Id
      * @impl lpr.personId
      */
     public String getPersonId();
     
     /**
-     * Percentage involvement of the instructor in the 
+     * Percentage involvement of the instructor in the activity.
+     *
      * @name Percentage Effort
      * @impl maps to lpr.commitmentPercent
      */

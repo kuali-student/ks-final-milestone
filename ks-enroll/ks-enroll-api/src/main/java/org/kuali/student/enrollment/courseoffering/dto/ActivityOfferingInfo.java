@@ -1,18 +1,19 @@
 /*
- * Copyright 2007 The Kuali Foundation
+ * Copyright 2011 The Kuali Foundation
  *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed under the Educational Community License, Version 1.0 (the
+ * "License"); you may not use this file except in compliance with the
+ * License.  You may obtain a copy of the License at
  *
  * http://www.opensource.org/licenses/ecl1.php
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+ * implied.  See the License for the specific language governing
+ * permissions and limitations under the License.
  */
+
 package org.kuali.student.enrollment.courseoffering.dto;
 
 import java.util.ArrayList;
@@ -29,21 +30,30 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.enrollment.courseoffering.infc.ActivityOffering;
 import org.kuali.student.enrollment.courseoffering.infc.OfferingInstructor;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+
 import org.w3c.dom.Element;
 
 /**
- * This is a description of what this class does - Kamal don't for to fill this in. 
+ * Individual activity offerings correspond to events in a scheduling
+ * system, each with a meeting pattern.
  * 
  * @author Kuali Student Team (Kamal)
- *
  */
+
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ActivityOfferingInfo", propOrder = {"activityId",
-"activityCode", "termId", "scheduleId", "isHonorsOffering", "gradingOptionKeys", "instructors",
-        "finalExamStartTime", "finalExamEndTime", "finalExamSpaceCode", "meetingSchedules", "weeklyInclassContactHours",
-        "weeklyOutofclassContactHours", "weeklyTotalContactHours", "maximumEnrollment", "minimumEnrollment", 
-    "id", "typeKey", "stateKey", "name", "descr", "meta", "attributes", "_futureElements"})
-public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOffering {
+@XmlType(name = "ActivityOfferingInfo", propOrder = {
+                "id", "typeKey", "stateKey", "name", "descr", 
+                "activityId", "termId",  "activityCode", "scheduleId", 
+                "isHonorsOffering", "gradingOptionKeys", "instructors",
+                "weeklyInclassContactHouse", "weeklyOutofclassContactHours", 
+                "weeklyTotalContactHours", 
+                "maximumEnrollment", "minimumEnrollment", 
+                "finalExamStartTime", "finalExamEndTime", 
+                "finalExamSpaceCode", 
+                "meta", "attributes", "_futureElements"})
+
+public class ActivityOfferingInfo 
+    extends IdEntityInfo implements ActivityOffering {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,11 +61,11 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
     private String activityId;
         
     @XmlElement
-    private String activityCode;   
-    
-    @XmlElement
     private String termId;
 
+    @XmlElement
+    private String activityCode;   
+    
     @XmlElement
     private String scheduleId;
 
@@ -63,20 +73,11 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
     private Boolean isHonorsOffering;
     
     @XmlElement
-    private List<OfferingInstructorInfo> instructors;
-    
-    @XmlElement
     private List<String> gradingOptionKeys;
        
     @XmlElement
-    private Date finalExamStartTime;
+    private List<OfferingInstructorInfo> instructors;
     
-    @XmlElement
-    private Date finalExamEndTime;
-    
-    @XmlElement
-    private String finalExamSpaceCode;
-
     @XmlElement
     private String weeklyInclassContactHours;
     
@@ -92,40 +93,69 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
     @XmlElement
     private Integer minimumEnrollment;
         
+    @XmlElement
+    private Date finalExamStartTime;
+    
+    @XmlElement
+    private Date finalExamEndTime;
+    
+    @XmlElement
+    private String finalExamSpaceCode;
+
     @XmlAnyElement
     private List<Element> _futureElements;
-    
+
+
+    /**
+     * Constructs a new ActivityOfferingInfo.
+     */
     public ActivityOfferingInfo() {
     }
 
-    public ActivityOfferingInfo(ActivityOffering activity) {
-        super(activity); 
+    /**
+     * Constructs a new ActivityOfferingInfo from another
+     * ActivityOffering.
+     *
+     * @param offering the activity offering to copy
+     */
+    public ActivityOfferingInfo(ActivityOffering offering) {
+        super(offering); 
         
-        if(null == activity) return;      
-
-        this.activityCode = activity.getActivityCode();
-        this.activityId = activity.getActivityId();
-        this.scheduleId = activity.getScheduleId();
-        this.finalExamSpaceCode = activity.getFinalExamSpaceCode();
-        this.finalExamEndTime = (null != activity.getFinalExamEndTime()) ? new Date(activity.getFinalExamEndTime().getTime()) : null;
-        this.finalExamStartTime = (null != activity.getFinalExamStartTime()) ? new Date(activity.getFinalExamStartTime().getTime()) : null;
-        this.gradingOptionKeys = (null != activity.getGradingOptionKeys()) ? new ArrayList<String>(activity.getGradingOptionKeys()) : null;
-        this.isHonorsOffering = (null != activity.getIsHonorsOffering()) ? new Boolean(activity.getIsHonorsOffering()) : null;
-        this.maximumEnrollment = activity.getMaximumEnrollment();
-        this.minimumEnrollment = activity.getMinimumEnrollment();        
-        this.termId = activity.getTermId();
-        this.weeklyInclassContactHours = activity.getWeeklyInclassContactHours();
-        this.weeklyOutofclassContactHours = activity.getWeeklyOutofclassContactHours();
-        this.weeklyTotalContactHours = activity.getWeeklyTotalContactHours();
-        
-        this.instructors = new ArrayList<OfferingInstructorInfo>();
-        if(null != activity.getInstructors()) {
-            for(OfferingInstructor i : activity.getInstructors()) {
-                this.instructors.add(new OfferingInstructorInfo(i));                
-            }
+        if (offering == null) {
+            return;
         }
-        
-        this._futureElements = null;        
+
+        this.activityId = offering.getActivityId();
+        this.termId = offering.getTermId();
+        this.scheduleId = offering.getScheduleId();
+        this.activityCode = offering.getActivityCode();
+
+        this.isHonorsOffering = offering.getIsHonorsOffering();
+        this.instructors = new ArrayList<OfferingInstructorInfo>();
+
+        if (offering.getGradingOptionKeys() != null) {
+            this.gradingOptionKeys = new ArrayList<String>(offering.getGradingOptionKeys());
+        }
+
+        for (OfferingInstructor instructor : offering.getInstructors()) {
+            this.instructors.add(new OfferingInstructorInfo(instructor));
+        }
+
+        this.weeklyInclassContactHours = offering.getWeeklyInclassContactHours();
+        this.weeklyOutofclassContactHours = offering.getWeeklyOutofclassContactHours();
+        this.weeklyTotalContactHours = offering.getWeeklyTotalContactHours();
+        this.maximumEnrollment = offering.getMaximumEnrollment();
+        this.minimumEnrollment = offering.getMinimumEnrollment();        
+
+        if (offering.getFinalExamStartTime() != null) {
+            this.finalExamStartTime = new Date(offering.getFinalExamStartTime().getTime());
+        }
+
+        if (offering.getFinalExamEndTime() != null) {
+            this.finalExamEndTime = new Date(offering.getFinalExamEndTime().getTime());
+        }
+
+        this.finalExamSpaceCode = offering.getFinalExamSpaceCode();
     }
     
     @Override
@@ -133,14 +163,26 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
         return activityId;
     }
 
-    @Override
-    public String getActivityCode() {
-        return activityCode;
+    public void setActivityId(String activityId) {
+        this.activityId = activityId;
     }
 
     @Override
     public String getTermId() {
         return termId;
+    }
+
+    public void setTermId(String termId) {
+        this.termId = termId;
+    }
+
+    @Override
+    public String getActivityCode() {
+        return activityCode;
+    }
+
+    public void setActivityCode(String activityCode) {
+        this.activityCode = activityCode;
     }
 
     @Override
@@ -157,49 +199,17 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
         return isHonorsOffering;
     }
 
+    public void setIsHonorsOffering(Boolean isHonorsOffering) {
+        this.isHonorsOffering = isHonorsOffering;
+    }
+
     @Override
     public List<String> getGradingOptionKeys() {
         return gradingOptionKeys;
     }
 
-    @Override
-    public Date getFinalExamStartTime() {
-        return finalExamStartTime;
-    }
-
-    @Override
-    public Date getFinalExamEndTime() {
-        return finalExamEndTime;
-    }
-
-    @Override
-    public String getFinalExamSpaceCode() {
-        return finalExamSpaceCode;
-    }
-
-    @Override
-    public String getWeeklyInclassContactHours() {
-        return weeklyInclassContactHours;
-    }
-
-    @Override
-    public String getWeeklyOutofclassContactHours() {
-        return weeklyOutofclassContactHours;
-    }
-
-    @Override
-    public String getWeeklyTotalContactHours() {
-        return weeklyTotalContactHours;
-    }
-
-    @Override
-    public Integer getMaximumEnrollment() {
-        return maximumEnrollment;
-    }
-
-    @Override
-    public Integer getMinimumEnrollment() {
-        return minimumEnrollment;
+    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
+        this.gradingOptionKeys = gradingOptionKeys;
     }
 
     @Override
@@ -211,55 +221,75 @@ public class ActivityOfferingInfo extends IdEntityInfo implements ActivityOfferi
         this.instructors = instructors;
     }
 
-    public void setActivityId(String activityId) {
-        this.activityId = activityId;
-    }
-
-    public void setActivityCode(String activityCode) {
-        this.activityCode = activityCode;
-    }
-
-    public void setTermId(String termId) {
-        this.termId = termId;
-    }
-
-    public void setIsHonorsOffering(Boolean isHonorsOffering) {
-        this.isHonorsOffering = isHonorsOffering;
-    }
-
-    public void setGradingOptionKeys(List<String> gradingOptionKeys) {
-        this.gradingOptionKeys = gradingOptionKeys;
-    }
-
-    public void setFinalExamStartTime(Date finalExamStartTime) {
-        this.finalExamStartTime = finalExamStartTime;
-    }
-
-    public void setFinalExamEndTime(Date finalExamEndTime) {
-        this.finalExamEndTime = finalExamEndTime;
-    }
-
-    public void setFinalExamSpaceCode(String finalExamSpaceCode) {
-        this.finalExamSpaceCode = finalExamSpaceCode;
+    @Override
+    public String getWeeklyInclassContactHours() {
+        return weeklyInclassContactHours;
     }
 
     public void setWeeklyInclassContactHours(String weeklyInclassContactHours) {
         this.weeklyInclassContactHours = weeklyInclassContactHours;
     }
 
+    @Override
+    public String getWeeklyOutofclassContactHours() {
+        return weeklyOutofclassContactHours;
+    }
+
     public void setWeeklyOutofclassContactHours(String weeklyOutofclassContactHours) {
         this.weeklyOutofclassContactHours = weeklyOutofclassContactHours;
+    }
+
+    @Override
+    public String getWeeklyTotalContactHours() {
+        return weeklyTotalContactHours;
     }
 
     public void setWeeklyTotalContactHours(String weeklyTotalContactHours) {
         this.weeklyTotalContactHours = weeklyTotalContactHours;
     }
 
+    @Override
+    public Integer getMaximumEnrollment() {
+        return maximumEnrollment;
+    }
+
     public void setMaximumEnrollment(Integer maximumEnrollment) {
         this.maximumEnrollment = maximumEnrollment;
     }
 
+    @Override
+    public Integer getMinimumEnrollment() {
+        return minimumEnrollment;
+    }
+
     public void setMinimumEnrollment(Integer minimumEnrollment) {
         this.minimumEnrollment = minimumEnrollment;
+    }
+
+    @Override
+    public Date getFinalExamStartTime() {
+        return finalExamStartTime;
+    }
+
+    public void setFinalExamStartTime(Date finalExamStartTime) {
+        this.finalExamStartTime = finalExamStartTime;
+    }
+
+    @Override
+    public Date getFinalExamEndTime() {
+        return finalExamEndTime;
+    }
+
+    public void setFinalExamEndTime(Date finalExamEndTime) {
+        this.finalExamEndTime = finalExamEndTime;
+    }
+
+    @Override
+    public String getFinalExamSpaceCode() {
+        return finalExamSpaceCode;
+    }
+
+    public void setFinalExamSpaceCode(String finalExamSpaceCode) {
+        this.finalExamSpaceCode = finalExamSpaceCode;
     }
 }
