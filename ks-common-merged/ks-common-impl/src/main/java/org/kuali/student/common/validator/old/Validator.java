@@ -37,7 +37,7 @@ import org.kuali.student.common.olddictionary.old.dto.Type;
 import org.kuali.student.common.olddictionary.old.dto.TypeStateCaseConstraint;
 import org.kuali.student.common.olddictionary.old.dto.ValidCharsConstraint;
 import org.kuali.student.common.olddictionary.old.dto.WhenConstraint;
-import org.kuali.student.common.messages.dto.Message;
+
 import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.oldvalidation.dto.ValidationResultInfo;

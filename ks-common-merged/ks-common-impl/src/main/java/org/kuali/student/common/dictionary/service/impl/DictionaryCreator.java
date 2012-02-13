@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.common.olddictionary.dto.FieldDefinition;
-import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.oldcommon.dto.Idable;
 
 public class DictionaryCreator
 {

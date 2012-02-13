@@ -36,7 +36,8 @@ import org.kuali.student.common.dto.LocaleInfo;
 import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.infc.Locale;
 
-import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.oldmessages.dto.Message;
+
 import org.kuali.student.common.messages.dto.MessageInfo;
 import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.oldsearch.dto.SearchParam;

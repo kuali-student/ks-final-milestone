@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.student.common.olddictionary.dto.CaseConstraint;
-import org.kuali.student.common.dictionary.dto.CommonLookupParam;
+import org.kuali.student.common.olddictionary.dto.CommonLookupParam;
 import org.kuali.student.common.olddictionary.dto.Constraint;
 import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.olddictionary.dto.FieldDefinition;

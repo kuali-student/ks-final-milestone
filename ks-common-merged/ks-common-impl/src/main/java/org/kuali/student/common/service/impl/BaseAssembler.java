@@ -25,7 +25,7 @@ import org.kuali.student.common.dao.CrudDao;
 import org.kuali.student.common.dto.AttributeInfo;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.TypeInfo;
+
 import org.kuali.student.common.entity.Attribute;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.Meta;
@@ -34,7 +34,8 @@ import org.kuali.student.common.entity.RichText;
 import org.kuali.student.common.entity.Type;
 import org.kuali.student.common.entity.Version;
 import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.common.oldversionmanagement.dto.VersionInfo;
+import org.kuali.student.oldcommon.dto.TypeInfo;
 import org.springframework.beans.BeanUtils;
 
 public class BaseAssembler {
@@ -274,6 +275,7 @@ public class BaseAssembler {
         return dto;
     }
 	
+	@Deprecated
 	public static VersionInfo toVersionInfo(Version version) {
 		if(version==null){
 			return null;
