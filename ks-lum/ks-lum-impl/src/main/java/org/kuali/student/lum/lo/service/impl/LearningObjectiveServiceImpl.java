@@ -362,9 +362,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		return LearningObjectiveServiceAssembler.toLoInfo(loDao.fetch(Lo.class, loId));
 	}
 
+	// TODO replaced implementation to old method
     @Override
     public List<LoInfo> getLosByIds(@WebParam(name = "loIds") List<String> loIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getLoByIdList(loIds, contextInfo);
     }
 
     @Override
@@ -372,9 +373,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    // TODO replaced implementation to old method
     @Override
     public List<LoInfo> getLosByLoRepository(@WebParam(name = "loRepositoryKey") String loRepositoryKey, @WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loStateKey") String loStateKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getLosByRepository(loRepositoryKey, loTypeKey, loStateKey);
     }
 
     /* (non-Javadoc)
@@ -440,9 +442,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    // TODO replaced implementation to old method
     @Override
     public List<LoCategoryInfo> getLoCategoriesByLo(@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.getLoCategoriesForLo(loId, contextInfo);
     }
 
     @Override
