@@ -37,7 +37,7 @@
     </context-param>
 
     <listener>
-      <listener-class>org.kuali.rice.student.core.web.listener.RiceContextLoaderListener</listener-class>
+      <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     
     <filter>
@@ -52,7 +52,7 @@
 
     <filter>
         <filter-name>HideWebInfFilter</filter-name>
-        <filter-class>org.kuali.rice.kns.web.filter.HideWebInfFilter</filter-class>
+        <filter-class>org.kuali.rice.krad.web.filter.HideWebInfFilter</filter-class>
     </filter>
     
     <filter>
@@ -116,11 +116,24 @@
     </filter-mapping>
 
     <listener>
-        <listener-class>org.kuali.rice.kns.web.listener.JstlConstantsInitListener</listener-class>
+      <listener-class>org.kuali.rice.core.web.listener.KualiInitializeListener</listener-class>
     </listener>
 
     <listener>
-        <listener-class>org.kuali.rice.kns.web.listener.KualiHttpSessionListener</listener-class>
+		<listener-class>org.kuali.rice.core.web.listener.BootstrapListener</listener-class>
+	</listener>
+
+    <listener>
+	  <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>org.kuali.rice.krad.web.listener.KualiHttpSessionListener</listener-class>
+	</listener>
+
+	<!-- added by bonnie,  Krad needs this -->
+	<listener>
+       <listener-class>org.apache.tiles.web.startup.simple.SimpleTilesListener</listener-class>
     </listener>
 
     <servlet>
@@ -162,7 +175,7 @@
 
     <servlet>
         <servlet-name>dwr-invoker</servlet-name>
-        <servlet-class>org.kuali.rice.kns.web.servlet.KualiDWRServlet</servlet-class>
+        <servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
         <init-param>
             <param-name>debug</param-name>
             <param-value>true</param-value>
@@ -195,6 +208,10 @@
     <servlet>
         <servlet-name>remoting</servlet-name>
         <servlet-class>org.kuali.rice.ksb.messaging.servlet.KSBDispatcherServlet</servlet-class>
+        <init-param>
+          <param-name>contextConfigLocation</param-name>
+          <param-value>ksb/WEB-INF/remoting-servlet.xml</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 

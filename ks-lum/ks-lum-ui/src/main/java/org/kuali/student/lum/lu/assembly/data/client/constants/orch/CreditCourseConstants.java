@@ -29,7 +29,7 @@ public interface CreditCourseConstants
 	public static final String FINAL_EXAM_RATIONALE = "finalExamRationale";
 	public static final String TRANSCRIPT_TITLE = "transcriptTitle";
 	public static final String COURSE_TITLE = "courseTitle";
-	public static final String DESCRIPTION = "description";
+	public static final String DESCRIPTION = "descr";
 	public static final String PROPOSAL_DESCRIPTION = "descr";
 	public static final String DEPARTMENT = "department";
 	public static final String SUBJECT_AREA = "subjectArea";
@@ -37,6 +37,8 @@ public interface CreditCourseConstants
 	public static final String COURSE_NUMBER_SUFFIX = "courseNumberSuffix";
 	public static final String START_TERM = "startTerm";
 	public static final String END_TERM = "endTerm";
+	public static final String PREV_START_TERM = "prevStartTerm";
+	public static final String PREV_END_TERM = "prevEndTerm";
 	public static final String PILOT_COURSE = "pilotCourse";
 	public static final String CROSS_LISTINGS = "crossListings";
 	public static final String VERSIONS = "variations";
@@ -64,6 +66,10 @@ public interface CreditCourseConstants
 	public static final String INSTRUCTORS = "instructors";
 	public static final String COURSE_SPECIFIC_LOS = "courseSpecificLOs";
 	public static final String COURSE_SPECIFIC_LRTS = "courseSpecificLRTs";
+	public static final String RETIREMENT_RATIONALE = "retirementRationale";
+	public static final String LAST_TERM_OFFERED = "lastTermOffered";
+	public static final String LAST_PUBLICATION_YEAR = "lastPublicationYear";
+	public static final String SPECIAL_CIRCUMSTANCES = "specialCircumstances";	
 	public static final String VERSION_INFO = "versionInfo";
 	public static final String VERSION_CURRENT_VERSION_START = "currentVersionStart";
 	public static final String VERSION_CURRENT_VERSION_END = "currentVersionEnd";

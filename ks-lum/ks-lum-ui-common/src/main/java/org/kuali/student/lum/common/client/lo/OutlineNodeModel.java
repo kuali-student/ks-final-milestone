@@ -19,13 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gwt.event.dom.client.ChangeHandler;
-import org.kuali.student.lum.common.client.lo.OutlineNode;
 
 public 
 class OutlineNodeModel<T> {
 	private ArrayList<OutlineNode<T>> outlineNodeList = new ArrayList<OutlineNode<T>>();
 
-	private ArrayList<ChangeHandler> changeHandlerList = new ArrayList<ChangeHandler>();
+	private final ArrayList<ChangeHandler> changeHandlerList = new ArrayList<ChangeHandler>();
 
 	private OutlineNode<T> currentNode;
 
@@ -50,10 +49,6 @@ class OutlineNodeModel<T> {
 		if (this.isMoveUpable() == false) {
 			return;
 		}
-		// int index = outlineNodeList.indexOf(currentNode);
-		// if (index == -1 || index == outlineNodeList.size() - 1) {
-		//    return;
-		// }
 		List<OutlineNode<T>> siblingList = getSiblingList();
 		int indexInSibling = siblingList.indexOf(currentNode);
 		OutlineNode<T> nextNodeInSibling = siblingList.get(indexInSibling - 1);
@@ -127,7 +122,7 @@ class OutlineNodeModel<T> {
 	}
 
 	public void deleteCurrent() {
-		if (this.isDeletable()) {
+//		if (this.isDeletable()) {
 			List<OutlineNode<T>> childList = getChildList(currentNode);
 			childList.add(0, currentNode);// add parent
 			for (int i = 0; i < childList.size(); i++) {
@@ -135,7 +130,7 @@ class OutlineNodeModel<T> {
 				outlineNodeList.remove(aNode);
 			}
 			fireChangeEvents();
-		}
+//		}
 	}
 
 	public void addPeer() {
@@ -266,9 +261,9 @@ class OutlineNodeModel<T> {
 	}
 
 	public boolean isDeletable() {
-		if(outlineNodeList.size() == 1){
-			return false;
-		}
+//		if(outlineNodeList.size() == 1){
+//			return false;
+//		}
 		return true;
 	}
 }

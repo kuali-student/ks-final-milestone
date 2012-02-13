@@ -1,10 +1,10 @@
 package org.kuali.student.core.bo.util;
 
-import org.kuali.rice.kns.bo.InactivateableFromTo;
+import org.kuali.rice.krad.bo.InactivatableFromTo;
 
 public class InactivatableFromToHelper {
 
-	public static boolean isActive(InactivateableFromTo bo) {
+	public static boolean isActive(InactivatableFromTo bo) {
         long asOfDate;
         
         if (bo.getActiveAsOfDate() != null) {

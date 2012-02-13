@@ -1,10 +1,10 @@
 package org.kuali.student.lum.common.client.widgets;
 
-import com.google.gwt.user.client.ui.ListBox;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * Dropdown list components. Extends ListBox to add useful methods and support for underlying model.
@@ -59,5 +59,17 @@ public class DropdownList extends ListBox {
 
     public void reset() {
         setSelectedIndex(0);
+    }
+
+    public void clear() {
+        super.clear();
+        model.clear();
+        index = 0;
+    }
+
+    public void removeItem(String value) {
+        if (null != model.get(value)) {
+            removeItem(model.get(value));
+        }
     }
 }

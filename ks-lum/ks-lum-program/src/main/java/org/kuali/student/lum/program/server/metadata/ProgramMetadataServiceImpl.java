@@ -11,11 +11,13 @@ package org.kuali.student.lum.program.server.metadata;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dto.DtoConstants.DtoState;
+import org.kuali.student.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
+import org.kuali.student.lum.lu.LUConstants;
 
 /**
  * This class provides metadata lookup for service dto objects.
@@ -24,17 +26,27 @@ import org.kuali.student.core.dto.DtoConstants.DtoState;
  */
 public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
 
-    public ProgramMetadataServiceImpl(DictionaryService... dictionaryServices) {
+    public ProgramMetadataServiceImpl() {
+		super();
+	}
+
+	public ProgramMetadataServiceImpl(DictionaryService... dictionaryServices) {
         super(dictionaryServices);
     }
 
-    @Override
-    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState) {
+	//TODO KSCM I commented out this @override ... somewhere something was not added to a superclass
+    //@Override
+    protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState,
+            String workflowNode, String documentTypeName) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
-
         ConstraintMetadata constraintMetadata = new ConstraintMetadata();
-
-        updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), getNextState(state));
+        //The nextState should not get a defaulted value when we're using Modify Program Proposal functionality.
+        String nextStateValue = nextState;
+        if (!LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY.equals(documentTypeName)) {
+            nextStateValue = getNextState(state);
+        }
+        //TODO KSCM this call has an extra parameter ... for workflow ...
+        //updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), nextStateValue, workflowNode);
         constraints.add(constraintMetadata);
 
         return constraints;

@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- ResultComponentInfo-->
@@ -24,7 +24,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
  <bean id="resultComponentInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="resultComponentInfo.desc" parent="resultComponentInfo.desc-parent"/>
 
@@ -84,7 +84,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
  <bean id="credentialInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="credentialInfo.desc" parent="credentialInfo.desc-parent"/>
 
@@ -137,7 +137,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
  <bean id="creditInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="creditInfo.desc" parent="creditInfo.desc-parent"/>
 
@@ -246,7 +246,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 
  <bean id="scaleInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="scaleInfo.desc" parent="scaleInfo.desc-parent"/>
 

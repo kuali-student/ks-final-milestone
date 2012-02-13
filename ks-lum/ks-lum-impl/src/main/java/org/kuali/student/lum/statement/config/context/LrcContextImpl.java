@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
@@ -46,7 +46,8 @@ public class LrcContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			return lrcService.getResultComponent(resultComponentId);
+			return null;
+			// TODO KSCM			return lrcService.getResultComponent(resultComponentId);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
@@ -70,16 +71,17 @@ public class LrcContextImpl extends BasicContextImpl {
 		}
 		
 		try {
-			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
-			for(ResultComponentTypeInfo type : typeList) {
-				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
-				for(String resultComponentId : resultComponentIdList) {
-					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
-					if(resultComponent.getResultValues().contains(resultValueId)) {
-						return resultComponent;
-					}
-				}
-			}
+			// TODO KSCM
+//			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
+//			for(ResultComponentTypeInfo type : typeList) {
+//				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
+//				for(String resultComponentId : resultComponentIdList) {
+//					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
+//					if(resultComponent.getResultValues().contains(resultValueId)) {
+//						return resultComponent;
+//					}
+//				}
+//			}
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
