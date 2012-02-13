@@ -115,7 +115,7 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	}
 
 	/**
-	 * @param loHierarchy the loHierarchy to set
+	 * @param loRepository the loHierarchy to set
 	 */
 	public void setLoRepository(LoRepository loRepository) {
 		this.loRepository = loRepository;

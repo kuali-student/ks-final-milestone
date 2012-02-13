@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.AmountInfo;
@@ -41,6 +42,11 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about a single CLU.
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "CluInfo", propOrder = {"id", "type", "state", "officialIdentifier", "alternateIdentifiers", "studySubjectArea", "descr", "campusLocations", "accreditations", "adminOrgs",
+		"primaryInstructor", "instructors",	"expectedFirstAtp", "lastAtp", "lastAdmitAtp", "effectiveDate", "expirationDate", "intensity", "stdDuration", "canCreateLui", "referenceURL",
+		"luCodes", "nextReviewPeriod", "isEnrollable", "offeredAtpTypes", "hasEarlyDropDeadline", "defaultEnrollmentEstimate", "defaultMaximumEnrollment", "isHazardousForDisabledStudents",
+		"feeInfo", "accountingInfo", "attributes", "metaInfo", "versionInfo"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
@@ -129,7 +135,7 @@ public class CluInfo implements Serializable, Idable, HasTypeState, HasAttribute
 
     @XmlElement
     private CluAccountingInfo accountingInfo;
-
+    
     @XmlElement
     @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
     private Map<String, String> attributes;

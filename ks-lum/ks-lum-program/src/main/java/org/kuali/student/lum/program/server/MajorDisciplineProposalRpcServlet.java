@@ -7,12 +7,14 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -23,6 +25,7 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
+import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel.requirementState;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsSummaryView;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
@@ -57,7 +60,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         List<ProgramRequirementInfo> programReqInfos = new ArrayList<ProgramRequirementInfo>();
 
         for (String programReqId : programRequirementIds) {
-            ProgramRequirementInfo rule = programService.getProgramRequirement(programReqId, null, null);
+            ProgramRequirementInfo rule = programService.getProgramRequirement(programReqId, null, null,ContextUtils.getContextInfo());
             setProgReqNL(rule);
             programReqInfos.add(rule);
         }
@@ -109,7 +112,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         StatementUtil.updateStatementTreeViewInfoState(programRequirementInfo.getState(), programRequirementInfo.getStatement());
        
         // Call the web service to create the requirement and statement tree in the database
-        ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo);
+        ProgramRequirementInfo rule = programService.createProgramRequirement(programRequirementInfo.getTypeKey() ,programRequirementInfo,ContextUtils.getContextInfo());
         
         // Translate the requirement into its natural language equivalent
         setProgReqNL(rule);
@@ -118,7 +121,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
     }
 
     public StatusInfo deleteProgramRequirement(String programRequirementId) throws Exception {
-        return programService.deleteProgramRequirement(programRequirementId);
+        return programService.deleteProgramRequirement(programRequirementId,ContextUtils.getContextInfo());
     }
 
     public ProgramRequirementInfo updateProgramRequirement(ProgramRequirementInfo programRequirementInfo) throws Exception {
@@ -135,7 +138,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
             programRequirementInfo.setDescr(new RichTextInfo());    
         }
 
-        ProgramRequirementInfo rule = programService.updateProgramRequirement(programRequirementInfo);
+        ProgramRequirementInfo rule = programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
         setProgReqNL(rule);
         return rule;
     }
@@ -157,15 +160,15 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
             // retrieve all req. component LEAFS
         	for (int i = 0; i < reqComponentInfos.size(); i++) {
         		ReqComponentInfoUi reqUi = RulesUtil.clone(reqComponentInfos.get(i));
-        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en"));
-        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en"));
+        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
+        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
         		reqComponentInfos.set(i, reqUi);
         	}
         }
     }
     
     @Override
-	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber,ContextInfo contextInfo) throws Exception {
     	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
     	//We don't want to version if there are
     	try{
@@ -178,7 +181,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
 	    	states.add("Draft");
 	    	states.add("Superseded");
 	    	request.addParam("lu.queryParam.luOptionalState", states);
-	    	SearchResult result = luService.search(request);
+	    	SearchResult result = luService.search(request,ContextUtils.getContextInfo());
 	    	
 	    	String resultString = result.getRows().get(0).getCells().get(0).getValue();
 	    	return "0".equals(resultString);	    	
@@ -211,14 +214,14 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
      * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#isProposal(java.lang.String, java.lang.String)
      */
     @Override
-    public Boolean isProposal(String referenceTypeKey, String referenceId){
+    public Boolean isProposal(String referenceTypeKey, String referenceId,ContextInfo contextInfo){
         try {
             // Wire in proposal service from spring
             // Call method getProposalByReference().  
             // ProposalWorkflowFilter.applyOutboundDataFilter().  Set on line 130-131.  Use these for reference ID.
            
             // Ask the proposal service to return a list of proposals with this reference id    
-            List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId);
+            List<ProposalInfo> proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
             
             // If at least one proposal is returned, this is a proposal, so return true
             if (proposals != null && proposals.size() >= 1){
@@ -251,6 +254,55 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
     
 	public void setLuService(LuService luService) {
 		this.luService = luService;
+	}
+
+	//TODO KSCM : All these below must was added via Auto-generated . It needs some logic
+	
+	@Override
+	public List<ProgramRequirementInfo> getProgramRequirements(
+			List<String> programRequirementIds, ContextInfo contextInfo)
+			throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<Integer, ProgramRequirementInfo> storeProgramRequirements(
+			Map<Integer, requirementState> states,
+			Map<Integer, ProgramRequirementInfo> progReqs,
+			ContextInfo contextInfo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProgramRequirementInfo createProgramRequirement(
+			ProgramRequirementInfo programRequirementInfo,
+			ContextInfo contextInfo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public StatusInfo deleteProgramRequirement(String programRequirementId,
+			ContextInfo contextInfo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ProgramRequirementInfo updateProgramRequirement(
+			ProgramRequirementInfo programRequirementInfo,
+			ContextInfo contextInfo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DataSaveResult updateState(Data data, String state,
+			ContextInfo contextInfo) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
     
     
