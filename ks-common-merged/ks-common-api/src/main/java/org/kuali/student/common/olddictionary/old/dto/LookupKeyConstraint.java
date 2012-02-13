@@ -13,53 +13,51 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.olddictionary.dto;
+package org.kuali.student.common.olddictionary.old.dto;
 
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class WhenConstraint implements Serializable {
+public class LookupKeyConstraint implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlAttribute
-    protected String value;
+    protected String field;
     
-    @XmlElement
-    protected ConstraintSelector constraint;
+    @XmlAttribute
+    protected String mapsTo;
 
 	/**
-	 * @return the value
+	 * @return the field
 	 */
-	public String getValue() {
-		return value;
+	public String getField() {
+		return field;
 	}
 
 	/**
-	 * @param value the value to set
+	 * @param field the field to set
 	 */
-	public void setValue(String value) {
-		this.value = value;
+	public void setField(String field) {
+		this.field = field;
 	}
 
 	/**
-	 * @return the constraint
+	 * @return the mapsTo
 	 */
-	public ConstraintSelector getConstraint() {
-		return constraint;
+	public String getMapsTo() {
+		return mapsTo;
 	}
 
 	/**
-	 * @param constraint the constraint to set
+	 * @param mapsTo the mapsTo to set
 	 */
-	public void setConstraint(ConstraintSelector constraint) {
-		this.constraint = constraint;
-	}    
+	public void setMapsTo(String mapsTo) {
+		this.mapsTo = mapsTo;
+	}   
 }

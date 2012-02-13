@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.olddictionary.dto;
+package org.kuali.student.common.olddictionary.old.dto;
 
 import java.io.Serializable;
 import java.util.List;

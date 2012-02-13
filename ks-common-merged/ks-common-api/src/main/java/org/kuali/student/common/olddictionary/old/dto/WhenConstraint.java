@@ -13,10 +13,9 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.olddictionary.dto;
+package org.kuali.student.common.olddictionary.old.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -26,58 +25,41 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ConstraintDescriptor implements Serializable {
+public class WhenConstraint implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    
-    @XmlAttribute(required = true)
-    protected String key;
-    
+
     @XmlAttribute
-    protected String id;
+    protected String value;
     
-    @XmlElement(required = true) 
-    protected List<ConstraintSelector> constraint;
+    @XmlElement
+    protected ConstraintSelector constraint;
 
 	/**
-	 * @return the key
+	 * @return the value
 	 */
-	public String getKey() {
-		return key;
+	public String getValue() {
+		return value;
 	}
 
 	/**
-	 * @param key the key to set
+	 * @param value the value to set
 	 */
-	public void setKey(String key) {
-		this.key = key;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
+	public void setValue(String value) {
+		this.value = value;
 	}
 
 	/**
 	 * @return the constraint
 	 */
-	public List<ConstraintSelector> getConstraint() {
+	public ConstraintSelector getConstraint() {
 		return constraint;
 	}
 
 	/**
 	 * @param constraint the constraint to set
 	 */
-	public void setConstraint(List<ConstraintSelector> constraint) {
+	public void setConstraint(ConstraintSelector constraint) {
 		this.constraint = constraint;
-	}
+	}    
 }

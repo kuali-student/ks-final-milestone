@@ -21,35 +21,70 @@
 //
 
 
-package org.kuali.student.common.olddictionary.dto;
+package org.kuali.student.common.olddictionary.old.dto;
 
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
 
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RequireConstraint implements Serializable{
+public class ValidCharsConstraint implements Serializable{
 
 	private static final long serialVersionUID = 1L;
     
     @XmlAttribute
-    protected String field;
+    protected String fields;
 
+    @XmlAttribute
+    protected String separator;
+
+    @XmlElement
+    protected String value;
+    
 	/**
-	 * @return the field
+	 * @return the fields
 	 */
-	public String getField() {
-		return field;
+	public String getFields() {
+		return fields;
 	}
 
 	/**
-	 * @param field the field to set
+	 * @param fields the fields to set
 	 */
-	public void setField(String field) {
-		this.field = field;
+	public void setFields(String fields) {
+		this.fields = fields;
 	}
+
+	/**
+	 * @return the separator
+	 */
+	public String getSeparator() {
+		return separator;
+	}
+
+	/**
+	 * @param separator the separator to set
+	 */
+	public void setSeparator(String separator) {
+		this.separator = separator;
+	}
+
+	/**
+	 * @return the value
+	 */
+	public String getValue() {
+		return value;
+	}
+
+	/**
+	 * @param value the value to set
+	 */
+	public void setValue(String value) {
+		this.value = value;
+	}    	
 }

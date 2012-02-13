@@ -13,9 +13,10 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.olddictionary.dto;
+package org.kuali.student.common.olddictionary.old.dto;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -24,75 +25,75 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TypeStateWhenConstraint implements Serializable {
+public class OccursConstraint implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAttribute
-    protected String type;
-    
-    @XmlAttribute
-    protected String state;
-    
     @XmlElement
-    protected Integer minOccurs;
-    
+    private List<RequireConstraint> require;
+
     @XmlElement
-    protected String maxOccurs;
-
+    private List<OccursConstraint> occurs;
+    
+    @XmlAttribute
+    private Integer min;
+    
+    @XmlAttribute
+    private Integer max;
+    
 	/**
-	 * @return the type
+	 * @return the require
 	 */
-	public String getType() {
-		return type;
+	public List<RequireConstraint> getRequire() {
+		return require;
 	}
 
 	/**
-	 * @param type the type to set
+	 * @param require the require to set
 	 */
-	public void setType(String type) {
-		this.type = type;
+	public void setRequire(List<RequireConstraint> require) {
+		this.require = require;
 	}
 
 	/**
-	 * @return the state
+	 * @return the min
 	 */
-	public String getState() {
-		return state;
+	public Integer getMin() {
+		return min;
 	}
 
 	/**
-	 * @param state the state to set
+	 * @param min the min to set
 	 */
-	public void setState(String state) {
-		this.state = state;
+	public void setMin(Integer min) {
+		this.min = min;
 	}
 
 	/**
-	 * @return the minOccurs
+	 * @return the max
 	 */
-	public Integer getMinOccurs() {
-		return minOccurs;
+	public Integer getMax() {
+		return max;
 	}
 
 	/**
-	 * @param minOccurs the minOccurs to set
+	 * @param max the max to set
 	 */
-	public void setMinOccurs(Integer minOccurs) {
-		this.minOccurs = minOccurs;
+	public void setMax(Integer max) {
+		this.max = max;
 	}
 
 	/**
-	 * @return the maxOccurs
+	 * @return the occurs
 	 */
-	public String getMaxOccurs() {
-		return maxOccurs;
+	public List<OccursConstraint> getOccurs() {
+		return occurs;
 	}
 
 	/**
-	 * @param maxOccurs the maxOccurs to set
+	 * @param occurs the occurs to set
 	 */
-	public void setMaxOccurs(String maxOccurs) {
-		this.maxOccurs = maxOccurs;
-	}        
+	public void setOccurs(List<OccursConstraint> occurs) {
+		this.occurs = occurs;
+	}		
 }

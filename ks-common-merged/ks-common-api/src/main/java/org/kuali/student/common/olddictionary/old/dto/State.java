@@ -21,9 +21,11 @@
 //
 
 
-package org.kuali.student.common.olddictionary.dto;
+package org.kuali.student.common.olddictionary.old.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -41,8 +43,7 @@ import javax.xml.bind.annotation.XmlElement;
  *   &lt;complexContent>
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
  *       &lt;sequence>
- *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}fieldDescriptor"/>
- *         &lt;element name="readOnly" type="{http://www.w3.org/2001/XMLSchema}boolean"/>
+ *         &lt;element ref="{http://www.dto.dictionary.student.kuali.org}field" maxOccurs="unbounded"/>
  *       &lt;/sequence>
  *       &lt;attribute name="key" type="{http://www.w3.org/2001/XMLSchema}string" />
  *     &lt;/restriction>
@@ -53,70 +54,52 @@ import javax.xml.bind.annotation.XmlElement;
  * 
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Field implements Serializable{
-
+public class State implements Serializable{
+    
     private static final long serialVersionUID = 1L;
 
+    @XmlElement(required = true)
+    protected List<Field> field;
+
+    @XmlAttribute
+    protected String id;
+    
     @XmlAttribute(required = true)
     protected String key;
 
-    @XmlAttribute 
-    protected String id;
-    
-    @XmlElement //TODO there is no required here but there should be
-    protected FieldDescriptor fieldDescriptor;
-    
     @XmlElement
     protected ConstraintDescriptor constraintDescriptor;
     
-    @XmlElement
-    protected boolean selector;
-    
-    @XmlElement
-    protected boolean dynamic;
-    
-    
     /**
-     * Gets the value of the fieldDescriptor property.
+     * Gets the value of the field property.
      * 
-     * @return
-     *     possible object is
-     *     {@link FieldDescriptor }
-     *     
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the field property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getField().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Field }
+     * 
+     * 
      */
-    public FieldDescriptor getFieldDescriptor() {
-        return fieldDescriptor;
+    public List<Field> getField() {
+        if (field == null) {
+            field = new ArrayList<Field>();
+        }
+        return this.field;
     }
 
     /**
-     * Sets the value of the fieldDescriptor property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link FieldDescriptor }
-     *     
-     */
-    public void setFieldDescriptor(FieldDescriptor value) {
-        this.fieldDescriptor = value;
-    }
-
-	public boolean isSelector() {
-		return selector;
-	}
-
-	/**
-	 * 	Indicates if the field is a selector field, which indicates that changes 
-	 *  to this field may alter the structure of the object type. This may provide 
-	 *  insight as to frequency of calls to a validate operation, as the 
-	 *  constraints will not be externalized.
-	 *  
-	 * @param isSelector
-	 */
-	public void setSelector(boolean isSelector) {
-		this.selector = isSelector;
-	}
-
-	/**
      * Gets the value of the key property.
      * 
      * @return
@@ -140,6 +123,10 @@ public class Field implements Serializable{
         this.key = value;
     }
 
+	public void setField(List<Field> field) {
+		this.field = field;
+	}
+
 	/**
 	 * @return the constraintDescriptor
 	 */
@@ -152,34 +139,5 @@ public class Field implements Serializable{
 	 */
 	public void setConstraintDescriptor(ConstraintDescriptor constraintDescriptor) {
 		this.constraintDescriptor = constraintDescriptor;
-	}
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
-
-	/**
-	 * @return the dynamic
-	 */
-	public boolean isDynamic() {
-		return dynamic;
-	}
-
-	/**
-	 * @param dyncamic the dynamic to set
-	 */
-	public void setDynamic(boolean dynamic) {
-		this.dynamic = dynamic;
-	}
-
+	}	
 }
