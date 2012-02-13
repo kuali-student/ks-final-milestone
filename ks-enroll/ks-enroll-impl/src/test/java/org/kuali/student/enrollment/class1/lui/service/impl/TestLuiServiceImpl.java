@@ -1,10 +1,10 @@
 package org.kuali.student.enrollment.class1.lui.service.impl;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -124,6 +124,8 @@ public class TestLuiServiceImpl {
     }
     
     @Test
+    @Ignore
+    // TODO: enable after https://jira.kuali.org/browse/KULRICE-6705 is fixed
     public void testCreateLui() throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         LuiInfo info = new LuiInfo();
@@ -133,10 +135,9 @@ public class TestLuiServiceImpl {
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
-        LuiIdentifierInfo luiIdentifierInfo = new LuiIdentifierInfo();
-        luiIdentifierInfo.setStateKey(info.getStateKey());
-        luiIdentifierInfo.setTypeKey(info.getTypeKey());
-        info.setOfficialIdentifier(luiIdentifierInfo);
+        if (info.getOfficialIdentifier() != null) {
+            fail("official identifier is not null but it was never set");
+        }
         // info.setStudySubjectArea("Math");
         info.setCluId("testCluId");
         info.setAtpId("testAtpId1");
@@ -250,6 +251,8 @@ public class TestLuiServiceImpl {
     }
 
     @Test
+    @Ignore
+    // TODO: enable after https://jira.kuali.org/browse/KULRICE-6705 is fixed
     public void testCreateLuiLuiRelation() throws AlreadyExistsException, CircularRelationshipException,
             DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -260,10 +263,6 @@ public class TestLuiServiceImpl {
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
-        LuiIdentifierInfo luiIdentifierInfo = new LuiIdentifierInfo();
-        luiIdentifierInfo.setStateKey(info.getStateKey());
-        luiIdentifierInfo.setTypeKey(info.getTypeKey());
-        info.setOfficialIdentifier(luiIdentifierInfo);
 
         LuiInfo newLui = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         LuiLuiRelationInfo created = null;
