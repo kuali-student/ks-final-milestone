@@ -141,7 +141,7 @@ public interface ProposalService {
      * provides the identifier in the create statement instead of the server
      * assigning an identifier.
      * 
-     * @param validationType Identifier of the extent of validation
+     * @param validationTypeKey Identifier of the extent of validation
      * @param proposalInfo The proposal information to be tested.
      * @return Results from performing the validation
      * @throws DoesNotExistException validationTypeKey not found

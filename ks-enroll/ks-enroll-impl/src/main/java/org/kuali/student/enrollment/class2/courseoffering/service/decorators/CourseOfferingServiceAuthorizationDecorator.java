@@ -76,8 +76,8 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	}
 
 	@Override
-	public List<CourseOfferingInfo> getCourseOfferingsForCourseAndTerm(
-			String courseId, String termId, ContextInfo context)
+	public List<CourseOfferingInfo> getCourseOfferingsByCourseAndTerm(
+            String courseId, String termId, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -85,8 +85,8 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingsForCourseAndTerm", null, null)) {
-	        return getNextDecorator().getCourseOfferingsForCourseAndTerm(courseId, termId, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingsByCourseAndTerm", null, null)) {
+	        return getNextDecorator().getCourseOfferingsByCourseAndTerm(courseId, termId, context);
         }
         else {
            throw new PermissionDeniedException();
