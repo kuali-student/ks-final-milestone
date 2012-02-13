@@ -672,6 +672,7 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
          @Deprecated
     public void setVersionInfo(VersionInfo versionInfo) {
              // TODO KSCM-302
+
     }
     @Deprecated
     public void setVariations(List<ProgramVariationInfo> programVariationInfos) {
@@ -715,20 +716,21 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 	public String getStartTerm() {
 		// TODO Auto-generated method stub
 		//TODO KSCM
-		return null;
+		return startTermId;
 	}
 
 	@Deprecated
 	public void setEndProgramEntryTerm(String endEntryTerm) {
 		// TODO Auto-generated method stub
-		// TODO KSCM 
+		// TODO KSCM Revision
+        this.endProgramEntryTermId = endEntryTerm;
 		
 	}
 	@Deprecated
 	public void setEndTerm(String endEnrollTerm) {
 		// TODO Auto-generated method stub
-		// TODO KSCM
-
+		// TODO KSCM Revision
+        this.endTermId = endEnrollTerm;
 
 		
 	}
