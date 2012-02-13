@@ -14,8 +14,17 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.search.dto;
+package org.kuali.student.common.search.infc;
 
-public enum SortDirection {
-	ASC, DESC;
+import java.util.List;
+
+public interface SearchResultRow {
+    
+    /**
+     * The cells in the search result rows.
+     *
+     * @name Search Result Row Cells
+     * @required
+     */
+    public List<? extends SearchResultCell> getCells();
 }

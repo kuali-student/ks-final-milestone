@@ -14,8 +14,25 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.search.dto;
+package org.kuali.student.common.search.infc;
 
-public enum SortDirection {
-	ASC, DESC;
+import java.util.List;
+
+public interface SearchParam {
+    
+    /**
+     * The search parameter key.
+     *
+     * @name Parameter Key
+     * @required
+     */
+    public String getKey();    
+
+    /**
+     * The search parameter values.
+     *
+     * @name Parameter Value(s)
+     * @required
+     */
+    public List<String> getValues();
 }
