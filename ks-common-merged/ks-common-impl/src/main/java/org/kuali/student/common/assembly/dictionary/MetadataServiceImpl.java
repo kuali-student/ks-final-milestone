@@ -24,12 +24,12 @@ import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.UILookupConfig;
 import org.kuali.student.common.assembly.data.UILookupData;
-import org.kuali.student.common.assembly.data.Data.DataType;
 import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.common.olddictionary.dto.CaseConstraint;
-import org.kuali.student.common.dictionary.dto.CommonLookupParam;
+import org.kuali.student.common.olddictionary.dto.CommonLookupParam;
 import org.kuali.student.common.olddictionary.dto.Constraint;
+import org.kuali.student.common.olddictionary.dto.DataType;
 import org.kuali.student.common.olddictionary.dto.FieldDefinition;
 import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.olddictionary.dto.WhenConstraint;
@@ -45,7 +45,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Kuali Student Team
  */
 public class MetadataServiceImpl {
-    final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
+
+	final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
 
     private Map<String, DictionaryService> dictionaryServiceMap;
     private List<UILookupConfig> lookupObjectStructures;
@@ -209,7 +210,7 @@ public class MetadataServiceImpl {
 
                 // Get properties for nested object structure
                 Map<String, Metadata> nestedProperties = null;
-                if (fd.getDataType() == org.kuali.student.common.dictionary.dto.DataType.COMPLEX && fd.getDataObjectStructure() != null) {
+                if (fd.getDataType() == COMPLEX && fd.getDataObjectStructure() != null) {
                     nestedProperties = getProperties(fd.getDataObjectStructure(), type, state, nextState, counter);
                 }
 
@@ -475,7 +476,7 @@ public class MetadataServiceImpl {
         return v;
     }
 
-    protected DataType convertDictionaryDataType(org.kuali.student.common.dictionary.dto.DataType dataType) {
+    protected DataType convertDictionaryDataType(DataType dataType) {
         switch (dataType) {
             case STRING:
                 return DataType.STRING;
