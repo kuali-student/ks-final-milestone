@@ -102,6 +102,7 @@ public class CoreProgramInfo extends ProgramAttributesInfo implements CoreProgra
     
     @Deprecated
 	public String getEndProgramEntryTerm() {
+
 		return this.getEndProgramEntryTermId();
 
 	}

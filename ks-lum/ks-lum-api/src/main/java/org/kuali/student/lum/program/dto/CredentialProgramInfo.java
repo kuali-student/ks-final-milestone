@@ -135,6 +135,7 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
 //TODO    KSCM-248
 
     public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
+        //TODO KSCM-303
     }
    //TODO KSCM-248
 
@@ -145,35 +146,40 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
     }
 
     public void setStartTerm(Object o) {
+        //TODO  KSCM-305
     }
 
     public void setEndTerm(Object endTerm) {
       //TODO KSCM  this.endTerm = endTerm;
+      //TODO  KSCM-305
     }
 
     public void setEndProgramEntryTerm(Object endProgramEntryTerm) {
         //TODO KSCM  this.endProgramEntryTerm = endProgramEntryTerm;
+        //TODO KSCM-304
     }
     
     //TODO KSCM : Fix this logic
     @Deprecated
 	public VersionInfo getVersionInfo(ContextInfo contextInfo) {
 		// TODO Auto-generated method stub
+        // TODO  KSCM-302
+
 		return null;
 	}
     
-    //TODO KSCM
+
     @Deprecated 
-	public Boolean getEndProgramEntryTerm() {
-		// TODO Auto-generated method stub
-		//TODO KSCM 
-		return null;
+	public String getEndProgramEntryTerm() {
+
+
+        return this.getEndProgramEntryTermId();
 	}
     
-    //TODO KSCM
+
     @Deprecated
-	public Boolean getEndTerm() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getEndTerm() {
+
+		return this.getEndTermId();
 	}
 }
