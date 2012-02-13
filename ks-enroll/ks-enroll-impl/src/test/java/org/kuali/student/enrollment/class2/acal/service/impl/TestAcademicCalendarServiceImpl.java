@@ -1013,10 +1013,10 @@ public class TestAcademicCalendarServiceImpl {
         }
 
         Calendar calendar = Calendar.getInstance();
-        // Note 2nd value is month -1 so June is 5, January is 1
+        // Note 2nd value is month -1 so June is 5, January is 0
         calendar.set(2011, 5, 1);
         Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
-        // Note 2nd value is month -1 so June is 5, January is 1
+        // Note 2nd value is month -1 so June is 5, January is 0
         calendar.set(2011, 11, 30);
         Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
@@ -1051,10 +1051,10 @@ public class TestAcademicCalendarServiceImpl {
         }
 
         Calendar calendar = Calendar.getInstance();
-        // Note 2nd value is month -1 so June is 5, January is 1
+        // Note 2nd value is month -1 so June is 5, January is 0
         calendar.set(2011, 5, 1);
         Predicate startPredicate = PredicateFactory.greaterThanOrEqual("startDate", new Timestamp(calendar.getTime().getTime()));
-        // Note 2nd value is month -1 so June is 5, January is 1
+        // Note 2nd value is month -1 so June is 5, January is 0
         calendar.set(2011, 11, 30);
         Predicate endPredicate = PredicateFactory.lessThanOrEqual("endDate", new Timestamp(calendar.getTime().getTime()));
         qbcBuilder.setPredicates(startPredicate, endPredicate);
