@@ -19,22 +19,22 @@ public class MajorProposalConfigurer extends AbstractProgramConfigurer {
 	
     public MajorProposalConfigurer() {
 
-    	programSectionConfigManager = new ConfigurationManager(this);
-		programSectionConfigManager.registerConfiguration(new MajorProposalInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new MajorProposalChangeImpactEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new MajorProposalKeyProgramInfoEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new SpecializationsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new CollaboratorsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration());
-        programSectionConfigManager.registerConfiguration(new MajorProposalSummaryConfiguration(true));
+    	programSectionConfigManager = new ConfigurationManager();
+		programSectionConfigManager.registerConfiguration(new MajorProposalInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new MajorProposalChangeImpactEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new MajorProposalKeyProgramInfoEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new ManagingBodiesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new SpecializationsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CatalogInformationEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new LearningObjectivesEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new CollaboratorsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new SupportingDocsEditConfiguration(this));
+        programSectionConfigManager.registerConfiguration(new MajorProposalSummaryConfiguration(this, true));
         
         
-        proposalSummarySectionConfigurer = new ConfigurationManager(this);
-        proposalSummarySectionConfigurer.registerConfiguration(new MajorProposalSummaryConfiguration(false));
+        proposalSummarySectionConfigurer = new ConfigurationManager();
+        proposalSummarySectionConfigurer.registerConfiguration(new MajorProposalSummaryConfiguration(this, false));
     }
     
     @Override

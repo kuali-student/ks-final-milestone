@@ -26,6 +26,7 @@ import java.util.Map;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -67,7 +68,7 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-     public ProgramCommonAssembly assembleBasics(CluInfo clu, ProgramCommonAssembly program) throws AssemblyException {
+     public ProgramCommonAssembly assembleBasics(CluInfo clu, ProgramCommonAssembly program, ContextInfo contextInfo) throws AssemblyException {
 
          if (program instanceof CredentialProgramInfo) {
              ((CredentialProgramInfo)program).setCredentialProgramType(clu.getType());
@@ -111,10 +112,10 @@ public class ProgramAssemblerUtils {
     }
 
     //TODO maybe this should be in CluAssemblerUtils??
-    public ProgramRequirementAssembly assembleRequirements(CluInfo clu, ProgramRequirementAssembly program) throws AssemblyException {
+    public ProgramRequirementAssembly assembleRequirements(CluInfo clu, ProgramRequirementAssembly program, ContextInfo contextInfo) throws AssemblyException {
 
         try {
-            List<String> requirements = luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT);
+            List<String> requirements = luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT, contextInfo);
             if (requirements != null && requirements.size() > 0) {
                 program.setProgramRequirements(requirements);
             }
@@ -128,19 +129,19 @@ public class ProgramAssemblerUtils {
     }
 
     //TODO  maybe this should be in CluAssemblerUtils??
-    public CluInfo disassembleRequirements(CluInfo clu, ProgramRequirementAssembly program, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result, boolean stateChanged) throws AssemblyException {
+    public CluInfo disassembleRequirements(CluInfo clu, ProgramRequirementAssembly program, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result, boolean stateChanged, ContextInfo contextInfo) throws AssemblyException {
         try {
             List<String> requirements = program.getProgramRequirements ();
 
             if (requirements != null && !requirements.isEmpty()) {
             	if (stateChanged){
-            		addUpdateRequirementStateNodes(requirements, program.getState(), result);
+            		addUpdateRequirementStateNodes(requirements, program.getState(), result, contextInfo);
             	}
             	
                	Map<String, String> currentRelations = null;
 
                 if (!NodeOperation.CREATE.equals(operation)) {
-                	currentRelations = getCluCluRelations(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT);
+                	currentRelations = getCluCluRelations(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT, contextInfo);
                 }
                 
     	    	for (String requirementId : requirements){
@@ -181,10 +182,10 @@ public class ProgramAssemblerUtils {
      * @throws MissingParameterException 
      * @throws InvalidParameterException 
      */
-    private void addUpdateRequirementStateNodes(List<String> requirements, String state, BaseDTOAssemblyNode<?, ?> result) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    private void addUpdateRequirementStateNodes(List<String> requirements, String state, BaseDTOAssemblyNode<?, ?> result, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	for (String requirementId:requirements){
     		try {
-	    		CluInfo requirementClu = luService.getClu(requirementId);
+	    		CluInfo requirementClu = luService.getClu(requirementId, contextInfo);
 	            requirementClu.setState(state);
 	            BaseDTOAssemblyNode<Object, CluInfo> reqCluNode = new BaseDTOAssemblyNode<Object, CluInfo>(null);
 	            reqCluNode.setNodeData(requirementClu);
@@ -476,10 +477,10 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public List<String> assembleResultOptions(String cluId) throws AssemblyException {
+    public List<String> assembleResultOptions(String cluId, ContextInfo contextInfo) throws AssemblyException {
         List<String> resultOptions = null;
         try{
-            List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId);
+            List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId, contextInfo);
 
             List<String> resultTypes = new ArrayList<String>();
             resultTypes.add(ProgramAssemblerConstants.DEGREE_RESULTS);
@@ -543,7 +544,7 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public ProgramPublicationAssembly assemblePublications(CluInfo clu, ProgramPublicationAssembly program) throws AssemblyException {
+    public ProgramPublicationAssembly assemblePublications(CluInfo clu, ProgramPublicationAssembly program, ContextInfo contextInfo) throws AssemblyException {
 
 
         if (clu.getReferenceURL() != null) {
@@ -551,7 +552,7 @@ public class ProgramAssemblerUtils {
         }
 
         try {
-            List<CluPublicationInfo> cluPublications = luService.getCluPublicationsByCluId(clu.getId());
+            List<CluPublicationInfo> cluPublications = luService.getCluPublicationsByCluId(clu.getId(), contextInfo);
 
             List<String> targets = new ArrayList<String>();
 
@@ -589,7 +590,7 @@ public class ProgramAssemblerUtils {
         }
     }
 
-     private List<BaseDTOAssemblyNode<?, ?>> disassembleCatalogDescr(ProgramPublicationAssembly program,  NodeOperation operation) throws AssemblyException {
+     private List<BaseDTOAssemblyNode<?, ?>> disassembleCatalogDescr(ProgramPublicationAssembly program,  NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
          List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
@@ -599,7 +600,7 @@ public class ProgramAssemblerUtils {
 
              // if not create get current catalog descr
              if (!NodeOperation.CREATE.equals(operation)) {
-                 List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(program.getId());
+                 List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(program.getId(), contextInfo);
                  for (CluPublicationInfo pubInfo : pubs) {
                      if (pubInfo.getType().equals(ProgramAssemblerConstants.CATALOG)) {
                          currentPubInfo = pubInfo;
@@ -675,17 +676,17 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public CluInfo disassemblePublications(CluInfo clu, ProgramPublicationAssembly program, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result) throws AssemblyException {
+    public CluInfo disassemblePublications(CluInfo clu, ProgramPublicationAssembly program, NodeOperation operation, BaseDTOAssemblyNode<?, ?> result, ContextInfo contextInfo) throws AssemblyException {
 
         clu.setReferenceURL(program.getReferenceURL());
         clu.setState(program.getState());
 
-        List<BaseDTOAssemblyNode<?, ?>> targetResults = disassemblePublicationTargets(program, operation);
+        List<BaseDTOAssemblyNode<?, ?>> targetResults = disassemblePublicationTargets(program, operation, contextInfo);
         if (targetResults != null && targetResults.size()> 0) {
             result.getChildNodes().addAll(targetResults);
         }
 
-        List<BaseDTOAssemblyNode<?, ?>> descrResults = disassembleCatalogDescr(program, operation) ;
+        List<BaseDTOAssemblyNode<?, ?>> descrResults = disassembleCatalogDescr(program, operation,contextInfo) ;
         if (descrResults != null && descrResults.size()> 0) {
             result.getChildNodes().addAll(descrResults);
         }
@@ -703,12 +704,12 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
      */
-    public List<BaseDTOAssemblyNode<?,?>>  disassembleCredentialProgram(ProgramCredentialAssembly program, NodeOperation operation, String relationType) throws AssemblyException {
+    public List<BaseDTOAssemblyNode<?,?>>  disassembleCredentialProgram(ProgramCredentialAssembly program, NodeOperation operation, String relationType, ContextInfo contextInfo) throws AssemblyException {
 
         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
         try {
-            CluInfo credentialClu = luService.getClu(program.getCredentialProgramId());
+            CluInfo credentialClu = luService.getClu(program.getCredentialProgramId(), contextInfo);
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Credential Clu does not exist for " + program.getCredentialProgramId());
@@ -718,7 +719,7 @@ public class ProgramAssemblerUtils {
 
         if (!NodeOperation.CREATE.equals(operation)) {
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(program.getId());
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(program.getId(),contextInfo);
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType()) ) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
@@ -790,12 +791,12 @@ public class ProgramAssemblerUtils {
         return results;
     }
 
-    public List<BaseDTOAssemblyNode<?, ?>> addRelationNodes(String cluId, String relatedCluId, String relationType, NodeOperation operation)throws AssemblyException{
+    public List<BaseDTOAssemblyNode<?, ?>> addRelationNodes(String cluId, String relatedCluId, String relationType, NodeOperation operation, ContextInfo contextInfo)throws AssemblyException{
     	Map<String, String> currentRelations = null;
     	List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
         if (!NodeOperation.CREATE.equals(operation)) {
-        	currentRelations = getCluCluRelations(cluId, relationType);
+        	currentRelations = getCluCluRelations(cluId, relationType, contextInfo);
         }
 
         //  If this is a create then vreate new relation
@@ -861,11 +862,11 @@ public class ProgramAssemblerUtils {
         
         return results;
     }
-    public Map<String, String> getCluCluRelations(String cluId, String relationType) throws AssemblyException{
+    public Map<String, String> getCluCluRelations(String cluId, String relationType, ContextInfo contextInfo) throws AssemblyException{
         Map<String, String> currentRelations = new HashMap<String, String>();
 
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId, contextInfo);
                
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType())) {
@@ -882,11 +883,11 @@ public class ProgramAssemblerUtils {
             return currentRelations;
     }
     
-    public Map<String, CluCluRelationInfo> getCluCluActiveRelations(String cluId, String relationType) throws AssemblyException{
+    public Map<String, CluCluRelationInfo> getCluCluActiveRelations(String cluId, String relationType, ContextInfo contextInfo) throws AssemblyException{
         Map<String, CluCluRelationInfo> currentRelations = new HashMap<String, CluCluRelationInfo>();
 
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId);
+                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId, contextInfo);
 
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType()) && (!cluRelation.getState().isEmpty() && cluRelation.getState().equalsIgnoreCase(DtoConstants.STATE_ACTIVE))) {
@@ -970,7 +971,7 @@ public class ProgramAssemblerUtils {
      * @return
      * @throws AssemblyException
           */
-    private List<BaseDTOAssemblyNode<?, ?>> disassemblePublicationTargets(ProgramPublicationAssembly program,  NodeOperation operation) throws AssemblyException {
+    private List<BaseDTOAssemblyNode<?, ?>> disassemblePublicationTargets(ProgramPublicationAssembly program,  NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
@@ -979,7 +980,7 @@ public class ProgramAssemblerUtils {
 
             // Get the current publications and put them in a map
             try {
-                List<CluPublicationInfo> cluPubs = luService.getCluPublicationsByCluId(program.getId());
+                List<CluPublicationInfo> cluPubs = luService.getCluPublicationsByCluId(program.getId(),contextInfo);
                 for(CluPublicationInfo cluPub : cluPubs){
                     cluPub.setState(program.getState());
                     if (!cluPub.getType().equals(ProgramAssemblerConstants.CATALOG)) {
@@ -1064,11 +1065,11 @@ public class ProgramAssemblerUtils {
         this.cluAssemblerUtils = cluAssemblerUtils;
     }
 
-    public String getCredentialProgramID(String cluId) throws AssemblyException {
+    public String getCredentialProgramID(String cluId, ContextInfo contextInfo) throws AssemblyException {
 
         List<String> credentialProgramIDs = null;
         try {
-            credentialProgramIDs = luService.getCluIdsByRelation(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM);
+            credentialProgramIDs = luService.getCluIdsByRelation(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM, contextInfo);
         } catch (Exception e) {
             throw new AssemblyException(e);
         }

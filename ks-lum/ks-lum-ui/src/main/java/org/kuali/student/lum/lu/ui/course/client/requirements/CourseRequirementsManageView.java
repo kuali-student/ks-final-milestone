@@ -31,6 +31,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
@@ -76,10 +77,10 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     private CourseRequirementsViewController parentController;
 
     //view's widgets
-    private VerticalPanel layout = new VerticalPanel();
-    private ReqCompEditWidget editReqCompWidget;
-    private RuleManageWidget ruleManageWidget;
-    private SimplePanel twiddlerPanel = new SimplePanel();
+    protected VerticalPanel layout = new VerticalPanel();
+    protected ReqCompEditWidget editReqCompWidget;
+    protected RuleManageWidget ruleManageWidget;
+    protected SimplePanel twiddlerPanel = new SimplePanel();
     private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
 
     //view's data
@@ -96,8 +97,18 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     private boolean userClickedSaveButton = false;
 	private BlockingTask creatingRuleTask = new BlockingTask("Creating Rule");
 
-    public CourseRequirementsManageView(CourseRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId) {
+    public CourseRequirementsManageView() {
+        super();
+    }
+
+    public CourseRequirementsManageView(CourseRequirementsViewController parentController, Enum<?> viewEnum,
+            String name, String modelId) {
         super(viewEnum, name, modelId);
+        this.parentController = parentController;
+    }
+
+    public void init(CourseRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId) {
+        super.init(viewEnum, name, modelId, true);
         this.parentController = parentController;
     }
 
@@ -122,7 +133,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         editReqCompWidget.setRetrieveCustomWidgetCallback(retrieveCustomWidgetCallback);
     }
 
-    private void draw() {
+    protected void draw() {
 
         remove(layout);
         layout.clear();
@@ -152,7 +163,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         displaySaveButton();
     }
 
-    private void displaySaveButton() {
+    protected void displaySaveButton() {
         actionCancelButtons.addStyleName("KS-Course-Requisites-Save-Button");
         actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
              @Override
@@ -283,8 +294,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                         if (rule.getStatements() != null && !rule.getStatements().isEmpty()) {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
                             newStatementTreeViewInfo.setId(CourseRequirementsSummaryView.NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeViewInfoID++));
-                            newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
+                            newStatementTreeViewInfo.setOperator(rule.getOperator());
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
+                            newStatementTreeViewInfo.setTypeKey(rule.getTypeKey());
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
                             rule.getReqComponents().add(reqComp);
@@ -303,7 +315,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     ruleManageWidget.redraw(rule, true);
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                 }
-            });
+            }, ContextUtils.getContextInfo());
         }
     };
 
@@ -331,7 +343,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
                 editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
             }
-        });
+        }, ContextUtils.getContextInfo());
     }
 
     private Map<String, Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
@@ -343,7 +355,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     customWidgets.put("kuali.reqComponent.field.type.grade.id", new GradeWidget());
                 } else if (RulesUtil.isCourseWidget(fieldTypeInfo.getId())) {
 
-                    final CourseWidget courseWidget = new CourseWidget();
+                    final CourseWidget courseWidget = GWT.create(CourseWidget.class);
                     
                     courseWidget.addGetCluNameCallback(new Callback() {
 
@@ -370,9 +382,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             courseWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    });
+                                    }, ContextUtils.getContextInfo());
                                 }
-                            });
+                            }, ContextUtils.getContextInfo());
 
 
                         }
@@ -407,9 +419,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             programWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    });
+                                    }, ContextUtils.getContextInfo());
                                 }
-                            });
+                            }, ContextUtils.getContextInfo());
                         }
                     });
 
@@ -432,7 +444,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 public void onSuccess(final String compositionTemplate) {
                     editReqCompWidget.displayFieldsStart(compositionTemplate);
                 }
-            });
+            }, ContextUtils.getContextInfo());
         }
     };
 

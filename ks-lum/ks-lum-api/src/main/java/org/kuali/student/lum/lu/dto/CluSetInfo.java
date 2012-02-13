@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.HasAttributes;
@@ -37,6 +38,9 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about a single CLU Set.
  */ 
+//KSCM-130:  Add @XmlType
+@XmlType(name = "CluSetInfo", propOrder = {"id", "type", "state", "name", "descr", "effectiveDate", "expirationDate", "membershipQuery", "adminOrg", "isReusable", "isReferenceable",
+		"cluSetIds", "cluIds", "attributes", "metaInfo"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluSetInfo implements Serializable, Idable, HasAttributes {
 
