@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.oldsearch.dto;
 
+//TODO KSCM-310 - I am being used
 @Deprecated
 public enum SortDirection {
 	ASC,DESC;

@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
+//TODO KSCM-310 - I am being used
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchParam implements Serializable {

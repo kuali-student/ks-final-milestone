@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 
+//TODO KSCM-310 - I am being used
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchCriteriaTypeInfo implements Serializable {

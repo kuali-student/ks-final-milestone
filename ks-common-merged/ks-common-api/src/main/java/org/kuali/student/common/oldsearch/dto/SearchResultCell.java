@@ -20,6 +20,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+//TODO KSCM-310 - I am being used
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SearchResultCell implements Serializable {
