@@ -45,7 +45,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", "name", "descr", 
                 "activityId", "termId",  "activityCode", "scheduleId", 
                 "isHonorsOffering", "gradingOptionKeys", "instructors",
-                "weeklyInclassContactHouse", "weeklyOutofclassContactHours", 
+                "weeklyInclassContactHours", "weeklyOutofclassContactHours", 
                 "weeklyTotalContactHours", 
                 "maximumEnrollment", "minimumEnrollment", 
                 "finalExamStartTime", "finalExamEndTime", 
