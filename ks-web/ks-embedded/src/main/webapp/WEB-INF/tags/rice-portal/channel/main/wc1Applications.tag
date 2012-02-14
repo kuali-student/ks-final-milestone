@@ -17,7 +17,10 @@
 
 <channel:portalChannelTop channelTitle="West Coast 1 Applications" />
 <div class="body">
-
+    <strong>Calendar Search</strong>
+    <ul class="chan">
+        <li><portal:portalLink displayTitle="true" title="Enrollment Home" url="${ConfigProperties.application.url}/kr-krad/calendarSearch?viewId=enrollmentHomeView&methodToCall=start" /></li>
+    </ul>
     <strong>Holiday Calendar</strong>
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Create Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarEditView&methodToCall=start" /></li>
