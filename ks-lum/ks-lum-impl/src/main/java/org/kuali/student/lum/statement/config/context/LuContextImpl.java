@@ -80,8 +80,10 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
-			CluInfo clu = this.luService.getClu(versionInfo.getId());
+			VersionDisplayInfo versionInfo = null;
+			// TODO KSCM			luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId);
+			CluInfo clu = null;
+			// TODO KSCM			this.luService.getClu(versionInfo.getId());
 			return clu;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -109,7 +111,8 @@ public class LuContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-	    	CluSetInfo cluSet = this.luService.getCluSetInfo(cluSetId);
+	    	CluSetInfo cluSet = null;
+	    	// TODO KSCM	    	this.luService.getCluSetInfo(cluSetId);
 	    	return cluSet;
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
@@ -130,9 +133,10 @@ public class LuContextImpl extends BasicContextImpl {
     	CluSetInfo cluSet = getCluSetInfo(cluSetId);
 		try {
 	    	List<CluInfo> list = new ArrayList<CluInfo>();
-	    	CluSetTreeViewInfo tree = luService.getCluSetTreeView(cluSetId);
+	    	CluSetTreeViewInfo tree = null;
+	    	// TODO KSCM	    	luService.getCluSetTreeView(cluSetId);
 	    	findClusInCluSet(tree, list);
-	    	return new NLCluSet(cluSet.getId(), list);
+	    	return new NLCluSet(cluSet.getId(), list, cluSet);
 		} catch(Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}

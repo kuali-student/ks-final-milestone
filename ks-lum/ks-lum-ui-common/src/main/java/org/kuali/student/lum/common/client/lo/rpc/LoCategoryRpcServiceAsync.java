@@ -31,6 +31,7 @@ import java.util.List;
  * @author Kuali Student Team
  *
  */
+//TODO KSCM-245
 public interface LoCategoryRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
 
     public void  deleteLoCategory(String loCategoryId,AsyncCallback<StatusInfo> callback);

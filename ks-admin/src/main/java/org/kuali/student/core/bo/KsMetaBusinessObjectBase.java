@@ -5,8 +5,8 @@ import java.util.Date;
 import org.apache.commons.lang.StringUtils;
 import org.apache.ojb.broker.PersistenceBroker;
 import org.apache.ojb.broker.PersistenceBrokerException;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.util.GlobalVariables;
+import org.kuali.rice.core.api.CoreApiServiceLocator;
+import org.kuali.rice.krad.util.GlobalVariables;
 
 public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements KsMetaBusinessObject {
 
@@ -55,24 +55,24 @@ public class KsMetaBusinessObjectBase extends KsBusinessObjectBase implements Ks
     }
     
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    public void prePersist() throws PersistenceBrokerException {
+        super.prePersist();
 
         if (StringUtils.isBlank(this.getCreateId())) {
             this.setCreateId(GlobalVariables.getUserSession().getPrincipalName());
         }
 
         if (this.getCreateDate() == null) {
-            this.setCreateDate(KNSServiceLocator.getDateTimeService().getCurrentSqlDate());
+            this.setCreateDate(CoreApiServiceLocator.getDateTimeService().getCurrentSqlDate());
         }
     }
 
     @Override
-    public void beforeUpdate(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeUpdate(persistenceBroker);
+    public void preUpdate() {
+        super.preUpdate();
 
         this.setUpdateId(GlobalVariables.getUserSession().getPrincipalName());
-        this.setUpdateDate(KNSServiceLocator.getDateTimeService().getCurrentSqlDate());
+        this.setUpdateDate(CoreApiServiceLocator.getDateTimeService().getCurrentSqlDate());
     }
 
     public String getCreateId() {

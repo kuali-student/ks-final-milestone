@@ -23,11 +23,11 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="
-          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-2.5.xsd
-		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+          http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+		  http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 		  http://cxf.apache.org/simple http://cxf.apache.org/schemas/simple.xsd
-		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
-		  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+		  http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		  http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
     <!-- This context requires that a spring Transaction Manager named 'transactionManager' be defined -->
 
@@ -253,7 +253,6 @@
     <bean id="WorkflowRpcGwtServlet"
           class="org.kuali.student.core.workflow.ui.server.gwt.WorkflowRpcGwtServlet">
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
@@ -295,16 +294,22 @@
 	    <property name="courseDataService" ref="CourseDataService"/>
 	    <property name="luService" ref="luClient"/>
 	    <property name="proposalService" ref="proposalClient"/>
-	    <property name="ignoreProperties">
-		    <list>
-		    	<value>transcriptTitle</value>
-		    	<value>unitsContentOwner</value>
-		    	<value>unitsDeployment</value>
-		    	<value>revenues</value>
-		    	<value>expenditure</value>
+	    <property name="ignoreProperties" ref="copyCourseService.ignoreProperties" />
+	</bean>
+    
+	<bean id="copyCourseService.ignoreProperties" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<value>transcriptTitle</value>
+				<value>unitsContentOwner</value>
+				<value>unitsDeployment</value>
+				<value>revenues</value>
+				<value>expenditure</value>
+				<value>startTerm</value>
+				<value>endTerm</value>
 			</list>
-	    </property>
-    </bean>
+		</constructor-arg>
+	</bean>
     
     <bean id="CourseDataService"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService">
@@ -328,6 +333,7 @@
         <property name="proposalService" ref="proposalClient"/>
         <property name="luService" ref="luClient"/>
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
     
     <bean id="CluSetManagementRpcGwtServlet"
@@ -416,6 +422,7 @@
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
         <property name="atpService" ref="atpClient"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
 
     <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">
