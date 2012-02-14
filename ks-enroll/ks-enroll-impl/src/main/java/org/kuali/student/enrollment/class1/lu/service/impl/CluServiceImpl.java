@@ -480,7 +480,7 @@ public class CluServiceImpl implements CluService {
     }
 
     @Override
-    public List<CluInfo> getClusByRelatedCluAndCluCluRelationType(String relatedCluId,
+    public List<CluInfo> getClusByRelatedCluAndRelationType(String relatedCluId,
             String luLuRelationTypeKey, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
@@ -495,26 +495,35 @@ public class CluServiceImpl implements CluService {
     }
 
     @Override
-    public List<String> getCluIdsByRelatedCluAndCluCluRelationType(String relatedCluId,
-            String luLuRelationTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(relatedCluId, "relatedCluId");
-        checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+    public List<String> getCluIdsByRelatedCluAndRelationType(String relatedCluId,
+            String cluCluRelationTypeKey,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
 
-        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, luLuRelationTypeKey);
+        checkForMissingParameter(relatedCluId, "relatedCluId");
+        checkForMissingParameter(cluCluRelationTypeKey, "cluCluRelationTypeKey");
+
+        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, cluCluRelationTypeKey);
         return cluIds;
     }
 
     @Override
-    public List<CluInfo> getRelatedClusByClu(String cluId,
-            String luLuRelationTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(cluId, "cluId");
-        checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
-        List<Clu> relatedClus = luDao.getRelatedClusByCluId(cluId,
-                luLuRelationTypeKey);
+    public List<CluInfo> getRelatedClusByCluAndRelationType(String relatedCluId,
+            String cluCLuRelationTypeKey,
+            ContextInfo contextInfo)
+            throws DoesNotExistException,
+            InvalidParameterException,
+            MissingParameterException,
+            OperationFailedException,
+            PermissionDeniedException {
+        checkForMissingParameter(relatedCluId, "cluId");
+        checkForMissingParameter(cluCLuRelationTypeKey, "cluCLuRelationTypeKey");
+        List<Clu> relatedClus = luDao.getRelatedClusByCluId(relatedCluId,
+                cluCLuRelationTypeKey);
         return LuServiceAssembler.toCluInfos(relatedClus);
     }
 
@@ -767,7 +776,7 @@ public class CluServiceImpl implements CluService {
     }
 
     @Override
-    public List<CluSetInfo> getCluSetByIds(List<String> cluSetIds, ContextInfo context)
+    public List<CluSetInfo> getCluSetsByIds(List<String> cluSetIds, ContextInfo context)
             throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -2287,7 +2296,7 @@ public class CluServiceImpl implements CluService {
         Validator defaultValidator = validatorFactory.getValidator();
         List<org.kuali.student.common.validation.dto.ValidationResultInfo> r1vrs = defaultValidator.validateObject(cluSetInfo, objStructure);
         List<ValidationResultInfo> r2vrs = new R1ToR2CopyHelper().copyValidationResultList(r1vrs);
-        return r2vrs;        
+        return r2vrs;
     }
 
     @Override
@@ -2465,7 +2474,7 @@ public class CluServiceImpl implements CluService {
             List<CluSetInfo> origSubCSs = null;
             List<String> origSubCSIds = originalCluSet.getCluSetIds();
             if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
-                origSubCSs = getCluSetByIds(origSubCSIds, context);
+                origSubCSs = getCluSetsByIds(origSubCSIds, context);
             }
             if (origSubCSs != null) {
                 for (CluSetInfo origSubCS : origSubCSs) {

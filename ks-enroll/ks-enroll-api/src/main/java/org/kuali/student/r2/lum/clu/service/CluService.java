@@ -576,7 +576,7 @@ public interface CluService extends VersionManagementService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CluInfo> getClusByRelatedCluAndCluCluRelationType(@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCLuRelationTypeKey") String cluCLuRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CluInfo> getClusByRelatedCluAndRelationType(@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCLuRelationTypeKey") String cluCLuRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the list of CLU Ids for the specified related CLU Id and LU to
@@ -597,7 +597,7 @@ public interface CluService extends VersionManagementService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCluIdsByRelatedCluAndCluCluRelationType(@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getCluIdsByRelatedCluAndRelationType(@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the list of related CLU information for the specified CLU Id
@@ -617,7 +617,7 @@ public interface CluService extends VersionManagementService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CluInfo> getRelatedClusByClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CluInfo> getRelatedClusByCluAndRelationType(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves the list of related CLU Ids for the specified CLU Id and LU to
@@ -901,7 +901,7 @@ public interface CluService extends VersionManagementService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CluSetInfo> getCluSetByIds(@WebParam(name = "cluSetIds") List<String> cluSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<CluSetInfo> getCluSetsByIds(@WebParam(name = "cluSetIds") List<String> cluSetIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve the list of CLU Set Ids within a CLU Set
