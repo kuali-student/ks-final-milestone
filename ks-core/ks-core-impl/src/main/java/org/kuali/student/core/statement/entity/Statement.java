@@ -31,8 +31,8 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
 @Entity
@@ -41,7 +41,8 @@ import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
     @NamedQuery(name = "Statement.getStatementsForStatementType", query = "SELECT ls FROM Statement ls WHERE ls.statementType.id = :statementTypeKey"),
     @NamedQuery(name = "Statement.getStatements", query = "SELECT ls FROM Statement ls WHERE ls.id IN (:statementIdList)"),
     @NamedQuery(name = "Statement.getStatementsForReqComponent", query = "SELECT ls FROM Statement ls JOIN ls.requiredComponents req WHERE req.id = :reqComponentId"),
-    @NamedQuery(name = "Statement.getParentStatement", query = "SELECT DISTINCT stmt FROM Statement stmt JOIN stmt.children children WHERE children.id = :childId")
+    @NamedQuery(name = "Statement.getParentStatement", query = "SELECT DISTINCT stmt FROM Statement stmt JOIN stmt.children children WHERE children.id = :childId"),
+    @NamedQuery(name = "Statement.getStatementsWithDependencies", query = "SELECT DISTINCT stmt, reqComp.id FROM Statement stmt, IN (stmt.requiredComponents) reqComp, IN (reqComp.reqComponentFields) field WHERE (field.type='kuali.reqComponent.field.type.course.cluSet.id' AND field.value IN(:cluSetIds)) OR (field.type='kuali.reqComponent.field.type.course.clu.id' AND field.value IN(:cluVersionIndIds))")
 })
 public class Statement extends MetaEntity implements AttributeOwner<StatementAttribute>{
 

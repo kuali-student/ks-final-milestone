@@ -18,6 +18,12 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 
+/**
+ * A section which uses a VerticalFieldLayout
+ * 
+ * @author Kuali Student Team
+ * @see VerticalFieldLayout
+ */
 public class VerticalSection extends BaseSection{
 	
 	public VerticalSection(){

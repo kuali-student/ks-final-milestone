@@ -22,20 +22,20 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageList;
+import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
 import org.kuali.student.common.ui.server.serialization.KSSerializationPolicy;
 import org.kuali.student.common.ui.server.serialization.SerializationUtils;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.dto.MessageGroupKeyList;
-import org.kuali.student.core.messages.dto.MessageList;
-import org.kuali.student.core.messages.service.MessageService;
 
 import com.google.gwt.user.server.rpc.RPC;
 
 public class MessageRPCPreloader {
 	final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
-    private final String MESSAGE_SERVICE_MOCK = "ks.messageServiceMock";
+    private final String MESSAGE_SERVICE_MOCK = "ks.messageService";
 	private final String MESSAGE_SERVICE = "{http://student.kuali.org/wsdl/messages}MessageService";
     
     MessageService messageService;

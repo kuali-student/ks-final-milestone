@@ -21,16 +21,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.core.dictionary.old.dto.ConstraintDescriptor;
-import org.kuali.student.core.dictionary.old.dto.ConstraintSelector;
-import org.kuali.student.core.dictionary.old.dto.Field;
-import org.kuali.student.core.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.old.dto.RequireConstraint;
-import org.kuali.student.core.dictionary.old.dto.State;
-import org.kuali.student.core.dictionary.old.dto.Type;
-import org.kuali.student.core.dictionary.old.dto.ValidCharsConstraint;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.dictionary.old.dto.ConstraintDescriptor;
+import org.kuali.student.common.dictionary.old.dto.ConstraintSelector;
+import org.kuali.student.common.dictionary.old.dto.Field;
+import org.kuali.student.common.dictionary.old.dto.FieldDescriptor;
+import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.common.dictionary.old.dto.RequireConstraint;
+import org.kuali.student.common.dictionary.old.dto.State;
+import org.kuali.student.common.dictionary.old.dto.Type;
+import org.kuali.student.common.dictionary.old.dto.ValidCharsConstraint;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 public class ValidatorTest {	
 

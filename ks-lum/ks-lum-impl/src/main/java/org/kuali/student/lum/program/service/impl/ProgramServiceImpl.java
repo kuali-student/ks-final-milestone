@@ -7,46 +7,47 @@ import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dictionary.dto.DataType;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularReferenceException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.core.assembly.data.AssemblyException;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.atp.dto.AtpInfo;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.dictionary.dto.DataType;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchManager;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
@@ -294,7 +295,7 @@ public class ProgramServiceImpl implements ProgramService {
 	        relation.setCluId(majorDiscipline.getId());
 	        relation.setRelatedCluId(newVariationClu.getId());
 	        relation.setType(ProgramAssemblerConstants.HAS_PROGRAM_VARIATION);
-	        relation.setState(ProgramAssemblerConstants.ACTIVE);
+	        relation.setState(DtoConstants.STATE_ACTIVE);
 			luService.createCluCluRelation(relation.getCluId(), relation.getRelatedCluId(), relation.getType(), relation);
 	        
 			//Set variation id & versionInfo to new variation clu
@@ -804,11 +805,11 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(credentialProgramInfo, objStructure));
-        }
+//        }
 
         return validationResults;
     }
@@ -829,11 +830,11 @@ public class ProgramServiceImpl implements ProgramService {
             MissingParameterException, OperationFailedException {
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
             ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure));
-        }
+//        }
         validateMajorDisciplineAtps(majorDisciplineInfo,validationResults);
         return validationResults;
     }
@@ -1208,11 +1209,11 @@ public class ProgramServiceImpl implements ProgramService {
     @Override
     public List<ValidationResultInfo> validateCoreProgram(String validationType, CoreProgramInfo coreProgramInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
-        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
+//        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
 	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
 	        Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(coreProgramInfo, objStructure));
-        }
+//        }
         return validationResults;
     }
         
@@ -1402,7 +1403,8 @@ public class ProgramServiceImpl implements ProgramService {
 			}
 		}
 	}
-
+	
+	//FIXME, this validation should be moved into a custom validation class + configuration
 	private void validateVariationAtps(ProgramVariationInfo programVariationInfo, List<ValidationResultInfo> validationResults, int idx) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		
 		String startTerm = programVariationInfo.getStartTerm();
@@ -1421,9 +1423,12 @@ public class ProgramServiceImpl implements ProgramService {
 	}
 	
 	private AtpInfo getAtpInfo(String atpKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException{
+		if(atpKey==null){
+			return null;
+		}
 		return atpService.getAtp(atpKey);
 	}
-	
+	//FIXME error should return using message service and not static text
 	private void compareAtps(String aptKey1, String aptKey2, List<ValidationResultInfo> validationResults, String field, String path) throws InvalidParameterException, MissingParameterException, OperationFailedException{
 		AtpInfo atpInfo1 = null;
 		AtpInfo atpInfo2 = null;
@@ -1435,7 +1440,7 @@ public class ProgramServiceImpl implements ProgramService {
 		
 		if(atpInfo1 != null && atpInfo1 != null){
 			if(atpInfo1.getStartDate()!= null && atpInfo2.getStartDate() != null){			
-				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than", true, new ServerDateParser());
+				boolean compareResult = ValidatorUtils.compareValues(atpInfo2.getStartDate(), atpInfo1.getStartDate(), DataType.DATE, "greater_than_equal", true, new ServerDateParser());
 				if(!compareResult){
 					ValidationResultInfo vri = new ValidationResultInfo();
 					vri.setElement(path);

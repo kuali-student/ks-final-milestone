@@ -1,11 +1,17 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.core.assembly.data.Metadata;
 
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * Read only (ui) equivalent of FieldDescriptor.
+ * @see FieldDescriptor
+ * @author Kuali Student Team
+ * 
+ */
 public class FieldDescriptorReadOnly extends FieldDescriptor{
 
 	public FieldDescriptorReadOnly(String fieldKey, MessageKeyInfo messageKey,

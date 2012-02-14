@@ -11,15 +11,16 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -162,13 +163,13 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
         official.setLongName(progReq.getLongTitle());
         official.setShortName(progReq.getShortTitle());
-        official.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
+        official.setState(!isEmpty(clu.getState()) ? clu.getState() : DtoConstants.STATE_ACTIVE);
         // gotta be this type
         official.setType(ProgramAssemblerConstants.OFFICIAL);
         clu.setOfficialIdentifier(official);
 
         clu.setDescr(progReq.getDescr());
-        clu.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
+        clu.setState(!isEmpty(clu.getState()) ? clu.getState() : DtoConstants.STATE_ACTIVE);
         if (progReq.getLearningObjectives() != null) {
             disassembleLearningObjectives(progReq, operation, result);
         }
@@ -189,7 +190,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         relation.setRefObjectId(clu.getId());
         relation.setRefObjectTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
         relation.setStatementId(statement.getId());
-        relation.setState(ProgramAssemblerConstants.ACTIVE);
+        relation.setState(DtoConstants.STATE_ACTIVE);
 
         BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo> relationNode = new BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo>(null);
         relationNode.setNodeData(relation);
@@ -218,18 +219,27 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
 		Map<String,String> attributes = null != clu.getAttributes() ? clu.getAttributes() : new HashMap<String,String>();
 
-		if(progReq.getMinCredits() != null) attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
-		if(progReq.getMaxCredits() != null) attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+		if(progReq.getMinCredits() != null){
+			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
+		}else{
+			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, null);
+		}
+		if(progReq.getMaxCredits() != null) {
+			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+		}else{
+			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, null);
+		}
+			
 		clu.setAttributes(attributes);
 	}
 
 	private void assembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
 		Map<String,String> attributes = clu.getAttributes();
 		if(attributes != null){
-			if(attributes.containsKey(ProgramAssemblerConstants.MIN_CREDITS))
-				progReq.setMinCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MIN_CREDITS)));
-			if(attributes.containsKey(ProgramAssemblerConstants.MAX_CREDITS))
-				progReq.setMaxCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MAX_CREDITS)));
+			String minCredits = attributes.get(ProgramAssemblerConstants.MIN_CREDITS);
+			String maxCredits = attributes.get(ProgramAssemblerConstants.MAX_CREDITS);
+			progReq.setMinCredits(isEmpty(minCredits)?null:Integer.parseInt(minCredits));
+			progReq.setMaxCredits(isEmpty(maxCredits)?null:Integer.parseInt(maxCredits));
 		}
 	}
 

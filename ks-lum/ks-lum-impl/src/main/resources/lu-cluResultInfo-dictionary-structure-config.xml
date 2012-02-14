@@ -86,10 +86,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.desc.(default).(default) -->
 <!-- ************************************************************************ -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.desc.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.desc"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.desc" parent="object.field.cluResultInfo.desc.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.desc" parent="object.field.cluResultInfo.desc.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.desc.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -250,10 +250,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.(default).(default).desc.(default).(default) -->
 <!-- ********************************************************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.desc.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.desc.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.desc"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.desc" parent="object.field.cluResultInfo.resultOptions.desc.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluResultInfo.resultOptions.desc" parent="object.field.cluResultInfo.resultOptions.desc.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.desc.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -422,10 +422,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.resultOptions.(default).(default).metaInfo.(default).(default) -->
 <!-- ************************************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.resultOptions.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.metaInfo" parent="object.field.cluResultInfo.resultOptions.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.resultOptions.metaInfo" parent="object.field.cluResultInfo.resultOptions.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.resultOptions.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -658,10 +658,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluResultInfo.metaInfo.(default).(default) -->
 <!-- **************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluResultInfo.metaInfo"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.core.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo" parent="object.field.cluResultInfo.metaInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluResultInfo.metaInfo" parent="object.field.cluResultInfo.metaInfo.abstract"/>
 
 <dict:type key="*" id="type.field.cluResultInfo.metaInfo.abstract" abstract="true">
 	<dict:name>(default)</dict:name>

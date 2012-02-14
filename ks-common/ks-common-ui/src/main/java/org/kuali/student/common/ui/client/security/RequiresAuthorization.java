@@ -15,7 +15,7 @@
 
 package org.kuali.student.common.ui.client.security;
 
-import org.kuali.student.core.rice.authorization.PermissionType;
+import org.kuali.student.common.rice.authorization.PermissionType;
 
 
 /**

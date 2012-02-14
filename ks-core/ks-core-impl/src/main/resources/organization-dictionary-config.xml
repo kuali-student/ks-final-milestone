@@ -21,8 +21,8 @@
 <import resource="classpath:constraints-dictionary-config.xml"/>
 
 <!-- OrgCodeInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgCodeInfo" id="object.OrgCodeInfo" parent="object.OrgCodeInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgCodeInfo" id="object.OrgCodeInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgCodeInfo" id="object.OrgCodeInfo" parent="object.OrgCodeInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgCodeInfo" id="object.OrgCodeInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgCodeInfo"/>
 </dict:objectStructure>
 
@@ -104,8 +104,8 @@
 
 
 <!-- OrgHierarchyInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgHierarchyInfo" id="object.OrgHierarchyInfo" parent="object.OrgHierarchyInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgHierarchyInfo" id="object.OrgHierarchyInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgHierarchyInfo" id="object.OrgHierarchyInfo" parent="object.OrgHierarchyInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgHierarchyInfo" id="object.OrgHierarchyInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgHierarchyInfo"/>
 </dict:objectStructure>
 
@@ -244,8 +244,8 @@
 
 
 <!-- OrgInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgInfo" id="object.OrgInfo" parent="object.OrgInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgInfo" id="object.OrgInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgInfo" id="object.OrgInfo" parent="object.OrgInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgInfo" id="object.OrgInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgInfo"/>
 </dict:objectStructure>
 
@@ -480,8 +480,8 @@
 
 
 <!-- OrgOrgRelationInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgOrgRelationInfo" id="object.OrgOrgRelationInfo" parent="object.OrgOrgRelationInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgOrgRelationInfo" id="object.OrgOrgRelationInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgOrgRelationInfo" id="object.OrgOrgRelationInfo" parent="object.OrgOrgRelationInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgOrgRelationInfo" id="object.OrgOrgRelationInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgOrgRelationInfo"/>
 </dict:objectStructure>
 
@@ -639,8 +639,8 @@
 
 
 <!-- OrgOrgRelationTypeInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo" id="object.OrgOrgRelationTypeInfo" parent="object.OrgOrgRelationTypeInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo" id="object.OrgOrgRelationTypeInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgOrgRelationTypeInfo" id="object.OrgOrgRelationTypeInfo" parent="object.OrgOrgRelationTypeInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgOrgRelationTypeInfo" id="object.OrgOrgRelationTypeInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgOrgRelationTypeInfo"/>
 </dict:objectStructure>
 
@@ -817,8 +817,8 @@
 
 
 <!-- OrgPersonRelationInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgPersonRelationInfo" id="object.OrgPersonRelationInfo" parent="object.OrgPersonRelationInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgPersonRelationInfo" id="object.OrgPersonRelationInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgPersonRelationInfo" id="object.OrgPersonRelationInfo" parent="object.OrgPersonRelationInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgPersonRelationInfo" id="object.OrgPersonRelationInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgPersonRelationInfo"/>
 </dict:objectStructure>
 
@@ -976,8 +976,8 @@
 
 
 <!-- OrgPersonRelationTypeInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo" id="object.OrgPersonRelationTypeInfo" parent="object.OrgPersonRelationTypeInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo" id="object.OrgPersonRelationTypeInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgPersonRelationTypeInfo" id="object.OrgPersonRelationTypeInfo" parent="object.OrgPersonRelationTypeInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgPersonRelationTypeInfo" id="object.OrgPersonRelationTypeInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgPersonRelationTypeInfo"/>
 </dict:objectStructure>
 
@@ -1097,8 +1097,8 @@
 
 
 <!-- OrgPositionRestrictionInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo" id="object.OrgPositionRestrictionInfo" parent="object.OrgPositionRestrictionInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo" id="object.OrgPositionRestrictionInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgPositionRestrictionInfo" id="object.OrgPositionRestrictionInfo" parent="object.OrgPositionRestrictionInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgPositionRestrictionInfo" id="object.OrgPositionRestrictionInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgPositionRestrictionInfo"/>
 </dict:objectStructure>
 
@@ -1276,8 +1276,8 @@
 
 
 <!-- TimeAmountInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo" id="object.TimeAmountInfo" parent="object.TimeAmountInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.dto.TimeAmountInfo" id="object.TimeAmountInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.TimeAmountInfo" parent="object.TimeAmountInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.TimeAmountInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.timeAmountInfo"/>
 </dict:objectStructure>
 
@@ -1340,8 +1340,8 @@
 
 
 <!-- OrgTreeInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgTreeInfo" id="object.OrgTreeInfo" parent="object.OrgTreeInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgTreeInfo" id="object.OrgTreeInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgTreeInfo" id="object.OrgTreeInfo" parent="object.OrgTreeInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgTreeInfo" id="object.OrgTreeInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgTreeInfo"/>
 </dict:objectStructure>
 
@@ -1423,8 +1423,8 @@
 
 
 <!-- OrgTypeInfo Object Structure -->
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgTypeInfo" id="object.OrgTypeInfo" parent="object.OrgTypeInfo.abstract"/>
-<dict:objectStructure key="org.kuali.student.core.organization.dto.OrgTypeInfo" id="object.OrgTypeInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgTypeInfo" id="object.OrgTypeInfo" parent="object.OrgTypeInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.common.organization.dto.OrgTypeInfo" id="object.OrgTypeInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.orgTypeInfo"/>
 </dict:objectStructure>
 

@@ -26,6 +26,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.messagebuilder.MessageBuilder;
 import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.impl.BooleanOperators;
@@ -39,10 +43,6 @@ import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.naturallanguage.Context;
 import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 
 public class NaturalLanguageTranslatorTest {
 

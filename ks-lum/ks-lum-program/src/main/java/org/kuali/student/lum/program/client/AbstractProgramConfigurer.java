@@ -1,5 +1,7 @@
 package org.kuali.student.lum.program.client;
 
+import java.util.ArrayList;
+
 import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
@@ -7,8 +9,6 @@ import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.major.edit.MajorSummaryConfiguration;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
-
-import java.util.ArrayList;
 
 /**
  * @author Igor

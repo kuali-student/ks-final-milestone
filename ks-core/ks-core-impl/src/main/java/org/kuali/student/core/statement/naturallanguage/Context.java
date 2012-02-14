@@ -17,7 +17,7 @@ package org.kuali.student.core.statement.naturallanguage;
 
 import java.util.Map;
 
-import org.kuali.student.core.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 
 public interface Context<T> {
     /**

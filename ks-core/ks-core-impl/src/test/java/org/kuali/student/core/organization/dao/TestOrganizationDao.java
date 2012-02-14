@@ -22,22 +22,23 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.junit.Test;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SortDirection;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.entity.Org;
 import org.kuali.student.core.organization.entity.OrgAttribute;
@@ -48,14 +49,7 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SortDirection;
-import org.kuali.student.core.search.service.SearchManager;
-import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 
-import edu.emory.mathcs.backport.java.util.Collections;
 
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
@@ -313,10 +307,11 @@ public class TestOrganizationDao extends AbstractTransactionalDaoTest {
 		List<Org> orgs = dao.getOrganizationsByIdList(orgIdList);
 		assertEquals(3, orgs.size());
 		Collections.sort(orgs, new Comparator<Org>() {
-			@Override
-			public int compare(Org o1, Org o2) {
-				return o1.getId().compareTo(o2.getId());
-			}});
+            @Override
+            public int compare(Org o1, Org o2) {
+                return o1.getId().compareTo(o2.getId());
+            }
+        });
 		assertEquals("BORG", orgs.get(0).getShortName());
 		assertEquals("ChancellorsOffice", orgs.get(1).getShortName());
 		assertEquals("KU", orgs.get(2).getShortName());

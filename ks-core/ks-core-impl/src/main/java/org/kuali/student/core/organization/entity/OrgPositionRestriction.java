@@ -29,10 +29,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.KSEntityConstants;
-import org.kuali.student.core.entity.MetaEntity;
-import org.kuali.student.core.entity.TimeAmount;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.KSEntityConstants;
+import org.kuali.student.common.entity.MetaEntity;
+import org.kuali.student.common.entity.TimeAmount;
 
 @Entity
 @Table(name = "KSOR_ORG_POS_RESTR", 

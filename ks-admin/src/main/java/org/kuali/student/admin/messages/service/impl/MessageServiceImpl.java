@@ -1,37 +1,39 @@
 package org.kuali.student.admin.messages.service.impl;
 
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.student.common.messages.dto.LocaleKeyList;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageList;
+import org.kuali.student.common.messages.service.MessageService;
+import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
+import org.kuali.student.core.messages.bo.MessageEntity;
+import org.springframework.beans.factory.InitializingBean;
+
+import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
-import javax.jws.WebService;
-import javax.jws.soap.SOAPBinding;
 
-import org.kuali.rice.core.util.MaxAgeSoftReference;
-import org.kuali.rice.core.util.MaxSizeMap;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
-import org.kuali.student.core.messages.bo.MessageEntity;
-import org.kuali.student.core.messages.dto.LocaleKeyList;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.dto.MessageGroupKeyList;
-import org.kuali.student.core.messages.dto.MessageList;
-import org.kuali.student.core.messages.service.MessageService;
-import org.springframework.beans.factory.InitializingBean;
-
-@WebService(endpointInterface = "org.kuali.student.core.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
-@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+@WebService(endpointInterface = "org.kuali.student.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
+// TODO: RICE-M7 UPGRADE figure out why this soap binding stuff was here in the first place
+//@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class MessageServiceImpl implements MessageService, InitializingBean {
 
 	protected boolean cachingEnabled = false;
 	protected int msgsCacheMaxSize = 20;
 	protected int msgsCacheMaxAgeSeconds = 90;
-	protected Map<String,MaxAgeSoftReference<MessageList>> msgsCache;
+    protected Cache<String, MessageList> msgsCache;
 	
     private BusinessObjectService businessObjectService;
 
@@ -48,7 +50,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	    Map<String, Object> criteria = new HashMap<String,Object>();
         
         criteria.put(EnumeratedValue.ENUMERATION_KEY, MessageEntity.LOCALE_ENUMERATION);
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
         Collection<EnumeratedValue> values = boService.findMatching(EnumeratedValue.class, criteria);
         
         Iterator<EnumeratedValue> iterator = values.iterator(); 
@@ -80,7 +82,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
         Map<String, Object> criteria = new HashMap<String,Object>();
         
         criteria.put(EnumeratedValue.ENUMERATION_KEY, MessageEntity.GROUP_NAME_ENUMERATION);
-        BusinessObjectService boService = KNSServiceLocator.getBusinessObjectService();
+        BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
         Collection<EnumeratedValue> values = boService.findMatching(EnumeratedValue.class, criteria);
         
         Iterator<EnumeratedValue> iterator = values.iterator(); 
@@ -96,41 +98,41 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     }
 
     @SuppressWarnings("unchecked")
-    public MessageList getMessages(String localeKey, String messageGroupKey) {
+    public MessageList getMessages(final String localeKey, final String messageGroupKey) {
         
     	if(cachingEnabled){
-    		//Get From Cache
-    		MaxAgeSoftReference<MessageList> ref = msgsCache.get("localeKey="+localeKey+", messageGroupKey="+messageGroupKey);
-    		if ( ref != null ) {
-    			MessageList messageList = ref.get();
-    			if(messageList!=null){
-    				return messageList;
-    			}
-    		}
-		}
-    	
-    	Map<String,String> fieldValues = new HashMap<String,String>();
-    	fieldValues.put("locale", localeKey);
-    	fieldValues.put("groupName", messageGroupKey);
-    	
-    	List<MessageEntity> messageEntityList = (List<MessageEntity>) getBusinessObjectService().findMatching(MessageEntity.class, fieldValues);
-    	
-    	List<Message> messages = new ArrayList<Message>();
-    	
-    	for(MessageEntity messageEntity: messageEntityList){
-    		messages.add(toMessage(messageEntity));
-    	}
-    	
-    	MessageList messageList = new MessageList();
-    	messageList.setMessages(messages);
-    	
-    	if(cachingEnabled){
-    		//Store to cache
-    		msgsCache.put("localeKey="+localeKey+", messageGroupKey="+messageGroupKey, new MaxAgeSoftReference<MessageList>( msgsCacheMaxAgeSeconds, messageList) );
-    	}
-    	
-    	return messageList;
-    	
+            try {
+                return msgsCache.get("localeKey="+localeKey+", messageGroupKey="+messageGroupKey, new Callable<MessageList>() {
+                    @Override
+                    public MessageList call() throws Exception {
+                        return getMessagesHelper(localeKey, messageGroupKey);
+                    }
+                });
+            } catch (ExecutionException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            return getMessagesHelper(localeKey, messageGroupKey);
+        }
+    }
+
+    private MessageList getMessagesHelper(String localeKey, String messageGroupKey) {
+        Map<String, String> fieldValues = new HashMap<String, String>();
+        fieldValues.put("locale", localeKey);
+        fieldValues.put("groupName", messageGroupKey);
+
+        List<MessageEntity> messageEntityList = (List<MessageEntity>) getBusinessObjectService().findMatching(MessageEntity.class, fieldValues);
+
+        List<Message> messages = new ArrayList<Message>();
+
+        for (MessageEntity messageEntity : messageEntityList) {
+            messages.add(toMessage(messageEntity));
+        }
+
+        MessageList messageList = new MessageList();
+        messageList.setMessages(messages);
+
+        return messageList;
     }
 
     public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
@@ -192,7 +194,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 
     protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return businessObjectService;
     }
@@ -200,7 +202,11 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-			msgsCache = Collections.synchronizedMap( new MaxSizeMap<String,MaxAgeSoftReference<MessageList>>( msgsCacheMaxSize ) );
+            msgsCache = CacheBuilder.newBuilder()
+                    .expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS)
+                    .maximumSize(msgsCacheMaxSize)
+                    .softValues()
+                    .build();
 		}
 	}
 

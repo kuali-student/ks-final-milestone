@@ -13,7 +13,8 @@ public class TableCellWidget extends Composite implements  HasClickHandlers, Has
 	Widget defaultTableEditor;
 	public TableCellWidget(Object value){
 		if(value instanceof Boolean){
-			defaultTableEditor = new CheckBox();	
+			defaultTableEditor = new CheckBox();
+            ((CheckBox)defaultTableEditor).setTabIndex(-1);
 		}else {
 			defaultTableEditor = new EditableLabel();
 		}
@@ -64,4 +65,8 @@ public class TableCellWidget extends Composite implements  HasClickHandlers, Has
 		}
 		return null;
 	}
+
+    public Widget getDefaultTableEditor() {
+        return defaultTableEditor;
+    }
 }

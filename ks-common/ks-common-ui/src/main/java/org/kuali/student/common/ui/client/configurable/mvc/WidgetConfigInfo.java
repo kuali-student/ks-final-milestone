@@ -17,11 +17,19 @@ package org.kuali.student.common.ui.client.configurable.mvc;
 
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.Data.DataType;
-import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.common.ui.client.configurable.mvc.impl.DefaultWidgetFactoryImpl;
 
+/**
+ * Data class used for passing relevant metadata info during auto field generation in DefaultWidgetFactory
+ * @see DefaultWidgetFactory
+ * @see DefaultWidgetFactoryImpl
+ * @author Kuali Student Team
+ *
+ */
 public class WidgetConfigInfo {
 	public DataType type = null;
 	public Integer maxLength = null;

@@ -18,19 +18,27 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.DocumentLayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.common.ui.client.mvc.ModelProvider;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
@@ -40,16 +48,16 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.rice.authorization.PermissionType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
-import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
+import org.kuali.student.lum.lu.ui.course.client.configuration.CourseConfigurer.CourseSections;
+import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
+import org.kuali.student.lum.lu.ui.course.client.requirements.HasRequirements;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;
 import org.kuali.student.lum.lu.ui.course.client.widgets.CourseWorkflowActionList;
@@ -68,7 +76,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class ViewCourseController extends TabMenuController implements DocumentLayoutController { 
+public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements{
     private final DataModel cluModel = new DataModel(); 
    
     private WorkQueue modelRequestQueue;
@@ -76,7 +84,7 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     private String cluType = "kuali.lu.type.CreditCourse";
     private String courseId = null;
     
-    private static final String CLU_STATE = LUUIConstants.LU_STATE_ACTIVE;
+    private static final String CLU_STATE = DtoConstants.STATE_ACTIVE;
     private static final String MSG_GROUP = "course";
     
     private final String REFERENCE_TYPE = "referenceType.clu";
@@ -88,11 +96,16 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 	private final KSLabel statusLabel = new KSLabel("");
 	
 	private final List<CourseWorkflowActionList> actionDropDownWidgets = new ArrayList<CourseWorkflowActionList>();
+
+    private final CourseRequirementsDataModel reqDataModel;
+    
+    final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
 	            
     public ViewCourseController(Enum<?> viewType){
     	super(CourseProposalController.class.getName());
         initialize();
         addStyleName("courseView");
+        reqDataModel = new CourseRequirementsDataModel(this);
         this.tabPanel.addStyleName("standard-content-padding");
         this.setViewEnum(viewType);
     }
@@ -215,7 +228,6 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     }
 
     private void init(final DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback){
-        final ViewCourseConfigurer cfg = GWT.create(ViewCourseConfigurer.class);
 
         CourseRequirementsDataModel.getStatementTypes(new Callback<List<StatementTypeInfo>>() {
 
@@ -241,14 +253,6 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 KSBlockingProgressIndicator.removeTask(initTask);
             }
         });
-    }
-        
-    /**
-     * @see org.kuali.student.common.ui.client.mvc.Controller#getViewsEnum()
-     */
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        return ViewCourseConfigurer.ViewCourseSections.class;
     }
     
     @SuppressWarnings("unchecked")
@@ -298,7 +302,15 @@ public class ViewCourseController extends TabMenuController implements DocumentL
                 updateCourseActionItems();
                 callback.onModelReady(cluModel);
                 workCompleteCallback.exec(true);
-                KSBlockingProgressIndicator.removeTask(loadDataTask);
+                reqDataModel.retrieveStatementTypes(cluModel.<String>get("id"), new Callback<Boolean>() {
+                    @Override
+                    public void exec(Boolean result) {
+                        if (result) {
+                            KSBlockingProgressIndicator.removeTask(loadDataTask);
+                        }
+                    }
+                });
+
             }
 
         });
@@ -464,4 +476,35 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 		return cluModel.get("id");
 	}
 
+    @Override
+    public CourseRequirementsDataModel getReqDataModel() {
+        return reqDataModel;
+    }
+    
+    @Override
+    public DataModel getExportDataModel() {
+        return cluModel;
+    }
+    
+    @Override
+    public boolean isExportButtonActive() {
+        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {
+            return true;
+        }
+        return false;
+    }
+    
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+        if (this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {      
+            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
+            ExportElement heading = new ExportElement();
+            heading.setFieldLabel("");
+            heading.setFieldValue(tableSection.getTitle());
+            exportElements.add(heading);
+            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
+        }
+        return exportElements;
+    }
 }

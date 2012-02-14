@@ -11,11 +11,11 @@ package org.kuali.student.lum.program.server.metadata;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.core.assembly.data.ConstraintMetadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dto.DtoConstants.DtoState;
+import org.kuali.student.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 
 /**
  * This class provides metadata lookup for service dto objects.

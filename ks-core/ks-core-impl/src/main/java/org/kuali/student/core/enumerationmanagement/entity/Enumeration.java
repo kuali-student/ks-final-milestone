@@ -21,7 +21,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.BaseType;
+import org.kuali.student.common.entity.BaseType;
 
 
 @Entity

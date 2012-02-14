@@ -334,11 +334,12 @@ margin-bottom: 15px;
     margin-left: 0px;
 }
 .KSLOCategoryManagementFilterPanel {
-	padding-right: 20px;
+	margin-bottom: 1.2em;
 }
 .KSLOCategoryManagementFilterLabel {
 	font-weight: bold;
 	font-size: 1.5em;
+	margin-top: 5px;
 }
 
 .KS-Action-List{
@@ -484,40 +485,33 @@ padding:10px
 .SummaryTable-OddRow{background-color: #F0F0F0;}
 
 .KS-LOSecondaryButton {
-	line-height:1.93em;
-	text-decoration:none;
-
-	background-color: #EEEEEE;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#D8D8D8));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#D8D8D8);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 3px 8px 2px 8px;
-	color: #2C61E6;
-	font-size: 1em;
-	margin-left: 10px;
+	margin-right: 10px;
 }
-.KS-LOSecondaryButtonDisabled {
-	line-height:1.93em;
-	text-decoration:none;
 
-	background-color: #F8F8F8;
-	background-image: \-webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#CCCCCC));
-	background-image: \-moz-linear-gradient(-90deg,#FFFFFF,#CCCCCC);
-	\-moz-border-radius: 3px;
-	\-webkit-border-radius: 3px;
-	border: 1px solid #999999;
-	padding: 3px 8px 2px 8px;
-	color: #999999;
-	font-size: 1em;
-	margin-left: 10px;
+.LOCategoryDialogSpacing{
+	margin-top: 1.5em;
 }
+
+.LOCategoryDelete .ks-table-plain td{
+	border-bottom: none;
+	vertical-align: bottom;
+}
+
+.KSLOCategoryManagementTablePanel{
+	margin-top: 2em;
+}
+
+.KSLOCategoryManagementTable{
+	margin-top: .5em;
+}
+
 .KS-LOSelectAllHyperlink {
 	margin-right: 7px;
+	font-size: 1.1em;
 }
 .KS-LOClearHyperlink {
 	margin-left: 7px;
+	font-size: 1.1em;
 }
 .KS-LOFunnelImg{
     background: url("images/funnel-small.png") no-repeat 2px 2px;
@@ -583,4 +577,116 @@ a.KS-Program-Rule-ObjectView-Button{
     font-size: 1.1em;
     font-weight: bold;
 	margin-bottom: 0px;
+}
+
+.cluSetTitle{
+    font-weight:bold;
+}
+
+.KS-Indent{
+	padding-left: 15px;
+}
+
+.ks-dependency-container{
+	display:inline-block;
+	padding-left:20px;
+	white-space:normal;
+	width:950px;
+}
+
+.ks-dependency-search{	
+	background: #f1f1f2;
+	padding: 15px;
+}
+
+.ks-dependency-search .gwt-SuggestBox {
+    margin-right: 10px;
+}
+
+.ks-dependency-results{	
+	width: 700px;
+	margin-left: 15px;
+	margin-top: 15px;	
+}
+
+.ks-dependency-oversight{
+	padding-top: 10px;
+	font-style: italic;		
+}
+
+.ks-dependency-type-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;
+}
+
+.ks-dependency-section{
+	padding-left:15px;
+    padding-bottom: 10px;
+    margin-bottom: 0.1em;
+	white-space:normal;	
+}
+
+.ks-dependency-section-title{
+	font-weight: bold;
+}
+
+.ks-dependency-section-header{
+	padding-bottom: 2px;
+}
+
+.ks-dependency-details{
+	padding-left: 30px;
+	padding-bottom: 15px;
+}
+
+.ks-dependency-simple-rule{
+	padding-bottom: 5px;
+}
+
+.ks-dependency-complex-rule{
+	padding-bottom: 5px;
+}
+
+.ks-dependency-type-label{
+	font-weight: normal;
+}
+
+.ks-dependency-view-link{
+	padding-left: 10px;
+}
+
+.ks-dependency-highlight{
+	margin-left: 10px;
+	padding-left: 2px;
+	padding-right: 2px;
+	background: #f1f1f2;
+}
+
+.KS-Filter-Options-Parent-Container{
+	border: 1px solid #E8E8E8;
+	background: #F8F8F8;
+	margin-top: 15px;
+	width: 200px;	
+}
+
+.KS-Filter-Options-Title-Panel{
+	padding: 5px;
+}
+
+.KS-Filter-Item-Label{
+	background: #D0D0D0;
+	padding: 5px;
+}
+
+.KS-Filter-Item input[type="checkbox"] + label{
+	display: inline;
+	line-height: 2m;
+	font-weight: normal;
+}
+
+.KS-Filter-Item .gwt-CheckBox{
+	display: block;
+	margin: 10px;
 }

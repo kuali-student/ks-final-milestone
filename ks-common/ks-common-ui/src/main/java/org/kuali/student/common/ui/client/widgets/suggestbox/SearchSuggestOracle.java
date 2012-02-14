@@ -18,21 +18,21 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
@@ -48,12 +48,14 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private Callback pendingCallback;
     private HasText textWidget;
     private String resultDisplayKey;
+    private String resultSortKey;
     private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
     private LookupMetadata lookupMetaData;
-    private SearchRpcServiceAsync searchRpcServiceAsync = GWT.create(SearchRpcService.class);
-    
+    private CachingSearchService cachingSearchService = CachingSearchService.getSearchService();
+    private SearchRpcServiceAsync searchService = SearchServiceFactory.getSearchService();
+
     private List<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>> searchCompletedCallbacks = new ArrayList<org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion>>();
     
     private LoadingDiv loading = new LoadingDiv();
@@ -102,6 +104,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         this.searchIdKey = lookupMetadata.getSearchParamIdKey();
         this.resultIdKey = lookupMetadata.getResultReturnKey();
         this.resultDisplayKey = lookupMetadata.getResultDisplayKey();
+        this.resultSortKey = lookupMetadata.getResultSortKey();
     }
 
     public void setAdditionalSearchParams(List<SearchParam> params){
@@ -150,6 +153,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     	SearchRequest sr = new SearchRequest();
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
+    	sr.setSortColumn(this.resultSortKey);
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
 		SearchParam param1 = createParam(this.searchTextKey, query);
@@ -166,6 +170,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     	SearchRequest sr = new SearchRequest();
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
+    	sr.setSortColumn(this.resultSortKey);
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
 		SearchParam param2 = createParam(this.searchIdKey, searchId);
@@ -202,7 +207,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         
         //case-sensitive?
         if(query.length() > 0){
-        	searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){
+        	searchService.search(searchRequest, new KSAsyncCallback<SearchResult>(){
     
                 @Override
                 public void onSuccess(SearchResult results) {
@@ -255,7 +260,9 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
                                     String htmlString = itemText.substring(0,index) + "<b>" + itemText.substring(index, index + query.length()) + "</b>" + itemText.substring(index + query.length(), itemText.length());
                                     theSuggestion.setDisplayString(htmlString);
                                     theSuggestion.setReplacementString(itemText);
-
+                                    if (c.getKey().equals(resultIdKey)){
+                                        theSuggestion.setId(c.getValue());
+                                    }
                                 } else if(c.getKey().equals(resultIdKey)){
                                      theSuggestion.setId(c.getValue());
                                      theSuggestion.addAttr(c.getKey(), c.getValue());
@@ -314,7 +321,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     @Override
     public void getSuggestionByIdSearch(String id, final org.kuali.student.common.ui.client.mvc.Callback<IdableSuggestion> callback) {
         SearchRequest searchRequest = buildSearchRequestById(null, id);
-        searchRpcServiceAsync.search(searchRequest, new KSAsyncCallback<SearchResult>(){            
+        cachingSearchService.search(searchRequest, new KSAsyncCallback<SearchResult>(){
             @Override
             public void onSuccess(SearchResult results) {
                 IdableSuggestion theSuggestion = null;

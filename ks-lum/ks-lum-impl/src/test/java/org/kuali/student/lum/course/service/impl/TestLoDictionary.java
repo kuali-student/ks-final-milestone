@@ -4,8 +4,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.kuali.student.core.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.lum.lo.dto.LoInfo;
+import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lo.dto.LoLoRelationInfo;
 import static org.junit.Assert.*;
 
@@ -16,7 +16,7 @@ public class TestLoDictionary
  public void testLoadCluInfoDictionary ()
  {
   Set<String> startingClasses = new LinkedHashSet ();
-  startingClasses.add (LoInfo.class.getName ());
+  startingClasses.add (LoDisplayInfo.class.getName ());
   startingClasses.add (LoLoRelationInfo.class.getName ());
 //  startingClasses.add (CluCluRelationInfo.class.getName ());
   String contextFile = "ks-loInfo-dictionary-context";

@@ -4,21 +4,21 @@
 
  <import resource="classpath:common-lookup-context.xml"/>
  <bean id="objectStructureDefinition"
-       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition"
+       class="org.kuali.student.common.dictionary.dto.ObjectStructureDefinition"
        abstract="true" />
  <bean id="constraint" abstract="true"
-       class="org.kuali.student.core.dictionary.dto.Constraint" />
+       class="org.kuali.student.common.dictionary.dto.Constraint" />
  <bean id="caseConstraint" abstract="true"
-       class="org.kuali.student.core.dictionary.dto.CaseConstraint" />
+       class="org.kuali.student.common.dictionary.dto.CaseConstraint" />
  <bean id="whenConstraint" abstract="true"
-       class="org.kuali.student.core.dictionary.dto.WhenConstraint" />
+       class="org.kuali.student.common.dictionary.dto.WhenConstraint" />
  <!--TODO: rename the java dto to be requiresConstraint-->
  <bean id="requiresConstraint" abstract="true"
-       class="org.kuali.student.core.dictionary.dto.RequiredConstraint" />
+       class="org.kuali.student.common.dictionary.dto.RequiredConstraint" />
 
 
  <bean id="ValidCharDefinition" abstract="true"
-       class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint" />
+       class="org.kuali.student.common.dictionary.dto.ValidCharsConstraint" />
 
  <bean id="alphanumericHyphenPeriod" parent="ValidCharDefinition">
   <property name="value" value="regex:[A-Za-z0-9.\-]*" />
@@ -38,6 +38,20 @@
   -->
   <property name="value" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})$"/>
   <property name="labelKey" value="validation.validChars.numeric"/>
+ </bean>
+  <bean id="numeric.range" parent="ValidCharDefinition">
+  <!--
+   same as numeric above but allows for a 2nd number separated by a hyphen
+  -->
+  <property name="value" value="regex:^[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )[-]?([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+  <property name="labelKey" value="validation.validChars.numeric.range"/>
+ </bean>
+  <bean id="positive.numeric.range" parent="ValidCharDefinition">
+  <!--
+   same as numeric above but allows for a 2nd number separated by a hyphen
+  -->
+  <property name="value" value="regex:^([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2})((-| - )([1-9]{1}[0-9]{0,}(\.[0-9]{0,2})?|0(\.[0-9]{0,2})?|\.[0-9]{1,2}))?$"/>
+  <property name="labelKey" value="validation.validChars.positive.numeric.range"/>
  </bean>
  <bean id="gpa4.0" parent="ValidCharDefinition">
   <property name="value" value="regex:[0-4]\.[0-9]"/>
@@ -72,11 +86,11 @@
        class="org.springframework.beans.factory.config.CustomEditorConfigurer">
   <property name="customEditors">
    <map>
-    <entry key="org.kuali.student.core.dictionary.dto.DataType">
+    <entry key="org.kuali.student.common.dictionary.dto.DataType">
      <bean
       class="org.kuali.student.common.util.spring.SimpleEnumPropertyEditor">
       <constructor-arg
-       value="org.kuali.student.core.dictionary.dto.DataType" />
+       value="org.kuali.student.common.dictionary.dto.DataType" />
      </bean>
     </entry>
    </map>
@@ -84,7 +98,7 @@
  </bean>
 
  <bean id="baseFieldDefinition"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition"
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition"
        abstract="true">
   <property name="maxOccurs" value="1" />
  </bean>
@@ -98,7 +112,7 @@
  </bean>
 
  <bean id="baseFieldDefinitionRepeatingRequired" parent="baseFieldDefinitionRepeating"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition"
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition"
        abstract="true">
   <property name="minOccurs" value="1" />
  </bean>
@@ -321,8 +335,8 @@
   <property name="validChars" ref="gpa4.0"/>
  </bean>
  <!-- RichTextInfo-->
- <bean id="org.kuali.student.core.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.dto.RichTextInfo" />
+ <bean id="org.kuali.student.common.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.common.dto.RichTextInfo" />
   <property name="attributes">
    <list>
     <ref bean="richTextInfo.formatted" />
@@ -330,7 +344,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.core.dto.RichTextInfo" parent="org.kuali.student.core.dto.RichTextInfo-parent" />
+ <bean id="org.kuali.student.common.dto.RichTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent" />
 
  <bean id="richTextInfo.formatted-parent" abstract="true" parent="baseKualiRichText">
   <property name="name" value="formatted" />
@@ -351,8 +365,8 @@
  </bean>
 
  <!-- VersionInfo-->
- <bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+ <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>
@@ -365,7 +379,7 @@
   </property>
   <property name="hasMetaData" value="false"/>
  </bean>
- <bean id="org.kuali.student.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.core.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>

@@ -29,15 +29,18 @@
 	<!-- Theme                  -->
 	<inherits name="org.kuali.student.common.ui.theme.standard.StandardTheme" />
 	
-	<inherits name="org.kuali.student.core.Core" />
-	<inherits name="org.kuali.student.core.dictionary.Dictionary" />
+	<!-- Common DTO Inherits -->
+	<inherits name="org.kuali.student.common.Core" />
+	<inherits name="org.kuali.student.common.CoreRice" />
+	<inherits name="org.kuali.student.common.dictionary.Dictionary" />
+	<inherits name="org.kuali.student.common.search.Search" />
+	<inherits name="org.kuali.student.common.validation.Validation" />
+	<inherits name='org.kuali.student.common.assembly.Assembly'/>
+	<inherits name="org.kuali.student.common.messages.Message"/>	
+
+	<!-- Core Inherits -->
 	<inherits name="org.kuali.student.core.comment.Comment" />
 	<inherits name="org.kuali.student.core.document.Document" />
-	<inherits name="org.kuali.student.core.search.Search" />
-	<inherits name="org.kuali.student.core.validation.Validation" />
-	<inherits name="org.kuali.student.core.messages.Message"/>
-	<inherits name='org.kuali.student.core.assembly.Assembly'/>
-	<inherits name="org.kuali.student.core.CoreRice" />
 	<inherits name="org.kuali.student.core.statement.Statement" />
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>

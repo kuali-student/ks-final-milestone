@@ -8,6 +8,7 @@ import java.util.Map;
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -23,6 +24,13 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A layout controller which generates a menu for views that added to it through addMenuItem calls.
+ * The user can click on items in the menu to show the view.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class MenuSectionController extends LayoutController implements ContentNavLayoutController {
 
     private KSBlockMenuImpl menu = new KSBlockMenuImpl();
@@ -54,8 +62,8 @@ public class MenuSectionController extends LayoutController implements ContentNa
         }
     };
 
-    public MenuSectionController(String controllerId) {
-        super(controllerId);
+    public MenuSectionController() {
+        super();
         List<View> list = new ArrayList<View>();
         menuViewMap.put("", list);
         menu.setStyleName("ks-menu-layout-menu");
@@ -106,11 +114,19 @@ public class MenuSectionController extends LayoutController implements ContentNa
         header.getInfoLabel().addStyleName("content-warning");
 
     }
+
+    public void showPrint(boolean show) {
+        header.showPrint(show);
+//        header.showJasper(show);
+    }
     
-    public void showPrint(boolean show){
-    	header.showPrint(show);
+    public void showExport(boolean show) {
+        header.showJasper(show);
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.configurable.mvc.layouts.ContentNavLayoutController#addCommonButton(java.lang.String, org.kuali.student.common.ui.client.widgets.KSButton)
+     */
     public void addCommonButton(String parentMenu, KSButton button) {
         if (parentMenu != null) {
             List<View> views = menuViewMap.get(parentMenu);
@@ -122,6 +138,9 @@ public class MenuSectionController extends LayoutController implements ContentNa
         }
     }
 
+    /**
+     * @see org.kuali.student.common.ui.client.configurable.mvc.layouts.ContentNavLayoutController#addCommonButton(java.lang.String, org.kuali.student.common.ui.client.widgets.KSButton, java.util.List)
+     */
     public void addCommonButton(String parentMenu, KSButton button, List<Enum<?>> excludedViews) {
         if (parentMenu != null) {
             List<View> views = menuViewMap.get(parentMenu);
@@ -307,5 +326,9 @@ public class MenuSectionController extends LayoutController implements ContentNa
 
     }
 
-
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        return super.getExportElementsFromView();
+        
+    }
 }

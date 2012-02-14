@@ -1,31 +1,31 @@
 package org.kuali.student.common.ui.server.gwt;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.kim.service.IdentityManagementService;
+import org.kuali.rice.kim.api.permission.PermissionService;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.transform.AuthorizationFilter;
+import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.common.assembly.transform.TransformFilter;
+import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
+import org.kuali.student.common.assembly.transform.TransformationManager;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.transform.AuthorizationFilter;
-import org.kuali.student.core.assembly.transform.MetadataFilter;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.core.assembly.transform.TransformFilter;
-import org.kuali.student.core.assembly.transform.TransformFilter.TransformFilterAction;
-import org.kuali.student.core.assembly.transform.TransformationManager;
-import org.kuali.student.core.dto.DtoConstants;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.rice.StudentIdentityConstants;
-import org.kuali.student.core.rice.authorization.PermissionType;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -37,7 +37,7 @@ public abstract class AbstractDataService implements DataService{
 
 	private TransformationManager transformationManager;
 	
-	private IdentityManagementService permissionService;
+	private PermissionService permissionService;
 
     //TODO: why do we have this reference in the base class????
 	private ProposalService proposalService;
@@ -138,7 +138,7 @@ public abstract class AbstractDataService implements DataService{
 			String namespaceCode = type.getPermissionNamespace();
 			String permissionTemplateName = type.getPermissionTemplateName();
 			
-			AttributeSet roleQuals = new AttributeSet();
+			Map<String,String> roleQuals = new LinkedHashMap<String,String>();
 			if (attributes != null) {				
 				if (proposalService != null){
 					ProposalInfo proposalInfo = null;
@@ -215,11 +215,11 @@ public abstract class AbstractDataService implements DataService{
 		this.transformationManager = transformationManager;
 	}
 
-	public IdentityManagementService getPermissionService() {
+	public PermissionService getPermissionService() {
 		return permissionService;
 	}
 
-	public void setPermissionService(IdentityManagementService permissionService) {
+	public void setPermissionService(PermissionService permissionService) {
 		this.permissionService = permissionService;
 	}
 	

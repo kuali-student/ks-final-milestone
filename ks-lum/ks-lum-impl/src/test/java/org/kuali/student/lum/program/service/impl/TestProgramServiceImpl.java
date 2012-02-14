@@ -19,21 +19,22 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.CircularRelationshipException;
+import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.UnsupportedActionException;
+import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -123,7 +124,7 @@ public class TestProgramServiceImpl {
         assertEquals("Desc4", loInfo1.getDesc().getPlain());
         assertEquals("Edit Wiki Message Structure", loInfo1.getName());
         assertEquals("kuali.loRepository.key.singleUse", loInfo1.getLoRepositoryKey());
-        assertEquals("draft", loInfo1.getState());
+        assertEquals(DtoConstants.STATE_DRAFT, loInfo1.getState());
         assertEquals("kuali.lo.type.singleUse", loInfo1.getType());
     }
 
@@ -247,7 +248,7 @@ public class TestProgramServiceImpl {
             assertNotNull(core.getType());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
             assertNotNull(core.getState());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+            assertEquals(DtoConstants.STATE_ACTIVE, core.getState());
             assertNotNull(core.getId());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", core.getId());
     }
@@ -404,7 +405,7 @@ public class TestProgramServiceImpl {
             assertNotNull(major.getType());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, major.getType());
             assertNotNull(major.getState());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, major.getState());
+            assertEquals(DtoConstants.STATE_ACTIVE, major.getState());
             assertNotNull(major.getId());
             assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
 
@@ -443,7 +444,7 @@ public class TestProgramServiceImpl {
             assertEquals("B.S.", credentialProgramInfo.getShortTitle());
             assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
             assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
+            assertEquals(DtoConstants.STATE_ACTIVE, credentialProgramInfo.getState());
     		assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, credentialProgramInfo.getCredentialProgramType());
             assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
             assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
@@ -465,7 +466,7 @@ public class TestProgramServiceImpl {
             assertNotNull(createdMD.getId());
 
             assertNotNull(createdMD.getState());
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdMD.getState());
 
             assertNotNull(createdMD.getType());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
@@ -974,7 +975,7 @@ public class TestProgramServiceImpl {
             fixLoCategoryIds(majorDisciplineInfo.getLearningObjectives());
             MajorDisciplineInfo createdMD = programService.createMajorDiscipline(majorDisciplineInfo);
             assertNotNull(createdMD);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdMD.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdMD.getState());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, createdMD.getType());
             assertEquals("00f5f8c5-fff1-4c8b-92fc-789b891e0849", createdMD.getCredentialProgramId());
 
@@ -1014,7 +1015,7 @@ public class TestProgramServiceImpl {
             assertNotNull(major.getType());
             assertEquals(ProgramAssemblerConstants.MAJOR_DISCIPLINE, major.getType());
             assertNotNull(major.getState());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, major.getState());
+            assertEquals(DtoConstants.STATE_ACTIVE, major.getState());
             assertNotNull(major.getId());
             assertEquals("d4ea77dd-b492-4554-b104-863e42c5f8b7", major.getId());
             assertNotNull(major.getShortTitle());
@@ -1122,7 +1123,7 @@ public class TestProgramServiceImpl {
             credentialProgramInfo.setCoreProgramIds(coreProgramIds);
             CredentialProgramInfo createdCP = programService.createCredentialProgram(credentialProgramInfo);
             assertNotNull(createdCP);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdCP.getState());
             assertEquals(ProgramAssemblerConstants.BACCALAUREATE_PROGRAM, createdCP.getCredentialProgramType());
 	}
 
@@ -1152,7 +1153,7 @@ public class TestProgramServiceImpl {
             assertEquals("B.S.", credentialProgramInfo.getShortTitle());
             assertEquals("Bachelor of Science", credentialProgramInfo.getLongTitle());
             assertEquals("Bachelor of Science", credentialProgramInfo.getDescr().getPlain());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, credentialProgramInfo.getState());
+            assertEquals(DtoConstants.STATE_ACTIVE, credentialProgramInfo.getState());
             assertEquals("52", credentialProgramInfo.getInstitution().getOrgId());
             assertEquals(ProgramAssemblerConstants.UNDERGRAD_PROGRAM_LEVEL, credentialProgramInfo.getProgramLevel());
 
@@ -1196,7 +1197,7 @@ public class TestProgramServiceImpl {
             assertNotNull(coreProgramInfo = generator.getCoreProgramTestData());
             CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
             assertNotNull(createdCP);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdCP.getState());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
 	}
 
@@ -1392,14 +1393,14 @@ public class TestProgramServiceImpl {
             assertNotNull(core.getDescr());
             assertEquals("Anthropology Major", core.getDescr().getPlain());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, core.getType());
-            assertEquals(ProgramAssemblerConstants.ACTIVE, core.getState());
+            assertEquals(DtoConstants.STATE_ACTIVE, core.getState());
 
             // update some fields
             core.setCode(core.getCode() + "-updated");
             core.setShortTitle(core.getShortTitle() + "-updated");
             core.setLongTitle(core.getLongTitle() + "-updated");
             core.setTranscriptTitle(core.getTranscriptTitle() + "-updated");
-            core.setState(ProgramAssemblerConstants.RETIRED);
+            core.setState(DtoConstants.STATE_RETIRED);
 
            //Perform the update
             CoreProgramInfo updatedCP = programService.updateCoreProgram(core);
@@ -1420,7 +1421,7 @@ public class TestProgramServiceImpl {
         assertEquals("B.S.-updated", updatedCP.getShortTitle());
         assertEquals("Bachelor of Science-updated", updatedCP.getLongTitle());
         assertEquals("TRANSCRIPT-TITLE-updated", updatedCP.getTranscriptTitle());
-        assertEquals(ProgramAssemblerConstants.RETIRED, updatedCP.getState());
+        assertEquals(DtoConstants.STATE_RETIRED, updatedCP.getState());
     }
 
     @Test
@@ -1432,7 +1433,7 @@ public class TestProgramServiceImpl {
             fixLoCategoryIds(coreProgramInfo.getLearningObjectives());
             CoreProgramInfo createdCP = programService.createCoreProgram(coreProgramInfo);
             assertNotNull(createdCP);
-            assertEquals(ProgramAssemblerConstants.DRAFT, createdCP.getState());
+            assertEquals(DtoConstants.STATE_DRAFT, createdCP.getState());
             assertEquals(ProgramAssemblerConstants.CORE_PROGRAM, createdCP.getType());
 
 

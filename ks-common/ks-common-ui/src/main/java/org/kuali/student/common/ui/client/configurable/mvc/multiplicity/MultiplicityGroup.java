@@ -22,6 +22,9 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
@@ -43,9 +46,6 @@ import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.list.impl.KSRadioButtonListImpl;
 import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.MetadataInterrogator;
-import org.kuali.student.core.assembly.data.QueryPath;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurHandler;
@@ -77,8 +77,8 @@ public class MultiplicityGroup extends Composite {
 
     public MultiplicityGroup() {
     }
-    
-    public MultiplicityGroup(MultiplicityConfiguration config, 
+
+    public MultiplicityGroup(MultiplicityConfiguration config,
             Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
             List<String> deletionParentKeys) {
         this.config = config;
@@ -88,7 +88,7 @@ public class MultiplicityGroup extends Composite {
     }
 
 
-    /**  
+    /**
      * Creates an instance of a MultiplicityGroup based on the options in the MultiplicityConfiguration
      *
      * A MultiplicityGroup uses GroupSection to display data in a variable grid.  May be multiple rows and multiple fields per row based on
@@ -126,8 +126,14 @@ public class MultiplicityGroup extends Composite {
 
         if (!loaded || itemCount == 0){
         	Integer minOccurs = MetadataInterrogator.getLargestMinOccurs(config.getMetaData());
+        	
         	if (minOccurs != null) {
 	            for (int i=0; i < minOccurs; i++){
+	            	createItem();
+	            }
+        	}
+        	else if(config.getDefaultItemsCreated() != 0){
+        		for (int i=0; i < config.getDefaultItemsCreated(); i++){
 	            	createItem();
 	            }
         	}
@@ -152,18 +158,18 @@ public class MultiplicityGroup extends Composite {
     }
 
     /**
-     * This adds an empty item to the multiplicity group 
+     * This adds an empty item to the multiplicity group
      *
      * @return
      */
 	public MultiplicityGroupItem createItem(){
-    
+
 		itemCount++;
 
 		MultiplicityGroupItem item = new MultiplicityGroupItem(config.getItemLabel() + " " + itemCount, config.getStyleType(), config.isUpdateable());
-		
+
         Widget itemWidget = createWidget();
-        
+
 	    if (item != null){
 		    item.setItemKey(new Integer(itemCount -1));
 		    item.setItemWidget(itemWidget);
@@ -175,10 +181,11 @@ public class MultiplicityGroup extends Composite {
 	    items.add(item);
 	    item.redraw();
 	    itemsPanel.add(item);
+        isDirty = true;
 
         return item;
 	}
-	
+
 	public FlowPanel getItemsPanel() {
 	    return itemsPanel;
 	}
@@ -211,15 +218,15 @@ public class MultiplicityGroup extends Composite {
                         ModelWidgetBinding mwb = fieldConfig.getFieldWidgetInitializer()
                             .getModelWidgetBindingInstance();
                         newfd = new FieldDescriptor(
-                                translatePath(fieldConfig.getFieldPath()), 
-                                fieldConfig.getMessageKeyInfo(), 
+                                translatePath(fieldConfig.getFieldPath()),
+                                fieldConfig.getMessageKeyInfo(),
                                 fieldConfig.getMetadata(),
                                 fieldWidget);
                         newfd.setWidgetBinding(mwb);
                     } else {
                         newfd = new FieldDescriptor(
-                                translatePath(fieldConfig.getFieldPath()), 
-                                fieldConfig.getMessageKeyInfo(), 
+                                translatePath(fieldConfig.getFieldPath()),
+                                fieldConfig.getMessageKeyInfo(),
                                 fieldConfig.getMetadata());
                         fieldWidget = newfd.getFieldWidget();
                     }
@@ -274,14 +281,14 @@ public class MultiplicityGroup extends Composite {
                     if (fieldConfigs != null) {
                         for (SwapCompositeConditionFieldConfig conditionFieldConfig : fieldConfigs) {
                             if (conditionFieldConfig.useMultiplicity()) {
-                                MultiplicityConfiguration newSubMultiplicityConfig = 
+                                MultiplicityConfiguration newSubMultiplicityConfig =
                                     configSwappableMultiplicitySection(
                                             conditionFieldConfig.getMultiplicityConfiguration());
-                                MultiplicitySection subMultiplicitySection = 
+                                MultiplicitySection subMultiplicitySection =
                                     new MultiplicitySection(newSubMultiplicityConfig);
                                 conditionSection.addSection(subMultiplicitySection);
                             } else {
-                                MultiplicityFieldConfiguration fieldConfig = 
+                                MultiplicityFieldConfiguration fieldConfig =
                                     conditionFieldConfig.getMultiplicityFieldConfiguration();
                                 FieldDescriptor concreteFieldDescriptor = new FieldDescriptor(
                                         translatePath(fieldConfig.getFieldPath()),
@@ -296,7 +303,7 @@ public class MultiplicityGroup extends Composite {
                                     if(fieldWidget instanceof ListOfStringWidget){
                                     	((ListOfStringWidget)fieldWidget).setFd(concreteFieldDescriptor);
                                     }
-                                    
+
                                     concreteFieldDescriptor.setWidgetBinding(mwb);
                                 }
                                 conditionSection.addField(concreteFieldDescriptor);
@@ -310,7 +317,7 @@ public class MultiplicityGroup extends Composite {
                 section.addSection(swapSection);
                 helper.setSwapSection(swapSection);
             }
-            
+
             helper.setParentSection(section);
             helper.setSwappableFieldsDefinition(swappableFieldsDefinition);
             helper.setHelperFieldKeys(helperFieldKeys);
@@ -323,7 +330,7 @@ public class MultiplicityGroup extends Composite {
             origConfig.copy();
 
         FieldDescriptor parentFd = origConfig.getParentFd();
-        FieldDescriptor subMultParentConfig = 
+        FieldDescriptor subMultParentConfig =
             new FieldDescriptor(
                     translatePath(parentFd.getFieldKey()),
                     parentFd.getMessageKey(),
@@ -342,22 +349,22 @@ public class MultiplicityGroup extends Composite {
                     String trimmedFieldKey = null;
                     MultiplicityFieldConfiguration newFieldConfig = null;
                     trimmedFieldKey = configFieldKey.substring(configParentKey.length());
-                    
-                    QueryPath fieldPath = QueryPath.concat(subMultParentConfig.getFieldKey(), 
+
+                    QueryPath fieldPath = QueryPath.concat(subMultParentConfig.getFieldKey(),
                             trimmedFieldKey);;
                     newFieldConfig = new MultiplicityFieldConfiguration(
                             fieldPath.toString(), fieldConfig.getMessageKeyInfo(), fieldConfig.getMetadata(),
                             fieldConfig.getFieldWidgetInitializer());
                     newFieldConfig.setRequired(fieldConfig.isRequired());
                     newFieldConfigs.add(newFieldConfig);
-                    
+
                 }
                 newFieldsMap.put(Integer.valueOf(lineCounter), newFieldConfigs);
                 lineCounter++;
             }
         }
         newSubMultiplicityConfig.setFields(newFieldsMap);
-        
+
         return newSubMultiplicityConfig;
     }
 
@@ -420,7 +427,7 @@ public class MultiplicityGroup extends Composite {
 	public int getItemCount() {
 		return itemCount;
 	}
-	
+
 	public void setItemCount(int itemCount) {
 		this.itemCount = itemCount;
 	}
@@ -431,7 +438,7 @@ public class MultiplicityGroup extends Composite {
 
     /**
      * Allows the parentpath for this instance to be set, e.g. course/formats/0/activities
-     * 
+     *
      * @param parentPath
      */
     public void setParentPath(String parentPath) {
@@ -444,8 +451,8 @@ public class MultiplicityGroup extends Composite {
 
 	public void setConfig(MultiplicityConfiguration config) {
 		this.config = config;
-	}   
-	
+	}
+
     public void resetDirtyFlags() {
     	isDirty = false;
 		for (MultiplicityGroupItem item:items){
@@ -456,8 +463,9 @@ public class MultiplicityGroup extends Composite {
 			}
 		}
     }
-	
+
 	public boolean isDirty(){
+        isDirty = false;
 		for (MultiplicityGroupItem item:items){
 			if (item.isDirty()){
 				isDirty = true;
@@ -472,11 +480,11 @@ public class MultiplicityGroup extends Composite {
 		}
 		return isDirty;
 	}
-	
+
 	public void setIsDirty(boolean dirty){
 		isDirty = dirty;
 	}
-	
+
     public class ConditionChoices extends KSRadioButtonList{
         private KSRadioButtonListImpl selectItemWidget = GWT.create(KSRadioButtonListImpl.class);
         public ConditionChoices(List<SwapCompositeCondition> conditions){
@@ -493,7 +501,7 @@ public class MultiplicityGroup extends Composite {
          * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#deSelectItem(java.lang.String)
          */
         public void deSelectItem(String id) {
-            selectItemWidget.deSelectItem(id);  
+            selectItemWidget.deSelectItem(id);
         }
 
         /**
@@ -511,27 +519,27 @@ public class MultiplicityGroup extends Composite {
         }
 
         public void setListItems(ListItems listItems) {
-            selectItemWidget.setListItems(listItems);      
+            selectItemWidget.setListItems(listItems);
         }
 
         /**
          * Use to set number of columns to use when displaying list
-         * 
+         *
          */
         public void setColumnSize(int cols){
             selectItemWidget.setColumnSize(cols);
         }
-            
+
         public void setMultipleSelect(boolean isMultipleSelect) {}
 
         /**
          * This overridden method is not used
-         * 
+         *
          * @see org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract#onLoad()
          */
         @Override
         public void onLoad() {}
-       
+
         public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
             return selectItemWidget.addSelectionChangeHandler(handler);
         }
@@ -594,12 +602,12 @@ public class MultiplicityGroup extends Composite {
         public void setInitialized(boolean initialized) {
             selectItemWidget.setInitialized(initialized);
         }
-        
+
         /**
          * By default if the list items used by the checkbox has multiple attributes, the checkbox
          * generated will display all attributes as columns. Set this property to true if this
          * behavior is not desired.
-         * 
+         *
          * @param ignoreMultiple
          */
         public void setIgnoreMultipleAttributes(boolean ignoreMultiple){
@@ -608,9 +616,9 @@ public class MultiplicityGroup extends Composite {
     }
 
     public class SwappableFieldsHelper {
-        
+
         private GroupSection parentSection;
-        private Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition = 
+        private Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition =
             new HashMap<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>>();
         private Map<String, String> helperFieldKeys;
         private ConditionChoices conditionChoices;
@@ -640,7 +648,7 @@ public class MultiplicityGroup extends Composite {
                                 DataModel dataModel = new DataModel();
                                 dataModel.setRoot(new Data());
                                 ((ModelWidgetBinding)field.getModelWidgetBinding())
-                                .setWidgetValue(fieldWidget, 
+                                .setWidgetValue(fieldWidget,
                                         dataModel, field.getFieldKey());
                             }
                         }

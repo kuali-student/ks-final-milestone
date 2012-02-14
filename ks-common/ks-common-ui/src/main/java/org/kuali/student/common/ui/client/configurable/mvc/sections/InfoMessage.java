@@ -23,6 +23,12 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A widget used to show important information to the user often used at the top of sections.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class InfoMessage extends Composite{
 	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
 	private Image icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();

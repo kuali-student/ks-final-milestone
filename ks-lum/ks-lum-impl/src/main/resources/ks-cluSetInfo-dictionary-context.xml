@@ -46,7 +46,7 @@
 
  <bean id="cluSetInfo.descr-parent" abstract="true" parent="baseComplex">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="cluSetInfo.descr" parent="cluSetInfo.descr-parent"/>
 
@@ -118,7 +118,7 @@
 
  <bean id="membershipQueryInfo.queryParamValueList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="queryParamValueList"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.search.dto.SearchParam"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.search.dto.SearchParam"/>
  </bean>
  <bean id="membershipQueryInfo.queryParamValueList" parent="membershipQueryInfo.queryParamValueList-parent"/>
 
@@ -128,8 +128,8 @@
  <bean id="membershipQueryInfo.searchTypeKey" parent="membershipQueryInfo.searchTypeKey-parent"/>
 
  <!-- SearchParam-->
- <bean id="org.kuali.student.core.search.dto.SearchParam-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.core.search.dto.SearchParam"/>
+ <bean id="org.kuali.student.common.search.dto.SearchParam-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.common.search.dto.SearchParam"/>
   <property name="attributes">
    <list>
     <ref bean="searchParam.key"/>
@@ -137,7 +137,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.core.search.dto.SearchParam" parent="org.kuali.student.core.search.dto.SearchParam-parent"/>
+ <bean id="org.kuali.student.common.search.dto.SearchParam" parent="org.kuali.student.common.search.dto.SearchParam-parent"/>
 
  <bean id="searchParam.key-parent" abstract="true" parent="baseKualiType">
   <property name="name" value="key"/>

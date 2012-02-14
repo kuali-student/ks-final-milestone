@@ -1,12 +1,13 @@
 package org.kuali.student.lum.program.client;
 
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 /**
  * @author Igor
  */
 public enum ProgramStatus {
-    SUPERSEDED(ProgramProperties.get().status_superseded(),null),
+    SUPERSEDED(ProgramProperties.get().status_superseded(), null),
     ACTIVE(ProgramProperties.get().status_active(), SUPERSEDED),
     APPROVED(ProgramProperties.get().status_approved(), ACTIVE),
     DRAFT(ProgramProperties.get().status_draft(), APPROVED);
@@ -35,5 +36,9 @@ public enum ProgramStatus {
             }
         }
         return null;
+    }
+
+    public static ProgramStatus of(DataModel programModel) {
+        return of(ProgramUtils.getProgramState(programModel));
     }
 }

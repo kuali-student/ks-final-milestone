@@ -15,62 +15,85 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.BlurEvent;
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.user.client.ui.Widget;
+import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroup;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasFocusLostCallbacks;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.list.HasSelectionChangeHandlers;
+import org.kuali.student.common.ui.client.widgets.list.KSCheckBoxList;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 
-public class ValidationEventBindingImpl  implements ValidationEventBinding {
-    
+/**
+ * Adds the appropriate handler to the widget contained within the FieldDescriptor for when
+ * to set that the field has had focus/user interaction based on what type of widget
+ *
+ * @author Kuali Student Team
+ */
+public class ValidationEventBindingImpl implements ValidationEventBinding {
+
     public void bind(final FieldDescriptor fd) {
-    	Widget w = fd.getFieldWidget();
-        
-        if (w instanceof HasSelectionChangeHandlers){
-        	((HasSelectionChangeHandlers) w).addSelectionChangeHandler(new SelectionChangeHandler(){
-				@Override
-				public void onSelectionChange(SelectionChangeEvent event) {
-					if(event.isUserInitiated()){
-						fd.setHasHadFocus(true);
-	                	fd.getValidationRequestCallback().exec(true);
-					}
-				}
-			});
-        }
-        else if (w instanceof HasBlurHandlers) {
-            ((HasBlurHandlers)w).addBlurHandler(new BlurHandler() {
+        Widget w = fd.getFieldWidget();
+
+        if (w instanceof HasSelectionChangeHandlers) {
+            ((HasSelectionChangeHandlers) w).addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                    if (event.isUserInitiated()) {
+                        processValidationEvent(fd);
+                    }
+                }
+            });
+        } else if(w instanceof KSPicker && ((KSPicker)w).getInputWidget() instanceof HasSelectionChangeHandlers){
+            ((KSPicker)w).addSelectionChangeHandler(new SelectionChangeHandler() {
+                @Override
+                public void onSelectionChange(SelectionChangeEvent event) {
+                	if(event.isUserInitiated()){
+                		processValidationEvent(fd);
+                	}
+                }
+            });
+        } else if (w instanceof HasBlurHandlers) {
+            ((HasBlurHandlers) w).addBlurHandler(new BlurHandler() {
                 public void onBlur(BlurEvent event) {
-                	fd.setHasHadFocus(true);
-                	fd.getValidationRequestCallback().exec(true);
+                    processValidationEvent(fd);
+                }
+            });
+        } else if (w instanceof HasFocusLostCallbacks) {
+            ((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>() {
+                @Override
+                public void exec(Boolean result) {
+                    processValidationEvent(fd);
+                }
+            });
+        } else if (w instanceof KSLabel
+                || w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite
+                || w instanceof MultiplicityGroup) {
+            //Do nothing these are valid but do not fire validation events (maybe?)
+        } else {
+            GWT.log("The field with key: " + fd.getFieldKey() +
+                    " does not use a widget which implements an interface that can perform on the fly validation", null);
+        }
+        if (w instanceof KSSelectedList) {
+            ((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>() {
+                @Override
+                public void exec(Boolean result) {
+                    processValidationEvent(fd);
                 }
             });
         }
-        else if(w instanceof HasFocusLostCallbacks){
-        	((HasFocusLostCallbacks) w).addFocusLostCallback(new Callback<Boolean>(){
-				@Override
-				public void exec(Boolean result) {
-					fd.setHasHadFocus(true);
-                	fd.getValidationRequestCallback().exec(true);
-				}
-			});
-        }
-        else if(w instanceof KSLabel 
-        		|| w instanceof org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityComposite
-        		|| w instanceof MultiplicityGroup){
-        	//Do nothing these are valid but do not fire validation events (maybe?)
-        }
-        else {
-        	GWT.log("The field with key: " + fd.getFieldKey() +
-        			" does not use a widget which implements an interface that can perform on the fly validation", null);
-        }
 
+    }
+
+    private void processValidationEvent(FieldDescriptor fieldDescriptor) {
+        fieldDescriptor.setHasHadFocus(true);
+        fieldDescriptor.getValidationRequestCallback().exec(true);
     }
 }

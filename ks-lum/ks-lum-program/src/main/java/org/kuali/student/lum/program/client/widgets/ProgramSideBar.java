@@ -2,14 +2,14 @@ package org.kuali.student.lum.program.client.widgets;
 
 import java.util.Date;
 
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasDataValue;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramUtils;
@@ -87,10 +87,19 @@ public class ProgramSideBar extends Composite {
     }
 
     private void updateFields(DataModel model) {
-    	setVersion((Long)model.get(ProgramConstants.VERSION),versionLabel);
-        setDate((Date) model.get(ProgramConstants.LAST_UPDATED_DATE), lastUpdatedDate);
-        lastReviewDate.setText((String) model.get(ProgramConstants.LAST_REVIEW_DATE));
-        setWidget(ProgramConstants.SCHEDULED_REVIEW_DATE, scheduledReviewDate, model);
+    	String programType = model.get(ProgramConstants.TYPE);
+
+    	//The sidebar fields should only be updated if the model that was changed/loaded is associated with the sidebar
+    	boolean doUpdate =	(type == ProgramSideBar.Type.CORE && ProgramConstants.CORE_LU_TYPE_ID.equals(programType)) ||
+    						(type == ProgramSideBar.Type.CREDENTIAL && programType.startsWith(ProgramConstants.CRED_LU_TYPE_PREFIX)) ||
+    						(type == ProgramSideBar.Type.MAJOR && ProgramConstants.MAJOR_LU_TYPE_ID.equals(programType)); 
+    	
+    	if (doUpdate){
+	    	setVersion((Long)model.get(ProgramConstants.VERSION), versionLabel);
+	        setDate((Date) model.get(ProgramConstants.LAST_UPDATED_DATE), lastUpdatedDate);
+	        lastReviewDate.setText((String) model.get(ProgramConstants.LAST_REVIEW_DATE));
+	        setWidget(ProgramConstants.SCHEDULED_REVIEW_DATE, scheduledReviewDate, model);
+    	}
     }
 
     private void setDate(Date updatedDate, Label lastUpdatedDate) {

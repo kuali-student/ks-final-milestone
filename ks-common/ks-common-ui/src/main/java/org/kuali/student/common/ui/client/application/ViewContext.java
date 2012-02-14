@@ -18,8 +18,8 @@ package org.kuali.student.common.ui.client.application;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.rice.authorization.PermissionType;
 
 /**
  * ViewContext can be used to pass along context information when switching or initializing a view.
@@ -45,6 +45,10 @@ public class ViewContext implements Comparable<ViewContext>{
 		return id;
 	}
 
+	/**
+	 * Set the id for this view context, this will appear as part of the address bar when used in
+	 * a controller, the controller can use this id to determine what to show (determine the context)
+	 */
 	public void setId(String id) {
 		this.id = id;
 	}
@@ -53,6 +57,10 @@ public class ViewContext implements Comparable<ViewContext>{
 		return idType;
 	}
 
+	/**
+	 * Set the type of id for this view context, this will appear as part of the address bar when used in
+	 * a controller
+	 */
 	public void setIdType(IdType idType) {
 		this.idType = idType;
 	}
@@ -73,6 +81,11 @@ public class ViewContext implements Comparable<ViewContext>{
     	return permissionType;
     }
 
+	/**
+	 * Sets the type of permission needed to be at the the current view, this is interpreted by the controller
+	 * if set which checks with the server to see if the user has this kind of permission.  Doesn't appear in
+	 * the address bar
+	 */
 	public void setPermissionType(PermissionType permissionType) {
     	this.permissionType = permissionType;
     }
@@ -87,6 +100,10 @@ public class ViewContext implements Comparable<ViewContext>{
 		}
 	}
 
+    /**
+     * Add an additional attribute to the view context, this will appear in the address bar like id
+     * and type does
+     */
     public void setAttribute(String key, String value) {
 		attributes.put(key, value);
 	}

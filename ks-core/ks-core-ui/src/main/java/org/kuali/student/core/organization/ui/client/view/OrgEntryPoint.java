@@ -16,6 +16,7 @@
 package org.kuali.student.core.organization.ui.client.view;
 
 
+import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationComposite;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
@@ -26,7 +27,6 @@ import org.kuali.student.common.ui.client.service.SecurityRpcService;
 import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
-import org.kuali.student.core.messages.dto.MessageList;
 import org.kuali.student.core.organization.ui.client.mvc.controller.OrgApplicationManager;
 import org.kuali.student.core.organization.ui.client.theme.OrgTheme;
 

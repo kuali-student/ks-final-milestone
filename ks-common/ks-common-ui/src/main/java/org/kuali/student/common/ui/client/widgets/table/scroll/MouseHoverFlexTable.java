@@ -1,6 +1,5 @@
 package org.kuali.student.common.ui.client.widgets.table.scroll;
 
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
@@ -8,7 +7,6 @@ import com.google.gwt.user.client.ui.FlexTable;
 
 public class MouseHoverFlexTable extends FlexTable {
     private TableModel tableModel;
-    ClickHandler clickHandler;
     public MouseHoverFlexTable(){
         sinkEvents(Event.ONMOUSEOVER |Event.ONMOUSEOUT);
         
@@ -26,7 +24,7 @@ public class MouseHoverFlexTable extends FlexTable {
         switch (DOM.eventGetType(event)) {
             case Event.ONMOUSEOVER: {
                 Element tr = DOM.getParent(td);
-                DOM.setStyleAttribute(tr, "backgroundColor", "#2b60ec");
+                tr.setAttribute("class", "table-row-hover");
 
                 break;
             }
@@ -35,13 +33,14 @@ public class MouseHoverFlexTable extends FlexTable {
                 for (int r = 0; r < count; r++) {
                     Element tr = getRowFormatter().getElement(r);
                     if (tableModel.getRow(r).isSelected()) {
-                        DOM.setStyleAttribute(tr, "backgroundColor", "#C6D9FF");
+                    	tr.setAttribute("class", "table-row-selected");
                     }else{
-                        DOM.setStyleAttribute(tr, "backgroundColor", "#FFFFFF");
+                    	tr.setAttribute("class", "table-row");
                     }
                 }
                 break;
             }
+
         }
 
     }

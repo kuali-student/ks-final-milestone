@@ -19,10 +19,10 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.HorizontalLayout;
 
 /**
- * This class uses TableFieldLayout to build a section with fields on the right and field labels on the left .
+ * This class uses HorizontalLayout to build a section with fields on the right and field labels on the left .
  * 
  * Fields are separated with a light grey horizontal line.
- *
+ * @see HorizontalLayout
  */
 public class HorizontalSection extends BaseSection{
 	public HorizontalSection(){

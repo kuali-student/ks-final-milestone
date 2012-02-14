@@ -187,11 +187,10 @@ text-shadow:0 2px 2px #FFFFFF;
     left: 400px;
 }
 
-.ks-notification-message {
+.ks-notification-message, .ks-notification-error {
     width: 300px;
     min-height: 20px;
     background-color: black;
-    background-image: url(images/common/tick-circle.png);
     background-position: 8px 8px;
     background-repeat: no-repeat;
     line-height: 1.35em;
@@ -208,6 +207,14 @@ text-shadow:0 2px 2px #FFFFFF;
     border-radius: 6px 6px;
     \-moz-border-radius: 6px 6px;
     \-webkit-border-radius: 6px 6px;
+}
+
+.ks-notification-message{
+    background-image: url(images/common/tick-circle.png);
+}
+
+.ks-notification-error {
+    background-image: url(images/common/exclamation-red.png);
 }
 
 .ks-notification-message p * {
@@ -356,4 +363,27 @@ position:relative;
 
 .bold{
 	font-weight: bold;
+}
+
+.table-row{
+	background-color: white;
+	color: black;
+}
+
+.table-row-hover{
+	background-color: #024FD0;
+	color: white;
+}
+
+.table-row-selected{
+	background-color: #C6D9FF;
+	color: black;
+}
+
+.ks-no-results-message{
+	margin:100px; 
+	padding:0;
+	text-align: center;
+	font-weight: bold;
+	font-size:10pt;
 }

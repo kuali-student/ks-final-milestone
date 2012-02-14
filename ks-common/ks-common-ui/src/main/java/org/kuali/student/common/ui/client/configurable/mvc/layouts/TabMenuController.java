@@ -1,10 +1,13 @@
 package org.kuali.student.common.ui.client.configurable.mvc.layouts;
 
+import java.util.ArrayList;
+
 import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPanelStyle;
@@ -12,6 +15,13 @@ import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel.TabPanelStyle;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * A layout controller which provides tabs for the views added through the addTab method.  If the user
+ * clicks on a tab the view is swapped.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class TabMenuController extends LayoutController{
 
 	protected KSTabPanel tabPanel = new KSTabPanel(TabPanelStyle.SMALL);
@@ -19,7 +29,7 @@ public class TabMenuController extends LayoutController{
 	protected KSDocumentHeader header = new KSDocumentHeader(false);
 	
 	public TabMenuController(String controllerId) {
-		super(controllerId);
+		super();
 		header.addStyleName("tabLayout-ContentHeader");
 		layout.add(header);
 		header.setVisible(false);
@@ -61,6 +71,9 @@ public class TabMenuController extends LayoutController{
     	header.showPrint(show);
     }
 
+    public void showExport(boolean show) {
+        header.showJasper(show);
+    }
 	/** 
 	 * This version of updateModel only updates from the currentView (since only one view is shown/accessed at a time).  
 	 * Call updateModelFromView to update from a specific view under this controller's scope.
@@ -100,4 +113,9 @@ public class TabMenuController extends LayoutController{
 		});
 	}
 
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        return super.getExportElementsFromView();
+        
+    }
 }

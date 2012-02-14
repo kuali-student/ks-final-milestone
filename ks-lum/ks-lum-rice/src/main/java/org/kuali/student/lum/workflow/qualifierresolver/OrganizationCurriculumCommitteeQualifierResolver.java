@@ -4,17 +4,14 @@
 package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
-
-import javax.xml.namespace.QName;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kew.engine.RouteContext;
-import org.kuali.rice.kew.role.QualifierResolver;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.core.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -26,14 +23,14 @@ import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
  * This qualifier resolver will get the organization id value from inside the current route node instance and use the
  * {@link OrganizationService#getOrgOrgRelationsByOrg(String)} method to find all relations to it. From those relations
  * this class will select the ones that are both active and of the relation type matching
- * {@link AbstractCocOrgQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT}. Once the list of those relations has been
+ * {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT}. Once the list of those relations has been
  * determined this qualifier resolver will select any of the organizations that match the above relation details but
- * also only organizations that are of the type {@link AbstractCocOrgQualifierResolver.KUALI_ORG_COC}. Those
+ * also only organizations that are of the type {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_COC}. Those
  * organizations will be returned as qualifications with the details being the organization id and the organization
  * short name fields.
  * 
  * If no relation is found that is both active and of the relation type matching
- * {@link AbstractCocOrgQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT} then this class will use the organization
+ * {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT} then this class will use the organization
  * found on the current route node instance as the qualification returned.
  * 
  */
@@ -41,7 +38,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationCurriculumCommitteeQualifierResolver.class);
 
     @Override
-    public List<AttributeSet> resolve(RouteContext routeContext) {
+    public List<Map<String,String>> resolve(RouteContext routeContext) {
         // get the organization id from the current route node instance and error out if not found
         String orgIdValue = routeContext.getNodeInstance().getNodeState(OrganizationDynamicNode.NODE_STATE_ORG_ID_KEY).getValue();
         if (StringUtils.isBlank(orgIdValue)) {
@@ -52,22 +49,21 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
         }
 
         try {
-            List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+            List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
             // find the OrgOrgRelationInfo objects associated with the org from the route node instance
             List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue);
             for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                 // check that the relationship is active
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getState())) {
                     // check for the proper relationship type
-                    if (StringUtils.equals(AbstractCocOrgQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
+                    if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
                         OrgInfo nextNodeOrgInfo = getOrganization(orgOrgRelationInfo.getRelatedOrgId());
                         // check the org type of the related org is the proper org type
-                        if (StringUtils.equals(AbstractCocOrgQualifierResolver.KUALI_ORG_COC, nextNodeOrgInfo.getType())) {
+                        if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_COC, nextNodeOrgInfo.getType())) {
                             if (LOG.isDebugEnabled()) {
                                 LOG.debug("---- Related Org Relation: " + nextNodeOrgInfo.getId() + " - " + nextNodeOrgInfo.getShortName() + " (" + nextNodeOrgInfo.getLongName() + ")");
                             }
-                            AttributeSet attributeSet = new AttributeSet();
-                            attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, nextNodeOrgInfo.getShortName());
+                            Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                             attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, nextNodeOrgInfo.getId());
                             attributeSets.add(attributeSet);
                         }
@@ -77,8 +73,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
             // if no org is found then use the org on the route node instance
             if (attributeSets.isEmpty()) {
                 OrgInfo currentNodeOrg = getOrganization(orgIdValue);
-                AttributeSet attributeSet = new AttributeSet();
-                attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG, currentNodeOrg.getShortName());
+                Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                 attributeSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, currentNodeOrg.getId());
                 attributeSets.add(attributeSet);
             }

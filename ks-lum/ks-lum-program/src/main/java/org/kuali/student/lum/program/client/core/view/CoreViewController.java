@@ -48,13 +48,11 @@ public class CoreViewController extends CoreController {
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_CORE_PROGRAM.getLocation(), viewContext);
                 } else if (actionType == ActionType.MODIFY_VERSION) {
-                    String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+                    String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
                     viewContext.setId(versionIndId);
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
-                    ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_CORE_PROGRAM.getLocation(), viewContext);
                 }
-
             }
         });
         eventBus.addHandler(ProgramViewEvent.TYPE, new ProgramViewEvent.Handler() {

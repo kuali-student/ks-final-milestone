@@ -16,7 +16,7 @@
 package org.kuali.student.common.ui.client.service.exceptions;
 
 /**
- * This is redefiniton of the org.kuali.student.core.OperationFailedException. This is
+ * This is redefiniton of the org.kuali.student.common.OperationFailedException. This is
  * so exception can be used in GWT client side. The GWT compiler doesn't like the 
  * service annotations found in the core exceptions classes. 
  * 

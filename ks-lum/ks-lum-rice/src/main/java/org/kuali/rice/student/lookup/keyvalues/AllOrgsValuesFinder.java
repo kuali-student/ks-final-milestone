@@ -17,17 +17,17 @@ package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.kuali.rice.core.api.util.KeyValue;
 
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
 
 public class AllOrgsValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
 
-	public List<KeyLabelPair> getKeyValues() {
-        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
+	public List<KeyValue> getKeyValues() {
+        List<KeyValue> departments = new ArrayList<KeyValue>();
 
         SearchRequest searchRequest = new SearchRequest();
         searchRequest.setSearchKey("org.search.generic");
@@ -49,7 +49,7 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
                     	orgType = resultCell.getValue();
                     }
                 }
-                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
+                departments.add(buildKeyValue(orgId, orgShortName, orgOptionalLongName, orgType));
             }
 
             return departments;

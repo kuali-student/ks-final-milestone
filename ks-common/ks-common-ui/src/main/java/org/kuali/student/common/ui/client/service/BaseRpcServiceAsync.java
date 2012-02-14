@@ -17,12 +17,12 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultTypeInfo;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
+import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

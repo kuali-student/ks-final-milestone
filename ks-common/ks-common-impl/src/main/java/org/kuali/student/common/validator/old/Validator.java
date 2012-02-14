@@ -24,23 +24,23 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
+import org.kuali.student.common.dictionary.old.dto.CaseConstraint;
+import org.kuali.student.common.dictionary.old.dto.ConstraintDescriptor;
+import org.kuali.student.common.dictionary.old.dto.ConstraintSelector;
+import org.kuali.student.common.dictionary.old.dto.Field;
+import org.kuali.student.common.dictionary.old.dto.LookupConstraint;
+import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.common.dictionary.old.dto.OccursConstraint;
+import org.kuali.student.common.dictionary.old.dto.RequireConstraint;
+import org.kuali.student.common.dictionary.old.dto.State;
+import org.kuali.student.common.dictionary.old.dto.Type;
+import org.kuali.student.common.dictionary.old.dto.TypeStateCaseConstraint;
+import org.kuali.student.common.dictionary.old.dto.ValidCharsConstraint;
+import org.kuali.student.common.dictionary.old.dto.WhenConstraint;
+import org.kuali.student.common.messages.dto.Message;
+import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.util.MessageUtils;
-import org.kuali.student.core.dictionary.old.dto.CaseConstraint;
-import org.kuali.student.core.dictionary.old.dto.ConstraintDescriptor;
-import org.kuali.student.core.dictionary.old.dto.ConstraintSelector;
-import org.kuali.student.core.dictionary.old.dto.Field;
-import org.kuali.student.core.dictionary.old.dto.LookupConstraint;
-import org.kuali.student.core.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.core.dictionary.old.dto.OccursConstraint;
-import org.kuali.student.core.dictionary.old.dto.RequireConstraint;
-import org.kuali.student.core.dictionary.old.dto.State;
-import org.kuali.student.core.dictionary.old.dto.Type;
-import org.kuali.student.core.dictionary.old.dto.TypeStateCaseConstraint;
-import org.kuali.student.core.dictionary.old.dto.ValidCharsConstraint;
-import org.kuali.student.core.dictionary.old.dto.WhenConstraint;
-import org.kuali.student.core.messages.dto.Message;
-import org.kuali.student.core.messages.service.MessageService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 public class Validator {
 

@@ -16,26 +16,27 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.core.assembly.old.BaseAssembler;
-import org.kuali.student.core.assembly.old.data.SaveResult;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchResultCell;
-import org.kuali.student.core.search.dto.SearchResultRow;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.common.assembly.old.BaseAssembler;
+import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchResultCell;
+import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
@@ -48,6 +49,7 @@ import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
+@Deprecated
 public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 //  TODO Split out CluInfo assembly to its own class
 
@@ -530,9 +532,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 	}
 
 	@Override
-	protected AttributeSet getQualification(String idType, String id) {   //FIXME
+	protected Map<String,String> getQualification(String idType, String id) {   //FIXME
 		String DOCUMENT_TYPE_NAME = "documentTypeName";
-		AttributeSet qualification = new AttributeSet();
+		Map<String,String> qualification = new LinkedHashMap<String,String>();
 		qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourse");
 		/*
 		 *	This commented out for permission changes

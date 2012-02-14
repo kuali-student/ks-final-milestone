@@ -25,7 +25,7 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.core.entity.Type;
+import org.kuali.student.common.entity.Type;;
 
 @Entity
 @Table(name = "KSOR_ORG_PERS_RELTN_TYPE")

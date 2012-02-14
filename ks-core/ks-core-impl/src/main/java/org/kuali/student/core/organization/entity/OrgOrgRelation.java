@@ -32,9 +32,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
-
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 @Entity
 @Table(name = "KSOR_ORG_ORG_RELTN")
 @NamedQueries( {
@@ -64,9 +63,6 @@ import org.kuali.student.core.entity.MetaEntity;
 				+ "   AND oor.type.id = :orgOrgRelationTypeKey") })
 public class OrgOrgRelation extends MetaEntity implements
 		AttributeOwner<OrgOrgRelationAttribute> {
-	@Id
-	@Column(name = "ID")
-	private String id;
 
 	@ManyToOne
 	@JoinColumn(name = "ORG")
@@ -99,15 +95,7 @@ public class OrgOrgRelation extends MetaEntity implements
 	 */
 	@Override
 	public void onPrePersist() {
-		this.id = UUIDHelper.genStringUUID(this.id);
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+		super.setId(UUIDHelper.genStringUUID(super.getId()));
 	}
 
 	public Org getOrg() {

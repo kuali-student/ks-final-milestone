@@ -20,6 +20,13 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 
+/**
+ * The validation message panel used for field elements, adds validation errors to a list and styles
+ * them appropriately.
+ * 
+ * @author Kuali Student Team
+ *
+ */
 public class ValidationMessagePanel extends Composite{
 	
 	private KSListPanel listPanel = new KSListPanel();

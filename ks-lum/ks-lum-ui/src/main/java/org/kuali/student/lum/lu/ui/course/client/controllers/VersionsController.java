@@ -3,6 +3,9 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayoutWithContentHeader;
@@ -21,8 +24,6 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
@@ -48,7 +49,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 	private VerticalSectionView compare;
     private static final String MSG_GROUP = "course";
     private String type = "course";
-    private String state = "draft";
+    private String state = DtoConstants.STATE_DRAFT;
     private String groupName = LUUIConstants.COURSE_GROUP_NAME;
 	CourseSummaryConfigurer summaryConfigurer;
 	CourseRpcServiceAsync rpcServiceAsync = GWT.create(CourseRpcService.class);
@@ -211,6 +212,7 @@ public class VersionsController extends BasicLayoutWithContentHeader{
     public void beforeShow(Callback<Boolean> onReadyCallback) {
     	workflowVersionInfoSection.setVisible(false);
     	this.getHeader().showPrint(false);
+    	this.getHeader().showJasper(false);
     	showDefaultView(onReadyCallback);
     }
     
@@ -343,10 +345,12 @@ public class VersionsController extends BasicLayoutWithContentHeader{
 		if(viewType != Views.VERSION_SELECT){
 			workflowVersionInfoSection.setVisible(true);
 			this.getHeader().showPrint(true);
+			this.getHeader().showJasper(true);
 		}
 		else{
 			workflowVersionInfoSection.setVisible(false);
 			this.getHeader().showPrint(false);
+			this.getHeader().showJasper(false);
 		}
 		super.showView(viewType, onReadyCallback);
 	}

@@ -25,10 +25,26 @@
 		</property>
 	</bean>
     
-    <bean id="propertyPlaceholder"
-        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
+	</bean>
 
-	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
+		<property name="configLocations">
+			<list>
+				<value>classpath:org/kuali/rice/standalone/config/standalone-config.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
+		<property name="arguments">
+			<list><ref bean="bootstrapConfig"/></list>
+		</property>
+	</bean>
+
+	<bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSLumTestContext"/>	
 	</bean>
 	
@@ -94,7 +110,7 @@
 		<property name="luService" ref="luClient"/>
 	</bean>
 	
-	<bean id="dictionaryService" class="org.kuali.student.core.dictionary.service.impl.DictionaryServiceImpl">
+	<bean id="dictionaryService" class="org.kuali.student.common.dictionary.service.impl.old.DictionaryServiceSpringImpl">
 		<constructor-arg index="0" value="classpath:ks-courseInfo-dictionary-context.xml" />	
 	</bean>
 	
@@ -110,7 +126,7 @@
 	
 
 	
-	<bean id="searchDispatcher" class="org.kuali.student.core.search.service.impl.SearchDispatcherImpl">
+	<bean id="searchDispatcher" class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
 		<property name="services">
 			<list>
 				<ref bean="loClient"/>

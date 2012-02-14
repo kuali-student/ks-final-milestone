@@ -1,0 +1,184 @@
+<!--
+ Copyright 2011 The Kuali Foundation
+
+ Licensed under the Educational Community License, Version 2.0 (the "License");
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+ http://www.opensource.org/licenses/ecl2.php
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+
+	<!-- ********************************************************
+		                       WARNING 
+		             DO NOT UPDATE THIS FILE MANUALLY
+		This dictionary file was automatically generated on Wed Aug 17 15:12:56 EDT 2011
+		The DictionaryGeneratorMojo reads the service contract 
+		and creates these ks-XXXX-dictionary-generated.xml files.
+
+		If this file is out of sync with the contract re-run the mojo.
+
+		To add additional constraints or change these default values (perhaps
+		because the generator is not perfect) please update the corresponding 
+		ks-XXXX-dictionary.xml instead of this one.
+	************************************************************* -->
+	<!-- ********************************************************************************************************** -->
+	<!-- The following file is required for this file to load:
+ ks-base-dictionary.xml
+plus any of its dependencies -->
+	<!-- ********************************************************************************************************** -->
+	<import resource="classpath:ks-base-dictionary.xml"/>
+
+	<!-- AtpInfo-->
+	<bean id="AtpInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="atpInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.r2.core.atp.dto.AtpInfo"/>
+		<property name="objectLabel" value="Atp"/>
+		<property name="objectDescription" value="Information about an Academic Time Period."/>
+		<property name="titleAttribute" value="id"/>
+		<property name="primaryKeys">
+			<list>
+				<value>id</value>
+			</list>
+		</property>
+		<property name="attributes">
+			<list>
+				<ref bean="AtpInfo.id"/>
+				<ref bean="AtpInfo.typeKey"/>
+				<ref bean="AtpInfo.stateKey"/>
+				<ref bean="AtpInfo.name"/>
+				<ref bean="AtpInfo.descr.plain"/>
+				<ref bean="AtpInfo.descr.formatted"/>
+				<ref bean="AtpInfo.startDate"/>
+				<ref bean="AtpInfo.endDate"/>
+				<ref bean="AtpInfo.meta.versionInd"/>
+				<ref bean="AtpInfo.meta.createTime"/>
+				<ref bean="AtpInfo.meta.createId"/>
+				<ref bean="AtpInfo.meta.updateTime"/>
+				<ref bean="AtpInfo.meta.updateId"/>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="AtpInfo.id-generated" abstract="true" parent="BaseKuali.id">
+		<property name="name" value="id"/>
+		<property name="childEntryName" value="id"/>
+	</bean>
+
+	<bean id="AtpInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+		<property name="name" value="typeKey"/>
+		<property name="childEntryName" value="typeKey"/>
+	</bean>
+
+	<bean id="AtpInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+		<property name="name" value="stateKey"/>
+		<property name="childEntryName" value="stateKey"/>
+	</bean>
+
+	<bean id="AtpInfo.name-generated" abstract="true" parent="BaseKuali.name">
+		<property name="name" value="name"/>
+		<property name="childEntryName" value="name"/>
+	</bean>
+
+	<bean id="AtpInfo.descr-generated" abstract="true" parent="BaseKuali.descr">
+		<property name="name" value="descr"/>
+		<property name="childEntryName" value="descr"/>
+	</bean>
+
+	<bean id="AtpInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+		<property name="name" value="descr.plain"/>
+		<property name="childEntryName" value="plain"/>
+	</bean>
+
+	<bean id="AtpInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+		<property name="name" value="descr.formatted"/>
+		<property name="childEntryName" value="formatted"/>
+	</bean>
+
+	<bean id="AtpInfo.startDate-generated" abstract="true" parent="BaseKuali.startDate">
+		<property name="name" value="startDate"/>
+		<property name="childEntryName" value="startDate"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="Start Date"/>
+		<property name="summary">
+			<value>
+Date and time the academic time period became effective. 
+			</value>
+		</property>
+		<property name="label" value="Start Date"/>
+		<property name="description">
+			<value>
+Date and time the academic time period became effective. This
+does not provide a bound on date ranges or milestones
+associated with this time period, but instead indicates the
+time period proper. This is a similar concept to the effective
+date on enumerated values. When an expiration date has been
+specified, this field must be less than or equal to the
+expiration date.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="AtpInfo.endDate-generated" abstract="true" parent="BaseKuali.endDate">
+		<property name="name" value="endDate"/>
+		<property name="childEntryName" value="endDate"/>
+		<property name="required" value="false"/>
+		<property name="shortLabel" value="End Date"/>
+		<property name="summary">
+			<value>
+Date and time the academic time period expires. 
+			</value>
+		</property>
+		<property name="label" value="End Date"/>
+		<property name="description">
+			<value>
+Date and time the academic time period expires. This does not
+provide a bound on date ranges or milestones associated with
+this time period, but instead indicates the time period
+proper. If specified, this must be greater than or equal to the
+effective date. If this field is not specified, then no
+expiration date has been currently defined and should
+automatically be considered greater than the effective date.
+			</value>
+		</property>
+	</bean>
+
+	<bean id="AtpInfo.meta-generated" abstract="true" parent="BaseKuali.meta">
+		<property name="name" value="meta"/>
+		<property name="childEntryName" value="meta"/>
+	</bean>
+
+	<bean id="AtpInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+		<property name="name" value="meta.versionInd"/>
+		<property name="childEntryName" value="versionInd"/>
+	</bean>
+
+	<bean id="AtpInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+		<property name="name" value="meta.createTime"/>
+		<property name="childEntryName" value="createTime"/>
+	</bean>
+
+	<bean id="AtpInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+		<property name="name" value="meta.createId"/>
+		<property name="childEntryName" value="createId"/>
+	</bean>
+
+	<bean id="AtpInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+		<property name="name" value="meta.updateTime"/>
+		<property name="childEntryName" value="updateTime"/>
+	</bean>
+
+	<bean id="AtpInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+		<property name="name" value="meta.updateId"/>
+		<property name="childEntryName" value="updateId"/>
+	</bean>
+</beans>

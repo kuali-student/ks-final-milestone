@@ -1,12 +1,12 @@
 package org.kuali.student.lum.program.client.major.view;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.Property;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -49,7 +49,7 @@ public class MajorViewController extends MajorController {
                     ProgramRegistry.setSection(ProgramSections.getEditSection(getCurrentViewEnum()));
                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
                 } else if (actionType == ActionType.MODIFY_VERSION) {
-                    String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+                    String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
                     viewContext.setId(versionIndId);
                     viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
                     HistoryManager.navigate(AppLocations.Locations.EDIT_PROGRAM.getLocation(), viewContext);
@@ -83,8 +83,8 @@ public class MajorViewController extends MajorController {
 
     protected void resetActionList() {
     	//Only allow modify with version option for an active course that id also the latest version
-    	ProgramStatus status = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
-        String versionIndId = programModel.get(ProgramConstants.VERSION_IND_ID);
+    	ProgramStatus status = ProgramStatus.of(programModel);
+        String versionIndId = getStringProperty(ProgramConstants.VERSION_IND_ID);
         Long sequenceNumber = programModel.get(ProgramConstants.VERSION_SEQUENCE_NUMBER);
                        
         actionBox.clear();
@@ -103,7 +103,7 @@ public class MajorViewController extends MajorController {
         String variationId = context.getAttributes().get(ProgramConstants.VARIATION_ID);
         if (variationId != null) {
             context.getAttributes().remove(ProgramConstants.VARIATION_ID);
-            final Data variationMap = programModel.get(ProgramConstants.VARIATIONS);
+            final Data variationMap = getDataProperty(ProgramConstants.VARIATIONS);
             if (variationMap != null) {
                 int row = 0;
                 for (Property p : variationMap) {
@@ -112,7 +112,7 @@ public class MajorViewController extends MajorController {
                         if (variationData.get(ProgramConstants.ID).equals(variationId)) {
                             //FIXME: Find a better way to do this.
                             // We shouldn't be maintaining two separate datamodels for progs and variations
-                            Data credData = programModel.get(ProgramConstants.CREDENTIAL_PROGRAM);
+                            Data credData = getDataProperty(ProgramConstants.CREDENTIAL_PROGRAM);
                             variationData.set(ProgramConstants.CREDENTIAL_PROGRAM, credData);
                             ProgramRegistry.setData(variationData);
                             ProgramRegistry.setRow(row);

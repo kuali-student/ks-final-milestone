@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.widgets.searchtable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.Idable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 

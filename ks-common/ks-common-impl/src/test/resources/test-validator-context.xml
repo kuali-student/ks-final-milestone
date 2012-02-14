@@ -4,7 +4,7 @@
 
 
  <bean id="simpleStudent"
-       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
+       class="org.kuali.student.common.dictionary.dto.ObjectStructureDefinition">
   <property name="name" value="simpleStudent" />
   <property name="attributes">
    <list>
@@ -17,7 +17,7 @@
  </bean>
 
  <bean id="firstName"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="firstName" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="20" />
@@ -25,13 +25,13 @@
   <property name="minOccurs" value="1" />
   <property name="validChars">
    <bean
-    class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
+    class="org.kuali.student.common.dictionary.dto.ValidCharsConstraint"
     p:value="regex:[a-z]*" />
   </property>
  </bean>
 
  <bean id="dob"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="dob" />
   <property name="dataType" value="DATE" />
   <property name="exclusiveMin" value="1970-01-01" />
@@ -40,7 +40,7 @@
  </bean>
 
  <bean id="ssn"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="ssn" />
   <property name="dataType" value="STRING" />
   <property name="readOnly" value="true" />
@@ -51,19 +51,19 @@
  </bean>
 
  <bean id="gpa"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="gpa" />
   <property name="dataType" value="DOUBLE" />
   <property name="exclusiveMin" value="1.0" />
   <property name="inclusiveMax" value="4.0" />
   <property name="caseConstraint">
-   <bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+   <bean name="caseConstraint" class="org.kuali.student.common.dictionary.dto.CaseConstraint">
     <property name="operator" value="EQUALS"/>
     <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
-      <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+      <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
        <property name="values">
         <list>
          <value>SUBMITTED</value>
@@ -72,7 +72,7 @@
         </list>
        </property>
        <property name="constraint">
-        <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+        <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
          <property name="minOccurs" value="1"/>
         </bean>
        </property>
@@ -84,7 +84,7 @@
  </bean>
 
  <bean id="addressInfo"
-       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
+       class="org.kuali.student.common.dictionary.dto.ObjectStructureDefinition">
   <property name="name" value="addressInfo" />
   <property name="attributes">
    <list>
@@ -98,7 +98,7 @@
   </property>
  </bean>
  <bean id="line1"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="line1" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="30" />
@@ -106,19 +106,19 @@
   <property name="minOccurs" value="1" />
   <property name="validChars">
    <bean
-    class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
+    class="org.kuali.student.common.dictionary.dto.ValidCharsConstraint"
     p:value="regex:[a-z]*" />
   </property>
   <property name="lookupDefinition">
-   <bean class="org.kuali.student.core.dictionary.dto.LookupConstraint">
+   <bean class="org.kuali.student.common.dictionary.dto.LookupConstraint">
     <property name="searchTypeId" value="testAddrLine1Search"/>
     <property name="params">
      <list>
-      <bean class="org.kuali.student.core.dictionary.dto.CommonLookupParam">
+      <bean class="org.kuali.student.common.dictionary.dto.CommonLookupParam">
        <property name="fieldPath" value="line2"/>
        <property name="key" value="param1"/>
       </bean>
-      <bean class="org.kuali.student.core.dictionary.dto.CommonLookupParam">
+      <bean class="org.kuali.student.common.dictionary.dto.CommonLookupParam">
        <property name="defaultValueString" value="PARAM_2_DEFAULT"/>
        <property name="key" value="param2"/>
       </bean>
@@ -127,36 +127,36 @@
    </bean>
   </property>
   <property name="caseConstraint">
-   <bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+   <bean name="caseConstraint" class="org.kuali.student.common.dictionary.dto.CaseConstraint">
     <property name="operator" value="EQUALS"/>
     <property name="fieldPath" value="nation"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
-      <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+      <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
        <property name="values">
         <list>
          <value>US</value>
         </list>
        </property>
        <property name="constraint">
-        <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+        <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
          <property name="minLength" value="5" />
          <property name="caseConstraint">
-          <bean name="caseConstraint" class="org.kuali.student.core.dictionary.dto.CaseConstraint">
+          <bean name="caseConstraint" class="org.kuali.student.common.dictionary.dto.CaseConstraint">
            <property name="operator" value="EQUALS"/>
            <property name="fieldPath" value="state"/>
            <property name="caseSensitive" value="false"/>
            <property name="whenConstraint">
             <list>
-             <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+             <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
               <property name="values">
                <list>
                 <value>DRAFT</value>
                </list>
               </property>
               <property name="constraint">
-               <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+               <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
                 <property name="minOccurs" value="0"/>
                </bean>
               </property>
@@ -168,14 +168,14 @@
         </bean>
        </property>
       </bean>
-      <bean name="whenConstraint" class="org.kuali.student.core.dictionary.dto.WhenConstraint">
+      <bean name="whenConstraint" class="org.kuali.student.common.dictionary.dto.WhenConstraint">
        <property name="values">
         <list>
          <value>CAN</value>
         </list>
        </property>
        <property name="constraint">
-        <bean name="constraint" class="org.kuali.student.core.dictionary.dto.Constraint">
+        <bean name="constraint" class="org.kuali.student.common.dictionary.dto.Constraint">
          <property name="maxLength" value="100" />
          <property name="minOccurs" value="0"/>
         </bean>
@@ -187,7 +187,7 @@
   </property>
  </bean>
  <bean id="line2"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="line2" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="30" />
@@ -195,12 +195,12 @@
   <property name="minOccurs" value="0" />
   <property name="validChars">
    <bean
-    class="org.kuali.student.core.dictionary.dto.ValidCharsConstraint"
+    class="org.kuali.student.common.dictionary.dto.ValidCharsConstraint"
     p:value="regex:[a-z]*" />
   </property>
   <property name="requireConstraint">
    <list>
-    <bean class="org.kuali.student.core.dictionary.dto.RequiredConstraint"
+    <bean class="org.kuali.student.common.dictionary.dto.RequiredConstraint"
           p:fieldPath="line1" />
    </list>
   </property>
@@ -208,7 +208,7 @@
 
 
  <bean id="province"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="province" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="3" />
@@ -219,7 +219,7 @@
 
 
  <bean id="postalCode"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="postalCode" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="6" />
@@ -230,7 +230,7 @@
 
 
  <bean id="address.type"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="type" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="60" />
@@ -240,7 +240,7 @@
  </bean>
 
  <bean id="address.state"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="state" />
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="60" />
@@ -249,7 +249,7 @@
  </bean>
 
  <bean id="studentWithAddress"
-       class="org.kuali.student.core.dictionary.dto.ObjectStructureDefinition">
+       class="org.kuali.student.common.dictionary.dto.ObjectStructureDefinition">
   <property name="name" value="studentWithAddress" />
   <property name="attributes">
    <list>
@@ -261,7 +261,7 @@
   </property>
  </bean>
  <bean id="address"
-       class="org.kuali.student.core.dictionary.dto.FieldDefinition">
+       class="org.kuali.student.common.dictionary.dto.FieldDefinition">
   <property name="name" value="address" />
   <property name="dataType" value="COMPLEX" />
   <property name="dataObjectStructure" ref="addressInfo" />

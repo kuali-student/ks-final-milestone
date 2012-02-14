@@ -21,7 +21,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * This is a description of what this class does - hjohnson don't forget to fill this in.
+ * This class provides static methods for generating H1-H6 elements with the passed in text
  *
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
@@ -88,16 +88,6 @@ public class SectionTitle extends ComplexPanel {
         }
         return thisTitle;
     }
-
-/*    private static SectionTitle generateTitle(String text, String styleName) {
-        SectionTitle thisTitle = new SectionTitle();
-        thisTitle.setHTML(text);
-        thisTitle.addStyleName(KS_SECTION_TITLE);
-        if(styleName != null){
-        	thisTitle.addStyleName(styleName);
-        }
-        return thisTitle;
-    }*/
 
     public void setText(String text){
     	this.getElement().setInnerText(text);

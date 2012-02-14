@@ -57,8 +57,8 @@
                   p:runMode="${ksb.mode}"
                   p:webModuleConfigurationFiles="${rice.ksb.struts.config.files}" />
 		</property>
-		<property name="knsConfigurer">
-	        <bean class="org.kuali.rice.kns.config.KNSConfigurer"
+		<property name="kradConfigurer">
+	        <bean class="org.kuali.rice.krad.config.KRADConfigurer"
                   p:loadDataDictionary="true"
                   p:validateDataDictionary="true" 
                   p:webModuleConfigurationFiles="${rice.kns.struts.config.files}"/>

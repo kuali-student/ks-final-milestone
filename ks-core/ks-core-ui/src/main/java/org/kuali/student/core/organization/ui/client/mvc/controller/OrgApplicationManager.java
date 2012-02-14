@@ -33,7 +33,7 @@ public class OrgApplicationManager extends Controller{
 
     
     public OrgApplicationManager(){
-        super(OrgApplicationManager.class.getName());
+        super();
         super.initWidget(viewPanel);
     }
 
@@ -52,11 +52,6 @@ public class OrgApplicationManager extends Controller{
             	callback.exec(null);
         }
         
-    }
-
-    @Override
-    public Class<? extends Enum<?>> getViewsEnum() {        
-        return ORGViews.class;
     }
     
     @Override

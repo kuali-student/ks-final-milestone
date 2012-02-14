@@ -18,9 +18,9 @@ package org.kuali.student.common.ui.client.widgets.list;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.HasWidgetReadyCallback;
-import org.kuali.student.core.dto.Idable;
 
 import com.google.gwt.event.dom.client.HasBlurHandlers;
 import com.google.gwt.event.dom.client.HasFocusHandlers;

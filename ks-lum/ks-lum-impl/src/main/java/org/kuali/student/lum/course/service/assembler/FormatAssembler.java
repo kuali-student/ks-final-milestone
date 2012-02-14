@@ -22,15 +22,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
@@ -68,6 +68,8 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		format.setState(clu.getState());
 		format.setMetaInfo(clu.getMetaInfo());
 		format.setAttributes(clu.getAttributes());
+	    format.setDuration(clu.getStdDuration());
+	    format.setTermsOffered(clu.getOfferedAtpTypes());
 		
 		// Don't make any changes to nested datastructures if this is
 		if (!shallowBuild) {
@@ -122,7 +124,9 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 		clu.setState(format.getState());
 		clu.setMetaInfo(format.getMetaInfo());
 		clu.setAttributes(format.getAttributes());
-
+		clu.setStdDuration(format.getDuration());
+		clu.setOfferedAtpTypes(format.getTermsOffered());
+		
 		// Add the Clu to the result
 		result.setNodeData(clu);
 		result.setOperation(operation);
@@ -198,7 +202,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 			// If this is a format create/new activity update then all activities will be created
 		    if (NodeOperation.CREATE == operation
 		            || (NodeOperation.UPDATE == operation &&  !currentActivityIds.containsKey(activity.getId()))) {
-		        
+		    	activity.setState(format.getState());
                 // the activity does not exist, so create
                 // Assemble and add the activity
                 BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
@@ -226,6 +230,7 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 					&& currentActivityIds.containsKey(activity.getId())) {
 				// If the format already has this activity, then just update the
 				// activity
+            	activity.setState(format.getState());
 				BaseDTOAssemblyNode<ActivityInfo, CluInfo> activityNode = activityAssembler
 						.disassemble(activity, NodeOperation.UPDATE);
 				results.add(activityNode);

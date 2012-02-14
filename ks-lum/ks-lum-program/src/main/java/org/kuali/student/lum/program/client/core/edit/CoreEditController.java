@@ -1,10 +1,11 @@
 package org.kuali.student.lum.program.client.core.edit;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.event.shared.HandlerManager;
-import com.google.gwt.user.client.Window;
+import java.util.ArrayList;
+import java.util.List;
+
+
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
@@ -13,20 +14,32 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.program.client.*;
+import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramStatus;
+import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.core.CoreController;
-import org.kuali.student.lum.program.client.events.*;
+import org.kuali.student.lum.program.client.events.AfterSaveEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
+import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.StateChangeEvent;
+import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
+import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.shared.HandlerManager;
+import com.google.gwt.user.client.Window;
 
 /**
  * @author Igor
@@ -85,7 +98,7 @@ public class CoreEditController extends CoreController {
                 List<String> ids = event.getProgramRequirementIds();
 
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
-                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                Data programRequirements = getDataProperty(ProgramConstants.PROGRAM_REQUIREMENTS);
 
                 if (programRequirements == null) {
                     Window.alert("Cannot find program requirements in data model.");
@@ -136,11 +149,11 @@ public class CoreEditController extends CoreController {
                                     }
                                 }
                             };
-                            previousState = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
+                            previousState = ProgramStatus.of(programModel);
                             ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
                             saveData(callback);
                         } else {
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });
@@ -180,7 +193,7 @@ public class CoreEditController extends CoreController {
                 super.onSuccess(result);
                 programModel.setRoot(result.getValue());
                 viewContext.setIdType(IdType.OBJECT_ID);
-                viewContext.setId((String) programModel.get(ProgramConstants.ID));
+                viewContext.setId(getStringProperty(ProgramConstants.ID));
                 setHeaderTitle();
                 setStatus();
                 callback.onModelReady(programModel);
@@ -209,7 +222,7 @@ public class CoreEditController extends CoreController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });
@@ -244,6 +257,7 @@ public class CoreEditController extends CoreController {
                     setHeaderTitle();
                     setStatus();
                     if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
+                        processBeforeShow = false;
                         showView(getCurrentViewEnum());
                     }
                     resetFieldInteractionFlag();

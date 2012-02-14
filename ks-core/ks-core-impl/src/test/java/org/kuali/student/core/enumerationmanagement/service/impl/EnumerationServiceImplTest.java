@@ -22,8 +22,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
+import org.kuali.student.common.exceptions.AlreadyExistsException;
+import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.exceptions.MissingParameterException;
+import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.search.service.SearchManager;
+import org.kuali.student.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
@@ -35,18 +46,6 @@ import org.kuali.student.core.enumerationmanagement.dto.mock.DataGenerator;
 import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
-import org.kuali.student.core.search.dto.SearchResult;
-import org.kuali.student.core.search.dto.SearchTypeInfo;
-import org.kuali.student.core.search.service.SearchManager;
-import org.kuali.student.core.search.service.impl.SearchManagerImpl;
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     @Dao(value = "org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:enumeration-test-beans.xml", testSqlFile="classpath:ks-em.sql")
@@ -203,6 +202,17 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
     	assertEquals(dao.getId(), dto.getId());
     	assertEquals(dao.getName(), dto.getName());
     	assertEquals(dao.getDescr(), dto.getDescr());
+    	
+    	//fetchEnumerationMeta for "NULL" key
+    	EnumerationInfo dto_null = null;
+		try {
+			dto_null = enumService.getEnumeration("NULL");
+			assertTrue(false);
+		} catch (DoesNotExistException e) {
+			assertTrue(true);
+		}
+		assertEquals(dto_null, null);
+		
 	}
 	
 	@Test
@@ -236,7 +246,7 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         entity3.setAbbrevValue("Abbrev3");
         entity3.setCode("Code3");
         entity3.setEffectiveDate(new Date(baseTime-10000000L));
-        entity3.setExpirationDate(new Date(baseTime+10000000L));
+        entity3.setExpirationDate(null);
         entity3.setSortKey(1);
         entity3.setValue("Value3");
         
@@ -342,13 +352,13 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
         assertEquals(list.size(), 4);
 
         list = enumService.getEnumeratedValues("Key1", null, null, new Date(baseTime+40000000L));
-        assertEquals(list.size(), 2);
+        assertEquals(list.size(), 3);
         
         list = enumService.getEnumeratedValues("Key1" , "country", "US", new Date(baseTime+40000000L));
         assertEquals(list.size(), 1);
         
         list = enumService.getEnumeratedValues("Key1" , "country", "CA", new Date(baseTime+40000000L));
-        assertEquals(list.size(), 1);
+        assertEquals(list.size(), 2);
         
         list = enumService.getEnumeratedValues("Key1" , "country", "CA", new Date(baseTime));
         assertEquals(list.size(), 2);
@@ -552,7 +562,6 @@ public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
 	}
 	
 	@Test
-	@Ignore
 	public void testValidate(){
 		enumService.setEnumDAO(enumerationManagementDAO);
 		

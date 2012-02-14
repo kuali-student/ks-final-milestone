@@ -142,13 +142,13 @@
  </bean>
 
  <bean id="validchars.cip.codes" parent="ValidCharDefinition">
-  <property name="value" value="regex:[0-9][0-9]\.[0-9][0-9][0-9][0-9]|[0-9][0-9]\.[0-9][0-9]|[0-9][0-9]\."/>
+  <property name="value" value="regex:[0-9][0-9]\.[0-9][0-9][0-9][0-9]|[0-9][0-9]\.[0-9][0-9]|[0-9][0-9]\.|[0-9][0-9]"/>
   <!--     <property name="labelKey" value="validation.validChars.digits"/>-->
  </bean>
 
  <bean id="majorDisciplineInfo.cip2000Code-parent" abstract="true" parent="luCodeInfo.value-parent">
   <property name="name" value="cip2000Code"/>
-  <property name="minLength" value="3"/>
+  <property name="minLength" value="2"/>
   <property name="maxLength" value="7"/>
   <property name="validChars" ref="validchars.cip.codes"/>
   <!--TODO: add in a lookup-->
@@ -157,7 +157,7 @@
 
  <bean id="majorDisciplineInfo.cip2010Code-parent" abstract="true" parent="luCodeInfo.value-parent">
   <property name="name" value="cip2010Code"/>
-  <property name="minLength" value="3"/>
+  <property name="minLength" value="2"/>
   <property name="maxLength" value="7"/>
   <property name="validChars" ref="validchars.cip.codes"/>
   <!--TODO: add in a lookup-->
@@ -179,7 +179,7 @@
         <!--Copy all the properties from above adding minOccurs = 1-->
         <bean parent="luCodeInfo.value-parent">
          <property name="minOccurs" value="1" />
-         <property name="minLength" value="3"/>
+         <property name="minLength" value="2"/>
          <property name="maxLength" value="7"/>
          <property name="validChars" ref="validchars.cip.codes"/>
         </bean>
@@ -273,9 +273,37 @@
 
  <bean id="majorDisciplineInfo.stdDuration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
   <property name="name" value="stdDuration"/>
+  <property name="dataObjectStructure" ref="majorDisciplineInfo.stdDuration.TimeAmountInfo"/>
  </bean>
  <bean id="majorDisciplineInfo.stdDuration" parent="majorDisciplineInfo.stdDuration-parent"/>
 
+
+ <bean id="majorDisciplineInfo.stdDuration.TimeAmountInfo-parent"
+       abstract="true" parent="org.kuali.student.common.dto.TimeAmountInfo">
+  <property name="name" value="org.kuali.student.common.dto.TimeAmountInfo" />
+  <property name="attributes">
+   <list>
+    <ref bean="majorDisciplineInfo.stdDuration.atpDurationTypeKey" />
+    <ref bean="majorDisciplineInfo.stdDuration.timeQuantity" />
+   </list>
+  </property>
+ </bean>
+ <bean id="majorDisciplineInfo.stdDuration.TimeAmountInfo" parent="majorDisciplineInfo.stdDuration.TimeAmountInfo-parent" />
+
+ <bean id="majorDisciplineInfo.stdDuration.atpDurationTypeKey-parent" abstract="true" parent="timeAmountInfo.atpDurationTypeKey-parent">
+  <property name="name" value="atpDurationTypeKey" />
+ </bean>
+ <bean id="majorDisciplineInfo.stdDuration.atpDurationTypeKey" parent="majorDisciplineInfo.stdDuration.atpDurationTypeKey-parent" />
+
+ <bean id="majorDisciplineInfo.stdDuration.timeQuantity-parent" abstract="true" parent="timeAmountInfo.timeQuantity-parent">
+  <property name="name" value="timeQuantity" />
+  <property name="minLength" value="1" />
+  <property name="maxLength" value="3" />
+  <property name="validChars" ref="numeric" />
+
+ </bean>
+ <bean id="majorDisciplineInfo.stdDuration.timeQuantity" parent="majorDisciplineInfo.stdDuration.timeQuantity-parent" />
+ 
  <bean id="majorDisciplineInfo.startTerm-parent" abstract="true" parent="cluInfo.expectedFirstAtp-parent">
   <property name="name" value="startTerm"/>
   <property name="caseConstraint">
@@ -474,7 +502,7 @@
  </bean>
  <bean id="majorDisciplineInfo.descr" parent="majorDisciplineInfo.descr-parent"/>
 
- <bean id="majorDisciplineInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="majorDisciplineInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="majorDisciplineInfo.descr.formatted" />
@@ -528,7 +556,7 @@
  </bean>
  <bean id="majorDisciplineInfo.catalogDescr" parent="majorDisciplineInfo.catalogDescr-parent"/>
 
- <bean id="majorDisciplineInfo.catalogDescr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="majorDisciplineInfo.catalogDescr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="majorDisciplineInfo.catalogDescr.formatted" />
@@ -889,6 +917,32 @@
 
  <bean id="majorDisciplineInfo.unitsDeployment-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsDeployment"/>
+    <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="EQUALS"/>
+    <property name="fieldPath" value="state"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>APPROVED</value>
+         <value>ACTIVE</value>
+         <value>RETIRED</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="baseKualiOrgIdRepeating">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="majorDisciplineInfo.unitsDeployment" parent="majorDisciplineInfo.unitsDeployment-parent"/>
 
@@ -971,7 +1025,7 @@
 
  <bean id="majorDisciplineInfo.versionInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="versionInfo"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.versionmanagement.dto.VersionInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
  </bean>
  <bean id="majorDisciplineInfo.versionInfo" parent="majorDisciplineInfo.versionInfo-parent"/>
 
@@ -1064,7 +1118,7 @@
 
  <bean id="programVariationInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="programVariationInfo.descr" parent="programVariationInfo.descr-parent"/>
 
@@ -1075,28 +1129,33 @@
 
  <bean id="programVariationInfo.divisionsContentOwner-parent" abstract="true" parent="majorDisciplineInfo.divisionsContentOwner-parent">
   <property name="name" value="divisionsContentOwner"/>
+  <property name="defaultValuePath" value="/divisionsContentOwner"/>
  </bean>
  <bean id="programVariationInfo.divisionsContentOwner" parent="programVariationInfo.divisionsContentOwner-parent"/>
 
  <bean id="programVariationInfo.divisionsDeployment-parent" abstract="true" parent="majorDisciplineInfo.divisionsDeployment-parent">
   <property name="name" value="divisionsDeployment"/>
+  <property name="defaultValuePath" value="/divisionsDeployment"/>
  </bean>
  <bean id="programVariationInfo.divisionsDeployment" parent="programVariationInfo.divisionsDeployment-parent"/>
 
  <bean id="programVariationInfo.divisionsFinancialControl-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialControl-parent">
   <property name="name" value="divisionsFinancialControl"/>
+  <property name="defaultValuePath" value="/divisionsFinancialControl"/>
  </bean>
  <bean id="programVariationInfo.divisionsFinancialControl"
        parent="programVariationInfo.divisionsFinancialControl-parent"/>
 
  <bean id="programVariationInfo.divisionsFinancialResources-parent" abstract="true" parent="majorDisciplineInfo.divisionsFinancialResources-parent">
   <property name="name" value="divisionsFinancialResources"/>
+  <property name="defaultValuePath" value="/divisionsFinancialResources"/>
  </bean>
  <bean id="programVariationInfo.divisionsFinancialResources"
        parent="programVariationInfo.divisionsFinancialResources-parent"/>
 
  <bean id="programVariationInfo.divisionsStudentOversight-parent" abstract="true" parent="majorDisciplineInfo.divisionsStudentOversight-parent">
   <property name="name" value="divisionsStudentOversight"/>
+  <property name="defaultValuePath" value="/divisionsStudentOversight"/>
  </bean>
  <bean id="programVariationInfo.divisionsStudentOversight"
        parent="programVariationInfo.divisionsStudentOversight-parent"/>
@@ -1108,11 +1167,61 @@
 
  <bean id="programVariationInfo.endProgramEntryTerm-parent" abstract="true" parent="majorDisciplineInfo.endProgramEntryTerm-parent">
   <property name="name" value="endProgramEntryTerm"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.endProgramEntryTerm"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="HAS_VALUE"/>
+    <property name="fieldPath" value="/endProgramEntryTerm"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>true</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.lastAtp-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>  
  </bean>
  <bean id="programVariationInfo.endProgramEntryTerm" parent="programVariationInfo.endProgramEntryTerm-parent"/>
 
  <bean id="programVariationInfo.endTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
   <property name="name" value="endTerm"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.endTerm"/>
+  <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="HAS_VALUE"/>
+    <property name="fieldPath" value="/endTerm"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>true</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.lastAtp-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
  <bean id="programVariationInfo.endTerm" parent="programVariationInfo.endTerm-parent"/>
 
@@ -1157,6 +1266,7 @@
  <bean id="programVariationInfo.resultOptions-parent" abstract="true"
        parent="majorDisciplineInfo.resultOptions-parent">
   <property name="name" value="resultOptions"/>
+  <property name="maxOccurs" value="1"/>
  </bean>
  <bean id="programVariationInfo.resultOptions" parent="programVariationInfo.resultOptions-parent"/>
 
@@ -1174,8 +1284,99 @@
 
  <bean id="programVariationInfo.startTerm-parent" abstract="true" parent="majorDisciplineInfo.startTerm-parent">
   <property name="name" value="startTerm"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.startTerm"/>
  </bean>
  <bean id="programVariationInfo.startTerm" parent="programVariationInfo.startTerm-parent"/>
+
+
+<bean id="constraint.lookup.programVariation.endTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endTerm"/>
+   </bean>
+  <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.endTerm" parent="constraint.lookup.programVariation.endTerm-parent"/>
+
+<bean id="constraint.lookup.programVariation.endInstAdmitTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endInstAdmitTerm"/>
+   </bean>
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.endInstAdmitTerm" parent="constraint.lookup.programVariation.endInstAdmitTerm-parent"/>
+
+<bean id="constraint.lookup.programVariation.endProgramEntryTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/endProgramEntryTerm"/>
+   </bean>
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.endProgramEntryTerm" parent="constraint.lookup.programVariation.endProgramEntryTerm-parent"/>
+
+
+<bean id="constraint.lookup.programVariation.startTerm-parent" parent="constraint.lookup.atp">
+ <property name="params">
+  <list merge="true">
+   <bean parent="param">
+	<property name="key" value="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
+	<property name="caseSensitive" value="false" />
+	<property name="writeAccess" value="NEVER" />
+	<property name="dataType" value="STRING" />
+	<property name="optional" value="true" />
+	<property name="fieldPath" value="/startTerm"/>
+   </bean>
+  </list>
+ </property>
+</bean>
+<bean id="constraint.lookup.programVariation.startTerm" parent="constraint.lookup.programVariation.startTerm-parent"/>
 
  <bean id="programVariationInfo.stdDuration-parent" abstract="true" parent="cluInfo.stdDuration-parent">
   <property name="name" value="stdDuration"/>
@@ -1201,24 +1402,28 @@
  <bean id="programVariationInfo.unitsContentOwner-parent" abstract="true"
        parent="majorDisciplineInfo.unitsContentOwner-parent">
   <property name="name" value="unitsContentOwner"/>
+  <property name="defaultValuePath" value="/unitsContentOwner"/>
  </bean>
  <bean id="programVariationInfo.unitsContentOwner" parent="programVariationInfo.unitsContentOwner-parent"/>
 
  <bean id="programVariationInfo.unitsDeployment-parent" abstract="true"
        parent="majorDisciplineInfo.unitsDeployment-parent">
   <property name="name" value="unitsDeployment"/>
+  <property name="defaultValuePath" value="/unitsDeployment"/>
  </bean>
  <bean id="programVariationInfo.unitsDeployment" parent="programVariationInfo.unitsDeployment-parent"/>
 
  <bean id="programVariationInfo.unitsFinancialControl-parent" abstract="true"
        parent="majorDisciplineInfo.unitsFinancialControl-parent">
   <property name="name" value="unitsFinancialControl"/>
+  <property name="defaultValuePath" value="/unitsFinancialControl"/>
  </bean>
  <bean id="programVariationInfo.unitsFinancialControl" parent="programVariationInfo.unitsFinancialControl-parent"/>
 
  <bean id="programVariationInfo.unitsFinancialResources-parent" abstract="true"
        parent="majorDisciplineInfo.unitsFinancialResources-parent">
   <property name="name" value="unitsFinancialResources"/>
+  <property name="defaultValuePath" value="/unitsFinancialResources"/>
  </bean>
  <bean id="programVariationInfo.unitsFinancialResources"
        parent="programVariationInfo.unitsFinancialResources-parent"/>
@@ -1226,6 +1431,7 @@
  <bean id="programVariationInfo.unitsStudentOversight-parent" abstract="true"
        parent="majorDisciplineInfo.unitsStudentOversight-parent">
   <property name="name" value="unitsStudentOversight"/>
+  <property name="defaultValuePath" value="/unitsStudentOversight"/>
  </bean>
  <bean id="programVariationInfo.unitsStudentOversight" parent="programVariationInfo.unitsStudentOversight-parent"/>
 
@@ -1282,7 +1488,7 @@
  </bean>
  <bean id="majorDisciplineInfo.isVariationRequired" parent="majorDisciplineInfo.isVariationRequired-parent"/>
 
- <bean id="majorDisciplineInfo.endInstAdmitTerm-parent" abstract="true" parent="majorDisciplineInfo.endTerm-parent">
+ <bean id="majorDisciplineInfo.endInstAdmitTerm-parent" abstract="true" parent="cluInfo.lastAtp-parent">
   <property name="name" value="endInstAdmitTerm"/>
   <property name="dynamic" value="true"/>
  </bean>
@@ -1314,9 +1520,34 @@
  </bean>
  <bean id="programVariationInfo.coreFaculties" parent="programVariationInfo.coreFaculties-parent"/>
 
- <bean id="programVariationInfo.endInstAdmitTerm-parent" abstract="true" parent="programVariationInfo.endTerm-parent">
+ <bean id="programVariationInfo.endInstAdmitTerm-parent" abstract="true" parent="majorDisciplineInfo.endInstAdmitTerm-parent">
   <property name="name" value="endInstAdmitTerm"/>
   <property name="dynamic" value="true"/>
+  <property name="lookupDefinition" ref="constraint.lookup.programVariation.endInstAdmitTerm"/>
+    <property name="caseConstraint">
+   <bean parent="caseConstraint">
+    <property name="operator" value="HAS_VALUE"/>
+    <property name="fieldPath" value="/endInstAdmitTerm"/>
+    <property name="caseSensitive" value="false"/>
+    <property name="whenConstraint">
+     <list>
+      <bean parent="whenConstraint">
+       <property name="values">
+        <list>
+         <value>true</value>
+        </list>
+       </property>
+       <property name="constraint">
+        <!--Copy all the properties from above adding minOccurs = 1-->
+        <bean parent="cluInfo.lastAtp-parent">
+         <property name="minOccurs" value="1" />
+        </bean>
+       </property>
+      </bean>
+     </list>
+    </property>
+   </bean>
+  </property>
  </bean>
 
  <bean id="programVariationInfo.endInstAdmitTerm" parent="programVariationInfo.endInstAdmitTerm-parent"/>
@@ -1378,7 +1609,7 @@
 
  <bean id="coreProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="coreProgramInfo.descr" parent="coreProgramInfo.descr-parent"/>
 
@@ -1536,7 +1767,7 @@
 
  <bean id="credentialProgramInfo.descr-parent" abstract="true" parent="majorDisciplineInfo.descr-parent">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.core.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
  </bean>
  <bean id="credentialProgramInfo.descr" parent="credentialProgramInfo.descr-parent"/>
 
@@ -1751,7 +1982,7 @@
  </bean>
  <bean id="programRequirementInfo.descr" parent="programRequirementInfo.descr-parent"/>
 
- <bean id="programRequirementInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.core.dto.RichTextInfo-parent">
+ <bean id="programRequirementInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="programRequirementInfo.descr.formatted" />

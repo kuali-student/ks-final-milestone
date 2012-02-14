@@ -105,7 +105,7 @@
 
  <bean id="freestanding.cluset.description-parent" abstract="true" parent="baseKualiDescription">
   <property name="name" value="description"/>
-  <property name="minOccurs" value="1"/>
+  <property name="minOccurs" value="0"/>
  </bean>
  <bean id="freestanding.cluset.description" parent="freestanding.cluset.description-parent"/>
 

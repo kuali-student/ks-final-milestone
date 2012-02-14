@@ -76,6 +76,9 @@
                 <entry key="kuali.reqComponent.type.course.courseset.enrolled.nof">
                     <ref local="luContext"/>
                 </entry>
+                <entry key="kuali.reqComponent.type.course.courseset.enrolled.all">
+                    <ref local="luContext"/>
+                </entry>
                 <entry key="kuali.reqComponent.type.course.courseset.credits.completed.nof">
                     <ref local="luContext"/>
                 </entry>
@@ -231,6 +234,9 @@
 	                    <ref local="atpContext"/>                
 						<ref local="gpaContext"/>
                     </list>
+                </entry>
+                <entry key="kuali.reqComponent.type.test">
+                    <ref local="orgContext"/>
                 </entry>
             </map>
         </constructor-arg>

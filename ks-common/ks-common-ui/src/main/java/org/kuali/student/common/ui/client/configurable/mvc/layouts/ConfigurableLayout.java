@@ -17,16 +17,13 @@ package org.kuali.student.common.ui.client.configurable.mvc.layouts;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.ToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 public interface ConfigurableLayout {
 	public void addStartSection(SectionView section);
 	
     public void addSection(String[] hierarchy, SectionView section);
-
-    public void addTool(ToolView tool);
     
 	/**
  	 * Check to see if current/all section(s) is valid (ie. does not contain any errors)

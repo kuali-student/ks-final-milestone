@@ -128,7 +128,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract" abstract="true">
 		<dict:name>Result Component Ids Key</dict:name>
 		<dict:desc>Result Component Ids Key</dict:desc>
-		<dict:dataType>string</dict:dataType>
+		<dict:dataType>list</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 	
