@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/util
+                           http://www.springframework.org/schema/util/spring-util-2.0.xsd">
+
+    <bean id="KS-CalendarSearch-ResultPage" parent="Uif-Page" p:disclosure.render="false" p:id="calenderSearchResultPage">
+        <property name="title" value="Search Results"/>
+        <property name="header">
+            <bean parent="Uif-HeaderField-Two"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-CalendarSearch-CriteriaSection"/>
+                <ref bean="KS-CalendarSearch-ResultSection"/>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-VerticalBoxSection">
+        <property name="title" value="Calendars" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="View/Edit Acedemic Calendar or Term" p:requiredMessageField.render="false"/>
+                <bean parent="Uif-InputField" p:propertyName="calendarType">
+                    <property name="control">
+                        <bean parent="Uif-DropdownControl" p:options-ref="search-options"/>
+                    </property>
+                </bean>
+                <bean parent="Uif-InputField" p:label="Name" p:labelField.renderColon="false"
+					p:propertyName="name">
+					<property name="control">
+						<bean parent="Uif-TextControl" />
+					</property>
+				</bean>
+                <bean parent="Uif-InputField" p:label="Year" p:labelField.renderColon="false"
+					p:propertyName="year">
+					<property name="control">
+						<bean parent="Uif-TextControl" />
+					</property>
+				</bean>
+            </list>
+        </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                    </list>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="KS-CalendarSearch-ResultSection" parent="Uif-VerticalBoxSection">
+        <property name="title" value="Search Results" />
+        <property name="disclosure.render" value="false"/>
+        <property name="items">
+            <list>
+                <bean parent="Uif-Label" p:labelText="test Calendar or Term" p:requiredMessageField.render="false"/>
+            </list>
+        </property>
+    </bean>
+
+    <util:list id="search-options">
+       <bean parent="Uif-KeyLabelPair" p:key="Academic Calendar" p:value="Academic Calendar"/>
+       <bean parent="Uif-KeyLabelPair" p:key="Holiday Calendar" p:value="Holiday Calendar"/>
+       <bean parent="Uif-KeyLabelPair" p:key="Academic Term" p:value="Academic Term"/>
+    </util:list>
+</beans>

@@ -19,6 +19,7 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
@@ -51,9 +52,9 @@ public class CalendarSearchController  extends UifControllerBase {
      * Method used to search
      */
     @RequestMapping(params = "methodToCall=search")
-    public ModelAndView save(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-       return getUIFModelAndView(searchForm);
+       return getUIFModelAndView(searchForm, CalendarConstants.CALENDERSEARCH_RESULTPAGE);
     }
 
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(CalendarSearchForm searchForm) {

@@ -60,6 +60,7 @@
                 <!-- M1 Section -->
                 <value>classpath:org/kuali/student/enrollment/acal/HolidayCalendarEditView.xml</value>
                 <value>classpath:org/kuali/student/enrollment/acal/EnrollmentHomeView.xml</value>
+                <value>classpath:org/kuali/student/enrollment/acal/CalendarSearchResultView.xml</value>
                 <value>classpath:HolidayCalendarView.xml</value>
                 <value>classpath:AcademicCalendarEditView.xml</value>
 			</list>
