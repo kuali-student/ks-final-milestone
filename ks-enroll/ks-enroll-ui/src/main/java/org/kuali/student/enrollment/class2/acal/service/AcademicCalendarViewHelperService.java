@@ -1,13 +1,14 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
 import org.kuali.rice.krad.uif.service.ViewHelperService;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
-import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception;
 
     //Terms
-    public void saveTerm(AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception;
+    public void saveTerm(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception;
 
     public void buildTerm(String termId,AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception;
 

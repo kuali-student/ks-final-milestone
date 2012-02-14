@@ -1,7 +1,8 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
-import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,15 +16,17 @@ public class AcademicTermWrapper {
 
     private String name;
     private int instructionalDays;
-    private String termLength;
     private String termType;
     private Date startDate;
     private Date endDate;
 
+    private String termNameForUI;
+
     private List<KeyDateWrapper> keydates = new ArrayList<KeyDateWrapper>();
 
+    private boolean isReadOnly = false;
+
     public AcademicTermWrapper(){
-       termInfo = new TermInfo();
     }
 
     public String getName() {
@@ -64,6 +67,11 @@ public class AcademicTermWrapper {
 
     public void setTermInfo(TermInfo termInfo) {
         this.termInfo = termInfo;
+        if (termInfo != null){
+            if (StringUtils.equals(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY,termInfo.getStateKey())){
+                isReadOnly = true;
+            }
+        }
     }
 
     public int getInstructionalDays() {
@@ -74,19 +82,19 @@ public class AcademicTermWrapper {
         this.instructionalDays = instructionalDays;
     }
 
-    public String getTermLength() {
-        return termLength;
-    }
-
-    public void setTermLength(String termLength) {
-        this.termLength = termLength;
-    }
-
     public List<KeyDateWrapper> getKeydates() {
         return keydates;
     }
 
     public void setKeydates(List<KeyDateWrapper> keydates) {
         this.keydates = keydates;
+    }
+
+    public String getTermNameForUI() {
+        return termNameForUI;
+    }
+
+    public void setTermNameForUI(String termNameForUI) {
+        this.termNameForUI = termNameForUI;
     }
 }

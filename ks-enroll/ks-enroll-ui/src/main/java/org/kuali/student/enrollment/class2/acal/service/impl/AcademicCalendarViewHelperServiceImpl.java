@@ -15,30 +15,29 @@
  */
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.List;
-import java.util.Date;
-import javax.xml.namespace.QName;
-
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
-
+import org.kuali.rice.krad.uif.view.View;
+import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.*;
+import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
+import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
-import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
-import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.TermInfo;
-import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
-import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
-import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.test.utilities.TestHelper;
+
+import javax.xml.namespace.QName;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -195,21 +194,55 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return eventInfo;
     }
 
-    public void saveTerm(AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception {
-        //Create Term
-         List<AcademicTermWrapper> termWrappers = academicCalendarForm.getTermWrapperList();
+    public void saveTerm(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception {
 
-        for (AcademicTermWrapper termWrapper : termWrappers) {
-            TermInfo termInfo = termWrapper.getTermInfo();
-            termInfo.setStartDate(termWrapper.getStartDate());
-            termInfo.setEndDate(termWrapper.getEndDate());
-            termInfo.setName(termWrapper.getName());
-            termInfo.setTypeKey(termWrapper.getTermType());
+        boolean isNewTerm = false;
+        if (termWrapper.getTermInfo() == null){
+            TermInfo newTerm = new TermInfo();
+            termWrapper.setTermInfo(newTerm);
+            newTerm.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+            newTerm.setId(UUIDHelper.genStringUUID());
+            RichTextInfo desc = new RichTextInfo();
+            desc.setPlain("Test");
+            newTerm.setDescr(desc);
+            isNewTerm = true;
+        }
 
-            TermInfo term = getAcalService().updateTerm(termInfo.getId(), termInfo, context);
+        TermInfo term = termWrapper.getTermInfo();
 
-    //        int instructionalDays = getAcalService().getInstructionalDaysForTerm(term.getId(),context);
-    //        academicTermForm.setInstructionalDays(instructionalDays);
+        term.setEndDate(termWrapper.getEndDate());
+        term.setStartDate(termWrapper.getStartDate());
+        term.setName(termWrapper.getName());
+        term.setTypeKey(termWrapper.getTermType());
+
+        if (isNewTerm){
+            TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,context);
+            termWrapper.setTermInfo(newTerm);
+        }else{
+            TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,context);
+            termWrapper.setTermInfo(updatedTerm);
+        }
+
+        //FIXME: Have to fix the exception thrown when there are not keydates added
+        try{
+//            termWrapper.setInstructionalDays(getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),context));
+        }catch(Exception e){
+//            e.printStackTrace();
+        }
+
+    }
+
+    protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {
+        if (addLine instanceof AcademicTermWrapper){
+            AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
+            try {
+                TypeInfo termType = getAcalService().getTermType(((AcademicTermWrapper) addLine).getTermType(),TestHelper.getContext1());
+                newLine.setTermNameForUI(termType.getName());
+                SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
+                newLine.setName(termType.getName() + " " + simpleDateformat.format(newLine.getStartDate()));
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
         }
     }
 
