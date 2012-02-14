@@ -165,7 +165,6 @@ public class TestCourseOfferingServiceImpl {
 		schedule2.setSpaceId("room 316");
 		schedule2.setScheduleId("19960415T083000Z");
 		schedules.add(schedule2);
-		ao.setMeetingSchedules(schedules);
 		
     	List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
     	OfferingInstructorInfo instructor = new OfferingInstructorInfo();
@@ -191,7 +190,6 @@ public class TestCourseOfferingServiceImpl {
             assertEquals(created.getTermId(), retrieved.getTermId());
             assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey());
             assertEquals(LuiServiceConstants.LECTURE_ACTIVITY_OFFERING_TYPE_KEY, retrieved.getTypeKey());
-            assertEquals(2, retrieved.getMeetingSchedules().size());
             assertEquals(1, retrieved.getInstructors().size());
 
             // test getActivityOfferingsByCourseOffering
@@ -201,7 +199,6 @@ public class TestCourseOfferingServiceImpl {
             assertEquals(1, activities.size());
             assertEquals(created.getActivityId(), activities.get(0).getActivityId());
             assertEquals(created.getId(), activities.get(0).getId());
-            assertEquals(2, activities.get(0).getMeetingSchedules().size());
             assertEquals(1, activities.get(0).getInstructors().size());
         }
         catch (Exception ex) {
