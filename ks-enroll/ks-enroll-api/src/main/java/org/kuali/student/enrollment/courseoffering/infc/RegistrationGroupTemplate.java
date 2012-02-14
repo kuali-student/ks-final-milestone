@@ -28,6 +28,13 @@ import java.util.List;
 public interface RegistrationGroupTemplate {
 
     /**
+     * Gets the course offering Id to which this template applies.
+     *
+     * @name Course Offering Id
+     */
+    public String getCourseOfferingId();
+
+    /**
      * Gets the activity offering Id combinations. Each list within
      * this list contains a list of Activity Offering Ids.
      *

@@ -387,22 +387,4 @@ public interface CourseOffering
      * @impl TODO: decide where to store
      */
     public Boolean getIsFinancialAidEligible();
-
-    /************* Miscellaneous **********************/
-
-    /**
-     * Specifies whether the selection of RegistrationGroup that students
-     * register for will be done as a block (all activities together) or in a
-     * sequential order of activities The two types that have been predefined
-     * are "All" and "Sequenced": All: When a student registers for this course
-     * she gets registered for all sections identified by the reg. group
-     * Sequenced: When a student registers for this course she must register
-     * first for the primary section identified and then any secondary sections
-     * TODO: We have NOT fully figured out how to do sequences in course
-     * registration
-     * 
-     * @name Registration Order Type Key
-     */
-    public String getRegistrationOrderTypeKey();
-
 }

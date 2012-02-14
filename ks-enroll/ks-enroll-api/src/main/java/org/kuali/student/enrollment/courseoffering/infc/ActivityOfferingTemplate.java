@@ -29,6 +29,13 @@ import java.util.List;
 public interface ActivityOfferingTemplate {
 
     /**
+     * Gets the course offering Id to which this template applies.
+     *
+     * @name Course Offering Id
+     */
+    public String getCourseOfferingId();
+
+    /**
      * List of activity offering options.
      *
      * @name Activity Offering Template Options

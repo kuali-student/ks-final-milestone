@@ -53,7 +53,8 @@ import org.w3c.dom.Element;
                 "meta", "attributes", "_futureElements"})
 
 public class ActivityOfferingInfo 
-    extends IdEntityInfo implements ActivityOffering {
+    extends IdEntityInfo 
+    implements ActivityOffering {
 
     private static final long serialVersionUID = 1L;
 
@@ -205,6 +206,10 @@ public class ActivityOfferingInfo
 
     @Override
     public List<String> getGradingOptionKeys() {
+        if (gradingOptionKeys == null) {
+            gradingOptionKeys = new ArrayList<String>();
+        }
+
         return gradingOptionKeys;
     }
 
@@ -214,6 +219,10 @@ public class ActivityOfferingInfo
 
     @Override
     public List<OfferingInstructorInfo> getInstructors() {
+        if (instructors == null) {
+            instructors = new ArrayList<OfferingInstructorInfo>();
+        }
+
         return instructors;
     }
 
