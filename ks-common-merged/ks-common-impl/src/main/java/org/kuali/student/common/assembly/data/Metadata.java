@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.kuali.student.common.olddictionary.dto.DataType;
+
 public class Metadata implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,7 +48,7 @@ public class Metadata implements Serializable {
 	
 	private boolean onChangeRefreshMetadata;
 
-    private Data.DataType dataType;
+    private DataType dataType;
     
     private Data.Value defaultValue;
     
@@ -108,7 +110,7 @@ public class Metadata implements Serializable {
     }
     
     protected void _toString(StringBuilder sb) {
-        Data.DataType type = (null == dataType) ? Data.DataType.DATA : dataType;
+        DataType type = (null == dataType) ? DataType.DATA : dataType;
         sb.append("type: " + type.toString());
         sb.append(", canEdit: " + canEdit);
         sb.append(", canView: " + canView);
@@ -170,11 +172,11 @@ public class Metadata implements Serializable {
     	}
     }
 
-    public Data.DataType getDataType() {
+    public DataType getDataType() {
         return dataType;
     }
 
-    public void setDataType(Data.DataType dataType) {
+    public void setDataType(DataType dataType) {
         this.dataType = dataType;
     }
 

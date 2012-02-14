@@ -21,7 +21,7 @@ import java.util.List;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.olddictionary.dto.DataType;
 import org.kuali.student.common.assembly.data.Data.Key;
 import org.kuali.student.common.assembly.helper.PropertyEnum;
 import org.kuali.student.common.assembly.helper.RuntimeDataHelper;

@@ -27,7 +27,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.Data.DataType;
+import org.kuali.student.common.olddictionary.dto.DataType;
 import org.kuali.student.common.assembly.data.Data.Value;
 import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
 import org.kuali.student.common.olddictionary.old.dto.ConstraintDescriptor;

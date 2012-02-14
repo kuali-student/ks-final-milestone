@@ -46,6 +46,8 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class MetadataServiceImpl {
 
+	private static final DataType COMPLEX = null;
+
 	final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
 
     private Map<String, DictionaryService> dictionaryServiceMap;
