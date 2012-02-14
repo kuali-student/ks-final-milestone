@@ -902,10 +902,10 @@ public interface CourseOfferingService {
      * @param registrationGroupTemplateType   type key fo the reg group template to be created
      * @param registrationGroupTemplateInfo    the Registration Group Template
      * @return
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * @throws DataValidationErrorException  registrationGroupTemplateInfo not valid
+     * @throws InvalidParameterException   Invalid  activityOfferingTemplateId, registrationGroupTemplateType, or registrationGroupTemplateInfo
+     * @throws MissingParameterException  Missing  activityOfferingTemplateId, registrationGroupTemplateType, or registrationGroupTemplateInfo
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException
      */
    public RegistrationGroupTemplateInfo createRegistrationGroupTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "registrationGroupTemplateType") String registrationGroupTemplateType, @WebParam(name = "registrationGroupTemplateInfo")  RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException,DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException ;
@@ -914,30 +914,30 @@ public interface CourseOfferingService {
     /**
      * Updates a registration Group template based on the info object
      *
-     * @param registrationGroupTemplateId
+     * @param registrationGroupTemplateId  Identifier of the reg group template
      * @param registrationGroupTemplateInfo
      * @param context
      * @return
-     * @throws DataValidationErrorException
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * @throws DataValidationErrorException  registrationGroupTemplateInfo not valid
+     * @throws DoesNotExistException  registrationGroupTemplateId does not exist
+     * @throws InvalidParameterException    Invalid registrationGroupTemplateInfo
+     * @throws MissingParameterException    Missing registrationGroupTemplateInfo
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException
      * @throws VersionMismatchException
      */
    public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId")  String registrationGroupTemplateId, @WebParam(name = "registrationGroupTemplateInfo")  RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
 
     /**
+     * Deletes a registration group template based on the identifier
      *
-     *
-     * @param registrationGroupTemplateId
+     * @param registrationGroupTemplateId  Identifier of the reg group template
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * @throws DoesNotExistException  registrationGroupTemplateId does not exist
+     * @throws InvalidParameterException   Invalid registrationGroupTemplateId
+     * @throws MissingParameterException  Missing registrationGroupTemplateId in the input
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException
      */
    public StatusInfo deleteRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId")  String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
