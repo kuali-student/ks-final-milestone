@@ -16,7 +16,10 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -56,6 +59,40 @@ public class HolidayCalendarController extends UifControllerBase {
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
         return new HolidayCalendarForm();
+    }
+
+    @Override
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=addLine")
+    public ModelAndView addLine(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+            HttpServletRequest request, HttpServletResponse response) {
+        HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
+        List<HolidayInfo> holidays = hcForm.getHolidays();
+        Map<String, Object> newCollectionLines = form.getNewCollectionLines();
+
+        if(newCollectionLines != null && !newCollectionLines.isEmpty()){
+            if(holidays != null && !holidays.isEmpty()){
+                GlobalVariables.getMessageMap().removeAllErrorMessagesForProperty(KRADConstants.GLOBAL_ERRORS);
+                for (Map.Entry<String, Object> entry : newCollectionLines.entrySet()){
+                    HolidayInfo newHoliday = (HolidayInfo)entry.getValue();
+                    for(HolidayInfo holiday : holidays){
+                        boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
+                        if(duplicated){
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "The Holiday is already in the collection.");
+                            return super.updateComponent(form, result, request, response);
+                        }
+                    }
+                }
+            }
+        }
+
+        return super.addLine(form, result, request, response);
+    }
+
+    private boolean isDuplicateHoliday(HolidayInfo newHoliday, HolidayInfo sourceHoliday){
+        return (newHoliday.getTypeKey().equals(sourceHoliday.getTypeKey()) &&
+                       newHoliday.getStartDate().equals(sourceHoliday.getStartDate()) &&
+                       newHoliday.getEndDate().equals(sourceHoliday.getEndDate()));
+
     }
 
     @Override
