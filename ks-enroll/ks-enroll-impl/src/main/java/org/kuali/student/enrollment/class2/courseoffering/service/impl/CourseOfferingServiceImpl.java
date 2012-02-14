@@ -154,8 +154,8 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	}
 
 	@Override
-	public List<String> getCourseOfferingIdsForTerm(String termId,
-			Boolean useIncludedTerm, ContextInfo context)
+	public List<String> getCourseOfferingIdsByTerm(String termId,
+            Boolean useIncludedTerm, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -639,7 +639,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	public ActivityOfferingInfo createActivityOffering(
 			String  courseOfferingIds, String activityOfferingTypeKey,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
+			throws  DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 
@@ -655,22 +655,27 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
 
         try {
-            LuiInfo created = luiService.createLui(
-                    activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermId(), lui, context);
+            LuiInfo created = null;
+                created = luiService.createLui(
+                        activityOfferingInfo.getActivityId(), activityOfferingInfo.getTermId(), lui, context);
             if (null == created) {
                 throw new OperationFailedException("LUI service did not create LUI");
             }
             activityOfferingInfo.setId(created.getId());
             processRelationsForActivityOffering(courseOfferingIds, activityOfferingInfo, context);
-            return activityOfferingInfo;
         }
         catch (DoesNotExistException e) {
             throw new OperationFailedException();
         }
+        catch (AlreadyExistsException e) {
+                e.printStackTrace();
+        }
+        return activityOfferingInfo;
+
 	}
 
     @Override
-    public List<ActivityOfferingInfo> generateActivityOfferingsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public List<ActivityOfferingInfo> generateActivityOfferingsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
@@ -691,7 +696,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		}
 		
 		//TODO: ao.setGradingOptionKeys -- ignore for core slice
-}
+       }
 
 	
 	private void processLuiluiRelationsForActivityOffering(String courseOfferingId,
@@ -863,7 +868,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 	public RegistrationGroupInfo createRegistrationGroup(
 			String courseOfferingId,
 			RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
-			throws AlreadyExistsException, DoesNotExistException,
+			throws  DoesNotExistException,
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -886,9 +891,11 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
                 }
 				
 				if(termId != null){
-					LuiInfo created = luiService.createLui(registrationGroupInfo.getFormatId(), termId, lui, context);
-					
-					if(created != null){
+                    LuiInfo created = null;
+
+                    created = luiService.createLui(registrationGroupInfo.getFormatId(), termId, lui, context);
+
+                    if(created != null){
 						registrationGroupInfo.setId(created.getId());
 						registrationGroupInfo.setTermId(termId);
 						processRelationsForRegGroup(courseOfferingId, registrationGroupInfo, context);
@@ -901,14 +908,16 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
                 }
 			} catch (DoesNotExistException e) {
 				throw new OperationFailedException();
-			}
+			}  catch (AlreadyExistsException ex) {
+                throw new OperationFailedException(ex.toString());
+            }
 		}
 		else
 			return null;
 	}
 
     @Override
-    public List<RegistrationGroupInfo> generateRegistrationGroupsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public List<RegistrationGroupInfo> generateRegistrationGroupsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws  DoesNotExistException,  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
@@ -1077,13 +1086,13 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
         }
 
     @Override
-    public ActivityOfferingTemplateInfo createActivityOfferingTemplate(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTemplateType") String activityOfferingTemplateType, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public ActivityOfferingTemplateInfo createActivityOfferingTemplate(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTemplateType") String activityOfferingTemplateType, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws  DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
 
     @Override
-    public ActivityOfferingTemplateInfo updateActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException
+    public ActivityOfferingTemplateInfo updateActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
@@ -1153,7 +1162,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
     }
 
     @Override
-    public List<CourseOfferingInfo> getCourseOfferingsForCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public List<CourseOfferingInfo> getCourseOfferingsByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }

@@ -103,7 +103,7 @@ public interface CourseOfferingService {
         * @throws OperationFailedException  unable to complete request
         * @throws PermissionDeniedException authorization failure
         */
-       public List<CourseOfferingInfo> getCourseOfferingsForCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+       public List<CourseOfferingInfo> getCourseOfferingsByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
@@ -140,7 +140,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<String> getCourseOfferingIdsForTerm(@WebParam(name = "termId") String termId, @WebParam(name = "useIncludedTerm") Boolean useIncludedTerm, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<String> getCourseOfferingIdsByTerm(@WebParam(name = "termId") String termId, @WebParam(name = "useIncludedTerm") Boolean useIncludedTerm, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve CourseOffering Ids for a given term and subject area
@@ -174,8 +174,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(@WebParam(name = "termId") String termId, @WebParam(name = "instructorId") String instructorId, @WebParam(name = "context") ContextInfo context)throws DoesNotExistException, InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException;
+    public List<CourseOfferingInfo> getCourseOfferingsByTermAndInstructor(@WebParam(name = "termId") String termId, @WebParam(name = "instructorId") String instructorId, @WebParam(name = "context") ContextInfo context)throws DoesNotExistException, InvalidParameterException, MissingParameterException,  OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieve CourseOffering Ids for a given term and unit content owner
@@ -194,29 +193,29 @@ public interface CourseOfferingService {
     public List<String> getCourseOfferingIdsByTermAndUnitContentOwner(@WebParam(name = "termId") String termId, @WebParam(name = "unitOwnerId") String unitOwnerId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     *
-     * @param socId
+     * Gets a list  course offering ids given the SOC that the course offering is a part of.
+     * @param socId   Unique id for the SOC
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DoesNotExistException   SOC Id doesn't exist
+     * @throws InvalidParameterException  Invalid soc id
+     * @throws MissingParameterException  Missing SOC id
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException  authorization failure
      */
     public List<CourseOfferingInfo> getCourseOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
-     *
-     * @param socId
+     *  Gets a list fo course offerings that are already published by SOC id
+     * @param socId   Unique id for the SOC
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DoesNotExistException  SOC Id doesn't exist
+     * @throws InvalidParameterException    Invalid soc id
+     * @throws MissingParameterException  Missing SOC id
+     * @throws OperationFailedException   unable to complete request
+     * @throws PermissionDeniedException  authorization failure
      */
     public List<CourseOfferingInfo> getPublishedCourseOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -249,7 +248,7 @@ public interface CourseOfferingService {
      *                           information about the caller of service operation
      * @return updated CourseOffering
      * @throws DataValidationErrorException One or more values invalid for this operation
-     * @throws DoesNotExistException        the CourseOffering does not exist
+     * @throws DoesNotExistException      the CourseOffering does not exist
      * @throws InvalidParameterException    One or more parameters invalid
      * @throws MissingParameterException    One or more parameters missing
      * @throws OperationFailedException     unable to complete request
@@ -322,72 +321,75 @@ public interface CourseOfferingService {
     public List<ValidationResultInfo> validateCourseOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "courseOfferingInfo") CourseOfferingInfo courseOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
+     *  Gets an activity offering template based on Id.
      *
-     * @param activityOfferingTemplateId
+     * @param activityOfferingTemplateId  The activity offering template identifier
+     * @param  context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * @throws DoesNotExistException  The activity offering template doesn't exist
+     * @throws InvalidParameterException  Invalid activityOfferingTemplateId
+     * @throws MissingParameterException  Missing activityOfferingTemplateId
+     * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException
      */
     public ActivityOfferingTemplateInfo getActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId")String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
-     *
-     * @param courseOfferingId
+     * Gets a list of activity offering template by a course offering id they belong to.
+     * @param courseOfferingId  Course offering identifier
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DoesNotExistException   The course offering  doesn't exist
+     * @throws InvalidParameterException Invalid course offering id
+     * @throws MissingParameterException     Missing course offering id
+     * @throws OperationFailedException    unable to complete request
+     * @throws PermissionDeniedException   authorization failure
      */
     public List<ActivityOfferingTemplateInfo> getActivityOfferingTemplatesByCourseOfferingId(@WebParam(name = "courseOfferingId")String courseOfferingId,@WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Creates an activity offering template for a course offering
      *
-     * @param courseOfferingId
-     * @param activityOfferingTemplateType
-     * @param activityOfferingTemplateInfo
-     * @return
-     * @throws AlreadyExistsException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
-    public ActivityOfferingTemplateInfo createActivityOfferingTemplate(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTemplateType")String activityOfferingTemplateType, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     *
-     * @param activityOfferingTemplateId
-     * @param activityOfferingTemplateInfo
-     * @param context
+     * @param courseOfferingId  Course offering that the activity offering template belongs to
+     * @param activityOfferingTemplateType  the type key of the activity offering template
+     * @param activityOfferingTemplateInfo  The activity offering template info object
      * @return
      * @throws DataValidationErrorException
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * @throws InvalidParameterException Invalid course offering id
+     * @throws MissingParameterException     Missing course offering id, activityOfferingTemplateInfo  or activityOfferingTemplateType
+     * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException
-     * @throws VersionMismatchException
      */
-    public ActivityOfferingTemplateInfo updateActivityOfferingTemplate( @WebParam(name = "activityOfferingTemplateId")String activityOfferingTemplateId, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;;
+    public ActivityOfferingTemplateInfo createActivityOfferingTemplate(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTemplateType")String activityOfferingTemplateType, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws  DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Update an activity offering template.
      *
-     * @param activityOfferingTemplateId
+     * @param activityOfferingTemplateId  The  Id activityOfferingTemplate to be updated
+     * @param activityOfferingTemplateInfo  The new activityOfferingTemplate Info
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DataValidationErrorException   One or more values invalid for this operation
+     * @throws DoesNotExistException  The activityOfferingTemplateId doesn't exist
+     * @throws InvalidParameterException Invalid  activityOfferingTemplateId or activityOfferingTemplateInfo
+     * @throws MissingParameterException Missing activityOfferingTemplateInfo or  activityOfferingTemplateId
+     * @throws OperationFailedException    unable to complete request
+     * @throws PermissionDeniedException   authorization failure
+     */
+    public ActivityOfferingTemplateInfo updateActivityOfferingTemplate( @WebParam(name = "activityOfferingTemplateId")String activityOfferingTemplateId, @WebParam(name = "activityOfferingTemplateInfo") ActivityOfferingTemplateInfo activityOfferingTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;;
+
+    /**
+     * Deletes an activity offering template
+     *
+     * @param activityOfferingTemplateId  The  Id activityOfferingTemplate to be deleted
+     * @param context
+     * @return
+     * @throws DoesNotExistException  The activityOfferingTemplateId doesn't exist
+     * @throws InvalidParameterException  Invalid  activityOfferingTemplateId
+     * @throws MissingParameterException  Missing  activityOfferingTemplateId
+     * @throws OperationFailedException    unable to complete request
+     * @throws PermissionDeniedException   authorization failure
      */
     public StatusInfo deleteActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId,@WebParam(name = "context") ContextInfo context ) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
@@ -499,76 +501,78 @@ public interface CourseOfferingService {
     public List<ActivityOfferingInfo> getActivityOfferingsByActivityTypeAndActivityOfferingTemplate(@WebParam(name = "activityTypeKey") String activityTypeKey, @WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * @param activityOfferingTemplateId
+     * Retrieves the Activity Offerings by actvity offering template id which don't have
+     * registration groups created for them yet.
+     *
+     * @param activityOfferingTemplateId  The Id of the activity offering template
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DoesNotExistException   The activityOfferingTemplateId does not exist
+     * @throws InvalidParameterException  Invalid activityOfferingTemplateId
+     * @throws MissingParameterException  Missing activityOfferingTemplateId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ActivityOfferingInfo> getActivityOfferingsByActivityOfferingTemplateWithoutRegGroup(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Gets a list of ActivityOfferings for a SOC which are not scheduled yet
      *
-     * @param socId
+     * @param socId  Identifier of the SOC
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DoesNotExistException   The activityOfferingTemplateId does not exist
+     * @throws InvalidParameterException  Invalid socId
+     * @throws MissingParameterException  Missing socId
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<ActivityOfferingInfo> getUnscheduledActivityOfferingsBySoc(@WebParam(name = "socId") String socId,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
-/**
-     *
-     * @param socId
+    /**
+     *Gets a list of ActivityOfferings for a SOC which are not published in the Schedule of Classes yet
+
+     * @param socId  Identifier of the SOC
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
-     */
+     * @throws DoesNotExistException   The activityOfferingTemplateId does not exist
+      * @throws InvalidParameterException  Invalid socId
+      * @throws MissingParameterException  Missing socId
+      * @throws OperationFailedException  unable to complete request
+      * @throws PermissionDeniedException authorization failure
+      */
     public List<ActivityOfferingInfo> getUnpublishedActivityOfferingsBySoc(@WebParam(name = "socId") String socId,  @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates a new Activity Offering
+     * Creates a new Activity Offering for a course offering.
      *
      *
-     * @param courseOfferingId List of courseOffering Ids that the ActivityOffering will
-     *                             belong to
+     * @param courseOfferingId       courseOffering that the ActivityOffering belongs to
      * @param activityOfferingInfo Details of the ActivityOffering to be created
      * @param context              Context information containing the principalId and locale
      *                             information about the caller of service operation
      * @return newly created ActivityOffering
-     * @throws AlreadyExistsException       the ActivityOffering being created already exists
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException    One or more parameters invalid
      * @throws MissingParameterException    One or more parameters missing
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public ActivityOfferingInfo createActivityOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey,  @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public ActivityOfferingInfo createActivityOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "activityOfferingTypeKey") String activityOfferingTypeKey,  @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws  DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-       *
+       * Generates actvity offerings based on a activity offering template for a course offering.
+     *
        * @param activityOfferingTemplateId
        * @param context
        * @return
-       * @throws AlreadyExistsException
-       * @throws DataValidationErrorException
-       * @throws InvalidParameterException
-       * @throws MissingParameterException
-       * @throws OperationFailedException
-       * @throws PermissionDeniedException
+       * @throws InvalidParameterException    activityOfferingTemplateId invalid
+       * @throws MissingParameterException    Missing activityOfferingTemplateId in the input
+       * @throws OperationFailedException     unable to complete request
+       * @throws PermissionDeniedException    authorization failure
        */
-      List<ActivityOfferingInfo> generateActivityOfferingsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId,  @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+      List<ActivityOfferingInfo> generateActivityOfferingsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId,  @WebParam(name = "context") ContextInfo context) throws  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Updates an existing ActivityOffering.
@@ -696,7 +700,7 @@ public interface CourseOfferingService {
     public Float calculateTotalContactHoursForTerm(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieve information about a RegistrationGroup
+     * Retrieve  a RegistrationGroup   based on id
      *
      * @param registrationGroupId Unique Id of the RegistrationGroup
      * @param context             Context information containing the principalId and locale
@@ -745,14 +749,14 @@ public interface CourseOfferingService {
     /**
      *  Retrieves a list of RegistrationGroup records that contain all the activity offerings in the input list
      *
-     * @param activityOfferingIds
+     * @param activityOfferingIds  List of activityOffering Identifiers
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DoesNotExistException  One or more of the activityOfferingIds doesn't exist
+     * @throws InvalidParameterException One or more invalid activityOfferingIds
+     * @throws MissingParameterException Missing activityOfferingIds
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     /**
@@ -780,7 +784,6 @@ public interface CourseOfferingService {
      * @param context               Context information containing the principalId and locale
      *                              information about the caller of service operation
      * @return newly created registrationGroup
-     * @throws AlreadyExistsException       the RegistrationGroup being created already exists
      * @throws DoesNotExistException        courseOfferingId not found
      * @throws DataValidationErrorException One or more values invalid for this operation
      * @throws InvalidParameterException    One or more parameters invalid
@@ -788,23 +791,23 @@ public interface CourseOfferingService {
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    authorization failure
      */
-    public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "registrationGroupType") String registrationGroupType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public RegistrationGroupInfo createRegistrationGroup(@WebParam(name = "registrationGroupType") String registrationGroupType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws  DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
 
     /**
+     * Generates all possible registration groups needed (not already in a regGroup) for the given Activity
+     * Offering Template if there are no reg group templates for the Activity Offering Template;
+     * else generate by constraints in the reg group template.
      *
-     * @param activityOfferingTemplateId
+     * @param activityOfferingTemplateId    identifier of the activity offering
      * @param context
      * @return
-     * @throws AlreadyExistsException
-     * @throws DoesNotExistException
-     * @throws DataValidationErrorException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws InvalidParameterException    One or more parameters invalid
+     * @throws MissingParameterException    One or more parameters missing
+     * @throws OperationFailedException     unable to complete request
+     * @throws PermissionDeniedException    authorization failure
      */
-    public List<RegistrationGroupInfo> generateRegistrationGroupsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<RegistrationGroupInfo> generateRegistrationGroupsForActivityOfferingTemplate(@WebParam(name = "activityOfferingTemplateId") String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws  DoesNotExistException,  InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
     /**
      * Updates an existing RegistrationGroup.
      *
@@ -867,37 +870,38 @@ public interface CourseOfferingService {
     public List<ValidationResultInfo> validateRegistrationGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
 
     /**
-     *
-     * @param registrationGroupTemplateId
+     * Gets a registration group template based on the Identifier
+     * @param registrationGroupTemplateId Identifier of the Reg Group template
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
-     * @throws PermissionDeniedException
+     * @throws DoesNotExistException  registrationGroupTemplateId doesn't exist
+     * @throws InvalidParameterException  Invalid registrationGroupTemplateId
+     * @throws MissingParameterException  Missing registrationGroupTemplateId in the input
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException authorization failure
      */
     public RegistrationGroupTemplateInfo getRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId")  String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,OperationFailedException, PermissionDeniedException;
 
     /**
+     * Gets the Registration Group templates for the activity offering templates
      *
-     * @param activityOfferingTemplateId
+     * @param activityOfferingTemplateId Identifier of the activity offering template
      * @param context
      * @return
-     * @throws DoesNotExistException
-     * @throws InvalidParameterException
-     * @throws MissingParameterException
-     * @throws OperationFailedException
+     * @throws DoesNotExistException activityOfferingTemplateId does not exist
+     * @throws InvalidParameterException invalid activityOfferingTemplateId
+     * @throws MissingParameterException missing activityOfferingTemplateId
+     * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException
      */
     public List<RegistrationGroupTemplateInfo> getRegistrationGroupTemplatesByActivityOfferingTemplateId(@WebParam(name = "activityOfferingTemplateId")  String activityOfferingTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,OperationFailedException, PermissionDeniedException;
     /**
+     * Creates a registration group template for the activity offering template
      *
-     * @param activityOfferingTemplateId
-     * @param registrationGroupTemplateType
-     * @param registrationGroupTemplateInfo
+     * @param activityOfferingTemplateId  Identifier of the activity offering template
+     * @param registrationGroupTemplateType   type key fo the reg group template to be created
+     * @param registrationGroupTemplateInfo    the Registration Group Template
      * @return
-     * @throws AlreadyExistsException
      * @throws DataValidationErrorException
      * @throws InvalidParameterException
      * @throws MissingParameterException
@@ -908,6 +912,7 @@ public interface CourseOfferingService {
 
 
     /**
+     * Updates a registration Group template based on the info object
      *
      * @param registrationGroupTemplateId
      * @param registrationGroupTemplateInfo
@@ -922,7 +927,9 @@ public interface CourseOfferingService {
      * @throws VersionMismatchException
      */
    public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId")  String registrationGroupTemplateId, @WebParam(name = "registrationGroupTemplateInfo")  RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException;
+
     /**
+     *
      *
      * @param registrationGroupTemplateId
      * @param context

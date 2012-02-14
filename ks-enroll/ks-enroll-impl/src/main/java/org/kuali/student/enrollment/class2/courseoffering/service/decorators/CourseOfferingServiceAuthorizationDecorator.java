@@ -94,8 +94,8 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	}
 
 	@Override
-	public List<String> getCourseOfferingIdsForTerm(String termId,
-			Boolean useIncludedTerm, ContextInfo context)
+	public List<String> getCourseOfferingIdsByTerm(String termId,
+            Boolean useIncludedTerm, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
@@ -103,8 +103,8 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsForTerm", null, null)) {
-	        return getNextDecorator().getCourseOfferingIdsForTerm(termId, useIncludedTerm, context);
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsByTerm", null, null)) {
+	        return getNextDecorator().getCourseOfferingIdsByTerm(termId, useIncludedTerm, context);
         }
         else {
            throw new PermissionDeniedException();
@@ -365,7 +365,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	public ActivityOfferingInfo createActivityOffering(
 			String courseOfferingId,  String activityOfferingTypeKey,
 			ActivityOfferingInfo activityOfferingInfo, ContextInfo context)
-			throws AlreadyExistsException, DataValidationErrorException,
+			throws  DataValidationErrorException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
         if (null == context) {
@@ -564,7 +564,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	public RegistrationGroupInfo createRegistrationGroup(
 			String courseOfferingId,
 			RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
-			throws AlreadyExistsException, DoesNotExistException,
+			throws  DoesNotExistException,
 			DataValidationErrorException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
