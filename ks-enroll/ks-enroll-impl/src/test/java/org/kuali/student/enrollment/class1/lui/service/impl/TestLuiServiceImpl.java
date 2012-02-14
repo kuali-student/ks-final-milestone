@@ -33,6 +33,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -135,9 +136,6 @@ public class TestLuiServiceImpl {
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
-        if (info.getOfficialIdentifier() != null) {
-            fail("official identifier is not null but it was never set");
-        }
         // info.setStudySubjectArea("Math");
         info.setCluId("testCluId");
         info.setAtpId("testAtpId1");
@@ -154,6 +152,7 @@ public class TestLuiServiceImpl {
         // try{
         created = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         assertNotNull(created);
+        assertNull("official identifier was non-null after creation even though it was never set intentionally", created.getOfficialIdentifier());
         assertEquals("Test lui one", created.getName());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());
