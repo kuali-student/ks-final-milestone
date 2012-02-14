@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-
+//TODO KSCM - I am being used
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class TypeInfo implements Serializable, Idable, HasAttributes {
