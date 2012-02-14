@@ -141,17 +141,23 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
 
     public void setResultOptions(List<String> strings) {
     }
+
     //TODO KSCM-248
+    @Deprecated
     public void setVersionInfo(VersionInfo versionInfo) {
     }
 
+    @Deprecated
     public void setStartTerm(Object o) {
         //TODO  KSCM-305
     }
 
+   @Deprecated
     public void setEndTerm(Object endTerm) {
       //TODO KSCM  this.endTerm = endTerm;
       //TODO  KSCM-305
+
+
     }
 
     public void setEndProgramEntryTerm(Object endProgramEntryTerm) {

@@ -208,7 +208,8 @@ public class ProgramVariationInfo extends ProgramAttributesInfo implements Progr
     public void setUnitsFinancialControl(List<String> unitsFinancialControl) {
         this.unitsFinancialControl = unitsFinancialControl;
     }
-        @Deprecated
+
+    @Deprecated
     public VersionInfo getVersionInfo() {
         return null;
         // TODO KSCM
@@ -226,35 +227,39 @@ public class ProgramVariationInfo extends ProgramAttributesInfo implements Progr
     }
     @Deprecated
     public String getEndProgramEntryTerm() {
-        return null; //return endProgramEntryTerm;
+        //return null; //return endProgramEntryTerm;
         //TODO KSCM
+        return getEndProgramEntryTermId();
     }
 
     @Deprecated
     public void setEndProgramEntryTerm(String endProgramEntryTerm) {
         //TODO KSCM
+
     }
 
     @Deprecated
     public String getEndTerm() {
-        return null; //return endTerm;
+        //return null; //return endTerm;
+        return getEndTermId();
     }
 
     @Deprecated
     public void setEndTerm(String endTerm) {
-        // TODO KSCM
+        //TODO KSCM-305
+
     }
     
     @Deprecated
     public void setStartTerm(Object startTerm) {
        // this.startTerm = startTerm;
-        //TODO KSCM
+        //TODO KSCM-305
+
     }
     @Deprecated
 	public String getStartTerm() {
-		// TODO Auto-generated method stub
     	// TODO KSCM
-		return null;
+		return getStartTermId();
 	}
     
 

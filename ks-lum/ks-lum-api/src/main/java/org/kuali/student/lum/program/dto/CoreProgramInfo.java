@@ -80,23 +80,25 @@ public class CoreProgramInfo extends ProgramAttributesInfo implements CoreProgra
     public void setLearningObjectives(List<LoDisplayInfo> loDisplayInfos) {
         // We have a    this.getLearningObjectives();
         // but no setter ... the getter is inherited from ProgramAttributes.java
-        //TODO KSCM  KSCM-303
+        // TODO KSCM  KSCM-303
 
     }
 
     @Deprecated
     public void setStartTerm(Object o) {
-        //TODO KSCM-305
+        //  TODO KSCM-305
     }
     @Deprecated
     public void setEndTerm(Object o) {
-        //TODO KSCM-305
+        //  TODO KSCM-305
+
 
     }
     @Deprecated
     public void setEndProgramEntryTerm(Object endProgramEntryTerm) {
-      //  this.endProgramEntryTerm = endProgramEntryTerm;
-        //TODO KSCM  KSCM-304
+        //  this.endProgramEntryTerm = endProgramEntryTerm;
+        //  TODO KSCM  KSCM-304
+        //  this.getEndProgramEntryTermId()  the getter exist ??
 
     }
     

@@ -669,15 +669,17 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     public void setUnitsFinancialControl(List<String> unitsFinancialControl) {
         this.unitsFinancialControl = unitsFinancialControl;
     }
-         @Deprecated
-    public void setVersionInfo(VersionInfo versionInfo) {
-             // TODO KSCM-302
 
+    @Deprecated
+    public void setVersionInfo(VersionInfo versionInfo) {
+    // TODO KSCM-302
     }
+
     @Deprecated
     public void setVariations(List<ProgramVariationInfo> programVariationInfos) {
         // TODO KSCM
     }
+
     @Deprecated
     public void setOrgCoreProgram(CoreProgramInfo coreProgramInfo) {
         // TODO KSCM
@@ -714,21 +716,21 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
 	}
     @Deprecated
 	public String getStartTerm() {
-		// TODO Auto-generated method stub
-		//TODO KSCM
+
+        // TODO KSCM Revision
 		return startTermId;
 	}
 
 	@Deprecated
 	public void setEndProgramEntryTerm(String endEntryTerm) {
-		// TODO Auto-generated method stub
+
 		// TODO KSCM Revision
         this.endProgramEntryTermId = endEntryTerm;
 		
 	}
 	@Deprecated
 	public void setEndTerm(String endEnrollTerm) {
-		// TODO Auto-generated method stub
+
 		// TODO KSCM Revision
         this.endTermId = endEnrollTerm;
 
