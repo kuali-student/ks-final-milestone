@@ -12,6 +12,9 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
 
+
+//TODO KSCM - I am being used" if it is reference/used in another class outside org.kuali.student.common.dictionary.service.impl.
+
 public class DictionaryServiceImpl implements DictionaryService{
 	private String[] dictionaryContext;
 	private Map<String, ObjectStructureDefinition> objectStructures;

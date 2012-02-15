@@ -18,6 +18,9 @@ import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+
+//TODO KSCM - I am being used" if it is reference/used in another class outside org.kuali.student.common.dictionary.service.impl.
+
 public class DictionaryTesterHelper
 {
 
