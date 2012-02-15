@@ -29,6 +29,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 </message>
  */
 
+// TODO KSCM I am being used
+
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "message")
