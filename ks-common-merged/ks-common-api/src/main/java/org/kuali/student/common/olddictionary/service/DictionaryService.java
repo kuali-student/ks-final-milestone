@@ -11,6 +11,8 @@ import javax.xml.ws.ResponseWrapper;
 
 import org.kuali.student.common.olddictionary.dto.ObjectStructureDefinition;
 
+// TODO KSCM I am being used
+
 @Deprecated
 @WebService(name = "DictionaryService", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
