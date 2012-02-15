@@ -35,8 +35,9 @@ public class AcademicCalendarForm extends UifFormBase {
     private static final long serialVersionUID = 4898118410378641665L;
 
     private AcademicCalendarInfo academicCalendarInfo;
-    private String updateTimeString;
+    private String adminOrgName;
     private List<AcalEventWrapper> events;
+    private String updateTimeString;
 
     private List<AcademicTermWrapper> termWrapperList;
 
@@ -52,6 +53,14 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public void setAcademicCalendarInfo(AcademicCalendarInfo academicCalendarInfo) {
         this.academicCalendarInfo = academicCalendarInfo;
+    }
+
+    public String getAdminOrgName() {
+        return adminOrgName;
+    }
+
+    public void setAdminOrgName(String adminOrgName) {
+        this.adminOrgName = adminOrgName;
     }
 
     public void setTermWrapperList(List<AcademicTermWrapper> termWrapperList) {

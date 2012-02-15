@@ -15,6 +15,12 @@
  */
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
+import javax.xml.namespace.QName;
+
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.krad.uif.UifConstants;
@@ -38,12 +44,6 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.test.utilities.TestHelper;
-
-import javax.xml.namespace.QName;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 /**
@@ -131,14 +131,66 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return updatedAcalInfo;
     }
 
+    public List<AcalEventWrapper> getEventsForAcademicCalendar(AcademicCalendarForm acalForm) throws Exception {
+        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
+        List<AcalEventInfo> eventInfos = getAcalService().getAcalEventsForAcademicCalendar(acalInfo.getId(), getContextInfo());
+        List<AcalEventWrapper> events = new ArrayList<AcalEventWrapper>();
+        for (AcalEventInfo eventInfo: eventInfos) {
+            AcalEventWrapper event = assembleEventWrapperFromEventInfo(eventInfo);
+            events.add(event);
+        }
+        return events;
+    }
+
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception{
-        AcalEventInfo eventInfo = assembleEventInfo (event);
+        AcalEventInfo eventInfo = assembleEventInfoFromWrapper (event);
         AcalEventInfo createdEventInfo = getAcalService().createAcalEvent(acalId, eventInfo.getTypeKey(), eventInfo, getContextInfo());
         event.setAcalEventInfo(createdEventInfo);
         return event;
     }
 
-    private AcalEventInfo assembleEventInfo(AcalEventWrapper eventWrapper) throws Exception{
+    public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception {
+        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
+        getAcalService().updateAcalEvent(eventId, eventInfo, getContextInfo());
+        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId,getContextInfo());
+        event.setAcalEventInfo(updatedEventInfo);
+        return event;
+    }
+
+    public void deleteEvent(String eventId) throws Exception {
+        getAcalService().deleteAcalEvent(eventId, getContextInfo());
+    }
+
+    private AcalEventWrapper assembleEventWrapperFromEventInfo (AcalEventInfo acalEventInfo) throws Exception {
+        AcalEventWrapper event  = new AcalEventWrapper();
+        event.setAcalEventInfo(acalEventInfo);
+        event.setEventType(acalEventInfo.getTypeKey());
+        Date startDate = acalEventInfo.getStartDate();
+        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy hh:mm aa");
+        if (startDate !=null) {
+            String startDateFullString = formatter.format(startDate);
+            String[] timeStr = startDateFullString.split(" ");
+            event.setStartDate(new SimpleDateFormat("MM/dd/yyyy").parse(timeStr[0]));
+            if (!"12:00".equals(timeStr[1])){
+                event.setStartTime(timeStr[1]);
+            }
+            event.setStartTimeAmPm(timeStr[2].toLowerCase());
+        }
+        Date endDate = acalEventInfo.getEndDate();
+        if (endDate !=null) {
+            String endDateFullString = formatter.format(endDate);
+            String[] timeStr = endDateFullString.split(" ");
+            event.setEndDate(new SimpleDateFormat("MM/dd/yyyy").parse(timeStr[0]));
+            if (!"12:00".equals(timeStr[1])){
+                event.setEndTime(timeStr[1]);
+            }
+            event.setEndTimeAmPm(timeStr[2].toLowerCase());
+
+        }
+        return event;
+    }
+
+    private AcalEventInfo assembleEventInfoFromWrapper(AcalEventWrapper eventWrapper) throws Exception{
         AcalEventInfo eventInfo = eventWrapper.getAcalEventInfo();
         //create dummy descr for db MilestoneEntity.plain is not nullable
         RichTextInfo rti = new RichTextInfo();

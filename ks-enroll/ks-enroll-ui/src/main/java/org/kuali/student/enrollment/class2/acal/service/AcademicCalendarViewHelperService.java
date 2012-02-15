@@ -35,7 +35,10 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
     public AcademicCalendarInfo getAcademicCalendar(String acalId) throws Exception;
     public AcademicCalendarInfo updateAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
+    public List<AcalEventWrapper> getEventsForAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception;
+    public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception;
+    public void deleteEvent(String eventId) throws Exception;
 
     //Terms
     public void saveTerm(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception;
