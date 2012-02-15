@@ -39,6 +39,8 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 
+// TODO KSCM I am being used
+
 /**
  * <p>Java class for anonymous complex type.
  * 

@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 
+// TODO KSCM I am being used
+
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class WhenConstraint implements Serializable {
