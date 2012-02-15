@@ -15,6 +15,11 @@
 
 package org.kuali.student.r2.core.process.krms.proposition;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.ResultEvent;
 import org.kuali.rice.krms.api.engine.Term;
@@ -23,14 +28,7 @@ import org.kuali.rice.krms.framework.engine.result.BasicResult;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 import org.kuali.student.common.util.krms.proposition.AbstractLeafProposition;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
-import org.kuali.student.r2.core.exemption.dto.DateOverrideInfo;
 import org.kuali.student.r2.core.exemption.infc.DateOverride;
-
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * This proposition evaluates a check of a particular date against the dates of a given Milestone.

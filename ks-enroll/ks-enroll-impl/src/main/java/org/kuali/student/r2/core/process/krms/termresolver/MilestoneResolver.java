@@ -15,6 +15,10 @@
 
 package org.kuali.student.r2.core.process.krms.termresolver;
 
+import java.util.Collections;
+import java.util.Map;
+import java.util.Set;
+
 import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.rice.krms.api.engine.TermResolver;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
@@ -26,11 +30,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by IntelliJ IDEA.

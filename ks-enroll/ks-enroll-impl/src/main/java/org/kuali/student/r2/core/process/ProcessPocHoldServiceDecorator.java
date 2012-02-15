@@ -7,8 +7,7 @@ package org.kuali.student.r2.core.process;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.util.constants.HoldServiceConstants;
 import org.kuali.student.r2.core.hold.dto.HoldInfo;

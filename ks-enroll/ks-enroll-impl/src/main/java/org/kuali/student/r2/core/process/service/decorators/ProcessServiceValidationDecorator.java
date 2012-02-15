@@ -1,5 +1,8 @@
 package org.kuali.student.r2.core.process.service.decorators;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -21,9 +24,6 @@ import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.ProcessCategoryInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
 import org.kuali.student.r2.core.process.service.ProcessServiceDecorator;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ProcessServiceValidationDecorator extends ProcessServiceDecorator implements HoldsValidator{
 
