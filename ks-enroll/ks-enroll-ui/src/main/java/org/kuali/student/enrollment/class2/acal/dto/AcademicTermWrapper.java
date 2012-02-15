@@ -24,7 +24,7 @@ public class AcademicTermWrapper {
 
     private List<KeyDateWrapper> keydates = new ArrayList<KeyDateWrapper>();
 
-    private boolean readOnly;
+    private boolean readOnly = false;
 
     public AcademicTermWrapper(){
     }

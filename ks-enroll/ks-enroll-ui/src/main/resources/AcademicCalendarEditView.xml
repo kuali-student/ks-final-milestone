@@ -186,9 +186,9 @@
     </property>-->
      <property name="actionFields">
       <list>
-        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Save Term Draft"  p:methodToCall="saveTerm"/>
-        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial"/>
-        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="delete"/>
+        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Save Term Draft"  p:methodToCall="saveTerm" p:render="@{#line.readOnly eq false}"/>
+        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial" p:render="@{#line.readOnly eq false}"/>
+        <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete"/>
       </list>
     </property>
      <property name="items">
@@ -283,7 +283,7 @@
      </property>
      <property name="actionFields">
           <list>
-              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="x"/>
+              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="delete"/>
           </list>
     </property>
    </bean>

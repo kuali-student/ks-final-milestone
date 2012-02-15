@@ -257,10 +257,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         keyValues.add(new ConcreteKeyValue("", ""));
 
         if (field.getContext().get(UifConstants.ContextVariableNames.LINE) != null) {
-            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.REGISTRATION_PERIOD_TYPE_KEY,AcademicCalendarServiceConstants.REGISTRATION_PERIOD_TYPE_KEY));
-            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.ADD_DATE_TYPE_KEY,AcademicCalendarServiceConstants.ADD_DATE_TYPE_KEY));
-            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.DROP_DATE_TYPE_KEY,AcademicCalendarServiceConstants.DROP_DATE_TYPE_KEY));
-            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.FINAL_EXAM_PERIOD_TYPE_KEY,AcademicCalendarServiceConstants.FINAL_EXAM_PERIOD_TYPE_KEY));
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.REGISTRATION_PERIOD_TYPE_KEY,"Registration Period"));
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.GRADING_PERIOD_END_TYPE_KEY,"Grading period"));
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.DROP_DATE_TYPE_KEY,"Drop Date"));
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.FINAL_EXAM_PERIOD_TYPE_KEY,"Final Exam Period"));
             ((SelectControl) field.getControl()).setOptions(keyValues);
 //            GradeStudent student = (GradeStudent) field.getContext().get(UifConstants.ContextVariableNames.LINE);
 //            for (ResultValueInfo option : student.getAvailabeGradingOptions()) {
@@ -362,7 +362,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex,ContextInfo context) throws Exception{
         AcademicTermWrapper termWrapper = termWrapperList.get(selectedIndex);
         if (termWrapper.getTermInfo() != null){
-            getAcalService().deleteTerm(termWrapper.getTermInfo().getId(),context);
+            if (termWrapper.getKeydates() != null){
+                for (KeyDateWrapper keyDateWrapper : termWrapper.getKeydates()) {
+                    if (keyDateWrapper.getKeyDateInfo() != null){
+                        getAcalService().deleteKeyDate(keyDateWrapper.getKeyDateInfo().getId(),context);
+                    }
+                }
+            }
+            getAcalService().deleteTerm(termWrapper.getTermInfo().getId(), context);
         }
         termWrapperList.remove(selectedIndex);
     }

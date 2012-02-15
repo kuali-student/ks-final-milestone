@@ -173,6 +173,11 @@ public class AcademicCalendarController extends UifControllerBase {
         //TODO:Build real context.
         ContextInfo context = TestHelper.getContext1();
 
+        if (termWrapper.getKeydates() == null || termWrapper.getKeydates().isEmpty()){
+            GlobalVariables.getMessageMap().putError("termWrapperList","error.enroll.term.nokeydates",termWrapper.getTermNameForUI());
+            return updateComponent(academicCalendarForm, result, request, response);
+        }
+
         try{
             ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).setTermOfficial(termWrapper, context);
             GlobalVariables.getMessageMap().putInfo("name","info.enroll.term.official",termWrapper.getTermNameForUI());
