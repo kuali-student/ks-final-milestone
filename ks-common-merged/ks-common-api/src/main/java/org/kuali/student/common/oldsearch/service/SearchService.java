@@ -34,6 +34,7 @@ import org.kuali.student.common.oldsearch.dto.SearchResult;
 import org.kuali.student.common.oldsearch.dto.SearchResultTypeInfo;
 import org.kuali.student.common.oldsearch.dto.SearchTypeInfo;
 
+//TODO KSCM-310 - I am being used
 @Deprecated
 @WebService(name = "SearchService", targetNamespace = "http://student.kuali.org/wsdl/search")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
