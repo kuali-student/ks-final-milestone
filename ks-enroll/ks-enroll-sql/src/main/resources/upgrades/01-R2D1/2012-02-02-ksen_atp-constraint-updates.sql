@@ -14,11 +14,6 @@
 -- limitations under the License.
 --
 
-ALTER TABLE "KSEN_ATP" MODIFY ("END_DT" NOT NULL ENABLE)
-/
-ALTER TABLE "KSEN_ATP" MODIFY ("START_DT" NOT NULL ENABLE)
-/
-
 --------------------------------------------------------
 --  Constraints for Table KSEN_MSTONE_ATTR
 --------------------------------------------------------
