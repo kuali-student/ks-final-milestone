@@ -17,6 +17,8 @@ package org.kuali.student.common.olddictionary.infc;
 
 import java.util.List;
 
+// TODO KSCM I am being used
+
 /**
  * This is an info ojbect that contains the dictionary information about an
  * object known to the system
