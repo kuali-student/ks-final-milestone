@@ -14,12 +14,6 @@
 -- limitations under the License.
 --
 
--- KSEN_ATP updates
-ALTER TABLE ksen_atp RENAME COLUMN atp_state_id TO atp_state
-/
-ALTER TABLE ksen_atp RENAME COLUMN atp_type_id TO atp_type
-/
-
 -- move data from rich text table to new columns
 ALTER TABLE ksen_atp ADD (descr_plain VARCHAR2(4000) NULL, descr_formatted VARCHAR2(4000) NULL, ATP_CD VARCHAR2(255) NULL)
 /
@@ -44,13 +38,9 @@ CREATE  INDEX KSEN_ATP_I3 ON KSEN_ATP
 /
 
 -- KSEN_ATPATP_RELTN updates
-ALTER TABLE ksen_atpatp_reltn RENAME COLUMN atp_state_id TO atp_state
-/
 ALTER TABLE ksen_atpatp_reltn MODIFY atp_state not null
 /
 
-ALTER TABLE ksen_atpatp_reltn RENAME COLUMN atp_reltn_type_id TO atp_type
-/
 ALTER TABLE ksen_atpatp_reltn MODIFY atp_type not null
 /
 
@@ -76,15 +66,13 @@ CREATE  INDEX KSEN_ATPATP_RELTN_IF2 ON KSEN_ATPATP_RELTN
 /
 
 -- KSEN_ATPATP_RELTN_ATTR updates
-ALTER TABLE ksen_atpatp_reltn_attr RENAME COLUMN owner TO owner_id
-/
 ALTER TABLE ksen_atpatp_reltn_attr MODIFY attr_value VARCHAR2(4000)
 /
 CREATE UNIQUE INDEX KSEN_ATPATP_RELTN_ATTR_P ON KSEN_ATPATP_RELTN_ATTR
 (ID   ASC)
 /
 CREATE  INDEX KSEN_ATPATP_RELTN_ATTR_IF1 ON KSEN_ATPATP_RELTN_ATTR
-(OWNER_ID   ASC)
+(OWNER   ASC)
 /
 
 
@@ -109,15 +97,14 @@ CREATE  INDEX KSEN_ATPMSTONE_RELTN_IF2 ON KSEN_ATPMSTONE_RELTN
 
 
 -- KSEN_ATP_ATTR updates
-ALTER TABLE ksen_atp_attr RENAME COLUMN owner TO owner_id
-/
+
 ALTER TABLE ksen_atp_attr MODIFY attr_value VARCHAR2(4000)
 /
 CREATE UNIQUE INDEX KSEN_ATP_ATTR_P ON KSEN_ATP_ATTR
 (ID   ASC)
 /
 CREATE  INDEX KSEN_ATP_ATTR_IF1 ON KSEN_ATP_ATTR
-(OWNER_ID   ASC)
+(OWNER   ASC)
 /
 
 -- KSEN_MSTONE updates
@@ -165,11 +152,11 @@ CREATE  INDEX KSEN_MSTONE_I2 ON KSEN_MSTONE
 -- KSEN_MSTONE_ATTR updates
 ALTER TABLE ksen_mstone_attr MODIFY attr_value VARCHAR2(4000)
 /
-ALTER TABLE ksen_mstone_attr RENAME COLUMN owner TO owner_id
-/
+
 CREATE UNIQUE INDEX KSEN_MSTONE_ATTR_P ON KSEN_MSTONE_ATTR
 (ID   ASC)
 /
+
 CREATE  INDEX KSEN_MSTONE_ATTR_IF1 ON KSEN_MSTONE_ATTR
-(OWNER_ID   ASC)
+(OWNER   ASC)
 /

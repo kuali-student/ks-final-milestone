@@ -151,7 +151,7 @@
         <property name="em" ref="entityManager"/>
     </bean>
 
-    <bean id="holdService" class="org.kuali.student.process.poc.ProcessPocHoldServiceDecorator">
+    <bean id="holdService" class="org.kuali.student.r2.core.process.ProcessPocHoldServiceDecorator">
         <constructor-arg ref="holdServiceMock"/>
     </bean>
 
@@ -159,19 +159,19 @@
 
 	<tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 
-    <bean id="courseRegService" class="org.kuali.student.process.poc.CourseRegistrationServiceProcessCheckDecorator">
+    <bean id="courseRegService" class="org.kuali.student.r2.core.process.CourseRegistrationServiceProcessCheckDecorator">
         <property name="nextDecorator" ref="courseRegServiceMock"/>
     </bean>
 
     <bean id="courseRegServiceMock" class="org.kuali.student.enrollment.courseregistration.service.CourseRegistrationServiceMockImpl"/>
 
-    <bean id="exemptionService" class="org.kuali.student.process.poc.ProcessPocExemptionServiceDecorator">
+    <bean id="exemptionService" class="org.kuali.student.r2.core.process.ProcessPocExemptionServiceDecorator">
         <constructor-arg ref="exemptionServiceMock" />
     </bean>
 
     <bean id="exemptionServiceMock" class="org.kuali.student.r2.core.exemption.service.ExemptionServiceMockImpl"/>
 
-    <bean id="krmsProcessEvaluator" class="org.kuali.student.process.poc.krms.KRMSProcessEvaluator">
+    <bean id="krmsProcessEvaluator" class="org.kuali.student.r2.core.process.krms.KRMSProcessEvaluator">
         <property name="exemptionService" ref="exemptionService"/>
         <property name="holdService" ref="holdService"/>
         <property name="populationService" ref="populationService"/>
@@ -188,9 +188,9 @@
         </property>
     </bean>
 
-    <bean id="populationService" class="org.kuali.student.process.poc.ProcessPocPopulationServiceMockImpl"/>
+    <bean id="populationService" class="org.kuali.student.r2.core.process.ProcessPocPopulationServiceMockImpl"/>
 
-    <bean id="registrationHoldsTermResolver" class="org.kuali.student.process.poc.krms.termresolver.RegistrationHoldsTermResolver">
+    <bean id="registrationHoldsTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.RegistrationHoldsTermResolver">
         <property name="holdService" ref="holdService"/>
     </bean>
 
@@ -200,7 +200,7 @@
         <property name="termAssembler" ref="termAssembler"/>
     </bean>
 
-    <bean id="atpService" class="org.kuali.student.process.poc.ProcessPocAtpServiceDecorator">
+    <bean id="atpService" class="org.kuali.student.r2.core.process.ProcessPocAtpServiceDecorator">
         <constructor-arg ref="atpServiceMock"/>
     </bean>
 
@@ -210,25 +210,25 @@
 
     <bean id="termAssembler" class="org.kuali.student.enrollment.class2.acal.service.assembler.TermAssembler"/>
 
-    <bean id="milestoneByTypeResolver" class="org.kuali.student.process.poc.krms.termresolver.MilestoneByTypeResolver">
+    <bean id="milestoneByTypeResolver" class="org.kuali.student.r2.core.process.krms.termresolver.MilestoneByTypeResolver">
         <property name="atpService" ref="atpService"/>
     </bean>
 
-    <bean id="studentDeceasedTermResolver" class="org.kuali.student.process.poc.krms.termresolver.StudentDeceasedTermResolver">
+    <bean id="studentDeceasedTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.StudentDeceasedTermResolver">
         <property name="identityService" ref="identityService"/>
     </bean>
 
-    <bean id="identityService" class="org.kuali.student.process.poc.ProcessPocIdentityServiceDecorator">
+    <bean id="identityService" class="org.kuali.student.r2.core.process.ProcessPocIdentityServiceDecorator">
         <constructor-arg ref="identityServiceMock"/>
     </bean>
 
     <bean id="identityServiceMock" class="org.kuali.student.kim.permission.mock.IdentityServiceMockImpl"/>
 
-    <bean id="summerOnlyStudentTermResolver" class="org.kuali.student.process.poc.krms.termresolver.SummerOnlyStudentTermResolver">
+    <bean id="summerOnlyStudentTermResolver" class="org.kuali.student.r2.core.process.krms.termresolver.SummerOnlyStudentTermResolver">
         <constructor-arg value="kuali.population.summer.only.student"/>
         <property name="populationService" ref="populationService"/>
     </bean>
 
-    <bean id="currentDateResolver" class="org.kuali.student.process.poc.krms.termresolver.CurrentDateResolver"/>
+    <bean id="currentDateResolver" class="org.kuali.student.r2.core.process.krms.termresolver.CurrentDateResolver"/>
 
 </beans>
