@@ -1815,6 +1815,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public AcalEventInfo updateAcalEvent(String acalEventId, AcalEventInfo acalEventInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
 
@@ -1835,6 +1836,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteAcalEvent(String acalEventId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         MilestoneInfo existingMilestone = atpService.getMilestone(acalEventId, contextInfo);
