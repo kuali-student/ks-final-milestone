@@ -3,6 +3,7 @@ package org.kuali.student.common.olddictionary.dto;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
+// TODO KSCM I am being used
 
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)

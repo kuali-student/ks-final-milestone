@@ -5,6 +5,8 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 
+// TODO KSCM I am being used
+
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FieldDefinition extends Constraint {

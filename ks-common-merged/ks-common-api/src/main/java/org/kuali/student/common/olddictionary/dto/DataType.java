@@ -2,6 +2,8 @@ package org.kuali.student.common.olddictionary.dto;
 
 import javax.xml.bind.annotation.XmlEnum;
 
+// TODO KSCM I am being used
+
 @Deprecated
 @XmlEnum
 public enum DataType {
