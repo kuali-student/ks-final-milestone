@@ -335,19 +335,18 @@ public class CommentTool implements HasReferenceId {
                 }
                 VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
                 final HTML userNameLabel = new HTML();
-                // TODO use user id for now change to user name
-                final String userId = commentInfo.getMetaInfo().getUpdateId();
-                commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
+                final String principleName = Application.getApplicationContext().getSecurityContext().getUserId();
+                commentServiceAsync.getUserRealName(principleName, new AsyncCallback<String>() {
                     @Override
                     public void onFailure(Throwable caught) {
-                        userNameLabel.setHTML("<b>" + userId + "</b>");
+                        userNameLabel.setHTML("<b>" + principleName + "</b>");
                     }
                     @Override
                     public void onSuccess(String result) {
                         if (result != null && !result.isEmpty()) {
                             userNameLabel.setHTML("<b>" + result + "</b>");
                         } else {
-                            userNameLabel.setHTML("<b>" + userId + "</b>");
+                            userNameLabel.setHTML("<b>" + principleName + "</b>");
                         }
                     }
                 });
@@ -440,7 +439,7 @@ public class CommentTool implements HasReferenceId {
                 commentsTableLayout.setWidget(rowIndex, columnIndex, deleteButton);
                 deleteButtonMap.put(commentCounter, deleteButton);
                 columnIndex++;
-                if (userId == null || !userId.equals(this.loggedInUserId)) {
+                if (principleName == null || !principleName.equals(this.loggedInUserId)) {
                     editButton.setVisible(false);
                     deleteButton.setVisible(false);
                 }
