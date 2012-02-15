@@ -22,6 +22,7 @@ import org.kuali.student.common.olddictionary.old.dto.Field;
 import org.kuali.student.common.olddictionary.old.dto.ObjectStructure;
 import org.kuali.student.common.olddictionary.old.dto.State;
 import org.kuali.student.common.olddictionary.old.dto.Type;
+//TODO KSCM - I am being used" if it is reference/used in another class outside \common\validator\old
 
 public class ValidatorUtils {
 
