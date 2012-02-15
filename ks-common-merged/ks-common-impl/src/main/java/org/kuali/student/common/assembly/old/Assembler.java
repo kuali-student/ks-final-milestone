@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.assembly.old;
+package org.kuali.student.common.assembly;
 
 import java.util.List;
 
