@@ -35,6 +35,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.util.ExportElement;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
@@ -46,10 +48,10 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer.ViewCourseSections;
@@ -73,7 +75,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
-public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements{
+public class ViewCourseController extends TabMenuController implements DocumentLayoutController, HasRequirements, RequiresAuthorization {
     private final DataModel cluModel = new DataModel(); 
    
     private WorkQueue modelRequestQueue;
@@ -146,8 +148,6 @@ public class ViewCourseController extends TabMenuController implements DocumentL
             }
             
         });
-        
-    	
     }
     
      
@@ -478,23 +478,52 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     @Override
     public boolean isExportButtonActive() {
-        if (this.getCurrentViewEnum() != null && this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {
-            return true;
-        }
-        return false;
+        return true;
     }
     
     @Override
-    public ArrayList<ExportElement> getExportElementsFromView() {
-        ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
-        if (this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {      
-            SummaryTableSection tableSection = this.cfg.getSummaryConfigurer().getTableSection();
-            ExportElement heading = new ExportElement();
-            heading.setFieldLabel("");
-            heading.setFieldValue(tableSection.getTitle());
-            exportElements.add(heading);
-            exportElements = ExportUtils.getDetailsForWidget(tableSection, exportElements);
+    public List<ExportElement> getExportElementsFromView() {
+        List<ExportElement> exportElements = new ArrayList<ExportElement>();
+        ExportElement heading = new ExportElement();
+        heading.setFieldLabel("");
+        heading.setFieldValue(this.tabPanel.getSelectedTabName());
+        exportElements.add(heading);
+        if (this.getCurrentViewEnum() != null) { 
+            if (this.getCurrentViewEnum().equals(ViewCourseSections.DETAILED)) {
+                exportElements.addAll(ExportUtils.getDetailsForWidget(this.tabPanel.getSelectedTab(), "", "").get(0).getSubset());
+            } else if (this.getCurrentViewEnum().equals(ViewCourseSections.BRIEF)){
+                exportElements.addAll(ExportUtils.getDetailsForWidget(this.tabPanel.getSelectedTab(), "", "").get(0).getSubset());
+            } else if (this.getCurrentViewEnum().equals(ViewCourseSections.CATALOG)){
+                exportElements.addAll(ExportUtils.getDetailsForWidget(this.tabPanel.getSelectedTab(), "", ""));
+            }
         }
         return exportElements;
+    }
+    
+    @Override
+    public boolean isAuthorizationRequired() {
+        return true;
+    }
+
+    @Override
+    public void setAuthorizationRequired(boolean required) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void checkAuthorization(final AuthorizationCallback authCallback) {
+        Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_FIND_COURSE_SCREEN, new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+
+                final boolean isAuthorized = result;
+            
+                if(isAuthorized){
+                    authCallback.isAuthorized();
+                }
+                else
+                    authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_FIND_COURSE_SCREEN);
+            }   
+        });
     }
 }

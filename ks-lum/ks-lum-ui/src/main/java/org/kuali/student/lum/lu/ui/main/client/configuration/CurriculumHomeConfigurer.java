@@ -1,21 +1,21 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.common.ui.client.widgets.layout.ContentBlockLayout;
@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -44,85 +45,131 @@ import com.google.gwt.user.client.ui.Widget;
 public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
 	protected Metadata searchMetadata;
-	protected final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
+	protected final KSCheckBox useCurricReviewCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 
-    public Widget configure(Metadata searchMeta) {
+	public Widget configure(Metadata searchMeta) {
         this.searchMetadata = searchMeta;
-        ContentBlockLayout layout = new ContentBlockLayout(getMessage(CURRICULUM_MANAGEMENT));
+        final ContentBlockLayout layout = new ContentBlockLayout(getMessage(CURRICULUM_MANAGEMENT));
+        ArrayList<String> permissionList = new ArrayList<String>();
+        
         layout.addContentTitleWidget(getHowToWidget());
         layout.addContentTitleWidget(getActionListLink());
 
-        //Create
-        final LinkContentBlock create = new LinkContentBlock(
-                getMessage(CREATE),
-                getMessage(CREATE_DESC));
+        //TODO: Fix to improve performance, so permissions don't have to be loaded every time
+        Application.getApplicationContext().getSecurityContext().loadPermissionsByPermissionType(PermissionType.INITIATE);
+        permissionList.add(LUUIPermissions.USE_CREATE_COURSE_BY_PROPOSAL);
+        permissionList.add(LUUIPermissions.USE_CREATE_COURSE_BY_ADMIN_PROPOSAL);
+        permissionList.add(LUUIPermissions.USE_CREATE_PROGRAM_BY_PROPOSAL);       
+        permissionList.add(LUUIPermissions.USE_BROWSE_CATALOG_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_COURSE_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_COURSE_PROPOSAL_SCREEN);
+        permissionList.add(LUUIPermissions.USE_BROWSE_PROGRAM_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_PROGRAM_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_PROGRAM_PROPOSAL_SCREEN);
+        permissionList.add(LUUIPermissions.USE_VIEW_CORE_PROGRAMS_SCREEN);
+        permissionList.add(LUUIPermissions.USE_VIEW_CREDENTIAL_PROGRAMS_SCREEN);
+        permissionList.add(LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS);
+        permissionList.add(LUUIPermissions.USE_LO_CATEGORY_SCREEN);
+        permissionList.add(LUUIPermissions.USE_DEPENDENCY_ANALYSIS_SCREEN);    
         
-        create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
-        
-        //KSLAB-2310 :
-        //ADMIN CREATE PROGRAM: On CM landing page, only authorized users 
-        //should be able to view and click link
-		String principalId = Application.getApplicationContext().getUserId();
-		SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
-        
-		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
-        	@Override
-        	public void handleFailure(Throwable caught) {
-			}
-				@Override
-				public void onSuccess(Boolean result) {
-					if (result)
-					{
-						// do nothing with the navigation link
-						create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
-					}else{
-						
-					}
-				
-			}
-        });
+        Application.getApplicationContext().getSecurityContext().loadScreenPermissions(permissionList, new Callback<Boolean>(){
+
+            @Override
+            public void exec(Boolean result) {
+                //Create Block
+                final LinkContentBlock create = new LinkContentBlock(getMessage(CREATE), getMessage(CREATE_DESC));
                 
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_CREATE_COURSE_BY_PROPOSAL)||
+                        Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_CREATE_COURSE_BY_ADMIN_PROPOSAL)){
+                        
+                    create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_CREATE_PROGRAM_BY_PROPOSAL)){
+                 
+                    create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
+                }
+                
+                //View + Modify
+                final LinkContentBlock viewModify = new LinkContentBlock(getMessage(VIEW_MODIFY), getMessage(VIEW_MODIFY_DESC));
+                SectionTitle courses = SectionTitle.generateH4Title(getMessage("courses"));
+                courses.addStyleName("bold");
+                viewModify.add(courses);
+                
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_BROWSE_CATALOG_SCREEN)){
+                    
+                    viewModify.addNavLinkWidget(getMessage(BROWSE_CATALOG), AppLocations.Locations.BROWSE_CATALOG.getLocation());
+                }
+            
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_COURSE_SCREEN)){
+                                 
+                    viewModify.add(getFindCoursesWidget());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_COURSE_PROPOSAL_SCREEN)){
+                    
+                    viewModify.add(getFindCourseProposalsWidget()); 
+                }
+                
+                SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
+                programs.addStyleName("bold");
+                viewModify.add(programs);
+                                    
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_BROWSE_PROGRAM_SCREEN)){
+                    
+                     viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_PROGRAM_SCREEN)){
+                    
+                    viewModify.add(getFindMajorsWidget());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_PROGRAM_PROPOSAL_SCREEN)){
+                    
+                    viewModify.add(getFindProgramProposalsWidget());        
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_VIEW_CORE_PROGRAMS_SCREEN)){
+                    
+                    viewModify.add(getViewCoreProgramWidget());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_VIEW_CREDENTIAL_PROGRAMS_SCREEN)){
+                    
+                    viewModify.add(getViewCredentialProgramWidget());
+                }
+                
+                //RecentlyViewed
+                RecentlyViewedBlock recent = new RecentlyViewedBlock(getMessage(RECENTLY_VIEWED), getMessage(RV_DESC));
+                recent.addStyleName("recentlyViewed-block");
 
-
-        //View + Modify
-        LinkContentBlock viewModify = new LinkContentBlock(
-                getMessage(VIEW_MODIFY),
-                getMessage(VIEW_MODIFY_DESC));
-        SectionTitle courses = SectionTitle.generateH4Title(getMessage("courses"));
-        courses.addStyleName("bold");
-        viewModify.add(courses);
-        viewModify.addNavLinkWidget(getMessage(BROWSE_CATALOG), AppLocations.Locations.BROWSE_CATALOG.getLocation());
-        viewModify.add(getFindCoursesWidget());
-        viewModify.add(getFindCourseProposalsWidget());
-        SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
-        programs.addStyleName("bold");
-        viewModify.add(programs);
-        viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
-        viewModify.add(getFindMajorsWidget());
-        viewModify.add(getFindProgramProposalsWidget());
-        viewModify.add(getViewCoreProgramWidget());
-        viewModify.add(getViewCredentialProgramWidget());
-        
-        //RecentlyViewed
-        RecentlyViewedBlock recent = new RecentlyViewedBlock(
-                getMessage(RECENTLY_VIEWED),
-                getMessage(RV_DESC));
-        recent.addStyleName("recentlyViewed-block");
-
-        //Tools
-        LinkContentBlock tools = new LinkContentBlock(
-                getMessage(TOOLS),
-                getMessage(TOOLS_DESC));
-        tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
-        tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
-        tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
-        
-        //Add all blocks
-        layout.addContentBlock(create);
-        layout.addContentBlock(viewModify);
-        recent.addBlock(tools);
-        layout.addContentBlock(recent);
-
+                //Tools
+                final LinkContentBlock tools = new LinkContentBlock(getMessage(TOOLS), getMessage(TOOLS_DESC));
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS)){
+                    
+                     tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_LO_CATEGORY_SCREEN)){
+                    
+                    tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_DEPENDENCY_ANALYSIS_SCREEN)){
+                    
+                    tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
+                }
+                
+                //Add all blocks
+                layout.addContentBlock(create);
+                layout.addContentBlock(viewModify);
+                recent.addBlock(tools);
+                layout.addContentBlock(recent);
+            }}
+        );
         return layout;
     }
 
@@ -311,25 +358,24 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     }
 
     protected ClickHandler getCreateCourseClickHandler() {
-    	return new ClickHandler(){
+        return new ClickHandler(){
     		
 			@Override
 			public void onClick(ClickEvent event) {
 	            
 				//Create a dialog for course selection
-	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"));
+	            final KSLightBox dialog = new KSLightBox(getMessage("createCourse"),KSLightBox.Size.MEDIUM);
 	            final VerticalPanel layout = new VerticalPanel();
 	            layout.addStyleName("ks-form-module-fields");
 	            
 	            final KSButton startProposalButton = new KSButton(getMessage("startProposal"));
 	            
 	            dialog.addButton(startProposalButton);
-	            Anchor cancelLink = new Anchor("Cancel");
-	            cancelLink.addClickHandler(new ClickHandler(){
-					public void onClick(ClickEvent event) {
-						dialog.hide();
-					}
-	            });
+	            KSButton cancelLink = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED, new ClickHandler(){
+                    public void onClick(ClickEvent event) {
+                        dialog.hide();
+                    }
+                });
 	            dialog.addButton(cancelLink);
 	            
 	            HorizontalPanel titlePanel = new HorizontalPanel();
@@ -371,7 +417,6 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	            final KSRadioButton radioOptionBlank = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("startBlankProposal"));
 	            final KSRadioButton radioOptionCopyCourse = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyApprovedCourse"));
 	            final KSRadioButton radioOptionCopyProposal = new KSRadioButton("createNewCreditCourseButtonGroup", getMessage("copyProposedCourse"));
-//	            final KSCheckBox adminOptionCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 	            
 	            radioOptionBlank.addValueChangeHandler(new ValueChangeHandler<Boolean>(){
 					public void onValueChange(ValueChangeEvent<Boolean> event) {
@@ -379,7 +424,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(false);
 							startProposalButton.setEnabled(true);
-							adminOptionCheckbox.setEnabled(true);
+							useCurricReviewCheckbox.setEnabled(true);
 
 					}
 	            });
@@ -390,8 +435,7 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						if(event.getValue()){
 							copyCourseSearchPanel.setVisible(true);
 							copyProposalSearchPanel.setVisible(false);
-							adminOptionCheckbox.setEnabled(false);
-							//adminOptionCheckbox.setValue(true);
+							useCurricReviewCheckbox.setEnabled(false);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
@@ -404,148 +448,83 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 						if(event.getValue()){
 							copyCourseSearchPanel.setVisible(false);
 							copyProposalSearchPanel.setVisible(true);
-							adminOptionCheckbox.setEnabled(false);
-							//adminOptionCheckbox.setValue(true);
+							useCurricReviewCheckbox.setEnabled(false);
 							copyCourseSearchPanel.clear();
 							copyProposalSearchPanel.clear();
 							startProposalButton.setEnabled(false);
 						}
 					}
 	            });
-	            
-	            
-	        	String principalId = Application.getApplicationContext().getUserId();
-	    		SecurityRpcServiceAsync securityRpc = GWT
-	    				.create(SecurityRpcService.class);
+	            	            
 
-	    		securityRpc.checkAdminPermission(principalId, "useCurriculumReview",  				new KSAsyncCallback<Boolean>() {
-	    					public void handleFailure(Throwable caught) {
-	    						// Assumes admin does not have access...
-//	    						if (onEventOff
-//	    								.equals(CurriculumHomeConfigurer.EVENT_ON_VALUE_CHANGE)) {
-//	    							
-//	    								adminOptionCheckbox.setValue(true);
-//	    								adminOptionCheckbox.setVisible(false);
-//	    							
-//	    						} 
-	    					}
+	    		Application.getApplicationContext().getSecurityContext().checkScreenPermission("useCurriculumReview", new Callback<Boolean>() {
 
 	    					@Override
-	    					public void onSuccess(Boolean result) {
+	    					public void exec(Boolean result) {
 
 	    						final boolean isAuthorized = result;
-	    			            if (isAuthorized){
-	    		            	adminOptionCheckbox.setValue(false);
-	    		            	adminOptionCheckbox.setVisible(true);
-	    		            } else {
-	    		            	adminOptionCheckbox.setValue(false);
-	    		            	adminOptionCheckbox.setVisible(false);	            	
-	    		            }
-                               // continueLayOut(result);
-	    					
+	    			            
+	    						//Only authorized users (eg. admin) are shown the "Use Curriculum Review" check box
+	    						if (isAuthorized){
+	    							//An authorized user by default is allowed to bypass the curriculum review process.
+	    							//They may choose to use it if desired and hence given the option to change it.
+	    			            	useCurricReviewCheckbox.setValue(false);
+	    			            	useCurricReviewCheckbox.setVisible(true);
+	    			            } else {
+	    			            	//Unauthorized users must use curriculum review process and does not get option to change  
+	    			            	useCurricReviewCheckbox.setValue(true);
+	    			            	useCurricReviewCheckbox.setVisible(false);	            	
+	    			            }
+
+	    						//Setup dialog layout
 	    			            layout.add(radioOptionBlank);
 	    			            layout.add(radioOptionCopyCourse);
 	    			            layout.add(copyCourseSearchPanel);
 	    			            layout.add(radioOptionCopyProposal);
 	    			            layout.add(copyProposalSearchPanel);
 	    			            layout.add(new KSLabel(""));
-	    			            layout.add(adminOptionCheckbox);
+	    			            layout.add(useCurricReviewCheckbox);
 	    			            
+	    			            //Setup start proposal click handler
 	    			            startProposalButton.addClickHandler(new ClickHandler(){
 	    							public void onClick(ClickEvent event) {
 	    								
-	    								if(radioOptionBlank.getValue())
-	    								{
-	    									//Determine if it is and admin
-	    									if (adminOptionCheckbox.getValue() && isAuthorized)
-	    									{	    										
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());		    										
-	    									}
-	    									
-	    									if (!adminOptionCheckbox.getValue() && isAuthorized)
-	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation());	    										
-	    									}
-	    									
-	    									//If it is not an admin or admin role
-	    									if (!isAuthorized)
-	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation());	
-	    										
-	    									}    									
-	    									
-	    									
-	    								}
+	    								//Clicking this button will navigate user to appropriate screens based on selections
 	    								
-	    								if(radioOptionCopyCourse.getValue())
-	    								{
-	    				                    ViewContext viewContext = new ViewContext();
-	    				                    viewContext.setId(copyCourseSearchPanel.getValue());
+    				                    ViewContext viewContext = new ViewContext();
+    				                    
+    				                    //Start New Proposal
+	    								if(radioOptionBlank.getValue())	{
+	    									//Do nothing, empty view context indicates new proposal
+	    								
+	    								//Copy Course
+	    								} else if (radioOptionCopyCourse.getValue()) {	    									    						
+	    									//Setup view context to open copy from existing course
+	    									viewContext.setId(copyCourseSearchPanel.getValue());
 	    				                    viewContext.setIdType(IdType.COPY_OF_OBJECT_ID);
 	    				                    
-	    				                    //Determine if it is and admin
-	    				                    if (adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    				                    if (!adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    				                  //If it is not an admin or admin role
-	    									if (!isAuthorized)
-	    									{
-	    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    										
-	    									}    
-	    									
+	    								//Copy Proposal
+	    								} else if(radioOptionCopyProposal.getValue()){	    									
+	    									//Setup view context to copy from existing proposal
+	    									viewContext.setId(copyProposalSearchPanel.getValue());
+	    				                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);	    				                   	    				                    
 	    								}
 	    								
-	    								if(radioOptionCopyProposal.getValue()){
-	    				                    ViewContext viewContext = new ViewContext();
-	    				                    viewContext.setId(copyProposalSearchPanel.getValue());
-	    				                    viewContext.setIdType(IdType.COPY_OF_KS_KEW_OBJECT_ID);
-	    				                    viewContext.getAttributes().remove(StudentIdentityConstants.DOCUMENT_TYPE_NAME);
-	    				                    
-	    				                  //Determine if it is and admin
-	    				                    if (adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    }
-	    				                    if (!adminOptionCheckbox.getValue() && isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    				                    if (!isAuthorized){
-	    				                    	Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(), viewContext);
-	    				                    }
-	    				                    
-	    								}
-	    								
-	    								
-	    								
-	    								
+    									//Based on curriculum review, navigate user to either admin or standard proposal screens
+    									if (useCurricReviewCheckbox.getValue()){	    										
+    										Application.navigate(AppLocations.Locations.COURSE_PROPOSAL.getLocation(),viewContext);		    										
+    									} else {
+    										Application.navigate(AppLocations.Locations.COURSE_ADMIN.getLocation(),viewContext);
+    									}	    									
 
 	    								dialog.hide();
 	    							}
 	    						});
-	    			            
-	    			            
+	    			            	    			            
 	    			            dialog.setWidget(layout);
-	    			            dialog.show();			
-
-	    						
+	    			            dialog.show();				    						
 	    					}
-	    				});
-//				checkAdminPermission("useCurriculumReview",
-//						CurriculumHomeConfigurer.EVENT_ONCLICK);
-//	            if ("admin".equals(Application.getApplicationContext().getUserId())){
-//	            	adminOptionCheckbox.setValue(false);
-//	            	adminOptionCheckbox.setVisible(true);
-//	            } else {
-//	            	adminOptionCheckbox.setValue(true);
-//	            	adminOptionCheckbox.setVisible(false);	            	
-//	            }
-	            
+	    				});	            
     		}
    		};
     }
@@ -596,7 +575,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
             @Override
             public void onClick(ClickEvent event) {
                 final KSLightBox pop = new KSLightBox();
-                pop.setWidget(new CurriculumHomeHelpTable());
+                pop.setWidget((Widget)GWT.create(CurriculumHomeHelpTable.class));
+                //pop.setWidget(new CurriculumHomeHelpTable());
                 pop.setSize(800, 680);
                 pop.show();
             }
@@ -614,12 +594,5 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
     private String getMessage(String key) {
         return Application.getApplicationContext().getMessage(key);
     }
-
-    private Anchor createNavigationWidget(String title) {
-        Anchor anchor = new Anchor(title);
-        anchor.addStyleName("contentBlock-navLink");
-        return anchor;
-    }
-
 
 }

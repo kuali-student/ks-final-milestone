@@ -15,7 +15,7 @@
 
 package org.kuali.rice.student;
 
-import org.kuali.rice.core.config.ModuleConfigurer;
+import org.kuali.rice.core.impl.config.module.ModuleConfigurer;
 
 /**
  * @author delyea
