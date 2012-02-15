@@ -27,6 +27,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+// TODO KSCM I am being used
+
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "VersionInfo", propOrder = {"versionIndId", "sequenceNumber", "currentVersionStart", "currentVersionEnd", "versionComment", "versionedFromId", "_futureElements"})
