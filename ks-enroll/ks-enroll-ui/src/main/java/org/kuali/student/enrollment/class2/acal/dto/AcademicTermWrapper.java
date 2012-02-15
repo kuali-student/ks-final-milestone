@@ -24,7 +24,7 @@ public class AcademicTermWrapper {
 
     private List<KeyDateWrapper> keydates = new ArrayList<KeyDateWrapper>();
 
-    private boolean isReadOnly = false;
+    private boolean readOnly;
 
     public AcademicTermWrapper(){
     }
@@ -68,8 +68,8 @@ public class AcademicTermWrapper {
     public void setTermInfo(TermInfo termInfo) {
         this.termInfo = termInfo;
         if (termInfo != null){
-            if (StringUtils.equals(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY,termInfo.getStateKey())){
-                isReadOnly = true;
+            if (StringUtils.equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY,termInfo.getStateKey())){
+                readOnly = true;
             }
         }
     }
@@ -96,5 +96,13 @@ public class AcademicTermWrapper {
 
     public void setTermNameForUI(String termNameForUI) {
         this.termNameForUI = termNameForUI;
+    }
+
+    public boolean isReadOnly() {
+        return readOnly;
+    }
+
+    public void setReadOnly(boolean readOnly) {
+        this.readOnly = readOnly;
     }
 }

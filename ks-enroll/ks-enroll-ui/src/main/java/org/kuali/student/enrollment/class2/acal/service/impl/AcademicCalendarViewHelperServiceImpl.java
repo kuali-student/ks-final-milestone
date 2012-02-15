@@ -16,7 +16,11 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
+import org.kuali.rice.krad.uif.control.SelectControl;
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.view.View;
 import org.kuali.student.common.util.UUIDHelper;
@@ -25,6 +29,7 @@ import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
@@ -36,6 +41,7 @@ import org.kuali.student.test.utilities.TestHelper;
 
 import javax.xml.namespace.QName;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -194,13 +200,32 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return eventInfo;
     }
 
+    public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
+        List keyValues = new ArrayList();
+        keyValues.add(new ConcreteKeyValue("", ""));
+
+        if (field.getContext().get(UifConstants.ContextVariableNames.LINE) != null) {
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.REGISTRATION_PERIOD_TYPE_KEY,AcademicCalendarServiceConstants.REGISTRATION_PERIOD_TYPE_KEY));
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.ADD_DATE_TYPE_KEY,AcademicCalendarServiceConstants.ADD_DATE_TYPE_KEY));
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.DROP_DATE_TYPE_KEY,AcademicCalendarServiceConstants.DROP_DATE_TYPE_KEY));
+            keyValues.add(new ConcreteKeyValue(AcademicCalendarServiceConstants.FINAL_EXAM_PERIOD_TYPE_KEY,AcademicCalendarServiceConstants.FINAL_EXAM_PERIOD_TYPE_KEY));
+            ((SelectControl) field.getControl()).setOptions(keyValues);
+//            GradeStudent student = (GradeStudent) field.getContext().get(UifConstants.ContextVariableNames.LINE);
+//            for (ResultValueInfo option : student.getAvailabeGradingOptions()) {
+//                keyValues.add(new ConcreteKeyValue(option.getKey(), option.getValue()));
+//            }
+//            ((SelectControl) field.getControl()).setOptions(keyValues);
+        }
+
+    }
+
     public void saveTerm(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception {
 
         boolean isNewTerm = false;
         if (termWrapper.getTermInfo() == null){
             TermInfo newTerm = new TermInfo();
             termWrapper.setTermInfo(newTerm);
-            newTerm.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+            newTerm.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
             newTerm.setId(UUIDHelper.genStringUUID());
             RichTextInfo desc = new RichTextInfo();
             desc.setPlain("Test");
@@ -217,10 +242,41 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         if (isNewTerm){
             TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,context);
-            termWrapper.setTermInfo(newTerm);
+            termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),context));
         }else{
             TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,context);
-            termWrapper.setTermInfo(updatedTerm);
+            termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),context));
+        }
+
+        if (termWrapper.getKeydates() != null){
+            for (KeyDateWrapper keyDateWrapper : termWrapper.getKeydates()) {
+                boolean isNewKeyDate = false;
+                if (keyDateWrapper.getKeyDateInfo() == null){
+                    isNewKeyDate = true;
+                    KeyDateInfo keyDate = new KeyDateInfo();
+                    keyDate.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+                    keyDate.setId(UUIDHelper.genStringUUID());
+                    RichTextInfo desc = new RichTextInfo();
+                    desc.setPlain("Test");
+                    keyDate.setDescr(desc);
+                    keyDateWrapper.setKeyDateInfo(keyDate);
+                }
+
+                KeyDateInfo keyDate = keyDateWrapper.getKeyDateInfo();
+
+                keyDate.setTypeKey(keyDateWrapper.getKeyDateType());
+                keyDate.setStartDate(keyDateWrapper.getStartDate());
+                keyDate.setEndDate(keyDateWrapper.getEndDate());
+                keyDate.setName("test");
+
+                if (isNewKeyDate){
+                    KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,context);
+                    keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(newKeyDate.getId(),context));
+                } else {
+                    KeyDateInfo updatedKeyDate = getAcalService().updateKeyDate(keyDate.getId(), keyDate, context);
+                    keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(updatedKeyDate.getId(),context));
+                }
+            }
         }
 
         //FIXME: Have to fix the exception thrown when there are not keydates added
@@ -230,6 +286,41 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 //            e.printStackTrace();
         }
 
+    }
+
+    public void setTermOfficial(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception{
+        saveTerm(termWrapper,context);
+
+        TermInfo term = termWrapper.getTermInfo();
+        term.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+        term = getAcalService().updateTerm(term.getId(),term,context);
+
+        termWrapper.setTermInfo(getAcalService().getTerm(term.getId(),context));
+
+        if (termWrapper.getKeydates() != null){
+            for (KeyDateWrapper keyDateWrapper : termWrapper.getKeydates()) {
+                 keyDateWrapper.getKeyDateInfo().setStateKey(AtpServiceConstants.MILESTONE_OFFICIAL_STATE_KEY);
+                 KeyDateInfo updatedKeyDate = getAcalService().updateKeyDate(keyDateWrapper.getKeyDateInfo().getId(),keyDateWrapper.getKeyDateInfo(),context);
+                 keyDateWrapper.setKeyDateInfo(getAcalService().getKeyDate(updatedKeyDate.getId(),context));
+            }
+        }
+
+    }
+
+    public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex,ContextInfo context) throws Exception{
+        AcademicTermWrapper termWrapper = termWrapperList.get(selectedIndex);
+        if (termWrapper.getTermInfo() != null){
+            getAcalService().deleteTerm(termWrapper.getTermInfo().getId(),context);
+        }
+        termWrapperList.remove(selectedIndex);
+    }
+
+    public void deleteKeyDate(List<KeyDateWrapper> keyDateWrapperList,int selectedIndex,ContextInfo context) throws Exception{
+        KeyDateWrapper keydate = keyDateWrapperList.get(selectedIndex);
+        if (keydate.getKeyDateInfo() != null){
+            getAcalService().deleteKeyDate(keydate.getKeyDateInfo().getId(),context);
+        }
+        keyDateWrapperList.remove(selectedIndex);
     }
 
     protected void processBeforeAddLine(View view, CollectionGroup collectionGroup, Object model, Object addLine) {

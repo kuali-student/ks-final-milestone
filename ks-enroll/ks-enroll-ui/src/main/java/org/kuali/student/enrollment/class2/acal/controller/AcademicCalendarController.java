@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.acal.controller;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.krad.uif.UifParameters;
+import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
@@ -78,30 +79,6 @@ public class AcademicCalendarController extends UifControllerBase {
         return getUIFModelAndView(academicCalendarForm);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteKeyDate")
-    public ModelAndView deleteKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
-            HttpServletRequest request, HttpServletResponse response) {
-
-        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
-        if (StringUtils.isBlank(selectedCollectionPath)) {
-            throw new RuntimeException("unable to determine the selected collection path");
-        }
-
-        int selectedLineIndex = -1;
-        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
-        if (StringUtils.isNotBlank(selectedLine)) {
-            selectedLineIndex = Integer.parseInt(selectedLine);
-        }
-
-        if (selectedLineIndex == -1) {
-            throw new RuntimeException("unable to determine the selected line index");
-        }
-
-//        academicCalendarForm.get
-
-        return getUIFModelAndView(academicCalendarForm);
-    }
-
     /**
      * Method used to save AcademicCalendar
      */
@@ -131,13 +108,118 @@ public class AcademicCalendarController extends UifControllerBase {
 
         try{
             ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).saveTerm(termWrapper, context);
-            //GlobalVariables.getMessageMap().putInfo("name","info.enroll.term.saved");
+            GlobalVariables.getMessageMap().putInfo("name","info.enroll.term.saved",termWrapper.getTermNameForUI());
         }catch (Exception e){
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
            throw new RuntimeException(e);
         }
 
-        return getUIFModelAndView(academicCalendarForm);
+        return updateComponent(academicCalendarForm, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=setTermOfficial")
+    public ModelAndView setTermOfficial(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("unable to determine the selected line index");
+        }
+
+        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        try{
+            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).setTermOfficial(termWrapper, context);
+            GlobalVariables.getMessageMap().putInfo("name","info.enroll.term.official",termWrapper.getTermNameForUI());
+        }catch (Exception e){
+            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
+           throw new RuntimeException(e);
+        }
+
+        return updateComponent(academicCalendarForm, result, request, response);
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteTerm")
+    public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("unable to determine the selected line index");
+        }
+
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(selectedLineIndex);
+        try {
+            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteTerm(academicCalendarForm.getTermWrapperList(),selectedLineIndex,context);
+        } catch (Exception e) {
+            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
+            throw new RuntimeException(e);
+        }
+
+        return updateComponent(academicCalendarForm, result, request, response);
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteKeyDate")
+    public ModelAndView deleteKeyDate(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("unable to determine the selected line index");
+        }
+
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
+
+        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
+        try {
+            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteKeyDate(termWrapper.getKeydates(),selectedLineIndex,context);
+        } catch (Exception e) {
+            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
+            throw new RuntimeException(e);
+        }
+
+        return updateComponent(academicCalendarForm, result, request, response);
+
     }
 
     private void createEvents(String acalId, AcademicCalendarForm acalForm) throws Exception {

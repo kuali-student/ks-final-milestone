@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+
 import java.util.Date;
 
 public class KeyDateWrapper {
@@ -7,6 +9,15 @@ public class KeyDateWrapper {
     private String keyDateType;
     private String endTimeAmPm;
     private String startTimeAmPm;
+    private Date startDate;
+    private Date endDate;
+    private String startTime;
+    private String endTime;
+
+    private KeyDateInfo keyDateInfo;
+
+    public KeyDateWrapper(){
+    }
 
     public String getKeyDateType() {
         return keyDateType;
@@ -48,11 +59,6 @@ public class KeyDateWrapper {
         this.endTime = endTime;
     }
 
-    private Date startDate;
-    private Date endDate;
-    private String startTime;
-    private String endTime;
-
     public String getEndTimeAmPm() {
         return endTimeAmPm;
     }
@@ -69,8 +75,12 @@ public class KeyDateWrapper {
         this.startTimeAmPm = startTimeAmPm;
     }
 
-    public KeyDateWrapper(){
+    public KeyDateInfo getKeyDateInfo() {
+        return keyDateInfo;
+    }
 
+    public void setKeyDateInfo(KeyDateInfo keyDateInfo) {
+        this.keyDateInfo = keyDateInfo;
     }
 
 }

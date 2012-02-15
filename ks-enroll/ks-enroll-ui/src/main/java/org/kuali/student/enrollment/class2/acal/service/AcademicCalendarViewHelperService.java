@@ -1,5 +1,6 @@
 package org.kuali.student.enrollment.class2.acal.service;
 
+import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
@@ -7,6 +8,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -39,6 +41,14 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public void saveTerm(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception;
 
     public void buildTerm(String termId,AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception;
+
+    public void setTermOfficial(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception;
+
+    public void deleteTerm(List<AcademicTermWrapper> termWrapper,int selectedIndex,ContextInfo context) throws Exception;
+
+    public void deleteKeyDate(List<KeyDateWrapper> keyDateWrapperList,int selectedIndex,ContextInfo context) throws Exception;
+
+    public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm);
 
     public AcademicCalendarService getAcalService();
 }
