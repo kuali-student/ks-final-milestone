@@ -102,6 +102,7 @@
 	<bean id="KS-AcademicCalendar-EventSection" parent="Uif-Disclosure-TableCollectionSection"
 		p:layoutManager.numberOfColumns="7">
 		<property name="title" value="Events" />
+        <property name="disclosure.defaultOpen" value="@{!#form.events.empty}" />
 		<property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper" />
 		<property name="propertyName" value="events" />
 		<property name="layoutManager.sequencePropertyName" value="name" />
