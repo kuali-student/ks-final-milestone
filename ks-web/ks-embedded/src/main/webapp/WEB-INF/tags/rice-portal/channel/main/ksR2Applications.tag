@@ -17,10 +17,6 @@
 
 <channel:portalChannelTop channelTitle="R2 Applications" />
 <div class="body">
-  <strong>KS Enroll -- Landing</strong>
-  <ul class="chan">
-      <li><portal:portalLink displayTitle="true" title="Enrollment Landing" url="${ConfigProperties.application.url}/kr-krad/launch?viewId=enrollmentLaunchView&methodToCall=start" /></li>
-  </ul>
   <strong>KS Enroll -- Academic Calendar</strong>
   <ul class="chan">
       <li><portal:portalLink displayTitle="true" title="Academic Calendar Info Lookup 1(by Key)" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
