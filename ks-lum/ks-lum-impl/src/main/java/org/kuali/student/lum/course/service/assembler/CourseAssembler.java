@@ -31,7 +31,6 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -220,12 +219,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo cluRel : cluClus) {
 					if (cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
 						CourseJointInfo jointInfo = null;
-						if(cluRel.getCluId().equals(clu.getId()))
+						if(cluRel.getCluId().equals(clu.getId())){
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getRelatedCluId(), null, false);
-						else
+						}else{
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getCluId(), null, false);
-						if (jointInfo == null)
-						course.getJoints().add(jointInfo);
+						}
+						if (jointInfo != null){
+							course.getJoints().add(jointInfo);
+						}
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -1157,15 +1158,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
 					if (CourseAssemblerConstants.JOINT_RELATION_TYPE.equals(jointRelation.getType())) {
 						if(jointRelation.getCluId().equals(course.getId())) {
-							CluInfo clu = luService.getClu(jointRelation.getRelatedCluId());
-							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
-								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
-								currentJointIds.put(jointRelation.getId(),jointRelation);
+							luService.getClu(jointRelation.getRelatedCluId());
+							currentJointIds.put(jointRelation.getId(),jointRelation);
 						} else {						
-							CluInfo clu = luService.getClu(jointRelation.getCluId());
-							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
-								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
-								currentJointIds.put(jointRelation.getId(),jointRelation);							
+							luService.getClu(jointRelation.getCluId());
+							currentJointIds.put(jointRelation.getId(),jointRelation);							
 						}	
 					}
 				}
