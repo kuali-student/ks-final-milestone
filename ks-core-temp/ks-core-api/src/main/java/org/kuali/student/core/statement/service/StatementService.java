@@ -82,7 +82,7 @@ public interface StatementService {
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException authorization failure
      */
-    public List<TypeInfo> getRefObjectSubTypes(@WebParam(name = "refObjectTypeKey") ContextInfo refObjectTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<TypeInfo> getRefObjectSubTypes(@WebParam(name = "refObjectTypeKey") String refObjectTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a object statement relationship by its identifier.

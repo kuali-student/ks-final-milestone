@@ -1273,7 +1273,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public List<TypeInfo> getRefObjectSubTypes(ContextInfo refObjectTypeKey,
+	public List<TypeInfo> getRefObjectSubTypes(String refObjectTypeKey,
 			ContextInfo contextInfo) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {

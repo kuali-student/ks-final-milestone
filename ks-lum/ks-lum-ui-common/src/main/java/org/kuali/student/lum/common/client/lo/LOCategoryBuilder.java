@@ -55,6 +55,7 @@ import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressInd
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
@@ -395,14 +396,15 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
         }
 
-        if (categoryTypeMap.containsKey(category.getType())) {
+        if (categoryTypeMap.containsKey(category.getTypeKey())) {
             // check if category is already added to picker.  only add it once.
             if (!isCategoryAlreadyAddedToPicker(category)){
                 categoryList.addItem(category);
             }
             picker.reset();
         } else {
-            loCatRpcServiceAsync.getLoCategoryType(category.getType(), new KSAsyncCallback<LoCategoryTypeInfo>() {
+            //TODO KSCM - Correct contextInfo param?
+            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), ContextUtils.getContextInfo(), new KSAsyncCallback<LoCategoryTypeInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
