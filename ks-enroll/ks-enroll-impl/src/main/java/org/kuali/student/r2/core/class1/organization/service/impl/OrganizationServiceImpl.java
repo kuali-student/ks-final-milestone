@@ -16,6 +16,7 @@ import java.util.Set;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.common.dictionary.service.old.DictionaryService;
@@ -29,6 +30,7 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 import org.kuali.student.core.organization.entity.OrgType;
+import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -59,6 +61,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     private OrganizationDao organizationDao;
     private DictionaryService dictionaryServiceDelegate;
     private Validator validator;
+    private CriteriaLookupService criteriaLookupService;
 
     /**
      * Check for missing parameter and throw localized exception if missing
@@ -96,6 +99,14 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     public void setOrganizationDao(OrganizationDao organizationDao) {
         this.organizationDao = organizationDao;
+    }
+    
+    public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
+        this.criteriaLookupService = criteriaLookupService;
+    }
+
+    public CriteriaLookupService getCriteriaLookupService() {
+        return criteriaLookupService;
     }
 
     @Override
@@ -158,14 +169,30 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> searchForOrgIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<String> orgIds = new ArrayList<String>();
+        List<OrgInfo> orgs = this.searchForOrgs(criteria, contextInfo);
+        
+        if (orgs != null){
+            for (OrgInfo org : orgs){
+                orgIds.add(org.getId());
+            }
+        }
+        
+        return orgIds;
     }
 
     @Override
     public List<OrgInfo> searchForOrgs(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<OrgInfo> orgInfos = new ArrayList<OrgInfo>();
+        GenericQueryResults<Org> results = criteriaLookupService.lookup(Org.class, criteria);
+
+        if (null != results && results.getResults().size() > 0) {
+            for (Org org : results.getResults()) {
+                orgInfos.add(OrganizationAssembler.toOrgInfo(org));
+            }
+        }
+
+        return orgInfos;
     }
 
     @Override
@@ -327,7 +354,6 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrg(String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO Flush out exceptions
         checkForMissingParameter(orgId, "orgId");
 
         List<OrgOrgRelation> orgOrgRelations = organizationDao.getOrgOrgRelationsByOrg(orgId);
@@ -348,14 +374,30 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> searchForOrgOrgRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<String> orgOrgRelationIds = new ArrayList<String>();
+        List<OrgOrgRelationInfo> orgOrgRelations = this.searchForOrgOrgRelations(criteria, contextInfo);
+        
+        if (orgOrgRelations != null){
+            for (OrgOrgRelationInfo orgOrgRelation : orgOrgRelations){
+                orgOrgRelationIds.add(orgOrgRelation.getId());
+            }
+        }
+        
+        return orgOrgRelationIds;
     }
 
     @Override
     public List<OrgOrgRelationInfo> searchForOrgOrgRelations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<OrgOrgRelationInfo> OrgOrgRelationInfos = new ArrayList<OrgOrgRelationInfo>();
+        GenericQueryResults<OrgOrgRelation> results = criteriaLookupService.lookup(OrgOrgRelation.class, criteria);
+
+        if (null != results && results.getResults().size() > 0) {
+            for (OrgOrgRelation orgOrgRelation : results.getResults()) {
+                OrgOrgRelationInfos.add(OrganizationAssembler.toOrgOrgRelationInfo(orgOrgRelation));
+            }
+        }
+
+        return OrgOrgRelationInfos;
     }
 
     @Override
@@ -524,14 +566,30 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> searchForOrgPersonRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<String> orgPersonRelationIds = new ArrayList<String>();
+        List<OrgPersonRelationInfo> orgPersonRelations = this.searchForOrgPersonRelations(criteria, contextInfo);
+        
+        if (orgPersonRelations != null){
+            for (OrgPersonRelationInfo orgPersonRelation : orgPersonRelations){
+                orgPersonRelationIds.add(orgPersonRelation.getId());
+            }
+        }
+        
+        return orgPersonRelationIds;
     }
 
     @Override
     public List<OrgPersonRelationInfo> searchForOrgPersonRelations(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<OrgPersonRelationInfo> orgPersonRelationInfos = new ArrayList<OrgPersonRelationInfo>();
+        GenericQueryResults<OrgPersonRelation> results = criteriaLookupService.lookup(OrgPersonRelation.class, criteria);
+
+        if (null != results && results.getResults().size() > 0) {
+            for (OrgPersonRelation orgPersonRelation : results.getResults()) {
+                orgPersonRelationInfos.add(OrganizationAssembler.toOrgPersonRelationInfo(orgPersonRelation));
+            }
+        }
+
+        return orgPersonRelationInfos;
     }
 
     @Override
@@ -649,14 +707,29 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> searchForOrgPositionRestrictionIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<String> orgPositionRestrictionIds = new ArrayList<String>();
+        List<OrgPositionRestrictionInfo> orgPositionRestrictionInfos = this.searchForOrgPositionRestrictions(criteria, contextInfo);
+        
+        if (orgPositionRestrictionInfos != null){
+            for (OrgPositionRestrictionInfo orgPositionRestrictionInfo : orgPositionRestrictionInfos){
+                orgPositionRestrictionIds.add(orgPositionRestrictionInfo.getId());
+            }
+        }
+        return orgPositionRestrictionIds;
     }
 
     @Override
     public List<OrgPositionRestrictionInfo> searchForOrgPositionRestrictions(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<OrgPositionRestrictionInfo> orgPositionRestrictionInfos = new ArrayList<OrgPositionRestrictionInfo>();
+        GenericQueryResults<OrgPositionRestriction> results = criteriaLookupService.lookup(OrgPositionRestriction.class, criteria);
+
+        if (null != results && results.getResults().size() > 0) {
+            for (OrgPositionRestriction orgPositionRestriction : results.getResults()) {
+                orgPositionRestrictionInfos.add(OrganizationAssembler.toOrgPositionRestrictionInfo(orgPositionRestriction));
+            }
+        }
+
+        return orgPositionRestrictionInfos;
     }
 
     @Override

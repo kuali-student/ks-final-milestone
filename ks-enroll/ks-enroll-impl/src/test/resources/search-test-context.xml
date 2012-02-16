@@ -38,9 +38,12 @@
     	<property name="entityManager" ref="entityManager"/>
   	</bean>
   	
-  	<!-- Atp Service - Criteria Lookup Service -->
-  	<bean id="atpCriteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+  	<bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
     	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+  	</bean>
+  	
+  	<!-- Atp Service - Criteria Lookup Service -->
+  	<bean id="atpCriteriaLookupService" parent="criteriaLookupService">
     	<property name="predicateTransforms">
     		<list>
     			<ref bean="attributeTransform"/>

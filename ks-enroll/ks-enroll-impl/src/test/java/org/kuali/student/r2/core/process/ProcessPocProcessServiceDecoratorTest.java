@@ -6,7 +6,7 @@ package org.kuali.student.r2.core.process;
 
 import java.util.List;
 
-import org.kuali.student.r2.core.process.ProcessPocProcessServiceDecorator;
+import org.kuali.student.r2.core.class1.process.ProcessPocProcessServiceDecorator;
 import org.kuali.student.r2.core.process.dto.InstructionInfo;
 import org.kuali.student.r2.core.process.dto.CheckInfo;
 import org.kuali.student.r2.core.process.dto.ProcessInfo;
