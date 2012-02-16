@@ -32,6 +32,8 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.rice.core.api.criteria.PredicateFactory;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -53,6 +55,7 @@ import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
 import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.organization.infc.OrgPositionRestriction;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.springframework.test.context.ContextConfiguration;
@@ -67,7 +70,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class TestOrganizationServiceImpl {
     
     @Resource(name="orgServiceImpl")
-	public OrganizationService client;
+	public OrganizationService orgService;
 
 	public static String principalId = "123";
 
@@ -80,64 +83,109 @@ public class TestOrganizationServiceImpl {
     }
     
 	@Test
-	public void testSearch() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		/*List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.orgGenericType");
-		searchParam.setValue("kuali.org.College");
-		searchParams.add(searchParam);
-		
-		searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.orgGenericShortName");
-		searchParam.setValue("CollegeE%");
-		searchParams.add(searchParam);
-		
-		SearchRequest searchRequest = new SearchRequest();
-		searchRequest.setSearchKey("org.search.test.orgs");
-		searchRequest.setParams(searchParams);
-		SearchResult result = client.search(searchRequest);
-		assertEquals(2,result.getRows().size());
-		
-		searchParams = new ArrayList<SearchParam>();
-		searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.orgType");
-		searchParam.setValue("kuali.org.College");
-		searchParams.add(searchParam);
-		
-		searchRequest = new SearchRequest();
-		searchRequest.setSearchKey("org.search.orgQuickViewByOrgType");
-		searchRequest.setParams(searchParams);
-		
-		result = client.search(searchRequest);
-		assertEquals(6,result.getRows().size());
-		assertEquals(2,result.getRows().get(0).getCells().size());
-		
-		//Test org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType
-		searchParams = new ArrayList<SearchParam>();
-		searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.relationType");
-		searchParam.setValue("kuali.org.Chartered");
-		searchParams.add(searchParam);
-		
-		searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.orgType");
-		searchParam.setValue("kuali.org.College");
-		searchParams.add(searchParam);
-		
-		searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.relatedOrgType");
-		searchParam.setValue("kuali.org.COC");
-		searchParams.add(searchParam);
-		
-		
-		searchRequest = new SearchRequest();
-		searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeOrgTypeRelatedOrgType");
-		searchRequest.setParams(searchParams);
-		
-		result = client.search(searchRequest);
-		assertEquals(5,result.getRows().size());*/
+	public void testSearchForOrgs() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+	    QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "1"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<OrgInfo> orgInfos = orgService.searchForOrgs(qbc, callContext);
+            assertNotNull(orgInfos);
+            assertEquals(1, orgInfos.size());
+            OrgInfo orgInfo = orgInfos.get(0);
+            assertEquals("1", orgInfo.getId());
+            assertEquals("KUSystem", orgInfo.getShortName());
+            assertEquals("Kuali University System", orgInfo.getLongName());
+            assertEquals("", orgInfo.getShortDescr().getPlain());
+            assertEquals("", orgInfo.getLongDescr().getPlain());
+            assertEquals("kuali.org.CorporateEntity", orgInfo.getTypeKey());
+
+            List<String> orgIds = orgService.searchForOrgIds(qbc, callContext);
+            assertNotNull(orgIds);
+            assertEquals(1, orgIds.size());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
 	}
+	
+	@Test
+    public void testSearchForOrgOrgRelations() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "1"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<OrgOrgRelationInfo> orgOrgRelationInfos = orgService.searchForOrgOrgRelations(qbc, callContext);
+            assertNotNull(orgOrgRelationInfos);
+            assertEquals(1, orgOrgRelationInfos.size());
+            OrgOrgRelationInfo orgOrgRelationInfo = orgOrgRelationInfos.get(0);
+            assertEquals("1", orgOrgRelationInfo.getId());
+            //assertEquals("KUSystem", orgOrgRelationInfo.getShortName());
+            //assertEquals("Kuali University System", orgOrgRelationInfo.getLongName());
+            //assertEquals("", orgOrgRelationInfo.getShortDescr().getPlain());
+            //assertEquals("", orgOrgRelationInfo.getLongDescr().getPlain());
+            //assertEquals("kuali.org.CorporateEntity", orgOrgRelationInfo.getTypeKey());
+            
+            List<String> orgOrgRelationIds = orgService.searchForOrgOrgRelationIds(qbc, callContext);
+            assertNotNull(orgOrgRelationIds);
+            assertEquals(1, orgOrgRelationIds.size());
+
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+	
+	@Test
+    public void testSearchForOrgPositionRestrictions() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "1"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<OrgPositionRestrictionInfo> orgPositionRestrictionInfos = orgService.searchForOrgPositionRestrictions(qbc, callContext);
+            assertNotNull(orgPositionRestrictionInfos);
+            assertEquals(1, orgPositionRestrictionInfos.size());
+            OrgPositionRestriction orgPositionRestriction = orgPositionRestrictionInfos.get(0);
+            assertEquals("1", orgPositionRestriction.getId());
+            //assertEquals("KUSystem", orgPositionRestriction.getShortName());
+            //assertEquals("Kuali University System", orgPositionRestriction.getLongName());
+            //assertEquals("", orgPositionRestriction.getShortDescr().getPlain());
+            //assertEquals("", orgPositionRestriction.getLongDescr().getPlain());
+            //assertEquals("kuali.org.CorporateEntity", orgPositionRestriction.getTypeKey());
+
+            List<String> orgPositionRestrictionIds = orgService.searchForOrgPositionRestrictionIds(qbc, callContext);
+            assertNotNull(orgPositionRestrictionIds);
+            assertEquals(1, orgPositionRestrictionIds.size());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
+	
+	@Test
+    public void testSearchForOrgPersonRelations() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        QueryByCriteria.Builder qbcBuilder = QueryByCriteria.Builder.create();
+        qbcBuilder.setPredicates(PredicateFactory.equal("id", "1"));
+        QueryByCriteria qbc = qbcBuilder.build();
+        try {
+            List<OrgPersonRelationInfo> orgPersonRelationInfos = orgService.searchForOrgPersonRelations(qbc, callContext);
+            assertNotNull(orgPersonRelationInfos);
+            assertEquals(1, orgPersonRelationInfos.size());
+            OrgPersonRelationInfo orgPersonRelationInfo = orgPersonRelationInfos.get(0);
+            assertEquals("1", orgPersonRelationInfo.getId());
+            //assertEquals("KUSystem", orgPersonRelationInfo.getShortName());
+            //assertEquals("Kuali University System", orgPersonRelationInfo.getLongName());
+            //assertEquals("", orgPersonRelationInfo.getShortDescr().getPlain());
+            //assertEquals("", orgPersonRelationInfo.getLongDescr().getPlain());
+            //assertEquals("kuali.org.CorporateEntity", orgPersonRelationInfo.getTypeKey());
+
+            List<String> orgPersonRelationIds = orgService.searchForOrgPersonRelationIds(qbc, callContext);
+            assertNotNull(orgPersonRelationIds);
+            assertEquals(1, orgPersonRelationIds.size());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
+
+    }
 	
 	@Test
 	public void testSearchHierarchyShortName() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
@@ -201,8 +249,8 @@ public class TestOrganizationServiceImpl {
 		orgCode2.setValue("OrgCodeValue 2");
 		orgInfo.getOrgCodes().add(orgCode2);
 		
-		OrgInfo createOrg1 = client.createOrg("kuali.org.Program", orgInfo, callContext);
-		OrgInfo createOrg = client.getOrg(createOrg1.getId(), callContext);
+		OrgInfo createOrg1 = orgService.createOrg("kuali.org.Program", orgInfo, callContext);
+		OrgInfo createOrg = orgService.getOrg(createOrg1.getId(), callContext);
 		
 		//Validate all fields
 		assertEquals("Description for new OrgInfo",createOrg.getShortDescr().getPlain());
@@ -223,7 +271,7 @@ public class TestOrganizationServiceImpl {
 		assertTrue(found);
 		assertNotNull(createOrg.getId());
 
-		OrgInfo updateInfo = client.getOrg(createOrg.getId(), callContext);
+		OrgInfo updateInfo = orgService.getOrg(createOrg.getId(), callContext);
 		shortDescr = new RichTextInfo();
 		shortDescr.setPlain("Updated Description for new OrgInfo");
 		shortDescr.setFormatted("Updated Description for new OrgInfo");
@@ -246,7 +294,7 @@ public class TestOrganizationServiceImpl {
 		
 		OrgInfo updated=null;
 		try {
-			updated = client.updateOrg(updateInfo.getId(), updateInfo, callContext);
+			updated = orgService.updateOrg(updateInfo.getId(), updateInfo, callContext);
 		} catch (VersionMismatchException e) {
 			fail("Should not throw VersionMismatchException");
 		}
@@ -275,7 +323,7 @@ public class TestOrganizationServiceImpl {
 		
 		//Check version mismatch
 		try {
-			client.updateOrg(updateInfo.getId(), updateInfo, callContext);
+			orgService.updateOrg(updateInfo.getId(), updateInfo, callContext);
 			fail("Should throw VersionMismatchException");
 		} catch (VersionMismatchException e) {
 		}
@@ -284,20 +332,20 @@ public class TestOrganizationServiceImpl {
 		StatusInfo si;
 		String orgId = createOrg.getId();
 		try {
-			si = client.deleteOrg(orgId, callContext);
+			si = orgService.deleteOrg(orgId, callContext);
 			assertTrue(si.getIsSuccess());
 		} catch (DoesNotExistException e) {
 			fail("OrganizationService.deleteOrganization() failed deleting just-created Organization");
 		}
 
 		try {
-			client.deleteOrgPersonRelation(orgId, callContext);
+			orgService.deleteOrgPersonRelation(orgId, callContext);
 			fail("OrganizationService.deleteOrganization() of a deleted Organization did not throw DoesNotExistException as expected");
 		} catch (DoesNotExistException e) {
 		}
 
 		try {
-			client.deleteOrgPersonRelation(null, callContext);
+			orgService.deleteOrgPersonRelation(null, callContext);
 			fail("OrganizationService.deleteOrganization(null) did not throw DoesNotExistException as expected");
 		} catch (MissingParameterException e) {
 		}
@@ -315,7 +363,7 @@ public class TestOrganizationServiceImpl {
 		orgPersonRelationInfo.setPersonId("");
 		orgPersonRelationInfo.setTypeKey("");
 
-		OrgPersonRelationInfo createdOPRInfo = client.createOrgPersonRelation("28", "KIM-12345", "kuali.org.PersonRelation.Dean", orgPersonRelationInfo, callContext);
+		OrgPersonRelationInfo createdOPRInfo = orgService.createOrgPersonRelation("28", "KIM-12345", "kuali.org.PersonRelation.Dean", orgPersonRelationInfo, callContext);
 
 		//Validate all fields
 		assertEquals("Active",createdOPRInfo.getStateKey());
@@ -330,20 +378,20 @@ public class TestOrganizationServiceImpl {
 		StatusInfo si;
 		String oprId = createdOPRInfo.getId();
 		try {
-			si = client.deleteOrgPersonRelation(oprId, callContext);
+			si = orgService.deleteOrgPersonRelation(oprId, callContext);
 			assertTrue(si.getIsSuccess());
 		} catch (DoesNotExistException e) {
 			fail("OrganizationService.removeOrgPersonRelation() failed removing just-created OrgPersonRelation");
 		}
 
 		try {
-			client.deleteOrgPersonRelation(oprId, callContext);
+			orgService.deleteOrgPersonRelation(oprId, callContext);
 			fail("OrganizationService.removeOrgPersonRelation() of a deleted OrgPersonRelation did not throw DoesNotExistException as expected");
 		} catch (DoesNotExistException e) {
 		}
 
 		try {
-			client.deleteOrgPersonRelation(null, callContext);
+			orgService.deleteOrgPersonRelation(null, callContext);
 			fail("OrganizationService.removeOrgPersonRelation(null) did not throw DoesNotExistException as expected");
 		} catch (MissingParameterException e) {
 		}
@@ -361,7 +409,7 @@ public class TestOrganizationServiceImpl {
 		orgOrgRelationInfo.setRelatedOrgId("");
 		orgOrgRelationInfo.setTypeKey("");
 
-		OrgOrgRelationInfo createdOORInfo = client.createOrgOrgRelation("16", "17", "kuali.org.Part", orgOrgRelationInfo, callContext);
+		OrgOrgRelationInfo createdOORInfo = orgService.createOrgOrgRelation("16", "17", "kuali.org.Part", orgOrgRelationInfo, callContext);
 
 		//Validate all fields
 		assertEquals("Active",createdOORInfo.getStateKey());
@@ -376,20 +424,20 @@ public class TestOrganizationServiceImpl {
 		StatusInfo si;
 		String oorId = createdOORInfo.getId();
 		try {
-			si = client.deleteOrgOrgRelation(oorId, callContext);
+			si = orgService.deleteOrgOrgRelation(oorId, callContext);
 			assertTrue(si.getIsSuccess());
 		} catch (DoesNotExistException e) {
 			fail("OrganizationService.removeOrgOrgRelation() failed removing just-created OrgOrgRelation");
 		}
 
 		try {
-			client.deleteOrgOrgRelation(oorId, callContext);
+			orgService.deleteOrgOrgRelation(oorId, callContext);
 			fail("OrganizationService.removeOrgOrgRelation() of a deleted OrgOrgRelation did not throw DoesNotExistException as expected");
 		} catch (DoesNotExistException e) {
 		}
 
 		try {
-			client.deleteOrgOrgRelation(null, callContext);
+			orgService.deleteOrgOrgRelation(null, callContext);
 			fail("OrganizationService.removeOrgOrgRelation(null) did not throw MissingParameterException as expected");
 		} catch (MissingParameterException e) {
 		}
@@ -414,8 +462,8 @@ public class TestOrganizationServiceImpl {
 		orgPositionRestrictionInfo.setOrgId("");
 		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey("");
 
-		OrgPositionRestrictionInfo created = client.createOrgPositionRestriction("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo, callContext);
-		OrgPositionRestrictionInfo created2 = client.createOrgPositionRestriction("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo, callContext);
+		OrgPositionRestrictionInfo created = orgService.createOrgPositionRestriction("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo, callContext);
+		OrgPositionRestrictionInfo created2 = orgService.createOrgPositionRestriction("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo, callContext);
 
 		//validate fields
 		assertEquals("Description For Position Restriction",created.getDescr().getPlain());
@@ -430,40 +478,40 @@ public class TestOrganizationServiceImpl {
 
 	@Test
 	public void getOrgHierarchies() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<OrgHierarchyInfo> orgHierarchyInfos = client.getOrgHierarchies(callContext);
+		List<OrgHierarchyInfo> orgHierarchyInfos = orgService.getOrgHierarchies(callContext);
 		assertEquals(2,orgHierarchyInfos.size());
 	}
 
 	@Test
 	public void getOrgOrgRelationsByOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByOrg("4", callContext);
+		List<OrgOrgRelationInfo> orgOrgRelationInfos = orgService.getOrgOrgRelationsByOrg("4", callContext);
 		assertEquals(8,orgOrgRelationInfos.size());
 
-		orgOrgRelationInfos = client.getOrgOrgRelationsByOrg("-1", callContext);
+		orgOrgRelationInfos = orgService.getOrgOrgRelationsByOrg("-1", callContext);
 		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
 	}
 
 	@Test
 	public void getAllOrgPersonRelationsByOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<OrgPersonRelationInfo> orgPersonRelationInfos = client.getOrgPersonRelationsByOrg("68", callContext);
+		List<OrgPersonRelationInfo> orgPersonRelationInfos = orgService.getOrgPersonRelationsByOrg("68", callContext);
 		assertEquals(3, orgPersonRelationInfos.size());
 
-		orgPersonRelationInfos = client.getOrgPersonRelationsByOrg("-1", callContext);
+		orgPersonRelationInfos = orgService.getOrgPersonRelationsByOrg("-1", callContext);
 		assertTrue(orgPersonRelationInfos == null || orgPersonRelationInfos.size() == 0);
 	}
 
 	@Test
 	public void getPositionRestrictionsByOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<String>  orgPositionRestrictionInfos = client.getOrgPositionRestrictionIdsByOrg("19", callContext);
+		List<String>  orgPositionRestrictionInfos = orgService.getOrgPositionRestrictionIdsByOrg("19", callContext);
 		assertEquals(2, orgPositionRestrictionInfos.size());
 
-		 orgPositionRestrictionInfos = client.getOrgPositionRestrictionIdsByOrg("-1", callContext);
+		 orgPositionRestrictionInfos = orgService.getOrgPositionRestrictionIdsByOrg("-1", callContext);
 		 assertTrue(orgPositionRestrictionInfos == null || orgPositionRestrictionInfos.size() == 0);
 	}
 
 	@Test
 	public void getOrgTypes() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<TypeInfo> orgTypeInfos = client.getOrgTypes(callContext);
+		List<TypeInfo> orgTypeInfos = orgService.getOrgTypes(callContext);
 		assertEquals(17, orgTypeInfos.size());
 		
 		boolean found = false;
@@ -478,48 +526,48 @@ public class TestOrganizationServiceImpl {
 
 	@Test
 	public void getAllDescendants() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<String> descendants = client.getAllDescendants("6", "kuali.org.hierarchy.Main", callContext);
+		List<String> descendants = orgService.getAllDescendants("6", "kuali.org.hierarchy.Main", callContext);
 		assertEquals(22, descendants.size());
 		assertTrue(descendants.containsAll(Arrays.asList("7", "121", "141")));
 
-		descendants = client.getAllDescendants("4", "Star.Trek", callContext);
+		descendants = orgService.getAllDescendants("4", "Star.Trek", callContext);
 		assertTrue(descendants == null || descendants.size() == 0);
 
-		descendants = client.getAllDescendants("-1", "kuali.org.hierarchy.Main", callContext);
+		descendants = orgService.getAllDescendants("-1", "kuali.org.hierarchy.Main", callContext);
 		assertTrue(descendants == null || descendants.size() == 0);
 
-		descendants = client.getAllDescendants("-1", "-1", callContext);
+		descendants = orgService.getAllDescendants("-1", "-1", callContext);
 		assertTrue(descendants == null || descendants.size() == 0);
 	}
 
 
 	@Test
 	public void getAncestors() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<String> ancestors = client.getAllAncestors("26", "kuali.org.hierarchy.Main", callContext);
+		List<String> ancestors = orgService.getAllAncestors("26", "kuali.org.hierarchy.Main", callContext);
 		assertEquals(4,ancestors.size());
 		assertTrue(ancestors.containsAll(Arrays.asList("1", "4", "15", "19")));
 
-		ancestors = client.getAllAncestors("2", "Star.Trek", callContext);
+		ancestors = orgService.getAllAncestors("2", "Star.Trek", callContext);
 		assertTrue(ancestors == null || ancestors.size() == 0);
 
-		ancestors = client.getAllAncestors("-1", "kuali.org.hierarchy.Main", callContext);
+		ancestors = orgService.getAllAncestors("-1", "kuali.org.hierarchy.Main", callContext);
 		assertTrue(ancestors == null || ancestors.size() == 0);
 
-		ancestors = client.getAllAncestors("-1", "-1", callContext);
+		ancestors = orgService.getAllAncestors("-1", "-1", callContext);
 		assertTrue(ancestors == null || ancestors.size() == 0);
 	}
 
 	
 	@Test
 	public void isDescendant() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		assertTrue(client.isDescendant("1", "26", "kuali.org.hierarchy.Main", callContext));
-		assertTrue(client.isDescendant("19", "26", "kuali.org.hierarchy.Main", callContext));
-		assertFalse(client.isDescendant("5", "26", "kuali.org.hierarchy.Main", callContext));
+		assertTrue(orgService.isDescendant("1", "26", "kuali.org.hierarchy.Main", callContext));
+		assertTrue(orgService.isDescendant("19", "26", "kuali.org.hierarchy.Main", callContext));
+		assertFalse(orgService.isDescendant("5", "26", "kuali.org.hierarchy.Main", callContext));
 	}
 
 	@Test
 	public void getOrgOrgRelationType() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<TypeInfo> orgOrgRelationTypeInfos = client.getOrgOrgRelationTypes(callContext);
+		List<TypeInfo> orgOrgRelationTypeInfos = orgService.getOrgOrgRelationTypes(callContext);
 		assertNotNull(orgOrgRelationTypeInfos);
         assertEquals(13, orgOrgRelationTypeInfos.size());
 		
@@ -536,16 +584,16 @@ public class TestOrganizationServiceImpl {
 
 	@Test
 	public void getOrgOrgRelationTypesForOrgHierarchy() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<TypeInfo> orgOrgRelationTypeInfos = client.getOrgOrgRelationTypesForOrgHierarchy("kuali.org.hierarchy.Main", callContext);
+		List<TypeInfo> orgOrgRelationTypeInfos = orgService.getOrgOrgRelationTypesForOrgHierarchy("kuali.org.hierarchy.Main", callContext);
 		assertEquals(12, orgOrgRelationTypeInfos.size());
 
-		orgOrgRelationTypeInfos = client.getOrgOrgRelationTypesForOrgHierarchy("Red.Dwarf", callContext);
+		orgOrgRelationTypeInfos = orgService.getOrgOrgRelationTypesForOrgHierarchy("Red.Dwarf", callContext);
 		assertTrue(orgOrgRelationTypeInfos == null || orgOrgRelationTypeInfos.size() == 0);
 	}
 
 	@Test
 	public void getAllOrgPersonRelationsByPerson() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<OrgPersonRelationInfo> orgPersonRelationsByPerson = client.getOrgPersonRelationsByPerson("KIM-1", callContext);
+		List<OrgPersonRelationInfo> orgPersonRelationsByPerson = orgService.getOrgPersonRelationsByPerson("KIM-1", callContext);
 		//assertEquals(3, orgPersonRelationsByPerson.size());
 
 		//orgPersonRelationsByPerson = client.getOrgPersonRelationsByPerson("Homer", callContext);
@@ -554,11 +602,11 @@ public class TestOrganizationServiceImpl {
 
 	@Test
 	public void getOrgHierarchy() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		OrgHierarchyInfo orgHierarchyInfo = client.getOrgHierarchy("kuali.org.hierarchy.Curriculum", callContext);
+		OrgHierarchyInfo orgHierarchyInfo = orgService.getOrgHierarchy("kuali.org.hierarchy.Curriculum", callContext);
 		assertEquals("kuali.org.hierarchy.Curriculum", orgHierarchyInfo.getId());
 
 		try {
-			orgHierarchyInfo = client.getOrgHierarchy("Spectre", callContext);
+			orgHierarchyInfo = orgService.getOrgHierarchy("Spectre", callContext);
 			assertTrue(false);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
@@ -567,20 +615,20 @@ public class TestOrganizationServiceImpl {
 
 	@Test
 	public void getOrgPersonRelationTypesForOrgType() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<TypeInfo> orgPersonRelationsByOrgType = client.getOrgPersonRelationTypesForOrgType("kuali.org.School", callContext);
+		List<TypeInfo> orgPersonRelationsByOrgType = orgService.getOrgPersonRelationTypesForOrgType("kuali.org.School", callContext);
 		assertEquals(2, orgPersonRelationsByOrgType.size());
 
-		orgPersonRelationsByOrgType = client.getOrgPersonRelationTypesForOrgType("K12", callContext);
+		orgPersonRelationsByOrgType = orgService.getOrgPersonRelationTypesForOrgType("K12", callContext);
 		assertTrue(orgPersonRelationsByOrgType == null || orgPersonRelationsByOrgType.size() == 0);
 	}
 
 	@Test
 	public void getOrganization() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		OrgInfo org = client.getOrg("42", callContext);
+		OrgInfo org = orgService.getOrg("42", callContext);
 		assertEquals(org.getId(), "42");
 
 		try {
-			org = client.getOrg("Kaos", callContext);
+			org = orgService.getOrg("Kaos", callContext);
 			assertTrue(false);
 		} catch (Exception e) {
 			assertTrue(true);
@@ -589,18 +637,18 @@ public class TestOrganizationServiceImpl {
 
 	@Test
 	public void getOrgOrgRelation() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		OrgOrgRelationInfo orgOrgRelationInfo = client.getOrgOrgRelation("16", callContext);
+		OrgOrgRelationInfo orgOrgRelationInfo = orgService.getOrgOrgRelation("16", callContext);
 		assertNotNull(orgOrgRelationInfo);
 
 		try {
-			orgOrgRelationInfo = client.getOrgOrgRelation("-1", callContext);
+			orgOrgRelationInfo = orgService.getOrgOrgRelation("-1", callContext);
 			assertTrue(false);
 		} catch (DoesNotExistException e1) {
 			assertTrue(true);
 		}
 
 		try {
-			orgOrgRelationInfo = client.getOrgOrgRelation(null, callContext);
+			orgOrgRelationInfo = orgService.getOrgOrgRelation(null, callContext);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -609,55 +657,55 @@ public class TestOrganizationServiceImpl {
 
 
 	@Test
-	public void getOrgOrgRelationsByIdList() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+	public void getOrgOrgRelationsByIds() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<String> idList = new ArrayList<String>(2);
 		idList.add("3");
 		idList.add("15");
-		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByIds(idList, callContext);
+		List<OrgOrgRelationInfo> orgOrgRelationInfos = orgService.getOrgOrgRelationsByIds(idList, callContext);
 		assertEquals(2, orgOrgRelationInfos.size());
 
 		idList.add("-1");
-		orgOrgRelationInfos = client.getOrgOrgRelationsByIds(idList, callContext);
+		orgOrgRelationInfos = orgService.getOrgOrgRelationsByIds(idList, callContext);
 		assertEquals(2, orgOrgRelationInfos.size());
 
 		idList = new ArrayList<String>(2);
 		idList.add("-1");
 		idList.add("-2");
-		orgOrgRelationInfos = client.getOrgOrgRelationsByIds(idList, callContext);
+		orgOrgRelationInfos = orgService.getOrgOrgRelationsByIds(idList, callContext);
 		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
 	}
 
 	@Test
 	public void getOrgOrgRelationsByRelatedOrg() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<OrgOrgRelationInfo> orgOrgRelationInfos = client.getOrgOrgRelationsByOrg("16", callContext);
+		List<OrgOrgRelationInfo> orgOrgRelationInfos = orgService.getOrgOrgRelationsByOrg("16", callContext);
 		assertEquals(10, orgOrgRelationInfos.size());
 
-		orgOrgRelationInfos = client.getOrgOrgRelationsByOrg("-1", callContext);
+		orgOrgRelationInfos = orgService.getOrgOrgRelationsByOrg("-1", callContext);
 		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
 	}
 
 	@Test
-	public void getOrgPersonRelationsByIdList() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
+	public void getOrgPersonRelationsByIds() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		List<String> idList = new ArrayList<String>(2);
 		idList.add("2");
 		idList.add("3");
-		List<OrgPersonRelationInfo> orgOrgRelationInfos = client.getOrgPersonRelationsByIds(idList, callContext);
+		List<OrgPersonRelationInfo> orgOrgRelationInfos = orgService.getOrgPersonRelationsByIds(idList, callContext);
 		assertEquals(2, orgOrgRelationInfos.size());
 
 		idList.add("-1");
-		orgOrgRelationInfos = client.getOrgPersonRelationsByIds(idList, callContext);
+		orgOrgRelationInfos = orgService.getOrgPersonRelationsByIds(idList, callContext);
 		assertEquals(2, orgOrgRelationInfos.size());
 
 		idList = new ArrayList<String>(2);
 		idList.add("-1");
 		idList.add("-2");
-		orgOrgRelationInfos = client.getOrgPersonRelationsByIds(idList, callContext);
+		orgOrgRelationInfos = orgService.getOrgPersonRelationsByIds(idList, callContext);
 		assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
 	}
 
 	@Test
 	public void getOrgPersonRelationsByPerson() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<OrgPersonRelationInfo> orgOrgRelationInfos = client.getOrgPersonRelationsByPerson("KIM-1", callContext);
+		List<OrgPersonRelationInfo> orgOrgRelationInfos = orgService.getOrgPersonRelationsByPerson("KIM-1", callContext);
 		//assertTrue(orgOrgRelationInfos == null || orgOrgRelationInfos.size() == 0);
 		//assertEquals(2, orgOrgRelationInfos.size());
 
@@ -668,48 +716,48 @@ public class TestOrganizationServiceImpl {
 
 	@Test
 	public void getOrgOrgRelationTypesForOrgType() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		List<TypeInfo> orgOrgRelationTypeInfos = client.getOrgOrgRelationTypesForOrgType("kuali.org.Division", callContext);
+		List<TypeInfo> orgOrgRelationTypeInfos = orgService.getOrgOrgRelationTypesForOrgType("kuali.org.Division", callContext);
 		assertEquals(4, orgOrgRelationTypeInfos.size());
 
-		orgOrgRelationTypeInfos = client.getOrgOrgRelationTypesForOrgType("org.klingon", callContext);
+		orgOrgRelationTypeInfos = orgService.getOrgOrgRelationTypesForOrgType("org.klingon", callContext);
 		assertTrue(orgOrgRelationTypeInfos == null || orgOrgRelationTypeInfos.size() == 0);
 	}
 
 	@Test
 	public void hasOrgPersonRelation() throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
-		Boolean hasRelation = client.hasOrgPersonRelation("68", "KIM-1", "kuali.org.PersonRelation.Head", callContext);
+		Boolean hasRelation = orgService.hasOrgPersonRelation("68", "KIM-1", "kuali.org.PersonRelation.Head", callContext);
 		assertNotNull(hasRelation);
 		assertTrue(hasRelation);
 
-		hasRelation = client.hasOrgPersonRelation("68x", "KIM-1", "kuali.org.PersonRelation.Head", callContext);
+		hasRelation = orgService.hasOrgPersonRelation("68x", "KIM-1", "kuali.org.PersonRelation.Head", callContext);
 		assertNotNull(hasRelation);
 		assertFalse(hasRelation);
 
-		hasRelation = client.hasOrgPersonRelation("68", "KIM--1", "kuali.org.PersonRelation.Head", callContext);
+		hasRelation = orgService.hasOrgPersonRelation("68", "KIM--1", "kuali.org.PersonRelation.Head", callContext);
 		assertNotNull(hasRelation);
 		assertFalse(hasRelation);
 
-		hasRelation = client.hasOrgPersonRelation("68", "KIM-1", "kuali.org.PersonRelation.HeadTTT", callContext);
+		hasRelation = orgService.hasOrgPersonRelation("68", "KIM-1", "kuali.org.PersonRelation.HeadTTT", callContext);
 		assertNotNull(hasRelation);
 		assertFalse(hasRelation);
 
 
 		try {
-			hasRelation = client.hasOrgPersonRelation(null, "KIM-1", "kuali.org.PersonRelation.Head", callContext);
+			hasRelation = orgService.hasOrgPersonRelation(null, "KIM-1", "kuali.org.PersonRelation.Head", callContext);
 			assertFalse(true);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
 
 		try {
-			hasRelation = client.hasOrgPersonRelation("68", null, "kuali.org.PersonRelation.Head", callContext);
+			hasRelation = orgService.hasOrgPersonRelation("68", null, "kuali.org.PersonRelation.Head", callContext);
 			assertFalse(true);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
 
 		try {
-			hasRelation = client.hasOrgPersonRelation("68", "KIM-1", null, callContext);
+			hasRelation = orgService.hasOrgPersonRelation("68", "KIM-1", null, callContext);
 			assertFalse(true);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
@@ -722,23 +770,23 @@ public class TestOrganizationServiceImpl {
 	@Test
 	public void testGetOrgTreeInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		// test getting one level
-		List<OrgTreeInfo> results = client.getOrgTree("4", "kuali.org.hierarchy.Main", 1, callContext);
+		List<OrgTreeInfo> results = orgService.getOrgTree("4", "kuali.org.hierarchy.Main", 1, callContext);
 		//assertEquals(9,results.size());
 
 		// test getting the whole tree
-		results = client.getOrgTree("4", "kuali.org.hierarchy.Main", 0, callContext);
+		results = orgService.getOrgTree("4", "kuali.org.hierarchy.Main", 0, callContext);
 		//assertEquals(142, results.size());
 	}
 
 	@Test
 	public void testHasOrgOrgRelation() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		assertTrue(client.hasOrgOrgRelation("15", "28", "kuali.org.Part", callContext));
-		assertFalse(client.hasOrgOrgRelation("1", "15", "kuali.org.Part", callContext));
+		assertTrue(orgService.hasOrgOrgRelation("15", "28", "kuali.org.Part", callContext));
+		assertFalse(orgService.hasOrgOrgRelation("1", "15", "kuali.org.Part", callContext));
 	}
 
 	@Test
 	public void getOrgPersonIdsByRelationType() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		List<OrgPersonRelationInfo> result = client.getOrgPersonRelationsByTypeAndOrg("kuali.org.PersonRelation.Professor", "68", callContext);
+		List<OrgPersonRelationInfo> result = orgService.getOrgPersonRelationsByTypeAndOrg("kuali.org.PersonRelation.Professor", "68", callContext);
 		//assertEquals(2, result.size());
 		//result = client.getOrgPersonRelationsByTypeAndOrg("kuali.org.PersonRelation.Coordinator", "147", callContext);
 		//assertEquals(1, result.size());
@@ -749,21 +797,21 @@ public class TestOrganizationServiceImpl {
 	public void removePositionRestrictionFromOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 		StatusInfo si;
 		try {
-			si = client.deleteOrgPositionRestriction("68", callContext);
+			si = orgService.deleteOrgPositionRestriction("68", callContext);
 			assertTrue(si.getIsSuccess());
 		} catch (DoesNotExistException e) {
 			assertTrue(false);
 		}
 
 		try {
-			si = client.deleteOrgPositionRestriction("68", callContext);
+			si = orgService.deleteOrgPositionRestriction("68", callContext);
 			assertTrue(false);
 		} catch (DoesNotExistException e) {
 			assertTrue(true);
 		}
 
 		try {
-			si = client.deleteOrgPositionRestriction(null, callContext);
+			si = orgService.deleteOrgPositionRestriction(null, callContext);
 			assertTrue(false);
 		} catch (MissingParameterException e) {
 			assertTrue(true);
