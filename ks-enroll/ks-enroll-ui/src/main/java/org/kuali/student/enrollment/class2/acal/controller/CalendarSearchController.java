@@ -54,7 +54,7 @@ public class CalendarSearchController  extends UifControllerBase {
     @RequestMapping(params = "methodToCall=search")
     public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-       return getUIFModelAndView(searchForm, CalendarConstants.CALENDERSEARCH_RESULTPAGE);
+       return getUIFModelAndView(searchForm);
     }
 
     private AcademicCalendarViewHelperService getAcademicCalendarViewHelperService(CalendarSearchForm searchForm) {

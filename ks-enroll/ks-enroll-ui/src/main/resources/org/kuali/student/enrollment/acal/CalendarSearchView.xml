@@ -42,7 +42,7 @@
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="Search for Academic Calendar or Term" p:requiredMessageField.render="false"/>
+                <bean parent="Uif-Label" p:labelText="Search for Calendar or Term" p:requiredMessageField.render="false"/>
                 <bean parent="Uif-InputField" p:propertyName="calendarType">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="search-options"/>
