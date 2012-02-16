@@ -708,7 +708,7 @@ public class StatementVO extends Token implements Serializable {
         } else if (statementVO!=null && statementVO.getStatementVOCount() > 0) {
             List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
             for (StatementVO subS : subSs) {
-                structureChanged = structureChanged || doSimplify(subS, statementVO);
+           		structureChanged = doSimplify(subS, statementVO);
             }
         }
         return structureChanged;
