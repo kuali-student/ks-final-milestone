@@ -7,11 +7,29 @@
                            http://www.springframework.org/schema/util
                            http://www.springframework.org/schema/util/spring-util-2.0.xsd">
 
-    <bean id="KS-CalendarSearch-ResultPage" parent="Uif-Page" p:disclosure.render="false" p:id="calenderSearchResultPage">
-        <property name="title" value="Search Results"/>
+    <bean id="KS-CalendarSearch-View" parent="KSFormView">
+        <property name="id" value="calendarSearchView"/>
+        <property name="title" value="Calendar Search"/>
+        <property name="singlePageView" value="true"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
+        <property name="page">
+            <bean parent="Uif-Page"/>
+        </property>
         <property name="header">
             <bean parent="Uif-HeaderField-Two"/>
         </property>
+        <property name="footer">
+            <bean parent="Uif-FooterBase"/>
+        </property>
+        <property name="items">
+            <list>
+                <ref bean="KS-CalendarSearch-Page"/>
+            </list>
+        </property>
+        <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm"/>
+    </bean>
+
+    <bean id="KS-CalendarSearch-Page" parent="Uif-Page" p:disclosure.render="false">
         <property name="items">
             <list>
                 <ref bean="KS-CalendarSearch-CriteriaSection"/>
@@ -21,11 +39,10 @@
     </bean>
 
     <bean id="KS-CalendarSearch-CriteriaSection" parent="Uif-VerticalBoxSection">
-        <property name="title" value="Calendars" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
             <list>
-                <bean parent="Uif-Label" p:labelText="View/Edit Acedemic Calendar or Term" p:requiredMessageField.render="false"/>
+                <bean parent="Uif-Label" p:labelText="Search for Academic Calendar or Term" p:requiredMessageField.render="false"/>
                 <bean parent="Uif-InputField" p:propertyName="calendarType">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="search-options"/>
@@ -40,7 +57,7 @@
                 <bean parent="Uif-InputField" p:label="Year" p:labelField.renderColon="false"
 					p:propertyName="year">
 					<property name="control">
-						<bean parent="Uif-TextControl" />
+						<bean parent="Uif-TextControl" p:watermarkText="2001"/>
 					</property>
 				</bean>
             </list>
@@ -49,7 +66,8 @@
             <bean parent="Uif-FooterBase">
                 <property name="items">
                     <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                        <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                     </list>
                 </property>
             </bean>
