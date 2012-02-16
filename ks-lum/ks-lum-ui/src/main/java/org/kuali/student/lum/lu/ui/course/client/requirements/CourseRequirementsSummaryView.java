@@ -13,7 +13,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
@@ -161,7 +160,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         displayRules();
     }
 
-    private void updateRequirementWidgets(StatementTreeViewInfo rule) {
+    protected void updateRequirementWidgets(StatementTreeViewInfo rule) {
         if (rule != null) {
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(rule.getType());
             SpanPanel reqPanel = perCourseRequisiteTypePanel.get(affectedStatementTypeInfo.getId());
@@ -329,7 +328,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         return rulePreviewWidget;
     }
 
-    private void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel, final SubrulePreviewWidget subRuleWidget, final String stmtTypeId, final Integer internalProgReqID) {
+    protected void addRulePreviewWidgetHandlers(final SpanPanel requirementsPanel,
+            final SubrulePreviewWidget subRuleWidget, final String stmtTypeId, final Integer internalProgReqID) {
 
         subRuleWidget.addEditButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {

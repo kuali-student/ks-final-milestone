@@ -85,7 +85,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     //view's data
     private StatementTreeViewInfo rule = null;
     private boolean isInitialized = false;
-    private boolean isNewRule = false;
+    protected boolean isNewRule = false;
     private ReqComponentInfo editedReqCompInfo = null;
     private static int tempStmtTreeViewInfoID = 9999;
     private Integer internalCourseReqID = null;
@@ -489,5 +489,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
     public Integer getInternalCourseReqID() {
         return internalCourseReqID;
+    }
+
+    public RuleManageWidget getRuleManageWidget() {
+        return ruleManageWidget;
     }
 }
