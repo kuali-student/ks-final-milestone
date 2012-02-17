@@ -38,6 +38,7 @@ import org.kuali.rice.test.server.JettyServers;
  * lifecycle will never get explicitly shut down.
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public abstract class JettyServerTestCase extends BaselineTestCase {
     private static Set<String> classesHandled = new HashSet<String>();
     

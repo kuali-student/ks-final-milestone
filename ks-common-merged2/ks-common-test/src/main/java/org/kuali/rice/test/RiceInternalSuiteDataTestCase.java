@@ -26,6 +26,7 @@ import org.apache.commons.lang.StringUtils;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public abstract class RiceInternalSuiteDataTestCase extends RiceTestCase {
 
 	/**

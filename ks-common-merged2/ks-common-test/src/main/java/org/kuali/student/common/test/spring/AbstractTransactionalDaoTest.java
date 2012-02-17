@@ -119,6 +119,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * &lt;/beans&gt;
  * </pre>
  */
+@Deprecated
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:META-INF/default-dao-context-test.xml" })
 @TestExecutionListeners( { TransactionalTestExecutionListener.class,

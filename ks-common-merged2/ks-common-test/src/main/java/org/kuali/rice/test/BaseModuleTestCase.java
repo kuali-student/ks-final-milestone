@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public class BaseModuleTestCase extends RiceInternalSuiteDataTestCase {
     protected final Logger LOG = Logger.getLogger(getClass());
 

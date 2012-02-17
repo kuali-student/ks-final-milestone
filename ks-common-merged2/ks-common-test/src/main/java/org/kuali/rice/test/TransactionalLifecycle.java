@@ -25,6 +25,7 @@ import org.springframework.transaction.support.DefaultTransactionDefinition;
  * A lifecycle for testing with database transactional rollback.
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public class TransactionalLifecycle implements Lifecycle {
 	
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger

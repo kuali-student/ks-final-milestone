@@ -34,6 +34,7 @@ import org.springframework.transaction.jta.JtaTransactionManager;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
+@Deprecated
 public class TestHarnessServiceLocator {
 
 	private static ConfigurableApplicationContext context;

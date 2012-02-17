@@ -25,6 +25,7 @@ import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common_test_tester.support.MyDao;
 import org.kuali.student.common_test_tester.support.Value;
 
+@Deprecated
 @PersistenceFileLocation("classpath:META-INF/test-persistence.xml")
 public class DaoCommonTest extends AbstractTransactionalDaoTest {
 

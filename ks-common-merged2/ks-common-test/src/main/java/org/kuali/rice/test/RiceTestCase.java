@@ -49,6 +49,7 @@ import org.springframework.core.io.ResourceLoader;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  * @since 0.9
  */
+@Deprecated
 public abstract class RiceTestCase extends BaseRiceTestCase {
 
     private static final Logger LOG = Logger.getLogger(RiceTestCase.class);
