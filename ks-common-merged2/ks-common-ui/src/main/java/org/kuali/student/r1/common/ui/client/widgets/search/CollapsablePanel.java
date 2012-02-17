@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class CollapsablePanel extends Composite implements ReportExportWidget {
     protected KSButton label;
     protected VerticalFlowPanel layout = new VerticalFlowPanel();

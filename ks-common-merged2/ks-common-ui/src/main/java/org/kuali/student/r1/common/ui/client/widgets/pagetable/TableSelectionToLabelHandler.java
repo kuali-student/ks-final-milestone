@@ -31,6 +31,7 @@ import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
+@Deprecated
 public class TableSelectionToLabelHandler implements RowSelectionHandler {
     private FixedWidthGrid dataTable;
     private KSLabel selection;

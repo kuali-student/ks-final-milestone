@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.GroupSection;
 
+@Deprecated
 public class SwapCompositeCondition {
     private String conditionId;
     private CompositeConditionOperator op;

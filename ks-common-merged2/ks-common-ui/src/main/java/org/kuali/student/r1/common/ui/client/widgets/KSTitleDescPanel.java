@@ -19,6 +19,7 @@ import org.kuali.student.r1.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.user.client.ui.Composite;
 
+@Deprecated
 public class KSTitleDescPanel extends Composite{
 	private VerticalFlowPanel layout = new VerticalFlowPanel();
 	private KSLabel title = new KSLabel();

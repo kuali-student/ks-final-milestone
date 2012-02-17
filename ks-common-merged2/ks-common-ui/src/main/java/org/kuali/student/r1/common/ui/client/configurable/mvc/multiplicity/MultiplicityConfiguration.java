@@ -43,6 +43,7 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.Messag
   *
   *
  */
+@Deprecated
 public class MultiplicityConfiguration {
 
     private MultiplicityType multiplicityType;

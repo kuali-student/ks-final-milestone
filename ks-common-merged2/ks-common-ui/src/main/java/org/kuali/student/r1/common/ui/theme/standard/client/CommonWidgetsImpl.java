@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class CommonWidgetsImpl implements CommonWidgets{
 
 	@Override

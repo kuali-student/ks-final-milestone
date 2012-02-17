@@ -28,6 +28,7 @@ import org.kuali.student.r1.common.ui.shared.IdAttributes.IdType;
  * to pass along that information from a different controller or view.
  *
  */
+@Deprecated
 public class ViewContext implements Comparable<ViewContext>{
 	
 	public static final String ID_ATR = "docId";

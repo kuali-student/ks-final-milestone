@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.layouts.Horizo
  * Fields are separated with a light grey horizontal line.
  * @see HorizontalLayout
  */
+@Deprecated
 public class HorizontalSection extends BaseSection{
 	public HorizontalSection(){
 		init();

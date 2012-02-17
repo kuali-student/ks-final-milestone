@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+@Deprecated
 public class TempSearchBackedTable extends Composite{
 
     private List<ResultRow> resultRows = new ArrayList<ResultRow>();

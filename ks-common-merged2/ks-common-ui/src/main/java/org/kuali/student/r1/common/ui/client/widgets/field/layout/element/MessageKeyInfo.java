@@ -1,5 +1,6 @@
 package org.kuali.student.r1.common.ui.client.widgets.field.layout.element;
 
+@Deprecated
 public class MessageKeyInfo {
 	private String group;
 	private String type;

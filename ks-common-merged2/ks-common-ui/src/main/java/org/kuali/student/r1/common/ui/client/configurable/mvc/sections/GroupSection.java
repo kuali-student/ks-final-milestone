@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.layouts.GroupF
  * @author Kuali Student Team
  * @see GroupFieldLayout
  */
+@Deprecated
 public class GroupSection extends BaseSection{
 
 	public GroupSection(){

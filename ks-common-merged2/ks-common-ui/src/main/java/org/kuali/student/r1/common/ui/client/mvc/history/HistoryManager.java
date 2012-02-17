@@ -49,6 +49,7 @@ import com.google.gwt.user.client.ui.Hidden;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class HistoryManager {
     private static final NavigationEventMonitor monitor = new NavigationEventMonitor();
 	public static String VIEW_ATR = "view";

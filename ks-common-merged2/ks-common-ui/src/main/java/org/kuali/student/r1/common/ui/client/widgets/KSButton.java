@@ -33,6 +33,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team
  * 
  */
+@Deprecated
 public class KSButton extends KSButtonAbstract {
 
     KSButtonAbstract button = GWT.create(KSButtonImpl.class);

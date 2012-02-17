@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.multiplicity.MultiplicityConfiguration;
 
 
+@Deprecated
 public class SummaryTableFieldBlock extends SummaryTableBlock{
 	
 	private List<SummaryTableMultiplicityFieldRow> multiplicityList = new ArrayList<SummaryTableMultiplicityFieldRow>();

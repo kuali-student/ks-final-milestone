@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSTabPanelImpl extends KSTabPanelAbstract {
 
     private VerticalFlowPanel container = new VerticalFlowPanel();

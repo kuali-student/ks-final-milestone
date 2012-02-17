@@ -17,6 +17,7 @@ import org.kuali.student.r1.common.ui.client.widgets.ListOfStringWidget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ListOfStringBinding implements ModelWidgetBinding<ListOfStringWidget> {
 
 	@Override

@@ -1,5 +1,6 @@
 package org.kuali.student.r1.common.ui.client.widgets.table.scroll;
 
+@Deprecated
 public class TableModelEvent {
 	/** Identifies the addition of new rows or columns. */
 	public static final int RowInsert = 1;

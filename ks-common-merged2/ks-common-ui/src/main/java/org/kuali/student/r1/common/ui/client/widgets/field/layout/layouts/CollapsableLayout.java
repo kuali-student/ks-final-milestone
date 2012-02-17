@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class CollapsableLayout extends FieldLayout{
 
 	private VerticalFieldLayout verticalLayout = new VerticalFieldLayout();

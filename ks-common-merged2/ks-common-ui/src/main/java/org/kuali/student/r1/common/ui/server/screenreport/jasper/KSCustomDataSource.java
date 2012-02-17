@@ -19,6 +19,7 @@ import org.kuali.student.common.util.DateFormatThread;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Deprecated
 public class KSCustomDataSource implements JRDataSource {
 
     private Iterator<Property> iterator;

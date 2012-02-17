@@ -17,6 +17,7 @@ package org.kuali.student.r1.common.ui.client.widgets;
 
 import com.google.gwt.user.client.ui.Label;
 
+@Deprecated
 public class KSPlaceholder extends Label {
     public KSPlaceholder() {
         super("[PLACEHOLDER]");

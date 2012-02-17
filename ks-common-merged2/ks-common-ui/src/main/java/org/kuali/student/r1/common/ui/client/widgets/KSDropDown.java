@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class KSDropDown extends KSSelectItemWidgetAbstract{ 
     
     KSSelectItemWidgetAbstract dropDown = GWT.create(KSDropDownImpl.class);

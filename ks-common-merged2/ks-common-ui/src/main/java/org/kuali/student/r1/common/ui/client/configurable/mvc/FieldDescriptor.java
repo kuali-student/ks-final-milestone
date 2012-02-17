@@ -90,6 +90,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @see BaseSection
  * @see Configurer
  */
+@Deprecated
 public class FieldDescriptor {
     protected String fieldKey;
 	protected Metadata metadata;

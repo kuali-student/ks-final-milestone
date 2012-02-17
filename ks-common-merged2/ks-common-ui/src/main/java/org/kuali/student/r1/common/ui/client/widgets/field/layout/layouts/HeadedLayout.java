@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  * Method setLayoutTitle should be overridden in the subclass to set the correct html level of SectionTitle for that instance
  *
  */
+@Deprecated
 public abstract class HeadedLayout extends FieldLayout {
     protected FlowPanel body = new FlowPanel();
     protected VerticalFieldLayout verticalLayout = new VerticalFieldLayout();

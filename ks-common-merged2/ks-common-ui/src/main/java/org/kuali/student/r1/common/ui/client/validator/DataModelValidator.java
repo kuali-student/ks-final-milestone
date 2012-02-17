@@ -37,6 +37,7 @@ import java.util.*;
 import static org.kuali.student.r1.common.assembly.data.MetadataInterrogator.*;
 import static org.kuali.student.r1.common.ui.client.validator.ValidationMessageKeys.*;
 
+@Deprecated
 public class DataModelValidator {
 
     private static final String RUNTIME_DELETED_KEY = "_runtimeData/deleted";

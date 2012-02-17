@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @deprecated
  */
+@Deprecated
 public class RemovableItem extends MultiplicityItem {
     private boolean loaded = false;
 

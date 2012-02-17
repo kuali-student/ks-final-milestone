@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @deprecated
  */
+@Deprecated
 public abstract class DisplayMultiplicityComposite extends MultiplicityComposite {
    
     protected String itemLabel;

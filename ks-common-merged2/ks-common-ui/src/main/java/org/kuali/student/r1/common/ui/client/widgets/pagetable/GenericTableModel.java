@@ -40,6 +40,7 @@ import com.google.gwt.gen2.table.client.TableModelHelper.SerializableResponse;
  * @param <IsSerializiable>
  *
  */
+@Deprecated
 public class GenericTableModel<RowType> extends MutableTableModel<RowType> {
     private List<RowType> rowDTOs = null;
     private int fromIndex = 0;

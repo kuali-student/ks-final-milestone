@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.ui.client.widgets;
 
+@Deprecated
 public class KSZIndexStack {
 
     private static int current = 10;

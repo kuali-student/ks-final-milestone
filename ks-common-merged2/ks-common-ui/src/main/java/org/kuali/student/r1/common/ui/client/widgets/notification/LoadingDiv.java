@@ -5,6 +5,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.PopupPanel;
 
+@Deprecated
 public class LoadingDiv extends PopupPanel{
 	HorizontalPanel panel = new HorizontalPanel();
 	public LoadingDiv(){

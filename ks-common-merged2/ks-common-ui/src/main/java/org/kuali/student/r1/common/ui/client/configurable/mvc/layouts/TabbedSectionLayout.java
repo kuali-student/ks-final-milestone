@@ -46,6 +46,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class TabbedSectionLayout extends LayoutController implements ConfigurableLayout{
 
 	//FIXME: Better way to manage hierarchy, ordering, and handle to views

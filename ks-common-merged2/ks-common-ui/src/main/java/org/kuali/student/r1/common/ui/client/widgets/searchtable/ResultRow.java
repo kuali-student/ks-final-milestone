@@ -22,6 +22,7 @@ import org.kuali.student.r1.common.dto.Idable;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
+@Deprecated
 public class ResultRow implements IsSerializable, Idable,Comparable<ResultRow>{
     private String id;
     private Map<String, String> columnValues = new HashMap<String, String>();

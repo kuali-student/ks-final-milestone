@@ -35,6 +35,7 @@ import org.springframework.beans.factory.InitializingBean;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements SearchRpcService, InitializingBean {
 
     private static final long serialVersionUID = 1L;

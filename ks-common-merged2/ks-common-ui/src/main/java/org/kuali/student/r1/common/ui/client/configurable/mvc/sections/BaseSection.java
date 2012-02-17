@@ -60,6 +60,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student
  *
  */
+@Deprecated
 public abstract class BaseSection extends SpanPanel implements Section{
 
 	protected FieldLayout layout;

@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Label;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class KSLabel extends Label{
     /**
      * Creates an empty label.

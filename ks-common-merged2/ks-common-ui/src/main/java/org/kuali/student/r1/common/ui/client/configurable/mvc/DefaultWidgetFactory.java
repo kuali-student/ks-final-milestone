@@ -50,6 +50,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class DefaultWidgetFactory {
 	private static final DefaultWidgetFactory instance = GWT.create(DefaultWidgetFactoryImpl.class);
 	public static DefaultWidgetFactory getInstance() {

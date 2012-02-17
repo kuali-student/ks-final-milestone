@@ -36,6 +36,7 @@ import org.kuali.student.r1.common.ui.client.widgets.list.KSSelectedList;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class DynamicAttributeListBinding extends ModelWidgetBindingSupport<HasDataValue>{
 
 	public static DynamicAttributeListBinding INSTANCE = new DynamicAttributeListBinding();

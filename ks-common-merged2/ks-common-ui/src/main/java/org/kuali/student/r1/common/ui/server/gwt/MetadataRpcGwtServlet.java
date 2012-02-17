@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.ui.client.service.MetadataRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 public class MetadataRpcGwtServlet extends RemoteServiceServlet implements MetadataRpcService {
 
     private static final long serialVersionUID = 1L;

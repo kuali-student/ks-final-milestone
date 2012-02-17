@@ -10,6 +10,7 @@ import java.util.HashMap;
 /**
  * @author Igor
  */
+@Deprecated
 public class CachingSearchService implements SearchRpcServiceAsync {
 
     private static CachingSearchService INSTANCE = new CachingSearchService();

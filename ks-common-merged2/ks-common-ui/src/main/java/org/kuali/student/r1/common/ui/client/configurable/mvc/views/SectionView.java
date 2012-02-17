@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student
  *
  */
+@Deprecated
 public abstract class SectionView extends BaseSection implements View {
 
     protected String modelId;

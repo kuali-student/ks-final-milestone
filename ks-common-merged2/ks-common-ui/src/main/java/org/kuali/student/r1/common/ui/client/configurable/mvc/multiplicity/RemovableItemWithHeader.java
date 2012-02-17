@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @deprecated
  */
+@Deprecated
 public class RemovableItemWithHeader extends MultiplicityItem {
     private String itemLabel = "Item ";
     private boolean useDeleteLabel = false;

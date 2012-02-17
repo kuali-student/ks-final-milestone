@@ -11,6 +11,7 @@ import com.google.gwt.event.logical.shared.CloseHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+@Deprecated
 public class ButtonMessageDialog<T extends ButtonEnum> {
 	
 	private KSLabel messageLabel = new KSLabel();

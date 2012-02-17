@@ -22,6 +22,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSTabPanel extends KSTabPanelAbstract {
 	
 	public static enum TabPosition{LEFT, RIGHT};

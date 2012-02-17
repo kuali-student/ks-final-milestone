@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.TextBox;
  *
  *
  */
+@Deprecated
 public class KSTextBox extends TextBox implements HasWatermark{
 	private boolean hasWatermark = false;
 	private boolean watermarkShowing = false;

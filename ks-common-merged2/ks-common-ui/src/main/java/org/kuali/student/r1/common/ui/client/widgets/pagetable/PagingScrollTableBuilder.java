@@ -53,6 +53,7 @@ import com.google.gwt.user.client.ui.HTML;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
+@Deprecated
 public class PagingScrollTableBuilder<RowType extends Idable> {
     private PagingScrollTable<RowType> pagingScrollTable;
     private int tablePixelWidth = 0;

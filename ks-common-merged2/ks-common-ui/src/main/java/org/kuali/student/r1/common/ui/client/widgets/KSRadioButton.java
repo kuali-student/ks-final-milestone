@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.RadioButton;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class KSRadioButton extends RadioButton{
 
     /**

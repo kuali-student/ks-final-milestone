@@ -58,6 +58,7 @@ import com.google.gwt.core.client.GWT;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class HasDataValueBinding extends ModelWidgetBindingSupport<HasDataValue>{
 
 	public static HasDataValueBinding INSTANCE = new HasDataValueBinding();

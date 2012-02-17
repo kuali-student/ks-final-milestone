@@ -42,6 +42,7 @@ import org.kuali.rice.kim.api.permission.PermissionService;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServlet implements BaseRpcService{
 	final Logger LOG = Logger.getLogger(BaseRpcGwtServletAbstract.class);
     private static final long serialVersionUID = 1L;

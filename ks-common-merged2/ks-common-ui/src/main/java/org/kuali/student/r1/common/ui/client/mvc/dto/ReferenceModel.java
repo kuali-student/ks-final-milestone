@@ -33,6 +33,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ReferenceModel implements HasReferenceId, Model {
     String referenceId;
     String referenceTypeKey;

@@ -40,6 +40,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SecurityRpcGwtServlet extends RemoteServiceServlet implements SecurityRpcService{
 
 	final Logger LOG = Logger.getLogger(SecurityRpcGwtServlet.class);

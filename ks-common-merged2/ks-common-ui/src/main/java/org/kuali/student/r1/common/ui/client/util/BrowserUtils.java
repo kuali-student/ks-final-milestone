@@ -19,6 +19,7 @@ package org.kuali.student.r1.common.ui.client.util;
  * This provides a library of JSNI methods.
  * 
  */
+@Deprecated
 public class BrowserUtils {
     public static native String getOperatingSystem() /*-{
 		if (navigator.appVersion.indexOf("Win")!=-1) return "Windows";

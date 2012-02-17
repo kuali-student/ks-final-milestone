@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.ui.client.widgets.layout;
 
+@Deprecated
 public class VerticalFlowPanel extends CustomFlowPanel{
 
     @Override

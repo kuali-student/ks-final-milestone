@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.layouts.Collap
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class CollapsableSection extends BaseSection{
 
 	public CollapsableSection(String showLabel){

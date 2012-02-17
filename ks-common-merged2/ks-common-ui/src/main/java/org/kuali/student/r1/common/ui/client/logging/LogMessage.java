@@ -23,6 +23,7 @@ import java.io.Serializable;
  * Used internally by the LogService and LogBufer.
  *
  */
+@Deprecated
 public class LogMessage implements Serializable {
 	private static final long serialVersionUID = 1L;
 

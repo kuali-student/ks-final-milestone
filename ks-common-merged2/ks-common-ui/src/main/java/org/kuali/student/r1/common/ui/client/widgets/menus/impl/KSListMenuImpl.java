@@ -42,6 +42,7 @@ import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.event.dom.client.MouseOverEvent;
 import com.google.gwt.event.dom.client.MouseOverHandler;
 
+@Deprecated
 public class KSListMenuImpl extends KSBasicMenuAbstract{
 	private KSListPanel menuPanel = new KSListPanel();
     private VerticalPanel menuTitlePanel = new VerticalPanel();

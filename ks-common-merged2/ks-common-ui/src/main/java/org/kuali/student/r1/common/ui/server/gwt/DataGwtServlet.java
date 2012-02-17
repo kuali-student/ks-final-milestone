@@ -38,6 +38,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * Generic implementation of data gwt data operations calls.
  *
  */
+@Deprecated
 public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrchestrationRpcService {
 
 	private static final long serialVersionUID = 1L;

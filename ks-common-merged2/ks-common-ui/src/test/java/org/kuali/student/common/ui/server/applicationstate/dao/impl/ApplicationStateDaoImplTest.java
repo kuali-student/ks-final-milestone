@@ -31,6 +31,7 @@ import org.kuali.student.r1.common.ui.server.applicationstate.dao.ApplicationSta
 import org.kuali.student.r1.common.ui.server.applicationstate.entity.ApplicationState;
 import org.kuali.student.r1.common.ui.server.applicationstate.entity.KeyValuePair;
 
+@Deprecated
 @PersistenceFileLocation("classpath:META-INF/application-state-persistence.xml")
 public class ApplicationStateDaoImplTest extends AbstractTransactionalDaoTest {
 

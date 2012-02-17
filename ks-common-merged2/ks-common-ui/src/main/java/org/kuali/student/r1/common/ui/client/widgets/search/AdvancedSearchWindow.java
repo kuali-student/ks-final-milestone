@@ -27,6 +27,7 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ActionC
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.r1.common.ui.client.widgets.layout.VerticalFlowPanel;
 
+@Deprecated
 public class AdvancedSearchWindow {
     
     private VerticalFlowPanel layout = new VerticalFlowPanel();

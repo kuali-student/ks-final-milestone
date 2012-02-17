@@ -23,6 +23,7 @@ import com.google.gwt.event.shared.GwtEvent;
  * @author Kuali Student Team
  * @param <T>
  */
+@Deprecated
 public class ModelChangeEvent extends GwtEvent<ModelChangeHandler> {
     public static final Type<ModelChangeHandler> TYPE = new Type<ModelChangeHandler>();
 

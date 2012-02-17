@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class MultiplicityGroupItem extends BaseSection {
 	
     private boolean updateable=false;

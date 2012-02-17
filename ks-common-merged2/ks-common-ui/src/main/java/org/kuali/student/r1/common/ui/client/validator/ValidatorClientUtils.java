@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
+@Deprecated
 public class ValidatorClientUtils {
 
 	/**

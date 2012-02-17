@@ -36,6 +36,7 @@ import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.messages.dto.MessageInfo;
 import org.kuali.student.r2.common.messages.service.MessageService;
 
+@Deprecated
 public class MessagesRpcGwtServlet extends RemoteServiceServlet implements MessagesRpcService {
 
     private static final long serialVersionUID = 1L;

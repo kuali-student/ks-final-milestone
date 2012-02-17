@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.ui.client.mvc.UncheckedApplicationEvent;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public class LogoutEvent extends UncheckedApplicationEvent<LogoutHandler> {
     public static final Type<LogoutHandler> TYPE = new Type<LogoutHandler>();
 

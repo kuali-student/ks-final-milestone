@@ -55,6 +55,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public abstract class Controller extends Composite implements HistorySupport, BreadcrumbSupport, ReportExport{
 	public static final Callback<Boolean> NO_OP_CALLBACK = new Callback<Boolean>() {
 		@Override

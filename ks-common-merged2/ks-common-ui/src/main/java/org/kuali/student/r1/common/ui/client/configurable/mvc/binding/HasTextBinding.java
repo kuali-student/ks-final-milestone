@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.HasText;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class HasTextBinding extends ModelWidgetBindingSupport<HasText> {
     public static HasTextBinding INSTANCE = new HasTextBinding();
 

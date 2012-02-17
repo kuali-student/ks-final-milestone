@@ -62,6 +62,7 @@ import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSSelectedList extends Composite implements HasDataValue, HasName, HasSelectionChangeHandlers,
         HasWidgetReadyCallback, TranslatableValueWidget, HasInputWidget, HasFocusLostCallbacks, HasCrossConstraints,
         ValidationProcessable {

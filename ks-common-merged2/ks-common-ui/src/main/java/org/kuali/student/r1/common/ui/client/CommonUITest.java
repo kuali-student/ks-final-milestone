@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class CommonUITest implements EntryPoint {
 	   
     @Override

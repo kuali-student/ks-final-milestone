@@ -28,6 +28,7 @@ import com.google.gwt.user.server.rpc.impl.StandardSerializationPolicy;
  * 
  * @author Joe Yin
  */
+@Deprecated
 public class KSSerializationPolicy extends StandardSerializationPolicy {
     LegacySerializationPolicy legacySerializationPolicy = LegacySerializationPolicy.getInstance();
     

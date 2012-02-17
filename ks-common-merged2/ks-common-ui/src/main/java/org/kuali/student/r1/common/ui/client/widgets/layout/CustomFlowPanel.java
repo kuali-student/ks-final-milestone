@@ -18,6 +18,7 @@ package org.kuali.student.r1.common.ui.client.widgets.layout;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public abstract class CustomFlowPanel extends FlowPanel {
     protected abstract String getFlowStyle();
     

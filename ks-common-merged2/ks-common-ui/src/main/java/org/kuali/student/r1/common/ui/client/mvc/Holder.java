@@ -24,6 +24,7 @@ package org.kuali.student.r1.common.ui.client.mvc;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class Holder<T extends Object> {
     private T value = null;
     public Holder() {

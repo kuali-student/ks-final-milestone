@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @deprecated
  */
+@Deprecated
 public class DisplayItem extends MultiplicityItem {
     private boolean loaded = false;
 	private KSLabel itemLabel;

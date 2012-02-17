@@ -31,6 +31,7 @@ import com.google.gwt.core.client.GWT;
 /**
  * This class handles transferring data between the model and the widgets 
  */
+@Deprecated
 public class MultiplicityTableBinding extends ModelWidgetBindingSupport<MultiplicityTable> {
 
 

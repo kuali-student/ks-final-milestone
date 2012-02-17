@@ -16,6 +16,7 @@ import org.kuali.student.r1.common.ui.client.util.ExportElement;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Deprecated
 public class KSCollectionDataSource extends JRAbstractBeanDataSource {
 
     /**

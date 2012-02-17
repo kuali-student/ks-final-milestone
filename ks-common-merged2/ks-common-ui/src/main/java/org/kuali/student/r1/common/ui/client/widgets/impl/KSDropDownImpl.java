@@ -41,6 +41,7 @@ import com.google.gwt.event.dom.client.MouseOverHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.ListBox;
 
+@Deprecated
 public class KSDropDownImpl extends KSSelectItemWidgetAbstract implements HasFocusHandlers, HasBlurHandlers{
 
 	private ListBox listBox;

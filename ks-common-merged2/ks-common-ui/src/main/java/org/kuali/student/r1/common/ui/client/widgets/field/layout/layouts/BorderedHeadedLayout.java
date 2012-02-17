@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
  * Title text is .H4 heading
  *
  */
+@Deprecated
 public class BorderedHeadedLayout extends HeadedLayout{
 
 	

@@ -11,6 +11,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSHeader extends Composite {
 
 	private static KSHeaderUiBinder uiBinder = GWT

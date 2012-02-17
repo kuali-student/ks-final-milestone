@@ -15,6 +15,7 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class VerticalCollapsableDrawer extends Composite{
 		private static VerticalCollapsableDrawerBinder uiBinder = GWT
 		.create(VerticalCollapsableDrawerBinder.class);

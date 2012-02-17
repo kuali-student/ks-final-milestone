@@ -25,6 +25,7 @@ package org.kuali.student.r1.common.ui.client.service.exceptions;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class OperationFailedException extends Exception{
     private static final long serialVersionUID = 1L;
 

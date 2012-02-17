@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.ui.client.util.ExportElement;
 import org.kuali.student.r1.common.ui.server.screenreport.ScreenReportProcessor;
 import org.kuali.student.r1.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
 
+@Deprecated
 public class TestScreenReport {
 
     private Data dataMap;

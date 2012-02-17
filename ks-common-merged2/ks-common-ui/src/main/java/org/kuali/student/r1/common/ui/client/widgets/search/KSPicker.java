@@ -77,6 +77,7 @@ import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSPicker extends Composite implements HasFocusLostCallbacks, HasValueChangeHandlers<String>, HasDataValue, TranslatableValueWidget, HasInputWidget, HasCrossConstraints {
 
     private FlowPanel layout = new FlowPanel();

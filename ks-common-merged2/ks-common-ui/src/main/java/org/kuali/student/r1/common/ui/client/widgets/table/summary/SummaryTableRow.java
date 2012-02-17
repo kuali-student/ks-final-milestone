@@ -2,6 +2,7 @@ package org.kuali.student.r1.common.ui.client.widgets.table.summary;
 
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SummaryTableRow {
     private boolean isRequired = false;
     private String title ="";

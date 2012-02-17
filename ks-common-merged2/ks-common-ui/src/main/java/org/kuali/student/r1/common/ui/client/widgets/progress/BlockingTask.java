@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.ui.client.widgets.progress;
 
+@Deprecated
 public class BlockingTask {
 	private static int maxId = 0;
 	private final int id = maxId++;

@@ -34,6 +34,7 @@ import org.kuali.student.r1.common.ui.server.screenreport.ScreenReportProcessor;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Deprecated
 public class JasperScreenReportProcessorImpl implements ScreenReportProcessor {
 
     final Logger LOG = Logger.getLogger(JasperScreenReportProcessorImpl.class);

@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class TabMenuController extends LayoutController{
 
 	protected KSTabPanel tabPanel = new KSTabPanel(TabPanelStyle.SMALL);

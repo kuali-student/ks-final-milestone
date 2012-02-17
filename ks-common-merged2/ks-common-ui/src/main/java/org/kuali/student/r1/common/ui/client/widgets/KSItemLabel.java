@@ -29,6 +29,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Panel;
 
+@Deprecated
 public class KSItemLabel extends Composite implements HasCloseHandlers<KSItemLabel>, HasDataValue {
 
     private final String id = HTMLPanel.createUniqueId();

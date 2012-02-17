@@ -22,6 +22,7 @@ import org.kuali.student.r1.common.validator.DateParser;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 
+@Deprecated
 public class ClientDateParser implements DateParser {
     DateTimeFormat[] formats = {DateTimeFormat.getFormat("yyyy-MM-dd"), DateTimeFormat.getFormat("yyyy-MM-ddTHH:mm:ss,SSS")};
     

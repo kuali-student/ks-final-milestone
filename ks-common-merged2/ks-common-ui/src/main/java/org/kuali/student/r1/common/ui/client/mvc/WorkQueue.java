@@ -20,6 +20,7 @@ package org.kuali.student.r1.common.ui.client.mvc;
  */
 import java.util.LinkedList;
 
+@Deprecated
 public class WorkQueue {
     public static abstract class WorkItem {
         private boolean canceled = false;

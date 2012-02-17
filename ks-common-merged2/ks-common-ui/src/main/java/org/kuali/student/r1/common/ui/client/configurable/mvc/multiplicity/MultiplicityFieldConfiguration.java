@@ -5,6 +5,7 @@ import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 
+@Deprecated
 public class MultiplicityFieldConfiguration {
     
     private String fieldPath;

@@ -31,6 +31,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class KSAsyncCallback<T> implements AsyncCallback<T>{
        
 	private static final SessionTimeoutHandler sessionTimeoutHandler = GWT.create(SpringSecurityLoginDialogHandler.class);

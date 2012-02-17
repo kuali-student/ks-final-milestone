@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.ui.client.logging;
 
+@Deprecated
 public class LogFailedException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 

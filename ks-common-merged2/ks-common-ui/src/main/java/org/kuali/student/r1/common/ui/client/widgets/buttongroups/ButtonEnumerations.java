@@ -20,6 +20,7 @@ import org.kuali.student.r1.common.ui.client.application.ApplicationContext;
 import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 
+@Deprecated
 public class ButtonEnumerations {
     public interface ButtonEnum{
         public String getText();

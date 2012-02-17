@@ -21,6 +21,7 @@ import com.google.gwt.resources.client.CssResource;
 import com.google.gwt.resources.client.ResourcePrototype;
 
 
+@Deprecated
 public class CommonCssImpl implements CommonCss {
 
 	@Override

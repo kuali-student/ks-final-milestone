@@ -30,6 +30,7 @@ import org.kuali.student.r1.common.ui.client.configurable.mvc.impl.DefaultWidget
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class WidgetConfigInfo {
 	public DataType type = null;
 	public Integer maxLength = null;

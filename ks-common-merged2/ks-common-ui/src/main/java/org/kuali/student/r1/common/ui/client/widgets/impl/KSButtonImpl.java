@@ -28,6 +28,7 @@ import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.InlineLabel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSButtonImpl extends KSButtonAbstract {
 
     private static class SpanPanel extends ComplexPanel {

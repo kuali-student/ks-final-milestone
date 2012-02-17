@@ -25,6 +25,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
+@Deprecated
 public class KSNotifier {
     private static final FlowPanel notifier = new FlowPanel();
 

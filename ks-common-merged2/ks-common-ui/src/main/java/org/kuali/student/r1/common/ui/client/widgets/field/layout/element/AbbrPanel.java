@@ -20,6 +20,7 @@ import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class AbbrPanel extends ComplexPanel {
 
 	public AbbrPanel(String title, String className, String text){

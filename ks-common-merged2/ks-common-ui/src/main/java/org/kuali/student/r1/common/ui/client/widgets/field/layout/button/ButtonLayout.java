@@ -5,6 +5,7 @@ import org.kuali.student.r1.common.ui.client.widgets.KSButton;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+@Deprecated
 public class ButtonLayout extends Composite{
 	protected FlowPanel layout = new FlowPanel();
 	

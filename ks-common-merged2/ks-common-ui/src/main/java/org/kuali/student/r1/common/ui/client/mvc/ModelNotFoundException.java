@@ -20,6 +20,7 @@ package org.kuali.student.r1.common.ui.client.mvc;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public class ModelNotFoundException extends RuntimeException {
 
     private static final long serialVersionUID = 1631884923519293731L;

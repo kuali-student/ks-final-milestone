@@ -33,6 +33,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSNotification extends Composite implements HasCloseHandlers<KSNotification>{
 	private final int duration;
 	public static final int DEFAULT_DURATION = 4000;

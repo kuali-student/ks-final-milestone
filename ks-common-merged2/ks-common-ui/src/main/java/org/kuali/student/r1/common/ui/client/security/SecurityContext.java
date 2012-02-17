@@ -34,6 +34,7 @@ import com.google.gwt.core.client.GWT;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SecurityContext {
 
     protected SecurityRpcServiceAsync securityRpcService = GWT.create(SecurityRpcService.class);

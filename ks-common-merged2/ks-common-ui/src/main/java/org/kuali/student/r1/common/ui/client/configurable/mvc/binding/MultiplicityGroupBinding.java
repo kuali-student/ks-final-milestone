@@ -29,6 +29,7 @@ import org.kuali.student.r1.common.ui.client.mvc.DataModel;
  *
  * @author Kuali Student Team
  */
+@Deprecated
 public class MultiplicityGroupBinding extends ModelWidgetBindingSupport<MultiplicityGroup> {
     public static MultiplicityGroupBinding INSTANCE = new MultiplicityGroupBinding();
 

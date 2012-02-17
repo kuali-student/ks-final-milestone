@@ -71,6 +71,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @see FieldDescriptor
  * @see FieldLayout
  */
+@Deprecated
 public class FieldElement extends Composite implements FieldLayoutComponent{
 
 	//Layout

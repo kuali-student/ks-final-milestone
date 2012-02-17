@@ -22,6 +22,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SummaryTableDemo extends Composite {
     public SummaryTableDemo() {
         super.initWidget(createDemoPage());

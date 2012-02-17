@@ -10,6 +10,7 @@ import org.kuali.student.r1.common.ui.client.widgets.search.KSPicker;
 
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SwapCondition {
     private FieldDescriptor fd;
     private String value;

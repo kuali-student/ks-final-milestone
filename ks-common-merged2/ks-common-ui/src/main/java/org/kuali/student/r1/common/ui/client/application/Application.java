@@ -22,6 +22,7 @@ import org.kuali.student.r1.common.ui.client.mvc.history.HistoryManager;
  * Application contains the instance of the ApplicationContext which contain information about the
  * current context, also a method that does the same thing as HistoryManager.navigate for convenience
  */
+@Deprecated
 public class Application {
 	private static ApplicationContext applicationContext;
 	

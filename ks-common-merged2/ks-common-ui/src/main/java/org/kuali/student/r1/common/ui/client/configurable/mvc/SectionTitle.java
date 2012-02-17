@@ -26,6 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
+@Deprecated
 public class SectionTitle extends ComplexPanel {
 
     private String reportText;

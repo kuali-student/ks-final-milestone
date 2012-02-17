@@ -30,6 +30,7 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SearchResultListItems implements ListItems{
 
     private ArrayList<String> attrKeys;

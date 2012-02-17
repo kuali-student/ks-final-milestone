@@ -42,6 +42,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SpringSecurityLoginDialogHandler implements SessionTimeoutHandler{
 	final static ApplicationContext context = Application.getApplicationContext();
 	static  boolean CASrequiresAPageRefreshViaJavascript = Boolean.TRUE;

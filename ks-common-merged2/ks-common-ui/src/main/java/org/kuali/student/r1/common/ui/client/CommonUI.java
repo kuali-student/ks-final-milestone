@@ -23,6 +23,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.StyleElement;
 import com.google.gwt.dom.client.StyleInjector;
 
+@Deprecated
 public class CommonUI implements EntryPoint {
     public StyleElement commonStyle;
     public StyleElement resetStyle;

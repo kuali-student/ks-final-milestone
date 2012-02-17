@@ -55,6 +55,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
+@Deprecated
 public class KSWrapper extends Composite{
 
     private static final String LUM_APP_URL		= "lum.application.url";

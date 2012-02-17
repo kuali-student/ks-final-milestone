@@ -36,6 +36,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 
 import com.google.gwt.user.server.rpc.RPC;
 
+@Deprecated
 public class MessageRPCPreloader {
 	final Logger LOG = Logger.getLogger(MessageRPCPreloader.class);
     private final String MESSAGE_SERVICE_MOCK = "ks.messageService";

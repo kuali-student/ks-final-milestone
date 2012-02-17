@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.FlexTable;
  *
  * Fields are included in the table based on the FieldDescriptors added to the configuration
  */
+@Deprecated
 public class MultiplicityTable extends FlexTable {
 
     private MultiplicityConfiguration config;

@@ -23,6 +23,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public abstract class KSTabPanelAbstract extends Composite {
 	
 	public abstract void addTab(String key, Widget tabWidget, Widget content, TabPosition position);

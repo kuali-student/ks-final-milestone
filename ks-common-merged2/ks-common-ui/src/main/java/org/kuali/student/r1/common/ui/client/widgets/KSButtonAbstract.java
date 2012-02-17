@@ -21,6 +21,7 @@ import com.google.gwt.event.dom.client.HasMouseOutHandlers;
 import com.google.gwt.event.dom.client.HasMouseOverHandlers;
 import com.google.gwt.user.client.ui.Composite;
 
+@Deprecated
 public abstract class KSButtonAbstract extends Composite implements HasClickHandlers, HasMouseOverHandlers, HasMouseOutHandlers{
 
 	public static enum ButtonStyle{

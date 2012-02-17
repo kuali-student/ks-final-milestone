@@ -20,6 +20,7 @@ import org.kuali.student.r1.common.ui.server.screenreport.ScreenReportProcessor;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 @SuppressWarnings("serial")
 public class ExportGwtRpcServlet extends RemoteServiceServlet implements GwtExportRpcService {
 

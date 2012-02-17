@@ -17,6 +17,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class Configurer {
     protected ModelDefinition modelDefinition;
     protected String type = "";

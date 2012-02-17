@@ -59,6 +59,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 
+@Deprecated
 public class MultiplicityGroup extends Composite {
 
     private MultiplicityConfiguration config;

@@ -31,6 +31,7 @@ import com.google.gwt.user.client.ui.HasValue;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class HasValueBinding extends ModelWidgetBindingSupport<HasValue> {
 
     public static HasValueBinding INSTANCE = new HasValueBinding();

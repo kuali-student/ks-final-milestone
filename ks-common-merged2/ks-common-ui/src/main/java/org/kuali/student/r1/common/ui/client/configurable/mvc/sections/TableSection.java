@@ -9,6 +9,7 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.layouts.TableF
  * @author Kuali Student Team
  * @see TableFieldLayout
  */
+@Deprecated
 public class TableSection extends BaseSection{
 	public TableSection(){
 		init();

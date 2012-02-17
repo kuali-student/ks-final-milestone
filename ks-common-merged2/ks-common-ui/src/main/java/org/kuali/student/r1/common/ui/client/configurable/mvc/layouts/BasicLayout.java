@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class BasicLayout extends LayoutController{
 	private FlowPanel viewContainer = new FlowPanel();
 

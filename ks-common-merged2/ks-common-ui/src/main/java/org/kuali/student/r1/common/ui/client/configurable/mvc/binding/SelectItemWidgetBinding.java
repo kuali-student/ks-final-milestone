@@ -36,6 +36,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SelectItemWidgetBinding extends ModelWidgetBindingSupport<KSSelectItemWidgetAbstract> {
 
     public static SelectItemWidgetBinding INSTANCE = new SelectItemWidgetBinding();

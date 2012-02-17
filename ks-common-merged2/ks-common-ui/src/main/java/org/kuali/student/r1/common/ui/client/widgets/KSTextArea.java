@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.TextArea;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public class KSTextArea extends TextArea implements HasWatermark {
     private boolean hasWatermark = false;
     private boolean watermarkShowing = false;

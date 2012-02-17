@@ -22,6 +22,7 @@ import java.util.List;
 /**
  * Stores log messages, can be sent to log service.
  */
+@Deprecated
 public class LogBuffer implements Serializable {
 	private static final long serialVersionUID = 1L;
 	

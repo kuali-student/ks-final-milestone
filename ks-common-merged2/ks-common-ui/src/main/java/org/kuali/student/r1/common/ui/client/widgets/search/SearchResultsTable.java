@@ -47,6 +47,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
+@Deprecated
 public class SearchResultsTable extends Composite{
 
     protected final int PAGE_SIZE = 10;

@@ -27,6 +27,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSTitleContainerImpl extends Composite{
 	private String title;
 	private String status;

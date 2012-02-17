@@ -24,6 +24,7 @@ package org.kuali.student.r1.common.ui.client.mvc;
  * @param <H>
  *            Handler type associated with the event
  */
+@Deprecated
 public abstract class UncheckedApplicationEvent<H extends UncheckedApplicationEventHandler> extends ApplicationEvent<H> {
 
 }

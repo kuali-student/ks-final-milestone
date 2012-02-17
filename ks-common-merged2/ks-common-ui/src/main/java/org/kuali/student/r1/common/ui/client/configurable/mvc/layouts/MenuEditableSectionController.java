@@ -18,6 +18,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.FlowPanel;
 
+@Deprecated
 public class MenuEditableSectionController extends MenuSectionController{
 	
 	private boolean editMode = false;

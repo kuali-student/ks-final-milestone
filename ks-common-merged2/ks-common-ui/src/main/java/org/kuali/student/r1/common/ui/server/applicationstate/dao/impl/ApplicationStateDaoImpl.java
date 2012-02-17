@@ -33,6 +33,7 @@ import org.kuali.student.r1.common.ui.server.applicationstate.entity.Application
  * This data access class stores the GUI (page, section, widget, etc.) 
  * application states as key value pairs in a database.
  */
+@Deprecated
 public class ApplicationStateDaoImpl extends AbstractSearchableCrudDaoImpl implements ApplicationStateDao {
 
 	private final static String DEFAULT_USER_ID = "APPLICATION";

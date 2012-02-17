@@ -36,6 +36,7 @@ import org.kuali.student.r1.common.ui.client.validator.DataModelValidator;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 
 
+@Deprecated
 public class TestDataModel {
 
 	DataModelDefinition rootModelDefinition;

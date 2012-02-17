@@ -8,6 +8,7 @@ import com.google.gwt.user.client.Window;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class WindowTitleUtils {
 	
 	private static String contextTitle = "";

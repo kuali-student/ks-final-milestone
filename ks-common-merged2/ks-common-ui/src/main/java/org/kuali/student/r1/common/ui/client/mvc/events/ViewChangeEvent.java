@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.ui.client.mvc.View;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public class ViewChangeEvent extends ApplicationEvent<ViewChangeHandler> {
     public static final Type<ViewChangeHandler> TYPE = new Type<ViewChangeHandler>();
 

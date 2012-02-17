@@ -37,6 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class KSSelectItemWidgetAbstract extends Composite implements HasName, HasFocusHandlers, HasBlurHandlers, HasSelectionChangeHandlers, HasWidgetReadyCallback{
 	private ListItems listItems = null;
 	private String name;

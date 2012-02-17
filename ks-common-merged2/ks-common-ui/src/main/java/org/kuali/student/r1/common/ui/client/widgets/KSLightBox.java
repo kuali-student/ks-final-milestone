@@ -65,6 +65,7 @@ import com.google.gwt.user.client.ui.Widget;
  * of text) will be displayed in a scroll panel.
  * 
  */
+@Deprecated
 public class KSLightBox extends DialogBox {
 
     private static final List<String> FOCUSABLE_TAGS = Arrays.asList("INPUT", "SELECT", "BUTTON", "TEXTAREA");

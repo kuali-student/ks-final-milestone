@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.ui.client.widgets.menus;
 
+@Deprecated
 public abstract class KSBasicMenuAbstract extends KSMenu{
     public abstract boolean isNumberAllItems();
 

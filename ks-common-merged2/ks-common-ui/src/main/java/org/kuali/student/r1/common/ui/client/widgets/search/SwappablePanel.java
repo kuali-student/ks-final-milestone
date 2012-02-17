@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SwappablePanel extends Composite{
 	private VerticalFlowPanel panel = new VerticalFlowPanel();
 	private ListBox panelSelector = new ListBox();

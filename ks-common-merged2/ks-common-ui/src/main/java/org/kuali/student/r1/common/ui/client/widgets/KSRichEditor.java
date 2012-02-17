@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.RichTextArea;
  * 
  * TODO implement i18n
  */
+@Deprecated
 public class KSRichEditor extends KSRichEditorAbstract implements HasText{
     private KSRichEditorAbstract richEditor = GWT.create(KSRichEditorImpl.class);
     

@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.CheckBox;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class KSCheckBox extends CheckBox{
 
     /**

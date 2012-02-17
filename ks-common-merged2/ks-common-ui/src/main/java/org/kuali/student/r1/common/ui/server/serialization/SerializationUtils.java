@@ -21,6 +21,7 @@ package org.kuali.student.r1.common.ui.server.serialization;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
+@Deprecated
 public class SerializationUtils {
     // Server Side String utils
     public static String escapeForSingleQuotedJavaScriptString( String s ) 

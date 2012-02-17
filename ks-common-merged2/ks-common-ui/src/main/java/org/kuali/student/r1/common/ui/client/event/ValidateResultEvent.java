@@ -27,6 +27,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class ValidateResultEvent extends UncheckedApplicationEvent<ValidateResultHandler> {
     public static final Type<ValidateResultHandler> TYPE = new Type<ValidateResultHandler>();
     private List<ValidationResultInfo> validationResultList = new ArrayList<ValidationResultInfo>();

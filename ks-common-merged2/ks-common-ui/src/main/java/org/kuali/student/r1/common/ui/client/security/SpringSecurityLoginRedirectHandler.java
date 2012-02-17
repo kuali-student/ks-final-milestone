@@ -11,6 +11,7 @@ import com.google.gwt.user.client.Window;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class SpringSecurityLoginRedirectHandler implements SessionTimeoutHandler {
 
 	/**

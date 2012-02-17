@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.kuali.rice.core.api.config.property.ConfigContext;
 import org.kuali.student.common.util.security.SecurityUtils;
 
+@Deprecated
 public class IndexPageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

@@ -47,6 +47,7 @@ import com.google.gwt.core.client.GWT;
  * @author Kuali Student
  *
  */
+@Deprecated
 public class ApplicationContext {
 	private ServerPropertiesRpcServiceAsync serverPropertiesRpcService = GWT.create(ServerPropertiesRpcService.class);			
 	private String version = "KS";

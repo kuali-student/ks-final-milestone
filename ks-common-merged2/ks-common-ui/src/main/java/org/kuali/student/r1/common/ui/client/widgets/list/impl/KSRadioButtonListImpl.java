@@ -53,6 +53,7 @@ import com.google.gwt.user.client.ui.FlexTable;
  * @author Kuali Student Team 
  *
  */
+@Deprecated
 public class KSRadioButtonListImpl extends KSSelectItemWidgetAbstract implements KeyUpHandler, ValueChangeHandler<Boolean>, HasBlurHandlers, HasFocusHandlers {
     private final FocusGroup focus = new FocusGroup(this);
     private FlexTable layout = new FlexTable();

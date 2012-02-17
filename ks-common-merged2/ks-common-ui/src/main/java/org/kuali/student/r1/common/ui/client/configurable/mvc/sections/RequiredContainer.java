@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author SW Genis
  */
+@Deprecated
 public class RequiredContainer extends WarnContainer {
 
     final static ApplicationContext context = Application.getApplicationContext();

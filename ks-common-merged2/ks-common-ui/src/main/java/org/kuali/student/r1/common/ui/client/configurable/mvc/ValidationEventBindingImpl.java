@@ -40,6 +40,7 @@ import org.kuali.student.r1.common.ui.client.widgets.search.KSPicker;
  *
  * @author Kuali Student Team
  */
+@Deprecated
 public class ValidationEventBindingImpl implements ValidationEventBinding {
 
     public void bind(final FieldDescriptor fd) {
