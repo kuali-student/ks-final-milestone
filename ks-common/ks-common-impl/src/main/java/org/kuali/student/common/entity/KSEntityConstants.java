@@ -2,6 +2,9 @@ package org.kuali.student.common.entity;
 
 public class KSEntityConstants {
 
+    // Default Length for formatted/plain text columns
+    public static final int EXTRA_LONG_TEXT_LENGTH = 4000;
+
 	// Default Length for long text columns 
 	public static final int LONG_TEXT_LENGTH = 2000;
 
