@@ -189,7 +189,7 @@ public class AcademicCalendarController extends UifControllerBase {
         return updateComponent(academicCalendarForm, result, request, response);
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAdding")
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAddingTerm")
     public ModelAndView cancelAddingTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {
 
