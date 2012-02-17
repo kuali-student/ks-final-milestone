@@ -56,7 +56,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CourseAdminController extends CourseProposalController{
 	
 	//Need to keep track of cancel buttons, so they can be enabled when course has been saved. 
-	List<KSButton> cancelButtons = new ArrayList<KSButton>();
+	protected List<KSButton> cancelButtons = new ArrayList<KSButton>();
 	
 	/**
 	 * Override the intitailzeController method to use CourseAdminConfigurer 
