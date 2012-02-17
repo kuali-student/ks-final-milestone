@@ -163,7 +163,10 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     activityOfferingInfo.setTypeKey(activityOfferingTypes.get(0).getKey());
                     activityOfferingInfo.setStateKey(LuiServiceConstants.LUI_OFFERED_STATE_KEY);
                      //TODO remove this fake generation when we are getting real times from the form
-                    activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
+                    // TODO: fix this to set the schedule id from the schedule service
+                    String scheduleId = null;
+                    activityOfferingInfo.setScheduleId(scheduleId);
+//                    activityOfferingInfo.setMeetingSchedules(generateFakeMeetingTimes());
                     activityOfferingInfo = getCourseOfferingService().createActivityOffering
                             (coi.getId (),
                             activityOfferingInfo.getTypeKey(),
@@ -192,8 +195,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get PermissionDeniedException:  " + pde.toString());
                     } catch (MissingParameterException mpe) {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get MissingParameterException:  " + mpe.toString());
-                    } catch (AlreadyExistsException aee) {
-                        System.out.println("call courseOfferingService.createRegistrationGroup() method, and get AlreadyExistsException:  " + aee.toString());
                     } catch (DataValidationErrorException dvee) {
                         System.out.println("call courseOfferingService.createRegistrationGroup() method, and get DataValidationErrorException:  " + dvee.toString());
                     }
@@ -206,8 +207,6 @@ public class CourseOfferingInfoMaintainableImpl extends MaintainableImpl {
                     System.out.println("call courseOfferingService.createActivityOffering() method, and get PermissionDeniedException:  " + pde.toString());
                 } catch (MissingParameterException mpe) {
                     System.out.println("call courseOfferingService.getActivityOfferingTypesForActivityType() or createActivityOffering() method, and get MissingParameterException:  " + mpe.toString());
-                } catch (AlreadyExistsException aee) {
-                    System.out.println("call courseOfferingService.createActivityOffering() method, and get AlreadyExistsException:  " + aee.toString());
                 } catch (DataValidationErrorException dvee) {
                     System.out.println("call courseOfferingService.createActivityOffering() method, and get DataValidationErrorException:  " + dvee.toString());
                 } catch (DoesNotExistException dnee) {

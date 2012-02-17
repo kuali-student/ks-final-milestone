@@ -571,7 +571,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
     }
 
     @Override
-    public List<String> getTermIdsByType(String termTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> getTermIdsByType(String termTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();
         }
@@ -825,7 +825,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
     }
 
     @Override
-    public List<String> getKeyDateIdsByType(String keyDateTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<String> getKeyDateIdsByType(String keyDateTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (null == context) {
             throw new MissingParameterException();

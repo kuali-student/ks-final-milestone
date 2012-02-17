@@ -362,7 +362,7 @@ public class TestAcademicCalendarServiceImpl {
     }
 
     @Test
-    public void testGetTermIdsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public void testGetTermIdsByType() throws Exception {
         String expectedTermType = "kuali.atp.type.HalfFall1";
 
         List<String> termIds = acalService.getTermIdsByType(expectedTermType, callContext);
