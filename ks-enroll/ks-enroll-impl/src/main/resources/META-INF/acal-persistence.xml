@@ -25,6 +25,10 @@
     <class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
     <class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
     <class>org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
+    <class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
     <!-- Statement Persistence -->
     <class>org.kuali.student.core.statement.entity.RefStatementRelation</class>
@@ -64,7 +68,6 @@
     <class>org.kuali.student.enrollment.class1.lui.model.LuiEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiInstructorEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuCodeEntity</class>
