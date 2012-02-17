@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "MessageList")
 public class MessageList implements java.io.Serializable {

@@ -29,6 +29,7 @@ import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "getSearchTypesByCriteriaResponse", namespace = "http://student.kuali.org/wsdl/search")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getSearchTypesByCriteriaResponse", namespace = "http://student.kuali.org/wsdl/search")

@@ -30,6 +30,7 @@ import javax.xml.bind.annotation.XmlElement;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/amountInfo+Structure+v1.0-rc1">AmountInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AmountInfo implements Serializable {
 

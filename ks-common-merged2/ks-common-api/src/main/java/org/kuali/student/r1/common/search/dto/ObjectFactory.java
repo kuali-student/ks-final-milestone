@@ -30,6 +30,7 @@ import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
  * methods for each of these are provided in this class.
  * 
  */
+@Deprecated
 @XmlRegistry
 public class ObjectFactory {
 	/**

@@ -31,6 +31,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "DataValidationErrorException", namespace = "http://student.kuali.org/wsdl/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DataValidationErrorException", namespace = "http://student.kuali.org/wsdl/exceptions")

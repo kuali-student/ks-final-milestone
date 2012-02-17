@@ -29,6 +29,7 @@ import org.kuali.student.r1.common.messages.dto.Message;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "getMessageResponse", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getMessageResponse", namespace = "http://student.kuali.org/wsdl/messages")

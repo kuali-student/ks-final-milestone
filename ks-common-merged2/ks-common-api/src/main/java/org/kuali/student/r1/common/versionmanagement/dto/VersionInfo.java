@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlElement;
  * @See <a href="https://wiki.kuali.org/display/KULSTU/versionInfo+Structure">VersionInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class VersionInfo implements Serializable  {
 

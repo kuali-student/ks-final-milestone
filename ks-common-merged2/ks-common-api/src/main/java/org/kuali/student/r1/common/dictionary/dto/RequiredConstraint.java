@@ -6,6 +6,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RequiredConstraint {
 	@XmlElement

@@ -8,6 +8,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLeve
 
 
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LookupConstraint extends CommonLookup{
 

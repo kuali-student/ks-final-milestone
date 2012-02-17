@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+@Deprecated
 public class CommonLookup implements Serializable {
 
 	private static final long serialVersionUID = 1L;

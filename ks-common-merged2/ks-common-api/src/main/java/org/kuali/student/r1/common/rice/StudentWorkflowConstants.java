@@ -1,5 +1,6 @@
 package org.kuali.student.r1.common.rice;
 
+@Deprecated
 //TODO: This class needs to be combined with org.kuali.student.StudentWorkflowConstants class found in ks-lum-rice
 public class StudentWorkflowConstants {
 	

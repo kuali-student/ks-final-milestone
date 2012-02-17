@@ -48,6 +48,7 @@ import javax.xml.bind.annotation.XmlValue;
  * 
  * 
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Context implements Serializable{
 

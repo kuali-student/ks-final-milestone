@@ -26,6 +26,7 @@ import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
 import org.kuali.student.r1.common.messages.dto.MessageList;
 
 
+@Deprecated
 @WebService(name = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface MessageService {

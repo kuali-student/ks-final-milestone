@@ -17,6 +17,7 @@ package org.kuali.student.r1.common.dto;
 
 import java.util.Map;
 
+@Deprecated
 public interface HasAttributes {
 	public Map<String, String> getAttributes();
 	public void setAttributes(Map<String, String> attributes);

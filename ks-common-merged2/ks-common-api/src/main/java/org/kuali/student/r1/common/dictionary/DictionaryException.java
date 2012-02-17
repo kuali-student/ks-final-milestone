@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.dictionary;
 
+@Deprecated
 public class DictionaryException extends RuntimeException{
 	/**
 	 * 

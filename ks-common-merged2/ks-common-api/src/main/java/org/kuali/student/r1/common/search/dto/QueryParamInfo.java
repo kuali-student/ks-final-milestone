@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class QueryParamInfo implements Serializable {
 	private static final long serialVersionUID = 1L;

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 
+@Deprecated
 @XmlRootElement(name = "CircularRelationshipException", namespace = "http://student.kuali.org/wsdl/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CircularRelationshipException", namespace = "http://student.kuali.org/wsdl/exceptions")

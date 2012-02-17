@@ -17,6 +17,7 @@ package org.kuali.student.r1.common.exceptions;
 
 import javax.xml.ws.WebFault;
 
+@Deprecated
 @WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.MissingParameterExceptionBean")
 public class MissingParameterException extends Exception {
 
