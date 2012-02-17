@@ -22,8 +22,14 @@
         </property>
         <property name="items">
             <list>
-                <ref bean="KS-AcademicCalendar-EditSection"/>
-                <ref bean="academicTermEdit"/>
+                <bean parent="Uif-TabSection">
+                  <property name="items">
+                    <list>
+                        <ref bean="KS-AcademicCalendar-EditSection"/>
+                        <ref bean="KS-AcademicTerm-EditSection"/>
+                    </list>
+                  </property>
+                </bean>
             </list>
         </property>
         <property name="additionalCssFiles">
@@ -36,6 +42,7 @@
     </bean>
 
     <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false">
+        <property name="title" value="Information" />
         <property name="items">
             <list>
                 <!--
@@ -172,7 +179,7 @@
     <!-- Academic terms -->
 
 
-   <bean id="academicTermEdit" parent="Uif-Disclosure-StackedCollectionSection">
+   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" >
      <property name="title" value="Terms" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
@@ -180,8 +187,22 @@
      <property name="propertyName" value="termWrapperList" />
      <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Term Information"/>
      <property name="layoutManager.lineGroupPrototype.readOnly" value="@{#line.readOnly}"/>
-     <property name="layoutManager.lineGroupPrototype.instructionalMessageField.styleClasses" value="ks-header-boldWithLine"/>
+     <property name="layoutManager.lineGroupPrototype.instructionalMessageField.styleClasses">
+      <list merge="true">
+        <value>ks-header-boldWithLine</value>
+      </list>
+    </property>
      <property name="layoutManager.addLineGroup.style" value="margin-top:1em;"/>
+     <property name="header.group">
+         <bean parent="Uif-VerticalBoxGroup">
+             <property name="layoutManager.orientation" value="VERTICAL"/>
+             <property name="items">
+                <list>
+                   <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingTerm" p:actionLabel="Cancel Adding Term" p:clientSideJs="performCollectionAction('KS-AcademicTerm-EditSection');"/>
+                </list>
+             </property>
+         </bean>
+      </property>
      <!--<property name="layoutManager">
       <bean parent="Uif-StackedCollectionLayout-WithBoxItems"/>
     </property>-->
@@ -226,17 +247,21 @@
      </property>
      <property name="subCollections">
        <list>
-         <ref bean="keyDateSubCollection" />
+         <ref bean="KS-KeyDates-EditSubSection" />
        </list>
      </property>
    </bean>
 
-   <bean id="keyDateSubCollection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7">
+   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7">
      <property name="title" value="Key Dates" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
      <property name="layoutManager.style" value="margin-top:1em;"/>
      <property name="propertyName" value="keydates" />
-     <property name="header.styleClasses" value="ks-borderBottom"/>
+     <property name="header.styleClasses">
+      <list merge="true">
+        <value>ks-borderBottom</value>
+      </list>
+    </property>
      <property name="layoutManager.renderSequenceField" value="false" />
      <property name="layoutManager.generateAutoSequence" value="false" />
      <property name="layoutManager.separateAddLine" value="false" />

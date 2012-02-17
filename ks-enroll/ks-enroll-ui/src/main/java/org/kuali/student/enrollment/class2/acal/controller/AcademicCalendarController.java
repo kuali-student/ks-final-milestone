@@ -189,6 +189,15 @@ public class AcademicCalendarController extends UifControllerBase {
         return updateComponent(academicCalendarForm, result, request, response);
     }
 
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=cancelAdding")
+    public ModelAndView cancelAddingTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                        HttpServletRequest request, HttpServletResponse response) {
+
+        ((AcademicTermWrapper)academicCalendarForm.getNewCollectionLines().get("termWrapperList")).clear();
+
+        return updateComponent(academicCalendarForm, result, request, response);
+    }
+
     @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteTerm")
     public ModelAndView deleteTerm(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
                                         HttpServletRequest request, HttpServletResponse response) {

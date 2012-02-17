@@ -105,4 +105,12 @@ public class AcademicTermWrapper {
     public void setReadOnly(boolean readOnly) {
         this.readOnly = readOnly;
     }
+
+    public void clear(){
+        setEndDate(null);
+        setStartDate(null);
+        setTermType(null);
+        setKeydates( new ArrayList<KeyDateWrapper>());
+        setName(null);
+    }
 }
