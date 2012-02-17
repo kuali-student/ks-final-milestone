@@ -357,7 +357,8 @@ public class DependencyAnalysisView extends ViewComposite{
 				
 				//Initialize the complex requirement panel, set it so it is not initially open (ie. not visible)
 				final FlowPanel complexContent = new FlowPanel();
-				final CollapsablePanel complexRequirement = new CollapsablePanel("", complexContent, false, false);				
+				final CollapsablePanel complexRequirement = GWT.create(CollapsablePanel.class);
+				complexRequirement.initialise("", complexContent, false, false);
 				
 				complexContent.addStyleName("KS-Dependency-Complex-Rule");
 				depDetails.addWidget(simpleRequirement);

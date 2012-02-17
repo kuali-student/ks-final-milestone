@@ -24,18 +24,22 @@ public class VerticalCollapsableDrawer extends Composite{
 		}
 
 		@UiField
-		SimplePanel content;
+		public SimplePanel content;
 		
 		@UiField
-		KSButton drawerHandle;
+		public KSButton drawerHandle;
 		
 		@UiField
-		HTMLPanel container;
+		public HTMLPanel container;
 		
-		private boolean isOpen = true;
+		protected boolean isOpen = true;
 		private ContentAnimation animation = new ContentAnimation();
 		
 		public VerticalCollapsableDrawer(){
+		    initialise();
+		}
+		
+		public void initialise(){
 			initWidget(uiBinder.createAndBindUi(this));
 			drawerHandle.setText("\u00AB");
 			drawerHandle.addClickHandler(new ClickHandler(){

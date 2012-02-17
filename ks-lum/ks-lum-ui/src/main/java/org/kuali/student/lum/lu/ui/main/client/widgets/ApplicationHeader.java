@@ -71,7 +71,7 @@ public class ApplicationHeader extends Composite{
 
 	private KSHeader ksHeader = GWT.create(KSHeader.class);
 
-	protected StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
+	protected StylishDropDown navDropDown = GWT.create(StylishDropDown.class);
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
 	private SimplePanel content = new SimplePanel();
@@ -102,6 +102,7 @@ public class ApplicationHeader extends Composite{
     }
 	public ApplicationHeader(){
 		this.initWidget(ksHeader);
+		navDropDown.initialise("Select an area\u2026");
 	}
 	protected void onLoad() {
 		super.onLoad();

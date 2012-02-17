@@ -878,7 +878,8 @@ public class SearchPanel extends Composite{
                 	//Only display modify link if there are search parametes available.
 	                if(!resultsShown){
 	                    searchSelectorPanel.removeFromParent();
-	                    modifySearchPanel = new CollapsablePanel(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
+	                    modifySearchPanel = GWT.create(CollapsablePanel.class);
+	                    modifySearchPanel.initialise(getMessage("searchPanelModifySearch"), searchSelectorPanel, false);
 	                    modifySearchPanel.getLabel().addClickHandler(new ClickHandler(){
 	                        @Override
 	                        public void onClick(ClickEvent event) {

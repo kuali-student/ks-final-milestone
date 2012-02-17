@@ -423,7 +423,8 @@ public class WorkflowUtilities{
 	
 	public Widget getWorkflowActionsWidget(){
 		//InfoMessage infoContainer = new InfoMessage();
-		StylishDropDown workflowActionsDropDown = new StylishDropDown(dropDownLabel );
+		StylishDropDown workflowActionsDropDown = GWT.create(StylishDropDown.class);
+		workflowActionsDropDown.initialise(dropDownLabel );
 		workflowActionsDropDown.makeAButtonWhenOneItem(true);
 		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
 		workflowWidgets.add(workflowActionsDropDown);
