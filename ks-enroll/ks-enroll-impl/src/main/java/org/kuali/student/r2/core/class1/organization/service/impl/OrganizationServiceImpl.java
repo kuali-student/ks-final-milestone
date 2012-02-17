@@ -42,6 +42,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.class1.organization.dao.OrgPersonRelationDao;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
@@ -59,10 +60,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
 
     private OrganizationDao organizationDao;
+    private OrgPersonRelationDao personRelationDao;
     private DictionaryService dictionaryServiceDelegate;
     private Validator validator;
     private CriteriaLookupService criteriaLookupService;
-
+    
     /**
      * Check for missing parameter and throw localized exception if missing
      * 
@@ -101,6 +103,14 @@ public class OrganizationServiceImpl implements OrganizationService {
         this.organizationDao = organizationDao;
     }
     
+    public OrgPersonRelationDao getPersonRelationDao() {
+        return personRelationDao;
+    }
+
+    public void setPersonRelationDao(OrgPersonRelationDao personRelationDao) {
+        this.personRelationDao = personRelationDao;
+    }
+
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
         this.criteriaLookupService = criteriaLookupService;
     }
@@ -533,35 +543,47 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrg(String orgPersonRelationTypeKey, String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+        checkForMissingParameter(orgId, "orgId");
+        
+        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationTypeKey, orgId);
+        return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(personId, "personId");
         
-        //List<OrgPersonRelation> oprts = organizationDao.getOrgPersonRelationsByPerson(personId, orgId);
-        //return OrganizationAssembler.toOrgPersonRelationInfos(oprts);
-        return null;
+        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByPerson(personId);
+        return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndPerson(String orgPersonRelationTypeKey, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+        checkForMissingParameter(personId, "personId");
+        
+        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByTypeAndPerson(orgPersonRelationTypeKey, personId);
+        return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrgAndPerson(String orgId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(personId, "personId");
+        
+        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByOrgAndPerson(orgId, personId);
+        return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrgAndPerson(String orgPersonRelationTypeKey, String orgId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(personId, "personId");
+        
+        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByTypeAndOrgAndPerson(orgPersonRelationTypeKey, orgId, personId);
+        return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
     @Override

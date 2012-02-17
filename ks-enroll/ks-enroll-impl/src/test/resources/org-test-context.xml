@@ -108,9 +108,14 @@
     <bean id="orgDao" class="org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl">
         <property name="em" ref="entityManager" />
     </bean>
+    
+    <bean id="personRelationDao" class="org.kuali.student.r2.core.class1.organization.dao.OrgPersonRelationDao">
+        <property name="em" ref="entityManager" />
+    </bean>
 
     <bean id="orgServiceImpl" class="org.kuali.student.r2.core.class1.organization.service.impl.OrganizationServiceImpl">
         <property name="organizationDao" ref="orgDao" />
+        <property name="personRelationDao" ref="personRelationDao" />
         <property name="dictionaryServiceDelegate" ref="dictionaryServiceDelegate"/>
         <property name="criteriaLookupService" ref="criteriaLookupService"/>
     </bean>
