@@ -38,10 +38,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 /**
@@ -78,7 +75,7 @@ public class HolidayCalendarController extends UifControllerBase {
                         boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
                         if(duplicated){
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "The Holiday is already in the collection.");
-                            return super.updateComponent(form, result, request, response);
+                            return updateComponent(form, result, request, response);
                         }
                     }
                 }
@@ -133,6 +130,8 @@ public class HolidayCalendarController extends UifControllerBase {
            // create hc
             createHolidayCalendar(hcForm);
         }
+
+        GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name","info.enroll.holidaycalendar.saved", hc.getName());
         return getUIFModelAndView(hcForm);
     }
 
