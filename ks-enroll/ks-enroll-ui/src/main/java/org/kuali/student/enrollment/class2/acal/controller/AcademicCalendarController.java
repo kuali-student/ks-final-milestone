@@ -97,9 +97,11 @@ public class AcademicCalendarController extends UifControllerBase {
             AcademicCalendarInfo acalInfo = getAcademicCalendarViewHelperService(academicCalendarForm).updateAcademicCalendar(academicCalendarForm);
             academicCalendarForm.setAcademicCalendarInfo(getAcademicCalendarViewHelperService(academicCalendarForm).getAcademicCalendar(acalInfo.getId()));
 
-            //update acalEvents
+            //update acalEvents if any
             List<AcalEventWrapper> events = academicCalendarForm.getEvents();
-            processEvents(academicCalendarForm, events, acalInfo.getId());
+            if(events != null && !events.isEmpty()){
+                processEvents(academicCalendarForm, events, acalInfo.getId());
+            }
         }
         else {
             // create acalInfo
@@ -306,28 +308,28 @@ public class AcademicCalendarController extends UifControllerBase {
 
     }
 
+    /**
+     * Update existing events, create new events, and delete events that do not exist any more when a user modifies and saves an Academic Calendar
+     */
     private void processEvents(AcademicCalendarForm acalForm, List<AcalEventWrapper> events, String acalId)throws Exception{
         List<AcalEventWrapper> updatedEvents = new ArrayList<AcalEventWrapper>();
         List<String> currentEventIds = getEventIds(acalForm);
-
-        if(events != null && !events.isEmpty()){
-            for(AcalEventWrapper event : events){
-                if(currentEventIds.contains(event.getAcalEventInfo().getId())){
-                    //update event
-                    AcalEventWrapper updatedEvent = getAcademicCalendarViewHelperService(acalForm).updateEvent(event.getAcalEventInfo().getId(), event);
-                    updatedEvents.add(updatedEvent);
-                    currentEventIds.remove(event.getAcalEventInfo().getId());
-                }
-                else {
-                    //create a new event
-                    AcalEventWrapper createdEvent = getAcademicCalendarViewHelperService(acalForm).createEvent(acalId, event);
-                    updatedEvents.add(createdEvent);
-                }
+        for(AcalEventWrapper event : events){
+            if(currentEventIds.contains(event.getAcalEventInfo().getId())){
+                //update event
+                AcalEventWrapper updatedEvent = getAcademicCalendarViewHelperService(acalForm).updateEvent(event.getAcalEventInfo().getId(), event);
+                updatedEvents.add(updatedEvent);
+                currentEventIds.remove(event.getAcalEventInfo().getId());
+            }
+            else {
+                //create a new event
+                AcalEventWrapper createdEvent = getAcademicCalendarViewHelperService(acalForm).createEvent(acalId, event);
+                updatedEvents.add(createdEvent);
             }
         }
-
         acalForm.setEvents(updatedEvents);
 
+        //delete events that have been removed by the user
         if (currentEventIds != null && currentEventIds.size() > 0){
             for(String eventId: currentEventIds){
                 //TODO: delete completely from db, when "deleted" state is available, update the event with state ="deleted"
