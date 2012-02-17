@@ -14,15 +14,15 @@ public class LuiLuiRelationDao extends GenericEntityDao<LuiLuiRelationEntity>{
     
     @SuppressWarnings({"unchecked"})
 	public List<String> getLuiIdsByRelation(String relatedLuiId, String luLuRelationTypeKey){
-		return (List<String>) em.createQuery("select rel.lui.id from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType.id=:luLuRelationTypeKey")
-		.setParameter("relatedLuiId", relatedLuiId)
+		return (List<String>) em.createQuery("select rel.lui.id from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType=:luLuRelationTypeKey")
+        .setParameter("relatedLuiId", relatedLuiId)
 		.setParameter("luLuRelationTypeKey", luLuRelationTypeKey)
 		.getResultList();
 	}
 	
     @SuppressWarnings({"unchecked"})
 	public List<LuiEntity> getLuisByRelation(String relatedLuiId, String luLuRelationTypeKey){
-		return (List<LuiEntity>) em.createQuery("select rel.lui from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType.id=:luLuRelationTypeKey")
+        return (List<LuiEntity>) em.createQuery("select rel.lui from LuiLuiRelationEntity rel where rel.relatedLui.id=:relatedLuiId and rel.luiLuiRelationType=:luLuRelationTypeKey")
 		.setParameter("relatedLuiId", relatedLuiId)
 		.setParameter("luLuRelationTypeKey", luLuRelationTypeKey)
 		.getResultList();

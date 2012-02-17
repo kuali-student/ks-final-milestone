@@ -1,24 +1,35 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
-
-import javax.persistence.*;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 
 @Entity
@@ -27,9 +38,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @Column(name = "NAME")
     private String name;
     
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private LuiRichTextEntity descr;   
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
+
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    private String plain; 
 
     @Column(name = "LUI_TYPE")
     private String luiType;
@@ -57,7 +70,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXP_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="lui")
@@ -125,8 +138,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         	if(lui.getExpirationDate() != null)
         		this.setExpirationDate(lui.getExpirationDate());
         	
-	        if(lui.getDescr() != null)
-	            this.setDescr(new LuiRichTextEntity(lui.getDescr()));
+        	if (lui.getDescr() != null) {
+                RichText rt = lui.getDescr();
+                this.setDescrFormatted(rt.getFormatted());
+                this.setDescrPlain(rt.getPlain());
+            }
 	        	        
 	        if(lui.getOfficialIdentifier() != null)
 	        	this.setOfficialIdentifier(new LuiIdentifierEntity(lui.getOfficialIdentifier()));
@@ -213,8 +229,12 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         if(luiState != null)
             obj.setStateKey(luiState);
         obj.setMeta(super.toDTO());
-        if(descr != null)
-            obj.setDescr(descr.toDto());
+        if (getDescrPlain() != null) {
+            RichTextInfo rti = new RichTextInfo();
+            rti.setPlain(getDescrPlain());
+            rti.setFormatted(getDescrFormatted());
+            obj.setDescr(rti);
+        }
  
         List<MeetingScheduleInfo> schedules = new ArrayList<MeetingScheduleInfo>();
         for (MeetingScheduleEntity ms : meetingSchedules) {
@@ -223,7 +243,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         }
         obj.setMeetingSchedules(schedules);
 
-        List<String> rvGroupIds = new ArrayList();
+        List<String> rvGroupIds = new ArrayList<String>();
         if (null != getResultValuesGroupRelationEntities()) {
             for (LuiResultValuesGroupRelationEntity relationEntity : getResultValuesGroupRelationEntities()){
                 rvGroupIds.add(relationEntity.getResultValuesGroupKey());
@@ -297,13 +317,21 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 		this.atpId = atpId;
 	}
 
-	public LuiRichTextEntity getDescr() {
-		return descr;
-	}
+	public String getDescrFormatted() {
+        return formatted;
+    }
 
-	public void setDescr(LuiRichTextEntity descr) {
-		this.descr = descr;
-	}
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
+    }
 
 	public String getLuiType() {
 		return luiType;

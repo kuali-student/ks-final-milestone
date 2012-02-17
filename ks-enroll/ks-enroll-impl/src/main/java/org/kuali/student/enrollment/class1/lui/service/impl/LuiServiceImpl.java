@@ -7,17 +7,14 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
-import org.kuali.student.enrollment.class1.lui.dao.LuiRichTextDao;
 import org.kuali.student.enrollment.class1.lui.model.LuCodeEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiRichTextEntity;
 import org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
-import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -31,9 +28,9 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.class1.state.model.StateEntity;
+import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -42,7 +39,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class LuiServiceImpl implements LuiService {
     private LuiDao luiDao;
-    private LuiRichTextDao luiRichTextDao;
     private LuiLuiRelationDao luiLuiRelationDao;
     private StateService stateService;
     private TypeTypeRelationDao typeTypeRelationDao;
@@ -56,15 +52,6 @@ public class LuiServiceImpl implements LuiService {
     public void setLuiDao(LuiDao luiDao) {
         this.luiDao = luiDao;
     }
-
-    public LuiRichTextDao getLuiRichTextDao() {
-        return luiRichTextDao;
-    }
-
-    public void setLuiRichTextDao(LuiRichTextDao luiRichTextDao) {
-        this.luiRichTextDao = luiRichTextDao;
-    }
-
 
     public LuiLuiRelationDao getLuiLuiRelationDao() {
         return luiLuiRelationDao;
@@ -386,9 +373,6 @@ public class LuiServiceImpl implements LuiService {
         entity.setLuiState(luiInfo.getStateKey());
 
         entity.setLuiType(luiInfo.getTypeKey());
-
-        if (null != luiInfo.getDescr())
-            entity.setDescr(new LuiRichTextEntity(luiInfo.getDescr()));
 
         if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()) {
             for (LuCodeEntity luiCode : entity.getLuCodes()) {
