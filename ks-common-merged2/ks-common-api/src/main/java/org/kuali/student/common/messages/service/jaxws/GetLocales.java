@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "getLocales", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getLocales", namespace = "http://student.kuali.org/wsdl/messages")

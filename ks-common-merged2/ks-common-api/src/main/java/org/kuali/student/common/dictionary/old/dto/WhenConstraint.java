@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlElement;
 
 
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class WhenConstraint implements Serializable {
 

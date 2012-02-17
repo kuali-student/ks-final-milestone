@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getObjectStructure", namespace = "http://student.kuali.org/wsdl/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getObjectStructure", namespace = "http://student.kuali.org/wsdl/dictionary")

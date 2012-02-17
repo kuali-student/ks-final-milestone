@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 
 
+@Deprecated
 public class CommonLookupParam  implements Serializable {
 
 

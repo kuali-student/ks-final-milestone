@@ -9,6 +9,7 @@ import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 
+@Deprecated
 public class ObjStructXmlTypeAdapter extends XmlAdapter<ObjectStructureDefinitionWrapper, ObjectStructureDefinition> {
 
 	@Override

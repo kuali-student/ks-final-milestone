@@ -21,6 +21,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class JoinCriteriaInfo implements Serializable {
 	private static final long serialVersionUID = 1L;

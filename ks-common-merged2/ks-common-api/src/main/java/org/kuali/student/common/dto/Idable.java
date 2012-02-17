@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.dto;
 
+@Deprecated
 public interface Idable {
 	public String getId();
 	public void setId(String id);

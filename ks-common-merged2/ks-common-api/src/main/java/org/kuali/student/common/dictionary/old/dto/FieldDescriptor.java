@@ -73,6 +73,7 @@ import javax.xml.bind.annotation.XmlElement;
 //    "readOnly",
 //    "_enum"
 //})
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FieldDescriptor implements Serializable {
 

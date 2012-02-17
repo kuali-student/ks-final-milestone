@@ -24,6 +24,7 @@ import javax.xml.ws.WebFault;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
+@Deprecated
 @WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
 

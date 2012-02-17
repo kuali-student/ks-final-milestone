@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LookupKeyConstraint implements Serializable {
 

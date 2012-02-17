@@ -29,6 +29,7 @@ import org.kuali.student.common.messages.dto.Message;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "updateMessage", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "updateMessage", namespace = "http://student.kuali.org/wsdl/messages", propOrder = {"localeKey","messageGroupKey","messageKey","messageInfo"})

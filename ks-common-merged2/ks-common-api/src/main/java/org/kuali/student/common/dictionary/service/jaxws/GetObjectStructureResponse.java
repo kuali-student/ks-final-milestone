@@ -14,6 +14,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getObjectStructureResponse", namespace = "http://student.kuali.org/wsdl/dictionary")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getObjectStructureResponse", namespace = "http://student.kuali.org/wsdl/dictionary")

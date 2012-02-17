@@ -29,6 +29,7 @@ import org.kuali.student.common.messages.dto.MessageGroupKeyList;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "getMessageGroupsResponse", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getMessageGroupsResponse", namespace = "http://student.kuali.org/wsdl/messages")

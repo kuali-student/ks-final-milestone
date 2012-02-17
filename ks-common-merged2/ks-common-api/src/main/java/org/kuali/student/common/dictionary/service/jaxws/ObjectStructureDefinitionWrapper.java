@@ -7,6 +7,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectStructureDefinitionWrapper {
 	private String rootDefinitionName;

@@ -15,6 +15,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 
 
+@Deprecated
 @WebService(name = "VersionManagementService", targetNamespace = "http://student.kuali.org/wsdl/versionmanagement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface VersionManagementService {

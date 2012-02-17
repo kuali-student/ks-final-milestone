@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "addMessageResponse", namespace = "http://student.kuali.org/wsdl/messages")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "addMessageResponse", namespace = "http://student.kuali.org/wsdl/messages")

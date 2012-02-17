@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlElement;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/currencyAmountInfo+Structure+v1.0-rc1">CurrencyAmountInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CurrencyAmountInfo implements Serializable {
 

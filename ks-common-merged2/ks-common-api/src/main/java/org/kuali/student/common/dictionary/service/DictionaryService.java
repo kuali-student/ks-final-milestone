@@ -11,6 +11,7 @@ import javax.xml.ws.ResponseWrapper;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 
+@Deprecated
 @WebService(name = "DictionaryService", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DictionaryService {

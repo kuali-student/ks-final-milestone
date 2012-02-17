@@ -15,6 +15,7 @@
 
 package org.kuali.student.common.search.dto;
 
+@Deprecated
 public enum SortDirection {
 	ASC,DESC;
 }

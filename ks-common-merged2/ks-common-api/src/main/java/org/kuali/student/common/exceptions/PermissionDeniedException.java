@@ -17,6 +17,7 @@ package org.kuali.student.common.exceptions;
 
 import javax.xml.ws.WebFault;
 
+@Deprecated
 @WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.PermissionDeniedExceptionBean")
 public class PermissionDeniedException extends Exception {
 

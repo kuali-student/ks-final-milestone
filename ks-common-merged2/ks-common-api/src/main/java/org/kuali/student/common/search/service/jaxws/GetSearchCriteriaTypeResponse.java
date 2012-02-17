@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "getSearchCriteriaTypeResponse", namespace = "http://student.kuali.org/wsdl/search")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getSearchCriteriaTypeResponse", namespace = "http://student.kuali.org/wsdl/search")

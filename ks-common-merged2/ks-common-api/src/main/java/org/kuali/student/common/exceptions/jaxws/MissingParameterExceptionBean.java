@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "MissingParameterException", namespace = "http://student.kuali.org/wsdl/exceptions")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MissingParameterException", namespace = "http://student.kuali.org/wsdl/exceptions")

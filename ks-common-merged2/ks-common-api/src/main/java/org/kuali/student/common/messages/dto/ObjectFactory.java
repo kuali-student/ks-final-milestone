@@ -40,6 +40,7 @@ import javax.xml.bind.annotation.XmlRegistry;
  * provided in this class.
  * 
  */
+@Deprecated
 @XmlRegistry
 public class ObjectFactory {
 
