@@ -3,7 +3,6 @@ package org.kuali.student.enrollment.class1.lui;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
@@ -25,7 +24,7 @@ public class TestLuiDao extends AbstractTransactionalDaoTest{
 			assertEquals("Lui one", obj.getName()); 
 	        assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, obj.getLuiState()); 
 	        assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, obj.getLuiType()); 
-	        assertEquals("Lui Desc 101", obj.getDescr().getPlain());  
+	        assertEquals("Lui Desc 101", obj.getDescrPlain());  
 		}catch (Exception ex){
 			ex.printStackTrace();
 		}		

@@ -8,10 +8,10 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
@@ -130,6 +131,10 @@ public class TestLuiServiceImpl {
         info.setName("Test lui one");
         info.setStateKey(LuiServiceConstants.LUI_DRAFT_STATE_KEY);
         info.setTypeKey(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY);
+        RichTextInfo rtInfo = new RichTextInfo();
+        rtInfo.setFormatted("<p>Test lui one description</p>");
+        rtInfo.setPlain("Test lui one description");
+        info.setDescr(rtInfo);
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
@@ -259,6 +264,10 @@ public class TestLuiServiceImpl {
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
+        RichTextInfo rtInfo = new RichTextInfo();
+        rtInfo.setFormatted("<p>Test lui-Lui relation description</p>");
+        rtInfo.setPlain("Test lui-Lui relation description");
+        info.setDescr(rtInfo);
 
         LuiInfo newLui = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         LuiLuiRelationInfo created = null;
@@ -269,6 +278,10 @@ public class TestLuiServiceImpl {
             rel.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
             rel.setTypeKey(LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY);
             rel.setEffectiveDate(Calendar.getInstance().getTime());
+            rtInfo = new RichTextInfo();
+            rtInfo.setFormatted("<p>Test lui-Lui relation description</p>");
+            rtInfo.setPlain("Test lui-Lui relation description");
+            rel.setDescr(rtInfo);
             created = luiServiceValidation.createLuiLuiRelation("Lui-1", newLui.getId(),
                     LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY, rel, callContext);
 
