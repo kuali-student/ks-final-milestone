@@ -6,6 +6,7 @@ import java.util.List;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 
 
+@Deprecated
 public class ValidatorMockObjectGenerator {
     public static ConstraintMockPerson buildTestPerson1() {
     	ConstraintMockPerson person = new ConstraintMockPerson();

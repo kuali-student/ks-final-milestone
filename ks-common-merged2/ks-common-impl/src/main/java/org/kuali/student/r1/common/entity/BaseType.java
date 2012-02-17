@@ -9,6 +9,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+@Deprecated
 @MappedSuperclass
 @AttributeOverrides({
     @AttributeOverride(name="id", column=@Column(name="TYPE_KEY"))})

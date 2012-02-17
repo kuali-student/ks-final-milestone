@@ -19,6 +19,7 @@ import org.kuali.student.r1.common.search.service.impl.CrossSearchManager;
 import org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl;
 import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 
+@Deprecated
 public class MockSearch implements SearchService {
 	SearchManagerImpl sm;
 	public MockSearch(){

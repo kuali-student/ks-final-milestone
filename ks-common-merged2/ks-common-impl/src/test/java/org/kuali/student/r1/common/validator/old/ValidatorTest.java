@@ -34,6 +34,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.old.ServerDateParser;
 import org.kuali.student.r1.common.validator.old.Validator;
 
+@Deprecated
 public class ValidatorTest {	
 
 	Validator val = null;

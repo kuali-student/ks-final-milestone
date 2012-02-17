@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.validator.DateParser;
  * 
  * @author nwright
  */
+@Deprecated
 public class MetadataInterrogator {
 
 	public enum ConstraintIds {

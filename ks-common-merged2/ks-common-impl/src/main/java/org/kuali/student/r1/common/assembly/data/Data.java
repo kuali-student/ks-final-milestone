@@ -36,6 +36,7 @@ import javax.xml.bind.annotation.XmlType;
  * @author Kuali Student Team
  * @see Value
  */
+@Deprecated
 @SuppressWarnings({"serial", "unchecked"})
 public class Data implements Serializable, Iterable<Data.Property>, HasChangeCallbacks {
     @XmlType(name = "lookUpDataType")

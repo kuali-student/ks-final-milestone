@@ -28,6 +28,7 @@ import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchService;
 
+@Deprecated
 public class SearchDispatcherImpl implements SearchDispatcher{
 	final Logger LOG = Logger.getLogger(SearchDispatcherImpl.class);
 	

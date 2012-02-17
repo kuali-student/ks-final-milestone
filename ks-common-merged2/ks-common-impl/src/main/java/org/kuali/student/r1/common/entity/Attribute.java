@@ -20,6 +20,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+@Deprecated
 @MappedSuperclass
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"NAME", "OWNER"})})
 

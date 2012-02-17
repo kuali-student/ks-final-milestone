@@ -2,6 +2,7 @@ package org.kuali.student.r1.common.assembly.transform;
 
 import java.util.Map;
 
+@Deprecated
 public class DocumentTypeConfiguration {
 	private String documentType;
 	private Map<String, String> docContentFieldMap;

@@ -39,6 +39,7 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.dto.SortDirection;
 
+@Deprecated
 public class AbstractSearchableCrudDaoImpl extends AbstractCrudDaoImpl
 		implements SearchableDao {
 	final Logger LOG = Logger.getLogger(AbstractSearchableCrudDaoImpl.class);

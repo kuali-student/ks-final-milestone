@@ -19,6 +19,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
  * @author Neerav Agrawal
  *
  */
+@Deprecated
 public class SampCustomValidator implements Validator {
 
 	private ObjectStructureDefinition objStructure;

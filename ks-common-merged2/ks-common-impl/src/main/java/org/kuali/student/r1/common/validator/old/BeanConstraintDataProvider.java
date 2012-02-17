@@ -22,6 +22,7 @@ import java.beans.PropertyDescriptor;
 import java.util.HashMap;
 import java.util.Map;
 
+@Deprecated
 public class BeanConstraintDataProvider implements ConstraintDataProvider {
 
 	Map<String, Object> dataMap = null;

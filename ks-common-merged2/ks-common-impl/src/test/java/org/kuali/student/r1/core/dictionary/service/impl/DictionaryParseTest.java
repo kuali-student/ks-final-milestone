@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.dictionary.old.dto.Type;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+@Deprecated
 public class DictionaryParseTest {
 	private ApplicationContext context = new ClassPathXmlApplicationContext("lu-dict-original.xml");
 	

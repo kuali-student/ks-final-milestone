@@ -28,6 +28,7 @@ import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl
 import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
 import org.kuali.student.common.test.mock.MockProxy;
 
+@Deprecated
 public class TestAuthorizationFilter {
 	final Logger LOG = Logger.getLogger(TestAuthorizationFilter.class);
 	

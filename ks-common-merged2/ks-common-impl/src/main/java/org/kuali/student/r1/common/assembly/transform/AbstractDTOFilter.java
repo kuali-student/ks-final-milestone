@@ -3,6 +3,7 @@ package org.kuali.student.r1.common.assembly.transform;
 import java.util.Map;
 
 
+@Deprecated
 public abstract class AbstractDTOFilter implements TransformFilter {
 	/**
 	 * This can be used to apply filters in the inbound dto object. 

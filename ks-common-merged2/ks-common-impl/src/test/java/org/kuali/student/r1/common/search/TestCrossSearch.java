@@ -7,6 +7,7 @@ import org.kuali.student.r1.common.exceptions.MissingParameterException;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 
+@Deprecated
 public class TestCrossSearch {
 
 	@Test

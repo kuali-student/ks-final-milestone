@@ -20,6 +20,7 @@ import org.kuali.student.r1.common.assembly.data.Data;
 
 
 
+@Deprecated
 public class RuntimeDataHelper
 {
 	private static final long serialVersionUID = 1;

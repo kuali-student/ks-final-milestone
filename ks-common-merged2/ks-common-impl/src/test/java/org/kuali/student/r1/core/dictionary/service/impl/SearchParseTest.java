@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+@Deprecated
 public class SearchParseTest {
 private ApplicationContext context = new ClassPathXmlApplicationContext("test-cross-search.xml");
 	

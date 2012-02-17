@@ -20,6 +20,7 @@ import org.kuali.student.r1.common.dictionary.dto.RequiredConstraint;
 import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
 import org.kuali.student.r1.common.dictionary.dto.WhenConstraint;
 
+@Deprecated
 public class DictionaryFormatter
 {
 

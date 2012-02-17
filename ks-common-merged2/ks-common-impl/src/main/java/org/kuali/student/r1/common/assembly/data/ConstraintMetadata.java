@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * 
  * @author nwright
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ConstraintMetadata implements Serializable {
 

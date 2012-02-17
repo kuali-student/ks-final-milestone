@@ -18,6 +18,7 @@ package org.kuali.student.r1.common.validator.old;
 import java.util.Date;
 import java.util.List;
 
+@Deprecated
 public class ConstraintMockPerson {
 
 	protected String firstName;

@@ -29,6 +29,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public abstract class BaseAbstractValidator implements Validator {
 
     protected ValidatorFactory validatorFactory;    

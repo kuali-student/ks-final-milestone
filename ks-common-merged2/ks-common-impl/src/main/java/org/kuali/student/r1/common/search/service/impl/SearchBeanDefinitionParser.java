@@ -43,6 +43,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+@Deprecated
 public class SearchBeanDefinitionParser extends
 		AbstractSingleBeanDefinitionParser {
     private static final Logger logger = Logger.getLogger(SearchBeanDefinitionParser.class);

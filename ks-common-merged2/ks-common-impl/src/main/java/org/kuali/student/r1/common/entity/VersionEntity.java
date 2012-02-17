@@ -13,6 +13,7 @@ import javax.persistence.MappedSuperclass;
 
 import org.kuali.student.common.util.UUIDHelper;
 
+@Deprecated
 @MappedSuperclass
 public abstract class VersionEntity extends MetaEntity {
 

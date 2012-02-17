@@ -27,6 +27,7 @@ import org.kuali.student.common.util.security.SecurityUtils;
  * @author Will
  *
  */
+@Deprecated
 public class AuthorizationFilter extends AbstractDataFilter implements MetadataFilter{
     protected PermissionService permissionService;
         

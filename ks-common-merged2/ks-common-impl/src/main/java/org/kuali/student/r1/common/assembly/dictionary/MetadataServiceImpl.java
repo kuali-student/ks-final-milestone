@@ -49,6 +49,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * 
  * @author Kuali Student Team
  */
+@Deprecated
 public class MetadataServiceImpl {
     final Logger LOG = Logger.getLogger(MetadataServiceImpl.class);
 

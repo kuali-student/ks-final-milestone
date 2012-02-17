@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
  *
  */
 
+@Deprecated
 public class ValidatorFactory {
 	private static final Logger LOG = Logger.getLogger(ValidatorFactory.class);
 	private volatile Map<String,Validator> customValidators = null; 

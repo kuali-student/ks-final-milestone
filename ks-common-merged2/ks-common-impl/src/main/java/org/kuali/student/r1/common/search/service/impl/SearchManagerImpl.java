@@ -39,6 +39,7 @@ import org.springframework.context.support.FileSystemXmlApplicationContext;
  * Loads all search info for a service into memory
  *
  */
+@Deprecated
 public class SearchManagerImpl implements SearchManager{
 
 	final Logger logger = Logger.getLogger(SearchManagerImpl.class);

@@ -18,6 +18,7 @@ package org.kuali.student.r1.common.validator;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@Deprecated
 public class ServerDateParser implements DateParser {
    
 	private static ThreadLocal<SimpleDateFormat[]> formats = new ThreadLocal<SimpleDateFormat[]>() {

@@ -26,6 +26,7 @@ import org.kuali.student.r1.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
 
+@Deprecated
 public class TestValidator {
 	DefaultValidatorImpl val = null;
 	ValidatorFactory valFactory = new ValidatorFactory();

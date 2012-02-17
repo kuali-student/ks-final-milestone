@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
 import org.kuali.student.r1.common.dictionary.old.dto.State;
 import org.kuali.student.r1.common.dictionary.old.dto.Type;
 
+@Deprecated
 public class ValidatorUtils {
 
 	public static boolean compareValues(Object value1, Object value2,

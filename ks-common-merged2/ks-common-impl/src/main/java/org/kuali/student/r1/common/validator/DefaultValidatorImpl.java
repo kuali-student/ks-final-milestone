@@ -42,6 +42,7 @@ import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.springframework.beans.BeanUtils;
 
+@Deprecated
 public class DefaultValidatorImpl extends BaseAbstractValidator {
     final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
 

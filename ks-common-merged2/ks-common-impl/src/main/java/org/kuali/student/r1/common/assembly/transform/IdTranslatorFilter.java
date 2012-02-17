@@ -13,6 +13,7 @@ import org.kuali.student.r1.common.assembly.data.Data.Property;
 import org.kuali.student.r1.common.assembly.util.IdTranslation;
 import org.kuali.student.r1.common.assembly.util.IdTranslator;
 
+@Deprecated
 public class IdTranslatorFilter extends AbstractDataFilter {
     final Logger LOG = Logger.getLogger(IdTranslatorFilter.class);
 

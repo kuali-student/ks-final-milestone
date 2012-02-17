@@ -42,6 +42,7 @@ import org.kuali.student.r1.common.messages.service.MessageService;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 
+@Deprecated
 public class Validator {
 
 	//TODO: Change this to 'default' when the change is made in xml

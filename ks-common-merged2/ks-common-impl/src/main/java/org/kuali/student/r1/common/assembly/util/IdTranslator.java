@@ -36,6 +36,7 @@ import org.kuali.student.r1.common.search.service.SearchDispatcher;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class IdTranslator {
     
     private static final String ENUMERATION = "enumeration";

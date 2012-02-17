@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.assembly.data.Data.Key;
  * @author wilj
  *
  */
+@Deprecated
 public class DefaultPathParser implements PathParser {
 
     private static final String PATH_SEPARATOR = "/";

@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 
+@Deprecated
 public class SearchConfigValidator {
 	private Map<String, SearchTypeInfo> searchInfoTypeMap;
 	// private Map<String, SearchCriteriaTypeInfo> searchCriteriaTypeMap;

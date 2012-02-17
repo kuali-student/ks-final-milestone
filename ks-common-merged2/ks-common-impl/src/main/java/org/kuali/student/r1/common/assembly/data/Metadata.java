@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+@Deprecated
 public class Metadata implements Serializable {
 
     private static final long serialVersionUID = 1L;

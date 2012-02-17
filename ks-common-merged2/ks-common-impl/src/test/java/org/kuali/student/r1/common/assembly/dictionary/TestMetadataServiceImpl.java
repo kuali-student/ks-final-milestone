@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.assembly.dictionary.MetadataFormatter;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
 
+@Deprecated
 public class TestMetadataServiceImpl {
 
 	DictionaryServiceImpl dictionaryDelegate = new DictionaryServiceImpl("classpath:test-validator-context.xml");

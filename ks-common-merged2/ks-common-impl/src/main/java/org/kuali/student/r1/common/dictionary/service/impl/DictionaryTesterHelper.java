@@ -18,6 +18,7 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+@Deprecated
 public class DictionaryTesterHelper
 {
 

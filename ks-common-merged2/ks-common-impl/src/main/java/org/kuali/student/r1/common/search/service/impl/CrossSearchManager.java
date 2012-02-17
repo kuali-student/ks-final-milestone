@@ -50,6 +50,7 @@ import org.kuali.student.r1.common.search.service.SearchDispatcher;
  * @author Daniel Epstein
  *
  */
+@Deprecated
 public class CrossSearchManager {
 	private SearchDispatcher searchDispatcher;
 

@@ -1,5 +1,6 @@
 package org.kuali.student.r1.common.entity;
 
+@Deprecated
 public class KSEntityConstants {
 
 	// Default Length for long text columns 

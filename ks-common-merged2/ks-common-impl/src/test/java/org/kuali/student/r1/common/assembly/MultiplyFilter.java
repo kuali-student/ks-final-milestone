@@ -20,6 +20,7 @@ import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.old.PassThroughAssemblerFilter;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 
+@Deprecated
 public class MultiplyFilter extends PassThroughAssemblerFilter<Integer,Integer> {
 	final Logger LOG = Logger.getLogger(MultiplyFilter.class);
 	

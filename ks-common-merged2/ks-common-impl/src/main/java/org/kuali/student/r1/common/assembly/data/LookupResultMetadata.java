@@ -17,6 +17,7 @@ package org.kuali.student.r1.common.assembly.data;
 
 import java.io.Serializable;
 
+@Deprecated
 public class LookupResultMetadata implements Serializable {
 
 	private static final long serialVersionUID = 1L;

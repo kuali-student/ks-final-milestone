@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.assembly.old.AssemblerFilterManager;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 
+@Deprecated
 public class TestOldFilterStuff {
 	final Logger LOG = Logger.getLogger(TestOldFilterStuff.class);
 	

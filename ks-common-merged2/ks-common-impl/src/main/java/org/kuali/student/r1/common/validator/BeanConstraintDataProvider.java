@@ -24,6 +24,7 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 
+@Deprecated
 public class BeanConstraintDataProvider implements ConstraintDataProvider {
     final static Logger LOG = Logger.getLogger(BeanConstraintDataProvider.class);
     

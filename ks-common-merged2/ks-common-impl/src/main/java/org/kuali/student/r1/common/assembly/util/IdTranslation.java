@@ -24,6 +24,7 @@ import java.util.Map;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class IdTranslation {
 	private String id;
 	private String display;

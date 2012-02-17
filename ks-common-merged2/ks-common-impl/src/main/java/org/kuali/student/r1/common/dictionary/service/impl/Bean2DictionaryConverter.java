@@ -14,6 +14,7 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dto.MetaInfo;
 
 
+@Deprecated
 public class Bean2DictionaryConverter
 {
 

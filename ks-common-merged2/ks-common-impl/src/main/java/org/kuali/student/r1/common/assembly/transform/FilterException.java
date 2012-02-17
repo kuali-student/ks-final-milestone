@@ -1,5 +1,6 @@
 package org.kuali.student.r1.common.assembly.transform;
 
+@Deprecated
 public class FilterException extends Exception{
 
 	/**

@@ -19,6 +19,7 @@ import org.kuali.student.r1.common.validator.ServerDateParser;
 import org.kuali.student.r1.common.validator.ValidatorUtils;
 
 
+@Deprecated
 public class DictionaryValidator
 {
 

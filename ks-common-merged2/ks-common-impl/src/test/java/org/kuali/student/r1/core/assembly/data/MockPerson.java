@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.kuali.student.r1.common.validator.old.ConstraintMockAddress;
 
+@Deprecated
 public class MockPerson {
     protected String firstName;
     

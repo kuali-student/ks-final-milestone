@@ -7,6 +7,7 @@ import org.kuali.student.r1.common.search.dto.QueryParamInfo;
 import org.kuali.student.r1.common.search.dto.ResultColumnInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 
+@Deprecated
 public class SearchConfigFormatter
 {
 

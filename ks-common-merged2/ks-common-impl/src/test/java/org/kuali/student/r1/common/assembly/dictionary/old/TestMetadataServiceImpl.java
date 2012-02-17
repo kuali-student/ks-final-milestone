@@ -30,6 +30,7 @@ import org.kuali.student.r1.common.dictionary.service.impl.old.DictionaryService
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class TestMetadataServiceImpl {
 
     public static final String DICTIONARY_CONFIG_LOCATION = "classpath:messages-test-dictionary-config.xml"; 

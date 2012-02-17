@@ -18,6 +18,7 @@ package org.kuali.student.r1.common.search.service.impl;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
+@Deprecated
 public class SearchNamespaceHandler extends NamespaceHandlerSupport {
 
 	@Override

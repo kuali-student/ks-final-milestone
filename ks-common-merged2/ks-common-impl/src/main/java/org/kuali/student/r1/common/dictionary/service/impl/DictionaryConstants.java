@@ -3,6 +3,7 @@ package org.kuali.student.r1.common.dictionary.service.impl;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 
+@Deprecated
 public class DictionaryConstants
 {
 

@@ -18,6 +18,7 @@ package org.kuali.student.r1.common.entity;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+@Deprecated
 @Embeddable
 public class TimeAmount {
 

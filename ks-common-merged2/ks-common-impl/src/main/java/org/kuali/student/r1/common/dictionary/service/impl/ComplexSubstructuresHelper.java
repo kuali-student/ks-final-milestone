@@ -13,6 +13,7 @@ import java.util.Set;
 
 import org.kuali.student.r1.common.dto.MetaInfo;
 
+@Deprecated
 public class ComplexSubstructuresHelper
 {
 

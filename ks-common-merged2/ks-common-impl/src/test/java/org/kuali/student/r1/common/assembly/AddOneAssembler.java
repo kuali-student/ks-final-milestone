@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.assembly.old.Assembler;
 import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 
+@Deprecated
 public class AddOneAssembler implements Assembler<Integer,Integer>{
 	final Logger LOG = Logger.getLogger(AddOneAssembler.class);
 	

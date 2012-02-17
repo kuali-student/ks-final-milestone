@@ -13,6 +13,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.StringUtils;
 
+@Deprecated
 public class DictionaryServiceImpl implements DictionaryService{
 	private String[] dictionaryContext;
 	private Map<String, ObjectStructureDefinition> objectStructures;

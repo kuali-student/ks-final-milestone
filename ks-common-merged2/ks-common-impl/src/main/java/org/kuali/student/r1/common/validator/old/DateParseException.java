@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.validator.old;
 
+@Deprecated
 public class DateParseException extends RuntimeException {
 
     private static final long serialVersionUID = 1L;

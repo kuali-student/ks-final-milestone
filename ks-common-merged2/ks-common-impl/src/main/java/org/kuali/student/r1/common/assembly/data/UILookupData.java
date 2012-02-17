@@ -10,6 +10,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 import org.kuali.student.r1.common.dictionary.dto.CommonLookup;
 import org.kuali.student.r1.common.search.dto.SortDirection;
 
+@Deprecated
 public class UILookupData extends CommonLookup {
 
 	private static final long serialVersionUID = 1L;

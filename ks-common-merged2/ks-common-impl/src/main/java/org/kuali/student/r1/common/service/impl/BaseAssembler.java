@@ -36,6 +36,7 @@ import org.kuali.student.r1.common.exceptions.InvalidParameterException;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 
+@Deprecated
 public class BaseAssembler {
     
     final static Logger logger = Logger.getLogger(BaseAssembler.class);

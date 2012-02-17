@@ -21,6 +21,7 @@ import java.util.List;
 /**
  * @author nwright
  */
+@Deprecated
 public class LookupQosMetadata implements Serializable {
 
     /**

@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 
+@Deprecated
 public class ValidatorUtils {
 
 	public static boolean compareValues(Object value1, Object value2,

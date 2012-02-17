@@ -15,6 +15,7 @@
 
 package org.kuali.student.r1.common.assembly.data;
 
+@Deprecated
 public class AssemblyException extends Exception {
 
 	/**

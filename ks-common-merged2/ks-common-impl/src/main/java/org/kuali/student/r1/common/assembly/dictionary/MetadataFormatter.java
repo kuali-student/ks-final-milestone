@@ -26,6 +26,7 @@ import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 
+@Deprecated
 public class MetadataFormatter {
 
 	private StringBuilder builder = new StringBuilder(5000);

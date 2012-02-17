@@ -9,6 +9,7 @@ import javax.persistence.Version;
 
 import org.kuali.student.common.util.UUIDHelper;
 
+@Deprecated
 @MappedSuperclass
 public abstract class BaseEntity {
 	

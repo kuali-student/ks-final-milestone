@@ -17,6 +17,7 @@ package org.kuali.student.r1.core.dictionary.service.impl;
 
 import java.util.List;
 
+@Deprecated
 public class MockDictAddress {
 
 	protected String line1;

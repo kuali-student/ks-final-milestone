@@ -29,6 +29,7 @@ import org.kuali.student.r1.common.assembly.data.Data.StringKey;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 
 
+@Deprecated
 public class DefaultDataBeanMapper implements DataBeanMapper {
 	public static DataBeanMapper INSTANCE = new DefaultDataBeanMapper();
 	final Logger LOG = Logger.getLogger(DefaultDataBeanMapper.class);	
