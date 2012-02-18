@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.appointment.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
 
 import java.util.Date;
 
@@ -88,22 +87,6 @@ public interface AppointmentWindow extends IdEntity {
      * @impl Choosing this field expands the number_of_appointment_slots so all the persons in a population are assigned.
      */
     public Integer getMaxAppointmentsPerSlot();
-
-
-    /**
-     * Interval between start times of two consecutive appointment slots ("30 mins")
-     *
-     * @name Slot Start Interval
-     */
-    TimeAmount getSlotStartInterval();
-
-    /**
-     * Duration of the appointment slot ("20 hrs") - advertised duration of the slot. Slot duration can be longer than the window end time
-     *
-     * @name Slot Duration
-     * @impl If the slot is open ended, then slotDuration is some appropriate default (for example, reg period end date)
-     */
-    TimeAmount getSlotDuration();
 
 
 }
