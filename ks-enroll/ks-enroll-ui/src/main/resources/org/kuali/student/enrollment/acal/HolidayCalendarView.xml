@@ -49,7 +49,6 @@
                         </list>
                     </property>
                 </bean>
-                <ref bean="KS-HolidayCalendar-View-Holidays"/>
             </list>
         </property>
     </bean>

@@ -1500,7 +1500,35 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     public List<HolidayCalendarInfo> getHolidayCalendarsByStartYear(Integer year, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        //return null;
+        final Date yearBegin, yearEnd;
+
+        Calendar cal = Calendar.getInstance();
+        cal.clear();
+        cal.set(year, 0, 1);
+        yearBegin = cal.getTime(); // XXXX-01-01 00:00:00.000
+        cal.add(Calendar.YEAR, 1);
+        cal.add(Calendar.MILLISECOND, -1);
+        yearEnd = cal.getTime(); // XXXX-12-31 23:59:59.999
+
+        Set<AtpInfo> atpInfos = new TreeSet<AtpInfo>(new Comparator<AtpInfo>() {
+            @Override
+            public int compare(AtpInfo atpInfo1, AtpInfo atpInfo2) {
+                return atpInfo1.getId().compareTo(atpInfo2.getId());
+            }
+        });
+
+        atpInfos.addAll(atpService.getAtpsByStartDateRangeAndType(yearBegin, yearEnd, AtpServiceConstants.ATP_HOLIDAY_CALENDAR_TYPE_KEY, contextInfo));
+
+        List<HolidayCalendarInfo> hcalInfos = new ArrayList<HolidayCalendarInfo>();
+        for (AtpInfo atpInfo : atpInfos) {
+            try {
+                hcalInfos.add(holidayCalendarAssembler.assemble(atpInfo, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+        return hcalInfos;
     }
 
     @Override
@@ -1511,10 +1539,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<HolidayCalendarInfo> searchForHolidayCalendars(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
-            OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<HolidayCalendarInfo> searchForHolidayCalendars(QueryByCriteria criteria, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<HolidayCalendarInfo> holidayCalendars = new ArrayList<HolidayCalendarInfo>();
+        List<AtpInfo> atps = atpService.searchForAtps(criteria, contextInfo);
+
+        for (AtpInfo atp : atps) {
+            try {
+                holidayCalendars.add(holidayCalendarAssembler.assemble(atp, contextInfo));
+            } catch (AssemblyException e) {
+                throw new OperationFailedException("AssemblyException : " + e.getMessage());
+            }
+        }
+
+        return holidayCalendars;
     }
 
     @Override

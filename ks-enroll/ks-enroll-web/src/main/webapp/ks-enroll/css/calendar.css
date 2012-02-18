@@ -24,3 +24,13 @@
 #KS-HolidayCalendar-View-Holidays_group table.uif-tableCollectionLayout tbody td {
     background-color:transparent; padding:0.3em; vertical-align:middle; }
 /*-- End of Holiday Calendar View ---------------------------------------------------------------*/
+
+/*-- Create New Holiday Calendar ----------------------------------------------------------------*/
+#holidayCalendarCopyView_div #viewheader_div { margin-bottom:10px; }
+#KS-HolidayCalendar-CopyView-header_div .uif-header { border-bottom:solid 2px #000; margin-bottom:5px; }
+#KS-HolidayCalendar-CopyView-Page_div table[role="presentation"] th { text-align:left; white-space:nowrap; }
+#KS-HolidayCalendar-CopyView-From_group { background-color:#eee; border:solid 1px #aaa; padding:5px 10px 5px 10px; }
+#KS-HolidayCalendar-CopyView-To_div { margin-top:15px; }
+#KS-HolidayCalendar-CopyView-To_group { border:solid 1px #aaa; padding:5px; }
+#KS-HolidayCalendar-CopyView-footer_div { margin-left:25px; text-align:left; }
+/*-- End of Create New Holiday Calendar ---------------------------------------------------------*/

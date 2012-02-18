@@ -19,6 +19,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +34,9 @@ public class HolidayCalendarForm  extends UifFormBase {
     private HolidayCalendarInfo holidayCalendarInfo;
     private List<HolidayInfo> holidays;
     private String adminOrgName;
+    private String newCalendarName;
+    private Date newCalendarStartDate;
+    private Date newCalendarEndDate;
 
     public HolidayCalendarForm() {
         super();
@@ -43,7 +47,6 @@ public class HolidayCalendarForm  extends UifFormBase {
     public HolidayCalendarInfo getHolidayCalendarInfo() {
         return holidayCalendarInfo;
     }
-
     public void setHolidayCalendarInfo(HolidayCalendarInfo holidayCalendarInfo) {
         this.holidayCalendarInfo = holidayCalendarInfo;
     }
@@ -51,7 +54,6 @@ public class HolidayCalendarForm  extends UifFormBase {
     public List<HolidayInfo> getHolidays() {
         return holidays;
     }
-
     public void setHolidays(List<HolidayInfo> holidays) {
         if (null != holidays) {
             this.holidays = holidays;
@@ -61,8 +63,28 @@ public class HolidayCalendarForm  extends UifFormBase {
     public String getAdminOrgName() {
         return adminOrgName;
     }
-
     public void setAdminOrgName(String adminOrgName) {
         this.adminOrgName = adminOrgName;
+    }
+
+    public String getNewCalendarName() {
+        return newCalendarName;
+    }
+    public void setNewCalendarName(String newCalendarName) {
+        this.newCalendarName = newCalendarName;
+    }
+
+    public Date getNewCalendarStartDate() {
+        return newCalendarStartDate;
+    }
+    public void setNewCalendarStartDate(Date newCalendarStartDate) {
+        this.newCalendarStartDate = newCalendarStartDate;
+    }
+
+    public Date getNewCalendarEndDate() {
+        return newCalendarEndDate;
+    }
+    public void setNewCalendarEndDate(Date newCalendarEndDate) {
+        this.newCalendarEndDate = newCalendarEndDate;
     }
 }

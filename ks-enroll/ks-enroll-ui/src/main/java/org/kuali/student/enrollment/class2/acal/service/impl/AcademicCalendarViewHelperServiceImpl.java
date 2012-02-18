@@ -17,6 +17,7 @@ package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
 import javax.xml.namespace.QName;
@@ -56,8 +57,10 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     private ContextInfo contextInfo;
 
     public AcademicCalendarService getAcalService() {
-           if(acalService == null) {
-             acalService = (AcademicCalendarService) GlobalResourceLoader.getService(new QName(AcademicCalendarServiceConstants.NAMESPACE, AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
+        if(acalService == null) {
+            acalService = (AcademicCalendarService) GlobalResourceLoader
+                                .getService( new QName(AcademicCalendarServiceConstants.NAMESPACE,
+                                             AcademicCalendarServiceConstants.SERVICE_NAME_LOCAL_PART));
         }
         return this.acalService;
     }
@@ -78,6 +81,36 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         HolidayCalendarInfo retrievedHc = getAcalService().getHolidayCalendar(hcId, getContextInfo());
         return retrievedHc;
     }
+
+    public HolidayCalendarInfo getNewestHolidayCalendar() throws Exception {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        List<HolidayCalendarInfo> holidayCalendarInfoList =
+                getAcalService().getHolidayCalendarsByStartYear(currentYear, getContextInfo());
+        if ((null == holidayCalendarInfoList) || holidayCalendarInfoList.isEmpty()) {
+            holidayCalendarInfoList =
+                    getAcalService().getHolidayCalendarsByStartYear((currentYear - 1), getContextInfo());
+        }
+
+        if ((null == holidayCalendarInfoList) || (holidayCalendarInfoList.size() == 0)) {
+            return null;
+        }
+        else {
+            //TODO - if > 1 result, find calendar with latest end date?
+            return holidayCalendarInfoList.get(holidayCalendarInfoList.size() - 1);
+        }
+    }
+    
+    public HolidayCalendarInfo copyHolidayCalendar(HolidayCalendarForm form) throws Exception {
+        HolidayCalendarInfo newHCInfo =
+                getAcalService().copyHolidayCalendar( form.getHolidayCalendarInfo().getId(),
+                                                      form.getNewCalendarStartDate(),
+                                                      form.getNewCalendarEndDate(), getContextInfo());
+        if (null != newHCInfo) {
+            newHCInfo.setName(form.getNewCalendarName());
+        }
+        return newHCInfo;
+    }
+
 
     public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
         HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
