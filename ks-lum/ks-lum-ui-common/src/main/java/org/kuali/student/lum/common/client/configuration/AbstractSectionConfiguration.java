@@ -13,7 +13,13 @@ public abstract class AbstractSectionConfiguration extends AbstractConfiguration
 
     @Override
     public View getView() {
-        buildLayout();
+        return getView(true);
+    }
+
+    public View getView(boolean build) {
+        if (build) {
+            buildLayout();
+        }
         return rootSection;
     }
 

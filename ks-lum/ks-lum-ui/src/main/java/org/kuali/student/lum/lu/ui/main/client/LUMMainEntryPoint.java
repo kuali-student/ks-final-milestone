@@ -16,19 +16,18 @@
 package org.kuali.student.lum.lu.ui.main.client;
 
 
+import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.service.MessagesRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.util.BrowserUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
-import org.kuali.student.core.messages.dto.MessageList;
+import org.kuali.student.common.ui.client.widgets.KSFooter;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
@@ -45,6 +44,7 @@ public class LUMMainEntryPoint implements EntryPoint{
 
     private ApplicationController manager = null;
     private AppLocations locations = new AppLocations();
+    private ApplicationHeader header = GWT.create(ApplicationHeader.class);
     @Override
     public void onModuleLoad() {
         final ApplicationContext context = Application.getApplicationContext();
@@ -61,21 +61,24 @@ public class LUMMainEntryPoint implements EntryPoint{
     }
 
     private void initScreen(){
-        manager = new ApplicationController("KualiStudent", new ApplicationHeader());
+        manager = new ApplicationController("KualiStudent", header);
         WindowTitleUtils.setApplicationTitle(Application.getApplicationContext().getMessage("applicationName"));
         ApplicationPanel.get().add(manager);
+        ApplicationPanel.get().add(new KSFooter());
         HistoryManager.bind(manager, locations);
         BreadcrumbManager.bind(manager);
         HistoryManager.processWindowLocation();
         if(manager.getCurrentView() == null)
             manager.showDefaultView(Controller.NO_OP_CALLBACK);
+        header.setHeaderTitle(Application.getApplicationContext().getMessage("applicationTitleLabel"));
     }
     
     private void loadMessages(final ApplicationContext context) throws SerializationException {
         MessageList commonMessageList =  getMsgSerializedObject("commonMessages" );
         MessageList lumMessageList =  getMsgSerializedObject("luMessages" );
-        context.addMessages(commonMessageList.getMessages());
-        context.addMessages(lumMessageList.getMessages());
+        //TODO KSCM
+        //context.addMessages(commonMessageList.getMessages());
+        //context.addMessages(lumMessageList.getMessages());
     }
 
     @SuppressWarnings("unchecked")
@@ -88,20 +91,12 @@ public class LUMMainEntryPoint implements EntryPoint{
         return ret;
     } 
       
-    public void loadApp(final ApplicationContext context){
-        SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
-        
-        securityRpc.getPrincipalUsername(new KSAsyncCallback<String>(){
-            public void handleFailure(Throwable caught) {
-                context.setUserId("Unknown");
-                initScreen();
-            }
-
-            @Override
-            public void onSuccess(String principalId) {
-                context.setUserId(principalId);
-                initScreen();
-            }            
+    public void loadApp(final ApplicationContext context){        
+        context.initializeContext(new Callback<Boolean>(){
+			@Override
+			public void exec(Boolean result) {
+                initScreen();				
+			}        	
         });
     }
 

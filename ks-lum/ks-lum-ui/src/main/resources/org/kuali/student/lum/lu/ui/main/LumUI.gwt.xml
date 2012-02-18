@@ -19,17 +19,21 @@
 
 
     <inherits name="org.kuali.student.common.ui.CommonUI"/>
+    <inherits name='org.kuali.student.common.search.Search'/>
     <inherits name="org.kuali.student.lum.lu.ui.course.Course"/>
+	<inherits name="org.kuali.student.lum.lu.ui.dependency.Dependency"/>
+	<inherits name="org.kuali.student.lum.lu.ui.browseprogram.BrowseProgram"/>
     <inherits name="org.kuali.student.lum.lu.ui.tools.Tools"/>
     <inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
     <inherits name="org.kuali.student.core.proposal.ui.ProposalUI"/>
-    <inherits name='org.kuali.student.lum.lu.assembly.data.LuData'/>
-    <inherits name='org.kuali.student.core.search.Search'/>
+	<inherits name="org.kuali.student.core.statement.ui.StatementUI"/>
 
+	<!-- TODO: Cleanup this package -->
+    <inherits name='org.kuali.student.lum.lu.assembly.data.LuData'/>
+    
     <inherits name="org.kuali.student.lum.program.Program"/>     
 
     <!-- Theme                  -->
     <inherits name="org.kuali.student.lum.ui.theme.standard.StandardTheme"/>
-    <!--<stylesheet src="LumMain.css"/>-->
 
 </module>

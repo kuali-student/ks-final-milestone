@@ -1,44 +1,30 @@
 package org.kuali.student.lum.course.service.impl;
 
-import static org.apache.commons.collections.CollectionUtils.isEmpty;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.exceptions.*;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.dictionary.service.DictionaryService;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.core.exceptions.AlreadyExistsException;
-import org.kuali.student.core.exceptions.CircularReferenceException;
-import org.kuali.student.core.exceptions.CircularRelationshipException;
-import org.kuali.student.core.exceptions.DataValidationErrorException;
-import org.kuali.student.core.exceptions.DependentObjectsExistException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
-import org.kuali.student.core.exceptions.PermissionDeniedException;
-import org.kuali.student.core.exceptions.UnsupportedActionException;
-import org.kuali.student.core.exceptions.VersionMismatchException;
+import org.kuali.student.common.validator.ValidatorUtils;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.course.dto.ActivityInfo;
 import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.dto.CourseJointInfo;
 import org.kuali.student.lum.course.dto.FormatInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.CourseService;
@@ -46,10 +32,12 @@ import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.lum.course.service.assembler.CourseAssemblerConstants;
 import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.jws.WebParam;
+
 /**
  * CourseServiceImpl implements CourseService Interface by mapping DTOs in CourseInfo to underlying entity DTOs like CluInfo
  * and CluCluRelationInfo.
@@ -71,36 +59,71 @@ import org.springframework.transaction.annotation.Transactional;
  *
  * @author Kuali Student Team
  */
-@Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+// TODO KSCM-228
 public class CourseServiceImpl implements CourseService {
+    @Override
+    public List<CourseInfo> getCoursesByIds(@WebParam(name = "courseIds") List<String> courseIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO KSCM
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<String> searchForCourseIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO KSCM
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public List<CourseInfo> searchForCourses(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO KSCM
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    // TODO KSCM Service Method Comparison Implementation
+    @Override
+    public List<FormatInfo> getCourseFormatsByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+       return this.getCourseFormats(courseId);
+    }
+
+    // TODO KSCM Service Method Comparison Implementation
+    @Override
+    public List<ActivityInfo> getCourseActivitiesByCourseFormat(@WebParam(name = "formatId") String formatId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getCourseActivities(formatId);
+    }
+    
+    // TODO KSCM replaced implementation with ENR
+    @Override
+    public List<LoDisplayInfo> getCourseLearningObjectivesByCourse(@WebParam(name = "courseId") String courseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return this.getCourseLos(courseId);
+    }
+
     final static Logger LOG = Logger.getLogger(CourseServiceImpl.class);
 
     private LuService luService;
     private CourseAssembler courseAssembler;
     private BusinessServiceMethodInvoker courseServiceMethodInvoker;
     private DictionaryService dictionaryServiceDelegate;
-    private Validator validator;
     private ValidatorFactory validatorFactory;
     private StatementService statementService;
 
     @Override
-    public CourseInfo createCourse(CourseInfo courseInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DoesNotExistException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException {
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    public CourseInfo createCourse( CourseInfo courseInfo,  ContextInfo contextInfo) throws DataValidationErrorException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException{
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
+        checkForMissingParameter(courseInfo, "CourseInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo,contextInfo);
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
         try {
-            return processCourseInfo(courseInfo, NodeOperation.CREATE);
-        } catch (AssemblyException e) {
-            LOG.error("Error disassembling course", e);
-            throw new OperationFailedException("Error disassembling course");
+            return processCourseInfo(courseInfo, NodeOperation.CREATE,contextInfo);
+//TODO KSCM        } catch (AssemblyException e) {
+//TODO KSCM             LOG.error("Error disassembling course", e);
+//TODO KSCM             throw new OperationFailedException("Error disassembling course");
         } catch (Exception e){
         	LOG.error("Error disassembling course", e);
         	throw new OperationFailedException("Error disassembling course");
@@ -108,35 +131,44 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
-    public CourseInfo updateCourse(CourseInfo courseInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public CourseInfo updateCourse(String courseId,  CourseInfo courseInfo,  ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException,
+            PermissionDeniedException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException {
 
-        if (courseInfo == null) {
-            throw new MissingParameterException("CourseInfo can not be null");
-        }
-
+        checkForMissingParameter(courseInfo, "CourseInfo");
+        
         // Validate
-        List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo);
-        if (null != validationResults && validationResults.size() > 0) {
+        List<ValidationResultInfo> validationResults = validateCourse("OBJECT", courseInfo,contextInfo);
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
         try {
 
-            return processCourseInfo(courseInfo, NodeOperation.UPDATE);
-
-        } catch (AssemblyException e) {
-            LOG.error("Error disassembling course", e);
-            throw new OperationFailedException("Error disassembling course");
+            return processCourseInfo(courseInfo, NodeOperation.UPDATE,contextInfo);
+            
         }
+          catch (VersionMismatchException vme){
+             // Re-instantiate this exception with more descriptive error.
+            throw new VersionMismatchException("Course to be updated is not the current version.");
+
+        }
+         catch (AssemblyException e) {
+             LOG.error("Error disassembling course", e);
+             throw new OperationFailedException("Error disassembling course");
+         }
     }
 
     @Override
-    public StatusInfo deleteCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public StatusInfo deleteCourse(String courseId,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, AlreadyExistsException, UnsupportedActionException, DependentObjectsExistException, CircularRelationshipException, CircularReferenceException {
 
         try {
-            CourseInfo course = getCourse(courseId);
+            CourseInfo course = getCourse(courseId,contextInfo);
 
-            processCourseInfo(course, NodeOperation.DELETE);
+            processCourseInfo(course, NodeOperation.DELETE,contextInfo);
 
             StatusInfo status = new StatusInfo();
             status.setSuccess(true);
@@ -148,14 +180,15 @@ public class CourseServiceImpl implements CourseService {
         }
     }
 
-    @Override
-    public CourseInfo getCourse(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    
+    @Transactional(readOnly=true)
+    public CourseInfo getCourse(String courseId,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        CluInfo clu = luService.getClu(courseId);
+        CluInfo clu = luService.getClu(courseId,contextInfo);
 
         CourseInfo course;
         try {
-            course = courseAssembler.assemble(clu, null, false);
+            course = courseAssembler.assemble(clu, null, false,contextInfo);
         } catch (AssemblyException e) {
             LOG.error("Error assembling course", e);
             throw new OperationFailedException("Error assembling course");
@@ -165,90 +198,96 @@ public class CourseServiceImpl implements CourseService {
 
     }
 
-    @Override
+
+    @Transactional(readOnly=true)
     public List<ActivityInfo> getCourseActivities(String formatId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseActivities");
     }
 
-    @Override
+    
+    @Transactional(readOnly=true)
     public List<FormatInfo> getCourseFormats(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseFormats");
     }
 
-    @Override
+    
+    @Transactional(readOnly=true)
     public List<LoDisplayInfo> getCourseLos(String courseId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new UnsupportedOperationException("GetCourseLos");
     }
 
     @Override
-    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    @Transactional(readOnly=true)
+    public List<StatementTreeViewInfo> getCourseStatements(String courseId, String nlUsageTypeKey, String language,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
 
-    	CluInfo clu = luService.getClu(courseId);
+    	CluInfo clu = luService.getClu(courseId,contextInfo);
 		if (!CourseAssemblerConstants.COURSE_TYPE.equals(clu.getType())) {
 			throw new DoesNotExistException("Specified CLU is not a Course");
 		}
-		List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, clu.getId());
+		List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, clu.getId(),contextInfo);
 		if (relations == null) {
 			return new ArrayList<StatementTreeViewInfo>(0);
 		}
 
 		List<StatementTreeViewInfo> tree = new ArrayList<StatementTreeViewInfo>(relations.size());
 		for (RefStatementRelationInfo relation : relations) {
-			tree.add(statementService.getStatementTreeView(relation.getStatementId()));
+			tree.add(statementService.getStatementTreeView(relation.getStatementId(),contextInfo));
 		}
     	return tree;
     }
 
-    @Override
-    public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    
+    @Transactional(readOnly=true)
+    public List<ValidationResultInfo> validateCourse(String validationType, CourseInfo courseInfo,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CourseInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(courseInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(courseInfo, objStructure,contextInfo);
         return validationResults;
     }
 
-    @Override
-    public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public StatementTreeViewInfo createCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo,contextInfo);
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
-        if (findStatementReference(courseId, statementTreeViewInfo) != null) {
+        if (findStatementReference(courseId, statementTreeViewInfo,contextInfo) != null) {
         	throw new InvalidParameterException("Statement is already referenced by this course");
         }
 
 		try {
-			StatementTreeViewInfo tree = statementService.createStatementTreeView(statementTreeViewInfo);
+			StatementTreeViewInfo tree = statementService.createStatementTreeView(statementTreeViewInfo,contextInfo);
 			RefStatementRelationInfo relation = new RefStatementRelationInfo();
 			relation.setRefObjectId(courseId);
 			relation.setRefObjectTypeKey(CourseAssemblerConstants.COURSE_TYPE);
 			relation.setStatementId(tree.getId());
 	        relation.setType(CourseAssemblerConstants.COURSE_REFERENCE_TYPE);
 	        relation.setState(CourseAssemblerConstants.ACTIVE);
-			statementService.createRefStatementRelation(relation);
+			statementService.createRefStatementRelation(relation.getRefObjectId(),relation.getStatementId(),relation.getRefObjectTypeKey(),relation, contextInfo);
 		} catch (Exception e) {
 			throw new OperationFailedException("Unable to create clu/tree relation", e);
 		}
     	return statementTreeViewInfo;
     }
 
-	@Override
-    public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+	public StatusInfo deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
-    	RefStatementRelationInfo relation = findStatementReference(courseId, statementTreeViewInfo);
+    	RefStatementRelationInfo relation = findStatementReference(courseId, statementTreeViewInfo,contextInfo);
     	if (relation != null) {
-    		statementService.deleteRefStatementRelation(relation.getId());
-    		statementService.deleteStatementTreeView(statementTreeViewInfo.getId());
+    		statementService.deleteRefStatementRelation(relation.getId(),contextInfo);
+    		statementService.deleteStatementTreeView(statementTreeViewInfo.getId(),contextInfo);
     		StatusInfo result = new StatusInfo();
     		return result;
     	}
@@ -257,47 +296,58 @@ public class CourseServiceImpl implements CourseService {
 	}
 
     @Override
-    public StatementTreeViewInfo updateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, CircularReferenceException, VersionMismatchException {
+    @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
+    public StatementTreeViewInfo updateCourseStatement( String courseId,
+                                                        String statementId,
+                                                        StatementTreeViewInfo statementTreeViewInfo,
+                                                        ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException, VersionMismatchException
+	 {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
         // Validate
-        List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo);
-        if (!isEmpty(validationResults)) {
+        List<ValidationResultInfo> validationResults = validateCourseStatement(courseId, statementTreeViewInfo,contextInfo);
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
-        if (findStatementReference(courseId, statementTreeViewInfo) == null) {
+        if (findStatementReference(courseId, statementTreeViewInfo,contextInfo) == null) {
         	throw new InvalidParameterException("Statement is not part of this course");
         }
 
-        return statementService.updateStatementTreeView(statementTreeViewInfo.getId(), statementTreeViewInfo);
+        try {
+            return statementService.updateStatementTreeView(statementTreeViewInfo.getId(), statementTreeViewInfo,contextInfo);
+        } catch (ReadOnlyException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+        return null;
     }
 
-    @Override
-    public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    
+    @Transactional(readOnly=true)
+    public List<ValidationResultInfo> validateCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo,ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
     	checkForMissingParameter(courseId, "courseId");
     	checkForMissingParameter(statementTreeViewInfo, "statementTreeViewInfo");
 
     	try {
-			CluInfo clu = luService.getClu(courseId);
+			CluInfo clu = luService.getClu(courseId,contextInfo);
 		} catch (DoesNotExistException e) {
 			throw new InvalidParameterException("course does not exist");
 		}
 
     	ObjectStructureDefinition objStructure = this.getObjectStructure(StatementTreeViewInfo.class.getName());
-        validatorFactory.setObjectStructureDefinition(objStructure);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementTreeViewInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(statementTreeViewInfo, objStructure,contextInfo);
         return validationResults;
-    }
+    }   
 
-    @Override
+    
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
     }
 
-    @Override
+    
     public List<String> getObjectTypes() {
         return dictionaryServiceDelegate.getObjectTypes();
     }
@@ -326,29 +376,15 @@ public class CourseServiceImpl implements CourseService {
         this.dictionaryServiceDelegate = dictionaryServiceDelegate;
     }
 
-    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation) throws AssemblyException, OperationFailedException, VersionMismatchException, PermissionDeniedException, MissingParameterException, InvalidParameterException, DoesNotExistException, DataValidationErrorException, AlreadyExistsException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException {
+    private CourseInfo processCourseInfo(CourseInfo courseInfo, NodeOperation operation,ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, VersionMismatchException, OperationFailedException,
+            PermissionDeniedException, AssemblyException, UnsupportedActionException, DependentObjectsExistException, AlreadyExistsException, CircularRelationshipException, CircularReferenceException {
 
-        BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation);
+        BaseDTOAssemblyNode<CourseInfo, CluInfo> results = courseAssembler.disassemble(courseInfo, operation,contextInfo);
 
         // Use the results to make the appropriate service calls here
 		courseServiceMethodInvoker.invokeServiceCalls(results);
 
         return results.getBusinessDTORef();
-    }
-
-    /**
-     * @param validator
-     *            the validator to set
-     */
-    public void setValidator(Validator validator) {
-        this.validator = validator;
-    }
-
-    /**
-     * @return the validator
-     */
-    public Validator getValidator() {
-        return validator;
     }
 
     public ValidatorFactory getValidatorFactory() {
@@ -375,43 +411,44 @@ public class CourseServiceImpl implements CourseService {
 		this.statementService = statementService;
 	}
 
-	@Override
+	
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CourseInfo createNewCourseVersion(String versionIndCourseId,
-			String versionComment) throws DataValidationErrorException,
+			String versionComment,ContextInfo contextInfo) throws DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException {
 
 		//step one, get the original course
-		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndCourseId);
-		CourseInfo originalCourse = getCourse(currentVersion.getId());
+		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndCourseId,contextInfo);
+		CourseInfo originalCourse = getCourse((String)currentVersion.getId(),contextInfo);
 
 		//Version the Clu
-		CluInfo newVersionClu = luService.createNewCluVersion(versionIndCourseId, versionComment);
+		CluInfo newVersionClu = luService.createNewCluVersion(versionIndCourseId, versionComment,contextInfo);
 
 		try {
 	        BaseDTOAssemblyNode<CourseInfo, CluInfo> results;
 
-	        //Integrate changes into the original course. (should this just be just the id?)
-			courseAssembler.assemble(newVersionClu, originalCourse, true);
-
 			//Clear Ids from the original course
-			resetIds(originalCourse);
+			CourseServiceUtils.resetIds(originalCourse);
+	        
+	        //Integrate changes into the original course. (should this just be just the id?)
+			courseAssembler.assemble(newVersionClu, originalCourse, true,contextInfo);
 
+			//Clear dates since they need to be set anyway
+			originalCourse.setStartTerm(null);
+			originalCourse.setEndTerm(null);
+			
 			//Disassemble the new course
-			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE);
+			results = courseAssembler.disassemble(originalCourse, NodeOperation.UPDATE,contextInfo);
 
 			// Use the results to make the appropriate service calls here
 			courseServiceMethodInvoker.invokeServiceCalls(results);
 
-			//copy statements
-			List<StatementTreeViewInfo> statementTreeViews = getCourseStatements(currentVersion.getId(),null,null);
-			
-			clearStatementTreeViewIds(statementTreeViews);
-			
-			for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-				createCourseStatement(results.getBusinessDTORef().getId(), statementTreeView);
-			}
+			// copy statements
+			CourseServiceUtils.copyStatements((String)currentVersion.getId(), results
+					.getBusinessDTORef().getId(), results.getBusinessDTORef().getState(), statementService, luService,
+					this,contextInfo);
 			
 			return results.getBusinessDTORef();
 		} catch (AlreadyExistsException e) {
@@ -432,137 +469,102 @@ public class CourseServiceImpl implements CourseService {
 
 	}
 
-	private void clearStatementTreeViewIds(
-			List<StatementTreeViewInfo> statementTreeViews) throws OperationFailedException {
-		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			clearStatementTreeViewIdsRecursively(statementTreeView);
-		}
-	}
 
-	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView) throws OperationFailedException{
-		statementTreeView.setId(null);
-		for(ReqComponentInfo reqComp:statementTreeView.getReqComponents()){
-			reqComp.setId(null);
-			for(ReqCompFieldInfo field:reqComp.getReqCompFields()){
-				field.setId(null);
-				//copy any clusets that are adhoc'd and set the field value to the new cluset
-				if(CourseAssemblerConstants.COURSE_REQ_COMP_FIELD_TYPE_CLUSET_ID.equals(field.getType())){
-					try {
-						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
-						cluSet.setId(null);
-						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
-						field.setValue(cluSet.getId());
-					} catch (Exception e) {
-						throw new OperationFailedException("Error copying clusets.", e);
-					}
-				}
-				
-			}
-		}
-		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
-			clearStatementTreeViewIdsRecursively(child);
-		}
-	}
 
-	private void resetIds(CourseInfo course) {
-		//Clear/Reset Joint info ids
-		for(CourseJointInfo joint:course.getJoints()){
-			joint.setRelationId(null);
-		}
-		//Clear Los
-		for(LoDisplayInfo lo:course.getCourseSpecificLOs()){
-			resetLoRecursively(lo);
-		}
-		//Clear format/activity ids
-		for(FormatInfo format:course.getFormats()){
-			format.setId(null);
-			for(ActivityInfo activity:format.getActivities()){
-				activity.setId(null);
-			}
-		}
-	}
 
-	private void resetLoRecursively(LoDisplayInfo lo){
-		lo.getLoInfo().setId(null);
-		for(LoDisplayInfo nestedLo:lo.getLoDisplayInfoList()){
-			resetLoRecursively(nestedLo);
-		}
-	}
-
-	@Override
+	
+	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public StatusInfo setCurrentCourseVersion(String courseVersionId,
-			Date currentVersionStart) throws DoesNotExistException,
+			Date currentVersionStart,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			IllegalVersionSequencingException, OperationFailedException,
 			PermissionDeniedException {
-		return luService.setCurrentCluVersion(courseVersionId, currentVersionStart);
+		return luService.setCurrentCluVersion(courseVersionId, currentVersionStart,contextInfo);
 	}
 
-	@Override
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
-			String refObjectId) throws DoesNotExistException,
+			String refObjectId,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
-			return luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+			return luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI,
-			String refObjectId, Date date) throws DoesNotExistException,
+			String refObjectId, Date date,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
-			return luService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date);
+			return luService.getCurrentVersionOnDate(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, date,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getFirstVersion(String refObjectTypeURI,
-			String refObjectId) throws DoesNotExistException,
+			String refObjectId,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
-			return luService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+			return luService.getFirstVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 
 	}
 
-	@Override
+	
+    @Transactional(readOnly=true)
+	public VersionDisplayInfo getLatestVersion(String refObjectTypeURI,
+			String refObjectId,ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
+			return luService.getLatestVersion(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
+		}
+		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
+
+	}
+
+	
+    @Transactional(readOnly=true)
 	public VersionDisplayInfo getVersionBySequenceNumber(
-			String refObjectTypeURI, String refObjectId, Long sequence)
+			String refObjectTypeURI, String refObjectId, Long sequence,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
-			return luService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence);
+			return luService.getVersionBySequenceNumber(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, sequence,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersions(String refObjectTypeURI,
-			String refObjectId) throws DoesNotExistException,
+			String refObjectId,ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
-			return luService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId);
+			return luService.getVersions(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
 
-	@Override
+	
+    @Transactional(readOnly=true)
 	public List<VersionDisplayInfo> getVersionsInDateRange(
-			String refObjectTypeURI, String refObjectId, Date from, Date to)
+			String refObjectTypeURI, String refObjectId, Date from, Date to,ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
 		if(CourseServiceConstants.COURSE_NAMESPACE_URI.equals(refObjectTypeURI)){
-			return luService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to);
+			return luService.getVersionsInDateRange(LuServiceConstants.CLU_NAMESPACE_URI, refObjectId, from, to,contextInfo);
 		}
 		throw new InvalidParameterException("Object type: " + refObjectTypeURI + " is not known to this implementation");
 	}
@@ -571,7 +573,7 @@ public class CourseServiceImpl implements CourseService {
 	 * Check for missing parameter and throw localized exception if missing
 	 *
 	 * @param param
-	 * @param parameter name
+	 * @param paramName
 	 * @throws MissingParameterException
 	 */
 	private void checkForMissingParameter(Object param, String paramName)
@@ -592,10 +594,10 @@ public class CourseServiceImpl implements CourseService {
 	 * @throws DoesNotExistException
 	 */
 	private RefStatementRelationInfo findStatementReference(String courseId,
-			StatementTreeViewInfo statementTreeViewInfo)
+			StatementTreeViewInfo statementTreeViewInfo,ContextInfo contextInfo)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, DoesNotExistException {
-		List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, courseId);
+		List<RefStatementRelationInfo> course = statementService.getRefStatementRelationsByRef(CourseAssemblerConstants.COURSE_TYPE, courseId,contextInfo);
 		if (course != null) {
 			for (RefStatementRelationInfo refRelation : course) {
 				if (refRelation.getStatementId().equals(statementTreeViewInfo.getId())) {

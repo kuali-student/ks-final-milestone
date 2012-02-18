@@ -1,13 +1,14 @@
 package org.kuali.student.lum.program.client.events;
 
+import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
 /**
  * @author Igor
  */
-public class ChangeViewEvent extends GwtEvent<ChangeViewEventHandler> {
+public class ChangeViewEvent extends GwtEvent<ChangeViewEvent.Handler> {
 
-    public static Type<ChangeViewEventHandler> TYPE = new Type<ChangeViewEventHandler>();
+    public static Type<Handler> TYPE = new Type<Handler>();
 
     private Enum<?> viewToken;
 
@@ -20,12 +21,16 @@ public class ChangeViewEvent extends GwtEvent<ChangeViewEventHandler> {
     }
 
     @Override
-    public Type<ChangeViewEventHandler> getAssociatedType() {
+    public Type<Handler> getAssociatedType() {
         return TYPE;
     }
 
     @Override
-    protected void dispatch(ChangeViewEventHandler handler) {
+    protected void dispatch(Handler handler) {
         handler.onEvent(this);
+    }
+
+    public static interface Handler extends EventHandler {
+        void onEvent(ChangeViewEvent event);
     }
 }

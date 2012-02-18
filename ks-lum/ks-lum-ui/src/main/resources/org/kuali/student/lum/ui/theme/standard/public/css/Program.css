@@ -21,10 +21,16 @@
 /* Program Summary View */
 .KS-Program-Requirements-Preview-Rule-Type-First-Header {
     padding-top: 20px;
+    font-weight: bold;
+    width: 650px;
+    border-bottom: 1px solid #d7d7d7;
 }
 
 .KS-Program-Requirements-Preview-Rule-Type-Header {
     padding-top: 40px;
+    font-weight: bold;
+    width: 650px;
+    border-bottom: 1px solid #d7d7d7;
 }
 
 .KS-Program-Requirements-Preview-Rule-Type-Credits {
@@ -65,6 +71,20 @@
     display: inline
 }
 
+.KS-Program-History {
+	border-bottom: 1px solid #d7d7d7;
+	color:#707270;
+	font-size:1em;
+	letter-spacing:0.02em;
+	line-height:1.4em;
+	padding-left:5px;
+	white-space:nowrap;
+}
+
+.KS-Program-History-Sidebar {
+    width: 100%;
+}
+
 .programController {
 }
 
@@ -76,6 +96,12 @@
       background-color: #f1f1f1;
       padding: 0px 15px 15px 15px;
       border: 1px solid #999;
+     
+}
+
+.readOnlyNeedsToBeOnTheRight
+{
+	margin-left: 400px;
 }
 
 .programController .programInformationView {
@@ -88,19 +114,21 @@ padding-top:0;
 padding-bottom:0;
 
 }
-.programInformationView h4 { 
+.programInformationView h4 {
 border-bottom:1px dotted #808080;
 font-size:1.1em;
 letter-spacing:0.03em;
 margin-right:10px;
 text-transform:uppercase;
-} 
-
+}
+.programInformationView label {
+    white-space: nowrap;
+}
 
 .programController .programActionPanel {
     padding-top: 10px;
     padding-bottom: 10px;
-    width: 240px;
+    width: 500px;
 }
 
 .programController .sideBar {
@@ -131,9 +159,10 @@ text-transform:uppercase;
 }
 
 .editableHeader .editButton {
-    padding-left: 2px;
+    padding-left: 4px;
     padding-top: 2px;
     position:relative;
+    line-height:18px;
 }
 
 .gwt-PopupPanel {

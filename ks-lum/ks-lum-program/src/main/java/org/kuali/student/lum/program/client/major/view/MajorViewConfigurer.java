@@ -1,10 +1,7 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
-
-import com.google.gwt.core.client.GWT;
 
 /**
  * This class represents configuration for  {@link MajorViewController}.
@@ -14,14 +11,14 @@ import com.google.gwt.core.client.GWT;
 public class MajorViewConfigurer extends AbstractProgramConfigurer {
 
     public MajorViewConfigurer() {
-        programSectionConfigManager = new ConfigurationManager(this);
-        programSectionConfigManager.registerConfiguration(MajorInformationViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(ManagingBodiesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(SpecializationsViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(CatalogInformationViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration());
-        programSectionConfigManager.registerConfiguration(LearningObjectivesViewConfiguration.create());
-        programSectionConfigManager.registerConfiguration(new SupportingDocsViewConfiguration());
-        programSectionConfigManager.registerConfiguration(new ViewAllSectionConfiguration());
+        programSectionConfigManager = new ConfigurationManager();
+        programSectionConfigManager.registerConfiguration(MajorKeyProgramInfoViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(ManagingBodiesViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(SpecializationsViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(CatalogInformationViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(new ProgramRequirementsViewConfiguration(this, false));
+        programSectionConfigManager.registerConfiguration(LearningObjectivesViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(SupportingDocsViewConfiguration.create(this));
+        programSectionConfigManager.registerConfiguration(new ViewAllSectionConfiguration(this));
     }
 }

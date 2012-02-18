@@ -1,9 +1,10 @@
 package org.kuali.student.lum.common.client.widgets;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Metadata;
+import org.kuali.student.common.util.ContextUtils;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -16,7 +17,7 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getCluSetInformation(final String cluSetId, final Callback<CluSetInformation> retrieveDoneCallback) {
-        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, new AsyncCallback<CluSetInformation>() {
+        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, ContextUtils.getContextInfo(), new AsyncCallback<CluSetInformation>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failed to retrieve CluSet information for " + cluSetId);

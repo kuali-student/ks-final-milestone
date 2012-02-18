@@ -31,7 +31,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
+import org.kuali.student.core.bo.KsTypeStateBusinessObjectBase;
 
 @Entity
 @Table(name = "KSAP_ATP")
@@ -40,7 +40,7 @@ import org.kuali.student.core.bo.TypeStateBusinessObjectBase;
 	@NamedQuery(name = "Atp.findAtpsByDate", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate <= :searchDate AND atp.expirationDate > :searchDate"),
 	@NamedQuery(name = "Atp.findAtpsByDates", query = "SELECT atp FROM Atp atp WHERE atp.effectiveDate >= :startDate AND atp.expirationDate <= :endDate")
 })
-public class Atp extends TypeStateBusinessObjectBase {
+public class Atp extends KsTypeStateBusinessObjectBase {
 	private static final long serialVersionUID = -4021959685737332345L;
 	
 	@ManyToOne

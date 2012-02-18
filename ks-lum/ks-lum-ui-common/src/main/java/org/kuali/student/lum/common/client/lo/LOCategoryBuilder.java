@@ -21,16 +21,22 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.DataValue;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
+import org.kuali.student.common.ui.client.util.UtilConstants;
 import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSItemLabel;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.KSThinTitleBar;
+import org.kuali.student.common.ui.client.widgets.KSTextBox;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
@@ -42,13 +48,17 @@ import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayo
 import org.kuali.student.common.ui.client.widgets.focus.FocusGroup;
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SearchSuggestOracle;
 import org.kuali.student.common.ui.client.widgets.suggestbox.SuggestPicker;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.lum.common.client.lo.rpc.LoRpcService;
-import org.kuali.student.lum.common.client.lo.rpc.LoRpcServiceAsync;
+import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
+import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
+import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 
@@ -59,14 +69,14 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.event.logical.shared.CloseEvent;
 import com.google.gwt.event.logical.shared.CloseHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.event.shared.GwtEvent;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HasValue;
@@ -74,34 +84,34 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 /**
- * 
- * This class allows a user to select and remove LO categories within the context of 
+ * This class allows a user to select and remove LO categories within the context of
  * LO creation. New categories can be added 'on the fly' and are persisted in the database
- * independently of LO creation 
- *  
- * @author Kuali Rice Team (kuali-rice@googlegroups.com)
+ * independently of LO creation
  *
+ * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
-public class LOCategoryBuilder extends Composite implements HasValue<List<LoCategoryInfo>> {
+//TODO KSCM-244
+public class LOCategoryBuilder extends Composite implements HasValue<List<LoCategoryInfo>> {	//KSLAB-2091:  One instance for each LO entry box
 
     private String type;
     private String state;
     private String repoKey;
     private String messageGroup;
 
-    private LoRpcServiceAsync loRpcServiceAsync ;
-    private LOCategoryPicker picker ;
+    private LoCategoryRpcServiceAsync loCatRpcServiceAsync;
+    private LOCategoryPicker picker;
     private AbbrButton help = new AbbrButton(AbbrButtonType.HELP);
 
     LOCategoryListNew categoryList;
-    Map<String, LoCategoryTypeInfo> categoryTypeMap ;
+    Map<String, LoCategoryTypeInfo> categoryTypeMap;
 
     VerticalPanel root = new VerticalPanel();
 
-    private KSButton addButton = new KSButton("Add");
+    private KSButton addButton = new KSButton("Add", ButtonStyle.SECONDARY);
 
     private KSLightBox createCategoryWindow;
-    Anchor browseCategoryLink = new Anchor("Browse for categories");
+    Anchor browseCategoryLink;
+    private final BlockingTask saving = new BlockingTask("Saving");
 
     public LOCategoryBuilder(String messageGroup, String type, String state, String loRepoKey) {
         super();
@@ -111,7 +121,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         this.repoKey = loRepoKey;
         this.messageGroup = messageGroup;
 
-        loRpcServiceAsync = GWT.create(LoRpcService.class);
+        loCatRpcServiceAsync = GWT.create(LoCategoryRpcService.class);
         picker = new LOCategoryPicker();
         categoryList = new LOCategoryListNew();
 
@@ -125,75 +135,76 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 addEnteredCategory();
             }
         });
+        browseCategoryLink = new Anchor(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_LABEL_KEY));
         browseCategoryLink.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                final CategoryManagement categoryManagement = new CategoryManagement(true,SelectionPolicy.MULTI_ROW);
+               // Filter out any categories already in the picker
+                List<LoCategoryInfo> categoriesInPicker = categoryList.getValue();
+                /*Category Management has a CategoryManagementTable -> has a DefaultTableModel -> has rowList 
+                 * 															   							of category rows that go in mainPanel FlowPanel
+                 * 																												 in 'Select Categories' pop KSLightBox*/
+                final CategoryManagement categoryManagement = new CategoryManagement(true, true, categoriesInPicker);	
                 categoryManagement.setDeleteButtonEnabled(false);
                 categoryManagement.setInsertButtonEnabled(false);
                 categoryManagement.setUpdateButtonEnabled(false);
-                
+
                 final KSLightBox pop = new KSLightBox();
+                pop.setSize(750, 600);
                 KSButton addButton = new KSButton("Add");
-                addButton.addStyleName("KSLOLightBoxButton");
-                KSButton cancelButton = new KSButton("Cancel");
-                cancelButton.addStyleName("KSLOLightBoxButtonSecondary");
-                HorizontalPanel buttonPanel = new HorizontalPanel();
-                buttonPanel.addStyleName("KSLOLightBoxButtonPanel");
-                buttonPanel.add(addButton);
-                buttonPanel.add(cancelButton);
-                
-                
-                VerticalPanel mainPanel = new VerticalPanel();
-                mainPanel.addStyleName("KSLOLightBoxMainPanel");
+                KSButton cancelButton = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
+
+                pop.addButton(addButton);
+                pop.addButton(cancelButton);
+
+                pop.setNonCaptionHeader(SectionTitle.generateH2Title(getLabelText(LUUIConstants.LO_CATEGORY_BROWSE_POPUP_LABEL_KEY)));
+                FlowPanel mainPanel = new FlowPanel();
                 mainPanel.add(categoryManagement);
-                mainPanel.add(buttonPanel);
-                
-                addButton.addClickHandler(new ClickHandler(){
+
+                addButton.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
-                        List<LoCategoryInfo> list = categoryManagement.getSelectedCategoryList();        
-                        for(LoCategoryInfo info: list){
-                            addCategory(info);
+                        List<LoCategoryInfo> list = categoryManagement.getSelectedCategoryList();
+                        for (LoCategoryInfo info : list) {
+                            addCategory(info);	//I think this adds categories selected from choices in 'Select Categories' pop KSLightBox to an LO
                         }
                         pop.hide();
                     }
                 });
-                
-                cancelButton.addClickHandler(new ClickHandler(){
+
+                cancelButton.addClickHandler(new ClickHandler() {
                     @Override
                     public void onClick(ClickEvent event) {
                         pop.hide();
                     }
                 });
-                
-                
+
+
                 pop.setWidget(mainPanel);
                 pop.show();
-                
-                
-                
+
+
             }
-        }); 
+        });
 
         VerticalPanel main = new VerticalPanel();
         HorizontalPanel suggestPanel = new HorizontalPanel();
         suggestPanel.add(picker);
         suggestPanel.add(addButton);
-        
+
         VerticalPanel suggestAndBrowsePanel = new VerticalPanel();
         suggestAndBrowsePanel.add(suggestPanel);
         suggestAndBrowsePanel.add(browseCategoryLink);
 
-        
+
         selectedPanel.add(categoryList);
-        
+
         String fieldHTMLId = HTMLPanel.createUniqueId();
-        String title = getLabelText(LUConstants.LO_CATEGORY_KEY);
-        String helpText = getLabelText(LUConstants.LO_CATEGORY_KEY + FieldLayoutComponent.HELP_MESSAGE_KEY);
+        String title = getLabelText(LUUIConstants.LO_CATEGORY_KEY);
+        String helpText = getLabelText(LUUIConstants.LO_CATEGORY_KEY + FieldLayoutComponent.HELP_MESSAGE_KEY);
         LabelPanel fieldTitle = new LabelPanel(title, fieldHTMLId);
-        
-        if(helpText != null){
+
+        if (helpText != null) {
             setHelp(helpText);
         } else {
             help.setVisible(false);
@@ -210,8 +221,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
     }
 
-    public void setHelp(final String html){
-        if(html != null && !html.trim().equals("")){
+    public void setHelp(final String html) {
+        if (html != null && !html.trim().equals("")) {
             help.setVisible(true);
             help.setHoverHTML(html);
             /*help.addClickHandler(new ClickHandler(){
@@ -223,22 +234,21 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
                 }
             });*/
-        }
-        else{
+        } else {
             help.setVisible(false);
         }
     }
-    
+
     private void addEnteredCategory() {
 
         if (categoryList == null)
             categoryList = new LOCategoryListNew();
 
-        if (picker.getSelectedId().trim().equals("")) {
+        String selectedId = picker.getSelectedId();
+        if (selectedId.trim().equals("") || selectedId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
             showNewCategoryWindow();
-        }
-        else {
-            loRpcServiceAsync.getLoCategory(picker.getSelectedId(), new KSAsyncCallback<LoCategoryInfo>() {
+        } else {
+            loCatRpcServiceAsync.getData(picker.getSelectedId(), new KSAsyncCallback<Data>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -246,8 +256,10 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 }
 
                 @Override
-                public void onSuccess(LoCategoryInfo result) {
-                    addCategory(result);   
+                public void onSuccess(Data result) {
+                    final LoCategoryInfo newCategory = CategoryDataUtil.toLoCategoryInfo(result);
+                    addCategory(newCategory);
+
                 }
             });
         }
@@ -259,7 +271,21 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         final KSDropDown typesDropDown = new KSDropDown();
         createCategoryWindow = new KSLightBox();
 
-        loRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
+        FlexTable layoutTable = new FlexTable();
+        final KSTextBox nameTextBox = new KSTextBox();
+        nameTextBox.setText(picker.getText());//+ enteredWord);
+
+        layoutTable.setWidget(0, 0, new KSLabel("Category"));
+        layoutTable.setWidget(0, 1, new KSLabel("Type"));
+        layoutTable.setWidget(1, 0, nameTextBox);
+        layoutTable.setWidget(1, 1, typesDropDown);
+
+        SectionTitle sectionTitle = SectionTitle.generateH2Title("Create New Category");
+        //KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category");
+        createCategoryWindow.setNonCaptionHeader(sectionTitle);
+        main.add(layoutTable);
+
+        loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
 
             @Override
             public void handleFailure(Throwable caught) {
@@ -271,42 +297,49 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 final LOCategoryTypeInfoList list = new LOCategoryTypeInfoList(result);
                 typesDropDown.setListItems(list);
                 if (categoryTypeMap == null) {
-                    loadCategoryTypes(result);                    
+                    loadCategoryTypes(result);
                 }
-                KSThinTitleBar titleBar = new KSThinTitleBar("Create New Category " + picker.getText());//+ enteredWord);
-                main.add(titleBar);
-                main.add(new KSLabel("Select a Type"));
-                main.add(typesDropDown);
-                CreateLoCancelGroup buttonPanel = new CreateLoCancelGroup(new Callback<LoCancelEnum>(){
+
+                CreateLoCancelGroup buttonPanel = new CreateLoCancelGroup(new Callback<LoCancelEnum>() {
 
                     @Override
                     public void exec(LoCancelEnum result) {
-                        switch(result){
+                        switch (result) {
                             case CREATE:
-                                final LoCategoryInfo loCategoryInfo = new LoCategoryInfo();
-                                loCategoryInfo.setName(picker.getText());
-                                loCategoryInfo.setState("active");
-                                loCategoryInfo.setLoRepository(repoKey);
-                                loCategoryInfo.setType(typesDropDown.getSelectedItem());
 
-                                loRpcServiceAsync.createLoCategory(repoKey, typesDropDown.getSelectedItem(),
-                                        loCategoryInfo, new AsyncCallback<LoCategoryInfo>() {
+                                LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper(new Data());
+                                catHelper.setName(nameTextBox.getText());
+                                catHelper.setState("active");
+                                catHelper.setLoRepository(repoKey);
+                                catHelper.setType(typesDropDown.getSelectedItem());
 
+                                loCatRpcServiceAsync.saveData(catHelper.getData(), new KSAsyncCallback<DataSaveResult>() {
                                     @Override
-                                    public void onFailure(Throwable caught) {
-                                        Window.alert("createCategory failed " + caught.getMessage());                                                
+                                    public void handleFailure(Throwable caught) {
+                                        Window.alert("Create LO Category failed: " + caught.getMessage());
+                                    }
+                                    
+                                    @Override
+                                    public void handleVersionMismatch(Throwable caught) {
+                                        super.handleVersionMismatch(caught);
+                                        KSBlockingProgressIndicator.removeTask(saving);
                                     }
 
                                     @Override
-                                    public void onSuccess(LoCategoryInfo result) {
-                                        addCategory(result);       
-                                        createCategoryWindow.hide();
+                                    public void onSuccess(DataSaveResult result) {
+                                        KSBlockingProgressIndicator.removeTask(saving);
+
+                                        if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
+                                            Window.alert("Create LO Category failed: " + result.getValidationResults().get(0).getMessage());
+                                        } else {
+
+                                            final LoCategoryInfo newCategory = CategoryDataUtil.toLoCategoryInfo(result.getValue());
+                                            addCategory(newCategory);
+                                            createCategoryWindow.hide();
+                                            KSNotifier.add(new KSNotification("Create LO Category Successful", false, 3000));
+                                        }
                                     }
-
-
                                 });
-
-
                                 break;
                             case CANCEL:
                                 createCategoryWindow.hide();
@@ -316,11 +349,10 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 });
 
                 main.add(buttonPanel);
-                main.addStyleName("KS-LOWindow");
+                main.setPixelSize(300, 300);
                 createCategoryWindow.setWidget(main);
                 createCategoryWindow.show();
             }
-
 
 
         });
@@ -330,24 +362,49 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         if (categoryTypeMap == null) {
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
         }
-        if (categoryTypes != null){
-	        for (LoCategoryTypeInfo i: categoryTypes) {
-	            categoryTypeMap.put(i.getId(), i);
-	        }
+        if (categoryTypes != null) {
+            for (LoCategoryTypeInfo i : categoryTypes) {
+                categoryTypeMap.put(i.getId(), i);
+            }
         }
     }
 
+    /**
+     * This method will check if an LO category is already in the picker box
+     * and prevent it from being added to the picker.
+     * <p>
+     * 
+     * @param categoryToCheck category to check if it is already in the picker box
+     * @return true if the category is already in the picker box
+     */
+    private boolean isCategoryAlreadyAddedToPicker(LoCategoryInfo categoryToCheck){
+        // TODO: do we need null checks?
+        List<LoCategoryInfo> categoriesInPicker = categoryList.getValue();
+        if (categoriesInPicker != null && categoryToCheck != null){
+            for (LoCategoryInfo pickerCategory : categoriesInPicker) {
+                boolean namesMatch = pickerCategory.getName().equalsIgnoreCase(categoryToCheck.getName());
+                boolean typesMatch = pickerCategory.getType().equalsIgnoreCase(categoryToCheck.getType());
+                if (namesMatch && typesMatch){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     private void addCategory(final LoCategoryInfo category) {
         if (categoryTypeMap == null) {
             categoryTypeMap = new HashMap<String, LoCategoryTypeInfo>();
         }
 
-        if (categoryTypeMap.containsKey(category.getType())) {
-            categoryList.addItem(category);
+        if (categoryTypeMap.containsKey(category.getTypeKey())) {
+            // check if category is already added to picker.  only add it once.
+            if (!isCategoryAlreadyAddedToPicker(category)){
+                categoryList.addItem(category);
+            }
             picker.reset();
-        }
-        else {
-            loRpcServiceAsync.getLoCategoryType(category.getType(), new KSAsyncCallback<LoCategoryTypeInfo> () {
+        } else {
+            //TODO KSCM - Correct contextInfo param?
+            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), ContextUtils.getContextInfo(), new KSAsyncCallback<LoCategoryTypeInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -357,20 +414,19 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 @Override
                 public void onSuccess(LoCategoryTypeInfo result) {
                     categoryTypeMap.put(result.getId(), result);
-                    categoryList.addItem(category);
+                    // check if category is already added to picker.  only add it once.
+                    if (!isCategoryAlreadyAddedToPicker(category)){
+                         categoryList.addItem(category);
+                    } 
                     picker.reset();
 
                 }
 
-            });        
+            });
         }
 
     }
 
-    private KSLabel getLabel(String labelKey) {
-        return new KSLabel(getLabelText(labelKey));
-    }
-    
     private String getLabelText(String labelKey) {
         return Application.getApplicationContext().getUILabel(messageGroup, type, state, labelKey);
     }
@@ -403,202 +459,211 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
     }
 
     /**
-     * 
      * This class provides a suggest box for existing LO categories backed by a search on category name
-     *  
-     * @author Kuali Rice Team (kuali-rice@googlegroups.com)
      *
+     * @author Kuali Rice Team (kuali-rice@googlegroups.com)
      */
     private class LOCategoryPicker extends Composite implements SuggestPicker {
 
         //FIXME:   [KSCOR-225] Class needs to be rewritten to use KSPicker instead of SuggestPicker and use lookup config through metadata
-        
-         final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(
-                 "lo.search.loCategories",
-                 "lo.queryParam.loOptionalCategoryName",
-                 "lo.queryParam.loCategoryId",
-                 "lo.resultColumn.categoryId", 
-         "lo.resultColumn.categoryNameAndType");
 
-         final KSSuggestBox suggestBox = new KSSuggestBox(loSearchOracle);
+        final SearchSuggestOracle loSearchOracle = new SearchSuggestOracle(
+                "lo.search.loCategories",
+                "lo.queryParam.loOptionalCategoryName",
+                "lo.queryParam.loCategoryId",
+                "lo.resultColumn.categoryId",
+                "lo.resultColumn.categoryNameAndType");
 
-         private final FocusGroup focus = new FocusGroup(this);
+        final KSSuggestBox suggestBox = new KSSuggestBox(loSearchOracle);
 
-         private VerticalPanel main = new VerticalPanel();
+        private final FocusGroup focus = new FocusGroup(this);
 
-         protected LOCategoryPicker() {
-             super();
-             init();
-         }
+        private VerticalPanel main = new VerticalPanel();
 
-         public String getSelectedId() {
-             return suggestBox.getSelectedId();
-         }
+        protected LOCategoryPicker() {
+            super();
+            init();
+        }
 
-         private void init () {
-             focus.addWidget(suggestBox);
-             loSearchOracle.setTextWidget(suggestBox.getTextBox());
-             main.add(suggestBox);
-             initWidget(main);
-         }
+        public String getSelectedId() {
+            return suggestBox.getSelectedId();
+        }
 
-         @Override
-         public String getValue() {
-             return suggestBox.getSelectedId();
-         }
+        private void init() {
+            focus.addWidget(suggestBox);
+            loSearchOracle.setTextWidget(suggestBox.getTextBox());
+            main.add(suggestBox);
+            initWidget(main);
+        }
 
-         @Override
-         public void setValue(String value) {
-             setValue(value, true);
-         }
+        @Override
+        public String getValue() {
+            return suggestBox.getSelectedId();
+        }
 
-         @Override
-         public void setValue(String value, boolean fireEvents) {
-             suggestBox.reset();
-             suggestBox.setValue(value, fireEvents);
-         }
+        @Override
+        public void setValue(String value) {
+            setValue(value, true);
+        }
+
+        @Override
+        public void setValue(String value, boolean fireEvents) {
+            suggestBox.reset();
+            suggestBox.setValue(value, fireEvents);
+        }
 
 
-         @Override
-         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
-             return suggestBox.addValueChangeHandler(handler);
-         }
+        @Override
+        public HandlerRegistration addValueChangeHandler(ValueChangeHandler<String> handler) {
+            return suggestBox.addValueChangeHandler(handler);
+        }
 
-         @Override
-         public void fireEvent(GwtEvent<?> event) {
-             super.fireEvent(event);
-         }
+        @Override
+        public void fireEvent(GwtEvent<?> event) {
+            super.fireEvent(event);
+        }
 
-         public void reset(){
-             suggestBox.reset();
-         }
+        public void reset() {
+            suggestBox.reset();
+        }
 
-         @Override
-         public HandlerRegistration addFocusHandler(FocusHandler handler) {
-             return focus.addFocusHandler(handler);
-         }
+        @Override
+        public HandlerRegistration addFocusHandler(FocusHandler handler) {
+            return focus.addFocusHandler(handler);
+        }
 
-         @Override
-         public HandlerRegistration addBlurHandler(BlurHandler handler) {
-             return focus.addBlurHandler(handler);
-         }
+        @Override
+        public HandlerRegistration addBlurHandler(BlurHandler handler) {
+            return focus.addBlurHandler(handler);
+        }
 
-         public String getText() {
-             return suggestBox.getText();
-         }
+        public String getText() {
+            return suggestBox.getText();
+        }
 
         @Override
         public HandlerRegistration addSelectionChangeHandler(SelectionChangeHandler handler) {
             return suggestBox.addSelectionChangeHandler(handler);
         }
-     }
 
-     private class LOCategoryTypeInfoList implements ListItems{
-         Map<String, LoCategoryTypeInfo> loTypeMap = new HashMap<String, LoCategoryTypeInfo>();
+        @Override
+        protected void onEnsureDebugId(String baseID) {
+            super.onEnsureDebugId(baseID);
+            suggestBox.getTextBox().ensureDebugId(baseID);
+        }
+        
+    }
 
-         public LOCategoryTypeInfoList(List<LoCategoryTypeInfo> loTypes){
-             for (LoCategoryTypeInfo type: loTypes){
-                 loTypeMap.put(type.getId(), type);
-             }
-         }
+    private class LOCategoryTypeInfoList implements ListItems {
+        Map<String, LoCategoryTypeInfo> loTypeMap = new HashMap<String, LoCategoryTypeInfo>();
 
-         public List<String> getAttrKeys() {
-             return Arrays.asList("Name");
-         }
-
-         public String getItemAttribute(String id, String attrkey) {
-             LoCategoryTypeInfo lo = loTypeMap.get(id);
-
-             if (attrkey.equals("Name")){
-                 return lo.getName(); 
-             }
-
-             return null;
-         }
-
-         public int getItemCount() {
-             return loTypeMap.size();
-         }
-
-         public List<String> getItemIds() {
-             List<String> keys = new ArrayList<String>();
-
-             for (String s:loTypeMap.keySet()){
-                 keys.add(s);
-             }
-
-             return keys;
-         }
-
-         public String getItemText(String id) {
-             return ((LoCategoryTypeInfo)loTypeMap.get(id)).getName();
-         }
-     }
-     
-     public class LOCategoryListNew extends Composite {
-         private static final String CATEGORY_TYPE_SEPARATOR = " - ";
-         private VerticalPanel listPanel;
-         private VerticalPanel main = new VerticalPanel();
-         protected List<LoCategoryInfo> categories = new ArrayList<LoCategoryInfo>();
-         
-         final CloseHandler<KSItemLabel> deleteHandler = new CloseHandler<KSItemLabel>() {
-             @Override
-            public void onClose(CloseEvent<KSItemLabel> event) {
-                 KSItemLabel itemLabel = event.getTarget();
-                 String itemText = itemLabel.getDeletedKey();
-                 categoryList.removeItem(itemText);
-                 categoryList.redraw();
+        public LOCategoryTypeInfoList(List<LoCategoryTypeInfo> loTypes) {
+            for (LoCategoryTypeInfo type : loTypes) {
+                loTypeMap.put(type.getId(), type);
             }
-         };
+        }
 
-         public LOCategoryListNew() {
-             listPanel = new VerticalPanel();
-             main.add(listPanel);
-             super.initWidget(main);
-         }
-         
-         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<LoCategoryInfo>> handler) {
-             return null;
-         }
+        public List<String> getAttrKeys() {
+            return Arrays.asList("Name");
+        }
 
-         public void redraw() {
+        public String getItemAttribute(String id, String attrkey) {
+            LoCategoryTypeInfo lo = loTypeMap.get(id);
 
-             if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
-                              
-                 loRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
-                 
-                     @Override
-                     public void handleFailure(Throwable caught) {
-                     Window.alert("getLoCategoryTypes failed " + caught.getMessage());
-                     }
-                     
-                     @Override
-                     public void onSuccess(List<LoCategoryTypeInfo> result) {
-                         if (categoryTypeMap == null) {
-                             loadCategoryTypes(result);                    
-                         }
-                         redrawCategoryTable();
-                     }
-     
-                 });
-             } else {
-                 redrawCategoryTable();
-             }
-         }
+            if (attrkey.equals("Name")) {
+                return lo.getName();
+            }
 
-         private void redrawCategoryTable() {
-             listPanel.clear();
-     
-             for (int i = 0; i < categories.size(); i++) {
-                 String name = categories.get(i).getName();
-                 String typeKey = categories.get(i).getType();
-                 // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
-                 KSItemLabel newItemLabel = new KSItemLabel(true, new CategoryDataParser());
-                 Data categoryData = CategoryDataUtil.toData(categories.get(i));
-                 newItemLabel.setValue(new DataValue(categoryData));
-                 newItemLabel.addCloseHandler(deleteHandler);
-                 
-                 listPanel.add(newItemLabel);
+            return null;
+        }
+
+        public int getItemCount() {
+            return loTypeMap.size();
+        }
+
+        public List<String> getItemIds() {
+            List<String> keys = new ArrayList<String>();
+
+            for (String s : loTypeMap.keySet()) {
+                keys.add(s);
+            }
+
+            return keys;
+        }
+
+        public String getItemText(String id) {
+            return ((LoCategoryTypeInfo) loTypeMap.get(id)).getName();
+        }
+    }
+
+    public class LOCategoryListNew extends Composite implements HasValue<List<LoCategoryInfo>> {
+        private static final String CATEGORY_TYPE_SEPARATOR = " - ";
+        private VerticalPanel listPanel;
+        private VerticalPanel main = new VerticalPanel();
+        protected List<LoCategoryInfo> categories = new ArrayList<LoCategoryInfo>();
+
+        final CloseHandler<KSItemLabel> deleteHandler = new CloseHandler<KSItemLabel>() {
+            @Override
+            public void onClose(CloseEvent<KSItemLabel> event) {
+                KSItemLabel itemLabel = event.getTarget();
+                String itemText = itemLabel.getDeletedKey();
+                categoryList.removeItem(itemText);
+                categoryList.redraw();
+            }
+        };
+
+        public LOCategoryListNew() {
+            listPanel = new VerticalPanel();
+            main.add(listPanel);
+            super.initWidget(main);
+        }
+
+        public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<LoCategoryInfo>> handler) {
+            return addHandler(handler, ValueChangeEvent.getType());
+        }
+
+        private void fireChangeEvent() {
+            ValueChangeEvent.fire(this, categories);
+        }
+
+        public void redraw() {
+
+            if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
+
+                loCatRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
+
+                    @Override
+                    public void handleFailure(Throwable caught) {
+                        Window.alert("getLoCategoryTypes failed " + caught.getMessage());
+                    }
+
+                    @Override
+                    public void onSuccess(List<LoCategoryTypeInfo> result) {
+                        if (categoryTypeMap == null) {
+                            loadCategoryTypes(result);
+                        }
+                        redrawCategoryTable();
+                    }
+
+                });
+            } else {
+                redrawCategoryTable();
+            }
+        }
+
+        private void redrawCategoryTable() {
+            listPanel.clear();
+
+            for (int i = 0; i < categories.size(); i++) {
+                String name = categories.get(i).getName();
+                String typeKey = categories.get(i).getType();
+                // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw()
+                KSItemLabel newItemLabel = new KSItemLabel(true, new CategoryDataParser());
+                Data categoryData = CategoryDataUtil.toData(categories.get(i));
+                newItemLabel.setValue(new DataValue(categoryData));
+                newItemLabel.addCloseHandler(deleteHandler);
+
+                listPanel.add(newItemLabel);
 //               String name = categories.get(i).getName();
 //               String typeKey = categories.get(i).getType();
 //               // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
@@ -613,241 +678,123 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 //               categoryTable.setWidget(row, col++, deleteLabel);
 //               row++;
 //               col = 0;                                
-             }
-         }
+            }
+        }
 
-         public List<LoCategoryInfo> getValue() {
-             return categories;
-         }
+        public List<LoCategoryInfo> getValue() {
+            return categories;
+        }
 
-         public void setValue(List<LoCategoryInfo> categories) {
-             this.categories = categories;
-             redraw();            
-         }
+        public void setValue(List<LoCategoryInfo> categories) {
+            this.categories = categories;
+            redraw();
+        }
 
-         public void removeItem(String text) {
+        @Override
+        public void setValue(List<LoCategoryInfo> value, boolean fireEvents) {
+            setValue(value);
+        }
 
-             int a  = text.indexOf(CATEGORY_TYPE_SEPARATOR);
-             text = text.substring(0,a);
 
-             int i = 0;
-             for (LoCategoryInfo catInfo : categories) {
-                 String name = catInfo.getName();
+        public void removeItem(String text) {
 
-                 if (name.equals(text)) {
-                     categories.remove(i);
-                     break;
-                 }
-                 i++;                              
-             }
-             redraw();
-         }
+            int a = text.indexOf(CATEGORY_TYPE_SEPARATOR);
+            text = text.substring(0, a);
 
-         public void addItem(LoCategoryInfo category) {
+            int i = 0;
+            for (LoCategoryInfo catInfo : categories) {
+                String name = catInfo.getName();
 
-             categories.add(category);
+                if (name.equals(text)) {
+                    categories.remove(i);
+                    fireChangeEvent();
+                    break;
+                }
+                i++;
+            }
+            redraw();
+        }
 
-             redraw();
-         }
-     }
-     
-     /**
-      * 
-      * This inner class handles adding and removing selected categories to/from 
-      * a list in the CategoryPicker.  Uses ModelDTOList
-      *  
-      * TODO: Still valid in DOL? 
-      * 
-      * @author Kuali Rice Team (kuali-rice@googlegroups.com)
-      *
-      */    
-//     public class LOCategoryList extends Composite {
-//         
-//         private static final String CATEGORY_TYPE_SEPARATOR = " - ";
-//         protected List<LoCategoryInfo> categories = new ArrayList<LoCategoryInfo>();
-//         VerticalPanel main = new VerticalPanel();
-//
-//         FlexTable categoryTable = new FlexTable();
-//
-//         final ClickHandler deleteHandler = new ClickHandler() {
-//             @Override
-//             public void onClick(ClickEvent event) {
-//                 Cell cell = categoryTable.getCellForEvent(event);
-//                 int r = cell.getRowIndex();
-//                 KSLabel label = (KSLabel)categoryTable.getWidget(r, 0);
-//                 categoryList.removeItem(label.getText());
-//                 categoryList.redraw();
-//             }                   
-//         };
-//
-//         public LOCategoryList(){
-//
-//             main.add(categoryTable);
-//             super.initWidget(main);
-//
-//         }
-//
-//         public HandlerRegistration addValueChangeHandler(ValueChangeHandler<List<LoCategoryInfo>> handler) {
-//             return null;
-//         }
-//
-//         public void updateModelDTOValue() {
-//             categoryList.updateModelDTOValue();
-//         }
-//
-//         public void redraw() {
-//
-//			if (null == categoryTypeMap || categoryTypeMap.isEmpty()) {
-//			            	 
-//				loRpcServiceAsync.getLoCategoryTypes(new KSAsyncCallback<List<LoCategoryTypeInfo>>() {
-//				
-//					@Override
-//					public void handleFailure(Throwable caught) {
-//					Window.alert("getLoCategoryTypes failed " + caught.getMessage());
-//					}
-//					
-//					@Override
-//					public void onSuccess(List<LoCategoryTypeInfo> result) {
-//						if (categoryTypeMap == null) {
-//							loadCategoryTypes(result);                    
-//						}
-//						redrawCategoryTable();
-//					}
-//	
-//				});
-//			} else {
-//				redrawCategoryTable();
-//			}
-//		}
-//			
-//		private void redrawCategoryTable() {
-//			int row = 0;
-//			int col = 0;
-//			             
-//			categoryTable.clear();
-//	
-//			for (int i = 0; i < categories.size(); i++) {
-//		        String name = categories.get(i).getName();
-//		        String typeKey = categories.get(i).getType();
-//		        // TODO - need to somehow ensure that categoryTypeMap is initialized before redraw() 
-//		        String typeName = "ERROR: uninitialized categoryTypeMap";
-//		        if (null != categoryTypeMap) {
-//		            typeName = categoryTypeMap.get(typeKey).getName();
-//		        } 
-//		        categoryTable.setWidget(row, col++, new KSLabel(name + CATEGORY_TYPE_SEPARATOR + typeName));
-//		        KSLabel deleteLabel = new KSLabel("[x]");
-//		        deleteLabel.addStyleName("KS-LOBuilder-Search-Link");
-//		        deleteLabel.addClickHandler(deleteHandler);
-//		        categoryTable.setWidget(row, col++, deleteLabel);
-//		        row++;
-//		        col = 0;                                
-//			}
-//         }
-//
-//         public List<LoCategoryInfo> getValue() {
-//             return categories;
-//         }
-//
-//         public void setValue(List<LoCategoryInfo> categories) {
-//             this.categories = categories;
-//             redraw();            
-//         }
-//
-//         public void removeItem(String text) {
-//
-//             int a  = text.indexOf(CATEGORY_TYPE_SEPARATOR);
-//             text = text.substring(0,a);
-//
-//             int i = 0;
-//             for (LoCategoryInfo catInfo : categories) {
-//                 String name = catInfo.getName();
-//
-//                 if (name.equals(text)) {
-//                     categories.remove(i);
-//                     break;
-//                 }
-//                 i++;                              
-//             }
-//             redraw();
-//         }
-//
-//         public void addItem(LoCategoryInfo category) {
-//
-//             categories.add(category);
-//
-//             redraw();
-//         }
-//     }
-     
-     class CategoryDataParser implements DataHelper {
-         
-         public CategoryDataParser() {};
+        public void addItem(LoCategoryInfo category) {
+            categories.add(category);
+            fireChangeEvent();
+            redraw();
+        }
+    }
 
-         @Override
-         public String getKey(Data data) {
-             return parse(data);
-         }
+    public class CategoryDataParser implements DataHelper {
 
-         @Override
-         public String parse(Data data) {
-             String result = null;
-             if (data != null) {
-                 LoCategoryInfo loCategoryInfo = CategoryDataUtil.toLoCategoryInfo(data);
-                 String typeName = "ERROR: uninitialized categoryTypeMap";
-                 if (null != categoryTypeMap) {
-                     typeName = categoryTypeMap.get(loCategoryInfo.getType()).getName();
-                 }
-                 result = loCategoryInfo.getName() + 
-                 LOCategoryBuilder.LOCategoryListNew.CATEGORY_TYPE_SEPARATOR + typeName;
-             } else {
-                 result = "";
-             }
-             return result;
-         }
-          
-      }
-     
-     public class CreateLoCancelGroup extends ButtonGroup<LoCancelEnum> {
-         public CreateLoCancelGroup(Callback<LoCancelEnum> callback) {
-             layout = new ButtonRow();
-             this.addCallback(callback);
+        public CategoryDataParser() {
+        }
 
-             addButton(LoCancelEnum.CANCEL);
-             addButtonToSecondaryGroup(LoCancelEnum.CREATE);
+        ;
 
-             this.initWidget(layout);
-         }
+        @Override
+        public String getKey(Data data) {
+            return parse(data);
+        }
 
-         private void addButton(final LoCancelEnum type){
-             KSButton button = new KSButton(type.getText(), new ClickHandler(){
-                 
-                 @Override
-                 public void onClick(ClickEvent event) {
-                     sendCallbacks(type);
-                 }
-             });
-             layout.addButton(button);
-             buttonMap.put(type, button);
-         }
-         
-         private void addButtonToSecondaryGroup(final LoCancelEnum type){
-             KSButton button = new KSButton(type.getText(), new ClickHandler(){
-                 
-                 @Override
-                 public void onClick(ClickEvent event) {
-                     sendCallbacks(type);
-                 }
-             });
-             ((ButtonRow)layout).addButtonToSecondaryGroup(button);
-             buttonMap.put(type, button);
-         }
-     }
-     
-     public static enum LoCancelEnum implements ButtonEnum {
+        @Override
+        public String parse(Data data) {
+            String result = null;
+            if (data != null) {
+                LoCategoryInfo loCategoryInfo = CategoryDataUtil.toLoCategoryInfo(data);
+                String typeName = "ERROR: uninitialized categoryTypeMap";
+                if (null != categoryTypeMap) {
+                    typeName = categoryTypeMap.get(loCategoryInfo.getType()).getName();
+                }
+                result = loCategoryInfo.getName() +
+                        LOCategoryBuilder.LOCategoryListNew.CATEGORY_TYPE_SEPARATOR + typeName;
+            } else {
+                result = "";
+            }
+            return result;
+        }
+
+    }
+
+    public class CreateLoCancelGroup extends ButtonGroup<LoCancelEnum> {
+        public CreateLoCancelGroup(Callback<LoCancelEnum> callback) {
+            layout = new ButtonRow();
+            this.addCallback(callback);
+
+            addButton(LoCancelEnum.CANCEL);
+            addButtonToSecondaryGroup(LoCancelEnum.CREATE);
+
+            this.initWidget(layout);
+        }
+
+        private void addButton(final LoCancelEnum type) {
+            KSButton button = new KSButton(type.getText(), new ClickHandler() {
+
+                @Override
+                public void onClick(ClickEvent event) {
+                    sendCallbacks(type);
+                }
+            });
+            layout.addButton(button);
+            buttonMap.put(type, button);
+        }
+
+        private void addButtonToSecondaryGroup(final LoCancelEnum type) {
+            KSButton button = new KSButton(type.getText(), new ClickHandler() {
+
+                @Override
+                public void onClick(ClickEvent event) {
+                    sendCallbacks(type);
+                }
+            });
+            ((ButtonRow) layout).addButtonToSecondaryGroup(button);
+            buttonMap.put(type, button);
+        }
+    }
+
+    public static enum LoCancelEnum implements ButtonEnum {
         CREATE, CANCEL;
+
         @Override
         public ButtonEnum getActionType() {
-            return CREATE;  
+            return CREATE;
         }
 
         @Override
@@ -862,7 +809,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
         @Override
         public String getText() {
-            switch(this){
+            switch (this) {
                 case CREATE:
                     return "Create";
                 case CANCEL:
@@ -870,5 +817,15 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             }
             return null;
         }
-     }
+    }
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        picker.ensureDebugId(baseID);
+        addButton.ensureDebugId(baseID + "-Add");
+        browseCategoryLink.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + browseCategoryLink.getText()));
+    }
+    
+    
 }

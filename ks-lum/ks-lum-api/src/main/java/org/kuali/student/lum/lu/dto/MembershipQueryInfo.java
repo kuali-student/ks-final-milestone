@@ -23,8 +23,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchParam;
 
 /**
  * Specifies a search for CLU identifiers.
@@ -35,6 +36,8 @@ import org.kuali.student.core.search.dto.SearchParam;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/membershipQueryInfo+Structure+v1.0-rc3">MembershipQueryInfo</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValueList"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MembershipQueryInfo implements Serializable {
 
