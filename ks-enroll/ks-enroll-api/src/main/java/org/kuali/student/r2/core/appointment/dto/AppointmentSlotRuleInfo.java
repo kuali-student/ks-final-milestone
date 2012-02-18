@@ -33,7 +33,8 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AppointmentSlotRuleInfo", propOrder = {"weekdays", "startTimeOfDay", "endTimeOfDay", "_futureElements"})
+@XmlType(name = "AppointmentSlotRuleInfo", propOrder = {"weekdays", "startTimeOfDay", "endTimeOfDay",
+        "slotStartInterval", "slotDuration", "_futureElements"})
 public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
 
     @XmlElement
@@ -42,6 +43,10 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
     private TimeOfDayInfo startTimeOfDay;
     @XmlElement
     private TimeOfDayInfo endTimeOfDay;
+    @XmlElement
+    private TimeAmountInfo slotStartInterval;
+    @XmlElement
+    private TimeAmountInfo slotDuration;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -54,6 +59,8 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
             this.weekdays = new ArrayList<Integer>(appointmentSlotRule.getWeekdays());
             this.startTimeOfDay = (null != appointmentSlotRule.getStartTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRule.getStartTimeOfDay()) : null;
             this.endTimeOfDay = (null != appointmentSlotRule.getEndTimeOfDay()) ? new TimeOfDayInfo(appointmentSlotRule.getEndTimeOfDay()) : null;
+            this.slotStartInterval = (null != appointmentSlotRule.getSlotStartInterval()) ? new TimeAmountInfo(appointmentSlotRule.getSlotStartInterval()) : null;
+            this.slotDuration = (null != appointmentSlotRule.getSlotDuration()) ? new TimeAmountInfo(appointmentSlotRule.getSlotDuration()) : null;
         }
     }
 
@@ -87,4 +94,21 @@ public class AppointmentSlotRuleInfo implements AppointmentSlotRule {
         return this.endTimeOfDay;
     }
 
+    public void setSlotStartInterval(TimeAmountInfo slotStartInterval) {
+        this.slotStartInterval = slotStartInterval;
+    }
+
+    @Override
+    public TimeAmountInfo getSlotStartInterval() {
+        return this.slotStartInterval;
+    }
+
+    public void setSlotDuration(TimeAmountInfo slotDuration) {
+        this.slotDuration = slotDuration;
+    }
+
+    @Override
+    public TimeAmountInfo getSlotDuration() {
+        return this.slotDuration;
+    }
 }
