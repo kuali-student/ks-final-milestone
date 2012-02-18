@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.appointment.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRule;
 import org.kuali.student.r2.core.appointment.infc.AppointmentWindow;
 
@@ -32,7 +31,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AppointmentWindowInfo", propOrder = {
         "id", "typeKey", "stateKey", "name", "descr",
-        "startDate", "endDate", "slotRule", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey", "maxAppointmentsPerSlot", "slotStartInterval", "slotDuration",
+        "startDate", "endDate", "slotRule", "periodMilestoneId", "assignedPopulationId", "assignedOrderTypeKey", "maxAppointmentsPerSlot",
         "meta", "attributes", "_futureElements"})
 public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWindow {
 
@@ -50,10 +49,6 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
     private String assignedOrderTypeKey;
     @XmlElement
     private Integer maxAppointmentsPerSlot;
-    @XmlElement
-    private TimeAmountInfo slotStartInterval;
-    @XmlElement
-    private TimeAmountInfo slotDuration;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -72,8 +67,6 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
             this.assignedPopulationId = appointmentWindow.getAssignedPopulationId();
             this.assignedOrderTypeKey = appointmentWindow.getAssignedOrderTypeKey();
             this.maxAppointmentsPerSlot = appointmentWindow.getMaxAppointmentsPerSlot();
-            this.slotStartInterval = (null != appointmentWindow.getSlotStartInterval()) ? new TimeAmountInfo(appointmentWindow.getSlotStartInterval()) : null;
-            this.slotDuration = (null != appointmentWindow.getSlotDuration()) ? new TimeAmountInfo(appointmentWindow.getSlotDuration()) : null;
         }
     }
 
@@ -131,6 +124,7 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
         return this.assignedOrderTypeKey;
     }
 
+
     public void setMaxAppointmentsPerSlot(Integer maxPerSlot) {
         this.maxAppointmentsPerSlot = maxPerSlot;
     }
@@ -138,24 +132,5 @@ public class AppointmentWindowInfo extends IdEntityInfo implements AppointmentWi
     @Override
     public Integer getMaxAppointmentsPerSlot() {
         return this.maxAppointmentsPerSlot;
-    }
-
-
-    public void setSlotStartInterval(TimeAmountInfo slotStartInterval) {
-        this.slotStartInterval = slotStartInterval;
-    }
-
-    @Override
-    public TimeAmountInfo getSlotStartInterval() {
-        return this.slotStartInterval;
-    }
-
-    public void setSlotDuration(TimeAmountInfo slotDuration) {
-        this.slotDuration = slotDuration;
-    }
-
-    @Override
-    public TimeAmountInfo getSlotDuration() {
-        return this.slotDuration;
     }
 }
