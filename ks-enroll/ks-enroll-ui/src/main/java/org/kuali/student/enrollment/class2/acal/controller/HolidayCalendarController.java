@@ -26,6 +26,7 @@ import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.test.utilities.TestHelper;
@@ -55,14 +56,6 @@ public class HolidayCalendarController extends UifControllerBase {
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
-/*
-        if (StringUtils.equals(httpServletRequest.getParameter("viewId"), "holidayCalendarCopyView")) {
-            return new HolidayCalendarCopyForm();
-        }
-        else {
-            return new HolidayCalendarForm();
-        }
-*/
         return new HolidayCalendarForm();
     }
 
@@ -166,7 +159,15 @@ public class HolidayCalendarController extends UifControllerBase {
 
         HolidayCalendarInfo newHCInfo = null;
         try {
-            newHCInfo = getHolidayCalendarFormHelper(form).copyHolidayCalendar(form);
+            //newHCInfo = getHolidayCalendarFormHelper(form).copyHolidayCalendar(form);
+             //TODO: For testing flow. remove this after copyHolidayCalendar working
+            HolidayCalendarInfo hc = form.getHolidayCalendarInfo();
+            getHolidayCalendar(hc.getId(), form);
+            HolidayCalendarInfo hcCopy = form.getHolidayCalendarInfo();
+            hcCopy.setName(form.getNewCalendarName());
+            hcCopy.setStartDate(form.getNewCalendarStartDate());
+            hcCopy.setEndDate(form.getNewCalendarEndDate());
+            newHCInfo = hcCopy;
         }
         catch (Exception x) {
         }
@@ -177,13 +178,28 @@ public class HolidayCalendarController extends UifControllerBase {
         }
         else {
             form.setHolidayCalendarInfo(newHCInfo);
-            // redirect to the HolidayCalendarEditView page
-            Properties urlParameters = new  Properties();
-            urlParameters.put("viewId", "holidayCalendarEditView");
-            urlParameters.put("methodToCall", "start");
-            urlParameters.put("hcId", newHCInfo.getId());
-            return performRedirect(form, request.getRequestURL().toString(), urlParameters);
+            return getUIFModelAndView(form, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
+    }
+
+    @RequestMapping(params = "methodToCall=toCreate")
+    public ModelAndView toCreate(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+        hcForm.setHolidayCalendarInfo( new HolidayCalendarInfo());
+        hcForm.setHolidays(new ArrayList<HolidayInfo>());
+        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+    }
+
+    @RequestMapping(params = "methodToCall=toEdit")
+    public ModelAndView toEdit(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+    }
+
+    @RequestMapping(params = "methodToCall=toCopy")
+    public ModelAndView toCopy(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response){
+        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_COPYPAGE);
     }
 
      /**
@@ -204,7 +220,7 @@ public class HolidayCalendarController extends UifControllerBase {
         }
 
         GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name","info.enroll.holidaycalendar.saved", hc.getName());
-        return getUIFModelAndView(hcForm);
+        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
     }
 
     private void createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {

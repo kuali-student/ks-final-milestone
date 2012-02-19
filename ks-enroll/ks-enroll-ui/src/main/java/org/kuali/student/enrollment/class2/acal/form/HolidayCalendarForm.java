@@ -37,6 +37,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     private String newCalendarName;
     private Date newCalendarStartDate;
     private Date newCalendarEndDate;
+    private String hcId;
 
     public HolidayCalendarForm() {
         super();
@@ -86,5 +87,13 @@ public class HolidayCalendarForm  extends UifFormBase {
     }
     public void setNewCalendarEndDate(Date newCalendarEndDate) {
         this.newCalendarEndDate = newCalendarEndDate;
+    }
+
+    public String getHcId() {
+        return hcId;
+    }
+
+    public void setHcId(String hcId) {
+        this.hcId = hcId;
     }
 }

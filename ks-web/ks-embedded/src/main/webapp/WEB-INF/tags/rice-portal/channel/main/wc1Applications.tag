@@ -23,10 +23,10 @@
     </ul>
     <strong>Holiday Calendar</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Create Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarEditView&methodToCall=start" /></li>
-        <li><portal:portalLink displayTitle="true" title="Edit Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarEditView&methodToCall=start&hcId=testAtpId2" /></li>
-        <li><portal:portalLink displayTitle="true" title="View Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarView&methodToCall=start&hcId=testAtpId2" /></li>
-        <li><portal:portalLink displayTitle="true" title="Copy Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarCopyView&methodToCall=startNew" /></li>
+        <li><portal:portalLink displayTitle="true" title="Create Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarEditPage&methodToCall=start" /></li>
+        <li><portal:portalLink displayTitle="true" title="Edit Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarEditPage&methodToCall=start&hcId=testAtpId2" /></li>
+        <li><portal:portalLink displayTitle="true" title="View Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarViewPage&methodToCall=start&hcId=testAtpId2" /></li>
+        <li><portal:portalLink displayTitle="true" title="Copy Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarCopyPage&methodToCall=startNew" /></li>
     </ul>
     <strong>Academic Calendar</strong>
     <ul class="chan">
