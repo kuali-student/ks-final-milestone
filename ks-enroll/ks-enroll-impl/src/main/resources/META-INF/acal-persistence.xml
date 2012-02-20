@@ -81,8 +81,8 @@
     <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitContentOwnerEntity</class>
-    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitDeploymentEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity</class>
     
     <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>

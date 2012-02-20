@@ -7,6 +7,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 
 @Entity
 @Table(name = "KSEN_LUI_EXPENDITURE")
@@ -30,4 +31,13 @@ public class LuiExpenditureEntity extends MetaEntity {
         this.lui = lui;
     }
 
+    public ExpenditureInfo toDto() {
+        ExpenditureInfo obj = new ExpenditureInfo();
+        obj.setId(this.getId());
+                
+        //TODO: attributes
+        
+        return obj;
+
+    }
 }

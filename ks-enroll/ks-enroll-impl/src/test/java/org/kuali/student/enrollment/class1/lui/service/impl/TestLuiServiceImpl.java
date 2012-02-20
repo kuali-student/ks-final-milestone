@@ -87,22 +87,36 @@ public class TestLuiServiceImpl {
             assertNotNull(obj.getExpirationDate());
             
             assertNotNull(obj.getCluId());
-            //assertNotNull(obj.getCluCluRelationIds());
             //assertNotNull(obj.getAtpId());
             //assertNotNull(obj.getLuiCodes());
             
-            //assertNotNull(obj.getMaximumEnrollment());
-            //assertNotNull(obj.getMinimumEnrollment());
+            assertNotNull(obj.getMaximumEnrollment());
+            assertEquals(200, obj.getMaximumEnrollment().intValue());
+            assertNotNull(obj.getMinimumEnrollment());
+            assertEquals(50, obj.getMinimumEnrollment().intValue());
             //assertNotNull(obj.getReferenceURL());
             
-            //assertNotNull(obj.getUnitsContentOwner());
-            //assertNotNull(obj.getUnitsDeployment());
-            //assertNotNull(obj.getResultValuesGroupKeys());
-            
-            //assertNotNull(obj.getFees());
-            //assertNotNull(obj.getRevenues());
-            //assertNotNull(obj.getExpenditure());
-            //assertNotNull(obj.getMeetingSchedules());
+            assertNotNull(obj.getCluCluRelationIds());
+            assertEquals(2, obj.getCluCluRelationIds().size());
+            assertTrue(obj.getCluCluRelationIds().contains("CluClu-2"));
+            assertNotNull(obj.getUnitsContentOwner());
+            assertEquals(1, obj.getUnitsContentOwner().size());
+            assertTrue(obj.getUnitsContentOwner().contains("Org-2"));
+            assertNotNull(obj.getUnitsDeployment());
+            assertEquals(1, obj.getUnitsDeployment().size());
+            assertTrue(obj.getUnitsDeployment().contains("Org-1"));
+            assertNotNull(obj.getResultValuesGroupKeys());
+            assertEquals(3, obj.getResultValuesGroupKeys().size());
+            assertTrue(obj.getResultValuesGroupKeys().contains("Val-Group-3"));
+                        
+            assertNotNull(obj.getFees());
+            assertEquals(3, obj.getFees().size());
+            assertNotNull(obj.getRevenues());
+            assertEquals(2, obj.getRevenues().size());
+            assertNotNull(obj.getExpenditure());
+            //assertEquals(2, obj.getExpenditure().size());
+            assertNotNull(obj.getMeetingSchedules());
+            assertEquals(4, obj.getMeetingSchedules().size());
             
         } catch (Exception ex) {
             fail("exception from service call :" + ex.getMessage());
@@ -216,13 +230,13 @@ public class TestLuiServiceImpl {
         assertEquals("Lui-1", info.getId());
         assertEquals("Lui one", info.getName());
 
-        LuiInfo modified = new LuiInfo(info);
-        modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
-        modified.setMaximumEnrollment(25);
-        modified.setMinimumEnrollment(10);
-        assertNotNull(modified.getOfficialIdentifier());
-        modified.getOfficialIdentifier().setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
-        modified.getOfficialIdentifier().setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        //LuiInfo modified = new LuiInfo(info);
+        //modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
+        //modified.setMaximumEnrollment(25);
+        //modified.setMinimumEnrollment(10);
+        //assertNotNull(modified.getOfficialIdentifier());
+        //modified.getOfficialIdentifier().setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        //modified.getOfficialIdentifier().setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
         
         // try{
         //LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);

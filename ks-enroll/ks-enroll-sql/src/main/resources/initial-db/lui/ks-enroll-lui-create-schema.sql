@@ -31,6 +31,29 @@ CREATE TABLE KSEN_LUI
    )
 /
 
+/*CREATE TABLE KSEN_LUI
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	LUI_TYPE             VARCHAR2(255) NOT NULL ,
+	LUI_STATE            VARCHAR2(255) NOT NULL ,
+	NAME                 VARCHAR2(255) NULL ,
+	DESCR_PLAIN          VARCHAR2(4000) NOT NULL ,
+	DESCR_FORMATTED      VARCHAR2(4000) NULL ,
+	EFF_DT               TIMESTAMP(6) NULL ,
+	EXPIR_DT             TIMESTAMP(6) NULL ,
+	CLU_ID               VARCHAR2(255) NULL ,
+	ATP_ID               VARCHAR2(255) NULL ,
+	MAX_SEATS            NUMBER(10) NULL ,
+	MIN_SEATS            NUMBER(10) NULL ,
+	REF_URL              VARCHAR2(255) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL 
+);*/
+
 -----------------------------------------------------------------------------
 -- KSEN_LUILUI_RELTN
 -----------------------------------------------------------------------------
@@ -97,6 +120,15 @@ CREATE TABLE KSEN_LUI_ATTR
 			OWNER VARCHAR2(255)
    )
 /
+
+/*CREATE TABLE KSEN_LUI_ATTR
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(2000) NULL ,
+	OWNER_ID             VARCHAR2(255) NULL 
+);*/
 
 -----------------------------------------------------------------------------
 -- KSEN_LUI_INSTR
@@ -245,6 +277,26 @@ END;
    ) 
 /
 
+/*
+CREATE TABLE KSEN_LUI_IDENT
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	LUI_ID_TYPE          VARCHAR2(255) NOT NULL ,
+	LUI_ID_STATE         VARCHAR2(255) NOT NULL ,
+	LUI_CD               VARCHAR2(255) NULL ,
+	SHRT_NAME            VARCHAR2(255) NULL ,
+	LNG_NAME             VARCHAR2(255) NULL ,
+	DIVISION             VARCHAR2(255) NULL ,
+	SUFX_CD              VARCHAR2(255) NULL ,
+	VARTN                VARCHAR2(255) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL ,
+	LUI_ID               VARCHAR2(255) NULL 
+);*/
 --------------------------------------------------------
 --  KSEN_LUI_IDENT_ATTR
 --------------------------------------------------------
@@ -263,6 +315,14 @@ END;
 			OWNER VARCHAR2(255)
    ) 
 /
+/*CREATE TABLE KSEN_LUI_IDENT_ATTR
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(2000) NULL ,
+	OWNER_ID             VARCHAR2(255) NULL 
+);*/
 
 --------------------------------------------------------
 --  KSEN_LUI_LUCD
@@ -289,6 +349,24 @@ END;
    )
 /
 
+
+/*
+ Note: table name change. 
+ CREATE TABLE KSEN_LUI_LU_CD
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	LUI_LUCD_TYPE        VARCHAR2(255) NOT NULL ,
+	DESCR_PLAIN          VARCHAR2(4000) NOT NULL ,
+	DESCR_FORMATTED      VARCHAR2(4000) NULL ,
+	VALUE                VARCHAR2(255) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	LUI_ID               VARCHAR2(255) NULL 
+);*/
 --------------------------------------------------------
 --  KSEN_LUI_LUCD_ATTR
 --------------------------------------------------------
@@ -307,7 +385,15 @@ END;
 			OWNER VARCHAR2(255)
    )
 /
-
+/*CREATE TABLE KSEN_LUI_LU_CD_ATTR
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(2000) NULL ,
+	OWNER_ID             VARCHAR2(255) NULL 
+);
+*/
  --------------------------------------------------------
 --  KSEN_LUI_MTG_SCHE
 --------------------------------------------------------
@@ -331,6 +417,29 @@ END;
       LUI_ID VARCHAR2(255)
    )
  /
+ 
+ /*CREATE TABLE KSEN_LUI_MTG_SCHE
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	SPACE_ID             VARCHAR2(255) NULL ,
+	SCHEDULE_ID          VARCHAR2(255) NULL ,
+	LUI_ID               VARCHAR2(255) NULL 
+);*/
+ 
+--------------------------------------------------------
+--  KSEN_LUI_MTG_SCHE_ATTR
+--------------------------------------------------------
+ 
+/*CREATE TABLE KSEN_LUI_MTG_SCHE_ATTR
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(2000) NULL ,
+	OWNER_ID             VARCHAR2(255) NULL 
+);
+*/ 
 
  --------------------------------------------------------
 --  KSEN_LUI_RV_GRP_RELTN
@@ -349,3 +458,156 @@ create table  KSEN_LUI_RV_GRP_RELTN
 	    RV_GRP_ID varchar2(255)
   )
 /
+
+--------------------------------------------------------
+--  KSEN_LUI_AFFILIATED_ORG
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_AFFILIATED_ORG
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	AFFILIATED_ORG_TYPE  VARCHAR2(255) NOT NULL ,
+	AFFILIATED_ORG_STATE VARCHAR2(255) NOT NULL ,
+	ORG_ID               VARCHAR2(255) NOT NULL ,
+	PERCENTAGE           NUMBER NULL ,
+	EFF_DT               TIMESTAMP(6) NULL ,
+	EXPIR_DT             TIMESTAMP(6) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL ,
+	EXPENDITURE_ID       VARCHAR2(255) NULL ,
+	REVENUE_ID           VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_AFFIL_ORG_ATTR
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_AFFIL_ORG_ATTR
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(2000) NULL ,
+	OWNER_ID             VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_CAPACITY
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_CAPACITY
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	LUI_CAPACITY_TYPE    VARCHAR2(255) NOT NULL ,
+	LUI_CAPACITY_STATE   VARCHAR2(255) NOT NULL ,
+	NAME                 VARCHAR2(255) NULL ,
+	DESCR_PLAIN          VARCHAR2(4000) NOT NULL ,
+	DESCR_FORMATTED      VARCHAR(4000) NULL ,
+	MAX_SEATS            NUMBER NULL ,
+	PROCESSING_ORDER     NUMBER NULL ,
+	EFF_DT               TIMESTAMP(6) NULL ,
+	EXPIR_DT             TIMESTAMP(6) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_CLUCLU_RELTN
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_CLUCLU_RELTN
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	LUI_ID               VARCHAR2(255) NULL ,
+	CLUCLU_RELTN_ID      VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_CURRENCY_AMT
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_CURRENCY_AMT
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	CURRENCY_TYPE        VARCHAR2(255) NULL ,
+	CURRENCY_QUANTITY    NUMBER NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL ,
+	FEE_ID               VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_EXPEND_ATTR
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_EXPEND_ATTR
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(2000) NULL ,
+	OWNER_ID             VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_EXPENDITURE
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_EXPENDITURE
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL ,
+	LUI_ID               VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_FEE
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_FEE
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	FEE_TYPE             VARCHAR2(255) NULL ,
+	RATE_TYPE            VARCHAR2(255) NULL ,
+	DESCR_PLAIN          VARCHAR2(4000) NOT NULL ,
+	DESCR_FORMATTED      VARCHAR2(4000) NULL ,
+	FEE_KEY              VARCHAR2(255) NULL ,
+	VER_NBR              NUMBER(19) NULL ,
+	CREATETIME           TIMESTAMP(6) NULL ,
+	CREATEID             VARCHAR2(255) NULL ,
+	UPDATETIME           TIMESTAMP(6) NULL ,
+	UPDATEID             VARCHAR2(255) NULL ,
+	LUI_ID               VARCHAR2(255) NULL 
+);*/
+
+--------------------------------------------------------
+--  KSEN_LUI_FEE_ATTR
+--------------------------------------------------------
+
+/*CREATE TABLE KSEN_LUI_FEE_ATTR
+(
+	ID                   VARCHAR2(255) NOT NULL ,
+	OBJ_ID               VARCHAR2(36) NULL ,
+	ATTR_KEY             VARCHAR2(255) NULL ,
+	ATTR_VALUE           VARCHAR2(2000) NULL ,
+	OWNER_ID             VARCHAR2(255) NULL 
+);
+*/

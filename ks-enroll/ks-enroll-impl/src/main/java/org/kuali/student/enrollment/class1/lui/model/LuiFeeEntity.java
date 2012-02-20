@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.enrollment.lui.infc.Lui;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.lum.clu.dto.FeeInfo;
 
@@ -89,7 +90,20 @@ public class LuiFeeEntity extends MetaEntity {
     }
 
     public FeeInfo toDto() {
-        return null;
+        FeeInfo obj = new FeeInfo();
+        obj.setId(this.getId());
+        obj.setFeeType(this.getFeeType());
+        obj.setRateType(this.getRateType());
+        //TODO: obj.setFeeAmounts(feeAmounts)
+        
+        RichTextInfo rtInfo = new RichTextInfo();
+        rtInfo.setFormatted(this.getFormatted());
+        rtInfo.setPlain(this.getPlain());
+        obj.setDescr(rtInfo);
+        
+        //TODO: attributes
+        
+        return obj;
 
     }
 }

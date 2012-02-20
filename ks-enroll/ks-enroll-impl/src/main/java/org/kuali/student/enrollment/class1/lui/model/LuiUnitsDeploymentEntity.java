@@ -8,8 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "KSEN_LUI_UNITS_CONT_OWNER")
-public class LuiUnitContentOwnerEntity {
+@Table(name = "KSEN_LUI_UNITS_DEPLOYMENT")
+public class LuiUnitsDeploymentEntity {
 
     @Id
     @Column(name = "ID")
@@ -45,4 +45,5 @@ public class LuiUnitContentOwnerEntity {
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }
+
 }

@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 
 @Entity
 @Table(name = "KSEN_LUI_REVENUE")
@@ -42,6 +43,15 @@ public class LuiRevenueEntity extends MetaEntity {
         this.lui = lui;
     }
     
-    
+    public RevenueInfo toDto() {
+        RevenueInfo obj = new RevenueInfo();
+        obj.setId(this.getId());
+        obj.setFeeType(this.getFeeType());
+        
+        //TODO: attributes
+        
+        return obj;
+
+    }
 
 }

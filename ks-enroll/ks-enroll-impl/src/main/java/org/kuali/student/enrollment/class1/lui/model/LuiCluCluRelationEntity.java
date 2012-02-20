@@ -21,6 +21,8 @@ public class LuiCluCluRelationEntity {
 
     @Column(name = "CLUCLU_RELTN_ID", nullable = false)
     private String clucluRelationId;
+    
+    public LuiCluCluRelationEntity() {}
 
     public LuiCluCluRelationEntity(LuiCluCluRelationEntity luiCluRelationEntity) {
         this.setId(luiCluRelationEntity.getId());
