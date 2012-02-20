@@ -13,69 +13,70 @@ import org.kuali.student.r2.common.infc.MeetingSchedule;
 @Entity
 @Table(name = "KSEN_LUI_MTG_SCHE")
 public class MeetingScheduleEntity extends MetaEntity {
-	@Column(name = "SPACE_ID")
-	private String spaceId;
+    @Column(name = "SPACE_ID")
+    private String spaceId;
 
-	@Column(name = "TM_PRD")
-	private String timePeriods;
+    @Column(name = "SCHEDULE_ID")
+    private String scheduleId;
 
-	@ManyToOne
-	@JoinColumn(name="LUI_ID")
-	private LuiEntity lui;
+    @ManyToOne
+    @JoinColumn(name = "LUI_ID")
+    private LuiEntity lui;
 
-    public MeetingScheduleEntity(){}
-    
-    public MeetingScheduleEntity(MeetingSchedule meetingSchedule){
-    	try{
-    		this.setId(meetingSchedule.getId());
-    		this.setSpaceId(meetingSchedule.getSpaceId());
-    		this.setTimePeriods(meetingSchedule.getScheduleId());
-    		this.setVersionNumber((long) 0);
-    	} catch (Exception e){
+    public MeetingScheduleEntity() {}
+
+    public MeetingScheduleEntity(MeetingSchedule meetingSchedule) {
+        try {
+            this.setId(meetingSchedule.getId());
+            this.setSpaceId(meetingSchedule.getSpaceId());
+            this.setScheduleId(meetingSchedule.getScheduleId());
+            this.setVersionNumber((long) 0);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    public MeetingScheduleInfo toDto(){
-    	MeetingScheduleInfo obj = new MeetingScheduleInfo();
-    	obj.setId(getId());
-    	obj.setSpaceId(spaceId);
-    	obj.setScheduleId(timePeriods);
-    	
-    	return obj;
+
+    public MeetingScheduleInfo toDto() {
+        MeetingScheduleInfo obj = new MeetingScheduleInfo();
+        obj.setId(getId());
+        obj.setSpaceId(spaceId);
+        obj.setScheduleId(scheduleId);
+
+        return obj;
     }
-	public String getSpaceId() {
-		return spaceId;
-	}
 
-	public void setSpaceId(String spaceId) {
-		this.spaceId = spaceId;
-	}
+    public String getSpaceId() {
+        return spaceId;
+    }
 
-	public String getTimePeriods() {
-		return timePeriods;
-	}
+    public void setSpaceId(String spaceId) {
+        this.spaceId = spaceId;
+    }
 
-	public void setTimePeriods(String timePeriods) {
-		this.timePeriods = timePeriods;
-	}
+    public String getScheduleId() {
+        return scheduleId;
+    }
 
-	public LuiEntity getLui() {
-		return lui;
-	}
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+    }
 
-	public void setLui(LuiEntity lui) {
-		this.lui = lui;
-	}
+    public LuiEntity getLui() {
+        return lui;
+    }
 
-//	@Override
-//	public void setAttributes(List<MeetingScheduleAttributeEntity> attributes) {
-//		this.attributes = attributes;		
-//	}
-//
-//	@Override
-//	public List<MeetingScheduleAttributeEntity> getAttributes() {
-//		return attributes;
-//	}
+    public void setLui(LuiEntity lui) {
+        this.lui = lui;
+    }
+
+    // @Override
+    // public void setAttributes(List<MeetingScheduleAttributeEntity> attributes) {
+    // this.attributes = attributes;
+    // }
+    //
+    // @Override
+    // public List<MeetingScheduleAttributeEntity> getAttributes() {
+    // return attributes;
+    // }
 
 }

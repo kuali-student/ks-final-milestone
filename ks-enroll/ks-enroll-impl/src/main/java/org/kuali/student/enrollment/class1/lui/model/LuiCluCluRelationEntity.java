@@ -19,7 +19,7 @@ public class LuiCluCluRelationEntity {
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
 
-    @Column(name = "CLU_ID", nullable = false)
+    @Column(name = "CLUCLU_RELTN_ID", nullable = false)
     private String clucluRelationId;
 
     public LuiCluCluRelationEntity(LuiCluCluRelationEntity luiCluRelationEntity) {

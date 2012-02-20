@@ -18,11 +18,11 @@ public class LuiCapacityEntity extends MetaEntity {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "FEE_TYPE")
-    private String feeType;
+    @Column(name = "LUI_CAPACITY_TYPE")
+    private String type;
 
-    @Column(name = "RATE_TYPE")
-    private String rateType;
+    @Column(name = "LUI_CAPACITY_STATE")
+    private String state;
 
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String formatted;
@@ -38,6 +38,12 @@ public class LuiCapacityEntity extends MetaEntity {
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
 
+    @Column(name = "MAX_SEATS")
+    private Integer maxSeats;
+
+    @Column(name = "PROCESSING_ORDER")
+    private Integer processingOrder;
+
     public String getName() {
         return name;
     }
@@ -46,20 +52,20 @@ public class LuiCapacityEntity extends MetaEntity {
         this.name = name;
     }
 
-    public String getFeeType() {
-        return feeType;
+    public String getType() {
+        return type;
     }
 
-    public void setFeeType(String feeType) {
-        this.feeType = feeType;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getRateType() {
-        return rateType;
+    public String getState() {
+        return state;
     }
 
-    public void setRateType(String rateType) {
-        this.rateType = rateType;
+    public void setState(String state) {
+        this.state = state;
     }
 
     public String getFormatted() {
@@ -92,6 +98,22 @@ public class LuiCapacityEntity extends MetaEntity {
 
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
+    }
+
+    public Integer getMaxSeats() {
+        return maxSeats;
+    }
+
+    public void setMaxSeats(Integer maxSeats) {
+        this.maxSeats = maxSeats;
+    }
+
+    public Integer getProcessingOrder() {
+        return processingOrder;
+    }
+
+    public void setProcessingOrder(Integer processingOrder) {
+        this.processingOrder = processingOrder;
     }
 
 }
