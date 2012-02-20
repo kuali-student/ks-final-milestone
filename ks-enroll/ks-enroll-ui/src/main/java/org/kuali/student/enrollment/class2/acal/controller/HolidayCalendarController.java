@@ -159,15 +159,7 @@ public class HolidayCalendarController extends UifControllerBase {
 
         HolidayCalendarInfo newHCInfo = null;
         try {
-            //newHCInfo = getHolidayCalendarFormHelper(form).copyHolidayCalendar(form);
-             //TODO: For testing flow. remove this after copyHolidayCalendar working
-            HolidayCalendarInfo hc = form.getHolidayCalendarInfo();
-            getHolidayCalendar(hc.getId(), form);
-            HolidayCalendarInfo hcCopy = form.getHolidayCalendarInfo();
-            hcCopy.setName(form.getNewCalendarName());
-            hcCopy.setStartDate(form.getNewCalendarStartDate());
-            hcCopy.setEndDate(form.getNewCalendarEndDate());
-            newHCInfo = hcCopy;
+            newHCInfo = getHolidayCalendarFormHelper(form).copyHolidayCalendar(form);
         }
         catch (Exception x) {
         }
