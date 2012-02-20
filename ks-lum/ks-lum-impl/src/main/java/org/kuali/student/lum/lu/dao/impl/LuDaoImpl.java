@@ -36,7 +36,6 @@ import org.kuali.student.lum.lu.entity.CluSet;
 import org.kuali.student.lum.lu.entity.Lui;
 import org.kuali.student.lum.lu.entity.LuiLuiRelation;
 
-
 public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 
 	@PersistenceContext(unitName = "Lu")
@@ -247,6 +246,29 @@ public class LuDaoImpl extends AbstractSearchableCrudDaoImpl implements LuDao {
 		return resultList;
 	}
 
+	@Override
+	public List<Clu> getClusByRelationSt(String cluId, String luLuRelationTypeId, List<String> luStateList) {
+		Query query = em.createNamedQuery("CluCluRelation.getRelatedClusByCluIdSt");
+		query.setParameter("cluId", cluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		query.setParameter("luStateList", luStateList);
+		@SuppressWarnings("unchecked")
+		List<Clu> resultList = query.getResultList();
+		
+		query = em.createNamedQuery("CluCluRelation.getClusByRelatedCluIdSt");
+		query.setParameter("relatedCluId", cluId);
+		query.setParameter("luLuRelationTypeId", luLuRelationTypeId);
+		query.setParameter("luStateList", luStateList);		
+		List<Clu> resultListRel = query.getResultList();
+		if(resultListRel != null)
+			for(Clu clu:resultListRel) {
+				if (!resultList.contains(clu))
+					resultList.add(clu);
+			}
+		
+		return resultList;
+	}
+	
 	@Override
 	public List<CluLoRelation> getCluLoRelationsByClu(String cluId) {
 		Query query = em

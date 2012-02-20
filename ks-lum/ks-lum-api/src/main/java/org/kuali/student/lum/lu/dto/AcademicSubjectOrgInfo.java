@@ -20,6 +20,7 @@ import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 /**
  * Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg.
@@ -30,6 +31,8 @@ import javax.xml.bind.annotation.XmlElement;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/academicSubjectOrgInfo+Structure+v1.0-rc2">AcademicSubjectOrgInfo</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "AcademicSubjectOrgInfo", propOrder = {"orgId"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AcademicSubjectOrgInfo implements Serializable {
 

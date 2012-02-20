@@ -5,12 +5,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
@@ -23,7 +25,6 @@ import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.springframework.transaction.annotation.Transactional;
 
-@Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class StatementDataService implements StatementRpcService{
 	final static Logger LOG = Logger.getLogger(StatementDataService.class);
     
@@ -33,17 +34,20 @@ public class StatementDataService implements StatementRpcService{
     
     private static final long serialVersionUID = 822326113643828855L;
     @Override
-    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
+    @Transactional(readOnly=true)
+    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey,ContextInfo contextInfo) throws Exception {
     
         List<StatementTypeInfo> allStatementTypes = new ArrayList<StatementTypeInfo>();
-
-        List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey);
-
+        //TODO KSCM List Types does not match, I commented this out and did  initialize the List as ArrayList
+        //      List<String> topStatementTypes = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
+        List<String> topStatementTypes = new ArrayList<String>() ;
+        
         // loop through top statement types like enrollment eligibility and credit constraints
         for (String topStatementType : topStatementTypes) {           
             allStatementTypes.add(statementService.getStatementType(topStatementType));
-            List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType);
-
+            //TODO KSCM List<> types differ, I did not initialized the string 
+            //List<String> subStatementTypeNames = statementService.getStatementTypesForStatementType(topStatementType,ContextUtils.getContextInfo());
+            List<String> subStatementTypeNames = new ArrayList<String>();
             // loop through statement types belonging to the top statement types
             for (String subStatementTypeName : subStatementTypeNames) {
                 allStatementTypes.add(statementService.getStatementType(subStatementTypeName));
@@ -54,20 +58,27 @@ public class StatementDataService implements StatementRpcService{
     }
     
     @Override
-    public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
-        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey);
-        List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
-        for (String statementTypeName : statementTypeNames) {
-            statementTypes.add(statementService.getStatementType(statementTypeName));
-        }
-        return statementTypes;
+    @Transactional(readOnly=true)
+    public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey,ContextInfo contextInfo) throws Exception {
+    	
+    	//TODO KSCM : Need to rewire this logic to fit the new List types
+//        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
+//        List<StatementTypeInfo> statementTypes = new ArrayList<StatementTypeInfo>();
+//        for (String statementTypeName : statementTypeNames) {
+//            statementTypes.add(statementService.getStatementType(statementTypeName));
+//        }
+//        return statementTypes;
+    	return null;
     }
     @Override
-    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey) throws Exception {
+    @Transactional(readOnly=true)
+    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey,ContextInfo contextInfo) throws Exception {
 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
         try { 
-            reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
+        	//TODO KSCM : Paul en Nina, I have instantiated the list to make it compile 
+            //reqComponentTypeInfoList = statementService.getReqComponentTypesForStatementType(luStatementTypeKey);
+        	reqComponentTypeInfoList = new ArrayList<ReqComponentTypeInfo>();
         } catch (Exception ex) {
             LOG.error(ex);
             throw new Exception("Unable to find Requirement Component Types based on LU Statement Type Key:" + luStatementTypeKey, ex);
@@ -77,32 +88,37 @@ public class StatementDataService implements StatementRpcService{
     }
 
     @Override
-    public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language) throws Exception {
-        return statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
+    @Transactional(readOnly=true)
+    public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language,ContextInfo contextInfo) throws Exception {
+        return statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language,contextInfo);
     }
 
     @Override
-    public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language) throws Exception {
-        return statementService.translateReqComponentToNL(reqComponentInfo, nlUsageTypeKey, language);
+    @Transactional(readOnly=true)
+    public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language,ContextInfo contextInfo) throws Exception {
+        return statementService.translateReqComponentToNL(reqComponentInfo, nlUsageTypeKey, language,contextInfo);
     }
 
     @Override
-    public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language) throws Exception {
+    @Transactional(readOnly=true)
+    public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language,ContextInfo contextInfo) throws Exception {
     	List<String> nls = new ArrayList<String>(nlUsageTypeKeys.length);
     	for (String typeKey : nlUsageTypeKeys) {
-    		nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language));
+    		nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language,contextInfo));
     	}
     	return nls;
     }
 
     @Override
-    public CluInfo getClu(String cluId) throws Exception {
-        return luService.getClu(cluId);
+    @Transactional(readOnly=true)
+    public CluInfo getClu(String cluId,ContextInfo contextInfo) throws Exception {
+        return luService.getClu(cluId,ContextUtils.getContextInfo());
     }
 
     @Override
-    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws Exception {
-        return luService.getCurrentVersion(refObjectTypeURI, refObjectId);
+    @Transactional(readOnly=true)
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId,ContextInfo contextInfo) throws Exception {
+        return luService.getCurrentVersion(refObjectTypeURI, refObjectId,ContextUtils.getContextInfo());
     }
 
     public void setStatementService(StatementService statementService) {
@@ -124,50 +140,50 @@ public class StatementDataService implements StatementRpcService{
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypes() {
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey) {
+	public SearchTypeInfo getSearchType(String searchTypeKey,ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) {
+			String searchResultTypeKey,ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) {
+			String searchCriteriaTypeKey,ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes() {
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) {
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() {
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) {
+			String searchCriteriaTypeKey,ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest) {
+	public SearchResult search(SearchRequest searchRequest,ContextInfo contextInfo) {
 		throw new UnsupportedOperationException();
 	}
 }
