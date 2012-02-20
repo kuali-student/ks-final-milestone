@@ -22,7 +22,7 @@ import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
 
 @Entity
-@Table(name = "KSEN_LUI_LUCD")
+@Table(name = "KSEN_LUI_LU_CD")
 public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAttributeEntity>{
 	
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
@@ -34,7 +34,7 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
 	@Column(name = "VALUE")
 	private String value;
 
-	@Column(name = "TYPE")
+	@Column(name = "LUI_LUCD_TYPE")
 	private String type;
 
 	@ManyToOne

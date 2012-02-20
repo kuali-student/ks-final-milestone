@@ -76,6 +76,15 @@
     <class>org.kuali.student.enrollment.class1.lui.model.LuiIdentifierAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.MeetingScheduleEntity</class>
     <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupRelationEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiCapacityRelationEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiFeeEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiExpenditureEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiRevenueEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitContentOwnerEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitDeploymentEntity</class>
+    <class>org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity</class>
+    
     <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>
     <class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
     <class>org.kuali.student.enrollment.class1.lpr.model.LprRichTextEntity</class>

@@ -3,7 +3,7 @@ package org.kuali.student.enrollment.class1.lui.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "KSEN_LUI_RV_GRP_RELTN")
+@Table(name = "KSEN_LUI_RESULT_VAL_GRP")
 public class LuiResultValuesGroupRelationEntity{
 
     @Id
@@ -14,7 +14,7 @@ public class LuiResultValuesGroupRelationEntity{
 	@JoinColumn(name="LUI_ID")
 	private LuiEntity lui;
 
-    @Column(name = "RV_GRP_ID", nullable = false)
+    @Column(name = "RESULT_VAL_GRP_ID", nullable = false)
     private String resultValuesGroupKey;
 
     public LuiResultValuesGroupRelationEntity(){

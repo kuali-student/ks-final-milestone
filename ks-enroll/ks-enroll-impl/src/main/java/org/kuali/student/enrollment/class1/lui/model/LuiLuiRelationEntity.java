@@ -27,6 +27,7 @@ import org.kuali.student.r2.common.infc.RichText;
 @Entity
 @Table(name = "KSEN_LUILUI_RELTN")
 public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<LuiLuiRelationAttributeEntity>{
+    
     @Column(name = "NAME")
     private String name;
     
@@ -44,10 +45,10 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	@JoinColumn(name = "RELATED_LUI_ID")
 	private LuiEntity relatedLui;
 
-    @Column(name = "LUI_LUI_REL_TYPE")
+    @Column(name = "LUILUI_RELTN_TYPE")
     private String luiLuiRelationType;
 
-    @Column(name = "LUI_LUI_REL_STATE")
+    @Column(name = "LUI_RELTN_STATE")
     private String luiLuiRelationState;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -55,7 +56,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
 	private Date effectiveDate;
 
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name = "EXP_DT")
+	@Column(name = "EXPIR_DT")
 	private Date expirationDate;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
