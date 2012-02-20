@@ -10,6 +10,8 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.core.class1.state.dao.LifecycleDao;
 import org.kuali.student.r2.core.class1.state.dao.StateDao;
 import org.kuali.student.r2.core.class1.state.dao.StateLifecycleRelationDao;
+import org.kuali.student.r2.common.class1.state.model.LifecycleEntity;
+import org.kuali.student.r2.common.class1.state.model.StateEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -22,11 +24,10 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.class1.state.model.LifecycleEntity;
-import org.kuali.student.r2.core.state.dto.LifecycleInfo;
-import org.kuali.student.r2.core.state.dto.StateInfo;
-import org.kuali.student.r2.core.state.service.StateService;
+import org.kuali.student.r2.common.state.dto.LifecycleInfo;
+import org.kuali.student.r2.common.state.dto.StateInfo;
+import org.kuali.student.r2.common.state.service.StateService;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(name = "StateService", serviceName = "StateService", portName = "StateService", targetNamespace = "http://student.kuali.org/wsdl/state")

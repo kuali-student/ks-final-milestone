@@ -5,7 +5,7 @@ import java.util.List;
 
 import javax.persistence.Query;
 
-import org.kuali.student.r2.core.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.atp.model.MilestoneEntity;
 
 public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {

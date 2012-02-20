@@ -7,7 +7,7 @@ import java.util.List;
 
 
 import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
-import org.kuali.student.r2.core.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 public class AtpDao extends GenericEntityDao<AtpEntity> {
 

@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.BaseAttributeEntity;
 import org.kuali.student.r2.common.entity.BaseTypeEntity;
 import org.kuali.student.r2.common.util.RichTextHelper;
-import org.kuali.student.r2.core.type.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 
 
 @MappedSuperclass

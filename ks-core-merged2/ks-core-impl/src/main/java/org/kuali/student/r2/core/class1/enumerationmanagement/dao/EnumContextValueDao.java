@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.class1.enumerationmanagement.dao;
 
 
 import org.kuali.student.r2.core.class1.enumerationmanagement.model.EnumContextValueEntity;
-import org.kuali.student.r2.core.dao.GenericEntityDao;
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 
 /**
  * Enumeration Context Value Dao class.

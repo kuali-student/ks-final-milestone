@@ -3,8 +3,9 @@ package org.kuali.student.r2.core.class1.atp.dao;
 import java.util.List;
 
 
+import org.kuali.student.r2.common.dao.GenericEntityDao;
 import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
-import org.kuali.student.r2.core.dao.GenericEntityDao;
+
 
 public class AtpAtpRelationDao extends GenericEntityDao<AtpAtpRelationEntity> {
 

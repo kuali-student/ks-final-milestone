@@ -15,13 +15,13 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.TypeTypeRelation;
 import org.kuali.student.r2.common.util.RichTextHelper;
 import org.kuali.student.r2.core.class1.atp.model.AtpRichTextEntity;
-import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
-import org.kuali.student.r2.core.type.infc.TypeTypeRelation;
 
 @Entity
 @Table(name = "KSEN_TYPETYPE_RELTN")

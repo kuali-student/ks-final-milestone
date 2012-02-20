@@ -23,8 +23,7 @@ import java.util.Map;
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.service.IdentityManagementService;
-import org.kuali.rice.kim.service.IdentityService;
+import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.student.r1.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.common.exceptions.InvalidParameterException;
 import org.kuali.student.r1.common.exceptions.MissingParameterException;
@@ -35,6 +34,7 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r2.common.dto.ContextInfo;
 /**
  * Proxy Search service to the rice PersonService that adds primitive support for the search() and searchForResult()
  * search methods.
@@ -47,7 +47,7 @@ import org.kuali.student.r1.common.search.service.SearchService;
 public class PersonSearchServiceImpl implements SearchService {
     protected static final Logger LOG = Logger.getLogger(PersonSearchServiceImpl.class);
 
-    private IdentityManagementService identityService;
+    private IdentityService identityService;
 
     public static final String PERSON_ENTITY_TYPE = "PERSON";
 
@@ -160,10 +160,10 @@ public class PersonSearchServiceImpl implements SearchService {
 
     //
 
-    public IdentityManagementService getIdentityService() {
+    public IdentityService getIdentityService() {
         return identityService;
     }
-    public void setIdentityService(IdentityManagementService identityService) {
+    public void setIdentityService(IdentityService identityService) {
         this.identityService = identityService;
     }
 
