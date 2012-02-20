@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.atp;
+package r1.org.kuali.student.core.atp;
 
 import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
