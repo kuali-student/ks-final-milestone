@@ -23,6 +23,7 @@ import org.kuali.student.common.dto.TypeInfo;
 /**
  *Information about a milestone type.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MilestoneTypeInfo extends TypeInfo {
 

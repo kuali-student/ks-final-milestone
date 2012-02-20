@@ -33,6 +33,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about organization codes.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgCodeInfo implements Serializable, Idable, HasAttributes {
 

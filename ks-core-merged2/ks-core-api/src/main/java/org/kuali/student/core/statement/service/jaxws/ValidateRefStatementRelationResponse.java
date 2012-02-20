@@ -17,6 +17,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "validateRefStatementRelationResponse", namespace = "http://student.kuali.org/wsdl/statement")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "validateRefStatementRelationResponse", namespace = "http://student.kuali.org/wsdl/statement")

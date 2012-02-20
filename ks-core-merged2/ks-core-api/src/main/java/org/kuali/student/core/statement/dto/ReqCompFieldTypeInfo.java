@@ -28,6 +28,7 @@ import org.kuali.student.common.dto.Idable;
 /**
  *Detailed information about a requirement component field type.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ReqCompFieldTypeInfo implements Serializable, Idable {
 

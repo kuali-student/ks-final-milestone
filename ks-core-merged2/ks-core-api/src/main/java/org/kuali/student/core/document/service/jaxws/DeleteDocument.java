@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "deleteDocument", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "deleteDocument", namespace = "http://student.kuali.org/wsdl/document")

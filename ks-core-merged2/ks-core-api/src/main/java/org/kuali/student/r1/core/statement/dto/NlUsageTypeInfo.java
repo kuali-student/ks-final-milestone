@@ -24,6 +24,7 @@ import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r1.common.dto.TypeInfo;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class NlUsageTypeInfo extends TypeInfo implements Serializable, Idable, HasAttributes {
 

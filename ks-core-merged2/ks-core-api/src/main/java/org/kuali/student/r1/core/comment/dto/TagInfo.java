@@ -40,6 +40,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTR/tagInfo+Structure+v1.0-rc1">TagInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TagInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

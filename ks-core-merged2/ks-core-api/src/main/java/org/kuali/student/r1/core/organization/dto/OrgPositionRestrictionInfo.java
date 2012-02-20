@@ -34,6 +34,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Information which constrains/describes organization to person relationships of a particular type for an organization. These constraints/descriptions typically involve active relationships.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgPositionRestrictionInfo implements Serializable, Idable, HasAttributes {
 

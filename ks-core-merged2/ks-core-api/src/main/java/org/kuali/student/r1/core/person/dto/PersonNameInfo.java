@@ -13,6 +13,7 @@
  * permissions and limitations under the License.
  */
 
+
 package org.kuali.student.r1.core.person.dto;
 
 import java.io.Serializable;
@@ -29,6 +30,7 @@ import org.kuali.student.r1.common.dto.MetaInfo;
 /**
  *Information about a person's name. 
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonNameInfo implements Serializable, Idable {
 

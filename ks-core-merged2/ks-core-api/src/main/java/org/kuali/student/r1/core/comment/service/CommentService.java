@@ -46,6 +46,7 @@ import org.kuali.student.r1.core.comment.dto.TagTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTR/Comment+Service+v1.0-rc1">CommentService</>
  *
  */
+@Deprecated
 @WebService(name = "CommentService", targetNamespace = "http://student.kuali.org/wsdl/comment")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 //@XmlSeeAlso({org.kuali.student.core.dto.ReferenceTypeInfo.class})

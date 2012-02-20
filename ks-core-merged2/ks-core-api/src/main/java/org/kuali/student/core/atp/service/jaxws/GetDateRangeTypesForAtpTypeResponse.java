@@ -29,6 +29,7 @@ import org.kuali.student.core.atp.dto.DateRangeTypeInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getDateRangeTypesForAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getDateRangeTypesForAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")

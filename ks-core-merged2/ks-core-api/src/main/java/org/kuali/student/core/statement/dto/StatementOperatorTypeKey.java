@@ -17,6 +17,7 @@ package org.kuali.student.core.statement.dto;
 
 import javax.xml.bind.annotation.XmlEnum;
 
+@Deprecated
 @XmlEnum(String.class)
 public enum StatementOperatorTypeKey {
     AND, OR;

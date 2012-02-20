@@ -45,6 +45,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/documentInfo+Structure">DocumentInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

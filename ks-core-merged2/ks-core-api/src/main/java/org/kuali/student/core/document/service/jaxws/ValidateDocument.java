@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "validateDocument", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "validateDocument", namespace = "http://student.kuali.org/wsdl/document", propOrder = {"validationType","documentInfo"})

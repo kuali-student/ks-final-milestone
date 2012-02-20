@@ -1,5 +1,6 @@
 package org.kuali.student.r1.core.proposal;
 
+@Deprecated
 public class ProposalConstants {
 	public static final String PROPOSAL_STATE_SAVED = "Saved";
     public static final String PROPOSAL_STATE_CANCELLED = "Cancelled";

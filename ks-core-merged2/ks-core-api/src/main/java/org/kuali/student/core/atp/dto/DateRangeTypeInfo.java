@@ -23,6 +23,7 @@ import org.kuali.student.common.dto.TypeInfo;
 /**
  *Information about a date range type.
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DateRangeTypeInfo extends TypeInfo {
 

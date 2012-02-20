@@ -34,6 +34,7 @@ import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r1.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo;
 
+@Deprecated
 @WebService(name = "EnumerationManagementService", targetNamespace = "http://student.kuali.org/wsdl/enumerationmanagement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface EnumerationManagementService extends DictionaryService, SearchService {

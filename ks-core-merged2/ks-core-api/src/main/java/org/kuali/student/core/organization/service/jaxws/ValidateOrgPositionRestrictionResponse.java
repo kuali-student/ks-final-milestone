@@ -28,6 +28,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "validateOrgPositionRestrictionResponse", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "validateOrgPositionRestrictionResponse", namespace = "http://student.kuali.org/wsdl/organization")

@@ -42,6 +42,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/proposalDocRelationInfo+Structure">ProposalDocRelationInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalDocRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

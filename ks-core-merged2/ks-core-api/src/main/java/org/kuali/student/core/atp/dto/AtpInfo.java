@@ -36,6 +36,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Information about an academic time period.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AtpInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

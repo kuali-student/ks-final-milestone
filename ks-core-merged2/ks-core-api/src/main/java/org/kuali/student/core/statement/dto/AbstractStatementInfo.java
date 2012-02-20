@@ -35,6 +35,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about a single LU statement.
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AbstractStatementInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

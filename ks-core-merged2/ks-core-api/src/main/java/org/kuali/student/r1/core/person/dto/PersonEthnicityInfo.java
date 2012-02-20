@@ -29,6 +29,7 @@ import org.kuali.student.r1.common.dto.MetaInfo;
 /**
  *Detailed information about a person's ethnicity (and sub-ethnicity).
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonEthnicityInfo implements Serializable, Idable {
 

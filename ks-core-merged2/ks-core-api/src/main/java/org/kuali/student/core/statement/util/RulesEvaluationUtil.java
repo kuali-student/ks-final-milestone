@@ -16,6 +16,7 @@ import java.util.*;
  * This class contains utility methods to evaluate agendas using the KRMS engine
  *
  */
+@Deprecated
 public class RulesEvaluationUtil {
 
     private List<TermResolver<?>> termResolvers;

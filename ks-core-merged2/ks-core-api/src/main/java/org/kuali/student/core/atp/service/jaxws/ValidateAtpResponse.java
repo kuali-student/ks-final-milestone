@@ -28,6 +28,7 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "validateAtpResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "validateAtpResponse", namespace = "http://student.kuali.org/wsdl/atp")

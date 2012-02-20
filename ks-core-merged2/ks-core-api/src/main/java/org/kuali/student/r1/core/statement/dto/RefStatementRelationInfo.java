@@ -32,6 +32,7 @@ import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RefStatementRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

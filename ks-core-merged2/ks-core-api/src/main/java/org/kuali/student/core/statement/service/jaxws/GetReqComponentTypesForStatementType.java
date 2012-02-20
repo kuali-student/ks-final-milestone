@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getReqComponentTypesForStatementType", namespace = "http://student.kuali.org/wsdl/statement")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getReqComponentTypesForStatementType", namespace = "http://student.kuali.org/wsdl/statement")

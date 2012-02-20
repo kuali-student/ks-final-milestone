@@ -74,6 +74,7 @@ import org.kuali.student.core.organization.dto.OrgTypeInfo;
  * @author Kuali Student Team
  */
 
+@Deprecated
 @WebService(name = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface OrganizationService extends DictionaryService, SearchService {

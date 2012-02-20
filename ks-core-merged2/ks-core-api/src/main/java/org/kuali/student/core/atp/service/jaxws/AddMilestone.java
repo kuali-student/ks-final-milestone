@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "addMilestone", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "addMilestone", namespace = "http://student.kuali.org/wsdl/atp", propOrder = {"atpKey","milestoneKey","milestoneInfo"})

@@ -33,6 +33,7 @@ import org.kuali.student.common.dto.RichTextInfo;
 /**
  *Information about a requirement component.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ReqComponentInfo implements Serializable, Idable, HasTypeState {
 

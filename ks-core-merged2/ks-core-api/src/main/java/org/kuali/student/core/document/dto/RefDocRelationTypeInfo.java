@@ -30,6 +30,7 @@ import org.kuali.student.common.dto.TypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/refDocRelationTypeInfo+Structure">RefDocRelationTypeInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RefDocRelationTypeInfo extends TypeInfo {
     private static final long serialVersionUID = 1L;

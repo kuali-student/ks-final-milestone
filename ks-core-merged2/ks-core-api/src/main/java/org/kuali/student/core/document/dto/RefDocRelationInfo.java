@@ -43,6 +43,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/refDocRelationInfo+Structure">RefDocRelationInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RefDocRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

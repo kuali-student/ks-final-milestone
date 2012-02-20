@@ -24,6 +24,7 @@ import org.kuali.student.common.dto.TypeInfo;
 /**
  *Information for an organization hierarchy.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgHierarchyInfo extends TypeInfo {
 

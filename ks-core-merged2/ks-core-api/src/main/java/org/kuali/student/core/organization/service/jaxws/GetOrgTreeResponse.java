@@ -29,6 +29,7 @@ import org.kuali.student.core.organization.dto.OrgTreeInfo;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "getOrgTreeResponse", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getOrgTreeResponse", namespace = "http://student.kuali.org/wsdl/organization")

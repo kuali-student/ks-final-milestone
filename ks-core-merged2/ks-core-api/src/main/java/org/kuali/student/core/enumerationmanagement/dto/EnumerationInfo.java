@@ -30,6 +30,7 @@ import org.kuali.student.common.dto.TypeInfo;
 /**
  *Descriptive information about an enumeration, including field constraints and supported contexts.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EnumerationInfo extends TypeInfo {
 

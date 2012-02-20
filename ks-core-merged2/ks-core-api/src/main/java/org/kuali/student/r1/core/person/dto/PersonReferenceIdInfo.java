@@ -35,6 +35,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Information about an external identifier for a person.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonReferenceIdInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

@@ -35,6 +35,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about a person to person relationship.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlElement;
 
+@Deprecated
 public class StatementTreeViewInfo extends AbstractStatementInfo {
 
     private static final long serialVersionUID = 1L;

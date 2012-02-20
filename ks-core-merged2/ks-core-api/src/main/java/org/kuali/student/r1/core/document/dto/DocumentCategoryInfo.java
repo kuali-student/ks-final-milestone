@@ -44,6 +44,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/documentCategoryInfo+Structure">DocumentCategoryInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentCategoryInfo implements Serializable, Idable, HasAttributes {
 

@@ -29,6 +29,7 @@ import org.kuali.student.core.atp.dto.AtpTypeInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getAtpTypesResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getAtpTypesResponse", namespace = "http://student.kuali.org/wsdl/atp")

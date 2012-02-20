@@ -36,6 +36,7 @@ import org.kuali.student.r1.common.dto.RichTextInfo;
 /**
  *Information about an academic time period.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AtpInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

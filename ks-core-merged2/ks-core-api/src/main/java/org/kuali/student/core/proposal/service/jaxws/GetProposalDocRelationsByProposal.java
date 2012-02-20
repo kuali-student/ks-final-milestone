@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getProposalDocRelationsByProposal", namespace = "http://student.kuali.org/wsdl/proposal")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getProposalDocRelationsByProposal", namespace = "http://student.kuali.org/wsdl/proposal")

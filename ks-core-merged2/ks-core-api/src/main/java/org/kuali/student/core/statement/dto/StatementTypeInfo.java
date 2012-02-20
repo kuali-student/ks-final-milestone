@@ -24,6 +24,7 @@ import javax.xml.bind.annotation.XmlElementWrapper;
 
 import org.kuali.student.common.dto.TypeInfo;
 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class StatementTypeInfo extends TypeInfo {
 

@@ -38,6 +38,7 @@ import java.util.Map;
  * @author alubbers
  *
  */
+@Deprecated
 public class PropositionBuilder {
     
     public static final Collection<String> TRANSLATABLE_STATEMENT_TYPES = Collections.singleton(StatementServiceConstants.PREREQUISITE_STATEMENT_TYPE);

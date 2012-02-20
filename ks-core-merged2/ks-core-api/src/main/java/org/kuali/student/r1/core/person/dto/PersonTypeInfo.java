@@ -33,6 +33,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about a person type.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonTypeInfo implements Serializable, Idable, HasAttributes {
 

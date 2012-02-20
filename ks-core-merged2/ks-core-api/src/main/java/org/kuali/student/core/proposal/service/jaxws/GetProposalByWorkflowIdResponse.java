@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getProposalByWorkflowIdResponse", namespace = "http://student.kuali.org/wsdl/proposal")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getProposalByWorkflowIdResponse", namespace = "http://student.kuali.org/wsdl/proposal")

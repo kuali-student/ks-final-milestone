@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  *Detailed information about a single LU statement.
  */
+@Deprecated
 public class StatementInfo extends AbstractStatementInfo {
 
     private static final long serialVersionUID = 1L;

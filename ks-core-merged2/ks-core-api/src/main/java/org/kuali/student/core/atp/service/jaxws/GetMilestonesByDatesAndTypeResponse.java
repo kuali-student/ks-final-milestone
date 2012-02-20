@@ -29,6 +29,7 @@ import org.kuali.student.core.atp.dto.MilestoneInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getMilestonesByDatesAndTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getMilestonesByDatesAndTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")

@@ -36,6 +36,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Information about a milestone.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MilestoneInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

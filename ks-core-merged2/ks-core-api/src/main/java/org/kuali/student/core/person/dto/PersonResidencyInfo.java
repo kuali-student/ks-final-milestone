@@ -35,6 +35,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about a student's residency.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonResidencyInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

@@ -49,6 +49,7 @@ import org.kuali.student.r1.core.document.dto.RefDocRelationTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Document+Service">DocumentService</>
  *
  */
+@Deprecated
 @WebService(name = "DocumentService", targetNamespace = "http://student.kuali.org/wsdl/document") // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DocumentService extends DictionaryService { 

@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "createDocument", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "createDocument", namespace = "http://student.kuali.org/wsdl/document", propOrder = {"documentTypeKey","documentCategoryKey","documentInfo"})

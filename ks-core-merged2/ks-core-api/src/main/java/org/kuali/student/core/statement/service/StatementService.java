@@ -44,6 +44,7 @@ import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 
+@Deprecated
 @WebService(name = "StatementService", targetNamespace = "http://student.kuali.org/wsdl/statement")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface StatementService extends DictionaryService, SearchService {

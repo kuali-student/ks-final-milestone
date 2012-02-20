@@ -29,6 +29,7 @@ import org.kuali.student.core.document.dto.DocumentTypeInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getDocumentTypesResponse", namespace = "http://student.kuali.org/wsdl/document")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getDocumentTypesResponse", namespace = "http://student.kuali.org/wsdl/document")

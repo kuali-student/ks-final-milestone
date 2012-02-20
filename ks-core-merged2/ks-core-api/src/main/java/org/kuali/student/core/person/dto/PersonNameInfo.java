@@ -29,6 +29,7 @@ import org.kuali.student.common.dto.MetaInfo;
 /**
  *Information about a person's name. 
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonNameInfo implements Serializable, Idable {
 

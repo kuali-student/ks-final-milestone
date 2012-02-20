@@ -29,6 +29,7 @@ import org.kuali.student.core.atp.dto.AtpSeasonalTypeInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getAtpSeasonalTypesResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getAtpSeasonalTypesResponse", namespace = "http://student.kuali.org/wsdl/atp")

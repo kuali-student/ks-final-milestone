@@ -29,6 +29,7 @@ import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
  * Generated source version: 2.1.3
  */
 
+@Deprecated
 @XmlRootElement(name = "getOrgPersonRelationTypesForOrgTypeResponse", namespace = "http://student.kuali.org/wsdl/organization")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getOrgPersonRelationTypesForOrgTypeResponse", namespace = "http://student.kuali.org/wsdl/organization")

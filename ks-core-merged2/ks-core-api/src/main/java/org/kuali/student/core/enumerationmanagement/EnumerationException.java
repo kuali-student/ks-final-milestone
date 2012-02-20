@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.enumerationmanagement;
 
+@Deprecated
 public class EnumerationException extends RuntimeException{
 	/**
 	 * 

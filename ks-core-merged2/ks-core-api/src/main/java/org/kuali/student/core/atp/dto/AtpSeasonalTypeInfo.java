@@ -23,6 +23,7 @@ import org.kuali.student.common.dto.TypeInfo;
 /**
  *Information about an academic time period seasonal type.
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AtpSeasonalTypeInfo extends TypeInfo {
 

@@ -20,6 +20,7 @@ package org.kuali.student.core.statement.util;
  *
  * @author alubbers
  */
+@Deprecated
 public class StatementServiceConstants {
 
     // Statement Types

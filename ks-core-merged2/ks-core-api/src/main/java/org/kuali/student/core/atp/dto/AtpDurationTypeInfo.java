@@ -24,6 +24,7 @@ import org.kuali.student.common.dto.TypeInfo;
 /**
  *Information about an academic time period duration type.
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AtpDurationTypeInfo extends TypeInfo {
 

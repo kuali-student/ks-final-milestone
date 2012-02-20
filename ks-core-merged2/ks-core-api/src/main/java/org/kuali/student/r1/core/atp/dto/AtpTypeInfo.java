@@ -28,6 +28,7 @@ import org.kuali.student.r1.common.dto.TypeInfo;
 /**
  *Information about an academic time period type.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AtpTypeInfo extends TypeInfo implements Serializable, Idable, HasAttributes {
 

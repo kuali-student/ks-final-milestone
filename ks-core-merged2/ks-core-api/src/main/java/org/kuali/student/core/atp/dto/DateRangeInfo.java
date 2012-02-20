@@ -36,6 +36,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Information about a date range.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DateRangeInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

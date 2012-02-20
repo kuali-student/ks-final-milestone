@@ -43,6 +43,7 @@ import org.kuali.student.r1.common.dto.RichTextInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTR/commentInfo+Structure+v1.0-rc1">CommentInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CommentInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

@@ -29,6 +29,7 @@ import org.kuali.student.r1.common.dto.MetaInfo;
 /**
  *Detailed information about a person's visa.
  */ 
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PersonVisaInfo implements Serializable, Idable {
 

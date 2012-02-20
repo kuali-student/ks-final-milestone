@@ -13,6 +13,7 @@ import javax.xml.bind.annotation.XmlType;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getNaturalLanguageForReqComponent", namespace = "http://student.kuali.org/wsdl/statement")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getNaturalLanguageForReqComponent", namespace = "http://student.kuali.org/wsdl/statement", propOrder = {"reqComponentId","nlUsageTypeKey","language"})

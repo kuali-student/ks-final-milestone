@@ -49,6 +49,7 @@ import org.kuali.student.r1.core.atp.dto.MilestoneTypeInfo;
  * <p>This service supports the management of Academic Time Periods and their associated Date Ranges and Milestones. The intent is to provide a flexible but structured way to define the various time frames that are used throughout the definition, offering and scheduling of Learning Units. This is a catalogue service with basic operations.</p>
  *
  */
+@Deprecated
 @WebService(name = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface AtpService extends SearchService, DictionaryService {

@@ -29,6 +29,7 @@ import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
  * Generated source version: 2.2
  */
 
+@Deprecated
 @XmlRootElement(name = "getMilestoneTypesForAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getMilestoneTypesForAtpTypeResponse", namespace = "http://student.kuali.org/wsdl/atp")

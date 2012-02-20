@@ -42,6 +42,7 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTR/commentInfo+Structure+v1.0-rc1">CommentInfo</>
  *
  */
+@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CommentInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
