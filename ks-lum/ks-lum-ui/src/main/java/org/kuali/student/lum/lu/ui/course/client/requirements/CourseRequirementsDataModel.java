@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -105,7 +106,7 @@ public class CourseRequirementsDataModel {
                     //now retrieve the actual rules
                     retrieveRules(courseId, onReadyCallback);
                 }
-            });
+            }, ContextUtils.getContextInfo());
     }
 
     private void retrieveRules(String courseId, final Callback<Boolean> onReadyCallback) {
@@ -151,7 +152,7 @@ public class CourseRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        });
+        }, ContextUtils.getContextInfo());
     }
 
     public StatementTreeViewInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalCourseReqID, boolean isNewRule) {
@@ -234,7 +235,7 @@ public class CourseRequirementsDataModel {
                 //MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
                 callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }
-        });
+        }, ContextUtils.getContextInfo());
     }
 
     public static void stripStatementIds(StatementTreeViewInfo tree) {
@@ -416,7 +417,7 @@ public class CourseRequirementsDataModel {
                 }
                 onReadyCallback.exec(stmtTypes);
             }
-        });
+        }, ContextUtils.getContextInfo());
     }
 
     public static boolean isEmpty(StatementTreeViewInfo rule) {

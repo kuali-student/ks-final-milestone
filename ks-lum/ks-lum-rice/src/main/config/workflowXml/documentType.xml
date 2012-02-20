@@ -115,7 +115,7 @@
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
-          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
         </role>
         <role name="Publication Review">
 	      <activationType>P</activationType>
@@ -163,19 +163,19 @@
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
-          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
         </role>
         <role name="Division Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Division</organizationTypeCode>
-          <organizationIdQualifierKey>divisionId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
         </role>
         <role name="College Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.College</organizationTypeCode>
-          <organizationIdQualifierKey>collegeId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
         </role>
         <role name="Senate Review">
           <activationType>P</activationType>
@@ -216,19 +216,19 @@
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
-          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
         </role>
         <role name="Division Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Division</organizationTypeCode>
-          <organizationIdQualifierKey>divisionId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
         </role>
         <role name="College Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.College</organizationTypeCode>
-          <organizationIdQualifierKey>collegeId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
          </role>
         <role name="Senate Review">
           <activationType>P</activationType>
@@ -307,7 +307,7 @@
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
-          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
         </role>
       </routeNodes>
     </documentType>
@@ -341,19 +341,19 @@
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Department</organizationTypeCode>
-          <organizationIdQualifierKey>departmentId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>department</organizationIdQualifierKey>
         </role>
         <role name="Division Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.Division</organizationTypeCode>
-          <organizationIdQualifierKey>divisionId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>division</organizationIdQualifierKey>
         </role>
         <role name="College Review">
           <activationType>P</activationType>
           <qualifierResolverClass>org.kuali.student.lum.workflow.qualifierresolver.CocOrgTypeQualifierResolver</qualifierResolverClass>
           <organizationTypeCode>kuali.org.College</organizationTypeCode>
-          <organizationIdQualifierKey>collegeId</organizationIdQualifierKey>
+          <organizationIdQualifierKey>college</organizationIdQualifierKey>
          </role>
 		<role name="Curriculum Admin Review">
           <activationType>P</activationType>

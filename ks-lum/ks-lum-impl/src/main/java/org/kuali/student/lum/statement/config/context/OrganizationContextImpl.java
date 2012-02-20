@@ -41,7 +41,8 @@ public class OrganizationContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			return organizationService.getOrganization(orgId);
+			return null;
+			// TODO KSCM			return organizationService.getOrganization(orgId);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}

@@ -15,6 +15,7 @@ import org.kuali.student.common.assembly.data.ConstraintMetadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.lum.lu.LUConstants;
 
@@ -33,7 +34,8 @@ public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
         super(dictionaryServices);
     }
 
-    @Override
+	//TODO KSCM I commented out this @override ... somewhere something was not added to a superclass
+    //@Override
     protected List<ConstraintMetadata> getConstraints(FieldDefinition fd, String type, String state, String nextState,
             String workflowNode, String documentTypeName) {
         List<ConstraintMetadata> constraints = new ArrayList<ConstraintMetadata>();
@@ -43,7 +45,8 @@ public class ProgramMetadataServiceImpl extends MetadataServiceImpl {
         if (!LUConstants.PROPOSAL_TYPE_MAJOR_DISCIPLINE_MODIFY.equals(documentTypeName)) {
             nextStateValue = getNextState(state);
         }
-        updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), nextStateValue, workflowNode);
+        //TODO KSCM this call has an extra parameter ... for workflow ...
+        //updateConstraintMetadata(constraintMetadata, fd, type, getNonNullState(state), nextStateValue, workflowNode);
         constraints.add(constraintMetadata);
 
         return constraints;
