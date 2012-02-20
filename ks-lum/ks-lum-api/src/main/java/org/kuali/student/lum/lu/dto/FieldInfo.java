@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.Idable;
 
@@ -33,6 +34,8 @@ import org.kuali.student.common.dto.Idable;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/fieldInfo+Structure+v1.0-rc1">FieldInfo v1.0-rc1</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "FieldInfo", propOrder = {"id", "value"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FieldInfo implements Serializable, Idable {
 

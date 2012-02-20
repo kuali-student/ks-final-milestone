@@ -19,8 +19,7 @@ import java.util.*;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
@@ -131,7 +130,7 @@ public class ProgramRequirementsDataModel {
                 //now retrieve the actual rules
                 retrieveRules(programRequirementIds, onReadyCallback);
             }
-        });
+        },ContextUtils.getContextInfo());
     }
 
     private void retrieveRules(List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
@@ -175,7 +174,7 @@ public class ProgramRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        });     
+        },ContextUtils.getContextInfo());     
     }
 
     public ProgramRequirementInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalProgReqID, boolean isNewRule) {
@@ -277,7 +276,7 @@ public class ProgramRequirementsDataModel {
 
                 saveRequirementIds(referencedProgReqIds, storedRules, callback);
             }
-        });        
+        },ContextUtils.getContextInfo());        
     }
 
     private void saveRequirementIds(final List<String> referencedProgReqIds, final Map<Integer, ProgramRequirementInfo> storedRules, final Callback<List<ProgramRequirementInfo>> callback) {
