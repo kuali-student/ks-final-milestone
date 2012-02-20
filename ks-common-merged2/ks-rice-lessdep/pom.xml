@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-rice-lessdep</artifactId>
   <packaging>pom</packaging>
-  <name>KS Rice Less Dependencies</name>
+  <name>KS Rice Less Dependencies 2</name>
   <description>
 	This pom is intended to pull in the rice-impl with fewer transtive dependencies
 	Just enough to have a thin version of the ksb running.

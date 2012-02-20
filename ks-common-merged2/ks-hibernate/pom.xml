@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-hibernate</artifactId>
   <packaging>pom</packaging>
-  <name>KS Hibernate Pom</name>
-  <description>KS hibernate dependencies</description>
+  <name>KS Hibernate Pom 2</name>
+  <description>KS hibernate dependencies 2</description>
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
