@@ -1,7 +1,7 @@
 package org.kuali.student.core.document.ui.client.widgets.documenttool;
 
-import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
-import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
+import org.kuali.student.r1.common.ui.client.mvc.DataModel;
 
 public class DocumentListBinding extends ModelWidgetBindingSupport<DocumentList>{
 

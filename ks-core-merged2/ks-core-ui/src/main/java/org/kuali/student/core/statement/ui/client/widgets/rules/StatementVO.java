@@ -20,10 +20,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 import com.google.gwt.core.client.GWT;
@@ -276,7 +276,7 @@ public class StatementVO extends Token implements Serializable {
         // and a the requirement component
         if (statementVOs != null && !statementVOs.isEmpty()) {
             StatementInfo newStatementInfo = new StatementInfo();
-            newStatementInfo.setTypeKey(type);
+            newStatementInfo.setType(type);
             StatementVO newStatementVO = new StatementVO();
             newStatementInfo.setOperator(statementInfo.getOperator());
             newStatementVO.setStatementInfo(newStatementInfo);
@@ -888,11 +888,11 @@ public class StatementVO extends Token implements Serializable {
         stvInfo.setAttributes(getStatementInfo().getAttributes());
         //TODO KSCM stvInfo.setDesc(getStatementInfo().getDesc());
         stvInfo.setId(getStatementInfo().getId());
-        stvInfo.setMeta(getStatementInfo().getMeta());
+        stvInfo.setMetaInfo(getStatementInfo().getMetaInfo());
         stvInfo.setName(getStatementInfo().getName());
         stvInfo.setOperator(getStatementInfo().getOperator());
-        stvInfo.setStateKey(getStatementInfo().getStateKey());
-        stvInfo.setTypeKey(getStatementInfo().getTypeKey());
+        stvInfo.setState(getStatementInfo().getState());
+        stvInfo.setType(getStatementInfo().getType());
     }
 
     public String composeStatementVO(StatementTreeViewInfo statementTreeViewInfo, StatementVO statementVO) throws Exception {
@@ -938,11 +938,11 @@ public class StatementVO extends Token implements Serializable {
         getStatementInfo().setAttributes(statementTreeViewInfo.getAttributes());
         //TODO KSCM getStatementInfo().setDesc(statementTreeViewInfo.getDesc());
         getStatementInfo().setId(statementTreeViewInfo.getId());
-        getStatementInfo().setMeta(statementTreeViewInfo.getMeta());
+        getStatementInfo().setMetaInfo(statementTreeViewInfo.getMetaInfo());
         getStatementInfo().setName(statementTreeViewInfo.getName());
         getStatementInfo().setOperator(statementTreeViewInfo.getOperator());
-        getStatementInfo().setStateKey(statementTreeViewInfo.getStateKey());
-        getStatementInfo().setTypeKey(statementTreeViewInfo.getTypeKey());
+        getStatementInfo().setState(statementTreeViewInfo.getState());
+        getStatementInfo().setType(statementTreeViewInfo.getType());
     }
 
     @Override

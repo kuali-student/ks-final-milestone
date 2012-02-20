@@ -16,35 +16,35 @@
 package org.kuali.student.core.organization.assembly;
 
 
-import static org.kuali.student.common.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isCreated;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isDeleted;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isUpdated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isCreated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isDeleted;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isUpdated;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.Property;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.old.Assembler;
-import org.kuali.student.common.assembly.old.data.SaveResult;
-import org.kuali.student.common.assembly.util.AssemblerUtils;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.old.Assembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.assembly.util.AssemblerUtils;
+import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgorgRelationHelper;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 
 public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHelper>{
 	final Logger LOG = Logger.getLogger(OrgOrgRelationAssembler.class);
@@ -139,15 +139,15 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
         if (isModified(orgorgRelationHelper.getData())) {
             if (isUpdated(orgorgRelationHelper.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
-                orgOrgRelationInfo.setMeta(metaInfo);
+                orgOrgRelationInfo.setMetaInfo(metaInfo);
             } 
             else if (isDeleted(orgorgRelationHelper.getData())) {
             }
             else if (isCreated(orgorgRelationHelper.getData())) {
             }
         }
-        if(orgOrgRelationInfo.getMeta()!=null){
-            orgOrgRelationInfo.getMeta().setVersionInd(getVersionIndicator(orgorgRelationHelper.getData()));
+        if(orgOrgRelationInfo.getMetaInfo()!=null){
+            orgOrgRelationInfo.getMetaInfo().setVersionInd(getVersionIndicator(orgorgRelationHelper.getData()));
         }
        
         return orgOrgRelationInfo;
@@ -171,7 +171,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                     try {
                         OrgOrgRelationInfo result = null;
                      // TODO KSCM                        orgService.updateOrgOrgRelation(orgOrgRelationInfo.getId(), orgOrgRelationInfo);
-                        addVersionIndicator(orgOrgRelation.getData(), OrgOrgRelationInfo.class.getName(), result.getId(), result.getMeta().getVersionInd());
+                        addVersionIndicator(orgOrgRelation.getData(), OrgOrgRelationInfo.class.getName(), result.getId(), result.getMetaInfo().getVersionInd());
                     } catch (Exception e) {
                     	LOG.error(e);
                         throw (new AssemblyException());
@@ -203,7 +203,7 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                     OrgOrgRelationInfo result = null;
                     //TODO KSCM OrgOrgRelationInfo result = orgService.createOrgOrgRelation(orgOrgRelationInfo.getOrgId(), orgOrgRelationInfo.getRelatedOrgId(), orgOrgRelationInfo.getType(), orgOrgRelationInfo);
                     orgOrgRelation.setId(result.getId());
-                    addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMeta().getVersionInd());
+                    addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());
                 }
                 catch(Exception e ){
                     LOG.error(e);
@@ -245,13 +245,13 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 //TODO KSCM orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
             }
             else{
-                orgOrgRelation.setOrgOrgRelationTypeKey(relation.getTypeKey());
+                orgOrgRelation.setOrgOrgRelationTypeKey(relation.getType());
             }
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
             orgOrgRelations.set(count, orgOrgRelation.getData());
-            addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),relation.getId(),relation.getMeta().getVersionInd());
+            addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),relation.getId(),relation.getMetaInfo().getVersionInd());
             count= count+1;
         }
         
@@ -271,13 +271,13 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 //TODO KSCM orgOrgRelation.setOrgOrgRelationTypeKey(relationTypeTranslation);
             }
             else{
-                orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getTypeKey());
+                orgOrgRelation.setOrgOrgRelationTypeKey("REV_" +relation.getType());
             }
             orgOrgRelation.setEffectiveDate(relation.getEffectiveDate());
             orgOrgRelation.setExpirationDate(relation.getExpirationDate());
             
             orgOrgRelations.set(count, orgOrgRelation.getData());
-            addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),relation.getId(),relation.getMeta().getVersionInd());
+            addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),relation.getId(),relation.getMetaInfo().getVersionInd());
             count= count+1;
         }
         

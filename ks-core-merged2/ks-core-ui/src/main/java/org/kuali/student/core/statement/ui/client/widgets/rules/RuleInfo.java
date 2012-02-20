@@ -17,7 +17,7 @@ package org.kuali.student.core.statement.ui.client.widgets.rules;
 
 import java.util.List;
 
-import org.kuali.student.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 public class RuleInfo {
@@ -34,7 +34,7 @@ public class RuleInfo {
     public StatementVO createNewStatementVO() {
         StatementInfo newStatementTree = new StatementInfo();
         //TODO KSCM newStatementTree.setOperator(StatementOperatorTypeKey.AND);
-        newStatementTree.setTypeKey(getStatementTypeKey());
+        newStatementTree.setType(getStatementTypeKey());
         StatementVO statementVO = new StatementVO();                            
         statementVO.setStatementInfo(newStatementTree);
         return statementVO;
@@ -358,7 +358,7 @@ public class RuleInfo {
 
     public String getStatementTypeKey() {
         String statementType = (statementVO == null || statementVO.getStatementInfo() == null)? null :
-            statementVO.getStatementInfo().getTypeKey();
+            statementVO.getStatementInfo().getType();
     	return statementType;
     }
 }

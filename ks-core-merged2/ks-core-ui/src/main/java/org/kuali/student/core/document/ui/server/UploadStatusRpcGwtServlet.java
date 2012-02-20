@@ -17,7 +17,7 @@ package org.kuali.student.core.document.ui.server;
 
 import java.util.UUID;
 
-import org.kuali.student.common.ui.client.dto.UploadStatus;
+import org.kuali.student.r1.common.ui.client.dto.UploadStatus;
 import org.kuali.student.core.document.ui.client.service.UploadStatusRpcService;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;

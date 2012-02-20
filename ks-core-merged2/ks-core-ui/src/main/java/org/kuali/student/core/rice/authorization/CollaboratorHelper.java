@@ -27,12 +27,12 @@ import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.StudentWorkflowConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.workflow.dto.WorkflowPersonInfo;
+import org.kuali.student.r1.core.workflow.dto.WorkflowPersonInfo;
 
 public class CollaboratorHelper implements Serializable {
 	protected IdentityService identityService;

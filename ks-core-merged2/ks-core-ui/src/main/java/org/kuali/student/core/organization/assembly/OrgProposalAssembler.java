@@ -15,11 +15,11 @@
 
 package org.kuali.student.core.organization.assembly;
 
-import static org.kuali.student.common.assembly.util.AssemblerUtils.addVersionIndicator;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.getVersionIndicator;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.isModified;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.setCreated;
-import static org.kuali.student.common.assembly.util.AssemblerUtils.setUpdated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.addVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.getVersionIndicator;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.isModified;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.setCreated;
+import static org.kuali.student.r1.common.assembly.util.AssemblerUtils.setUpdated;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -27,31 +27,31 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.old.BaseAssembler;
-import org.kuali.student.common.assembly.old.data.SaveResult;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.old.BaseAssembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r1.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r1.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.exceptions.InvalidParameterException;
+import org.kuali.student.r1.common.exceptions.MissingParameterException;
+import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r1.common.exceptions.VersionMismatchException;
+import org.kuali.student.r1.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData;
 import org.kuali.student.core.organization.assembly.data.server.OrgInfoData.ModificationState;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.core.organization.dto.OrgInfo;
+import org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
@@ -74,7 +74,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 //        this.metadataService=metadataService;
 //    }
     
-    private void setMetadata(String orgId){
+    private void setMetaInfodata(String orgId){
         try {
             this.metadata=getMetadata(QUALIFICATION_ORG_ID, orgId, null, null);
         } catch (AssemblyException e) {
@@ -104,7 +104,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     @Override
     public Data get(String id) throws AssemblyException {
         if(metadata==null){
-            setMetadata(id);
+            setMetaInfodata(id);
         }
         OrgInfo orgInfo = new OrgInfo();
         List<OrgPositionRestrictionInfo> positions = new ArrayList<OrgPositionRestrictionInfo>();
@@ -148,7 +148,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         // TODO Neerav Agrawal - THIS METHOD NEEDS JAVADOCS
         OrgHelper orgHelper = OrgHelper.wrap((Data)input.get("orgInfo"));
         if(metadata==null){
-            setMetadata(orgHelper.getId());
+            setMetaInfodata(orgHelper.getId());
         }
         OrgInfoData orgInfoData = buildOrgInfo(orgHelper);
         SaveResult<Data> result = new SaveResult<Data>();
@@ -161,7 +161,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
 //            Data resultData = new Data();
 //            resultData.set("orgInfo", resultOrg.getData());       //Set the map to the key "orgInfo"
             String orgId = orgInfoData.getOrgInfo().getId();
-            addVersionIndicator(orgHelper.getData(),OrgInfo.class.getName(),orgId,orgInfoData.getOrgInfo().getMeta().getVersionInd());
+            addVersionIndicator(orgHelper.getData(),OrgInfo.class.getName(),orgId,orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
             
             orgHelper.setId(orgId);
             if(orgId!=null&&input.get("orgOrgRelationInfo")!=null){
@@ -204,10 +204,10 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         OrgInfo orgInfo = new OrgInfo();
         OrgInfoData result = new OrgInfoData();
                 
-        orgInfo.setTypeKey(org.getType());
-        // TODO KSCM orgInfo.setLongDesc(org.getDescription());
+        orgInfo.setType(org.getType());
+        orgInfo.setLongDesc(org.getDescription());
         orgInfo.setShortName(org.getAbbreviation());
-        // TODO KSCM orgInfo.setLongName(org.getName());
+        orgInfo.setLongName(org.getName());
         orgInfo.setEffectiveDate(org.getEffectiveDate());
         orgInfo.setExpirationDate(org.getExpirationDate());
         if(org.getId()!=null){
@@ -217,7 +217,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
         if (isModified(org.getData())) {
 //           if (isUpdated(org.getData())) {
                 MetaInfo metaInfo = new MetaInfo();
-                orgInfo.setMeta(metaInfo);
+                orgInfo.setMetaInfo(metaInfo);
                 result.setModificationState(ModificationState.UPDATED);
 //            } else if (isDeleted(org.getData())) {
 //                result.setModificationState(ModificationState.DELETED);
@@ -227,8 +227,8 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             setCreated(org.getData(), true);
             result.setModificationState(ModificationState.CREATED);
         }
-        if(orgInfo.getMeta()!=null){
-            orgInfo.getMeta().setVersionInd(getVersionIndicator(org.getData()));
+        if(orgInfo.getMetaInfo()!=null){
+            orgInfo.getMetaInfo().setVersionInd(getVersionIndicator(org.getData()));
         }
 //        result.setModificationState(ModificationState.CREATED);
         result.setOrgInfo(orgInfo);
@@ -279,14 +279,14 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
     private OrgHelper buildOrgDataMap(OrgInfoData orgInfoData){
         OrgHelper org =  OrgHelper.wrap(new Data());
         org.setId(orgInfoData.getOrgInfo().getId());
-        org.setType(orgInfoData.getOrgInfo().getTypeKey());
-        // TODO KSCM org.setName(orgInfoData.getOrgInfo().getLongName());
+        org.setType(orgInfoData.getOrgInfo().getType());
+        org.setName(orgInfoData.getOrgInfo().getLongName());
         org.setAbbreviation(orgInfoData.getOrgInfo().getShortName());
-        // TODO KSCM org.setDescription(orgInfoData.getOrgInfo().getLongDesc());
+        org.setDescription(orgInfoData.getOrgInfo().getLongDesc());
         org.setEffectiveDate(orgInfoData.getOrgInfo().getEffectiveDate());
         org.setExpirationDate(orgInfoData.getOrgInfo().getExpirationDate());
         setUpdated(org.getData(), true);
-        addVersionIndicator(org.getData(),OrgInfo.class.getName(),orgInfoData.getOrgInfo().getId(),orgInfoData.getOrgInfo().getMeta().getVersionInd());
+        addVersionIndicator(org.getData(),OrgInfo.class.getName(),orgInfoData.getOrgInfo().getId(),orgInfoData.getOrgInfo().getMetaInfo().getVersionInd());
 
         return org;
     }

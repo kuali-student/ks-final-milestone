@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 
 /**
  * @author glindhol

@@ -6,34 +6,34 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
-import org.kuali.student.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.util.DebugIdUtils;
-import org.kuali.student.common.ui.client.widgets.KSDropDown;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.common.ui.client.widgets.list.ListItems;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
-import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.r1.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.r1.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.r1.common.ui.client.util.DebugIdUtils;
+import org.kuali.student.r1.common.ui.client.widgets.KSDropDown;
+import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.r1.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
+import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.r1.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.r1.common.ui.client.widgets.list.ListItems;
+import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -143,7 +143,7 @@ public class ReqCompEditWidget extends FlowPanel {
                      createReqComp(selectedReqCompType);
                  } else {
                 	 //editedReqComp.setRequiredComponentType(selectedReqCompType);
-                     editedReqComp.setTypeKey(selectedReqCompType.getId());
+                     editedReqComp.setType(selectedReqCompType.getId());
                  }
 
                  displayFieldsSection();
@@ -178,7 +178,7 @@ public class ReqCompEditWidget extends FlowPanel {
 
                         ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                         fieldInfo.setId(null);
-                        fieldInfo.setTypeKey(fieldTypeInfo.getId());
+                        fieldInfo.setType(fieldTypeInfo.getId());
                         String fieldValue = ruleFieldsData.getRoot().get(fieldTypeInfo.getId()).toString();
                         fieldInfo.setValue((fieldValue == null ? "" : fieldValue.toString()));
                         editedFields.add(fieldInfo);
@@ -215,7 +215,7 @@ public class ReqCompEditWidget extends FlowPanel {
                     }
                     ReqCompFieldInfo fieldInfo = new ReqCompFieldInfo();
                     fieldInfo.setId(null);
-                    fieldInfo.setTypeKey(fieldType);
+                    fieldInfo.setType(fieldType);
                     fieldInfo.setValue(widgetValue);
                     editedFields.add(fieldInfo);
 
@@ -257,7 +257,7 @@ public class ReqCompEditWidget extends FlowPanel {
         editedReqComp.setReqCompFields(null);
         //editedReqComp.setRequiredComponentType(reqCompTypeInfo);
         if (reqCompTypeInfo != null) {
-            editedReqComp.setTypeKey(reqCompTypeInfo.getId());
+            editedReqComp.setType(reqCompTypeInfo.getId());
         }
     }
 
@@ -273,14 +273,14 @@ public class ReqCompEditWidget extends FlowPanel {
 
         selectedReqCompType = null;
         for (ReqComponentTypeInfo aReqCompTypeInfoList : reqCompTypeInfoList) {
-            if (editedReqComp.getTypeKey().equals(aReqCompTypeInfoList.getId())) {
+            if (editedReqComp.getType().equals(aReqCompTypeInfoList.getId())) {
                 selectedReqCompType = aReqCompTypeInfoList;
                 break;
             }
         }
         if (selectedReqCompType == null) {
-            GWT.log("Unknown Requirement Component Type found: " + existingReqComp.getTypeKey(), null);
-            Window.alert("Unknown Requirement Component Type found: " + existingReqComp.getTypeKey());
+            GWT.log("Unknown Requirement Component Type found: " + existingReqComp.getType(), null);
+            Window.alert("Unknown Requirement Component Type found: " + existingReqComp.getType());
         }
 
         redraw();
@@ -501,7 +501,7 @@ public class ReqCompEditWidget extends FlowPanel {
         }
 
         for (ReqCompFieldInfo fieldInfo : fields) {
-            if (fieldInfo.getTypeKey().equals(key)) {
+            if (fieldInfo.getType().equals(key)) {
                 return (fieldInfo.getValue() == null ? "" : fieldInfo.getValue());
             }
         }

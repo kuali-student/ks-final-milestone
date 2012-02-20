@@ -3,20 +3,20 @@ package org.kuali.student.core.assembly.transform;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.common.assembly.transform.AbstractDataFilter;
-import org.kuali.student.common.assembly.transform.DataBeanMapper;
-import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
-import org.kuali.student.common.assembly.transform.MetadataFilter;
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.common.assembly.transform.AbstractDataFilter;
+import org.kuali.student.r1.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.r1.common.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.rice.authorization.CollaboratorHelper;
-import org.kuali.student.core.workflow.dto.CollaboratorInfo;
-import org.kuali.student.core.workflow.dto.WorkflowPersonInfo;
+import org.kuali.student.r1.core.workflow.dto.CollaboratorInfo;
+import org.kuali.student.r1.core.workflow.dto.WorkflowPersonInfo;
 
 /**
  * Filter can be used to add authors and collaborators to a workflow process. The filter must be

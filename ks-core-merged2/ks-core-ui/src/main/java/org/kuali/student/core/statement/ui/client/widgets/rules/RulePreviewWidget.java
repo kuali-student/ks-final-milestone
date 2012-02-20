@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.widgets.KSButton;
+import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.r1.common.ui.client.widgets.dialog.ConfirmationDialog;
+import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

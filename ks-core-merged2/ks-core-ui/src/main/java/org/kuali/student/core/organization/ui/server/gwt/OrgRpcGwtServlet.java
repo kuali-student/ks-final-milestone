@@ -37,31 +37,31 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.entity.EntityDefaultQueryResults;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.rice.authorization.PermissionType;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
-import org.kuali.student.core.organization.dto.OrgPositionRestrictionInfo;
-import org.kuali.student.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.core.organization.dto.OrgTypeInfo;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
+import org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo;
+import org.kuali.student.r1.core.organization.dto.OrgInfo;
+import org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r1.core.organization.dto.OrgOrgRelationTypeInfo;
+import org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r1.core.organization.dto.OrgPersonRelationTypeInfo;
+import org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r1.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r1.core.organization.dto.OrgTypeInfo;
 import org.kuali.student.core.organization.dynamic.Field;
 import org.kuali.student.core.organization.dynamic.Fields;
 import org.kuali.student.core.organization.dynamic.MultipleField;
 import org.kuali.student.core.organization.dynamic.Section;
 import org.kuali.student.core.organization.dynamic.SectionConfig;
 import org.kuali.student.core.organization.dynamic.SectionView;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r1.core.organization.service.OrganizationService;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.FieldInfoImpl;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
@@ -342,7 +342,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     }	
     
     @Override
-    public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
+    public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException {
 
         try {
             DataSaveResult s = null;
@@ -357,14 +357,14 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
                 return dsr;
             }
         } catch(Exception e){
-            throw new org.kuali.student.common.ui.client.service.exceptions.OperationFailedException("Unable to save");
+            throw new org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException("Unable to save");
             
         }
      
     }
 
     @Override
-    public SectionConfigInfo getSectionConfig() throws org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
+    public SectionConfigInfo getSectionConfig() throws org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException {
         // Move this into Common UI
         SectionConfigInfo sectionConfigInfo = new SectionConfigInfo();
         String packageName = SectionConfig.class.getPackage().getName();
@@ -431,7 +431,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
             
         } catch (JAXBException e) {
         	LOG.error(e);
-            throw new org.kuali.student.common.ui.client.service.exceptions.OperationFailedException("Org Screen XML Cnfig file: recources/org_configure.xml parse exception");
+            throw new org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException("Org Screen XML Cnfig file: recources/org_configure.xml parse exception");
         } 
 
         return sectionConfigInfo;

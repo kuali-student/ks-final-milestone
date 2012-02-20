@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 public class RulesUtil {
 
@@ -68,9 +68,9 @@ public class RulesUtil {
             clonedLuStatementInfo.setStatementIds(new ArrayList<String>(inStatementInfo.getStatementIds()));
             clonedLuStatementInfo.setReqComponentIds(new ArrayList<String>(inStatementInfo.getReqComponentIds()));
             //TODO KSCM clonedLuStatementInfo.setAttributes(clone(inStatementInfo.getAttributes()));
-            clonedLuStatementInfo.setMeta(clone(inStatementInfo.getMeta()));
-            clonedLuStatementInfo.setTypeKey(inStatementInfo.getTypeKey());
-            clonedLuStatementInfo.setStateKey(inStatementInfo.getStateKey());
+            clonedLuStatementInfo.setMetaInfo(clone(inStatementInfo.getMetaInfo()));
+            clonedLuStatementInfo.setType(inStatementInfo.getType());
+            clonedLuStatementInfo.setState(inStatementInfo.getState());
             clonedLuStatementInfo.setId(inStatementInfo.getId());
         }
         return clonedLuStatementInfo;
@@ -128,9 +128,9 @@ public class RulesUtil {
                 clonedReqComponentInfo.setExpirationDate(
                         (java.util.Date)inReqComponentInfo.getExpirationDate().clone());
             }
-            clonedReqComponentInfo.setMeta(clone(inReqComponentInfo.getMeta()));
-            clonedReqComponentInfo.setTypeKey(inReqComponentInfo.getTypeKey());
-            clonedReqComponentInfo.setStateKey(inReqComponentInfo.getStateKey());
+            clonedReqComponentInfo.setMetaInfo(clone(inReqComponentInfo.getMetaInfo()));
+            clonedReqComponentInfo.setType(inReqComponentInfo.getType());
+            clonedReqComponentInfo.setState(inReqComponentInfo.getState());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
 //            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
@@ -158,7 +158,7 @@ public class RulesUtil {
             clonedField = new ReqCompFieldInfo();
             clonedField.setValue(inReqCompFieldInfo.getValue());
             clonedField.setId(inReqCompFieldInfo.getId());
-            clonedField.setTypeKey(inReqCompFieldInfo.getTypeKey());
+            clonedField.setType(inReqCompFieldInfo.getType());
         }
         return clonedField;
     }
@@ -192,9 +192,9 @@ public class RulesUtil {
             //TODO KSCM clonedStatementTreeViewInfoInfo.setDesc(inStatementTreeViewInfo.getDesc());
             clonedStatementTreeViewInfoInfo.setOperator(inStatementTreeViewInfo.getOperator());
             //TODO KSCM clonedStatementTreeViewInfoInfo.setAttributes(clone(inStatementTreeViewInfo.getAttributes()));
-            clonedStatementTreeViewInfoInfo.setMeta(clone(inStatementTreeViewInfo.getMeta()));
-            clonedStatementTreeViewInfoInfo.setTypeKey(inStatementTreeViewInfo.getTypeKey());
-            clonedStatementTreeViewInfoInfo.setStateKey(inStatementTreeViewInfo.getStateKey());
+            clonedStatementTreeViewInfoInfo.setMetaInfo(clone(inStatementTreeViewInfo.getMetaInfo()));
+            clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
+            clonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
             clonedStatementTreeViewInfoInfo.setId(inStatementTreeViewInfo.getId());
 //            clonedStatementTreeViewInfoInfo.setNaturalLanguageTranslation(inStatementTreeViewInfo.getNaturalLanguageTranslation());
 

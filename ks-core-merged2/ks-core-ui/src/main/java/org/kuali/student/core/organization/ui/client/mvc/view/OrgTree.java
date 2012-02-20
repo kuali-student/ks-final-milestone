@@ -17,11 +17,11 @@ package org.kuali.student.core.organization.ui.client.mvc.view;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.common.ui.client.event.ModifyActionEvent;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.r1.common.ui.client.event.ModifyActionEvent;
+import org.kuali.student.r1.common.ui.client.mvc.Controller;
+import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.core.organization.dto.OrgTreeInfo;
 import org.kuali.student.core.organization.ui.client.service.OrgRpcService;

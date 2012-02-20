@@ -11,28 +11,29 @@ import org.apache.log4j.Logger;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.transform.AuthorizationFilter;
-import org.kuali.student.common.assembly.transform.MetadataFilter;
-import org.kuali.student.common.assembly.transform.TransformFilter;
-import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
-import org.kuali.student.common.assembly.transform.TransformationManager;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter;
+import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
+import org.kuali.student.r1.common.assembly.transform.TransformFilter;
+import org.kuali.student.r1.common.assembly.transform.TransformFilter.TransformFilterAction;
+import org.kuali.student.r1.common.assembly.transform.TransformationManager;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r1.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.exceptions.VersionMismatchException;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
+import org.kuali.student.r1.common.ui.server.gwt.DataService;
+import org.kuali.student.r1.common.ui.shared.IdAttributes;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -62,7 +63,8 @@ public abstract class AbstractDataService implements DataService{
         //TODO: Igor : Why do we check for this when getting the data for programs?
 		try{
 			if (proposalService != null){
-				ProposalInfo proposalInfo = proposalService.getProposal(dtoId, contextInfo);
+// TODO KSCM				ProposalInfo proposalInfo = proposalService.getProposal(dtoId, contextInfo);
+				ProposalInfo proposalInfo = proposalService.getProposal(dtoId);
 				filterProperties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
 				dtoId = proposalInfo.getProposalReference().get(0);
 			}			
@@ -202,9 +204,11 @@ public abstract class AbstractDataService implements DataService{
                     try {
                         //Retrieve the proposal info provided the proposal id (passed in as KS_JEW_OBJECT_ID) or the workflow id
                         if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
-                            proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()), contextInfo);
+// TODO KSCM                             proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()), contextInfo);
+                            proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()));
                         } else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
-                            proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()), contextInfo);
+// TODO KSCM                             proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()), contextInfo);
+                            proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()));
                         }
                         
                         //Check if the route status is in the list of allowed statuses

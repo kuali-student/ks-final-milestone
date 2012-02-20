@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
-import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
-import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
+import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.r1.common.ui.client.widgets.pagetable.GenericTableModel;
+import org.kuali.student.r1.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
+import org.kuali.student.r1.common.ui.client.widgets.searchtable.ResultRow;
+import org.kuali.student.r1.common.ui.client.widgets.searchtable.SearchColumnDefinition;
 import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
 import org.kuali.student.core.organization.dto.OrgPersonRelationTypeInfo;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
