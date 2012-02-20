@@ -103,6 +103,10 @@
         OBJ_ID="5ADF18B6D49B7954E0404F8189D85002" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"
         CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
+        KIM_ATTR_DEFN_ID="2000" NM="routeStatusCode" NMSPC_CD="KS-SYS"
+        OBJ_ID="05c1ece3-5d04-44d3-885c-2a90de623ba8" VER_NBR="1"/>
+    <KRIM_ATTR_DEFN_T ACTV_IND="Y"
+        CMPNT_NM="org.kuali.rice.kim.bo.impl.KimAttributes"
         KIM_ATTR_DEFN_ID="21" NM="groupName" NMSPC_CD="KR-IDM"
         OBJ_ID="5ADF18B6D49C7954E0404F8189D85002" VER_NBR="1"/>
     <KRIM_ATTR_DEFN_T ACTV_IND="Y"

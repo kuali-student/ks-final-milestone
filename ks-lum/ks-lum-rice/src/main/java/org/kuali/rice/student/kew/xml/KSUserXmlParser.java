@@ -23,6 +23,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.jdom.Element;
 import org.jdom.Namespace;
+import org.kuali.rice.kew.xml.UserXmlParser;
+
 import org.kuali.rice.core.api.CoreApiServiceLocator;
 import org.kuali.rice.kew.xml.UserXmlParser;
 import org.kuali.rice.kim.impl.identity.affiliation.EntityAffiliationBo;
@@ -34,6 +36,7 @@ import org.kuali.rice.kim.impl.identity.principal.PrincipalBo;
 import org.kuali.rice.kim.impl.identity.type.EntityTypeContactInfoBo;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.SequenceAccessorService;
+
 
 /**
  * Adds password to the User xml ingestion
@@ -84,7 +87,6 @@ public class KSUserXmlParser extends UserXmlParser {
         	emplInfo.setEmployeeId(emplId);
         	emplInfo.setPrimary(true);
         	emplInfo.setEntityId("" + entityId);
-                emplInfo.setId (emplId);
         }
         
     	
@@ -96,16 +98,15 @@ public class KSUserXmlParser extends UserXmlParser {
 			entity.setActive(false);
 		}else{
 			entity.setActive(true);
-		}
-		
-		
-		entity.setId("" + entityId);
+        }
+
+        entity.setId("" + entityId);
 		List<EntityEmploymentBo> emplInfos = new ArrayList<EntityEmploymentBo>();
 		if (emplInfo != null) {
 			emplInfos.add(emplInfo);
 		}
 		entity.setEmploymentInformation(emplInfos);
-		
+
 		//Add affiliations
 		String affiliationTypeCode = userElement.getChildTextTrim(AFFILIATION_CD_ELEMENT, NAMESPACE);
 		if (!StringUtils.isBlank(affiliationTypeCode)) {
@@ -113,8 +114,8 @@ public class KSUserXmlParser extends UserXmlParser {
 				entity.setAffiliations(new ArrayList<EntityAffiliationBo>());
 			}
 			EntityAffiliationBo affiliation = new EntityAffiliationBo();
-			
-			Long affiliationId = sas.getNextAvailableSequenceNumber(
+
+            Long affiliationId = sas.getNextAvailableSequenceNumber(
 					"KRIM_ENTITY_AFLTN_ID_S", EntityAffiliationBo.class);
 			affiliation.setId(""+affiliationId);
 			affiliation.setAffiliationTypeCode(affiliationTypeCode);
@@ -138,16 +139,16 @@ public class KSUserXmlParser extends UserXmlParser {
 			Long entityNameId = sas.getNextAvailableSequenceNumber(
 					"KRIM_ENTITY_NM_ID_S", EntityNameBo.class);
 			EntityNameBo name = new EntityNameBo();
-			name.setActive(true);
-			name.setId("" + entityNameId);
-			name.setEntityId(entity.getId());
-			// must be in krim_ent_nm_typ_t.ent_nm_typ_cd
-			name.setNameCode("PRFR");
-			name.setFirstName(firstName);
-			name.setMiddleName("");
-			name.setLastName(lastName);
-			name.setDefaultValue(true);
-			
+            name.setActive(true);
+            name.setId("" + entityNameId);
+            name.setEntityId(entity.getId());
+            // must be in krim_ent_nm_typ_t.ent_nm_typ_cd
+            name.setNameCode("PRFR");
+            name.setFirstName(firstName);
+            name.setMiddleName("");
+            name.setLastName(lastName);
+            name.setDefaultValue(true);
+
 			entity.getNames().add(name);
 		}
 		
@@ -158,13 +159,14 @@ public class KSUserXmlParser extends UserXmlParser {
 			Long emailId = sas.getNextAvailableSequenceNumber(
 					"KRIM_ENTITY_EMAIL_ID_S", EntityEmailBo.class);
 			EntityEmailBo email = new EntityEmailBo();
-			email.setActive(true);
+            email.setActive(true);
 			email.setEntityTypeCode("PERSON");
 			// must be in krim_email_typ_t.email_typ_cd:
 			email.setEmailTypeCode("WRK");
 			email.setEmailAddress(emailAddress);
 			email.setDefaultValue(true);
 			email.setEntityId(entity.getId());
+
 			KRADServiceLocator.getBusinessObjectService().save(email);
 		}
 		
@@ -184,7 +186,7 @@ public class KSUserXmlParser extends UserXmlParser {
     	String password= userElement.getChildTextTrim(PASSWORD_ELEMENT, NAMESPACE);
     	
     	
-    	PrincipalBo principal = new PrincipalBo ();
+		PrincipalBo principal = new PrincipalBo();
 		principal.setActive(true);
 		principal.setPrincipalId(principalId);
 		principal.setPrincipalName(principalName);

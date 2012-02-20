@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -33,6 +34,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
@@ -43,6 +46,7 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcServiceAsync;
@@ -52,7 +56,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CluSetsManagementController extends BasicLayout {  
+public class CluSetsManagementController extends BasicLayout implements RequiresAuthorization {  
 
     private final DataModel cluSetModel = new DataModel();    
     private WorkQueue cluSetModelRequestQueue;
@@ -325,44 +329,39 @@ public class CluSetsManagementController extends BasicLayout {
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent) {
     	KSBlockingProgressIndicator.addTask(saving);    	
-        final Callback<Throwable> saveFailedCallback = new Callback<Throwable>() {
-
-            @Override
-            public void exec(Throwable caught) {
+        
+    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
+    	    @Override
+            public void handleFailure(Throwable caught) {
                 GWT.log("Save Failed.", caught);
                 KSBlockingProgressIndicator.removeTask(saving);                
                 KSNotifier.add(new KSNotification("Save Failed on server. Please try again.", false, true, 5000));
             }
+                
+            @Override
+            public void handleVersionMismatch(Throwable caught) {
+                super.handleVersionMismatch(caught);
+                KSBlockingProgressIndicator.removeTask(saving);
+            }
 
-        };
-        try {
-            cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
-                @Override
-                public void handleFailure(Throwable caught) {
-                    saveFailedCallback.exec(caught); 
-                }
-
-                @Override
-                public void onSuccess(DataSaveResult result) {
-                	KSBlockingProgressIndicator.removeTask(saving);
-                	if (result.getValidationResults() != null &&
-                            !result.getValidationResults().isEmpty()) {
-                        StringBuilder errorMessage = new StringBuilder();
-                        errorMessage.append("Validation error: ");
-                        for (ValidationResultInfo validationError : result.getValidationResults()) {
-                            errorMessage.append(validationError.getMessage()).append(" ");
-                        }
-                        KSNotifier.add(new KSNotification("Save Failed. " + errorMessage, false, 5000));                        
-                    } else {
-                        dataModel.setRoot(result.getValue());
-                        KSNotifier.add(new KSNotification("Save Successful", false, 4000));
+            @Override
+            public void onSuccess(DataSaveResult result) {
+              	KSBlockingProgressIndicator.removeTask(saving);
+               	if (result.getValidationResults() != null &&
+               	        !result.getValidationResults().isEmpty()) {
+               	    StringBuilder errorMessage = new StringBuilder();
+                    errorMessage.append("Validation error: ");
+                    for (ValidationResultInfo validationError : result.getValidationResults()) {
+                        errorMessage.append(validationError.getMessage()).append(" ");
                     }
+                    KSNotifier.add(new KSNotification("Save Failed. " + errorMessage, false, 5000));                        
+               	} else {
+                    dataModel.setRoot(result.getValue());
+                    KSNotifier.add(new KSNotification("Save Successful", false, 4000));
                 }
-            });
-
-        } catch (Exception e) {
-            saveFailedCallback.exec(e);
-        }
+            }
+        });
+    	
     }
 
     @Override
@@ -391,6 +390,33 @@ public class CluSetsManagementController extends BasicLayout {
     @Override
     public void setParentController(Controller controller) {
         super.setParentController(controller);    
+    }
+    
+    @Override
+    public boolean isAuthorizationRequired() {
+        return true;
+    }
+
+    @Override
+    public void setAuthorizationRequired(boolean required) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void checkAuthorization(final AuthorizationCallback authCallback) {
+        Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS, new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+
+                final boolean isAuthorized = result;
+            
+                if(isAuthorized){
+                    authCallback.isAuthorized();
+                }
+                else
+                    authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS);
+            }   
+        });
     }
     
 }

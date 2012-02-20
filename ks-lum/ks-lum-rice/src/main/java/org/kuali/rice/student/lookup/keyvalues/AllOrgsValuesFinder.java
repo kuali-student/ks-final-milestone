@@ -17,8 +17,8 @@ package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.kuali.rice.core.api.util.KeyValue;
 
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
@@ -33,7 +33,7 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-            for (SearchResultRow result : getOrganizationService().search(searchRequest).getRows()) {
+            for (SearchResultRow result : getOrganizationService().search(searchRequest, null).getRows()) {  // TODO KSCM-267
                 String orgId = "";
                 String orgShortName = "";
                 String orgOptionalLongName = "";
@@ -49,7 +49,7 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
                     	orgType = resultCell.getValue();
                     }
                 }
-                departments.add(buildKeyValue(orgId, orgShortName, orgOptionalLongName, orgType));
+                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
             }
 
             return departments;

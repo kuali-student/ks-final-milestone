@@ -39,6 +39,21 @@ public class ProgramConstants {
     public static final String END_PROGRAM_ENROLL_TERM = "endTerm";
     public static final String PROGRAM_APPROVAL_DATE = "approvalDate";
 
+    // Proposal Information
+    public static final String PROPOSAL_ID = "proposal/id";
+    public static final String PROPOSAL_REFERENCE_TYPE_ID = "referenceType.clu.proposal.program";
+    public static final String PROPOSAL_TITLE_PATH = "proposal/name";
+    public static final String PROPOSAL_TYPE_OF_MODIFICATON_PATH = "proposal/typeOfModification";
+    public static final String PROPOSAL_ABSTRACT_PATH = "proposal/abstract";
+    public static final String PROPOSAL_RATIONALE_PATH = "proposal/rationale";
+    public static final String PROPOSAL_PREV_START_TERM_PATH = "proposal/prevStartTerm";  
+    
+    //Change Impact
+    public static final String PROPOSAL_RELATED_COURSE_CHANGES_PATH = "proposal/relatedCourseChanges";
+    public static final String PROPOSAL_IMPACTED_UNITS_PATH = "proposal/impactedUnits";
+    public static final String PROPOSAL_IMPACTED_ARTICULATION_TRANSFER_PATH = "proposal/impactedArticulationTransferPrograms";
+    public static final String PROPOSAL_STUDENT_TRANSITION_PLANS_PATH = "proposal/studentTransitionPlans";
+    
     //Program Title
     public static final String LONG_TITLE = "longTitle";
     public static final String SHORT_TITLE = "shortTitle";
@@ -99,15 +114,18 @@ public class ProgramConstants {
     public static final String VERSION_FROM_ID = "versionInfo/versionedFromId";
     public static final String VERSION_SEQUENCE_NUMBER = "versionInfo/sequenceNumber";
 
-    public static final String PREV_END_PROGRAM_ENTRY_TERM = "previousVersionInfo/endProgramEntryTerm";
-    public static final String PREV_END_PROGRAM_ENROLL_TERM = "previousVersionInfo/endTerm";
-    public static final String PREV_STATE = "previousVersionInfo/state";
+    public static final String PREV_END_PROGRAM_ENTRY_TERM = "prevEndProgramEntryTerm";
+    public static final String PREV_END_PROGRAM_ENROLL_TERM = "prevEndTerm";
+    public static final String PREV_END_INST_ADMIN_TERM = "prevEndInstAdmitTerm";
+    public static final String PREV_START_TERM = "prevStartTerm";
 
     //Compound constants
     public static final String CREDENTIAL_PROGRAM_INSTITUTION_ID = CREDENTIAL_PROGRAM + "/" + INSTITUTION + "/" + RUNTIME_DATA + "/" + ORG_ID + "/" + ID_TRANSLATION;
     public static final String CREDENTIAL_PROGRAM_TYPE_NAME = CREDENTIAL_PROGRAM + "/" + RUNTIME_DATA + "/" + CREDENTIAL_PROGRAM_TYPE + "/" + ID_TRANSLATION;
     public static final String CREDENTIAL_PROGRAM_LEVEL = CREDENTIAL_PROGRAM + "/" + PROGRAM_LEVEL;
     public static final String ACCREDITING_AGENCY_ORG_ID_TRANSLATION = RUNTIME_DATA + "/" + ORG_ID + "/" + ID_TRANSLATION;
+    public static final String CREDENTIAL_RUNTIME_PROGRAM_LEVEL = CREDENTIAL_PROGRAM + "/" + RUNTIME_DATA + "/"
+            + PROGRAM_LEVEL + "/" + ID_TRANSLATION;
 
     public static final List<String> RICH_TEXT_KEYS = Arrays.asList("/" + DESCRIPTION, "/" + CATALOG_DESCRIPTION);
 }

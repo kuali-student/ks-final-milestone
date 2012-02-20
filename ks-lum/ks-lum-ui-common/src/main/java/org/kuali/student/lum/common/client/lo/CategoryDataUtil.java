@@ -8,6 +8,7 @@ import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 
 import java.util.Date;
 
+// TODO KSCM-244
 public class CategoryDataUtil {
     
     public static Data toData(LoCategoryInfo loCategoryInfo) {
