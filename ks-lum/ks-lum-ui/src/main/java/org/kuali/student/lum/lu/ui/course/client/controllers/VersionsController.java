@@ -277,7 +277,8 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
                     }
                 }
 
-                summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, definition, stmtTypesOut, VersionsController.this, "Model");
+                summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+                summaryConfigurer.init(type, state, groupName, definition, stmtTypesOut, VersionsController.this, "Model");
                 view = new ShowVersionView(Views.VERSION_VIEW, "Version", "Model", VersionsController.this, stmtTypesOut);
                 compare = summaryConfigurer.generateCourseSummarySection();
                 compare.setLayoutController(VersionsController.this);

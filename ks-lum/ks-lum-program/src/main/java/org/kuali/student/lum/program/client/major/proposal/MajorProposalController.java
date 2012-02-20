@@ -18,6 +18,8 @@ import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.event.SaveActionEvent;
 import org.kuali.student.common.ui.client.event.SaveActionHandler;
@@ -34,11 +36,14 @@ import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 import org.kuali.student.common.ui.client.security.AuthorizationCallback;
 import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
@@ -52,6 +57,7 @@ import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.ProgramStatus;
@@ -68,7 +74,6 @@ import org.kuali.student.lum.program.client.events.StateChangeEvent;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.lum.program.client.rpc.AbstractCallback;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineProposalRpcService;
@@ -87,8 +92,8 @@ import com.google.gwt.user.client.Window;
  */
 public class MajorProposalController extends MajorController implements WorkflowEnhancedNavController, RequiresAuthorization{
 
-	private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+	private final KSButton saveButton;
+    private final KSButton cancelButton;
     private final Set<String> existingVariationIds = new TreeSet<String>();
     protected String proposalPath = "";
     protected WorkflowUtilities workflowUtil; 
@@ -116,13 +121,17 @@ public class MajorProposalController extends MajorController implements Workflow
         programModel.setModelName("Proposal");
         initializeComparisonModel();
         configurer = GWT.create(MajorProposalConfigurer.class);
+        
+        saveButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_SAVE));
+        cancelButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+        
         proposalPath = configurer.getProposalPath();
         workflowUtil = new WorkflowUtilities(MajorProposalController.this, proposalPath, "Proposal Actions",
    				ProgramSections.WF_APPROVE_DIALOG,"Required Fields", ProgramConstants.PROGRAM_MODEL_ID);
 
         sideBar.setState(ProgramSideBar.State.EDIT);
         initHandlers();
-        
+                
         reqDataModel = new ProgramRequirementsDataModel(eventBus);
         reqDataModelComp = new ProgramRequirementsDataModel(eventBus);
     }
@@ -188,8 +197,8 @@ public class MajorProposalController extends MajorController implements Workflow
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
             excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
             excludedViews.add(ProgramSections.SUMMARY);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), saveButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), cancelButton, excludedViews);
             initialized = true;
         }
     }
@@ -393,7 +402,7 @@ public class MajorProposalController extends MajorController implements Workflow
             	Callback<Boolean> reqCallback = new Callback<Boolean>() {
             		@Override
             		public void exec(Boolean result) {
-            			majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+            			majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                             @Override
                             public void onSuccess(Data result) {
                                 super.onSuccess(result);
@@ -541,7 +550,7 @@ public class MajorProposalController extends MajorController implements Workflow
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -584,7 +593,7 @@ public class MajorProposalController extends MajorController implements Workflow
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(ProgramProperties.get().common_retrievingData()) {
+    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -634,7 +643,7 @@ public class MajorProposalController extends MajorController implements Workflow
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -711,7 +720,7 @@ public class MajorProposalController extends MajorController implements Workflow
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -762,7 +771,7 @@ public class MajorProposalController extends MajorController implements Workflow
 	    				isValid(result.getValidationResults(), false, true);	    				
     					KSNotifier.show("Saved with Warnings");
     				} else {
-                        KSNotifier.show(ProgramProperties.get().common_successfulSave());
+                        KSNotifier.show(getLabel(ProgramMsgConstants.COMMON_SUCCESSFULSAVE));
     				}  				
                     
                     // add to recently viewed now that we're sure to know the program's id
@@ -957,7 +966,7 @@ public class MajorProposalController extends MajorController implements Workflow
 	}
 
 	@Override
-	public void checkAuthorization(final PermissionType permissionType,	final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
+	public void checkAuthorization(final AuthorizationCallback callbackLocatedOnBaseControllerClass) {
 		
 		Map<String,String> attributes = new HashMap<String,String>();
 		GWT.log("Attempting Auth Check.", null);
@@ -971,7 +980,7 @@ public class MajorProposalController extends MajorController implements Workflow
 				attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
 			}
 		}
-		programRemoteService.isAuthorized(permissionType, attributes, new KSAsyncCallback<Boolean>(){
+		programRemoteService.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -982,12 +991,12 @@ public class MajorProposalController extends MajorController implements Workflow
 
 			@Override
 			public void onSuccess(Boolean result) {
-				GWT.log("Succeeded checking auth for permission type '" + permissionType + "' with result: " + result, null);
+				GWT.log("Succeeded checking auth for permission type '" + getViewContext().getPermissionType().toString() + "' with result: " + result, null);
 				if (Boolean.TRUE.equals(result)) {
 					callbackLocatedOnBaseControllerClass.isAuthorized();
 				}
 				else {
-					callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + permissionType);
+					callbackLocatedOnBaseControllerClass.isNotAuthorized("User is not authorized: " + getViewContext().getPermissionType().toString());
 				}
 			}
     	});
@@ -1004,5 +1013,82 @@ public class MajorProposalController extends MajorController implements Workflow
 	public void setAuthorizationRequired(boolean required) {
 		//Does nothing at the momement
 	}
+
+    @Override
+    public ArrayList<ExportElement> getExportElementsFromView() {
+        String viewName = null;
+        String sectionTitle = null;
+        View currentView = this.getCurrentView();
+        if (currentView != null) {
+            
+            ArrayList<ExportElement> exportElements = new ArrayList<ExportElement>();
+            if (currentView != null && currentView instanceof Section) {
+                Section currentSection = (Section) currentView;
+                List<Section> nestedSections = currentSection.getSections();
+               	for (int i = 0; i < nestedSections.size(); i++) {
+               		ExportElement sectionExportItem = new ExportElement();
+               		ArrayList<ExportElement> subList = null;
+               		Section nestedSection = nestedSections.get(i);
+                   	if (nestedSection != null && nestedSection instanceof SectionView) {
+                   		SectionView nestedSectionView = (SectionView) nestedSection;
+                      	viewName =  nestedSectionView.getName();
+                      	subList = new ArrayList<ExportElement>();
+                        if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY)) {
+                           	sectionExportItem.setSectionName(viewName);
+
+                           	List<Section> sectionList = nestedSectionView.getSections();
+                        	for (int j = 0; j < sectionList.size(); j++) {
+                        		if (sectionList.get(j) instanceof SummaryTableSection)
+                        		{	
+                        			SummaryTableSection tableSection = (SummaryTableSection) sectionList.get(j);
+                            		ExportElement heading = new ExportElement();
+                            		heading.setFieldLabel("");
+                            		heading.setFieldValue(programModel.getModelName());
+                            		heading.setFieldValue2(comparisonModel.getModelName());
+                            		subList.add(heading);
+                            		subList.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));                        		
+                        		} else if (sectionList.get(j) instanceof CollapsableSection)
+                        		{
+                        			List<Section> sectionColList = sectionList.get(j).getSections();
+                                	for (int k = 0; k < sectionColList.size(); k++) {
+                                		SummaryTableSection tableSection = (SummaryTableSection) sectionColList.get(k);
+                                		ExportElement heading = new ExportElement();
+                                		heading.setFieldLabel("");
+                                		heading.setFieldValue(programModel.getModelName());
+                                		heading.setFieldValue2(comparisonModel.getModelName());
+                                		subList.add(heading);
+                                		subList.addAll(ExportUtils.getDetailsForWidget(tableSection.getSummaryTable()));                        		
+                                	}	
+                        		}	
+                        	}	
+                        } else { 	
+                           	sectionTitle = nestedSectionView.getTitle();
+                           	sectionExportItem.setSectionName(sectionTitle + " " + i + " - " + viewName);
+                           	sectionExportItem.setViewName(sectionTitle + " " + i + " - " + viewName);
+                           	subList = ExportUtils.getExportElementsFromView(nestedSectionView, subList, viewName, sectionTitle);
+                    	}
+                       	if (subList != null && subList.size()> 0) {
+                       		sectionExportItem.setSubset(subList);
+                       		if (i == 0 && this.getCurrentViewEnum().equals(ProgramSections.SUMMARY))
+                       			exportElements.add(sectionExportItem);
+                       		exportElements.add(sectionExportItem);
+                       	}	
+                    }	
+               	}
+            }
+            return exportElements;           
+        } else {
+//            logger.warn("ExportUtils.getExportElementsFromView controller currentView is null :" + this.getClass().getName());
+        }
+        return null;    
+    }
+
+    @Override
+    public String getExportTemplateName() {
+        if (this.getCurrentViewEnum().equals(ProgramSections.SUMMARY))
+        	return "proposal.template";
+
+        return "base.template";        
+    }
 
 }

@@ -31,6 +31,7 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     public static final String RESULT_TYPE = "person.search.personQuickView";
     final static public String NAME_PARAM = "person.queryParam.personGivenName";
     final static public String ID_PARAM = "person.queryParam.personId";
+    final static public String PRINCIPAL_NAME_PARAM = "person.queryParam.personPrincipalName";
     final static public String AFFILIATION_PARAM = "person.queryParam.personAffiliation";
     final static public String EXCLUDED_USER_ID = "person.queryParam.excludedUserId";
 
@@ -50,6 +51,7 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
 
     private List<Person> findPersons(final IdentityManagementService identityService, final SearchRequest searchRequest) {
         String nameSearch = null;
+        String principalNameSearch = null;
         String affilSearch = null;
         String idSearch = null;
         String excludedUserId = null;
@@ -64,6 +66,12 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
                         nameSearch += "|" + value;
                     } else {
                         nameSearch = value;
+                    }
+                } else if (PRINCIPAL_NAME_PARAM.equals(param.getKey())) {
+                    if (principalNameSearch != null) {
+                    	principalNameSearch += "|" + value;
+                    } else {
+                    	principalNameSearch = value;
                     }
                 } else if (AFFILIATION_PARAM.equals(param.getKey())) {
                     if (affilSearch != null) {
@@ -86,6 +94,10 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
         if (idSearch != null) {
             Map<String, String> criteria = new HashMap<String, String>();
             criteria.put(KIM_PRINCIPALS_PRINCIPALID, idSearch);
+            searches.add(criteria);
+        } else if (principalNameSearch != null) {
+            Map<String, String> criteria = new HashMap<String, String>();
+            criteria.put(KIM_PRINCIPALS_PRINCIPALNAME, principalNameSearch);
             searches.add(criteria);
         } else if (nameSearch != null) {
             Map<String, String> principalNameCriteria = new HashMap<String, String>();
@@ -136,7 +148,8 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
     @Override
     public SearchResult search(final IdentityManagementService identityService, final SearchRequest searchRequest) {
         final SearchResult result = new SearchResult();
-
+        searchRequest.setSortDirection(SortDirection.ASC);
+        
         List<Person> persons = findPersons(identityService, searchRequest);
         // TODO finish sorting
         if (searchRequest.getSortDirection() != null) {
@@ -157,7 +170,12 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
             });
         }
 
-        for (Person person : persons) {
+        //Implement pagination.
+        int startAt = (null != searchRequest && null != searchRequest.getStartAt()) ? searchRequest.getStartAt() : 0;
+        int maxResult = (null != searchRequest && null != searchRequest.getMaxResults()) ? startAt
+                + searchRequest.getMaxResults() : persons.size();
+        for (int i = startAt; (i < persons.size() && i < maxResult); i++) {
+            Person person = persons.get(i);
             final SearchResultRow resultRow = new SearchResultRow();
             resultRow.setCells(new ArrayList<SearchResultCell>());
 
@@ -183,7 +201,7 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
 
             cell = new SearchResultCell();
             cell.setKey(DISPLAY_NAME_RESULT);
-            cell.setValue(person.getName() + "(" + person.getPrincipalName() + ")");
+            cell.setValue(person.getName() + " (" + person.getPrincipalName() + ")");
             resultRow.getCells().add(cell);
 
             result.getRows().add(resultRow);
@@ -191,7 +209,12 @@ public final class QuickViewByGivenName extends PersonSearch implements SearchOp
         }
 
         result.setStartAt(searchRequest.getStartAt());
-        result.setTotalResults(result.getRows().size()); // TODO fix this
+        if (searchRequest.getNeededTotalResults()) {
+            result.setTotalResults(persons.size());
+        } else {
+            result.setTotalResults(result.getRows().size());
+        }
+
         return result;
     }
 

@@ -90,9 +90,9 @@ public class DelegatingViewComposite extends ViewComposite implements RequiresAu
     }
 
 	@Override
-	public void checkAuthorization(PermissionType permissionType, AuthorizationCallback callback) {
+	public void checkAuthorization(AuthorizationCallback callback) {
 		if (childController instanceof RequiresAuthorization){
-			((RequiresAuthorization)childController).checkAuthorization(permissionType, callback);
+			((RequiresAuthorization)childController).checkAuthorization(callback);
 		}				
 	}
 

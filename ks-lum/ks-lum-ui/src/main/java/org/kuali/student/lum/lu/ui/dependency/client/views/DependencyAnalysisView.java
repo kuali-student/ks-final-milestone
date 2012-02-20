@@ -144,7 +144,8 @@ public class DependencyAnalysisView extends ViewComposite{
         //Get search definition for dependency analysis trigger search and create trigger picker          
 		Metadata metaData = searchDefinition.getMetadata("courseId");
 		final KSPicker triggerPicker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
-        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");		
+        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");	
+        triggerPicker.getInputWidget().ensureDebugId("Dependency-Analysis-Course-Code");
 
         //Setup the "go" button for trigger picker
         KSButton goButton = new KSButton("Go", ButtonStyle.PRIMARY_SMALL);
@@ -356,7 +357,8 @@ public class DependencyAnalysisView extends ViewComposite{
 				
 				//Initialize the complex requirement panel, set it so it is not initially open (ie. not visible)
 				final FlowPanel complexContent = new FlowPanel();
-				final CollapsablePanel complexRequirement = new CollapsablePanel("", complexContent, false, false);				
+				final CollapsablePanel complexRequirement = GWT.create(CollapsablePanel.class);
+				complexRequirement.initialise("", complexContent, false, false);
 				
 				complexContent.addStyleName("KS-Dependency-Complex-Rule");
 				depDetails.addWidget(simpleRequirement);

@@ -86,37 +86,38 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	public DocumentInfo createDocument(String documentTypeKey, String documentCategoryKey, DocumentInfo documentInfo)
+            throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        DocumentType type;
+        DocumentCategory category;
+        
         checkForMissingParameter(documentTypeKey, "documentTypeKey");
         checkForMissingParameter(documentCategoryKey, "documentCategoryKey");
         checkForMissingParameter(documentInfo, "documentInfo");
-        
-	DocumentType type;
-	DocumentCategory  category;
-	
-    // Validate
-    List<ValidationResultInfo> validationResults;
-    try {
-        validationResults = validateDocument("OBJECT", documentInfo);
-    } catch (DoesNotExistException e) {
-        throw new OperationFailedException("Validation call failed." + e.getMessage());
-    }
-    if (null != validationResults && validationResults.size() > 0) {
-        throw new DataValidationErrorException("Validation error!", validationResults);
-    }
-	
-	try {
-	    type = dao.fetch(DocumentType.class, documentTypeKey);
-	    category = dao.fetch(DocumentCategory.class, documentCategoryKey);
-	} catch (DoesNotExistException dnee) {
-	    throw new OperationFailedException("error fetching document keys", dnee);
-    }
-	
-	Document doc = DocumentServiceAssembler.toDocument(new Document(), documentInfo, dao);
-	doc.setType(type);
-	doc.setCategoryList(Arrays.asList(category));
-	dao.create(doc);
-	return DocumentServiceAssembler.toDocumentInfo(doc);
+    	
+        // Validate
+        List<ValidationResultInfo> validationResults;
+        try {
+            validationResults = validateDocument("OBJECT", documentInfo);
+        } catch (DoesNotExistException e) {
+            throw new OperationFailedException("Validation call failed." + e.getMessage());
+        }
+        if (null != validationResults && validationResults.size() > 0) {
+            throw new DataValidationErrorException("Validation error!", validationResults);
+        }
+    	
+    	try {
+    	    type = dao.fetch(DocumentType.class, documentTypeKey);
+    	    category = dao.fetch(DocumentCategory.class, documentCategoryKey);
+    	} catch (DoesNotExistException dnee) {
+    	    throw new OperationFailedException("error fetching document keys", dnee);
+        }
+    	
+    	Document doc = DocumentServiceAssembler.toDocument(new Document(), documentInfo, dao);
+    	doc.setType(type);
+    	doc.setCategoryList(Arrays.asList(category));
+    	dao.create(doc);
+    	return DocumentServiceAssembler.toDocumentInfo(doc);
     }
 
     @Override

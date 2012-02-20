@@ -145,13 +145,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	    			break;
 	    		case DROP_DOWN:
 	    		case CHECKBOX_LIST:
-	    			setupListWidget(inLookupMetadata);
-	    			break;
 	    		case RADIO:
 	    			setupListWidget(inLookupMetadata);
 	    			break;
 	    		case NO_WIDGET:
-	                if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
+	    			if(getMessage(inLookupMetadata.getId()+"-name")!=null){
+	    			   advSearchLink.setText(getMessage(inLookupMetadata.getId()+"-name"));
+	    			}   
+	    			else
+	    			if ((inLookupMetadata.getName() != null) && (inLookupMetadata.getName().trim().length() > 0)) {
 	                    advSearchLink.setText(inLookupMetadata.getName().trim());
 	                }
 	                basicWidget = new BasicWidget(new SelectionContainerWidget());
@@ -245,10 +247,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 
         	//Title for advanced search window
         	String advSearchTitle;
+        	advSearchTitle = getMessage(advancedLightboxLookupdata.get(0).getId()+"-title");
         	if (basicWidget.get() instanceof SelectionContainerWidget){
-        		advSearchTitle = advancedLightboxLookupdata.get(0).getTitle();
+        		if(advSearchTitle==null)
+        		   advSearchTitle = advancedLightboxLookupdata.get(0).getTitle();
         	} else {
-        		advSearchTitle = "Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle();
+        		if(advSearchTitle==null)
+        		   advSearchTitle = "Advanced Search: " + advancedLightboxLookupdata.get(0).getTitle();
+        		else
+        		   advSearchTitle = "Advanced Search: " + advSearchTitle; 
         	}
         	
             //for multiple searches, show a drop down for user to select from
@@ -712,5 +719,15 @@ public class KSPicker extends Composite implements HasFocusLostCallbacks, HasVal
 	public Callback<List<SelectedResults>> getAdvancedSearchCallback() {
 		return advancedSearchCallback;
 	}
+
+    @Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        Widget basicInputWidget = getInputWidget();
+        if (basicInputWidget != null) {
+            basicInputWidget.ensureDebugId(baseID + "-KSPicker-widget");
+        }
+        advSearchLink.ensureDebugId(baseID + "-Advanced-Search-anchor");
+    }
 
 }

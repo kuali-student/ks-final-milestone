@@ -253,7 +253,6 @@
     <bean id="WorkflowRpcGwtServlet"
           class="org.kuali.student.core.workflow.ui.server.gwt.WorkflowRpcGwtServlet">
         <property name="simpleDocService" ref="simpleDocActionsClient"/>
-        <property name="permissionService" ref="permissionServiceClient"/>
         <property name="identityService" ref="identityServiceClient"/>
         <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
@@ -295,16 +294,22 @@
 	    <property name="courseDataService" ref="CourseDataService"/>
 	    <property name="luService" ref="luClient"/>
 	    <property name="proposalService" ref="proposalClient"/>
-	    <property name="ignoreProperties">
-		    <list>
-		    	<value>transcriptTitle</value>
-		    	<value>unitsContentOwner</value>
-		    	<value>unitsDeployment</value>
-		    	<value>revenues</value>
-		    	<value>expenditure</value>
+	    <property name="ignoreProperties" ref="copyCourseService.ignoreProperties" />
+	</bean>
+    
+	<bean id="copyCourseService.ignoreProperties" class="java.util.ArrayList">
+		<constructor-arg>
+			<list>
+				<value>transcriptTitle</value>
+				<value>unitsContentOwner</value>
+				<value>unitsDeployment</value>
+				<value>revenues</value>
+				<value>expenditure</value>
+				<value>startTerm</value>
+				<value>endTerm</value>
 			</list>
-	    </property>
-    </bean>
+		</constructor-arg>
+	</bean>
     
     <bean id="CourseDataService"
           class="org.kuali.student.lum.lu.ui.course.server.gwt.CourseDataService">
@@ -328,6 +333,7 @@
         <property name="proposalService" ref="proposalClient"/>
         <property name="luService" ref="luClient"/>
         <property name="transformationManager" ref="courseProposalTransformationManager"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
     
     <bean id="CluSetManagementRpcGwtServlet"
@@ -416,6 +422,7 @@
         <property name="programService" ref="programClient"/>
         <property name="luService" ref="luClient"/>
         <property name="atpService" ref="atpClient"/>
+        <property name="workflowUtilityService" ref="workflowUtilityClient"/>
     </bean>
 
     <bean id="credentialProgramDataService" class="org.kuali.student.lum.program.server.CredentialProgramDataService">

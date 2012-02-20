@@ -31,7 +31,6 @@ import org.kuali.student.common.assembly.BOAssembler;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -85,6 +84,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
     private CluAssemblerUtils cluAssemblerUtils;
     private LrcService lrcService;
     private AtpService atpService;
+    private float defaultCreditIncrement = 1.0f;
 	
 	@Override
 	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo,
@@ -219,11 +219,14 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo cluRel : cluClus) {
 					if (cluRel.getType().equals(CourseAssemblerConstants.JOINT_RELATION_TYPE)) {
 						CourseJointInfo jointInfo = null;
-						if(cluRel.getCluId().equals(clu.getId()))
+						if(cluRel.getCluId().equals(clu.getId())){
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getRelatedCluId(), null, false);
-						else
+						}else{
 							jointInfo = courseJointAssembler.assemble(cluRel, cluRel.getCluId(), null, false);
-						course.getJoints().add(jointInfo);
+						}
+						if (jointInfo != null){
+							course.getJoints().add(jointInfo);
+						}
 					}
 				}
 			} catch (DoesNotExistException e) {
@@ -614,7 +617,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 						float minCredits = Float.parseFloat(minCreditValue);
 						float maxCredits = Float.parseFloat(maxCreditValue);
 												
-						float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : 1.0f ;
+						float increment = (null != creditValueIncr && creditValueIncr.length() > 0 ) ? Float.parseFloat(creditValueIncr) : defaultCreditIncrement ;
 												
 						id = CourseAssemblerConstants.COURSE_RESULT_COMP_CREDIT_PREFIX + minCreditValue + "-" + maxCreditValue;
 						type = CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE;
@@ -754,8 +757,10 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				//Loop through all options and add to the list of Strings
 				for(ResultOptionInfo resultOption: cluResult.getResultOptions()){
 					try {
-						ResultComponentInfo resultComponent = lrcService.getResultComponent(resultOption.getResultComponentId());
-						results.add(resultComponent);
+						if(resultOption.getResultComponentId()!=null){
+							ResultComponentInfo resultComponent = lrcService.getResultComponent(resultOption.getResultComponentId());
+							results.add(resultComponent);
+						}
 					} catch (DoesNotExistException e) {
 						LOG.warn("Course Credit option:"+resultOption.getId()+" refers to non-existant ResultComponentInfo "+resultOption.getResultComponentId());
 					} catch (Exception e) {
@@ -1096,20 +1101,38 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		return variations;
 	}
 	
-	private List<CourseCrossListingInfo> assembleCrossListings(List<CluIdentifierInfo> cluIdents) {
+    private List<CourseCrossListingInfo> assembleCrossListings(List<CluIdentifierInfo> cluIdents)
+            throws AssemblyException {
 		List<CourseCrossListingInfo> crossListings = new ArrayList<CourseCrossListingInfo>();
 		if (cluIdents != null) {
 			for (CluIdentifierInfo cluIdent : cluIdents) {
 				if (cluIdent.getType() != null && 
 						cluIdent.getType().equals(CourseAssemblerConstants.COURSE_CROSSLISTING_IDENT_TYPE)) {
 					CourseCrossListingInfo crosslisting = new CourseCrossListingInfo();
-					crosslisting.setId(cluIdent.getId());
-					crosslisting.setCode(cluIdent.getCode());
-					crosslisting.setAttributes(cluIdent.getAttributes());
-					crosslisting.setType(cluIdent.getType());
-					crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
-					crosslisting.setSubjectArea(cluIdent.getDivision());
-					crosslisting.setDepartment(cluIdent.getOrgId());
+
+                    if (cluIdent.getAttributes().containsKey("courseId")) {
+                        try {
+                            CluInfo cluInfo = luService.getClu(cluIdent.getAttributes().get("courseId"));
+                            crosslisting.setId(cluIdent.getId()); 
+                            crosslisting.setCode(cluInfo.getOfficialIdentifier().getCode());
+                            crosslisting.setAttributes(cluIdent.getAttributes());
+                            crosslisting.setType(cluInfo.getType());
+                            crosslisting.setCourseNumberSuffix(cluInfo.getOfficialIdentifier().getSuffixCode());
+                            crosslisting.setSubjectArea(cluInfo.getOfficialIdentifier().getDivision());
+                            crosslisting.setDepartment(cluIdent.getOrgId());
+                        } catch (Exception e) {
+                            throw new AssemblyException("Error getting related clus", e);
+                        }
+                    } else {
+                        crosslisting.setId(cluIdent.getId());
+                        crosslisting.setCode(cluIdent.getCode());
+                        crosslisting.setAttributes(cluIdent.getAttributes());
+                        crosslisting.setType(cluIdent.getType());
+                        crosslisting.setCourseNumberSuffix(cluIdent.getSuffixCode());
+                        crosslisting.setSubjectArea(cluIdent.getDivision());
+                        crosslisting.setDepartment(cluIdent.getOrgId());
+                    }
+
 					crossListings.add(crosslisting);
 				}
 			}
@@ -1135,15 +1158,11 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				for (CluCluRelationInfo jointRelation : jointRelationships) {
 					if (CourseAssemblerConstants.JOINT_RELATION_TYPE.equals(jointRelation.getType())) {
 						if(jointRelation.getCluId().equals(course.getId())) {
-							CluInfo clu = luService.getClu(jointRelation.getRelatedCluId());
-							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
-								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
-								currentJointIds.put(jointRelation.getId(),jointRelation);
+							luService.getClu(jointRelation.getRelatedCluId());
+							currentJointIds.put(jointRelation.getId(),jointRelation);
 						} else {						
-							CluInfo clu = luService.getClu(jointRelation.getCluId());
-							if (clu.getState().equals(DtoConstants.STATE_ACTIVE) || clu.getState().equals(DtoConstants.STATE_SUPERSEDED) ||
-								clu.getState().equals(DtoConstants.STATE_APPROVED) || clu.getState().equals(DtoConstants.STATE_SUSPENDED)) 
-								currentJointIds.put(jointRelation.getId(),jointRelation);							
+							luService.getClu(jointRelation.getCluId());
+							currentJointIds.put(jointRelation.getId(),jointRelation);							
 						}	
 					}
 				}
@@ -1230,5 +1249,9 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 	public void setAtpService(AtpService atpService) {
 		this.atpService = atpService;
+	}
+
+	public void setDefaultCreditIncrement(float defaultCreditIncrement) {
+		this.defaultCreditIncrement = defaultCreditIncrement;
 	}
 }

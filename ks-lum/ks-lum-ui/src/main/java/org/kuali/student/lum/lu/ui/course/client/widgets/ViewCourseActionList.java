@@ -27,6 +27,7 @@ import org.kuali.student.common.ui.client.widgets.StylishDropDown;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.CloseHandler;
@@ -50,13 +51,15 @@ public class ViewCourseActionList extends Composite {
     private String courseCodePath;
        
 	private HorizontalBlockFlowPanel rootPanel = new HorizontalBlockFlowPanel();
-	private StylishDropDown courseActionsDropDown = new StylishDropDown("Course Actions");
+	private StylishDropDown courseActionsDropDown = GWT.create(StylishDropDown.class);
 	
     Controller myController;
     
 	public ViewCourseActionList(CloseHandler<KSLightBox> onSubmitSuccessHandler) {
 		super();
 		super.initWidget(rootPanel);
+		
+		courseActionsDropDown.initialise("Course Actions");
 		
 		setupButtons();
 

@@ -30,7 +30,6 @@ public class SubrulePreviewWidget extends FlowPanel {
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
     private boolean isReadOnly = true;
     private Map<String, Widget> clusetWidgets;
-    private boolean flag = false;
 
     public SubrulePreviewWidget(StatementTreeViewInfo stmtTreeInfo, boolean isReadOnly, Map<String, Widget> clusetWidgets) {
         super();
@@ -160,30 +159,28 @@ public class SubrulePreviewWidget extends FlowPanel {
      * @return
      */
     private Widget buildSubStatementWidget(StatementTreeViewInfo subStatement, StatementTreeViewInfo parentStatement, boolean firstInList) {
-        //flag = false;
         StatementOperatorTypeKey prefixOperator = null;
-        if(!firstInList) {
-            prefixOperator = subStatement.getOperator();
-        }
         
         boolean hasReqComponents = (subStatement.getReqComponents() != null && !subStatement.getReqComponents().isEmpty());
         
         // simplest case:  statement has one requisite component and its operator is the same as its parent
-        if(hasReqComponents && subStatement.getReqComponents().size() == 1 && subStatement.getOperator() == parentStatement.getOperator()) {
+        if(hasReqComponents && subStatement.getReqComponents().size() == 1) {
             // return requirement component text, including operator text if applicable
             ReqComponentInfo reqComp = subStatement.getReqComponents().iterator().next();
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
-            flag = true;
+            if (!firstInList) {
+                prefixOperator = parentStatement.getOperator();
+            }
             return buildRequirementPanel(reqComp, prefixOperator, nl);
           }
         
         // The statement has one or more requisite components or sub-statements, so build the header text
         StringBuilder headerText = new StringBuilder();
         
-        if (flag == true) {
+        if (!firstInList) {
             prefixOperator = parentStatement.getOperator();
-            flag = false;
         }
+
         appendOperatorTag(headerText, prefixOperator);
         
         headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);
@@ -194,18 +191,18 @@ public class SubrulePreviewWidget extends FlowPanel {
         if(hasReqComponents) {
             // requisite component case: a sub-statement with only requisite components
             ULPanel subrulePanel = new ULPanel();
-            subrulePanel.setULClassName(SUBRULE_UL_CSS_CLASS);
-            
-            populateRequirementComponentWidgets(subStatement, subrulePanel);
-            
-            panel.add(subrulePanel);
-            
+            subrulePanel.setULClassName(SUBRULE_UL_CSS_CLASS);           
+            populateRequirementComponentWidgets(subStatement, subrulePanel);            
+            panel.add(subrulePanel);            
         }
         else {
             // sub-statement case: for each sub statement, call this method recursively
             boolean firstInSubList = true;
             for(StatementTreeViewInfo childStatement : subStatement.getStatements()) {
-                panel.add(buildSubStatementWidget(childStatement, subStatement, firstInSubList));
+                ULPanel subStatementPanel = new ULPanel();
+                subStatementPanel.setULClassName(SUBRULE_UL_CSS_CLASS);
+                subStatementPanel.add(buildSubStatementWidget(childStatement, subStatement, firstInSubList), SUBRULE_LI_CSS_CLASS);
+                panel.add(subStatementPanel);
                 firstInSubList = false;
             }
             

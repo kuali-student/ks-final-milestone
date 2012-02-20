@@ -265,6 +265,28 @@ public class StatementVO extends Token implements Serializable {
         }
     }
 
+    public void addReqComponentVO(ReqComponentVO reqComponentVO, String type) {
+        doAddReqComponentVO(reqComponentVO, type);
+        validate();
+    }
+
+    private void doAddReqComponentVO(ReqComponentVO reqComponentVO, String type) {
+        // if there are sub statements in this statement already
+        // add a new sub statement with the same operator as this statement
+        // and a the requirement component
+        if (statementVOs != null && !statementVOs.isEmpty()) {
+            StatementInfo newStatementInfo = new StatementInfo();
+            newStatementInfo.setType(type);
+            StatementVO newStatementVO = new StatementVO();
+            newStatementInfo.setOperator(statementInfo.getOperator());
+            newStatementVO.setStatementInfo(newStatementInfo);
+            newStatementVO.getReqComponentVOs().add(reqComponentVO);
+            statementVOs.add(newStatementVO);
+        } else {
+            reqComponentVOs.add(reqComponentVO);
+        }
+    }
+
     public void removeStatementVO(StatementVO statementVO) {
         statementVOs.remove(statementVO);
         validate();
@@ -671,7 +693,7 @@ public class StatementVO extends Token implements Serializable {
             if (statementVO.getReqComponentVOCount() > 0) {
                 parent.removeStatementVO(statementVO);
                 for (ReqComponentVO rc : statementVO.getReqComponentVOs()) {
-                    parent.addReqComponentVO(rc);
+                    parent.addReqComponentVO(rc, statementVO.getStatementInfo().getType());
                 }
             } else if (statementVO.getStatementVOCount() > 0) {
                 if (parent != null) {
@@ -686,7 +708,7 @@ public class StatementVO extends Token implements Serializable {
         } else if (statementVO!=null && statementVO.getStatementVOCount() > 0) {
             List<StatementVO> subSs = new ArrayList<StatementVO>(statementVO.getStatementVOs());
             for (StatementVO subS : subSs) {
-                structureChanged = structureChanged || doSimplify(subS, statementVO);
+           		structureChanged = doSimplify(subS, statementVO);
             }
         }
         return structureChanged;

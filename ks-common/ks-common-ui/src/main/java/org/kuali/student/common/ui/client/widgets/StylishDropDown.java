@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.theme.Theme;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenu.MenuImageLocation;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
@@ -48,26 +49,26 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class StylishDropDown extends Composite{
 	
-	private ClickablePanel namePanel = new ClickablePanel();
-	private SpanPanel parentPanel = new SpanPanel();
-	private boolean showSelectedItem = false;
-	private boolean showTitleIcon = false;
-	private PopupPanel menuPanel = new PopupPanel();
-	private KSListMenuImpl menu = new KSListMenuImpl();
-	private HorizontalPanel layout = new HorizontalPanel();
-	private KSLabel titleLabel = new KSLabel();
-	private Image titleImage = Theme.INSTANCE.getCommonImages().getSpacer();
-	private HorizontalPanel titleLayout = new HorizontalPanel();
-	private Image defaultArrow = Theme.INSTANCE.getCommonImages().getDropDownIconBlack();
+	protected ClickablePanel namePanel = new ClickablePanel();
+	protected SpanPanel parentPanel = new SpanPanel();
+	protected boolean showSelectedItem = false;
+	protected boolean showTitleIcon = false;
+	protected PopupPanel menuPanel = new PopupPanel();
+	protected KSListMenuImpl menu = new KSListMenuImpl();
+	protected HorizontalPanel layout = new HorizontalPanel();
+	protected KSLabel titleLabel = new KSLabel();
+	protected Image titleImage = Theme.INSTANCE.getCommonImages().getSpacer();
+	protected HorizontalPanel titleLayout = new HorizontalPanel();
+	protected Image defaultArrow = Theme.INSTANCE.getCommonImages().getDropDownIconBlack();
 	private boolean mouseOver = false;
-	private MenuImageLocation imgLoc = MenuImageLocation.RIGHT;
+	protected MenuImageLocation imgLoc = MenuImageLocation.RIGHT;
 	private boolean makeButton = false;
-	private boolean enabled = true;
+	protected boolean enabled = true;
 	
 	//optional button
 	private KSButton button;
 	
-	private ClickHandler panelHandler = new ClickHandler(){
+	protected ClickHandler panelHandler = new ClickHandler(){
 
 		@Override
 		public void onClick(ClickEvent event) {
@@ -84,7 +85,7 @@ public class StylishDropDown extends Composite{
 		
 	};
 
-	private KeyDownHandler downHandler = new KeyDownHandler(){
+	protected KeyDownHandler downHandler = new KeyDownHandler(){
 
 		@Override
 		public void onKeyDown(KeyDownEvent event) {
@@ -102,7 +103,7 @@ public class StylishDropDown extends Composite{
 		} 
 	}; 
 
-	private FocusHandler focusHandler = new FocusHandler(){
+	protected FocusHandler focusHandler = new FocusHandler(){
 
 		@Override
 		public void onFocus(FocusEvent event) {
@@ -111,7 +112,7 @@ public class StylishDropDown extends Composite{
 		}
 	}; 
 
-	private MouseOverHandler mouseOverHandler = new MouseOverHandler() {
+	protected MouseOverHandler mouseOverHandler = new MouseOverHandler() {
 
 		@Override
 		public void onMouseOver(MouseOverEvent event) {
@@ -120,7 +121,7 @@ public class StylishDropDown extends Composite{
 		
 	};
 
-	private MouseOutHandler mouseOutHandler = new MouseOutHandler() {
+	protected MouseOutHandler mouseOutHandler = new MouseOutHandler() {
 
 		@Override
 		public void onMouseOut(MouseOutEvent event) {
@@ -153,6 +154,8 @@ public class StylishDropDown extends Composite{
 		}
 	};
 	
+	public StylishDropDown() {}
+	
 	public StylishDropDown(String title){
 		titleLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
 		titleLabel.setText(title);
@@ -173,25 +176,53 @@ public class StylishDropDown extends Composite{
 			titleLayout.insert(titleImage, 0);
 		}
 		menu.setImageLocation(imgLoc);
-		init();
-	}
+        init();
+    }
+
+    public StylishDropDown(Widget widget) {
+        titleLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+        titleLayout.add(widget);
+        init();
+    }
+
+    public void initialise(String title) {
+        titleLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+        titleLabel.setText(title);
+        titleLayout.add(titleLabel);
+        titleLayout.add(titleImage);
+        init();
+    }
+
+    public void initialise(String title, Image image, MenuImageLocation imgLoc) {
+        titleLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+        titleLabel.setText(title);
+        titleImage = image;
+        titleLayout.add(titleLabel);
+        if (imgLoc == MenuImageLocation.RIGHT) {
+            titleLayout.add(titleImage);
+        } else {
+            titleLayout.insert(titleImage, 0);
+        }
+        menu.setImageLocation(imgLoc);
+        init();
+    }
+
+    public void initialise(Widget widget) {
+        titleLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
+        titleLayout.add(widget);
+        init();
+    }
+
+    /**
+     * This method will make the stylish drop down just a button when a list of 1 item is
+     * passed in
+     * @param makeButton
+     */
+    public void makeAButtonWhenOneItem(boolean makeButton) {
+        this.makeButton = makeButton;
+    }
 	
-	public StylishDropDown(Widget widget){
-		titleLayout.setHorizontalAlignment(HasHorizontalAlignment.ALIGN_LEFT);
-		titleLayout.add(widget);
-		init();
-	}
-	
-	
-	/**
-	 * This method will make the stylish drop down just a button when a list of 1 item is passed in
-	 * @param makeButton
-	 */
-	public void makeAButtonWhenOneItem(boolean makeButton){
-		this.makeButton = makeButton;
-	}
-	
-	private void init(){
+	protected void init(){
 		layout.clear();
 		layout.setWidth("100%");
 		layout.add(titleLayout);
@@ -236,7 +267,7 @@ public class StylishDropDown extends Composite{
 		namePanel.getElement().setAttribute("id", HTMLPanel.createUniqueId());
 		parentPanel.add(namePanel);
 		this.initWidget(parentPanel);
-		titleLabel.addStyleName("KS-CutomDropDown-TitleLabel");
+		titleLabel.addStyleName("KS-CustomDropDown-TitleLabel");
 		layout.addStyleName("KS-CustomDropDown-TitlePanel");
 		defaultArrow.addStyleName("KS-CustomDropDown-Arrow");
 	}
@@ -319,6 +350,13 @@ public class StylishDropDown extends Composite{
 	public boolean isShowingTitleIcon(){
 		return showTitleIcon;
 	}
+	
+	@Override
+    protected void onEnsureDebugId(String baseID) {
+        super.onEnsureDebugId(baseID);
+        titleLabel.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + titleLabel.getText() + "-label"));
+        layout.ensureDebugId(DebugIdUtils.createWebDriverSafeDebugId(baseID + "-" + titleLabel.getText() + "-panel"));
+    }
 	
 	
 }
