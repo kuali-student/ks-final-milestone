@@ -42,6 +42,7 @@ import org.kuali.student.r1.common.entity.MetaEntity;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @Entity
 @Table(name = "KSDO_DOCUMENT")
 @AttributeOverrides({

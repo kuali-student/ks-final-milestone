@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
 import org.kuali.student.core.workflow.dto.CollaboratorInfo;
 
+@Deprecated
 public class TestWorkflowDictionary {
 	@Test
 	public void testLoadWorkflowInfoDictionary() {

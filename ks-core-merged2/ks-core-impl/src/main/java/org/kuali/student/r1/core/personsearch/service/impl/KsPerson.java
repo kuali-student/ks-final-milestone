@@ -35,6 +35,7 @@ import org.kuali.rice.kns.util.KualiDecimal;
  *
  */
 
+@Deprecated
 //FIXME Either find a cleaner fix or go back to using PersonSerice
 public class KsPerson implements Person {
 

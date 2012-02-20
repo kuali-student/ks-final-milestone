@@ -34,6 +34,7 @@ import org.kuali.student.r1.common.entity.KSEntityConstants;
 import org.kuali.student.r1.common.entity.MetaEntity;
 import org.kuali.student.r1.common.entity.TimeAmount;
 
+@Deprecated
 @Entity
 @Table(name = "KSOR_ORG_POS_RESTR", 
         uniqueConstraints={@UniqueConstraint(columnNames={"ORG","PERS_RELTN_TYPE"})})

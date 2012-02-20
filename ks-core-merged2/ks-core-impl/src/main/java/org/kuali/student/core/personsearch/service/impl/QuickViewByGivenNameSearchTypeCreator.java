@@ -24,6 +24,7 @@ import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.common.search.dto.SearchTypeInfo;
 
+@Deprecated
 public class QuickViewByGivenNameSearchTypeCreator
 {
 

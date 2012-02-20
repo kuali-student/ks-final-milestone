@@ -28,6 +28,7 @@ import org.kuali.student.r1.core.enumerationmanagement.entity.ContextEntity;
 import org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue;
 import org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration;
 
+@Deprecated
 public class EnumerationAssembler {
 
     final static Logger logger = Logger.getLogger(EnumerationAssembler.class);

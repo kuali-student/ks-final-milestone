@@ -37,6 +37,7 @@ import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 /**
  * Utility class to support testing.
  */
+@Deprecated
 public class NaturalLanguageUtil {
 
 	private final static List<MockCluInfo> cluList = new ArrayList<MockCluInfo>();

@@ -9,6 +9,7 @@ import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.search.service.SearchDispatcher;
 
+@Deprecated
 public class MockSearchDispatcher implements SearchDispatcher
 {
 

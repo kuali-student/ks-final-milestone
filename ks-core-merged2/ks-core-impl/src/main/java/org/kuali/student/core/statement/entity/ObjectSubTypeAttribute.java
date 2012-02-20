@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_OBJECT_SUB_TYPE_ATTR")
 public class ObjectSubTypeAttribute extends Attribute<ObjectSubType> {

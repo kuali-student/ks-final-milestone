@@ -17,6 +17,7 @@ import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
 import org.kuali.student.common.dictionary.service.jaxws.GetObjectStructureResponse;
 
+@Deprecated
 public class DictionaryServiceImplTest {
 	@Test
 	public void testMarshalling() throws JAXBException{

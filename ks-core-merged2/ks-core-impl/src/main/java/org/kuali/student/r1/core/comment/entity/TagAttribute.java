@@ -23,6 +23,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Attribute;
 
+@Deprecated
 @Entity
 @Table(name = "KSCO_TAG_ATTR")
 public class TagAttribute extends Attribute<Tag>{

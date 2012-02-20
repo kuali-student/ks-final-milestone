@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.kuali.student.common.exceptions.OperationFailedException;
 
+@Deprecated
 public class ContextRegistryTest {
 
 	private ContextRegistry<DeveloperContext> emptyRegistry;

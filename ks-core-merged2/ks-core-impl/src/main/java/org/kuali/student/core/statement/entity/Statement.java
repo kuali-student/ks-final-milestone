@@ -35,6 +35,7 @@ import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_STMT")
 @NamedQueries( {

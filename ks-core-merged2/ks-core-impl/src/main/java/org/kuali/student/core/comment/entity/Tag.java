@@ -36,6 +36,7 @@ import org.kuali.student.common.entity.MetaEntity;
 
 
 
+@Deprecated
 @Entity
 @Table(name = "KSCO_TAG")
 @NamedQueries( {

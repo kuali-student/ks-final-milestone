@@ -33,6 +33,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.r1.common.entity.MetaEntity;
+@Deprecated
 @Entity
 @Table(name="KSST_REQ_COM")
 @NamedQueries( {

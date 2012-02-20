@@ -24,6 +24,7 @@ import org.kuali.student.common.entity.Attribute;;;
 
 
 
+@Deprecated
 @Entity
 @Table(name = "KSCO_REFERENCE_TYPE_ATTR")
 public class ReferenceTypeAttribute extends Attribute<ReferenceType>{

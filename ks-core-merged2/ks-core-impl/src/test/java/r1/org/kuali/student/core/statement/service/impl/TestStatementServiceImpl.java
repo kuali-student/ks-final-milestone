@@ -75,6 +75,7 @@ import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 import org.kuali.student.core.statement.service.StatementService;
 
+@Deprecated
 @Daos({@Dao(value = "org.kuali.student.core.statement.dao.impl.StatementDaoImpl")})
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementServiceImpl extends AbstractServiceTest {

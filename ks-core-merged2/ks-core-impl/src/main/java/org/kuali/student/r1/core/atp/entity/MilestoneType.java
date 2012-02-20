@@ -26,6 +26,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Type;;
 
+@Deprecated
 @Entity
 @Table(name = "KSAP_MLSTN_TYPE")
 @NamedQueries( { 

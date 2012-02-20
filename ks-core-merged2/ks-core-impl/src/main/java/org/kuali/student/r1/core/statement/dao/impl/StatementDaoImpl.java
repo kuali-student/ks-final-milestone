@@ -29,6 +29,7 @@ import org.kuali.student.r1.core.statement.entity.RefStatementRelation;
 import org.kuali.student.r1.core.statement.entity.ReqComponent;
 import org.kuali.student.r1.core.statement.entity.Statement;
 
+@Deprecated
 public class StatementDaoImpl extends AbstractSearchableCrudDaoImpl implements StatementDao {
 
 	@PersistenceContext(unitName = "Statement")

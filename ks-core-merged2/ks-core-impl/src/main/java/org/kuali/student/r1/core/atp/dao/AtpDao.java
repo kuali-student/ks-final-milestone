@@ -27,6 +27,7 @@ import org.kuali.student.r1.core.atp.entity.Milestone;
 import org.kuali.student.r1.core.atp.entity.MilestoneType;
 
 
+@Deprecated
 public interface AtpDao extends CrudDao, SearchableDao {
 
 	List<Atp> findAtpsByAtpType(String atpTypeKey);

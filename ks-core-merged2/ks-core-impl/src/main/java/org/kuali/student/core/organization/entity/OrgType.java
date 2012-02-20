@@ -27,6 +27,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Type;;
 
+@Deprecated
 @Entity
 @Table(name = "KSOR_ORG_TYPE")
 public class OrgType extends Type<OrgTypeAttribute> {

@@ -35,6 +35,7 @@ import org.kuali.student.core.statement.service.StatementService;
  * 
  * @param <T> Type of context to create
  */
+@Deprecated
 public abstract class AbstractContext<T> implements Context<T> {
 	/**
 	 * <p>These common shared tokens are needed since velocity doesn't 

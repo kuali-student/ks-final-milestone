@@ -30,6 +30,7 @@ import org.kuali.student.common.entity.Type;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @Entity
 @Table(name = "KSPR_PROPOSAL_REFTYPE")
 public class ProposalReferenceType extends Type<ProposalReferenceTypeAttribute> {

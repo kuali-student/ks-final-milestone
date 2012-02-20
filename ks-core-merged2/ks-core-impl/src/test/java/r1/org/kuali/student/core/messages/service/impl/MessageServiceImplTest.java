@@ -32,6 +32,7 @@ import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 
 
+@Deprecated
 @Daos( { @Dao(value = "org.kuali.student.core.messages.dao.impl.MessageManagementDAOImpl", testDataFile = "classpath:messages-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/messages-persistence.xml")
 public class MessageServiceImplTest extends AbstractServiceTest{    

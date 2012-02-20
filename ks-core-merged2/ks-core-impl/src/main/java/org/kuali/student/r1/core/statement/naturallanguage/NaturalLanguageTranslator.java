@@ -24,6 +24,7 @@ import org.kuali.student.r1.core.statement.entity.Statement;
  * This class translates requirement components and statements into 
  * natural language.
  */
+@Deprecated
 public interface NaturalLanguageTranslator {
 	/**
 	 * Translates a requirement component for a specific natural language 

@@ -11,6 +11,7 @@ import org.kuali.student.core.document.dto.DocumentInfo;
 import org.kuali.student.core.document.dto.RefDocRelationInfo;
 
 
+@Deprecated
 public class TestDictionaryCreator
 {
 

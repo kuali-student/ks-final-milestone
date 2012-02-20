@@ -25,6 +25,7 @@ import java.util.Map;
  * This class is a registry of template contexts which the requirement 
  * component translator uses to generate natural language.
  */
+@Deprecated
 public class ContextRegistry<T extends Context<?>>  {
 
 	/** Registry context map */

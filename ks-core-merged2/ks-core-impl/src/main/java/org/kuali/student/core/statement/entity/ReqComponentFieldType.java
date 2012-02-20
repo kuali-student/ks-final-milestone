@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.entity.BaseEntity;
 import org.kuali.student.common.entity.FieldDescriptorEntity;
 
+@Deprecated
 @Entity
 @Table(name="KSST_REQ_COM_FIELD_TYPE")
 public class ReqComponentFieldType extends BaseEntity{

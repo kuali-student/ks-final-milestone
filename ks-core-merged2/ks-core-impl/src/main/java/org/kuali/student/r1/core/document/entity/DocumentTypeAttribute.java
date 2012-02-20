@@ -28,6 +28,7 @@ import org.kuali.student.r1.common.entity.Attribute;;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @Entity
 @Table(name = "KSDO_DOCUMENT_TYPE_ATTR")
 public class DocumentTypeAttribute extends Attribute<DocumentType> {

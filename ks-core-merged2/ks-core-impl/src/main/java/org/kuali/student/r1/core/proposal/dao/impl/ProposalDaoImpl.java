@@ -37,6 +37,7 @@ import org.kuali.student.r1.core.proposal.entity.ProposalType;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class ProposalDaoImpl extends AbstractSearchableCrudDaoImpl implements ProposalDao {
     @PersistenceContext(unitName = "Proposal")
     @Override

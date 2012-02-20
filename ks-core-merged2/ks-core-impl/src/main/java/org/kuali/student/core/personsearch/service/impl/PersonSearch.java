@@ -33,6 +33,7 @@ import org.kuali.rice.kim.api.identity.type.EntityTypeContactInfoDefault;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class PersonSearch {
 
     @SuppressWarnings("unchecked")

@@ -27,6 +27,7 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 
+@Deprecated
 public interface OrganizationDao extends CrudDao, SearchableDao{
 
     public List<OrgPersonRelation> getAllOrgPersonRelationsByPerson(String personId);

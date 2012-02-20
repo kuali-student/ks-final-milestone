@@ -15,6 +15,7 @@
 
 package org.kuali.student.core.statement.config.context.lu;
 
+@Deprecated
 public class MockCluInfo {
 	private String id;
 	private String code;

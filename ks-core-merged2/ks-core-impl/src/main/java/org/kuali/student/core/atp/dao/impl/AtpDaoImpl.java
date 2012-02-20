@@ -30,6 +30,7 @@ import org.kuali.student.core.atp.entity.DateRangeType;
 import org.kuali.student.core.atp.entity.Milestone;
 import org.kuali.student.core.atp.entity.MilestoneType;
 
+@Deprecated
 public class AtpDaoImpl extends AbstractSearchableCrudDaoImpl implements AtpDao {
 
 	@PersistenceContext(unitName = "Atp")

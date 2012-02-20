@@ -23,6 +23,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_STMT_TYPE_HEADER_TMPL")
 public class StatementTypeHeaderTemplate extends Attribute<StatementType> {

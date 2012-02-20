@@ -25,6 +25,7 @@ import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 /**
  * This class creates the template context for grade condition type.
  */
+@Deprecated
 public class CreditContextImpl extends AbstractLuContext<ReqComponentInfo> {
 	/** Total credits template token */ 
 	private final static String TOTAL_CREDITS_TOKEN = "totalCredits";

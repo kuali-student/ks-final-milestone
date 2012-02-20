@@ -18,6 +18,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.MetaEntity;
 
+@Deprecated
 @Entity
 @Table(name="KSDO_REF_DOC_RELTN")
 @NamedQueries( {

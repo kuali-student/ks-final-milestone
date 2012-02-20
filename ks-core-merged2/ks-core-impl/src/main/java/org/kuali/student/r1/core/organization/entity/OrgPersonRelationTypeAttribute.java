@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSOR_ORG_PERS_RELTN_TYPE_ATTR")
 public class OrgPersonRelationTypeAttribute extends Attribute<OrgPersonRelationType> {

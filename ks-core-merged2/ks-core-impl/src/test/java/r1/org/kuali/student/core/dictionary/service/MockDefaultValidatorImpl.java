@@ -9,6 +9,7 @@ import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
 
+@Deprecated
 public class MockDefaultValidatorImpl extends DefaultValidatorImpl
 {
 

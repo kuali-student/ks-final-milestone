@@ -33,6 +33,7 @@ import javax.persistence.TemporalType;
 
 import org.kuali.student.common.entity.BaseEntity;
 
+@Deprecated
 @Entity
 @Table(name="KSEM_ENUM_VAL_T")
 public class EnumeratedValue extends BaseEntity {

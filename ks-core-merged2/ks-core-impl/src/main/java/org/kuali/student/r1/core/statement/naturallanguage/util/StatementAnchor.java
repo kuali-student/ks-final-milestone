@@ -20,6 +20,7 @@ import org.kuali.student.r1.core.statement.entity.Statement;
 /**
  * This class attaches a CLU id anchor to a {@link CustomLuStatementInfo}.
  */
+@Deprecated
 public class StatementAnchor {
 	private Statement statement;
 	private String refObjectTypeKey;

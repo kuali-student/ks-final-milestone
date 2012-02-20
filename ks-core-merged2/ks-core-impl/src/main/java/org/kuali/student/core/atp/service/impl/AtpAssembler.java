@@ -39,6 +39,7 @@ import org.kuali.student.core.atp.entity.MilestoneAttribute;
 import org.kuali.student.core.atp.entity.MilestoneType;
 import org.springframework.beans.BeanUtils;
 
+@Deprecated
 public class AtpAssembler extends BaseAssembler{
 
 	public static Atp toAtp(boolean isUpdate, AtpInfo atpInfo, AtpDao dao)

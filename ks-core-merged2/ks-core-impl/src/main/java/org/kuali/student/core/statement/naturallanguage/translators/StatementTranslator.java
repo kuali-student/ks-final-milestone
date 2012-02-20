@@ -32,6 +32,7 @@ import org.slf4j.LoggerFactory;
  * This class translates a LU (learning unit) statement into a specific 
  * natural language.  This class is not thread safe.
  */
+@Deprecated
 public class StatementTranslator {
     /** SLF4J logging framework */
     final static Logger logger = LoggerFactory.getLogger(StatementTranslator.class);

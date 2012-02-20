@@ -44,6 +44,7 @@ import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
 import org.kuali.student.core.statement.entity.Statement;
 import org.kuali.student.core.statement.entity.StatementType;
 
+@Deprecated
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")
 public class TestStatementDao extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.core.statement.dao.impl.StatementDaoImpl", testSqlFile = "classpath:ks-statement-config.sql,ks-statement-data.sql")

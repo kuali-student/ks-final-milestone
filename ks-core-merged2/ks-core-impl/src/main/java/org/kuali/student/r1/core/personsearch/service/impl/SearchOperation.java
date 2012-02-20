@@ -20,6 +20,7 @@ import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 
+@Deprecated
 public interface SearchOperation {
     public SearchResult search(IdentityManagementService identityService, SearchRequest searchRequest);
     public SearchTypeInfo getType ();

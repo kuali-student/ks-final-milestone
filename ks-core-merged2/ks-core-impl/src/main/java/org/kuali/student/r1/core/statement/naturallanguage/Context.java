@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.exceptions.OperationFailedException;
 
+@Deprecated
 public interface Context<T> {
     /**
      * Creates the template context map (template token and data) for 

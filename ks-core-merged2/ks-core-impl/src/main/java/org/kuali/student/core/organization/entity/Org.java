@@ -35,6 +35,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.common.entity.MetaEntity;
+@Deprecated
 @Entity
 @Table(name="KSOR_ORG")
 @NamedQueries({

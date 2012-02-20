@@ -35,6 +35,7 @@ import org.kuali.student.common.messages.dto.MessageGroupKeyList;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class MessageServiceMockTest {
     MessageServiceMock messageService;
     

@@ -34,6 +34,7 @@ import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.BaseEntity;
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 
+@Deprecated
 @Entity
 @Table(name="KSOR_ORG_HIRCHY")
 public class OrgHierarchy extends BaseEntity implements AttributeOwner<OrgHierarchyAttribute>{

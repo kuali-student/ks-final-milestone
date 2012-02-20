@@ -26,6 +26,7 @@ import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class EnumerationAssembler {
 
     final static Logger logger = Logger.getLogger(EnumerationAssembler.class);

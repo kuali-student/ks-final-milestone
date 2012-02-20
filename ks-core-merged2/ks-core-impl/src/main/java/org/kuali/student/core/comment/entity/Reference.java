@@ -30,6 +30,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.entity.BaseEntity;
 
+@Deprecated
 @Entity
 @Table(name = "KSCO_REFERENCE",
         uniqueConstraints= @UniqueConstraint(columnNames={"REFERENCE_ID", "REFERENCE_TYPE"}))

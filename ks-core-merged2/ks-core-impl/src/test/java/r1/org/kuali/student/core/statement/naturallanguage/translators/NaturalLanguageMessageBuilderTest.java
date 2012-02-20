@@ -30,6 +30,7 @@ import org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder
 import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderException;
 import org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
 
+@Deprecated
 public class NaturalLanguageMessageBuilderTest {
 	private static Map<String, MessageBuilder> messageBuilderMap;
 	

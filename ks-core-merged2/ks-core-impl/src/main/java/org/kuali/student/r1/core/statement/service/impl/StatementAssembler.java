@@ -52,6 +52,7 @@ import org.kuali.student.r1.core.statement.entity.StatementType;
 import org.kuali.student.r1.core.statement.naturallanguage.NaturalLanguageTranslator;
 import org.springframework.beans.BeanUtils;
 
+@Deprecated
 public class StatementAssembler extends BaseAssembler {
 
     private StatementDao statementDao;

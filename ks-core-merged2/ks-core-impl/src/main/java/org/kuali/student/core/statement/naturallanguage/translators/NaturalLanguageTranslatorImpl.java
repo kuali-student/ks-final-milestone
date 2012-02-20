@@ -27,6 +27,7 @@ import org.kuali.student.core.statement.naturallanguage.NaturalLanguageTranslato
  * statements into a specific natural language and into a 
  * statement/requirement component tree.
  */
+@Deprecated
 public class NaturalLanguageTranslatorImpl implements NaturalLanguageTranslator {
 
 	private final static Logger logger = Logger.getLogger(NaturalLanguageTranslatorImpl.class);

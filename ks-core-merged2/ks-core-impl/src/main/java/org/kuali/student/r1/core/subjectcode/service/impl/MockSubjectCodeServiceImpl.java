@@ -13,6 +13,7 @@ import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 
+@Deprecated
 public class MockSubjectCodeServiceImpl implements SubjectCodeService {
 
 	@Override

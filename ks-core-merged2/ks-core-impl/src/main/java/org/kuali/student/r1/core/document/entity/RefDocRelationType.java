@@ -11,6 +11,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Type;;
+@Deprecated
 @Entity
 @Table(name="KSDO_REF_DOC_RELTN_TYPE")
 public class RefDocRelationType extends Type<RefDocRelationTypeAttribute> {

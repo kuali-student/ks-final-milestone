@@ -27,6 +27,7 @@ import javax.persistence.UniqueConstraint;
 
 import org.kuali.student.common.entity.BaseEntity;
 
+@Deprecated
 @Entity
 @Table(name="KSEM_CTX_T", uniqueConstraints={@UniqueConstraint(columnNames={"CTX_KEY", "CTX_VAL"})})
 public class ContextEntity extends BaseEntity {

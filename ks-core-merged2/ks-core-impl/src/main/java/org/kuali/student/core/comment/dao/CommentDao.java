@@ -30,6 +30,7 @@ import org.kuali.student.core.comment.entity.Tag;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public interface CommentDao extends CrudDao, SearchableDao {
     public Comment getComment(String referenceId, String referenceTypeKey);
     public List<Comment> getComments(String referenceId, String referenceTypeKey);

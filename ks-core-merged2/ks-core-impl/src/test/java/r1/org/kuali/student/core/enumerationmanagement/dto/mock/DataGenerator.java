@@ -25,6 +25,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl;
 
+@Deprecated
 public class DataGenerator{
 	
 	public static void generate(EnumerationManagementServiceImpl enumService) throws AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{

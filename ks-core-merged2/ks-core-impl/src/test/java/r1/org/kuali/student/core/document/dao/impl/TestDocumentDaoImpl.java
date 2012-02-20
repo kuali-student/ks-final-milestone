@@ -29,6 +29,7 @@ import org.kuali.student.core.document.dao.DocumentDao;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @PersistenceFileLocation("classpath:META-INF/document-persistence.xml")
 public class TestDocumentDaoImpl extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.core.document.dao.impl.DocumentDaoImpl", testSqlFile = "classpath:ks-document.sql")

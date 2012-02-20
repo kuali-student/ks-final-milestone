@@ -34,6 +34,7 @@ import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.core.organization.entity.OrgPersonRelationType;
 import org.kuali.student.core.organization.entity.OrgPositionRestriction;
 
+@Deprecated
 public class OrganizationDaoImpl extends AbstractSearchableCrudDaoImpl implements OrganizationDao {
 
 	@PersistenceContext(unitName = "Organization")

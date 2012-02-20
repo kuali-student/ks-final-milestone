@@ -30,6 +30,7 @@ import org.kuali.student.r1.core.document.entity.RefDocRelation;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public interface DocumentDao extends CrudDao, SearchableDao {
 
     public Boolean addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws DoesNotExistException;

@@ -35,6 +35,7 @@ import org.kuali.student.r1.core.comment.entity.Tag;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements CommentDao {
     @PersistenceContext(unitName = "Comment")
     @Override

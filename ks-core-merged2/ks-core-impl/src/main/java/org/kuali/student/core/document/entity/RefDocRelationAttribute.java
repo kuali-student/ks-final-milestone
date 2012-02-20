@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Attribute;;
+@Deprecated
 @Entity
 @Table(name = "KSDO_REF_DOC_REL_ATTR")
 public class RefDocRelationAttribute extends Attribute<RefDocRelation>{

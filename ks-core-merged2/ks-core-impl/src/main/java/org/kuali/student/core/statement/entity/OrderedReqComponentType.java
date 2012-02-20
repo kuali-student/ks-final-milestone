@@ -8,6 +8,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.BaseEntity;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_STMT_TYP_JN_RC_TYP")
 public class OrderedReqComponentType extends BaseEntity {

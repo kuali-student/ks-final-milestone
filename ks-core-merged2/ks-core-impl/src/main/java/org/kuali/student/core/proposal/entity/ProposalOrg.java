@@ -32,6 +32,7 @@ import org.kuali.student.common.entity.BaseEntity;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @Entity
 @Table(name = "KSPR_PROPOSAL_JN_ORG")
 @NamedQueries( {

@@ -33,6 +33,7 @@ import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.dto.SortDirection;
 
 
+@Deprecated
 public final class QuickViewByGivenName extends PersonSearch implements SearchOperation {
     public static final String SEARCH_TYPE = "person.search.personQuickViewByGivenName";
     public static final String CRITERIA_TYPE = "person.search.personByGivenName";

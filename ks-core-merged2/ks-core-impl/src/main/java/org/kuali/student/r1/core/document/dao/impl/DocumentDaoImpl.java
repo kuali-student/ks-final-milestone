@@ -36,6 +36,7 @@ import org.kuali.student.r1.core.document.entity.RefDocRelation;
  * 
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  */
+@Deprecated
 public class DocumentDaoImpl extends AbstractSearchableCrudDaoImpl implements DocumentDao {
     
     final Logger logger = Logger.getLogger(DocumentDaoImpl.class);

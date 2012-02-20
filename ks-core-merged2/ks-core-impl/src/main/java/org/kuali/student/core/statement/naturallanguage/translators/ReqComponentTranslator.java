@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory;
  * This class translates requirement components into a specific
  * natural language. This class is not thread safe.
  */
+@Deprecated
 public class ReqComponentTranslator {
     /** SLF4J logging framework */
 	private final static Logger logger = LoggerFactory.getLogger(ReqComponentTranslator.class);

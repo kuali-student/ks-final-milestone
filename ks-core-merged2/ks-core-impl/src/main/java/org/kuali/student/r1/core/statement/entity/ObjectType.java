@@ -27,6 +27,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Type;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_OBJECT_TYPE")
 public class ObjectType extends Type<ObjectTypeAttribute> {

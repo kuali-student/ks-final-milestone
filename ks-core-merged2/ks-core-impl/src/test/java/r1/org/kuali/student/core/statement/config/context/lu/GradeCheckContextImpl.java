@@ -25,6 +25,7 @@ import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 /**
  * This class creates the template context for grade check type.
  */
+@Deprecated
 public class GradeCheckContextImpl extends AbstractLuContext<ReqComponentInfo> {
 	/** GPA template token */ 
 	private final static String GPA_TOKEN = "gpa";

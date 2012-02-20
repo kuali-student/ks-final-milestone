@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSAP_ATP_TYPE_ATTR")
 public class AtpTypeAttribute extends Attribute<AtpType> {

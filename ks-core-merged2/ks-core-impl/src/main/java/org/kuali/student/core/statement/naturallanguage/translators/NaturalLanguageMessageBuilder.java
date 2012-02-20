@@ -24,6 +24,7 @@ import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderExc
 /**
  * This class builds a message from a boolean expression in a specific language.
  */
+@Deprecated
 public class NaturalLanguageMessageBuilder {
     private Map<String, MessageBuilder> messageBuilderMap;
 

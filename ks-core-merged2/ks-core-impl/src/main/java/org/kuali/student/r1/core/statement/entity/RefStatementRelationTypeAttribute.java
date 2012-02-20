@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_REF_STMT_REL_TYPE_ATTR")
 public class RefStatementRelationTypeAttribute extends Attribute<RefStatementRelationType> {

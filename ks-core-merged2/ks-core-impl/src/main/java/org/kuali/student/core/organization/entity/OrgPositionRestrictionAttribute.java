@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSOR_ORG_POS_RESTR_ATTR")
 public class OrgPositionRestrictionAttribute extends Attribute<OrgPositionRestriction> {

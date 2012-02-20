@@ -42,6 +42,7 @@ import org.springframework.core.io.Resource;
  * @author Kuali Student Team
  * 
  */
+@Deprecated
 public class MessageServiceMock implements MessageService {
 
 	final Logger logger = Logger.getLogger(MessageServiceMock.class);

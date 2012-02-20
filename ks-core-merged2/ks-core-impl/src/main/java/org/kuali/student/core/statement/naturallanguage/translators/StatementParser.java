@@ -32,6 +32,7 @@ import org.kuali.student.core.statement.naturallanguage.util.ReqComponentReferen
  * the boolean expression either as requirement components (e.g. R1 and R2)
  * or statements (e.g. S1 and S2).
  */
+@Deprecated
 public class StatementParser {
 	private StringBuilder sb;
 	private Map<String,String> idMap;

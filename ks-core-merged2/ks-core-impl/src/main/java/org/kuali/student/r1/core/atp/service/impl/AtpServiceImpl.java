@@ -53,6 +53,7 @@ import org.kuali.student.r1.core.atp.entity.MilestoneType;
 import org.kuali.student.r1.core.atp.service.AtpService;
 import org.springframework.transaction.annotation.Transactional;
 
+@Deprecated
 @WebService(endpointInterface = "org.kuali.student.core.atp.service.AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 public class AtpServiceImpl implements AtpService {
 

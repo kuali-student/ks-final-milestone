@@ -26,6 +26,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.naturallanguage.AbstractContext;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
+@Deprecated
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
 	private final static Map<String, MockCluInfo> cluMap = new HashMap<String, MockCluInfo>();

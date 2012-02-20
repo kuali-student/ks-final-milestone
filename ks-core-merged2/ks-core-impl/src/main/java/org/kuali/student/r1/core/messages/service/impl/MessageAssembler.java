@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.core.messages.entity.MessageEntity;
 
+@Deprecated
 public class MessageAssembler {
 
     final static Logger logger = Logger.getLogger(MessageAssembler.class);

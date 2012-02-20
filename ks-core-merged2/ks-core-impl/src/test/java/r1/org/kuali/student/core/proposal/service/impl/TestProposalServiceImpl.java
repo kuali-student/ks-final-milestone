@@ -55,6 +55,7 @@ import org.kuali.student.core.proposal.service.ProposalService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @Daos( { @Dao(value = "org.kuali.student.core.proposal.dao.impl.ProposalDaoImpl",testSqlFile="classpath:ks-proposal.sql"/*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/proposal-persistence.xml")
 public class TestProposalServiceImpl extends AbstractServiceTest {

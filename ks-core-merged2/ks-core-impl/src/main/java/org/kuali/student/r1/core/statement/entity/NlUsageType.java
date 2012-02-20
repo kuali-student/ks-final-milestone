@@ -24,6 +24,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Type;;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_NL_USAGE_TYPE")
 public class NlUsageType extends Type<NlUsageTypeAttribute> {

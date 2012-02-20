@@ -23,6 +23,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_REQ_COM_TYPE_NL_TMPL")
 public class ReqComponentTypeNLTemplate extends Attribute<ReqComponentType> {

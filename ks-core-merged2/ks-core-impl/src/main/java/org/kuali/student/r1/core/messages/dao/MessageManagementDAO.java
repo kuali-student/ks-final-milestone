@@ -20,6 +20,7 @@ import java.util.List;
 import org.kuali.student.r1.core.messages.entity.MessageEntity;
 
 
+@Deprecated
 public interface MessageManagementDAO {
 	public MessageEntity addMessage(MessageEntity me);
 	public int getTotalMessages();

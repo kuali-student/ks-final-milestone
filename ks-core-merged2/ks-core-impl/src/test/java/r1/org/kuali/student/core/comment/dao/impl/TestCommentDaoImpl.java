@@ -29,6 +29,7 @@ import org.kuali.student.core.comment.dao.CommentDao;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentDaoImpl extends AbstractTransactionalDaoTest {
     @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl", testSqlFile = "classpath:ks-comment.sql")

@@ -45,6 +45,7 @@ import org.springframework.beans.BeanUtils;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class ProposalAssembler extends BaseAssembler {
 
     public static List<ProposalInfo> toProposalInfos(List<Proposal> entities) {

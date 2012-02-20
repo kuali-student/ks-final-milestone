@@ -31,6 +31,7 @@ import org.kuali.rice.kim.service.IdentityManagementService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class PersonSearch {
 
     @SuppressWarnings("unchecked")

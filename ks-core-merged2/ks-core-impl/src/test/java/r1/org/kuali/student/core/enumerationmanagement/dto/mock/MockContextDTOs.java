@@ -27,6 +27,7 @@ import org.kuali.student.core.enumerationmanagement.dto.EnumContextValueInfo;
  * @Threadsafe immutable classes are threadsafe
  * Contexts (List) and its Context objects returned by this class are NOT immutable or threadsafe
  */
+@Deprecated
 public class MockContextDTOs {
 	
 	private String contextType = "Type";

@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue;
 import org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration;
 
+@Deprecated
 public interface EnumerationManagementDAO extends CrudDao, SearchableDao{
 
     public List<Enumeration> findEnumerations();

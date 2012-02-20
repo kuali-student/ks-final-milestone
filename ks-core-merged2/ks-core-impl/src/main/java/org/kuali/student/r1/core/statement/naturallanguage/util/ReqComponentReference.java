@@ -22,6 +22,7 @@ import org.kuali.student.r1.core.statement.entity.ReqComponent;
  * (during statement parsing {@link StatementParser}) to 
  * a {@link CustomReqComponentInfo}.
  */
+@Deprecated
 public class ReqComponentReference {
 	private String booleanId;
 	private ReqComponent reqComponent;

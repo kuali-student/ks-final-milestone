@@ -22,6 +22,7 @@ import javax.persistence.Table;
 import org.kuali.student.r1.common.entity.BaseEntity;
 import org.kuali.student.r1.common.entity.KSEntityConstants;
 
+@Deprecated
 @Entity
 @Table(name = "KSMG_MESSAGE")
 public class MessageEntity extends BaseEntity{

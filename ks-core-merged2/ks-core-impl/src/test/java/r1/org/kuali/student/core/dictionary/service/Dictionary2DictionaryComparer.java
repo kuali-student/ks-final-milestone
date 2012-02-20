@@ -7,6 +7,7 @@ import java.util.List;
 import org.kuali.student.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 
+@Deprecated
 public class Dictionary2DictionaryComparer
 {
 

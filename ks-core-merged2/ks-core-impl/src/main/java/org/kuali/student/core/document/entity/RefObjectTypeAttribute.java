@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Attribute;;
+@Deprecated
 @Entity
 @Table(name="KSDO_REF_OBJ_TYPE_ATTR")
 public class RefObjectTypeAttribute extends Attribute<RefObjectType>{

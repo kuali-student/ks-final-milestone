@@ -32,6 +32,7 @@ package org.kuali.student.core.statement.naturallanguage;
  * Template: <code>Student must have completed all of $cluSet.getCluSetAsShortName()</code>
  * </p>
  */
+@Deprecated
 public enum ReqComponentFieldTypes {
 	CLU_KEY("kuali.reqComponent.field.type.clu.id"),
 	CLUSET_KEY("kuali.reqComponent.field.type.cluSet.id"),

@@ -24,6 +24,7 @@ import org.kuali.student.common.entity.Attribute;;
 
 
 
+@Deprecated
 @Entity
 @Table(name = "KSCO_TAG_TYPE_ATTR")
 public class TagTypeAttribute extends Attribute<TagType> {

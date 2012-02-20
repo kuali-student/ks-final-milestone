@@ -44,6 +44,7 @@ import org.springframework.beans.BeanUtils;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class DocumentServiceAssembler extends BaseAssembler {
 
     public static DocumentInfo toDocumentInfo(Document entity) {

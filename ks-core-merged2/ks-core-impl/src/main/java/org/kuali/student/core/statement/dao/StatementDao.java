@@ -24,6 +24,7 @@ import org.kuali.student.core.statement.entity.RefStatementRelation;
 import org.kuali.student.core.statement.entity.ReqComponent;
 import org.kuali.student.core.statement.entity.Statement;
 
+@Deprecated
 public interface StatementDao extends CrudDao, SearchableDao {
 
     public List<ReqComponent> getReqComponents(List<String> reqComponentIdList);

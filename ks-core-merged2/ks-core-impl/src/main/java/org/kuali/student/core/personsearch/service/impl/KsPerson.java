@@ -35,6 +35,7 @@ import org.kuali.rice.kim.api.identity.principal.Principal;
  *
  */
 
+@Deprecated
 //FIXME Either find a cleaner fix or go back to using PersonSerice
 public class KsPerson implements Person {
 

@@ -33,6 +33,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.MetaEntity;
 
+@Deprecated
 @Entity
 @Table(name = "KSST_REF_STMT_REL")
 @NamedQueries( {

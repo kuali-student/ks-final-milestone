@@ -18,6 +18,7 @@ import org.kuali.student.common.search.service.impl.SearchConfigValidator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+@Deprecated
 public class SearchConfigTesterHelper
 {
 

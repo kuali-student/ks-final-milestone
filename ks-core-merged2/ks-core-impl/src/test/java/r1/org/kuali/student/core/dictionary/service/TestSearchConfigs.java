@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import org.junit.Test;
 
+@Deprecated
 public class TestSearchConfigs
 {
 

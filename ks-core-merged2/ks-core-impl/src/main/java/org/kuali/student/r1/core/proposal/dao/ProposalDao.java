@@ -34,6 +34,7 @@ import org.kuali.student.r1.core.proposal.entity.ProposalType;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public interface ProposalDao extends CrudDao, SearchableDao {
     public List<Proposal> getProposalsByIdList(List<String> idList);
     public List<Proposal> getProposalsByProposalType(String proposalTypeId) throws DoesNotExistException;

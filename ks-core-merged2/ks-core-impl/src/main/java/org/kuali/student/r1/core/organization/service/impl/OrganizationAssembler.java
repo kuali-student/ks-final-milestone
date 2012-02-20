@@ -47,6 +47,7 @@ import org.kuali.student.r1.core.organization.entity.OrgPositionRestrictionAttri
 import org.kuali.student.r1.core.organization.entity.OrgType;
 import org.springframework.beans.BeanUtils;
 
+@Deprecated
 public class OrganizationAssembler extends BaseAssembler{
 
 	public static List<OrgHierarchyInfo> toOrgHierarchyInfos(

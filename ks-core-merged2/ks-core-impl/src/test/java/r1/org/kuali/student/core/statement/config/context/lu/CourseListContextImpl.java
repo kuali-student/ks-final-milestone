@@ -24,6 +24,7 @@ import org.kuali.student.core.statement.dto.ReqComponentInfo;
 /**
  * This class creates the template context for course list types.
  */
+@Deprecated
 public class CourseListContextImpl extends AbstractLuContext<ReqComponentInfo> {
 	/**
 	 * <code>cluSet</code> token (key) references a CluSet object to be used in a template

@@ -25,6 +25,7 @@ import org.kuali.student.common.util.VelocityTemplateEngine;
  * This class merges an Apache Velocity template with a map of data to produce
  * natural language.
  */
+@Deprecated
 public class TemplateTranslator {
 
 	/**

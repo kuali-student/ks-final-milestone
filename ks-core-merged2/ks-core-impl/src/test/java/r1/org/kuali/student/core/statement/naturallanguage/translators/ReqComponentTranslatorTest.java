@@ -35,6 +35,7 @@ import org.kuali.student.core.statement.naturallanguage.Context;
 import org.kuali.student.core.statement.naturallanguage.translators.ReqComponentTranslator;
 import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
+@Deprecated
 public class ReqComponentTranslatorTest {
 	
 	private static ReqComponentTranslator englishTranslator = new ReqComponentTranslator();

@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Attribute;;
 
+@Deprecated
 @Entity
 @Table(name = "KSAP_DT_RANGE_TYPE_ATTR")
 public class DateRangeTypeAttribute extends Attribute<DateRangeType> {

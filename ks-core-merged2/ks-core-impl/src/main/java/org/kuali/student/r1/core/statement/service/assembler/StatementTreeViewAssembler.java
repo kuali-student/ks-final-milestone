@@ -18,6 +18,7 @@ import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
  * @author glindholm
  *
  */
+@Deprecated
 public class StatementTreeViewAssembler extends BaseAssembler implements BOAssembler<StatementTreeViewInfo, StatementTreeViewInfo>{
     final static Logger LOG = Logger.getLogger(StatementTreeViewAssembler.class);
 

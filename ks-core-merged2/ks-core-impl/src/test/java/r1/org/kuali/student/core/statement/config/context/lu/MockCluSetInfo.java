@@ -21,6 +21,7 @@ import java.util.List;
 /**
  * {@link MockCluSetInfo} wrapper class.
  */
+@Deprecated
 public class MockCluSetInfo {
 
 	private String id;

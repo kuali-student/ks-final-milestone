@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.RichText;
 
+@Deprecated
 @Entity
 @Table(name = "KSCO_RICH_TEXT_T")
 public class CommentRichText extends RichText {

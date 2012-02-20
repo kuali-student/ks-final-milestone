@@ -32,6 +32,7 @@ import org.kuali.student.common.test.spring.Client;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class TestPersonSearchServiceImpl extends AbstractServiceTest {
     @Client(value = "org.kuali.student.core.personsearch.service.impl.PersonSearchServiceImpl")
     public SearchService client;

@@ -24,6 +24,7 @@ import javax.persistence.Table;
 import org.kuali.student.common.entity.BaseType;
 
 
+@Deprecated
 @Entity
 @Table(name="KSEM_ENUM_T")
 @AttributeOverrides({

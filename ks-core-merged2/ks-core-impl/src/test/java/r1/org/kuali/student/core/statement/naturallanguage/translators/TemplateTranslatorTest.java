@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.naturallanguage.translators.TemplateTranslator;
 
+@Deprecated
 public class TemplateTranslatorTest {
 
 	@Test

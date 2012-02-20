@@ -28,6 +28,7 @@ import org.kuali.student.r1.common.entity.Attribute;;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @Entity
 @Table(name = "KSCO_COMMENT_ATTR")
 public class CommentAttribute extends Attribute<Comment> {

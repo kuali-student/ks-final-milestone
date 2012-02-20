@@ -22,6 +22,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.r1.common.entity.Attribute;;;
 
+@Deprecated
 @Entity
 @Table(name = "KSCO_COMMENT_TYPE_ATTR")
 public class CommentTypeAttribute extends Attribute<CommentType> {

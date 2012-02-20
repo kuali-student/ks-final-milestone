@@ -37,6 +37,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.entity.AttributeOwner;
 import org.kuali.student.common.entity.BaseEntity;
 
+@Deprecated
 @Entity
 @Table(name = "KSDO_DOCUMENT_CATEGORY")
 @NamedQueries( {

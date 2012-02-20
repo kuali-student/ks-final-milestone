@@ -24,6 +24,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.common.entity.Type;;
 
+@Deprecated
 @Entity
 @Table(name = "KSAP_ATP_SEASONAL_TYPE")
 public class AtpSeasonalType extends Type<AtpSeasonalTypeAttribute>{

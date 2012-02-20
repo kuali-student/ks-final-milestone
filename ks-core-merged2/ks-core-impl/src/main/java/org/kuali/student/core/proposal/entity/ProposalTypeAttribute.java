@@ -28,6 +28,7 @@ import org.kuali.student.common.entity.Attribute;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 @Entity
 @Table(name = "KSPR_PROPOSAL_TYPE_ATTR")
 public class ProposalTypeAttribute extends Attribute<ProposalType> {

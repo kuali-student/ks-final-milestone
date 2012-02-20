@@ -27,6 +27,7 @@ import javax.persistence.Table;
 import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.Type;
 
+@Deprecated
 @Entity
 @Table(name = "KSAP_ATP_TYPE")
 public class AtpType extends Type<AtpTypeAttribute> implements AttributeOwner<AtpTypeAttribute> {

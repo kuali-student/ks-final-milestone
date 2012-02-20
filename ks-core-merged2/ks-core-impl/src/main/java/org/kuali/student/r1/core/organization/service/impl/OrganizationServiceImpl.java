@@ -59,6 +59,7 @@ import org.kuali.student.r1.core.organization.service.OrganizationService;
 import org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch;
 import org.springframework.transaction.annotation.Transactional;
 
+@Deprecated
 @WebService(endpointInterface = "org.kuali.student.core.organization.service.OrganizationService", serviceName = "OrganizationService", portName = "OrganizationService", targetNamespace = "http://student.kuali.org/wsdl/organization")
 public class OrganizationServiceImpl implements OrganizationService {
 

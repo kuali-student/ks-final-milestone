@@ -32,6 +32,7 @@ import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
  * @Threadsafe immutable classes are threadsafe
  * The List and its EnumeratedValue objects returned by this class are NOT immutable or threadsafe
  */
+@Deprecated
 public class MockEnumeratedValueDTOs {
 	
 	private static final long TEN_M = 10000000L; 
