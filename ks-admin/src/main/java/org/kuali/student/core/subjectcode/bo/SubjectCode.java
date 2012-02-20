@@ -1,5 +1,6 @@
 package org.kuali.student.core.subjectcode.bo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -21,6 +21,7 @@ import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminControll
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -57,7 +58,8 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
             layout.addInfoWidget(requiredContainer);
             layout.addView(generateCourseAdminView((CourseAdminController) layout));
         } else {
-            CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
+            CourseSummaryConfigurer summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+            summaryConfigurer.init(type, state, groupName, (DataModelDefinition) modelDefinition, stmtTypes, (Controller) layout, COURSE_PROPOSAL_MODEL);
             layout.removeMenuNavigation();
             layout.addView(summaryConfigurer.generateProposalSummarySection(false));
             final CommentTool commentTool = createCommentTool(layout);
@@ -103,8 +105,8 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
         view.addSection(governanceSection);
         view.addSection(logisticsSection);
         view.addSection(loSection);
-        view.addView(requisitesSection);
         view.addSection(this.createHiddenRequisitesSection());
+        view.addView(requisitesSection);
         view.addSection(LUUIConstants.ACTIVE_DATES_LABEL_KEY,activeDatesSection);
         view.addSection(financialSection);
         view.addView(documentTool);
@@ -194,6 +196,7 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
             public void onClick(ClickEvent event) {
                 requisitesSection.asWidget().setVisible(true);
                 section.getLayout().setVisible(false);
+                section.setSectionId(LUUIConstants.REQUISITES_LABEL_KEY + "_Hidden");
             }
         }));
         
@@ -204,6 +207,11 @@ public class CourseAdminConfigurer extends CourseProposalConfigurer{
             public void exec(Boolean result) {
                 requisitesSection.asWidget().setVisible(result);
                 section.getLayout().setVisible(!result);
+                if (result) {
+                    section.setSectionId(LUUIConstants.REQUISITES_LABEL_KEY + "_Hidden");
+                } else {
+                    section.setSectionId(LUUIConstants.REQUISITES_LABEL_KEY);
+                }
             }
         });
         return section;

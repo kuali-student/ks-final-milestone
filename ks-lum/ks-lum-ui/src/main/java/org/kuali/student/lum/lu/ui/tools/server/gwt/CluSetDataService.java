@@ -12,6 +12,7 @@ import org.kuali.student.common.assembly.old.Assembler;
 import org.kuali.student.common.assembly.old.data.SaveResult;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
@@ -46,7 +47,7 @@ public class CluSetDataService  implements DataService{
     }
 
     @Override
-    public Data getData(String dataId) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public Data getData(String dataId, ContextInfo contextInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         Data result = null;
         try {
             result = assembler.get(dataId);
@@ -57,7 +58,7 @@ public class CluSetDataService  implements DataService{
     }
 
     @Override
-    public Metadata getMetadata(String id, Map<String,String> idAttributes) {
+    public Metadata getMetadata(String id, Map<String,String> idAttributes, ContextInfo contextInfo) {
         Metadata metadata = metadataService.getMetadata(id);
         return metadata;
     }
@@ -71,12 +72,12 @@ public class CluSetDataService  implements DataService{
     }
 
     @Override
-    public Boolean isAuthorized(PermissionType type, Map<String, String> attributes) {
+    public Boolean isAuthorized(PermissionType type, Map<String, String> attributes, ContextInfo contextInfo) {
         return new Boolean(true);
     }
 
     @Override
-    public DataSaveResult saveData(Data data) throws OperationFailedException {
+    public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException {
         try {
             SaveResult<Data> saveResult = assembler.save(data);
             if (saveResult != null) {
@@ -90,7 +91,7 @@ public class CluSetDataService  implements DataService{
     }
 
 	@Override
-	public List<ValidationResultInfo> validateData(Data data)
+	public List<ValidationResultInfo> validateData(Data data, ContextInfo contextInfo)
 			throws OperationFailedException {
 		return null;
 	}
