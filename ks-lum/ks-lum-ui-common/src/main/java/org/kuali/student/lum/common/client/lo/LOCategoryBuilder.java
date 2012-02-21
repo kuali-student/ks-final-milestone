@@ -148,7 +148,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                 categoryManagement.setUpdateButtonEnabled(false);
 
                 final KSLightBox pop = new KSLightBox();
-                pop.setSize(750, 600);
+                pop.setMaxWidth(600);
+                pop.setMaxHeight(750);
                 KSButton addButton = new KSButton("Add");
                 KSButton cancelButton = new KSButton("Cancel", ButtonStyle.ANCHOR_LARGE_CENTERED);
 
