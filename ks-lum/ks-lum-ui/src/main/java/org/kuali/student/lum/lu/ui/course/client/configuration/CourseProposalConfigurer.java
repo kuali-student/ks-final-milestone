@@ -199,7 +199,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+        	 summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
         	 summaryConfigurer.init(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
