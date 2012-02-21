@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;

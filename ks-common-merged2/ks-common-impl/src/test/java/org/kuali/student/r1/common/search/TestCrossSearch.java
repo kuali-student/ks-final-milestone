@@ -3,7 +3,7 @@ package org.kuali.student.r1.common.search;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.kuali.student.r1.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 

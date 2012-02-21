@@ -15,11 +15,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.kuali.student.r1.common.dictionary.old.dto.FieldDescriptor;
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.InvalidParameterException;
-import org.kuali.student.r1.common.exceptions.MissingParameterException;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.r1.core.statement.dao.StatementDao;
 import org.kuali.student.r1.core.statement.dto.AbstractStatementInfo;

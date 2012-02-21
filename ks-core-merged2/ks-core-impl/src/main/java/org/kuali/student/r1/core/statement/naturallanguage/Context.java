@@ -17,7 +17,7 @@ package org.kuali.student.r1.core.statement.naturallanguage;
 
 import java.util.Map;
 
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 @Deprecated
 public interface Context<T> {

@@ -23,15 +23,15 @@ import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r1.common.exceptions.AlreadyExistsException;
-import org.kuali.student.r1.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r1.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.InvalidParameterException;
-import org.kuali.student.r1.common.exceptions.MissingParameterException;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
@@ -89,7 +89,9 @@ public class ProposalServiceImpl implements ProposalService {
         // Validate
         List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	// Convert R1 to R2
+        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
         
         
@@ -263,7 +265,9 @@ public class ProposalServiceImpl implements ProposalService {
         // Validate
         List<ValidationResultInfo> validationResults = validateProposal("OBJECT", proposalInfo);
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	// Convert R1 to R2
+        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
         
         

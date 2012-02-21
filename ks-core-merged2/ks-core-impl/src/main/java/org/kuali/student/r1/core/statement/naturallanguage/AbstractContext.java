@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;

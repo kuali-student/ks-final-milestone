@@ -24,13 +24,13 @@ import javax.jws.WebService;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r1.common.exceptions.DataValidationErrorException;
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.InvalidParameterException;
-import org.kuali.student.r1.common.exceptions.MissingParameterException;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.common.exceptions.PermissionDeniedException;
-import org.kuali.student.r1.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.Validator;
@@ -104,7 +104,9 @@ public class DocumentServiceImpl implements DocumentService {
             throw new OperationFailedException("Validation call failed." + e.getMessage());
         }
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	// Convert R1 to R2
+        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
     	
     	try {
@@ -250,7 +252,9 @@ public class DocumentServiceImpl implements DocumentService {
         
         List<ValidationResultInfo> validationResults = validateDocument("OBJECT", documentInfo);
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	// Convert R1 to R2
+        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
         
         Document document = dao.fetch(Document.class, documentId);
@@ -303,7 +307,9 @@ public class DocumentServiceImpl implements DocumentService {
             throw new OperationFailedException("Validation call failed." + e.getMessage());
         }
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	// Convert R1 to R2
+        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
                          
         refDocRelationInfo.setRefObjectTypeKey(refObjectTypeKey);
@@ -323,7 +329,9 @@ public class DocumentServiceImpl implements DocumentService {
         
         List<ValidationResultInfo> validationResults = validateRefDocRelation("OBJECT", refDocRelationInfo);
         if (null != validationResults && validationResults.size() > 0) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+        	// Convert R1 to R2
+        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
                 
         refDocRelationInfo.setId(refDocRelationId);

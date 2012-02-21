@@ -23,7 +23,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
 import org.kuali.student.r1.common.dao.impl.AbstractSearchableCrudDaoImpl;
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.proposal.dao.ProposalDao;
 import org.kuali.student.r1.core.proposal.entity.Proposal;
 import org.kuali.student.r1.core.proposal.entity.ProposalOrg;

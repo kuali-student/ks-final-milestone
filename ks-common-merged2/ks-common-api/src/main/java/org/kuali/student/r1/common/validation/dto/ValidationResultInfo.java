@@ -202,5 +202,10 @@ public class ValidationResultInfo implements Serializable {
         }
 		return false;
 	}
+
+	public static List<org.kuali.student.r2.common.dto.ValidationResultInfo> convertValidationResultInfoToR2(List<ValidationResultInfo> validationResults) {
+		// TODO KSCM
+		return null;
+	}
 	
 }

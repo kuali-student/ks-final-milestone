@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;

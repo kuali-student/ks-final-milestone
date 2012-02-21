@@ -32,7 +32,7 @@ import org.kuali.student.r1.common.entity.MetaEntity;
 import org.kuali.student.r1.common.entity.RichText;
 import org.kuali.student.r1.common.entity.Type;
 import org.kuali.student.r1.common.entity.Version;
-import org.kuali.student.r1.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionInfo;
 import org.springframework.beans.BeanUtils;
 

@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.kuali.student.r1.common.dao.CrudDao;
 import org.kuali.student.r1.common.dao.SearchableDao;
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.core.document.entity.Document;
 import org.kuali.student.r1.core.document.entity.DocumentCategory;
 import org.kuali.student.r1.core.document.entity.RefDocRelation;

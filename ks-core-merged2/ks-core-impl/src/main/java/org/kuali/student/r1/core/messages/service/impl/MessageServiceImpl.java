@@ -20,7 +20,7 @@ import java.util.List;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.common.messages.dto.LocaleKeyList;
 import org.kuali.student.r1.common.messages.dto.Message;
 import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;

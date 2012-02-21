@@ -18,7 +18,7 @@ package org.kuali.student.r1.core.statement.naturallanguage.translators;
 import java.util.Map;
 
 import org.apache.velocity.exception.VelocityException;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.util.VelocityTemplateEngine;
 
 /**

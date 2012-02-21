@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.r1.common.dto.StatusInfo;
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r1.common.ui.server.gwt.BaseRpcGwtServletAbstract;

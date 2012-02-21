@@ -18,8 +18,8 @@ package org.kuali.student.r1.core.statement.naturallanguage.translators;
 import java.util.List;
 import java.util.Locale;
 
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.messagebuilder.booleanmessage.BooleanMessage;
 import org.kuali.student.common.messagebuilder.booleanmessage.MessageContainer;
 import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanMessageImpl;

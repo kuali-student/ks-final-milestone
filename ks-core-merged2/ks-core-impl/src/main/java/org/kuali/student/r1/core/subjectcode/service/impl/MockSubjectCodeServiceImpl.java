@@ -2,10 +2,10 @@ package org.kuali.student.r1.core.subjectcode.service.impl;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.InvalidParameterException;
-import org.kuali.student.r1.common.exceptions.MissingParameterException;
-import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;

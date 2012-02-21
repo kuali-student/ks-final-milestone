@@ -20,9 +20,9 @@ import java.util.List;
 
 import org.kuali.student.r1.common.dto.TimeAmountInfo;
 import org.kuali.student.r1.common.entity.TimeAmount;
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
-import org.kuali.student.r1.common.exceptions.InvalidParameterException;
-import org.kuali.student.r1.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.r1.core.organization.dao.OrganizationDao;
 import org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo;

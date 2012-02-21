@@ -17,7 +17,7 @@ package org.kuali.student.r1.common.dao;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
 @Deprecated
 public interface CrudDao {
