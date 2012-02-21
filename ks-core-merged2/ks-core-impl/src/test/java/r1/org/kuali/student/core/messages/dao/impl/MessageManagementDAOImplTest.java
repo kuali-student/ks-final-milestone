@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.messages.dao.impl;
+package r1.org.kuali.student.core.messages.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -25,7 +25,8 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.messages.entity.MessageEntity;
+import org.kuali.student.r1.core.messages.dao.impl.MessageManagementDAOImpl;
+import org.kuali.student.r1.core.messages.entity.MessageEntity;
 
 @Deprecated
 @PersistenceFileLocation("classpath:META-INF/messages-persistence.xml")

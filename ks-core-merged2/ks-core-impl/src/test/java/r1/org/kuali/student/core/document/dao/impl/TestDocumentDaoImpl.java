@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.document.dao.impl;
+package r1.org.kuali.student.core.document.dao.impl;
 
 import static org.junit.Assert.assertNotNull;
 

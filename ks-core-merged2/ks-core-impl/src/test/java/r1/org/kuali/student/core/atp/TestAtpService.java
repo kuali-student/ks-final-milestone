@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.atp;
+package r1.org.kuali.student.core.atp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

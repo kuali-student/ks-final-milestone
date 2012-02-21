@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage.translators;
+package r1.org.kuali.student.core.statement.naturallanguage.translators;
 
 import java.util.HashMap;
 import java.util.Map;

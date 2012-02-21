@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.enumerationmanagement.dao.impl;
+package r1.org.kuali.student.core.enumerationmanagement.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,13 +23,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
-import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.r1.core.enumerationmanagement.entity.ContextEntity;
+import org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl;
 
 @Deprecated
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
@@ -39,11 +40,11 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
     @Test
     public void testFindEnumerations(){
-        List<Enumeration> list = enumerationManagementDAO.findEnumerations();
+        List<org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration> list = enumerationManagementDAO.findEnumerations();
         
         assertEquals(list.size(),1);
         
-        Enumeration returnedEntity = list.get(0);
+        org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration returnedEntity = list.get(0);
         
         assertEquals(returnedEntity.getName(), "name 1");
         assertEquals(returnedEntity.getId(), "key 1");
@@ -53,7 +54,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
 
     @Test
     public void testFetchEnumeration() throws DoesNotExistException{
-    	Enumeration entity = new Enumeration();
+    	org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration entity = new org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration();
         entity.setName("Name3");
         entity.setId("Key3");
 
@@ -61,7 +62,7 @@ public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTe
         
         enumerationManagementDAO.addEnumeration(entity);
         
-        Enumeration returnedEntity = enumerationManagementDAO.fetch(Enumeration.class,"Key3");
+        org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration returnedEntity = enumerationManagementDAO.fetch(org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration.class,"Key3");
         assertEquals(returnedEntity.getName(), entity.getName());
         assertEquals(returnedEntity.getId(), entity.getId());
         assertEquals(returnedEntity.getDescr(), entity.getDescr());

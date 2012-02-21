@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.enumerationmanagement.service.impl;
+package r1.org.kuali.student.core.enumerationmanagement.service.impl;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -43,10 +43,11 @@ import org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManageme
 import org.kuali.student.core.enumerationmanagement.dto.EnumContextValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
 import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
-import org.kuali.student.core.enumerationmanagement.dto.mock.DataGenerator;
+import r1.org.kuali.student.core.enumerationmanagement.dto.mock.DataGenerator;
 import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
 import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
 import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl;
 @Deprecated
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{

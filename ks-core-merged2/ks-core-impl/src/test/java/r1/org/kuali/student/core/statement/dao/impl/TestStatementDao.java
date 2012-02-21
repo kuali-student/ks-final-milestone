@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.dao.impl;
+package r1.org.kuali.student.core.statement.dao.impl;
 
 import java.util.Arrays;
 import java.util.GregorianCalendar;

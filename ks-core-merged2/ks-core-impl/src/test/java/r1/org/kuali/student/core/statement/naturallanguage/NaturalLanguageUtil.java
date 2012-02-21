@@ -13,26 +13,29 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage;
+package r1.org.kuali.student.core.statement.naturallanguage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.student.core.statement.config.context.lu.MockCluInfo;
-import org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
-import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
-import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
-import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
-import org.kuali.student.core.statement.entity.ReqComponentType;
-import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
+import r1.org.kuali.student.core.statement.config.context.lu.MockCluInfo;
+import r1.org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
+import r1.org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
+import r1.org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
+import r1.org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.entity.ReqComponent;
+import org.kuali.student.r1.core.statement.entity.ReqComponentField;
+import org.kuali.student.r1.core.statement.entity.ReqComponentType;
+import org.kuali.student.r1.core.statement.entity.ReqComponentTypeNLTemplate;
+import org.kuali.student.r1.core.statement.entity.Statement;
+import org.kuali.student.r1.core.statement.entity.StatementType;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
+
+import r1.org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 /**
  * Utility class to support testing.
@@ -268,22 +271,22 @@ public class NaturalLanguageUtil {
     	CourseListContextImpl.setCluInfo(cluList);
     	CourseListContextImpl.setCluSetInfo(cluSetList);
     	CourseListContextImpl courseListContext = new CourseListContextImpl();
-
-    	contextRegistry.add("kuali.reqComponent.type.courseList.none", courseListContext);
-    	contextRegistry.add("kuali.reqComponent.type.courseList.all", courseListContext);
-    	contextRegistry.add("kuali.reqComponent.type.courseList.nof", courseListContext);
-    	contextRegistry.add("kuali.reqComponent.type.courseList.1of2", courseListContext);
+// TODO KSCM : cannot resolve, add requires (string, Context) not (string, Context<T>)
+//    	contextRegistry.add("kuali.reqComponent.type.courseList.none", courseListContext);
+//    	contextRegistry.add("kuali.reqComponent.type.courseList.all", courseListContext);
+//    	contextRegistry.add("kuali.reqComponent.type.courseList.nof", courseListContext);
+//    	contextRegistry.add("kuali.reqComponent.type.courseList.1of2", courseListContext);
 
     	CreditContextImpl.setCluInfo(cluList);
     	CreditContextImpl.setCluSetInfo(cluSetList);
     	CreditContextImpl gradeConditionCourseListContext = new CreditContextImpl();
-    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", gradeConditionCourseListContext);
-    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", courseListContext);
+//    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", gradeConditionCourseListContext);
+//    	contextRegistry.add("kuali.reqComponent.type.grdCondCourseList", courseListContext);
     	
     	GradeCheckContextImpl.setCluInfo(cluList);
     	GradeCheckContextImpl.setCluSetInfo(cluSetList);
     	GradeCheckContextImpl gradeCheckContext = new GradeCheckContextImpl();
-    	contextRegistry.add("kuali.reqComponent.type.gradecheck", gradeCheckContext);
+//    	contextRegistry.add("kuali.reqComponent.type.gradecheck", gradeCheckContext);
     	
     	return contextRegistry;
     }

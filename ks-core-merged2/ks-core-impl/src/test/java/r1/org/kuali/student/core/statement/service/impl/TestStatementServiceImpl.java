@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.service.impl;
+package r1.org.kuali.student.core.statement.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -58,9 +58,9 @@ import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.core.statement.config.context.lu.MockCluInfo;
-import org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
-import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
+import r1.org.kuali.student.core.statement.config.context.lu.MockCluInfo;
+import r1.org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
+import r1.org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
 import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
@@ -72,7 +72,7 @@ import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
+import r1.org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 import org.kuali.student.core.statement.service.StatementService;
 
 @Deprecated

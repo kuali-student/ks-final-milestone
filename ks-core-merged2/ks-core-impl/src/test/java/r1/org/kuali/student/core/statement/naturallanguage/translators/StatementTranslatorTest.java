@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage.translators;
+package r1.org.kuali.student.core.statement.naturallanguage.translators;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -29,14 +29,18 @@ import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.impl.BooleanOperators;
 import org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl;
 import org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.naturallanguage.Context;
-import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
-import org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.entity.ReqComponent;
+import org.kuali.student.r1.core.statement.entity.ReqComponentField;
+import org.kuali.student.r1.core.statement.entity.Statement;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
+import r1.org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
+
+import org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.StatementTranslator;
 
 @Deprecated
 public class StatementTranslatorTest {

@@ -1,4 +1,4 @@
-package org.kuali.student.core.dictionary.service;
+package r1.org.kuali.student.core.dictionary.service;
 
 import java.util.LinkedHashSet;
 import java.util.List;

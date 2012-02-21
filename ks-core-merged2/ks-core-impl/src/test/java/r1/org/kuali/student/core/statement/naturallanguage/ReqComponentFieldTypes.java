@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage;
+package r1.org.kuali.student.core.statement.naturallanguage;
 
 /**
  * <p>Requirement component types are used to map a dot notation field key

@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.config.context.lu;
+package r1.org.kuali.student.core.statement.config.context.lu;
 
 import java.util.Map;
 

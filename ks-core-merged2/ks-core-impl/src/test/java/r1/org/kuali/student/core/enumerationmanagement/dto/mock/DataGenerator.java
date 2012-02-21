@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.enumerationmanagement.dto.mock;
+package r1.org.kuali.student.core.enumerationmanagement.dto.mock;
 
 import java.util.List;
 
