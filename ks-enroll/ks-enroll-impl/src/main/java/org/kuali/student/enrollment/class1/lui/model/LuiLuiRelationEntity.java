@@ -48,7 +48,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "LUILUI_RELTN_TYPE")
     private String luiLuiRelationType;
 
-    @Column(name = "LUI_RELTN_STATE")
+    @Column(name = "LUILUI_RELTN_STATE")
     private String luiLuiRelationState;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -70,7 +70,7 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
         this.setExpirationDate(luiLuiRelation.getExpirationDate());
         this.setLuiLuiRelationState(luiLuiRelation.getStateKey());
         this.setLuiLuiRelationType(luiLuiRelation.getTypeKey());
-        
+
         if (luiLuiRelation.getDescr() != null) {
             RichText rt = luiLuiRelation.getDescr();
             this.setDescrFormatted(rt.getFormatted());

@@ -315,7 +315,7 @@ public interface TypeService {
      * Creates a new TypeTypeRelation. The TypeTypeRelation Type
      * indicates the type of relation between the two peer Types.
      * 
-     * @param typeTypeRelationId the identifier for the new TypeTypeRelation
+     * @param typeTypeRelationTypeKey the identifier for the new TypeTypeRelation
      * @param typeKey a peer of the relationship
      * @param typePeerKey a peer of the relationship
      * @param typeTypeRelationTypeKey the identifier for the Type of

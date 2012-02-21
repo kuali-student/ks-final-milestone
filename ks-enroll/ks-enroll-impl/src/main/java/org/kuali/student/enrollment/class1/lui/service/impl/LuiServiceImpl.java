@@ -41,7 +41,6 @@ public class LuiServiceImpl implements LuiService {
     private LuiDao luiDao;
     private LuiLuiRelationDao luiLuiRelationDao;
     private StateService stateService;
-    private TypeTypeRelationDao typeTypeRelationDao;
     private AtpService atpService;
     private CluService luService;
 
@@ -69,14 +68,6 @@ public class LuiServiceImpl implements LuiService {
         this.stateService = stateService;
     }
 
-    public TypeTypeRelationDao getTypeTypeRelationDao() {
-        return typeTypeRelationDao;
-    }
-
-    public void setTypeTypeRelationDao(TypeTypeRelationDao typeTypeRelationDao) {
-        this.typeTypeRelationDao = typeTypeRelationDao;
-    }
-
     public AtpService getAtpService() {
         return atpService;
     }
@@ -93,79 +84,6 @@ public class LuiServiceImpl implements LuiService {
         this.luService = luService;
     }
 
-    //
-    // @Override
-    // public TypeInfo getType(String typeKey, ContextInfo context)
-    // throws DoesNotExistException, InvalidParameterException,
-    // MissingParameterException, OperationFailedException {
-    // return null;
-    // }
-    //
-    // @Override
-    // public List<TypeInfo> getTypesByRefObjectURI(String refObjectURI,
-    // ContextInfo context) throws DoesNotExistException,
-    // InvalidParameterException, MissingParameterException,
-    // OperationFailedException {
-    // List<LuiTypeEntity> luiTypeEntities =
-    // luiTypeDao.getLuiTypesByRefObjectUri(refObjectURI);
-    // List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-    // for (LuiTypeEntity luiTypeEntity : luiTypeEntities) {
-    // typeInfos.add(luiTypeEntity.toDto());
-    // }
-    //
-    // return typeInfos;
-    // }
-    //
-    // @Override
-    // public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey,
-    // String relatedRefObjectURI, ContextInfo context)
-    // throws DoesNotExistException, InvalidParameterException,
-    // MissingParameterException, OperationFailedException {
-    //
-    // if ( ! relatedRefObjectURI.startsWith(LuiServiceConstants.NAMESPACE) ) {
-    // throw new
-    // DoesNotExistException("This method does not know how to handle object type:"
-    // + relatedRefObjectURI);
-    // }
-    //
-    // // get the TypeTypeRelations
-    // List<TypeTypeRelationEntity> typeTypeRelations = typeTypeRelationDao
-    // .getTypeTypeRelationsByOwnerAndRelationTypes(ownerTypeKey,
-    // TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-    //
-    // //
-    // System.out.println(">>> in LuiServiceImpl.getAllowedTypesForType,find typeTypeRelations.size() = "+typeTypeRelations.size()+
-    // //
-    // " for ownerTypeKey="+ownerTypeKey+" and RelationType="+TypeServiceConstants.TYPE_TYPE_RELATION_ALLOWED_TYPE_KEY);
-    //
-    // // create a List of the related Types' IDs
-    // List<String> Ids = new ArrayList<String>();
-    // for (TypeTypeRelationEntity entity : typeTypeRelations) {
-    // Ids.add(entity.getRelatedTypeId());
-    // }
-    //
-    // // now get the List of the related Types based on those IDs
-    // List<TypeEntity<? extends BaseAttributeEntity<?>>> typeEntities = new
-    // ArrayList<TypeEntity<? extends BaseAttributeEntity<?>>>();
-    // typeEntities.addAll(luiTypeDao.findByIds(Ids));
-    //
-    // // convert them to DTOs and return them
-    // List<TypeInfo> typeInfos = new ArrayList<TypeInfo>();
-    // for (TypeEntity<? extends BaseAttributeEntity<?>> entity : typeEntities)
-    // {
-    // typeInfos.add(entity.toDto());
-    // }
-    //
-    // return typeInfos;
-    // }
-    //
-    // @Override
-    // public List<TypeTypeRelationInfo> getTypeRelationsByOwnerType(
-    // String ownerTypeKey, String relationTypeKey, ContextInfo context)
-    // throws DoesNotExistException, InvalidParameterException,
-    // MissingParameterException, OperationFailedException {
-    // return new ArrayList<TypeTypeRelationInfo>();
-    // }
 
     @Override
     public LuiInfo getLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -230,6 +148,7 @@ public class LuiServiceImpl implements LuiService {
 
     @Override
     public List<LuiInfo> getLuisByRelation(String relatedLuiId, String luLuRelationTypeKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+
         List<LuiEntity> entityList = luiLuiRelationDao.getLuisByRelation(relatedLuiId, luLuRelationTypeKey);
 
         List<LuiInfo> infoList = new ArrayList<LuiInfo>();
@@ -265,11 +184,7 @@ public class LuiServiceImpl implements LuiService {
     @Override
     public LuiLuiRelationInfo getLuiLuiRelation(String luiLuiRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
-        LuiLuiRelationEntity obj = luiLuiRelationDao.find(luiLuiRelationId);
-        if (null == obj) {
-            throw new DoesNotExistException(luiLuiRelationId);
-        }
-        return obj.toDto();
+        return luiLuiRelationDao.find(luiLuiRelationId).toDto();
     }
 
     @Override
@@ -411,7 +326,7 @@ public class LuiServiceImpl implements LuiService {
             if (null != atpId && checkExistenceForAtp(atpId, context))
                 modifiedEntity.setAtpId(atpId);
 
-           
+
             if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()) {
                 for (LuCodeEntity luiCode : modifiedEntity.getLuCodes()) {
                     luiCode.setLui(modifiedEntity);
@@ -505,18 +420,10 @@ public class LuiServiceImpl implements LuiService {
         if (!checkExistenceForRelation(luiLuiRelationInfo)) {
             LuiLuiRelationEntity entity = new LuiLuiRelationEntity(luiLuiRelationInfo);
             entity.setId(UUIDHelper.genStringUUID());
-
-          
-            if (null != luiLuiRelationInfo.getLuiId()) {
-                entity.setLui(luiDao.find(luiLuiRelationInfo.getLuiId()));
-            }
-            if (null != luiLuiRelationInfo.getRelatedLuiId()) {
-                entity.setRelatedLui(luiDao.find(luiLuiRelationInfo.getRelatedLuiId()));
-            }
-
+            entity.setLui(luiDao.find(luiId));
+            entity.setRelatedLui(luiDao.find(relatedLuiId));
             luiLuiRelationDao.persist(entity);
-
-            return luiLuiRelationDao.find(entity.getId()).toDto();
+            return entity.toDto();
         } else
             throw new AlreadyExistsException("The Lui-Lui relation already exists. lui=" + luiLuiRelationInfo.getLuiId() + ", relatedLui=" + luiLuiRelationInfo.getRelatedLuiId());
 
@@ -526,22 +433,25 @@ public class LuiServiceImpl implements LuiService {
     @Transactional
     public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        return null;
-    }
+         LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);
+
+            LuiLuiRelationEntity luiLuiRelationEntity = new LuiLuiRelationEntity(luiLuiRelationInfo);
+            luiLuiRelationEntity.setId(luiLuiRelationId);
+            return luiLuiRelationDao.merge(luiLuiRelationEntity).toDto();
+     }
 
     @Override
     @Transactional
     public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.FALSE);
+
+        LuiLuiRelationEntity deleteLuiLuiRelationEntity = luiLuiRelationDao.find(luiLuiRelationId);
+
+        luiLuiRelationDao.remove(deleteLuiLuiRelationEntity);
+
         status.setSuccess(Boolean.TRUE);
-
-        LuiLuiRelationEntity obj = luiLuiRelationDao.find(luiLuiRelationId);
-        if (obj != null)
-            luiLuiRelationDao.remove(obj);
-        else
-            throw new DoesNotExistException(luiLuiRelationId);
-
         return status;
     }
 
