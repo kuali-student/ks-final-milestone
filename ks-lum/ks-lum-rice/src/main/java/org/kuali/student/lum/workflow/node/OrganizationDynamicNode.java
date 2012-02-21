@@ -14,8 +14,10 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.exception.RiceRuntimeException;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+
+import org.kuali.rice.core.api.exception.RiceRuntimeException;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.doctype.bo.DocumentType;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.RouteHelper;
@@ -23,20 +25,20 @@ import org.kuali.rice.kew.engine.node.Branch;
 import org.kuali.rice.kew.engine.node.DynamicNode;
 import org.kuali.rice.kew.engine.node.DynamicResult;
 import org.kuali.rice.kew.engine.node.NodeState;
-import org.kuali.rice.kew.engine.node.Process;
+import org.kuali.rice.kew.engine.node.ProcessDefinitionBo;
 import org.kuali.rice.kew.engine.node.RoleNode;
 import org.kuali.rice.kew.engine.node.RouteNode;
 import org.kuali.rice.kew.engine.node.RouteNodeInstance;
-import org.kuali.rice.kew.exception.WorkflowException;
+import org.kuali.rice.kew.api.exception.WorkflowException;
 import org.kuali.rice.kew.role.RoleRouteModule;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.kew.service.KEWServiceLocator;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.XmlHelper;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
 import org.kuali.student.core.organization.service.OrganizationService;
-import org.kuali.student.lum.workflow.qualifierresolver.AbstractCocOrgQualifierResolver;
+import org.kuali.student.lum.workflow.qualifierresolver.AbstractOrganizationServiceQualifierResolver;
 import org.kuali.student.lum.workflow.qualifierresolver.OrganizationCurriculumCommitteeQualifierResolver;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -81,8 +83,8 @@ public class OrganizationDynamicNode implements DynamicNode {
         this.organizationService = organizationService;
     }
 
-    @Override
-    public DynamicResult transitioningInto(RouteContext context, RouteNodeInstance dynamicNodeInstance, RouteHelper helper) throws Exception {
+    // TODO KSCM @Override
+    public DynamicResult transitioningInto(RouteContext context, RouteNodeInstance dynamicNodeInstance, RouteHelper helper, ContextInfo contextInfo) throws Exception {
         LOG.debug("Entering transitioningInto");
         DocumentType docType = setUpDocumentType(context.getDocument().getDocumentType(), dynamicNodeInstance);
         // String prototypeNodeName = RouteNodes.DEPT.getNodeName();
@@ -92,7 +94,7 @@ public class OrganizationDynamicNode implements DynamicNode {
             throw new WorkflowException("Couldn't locate node for name: " + prototypeNodeName);
         }
 
-        List<String> orgIds = getInitialOrganizationIdsForRouting(context, dynamicNodeInstance, helper);
+        List<String> orgIds = getInitialOrganizationIdsForRouting(context, dynamicNodeInstance, helper, contextInfo);
         if ((orgIds != null) && (orgIds.size() > 1)) {
             throw new RuntimeException("Found a total of " + orgIds.size() + " organizations for routing on document when only one is allowed.");
         }
@@ -122,7 +124,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      *         document. By default these are the organizations set in the the current document's Document Content xml
      *         by Kuali Student at the point of Save and/or Submit
      */
-    protected List<String> getInitialOrganizationIdsForRouting(RouteContext context, RouteNodeInstance dynamicNodeInstance, RouteHelper helper) {
+    protected List<String> getInitialOrganizationIdsForRouting(RouteContext context, RouteNodeInstance dynamicNodeInstance, RouteHelper helper, ContextInfo contextInfo) {
         List<String> orgIds = getOrganizationIdsFromDocumentContent(context);
         if ((orgIds != null) && (orgIds.size() > 1)) {
             throw new RuntimeException("Found a total of " + orgIds.size() + " organizations for routing on document when only one is allowed.");
@@ -130,22 +132,22 @@ public class OrganizationDynamicNode implements DynamicNode {
 
         try {
             for (String orgId : orgIds) {
-                OrgInfo orgInfo = getOrganizationService().getOrganization(orgId);
+                OrgInfo orgInfo = getOrganizationService().getOrganization(orgId, contextInfo);
                 LOG.debug("Org on Document: " + getOrgInfoForPrint(orgInfo));
-                List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgId);
+                List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgId, contextInfo);
                 for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                     LOG.debug("---- Org Relation:");
                     LOG.debug("------------ Org ID: " + orgOrgRelationInfo.getOrgId());
-                    orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId());
+                    orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
                     LOG.debug("------------ Related Org on Document: " + getOrgInfoForPrint(orgInfo));
                     LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getState());
                     LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getType());
                 }
-                List<OrgOrgRelationInfo> relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(orgId);
+                List<OrgOrgRelationInfo> relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(orgId, contextInfo);
                 for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                     LOG.debug("---- Related Org Relation:");
                     LOG.debug("------------ Related Org ID: " + orgOrgRelationInfo.getRelatedOrgId());
-                    orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId());
+                    orgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId(), contextInfo);
                     LOG.debug("------------ Org of Relation: " + getOrgInfoForPrint(orgInfo));
                     LOG.debug("------------ Relation State: " + orgOrgRelationInfo.getState());
                     LOG.debug("------------ Relation Type: " + orgOrgRelationInfo.getType());
@@ -171,7 +173,7 @@ public class OrganizationDynamicNode implements DynamicNode {
         XPath xPath = XPathHelper.newXPath();
         try {
             List<String> orgIds = new ArrayList<String>();
-            NodeList orgElements = (NodeList) xPath.evaluate("/documentContent/applicationContent/" + AbstractCocOrgQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME + "/orgId", xmlContent,
+            NodeList orgElements = (NodeList) xPath.evaluate("/documentContent/applicationContent/" + AbstractOrganizationServiceQualifierResolver.DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME + "/orgId", xmlContent,
                     XPathConstants.NODESET);
             for (int index = 0; index < orgElements.getLength(); index++) {
                 Element attributeElement = (Element) orgElements.item(index);
@@ -179,8 +181,7 @@ public class OrganizationDynamicNode implements DynamicNode {
                 orgIds.add(attributeValue);
             }
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:");
-                XmlHelper.printDocumentStructure(xmlContent);
+                LOG.debug("Found " + orgElements.getLength() + " organization ids to parse for routing:" + XmlJotter.jotDocument(xmlContent));
             }
             return orgIds;
         } catch (XPathExpressionException e) {
@@ -189,11 +190,23 @@ public class OrganizationDynamicNode implements DynamicNode {
     }
 
     @Override
-    public DynamicResult transitioningOutOf(RouteContext context, RouteHelper helper) throws Exception {
+    //TODO KSCM
+    public DynamicResult transitioningInto(RouteContext routeContext, RouteNodeInstance routeNodeInstance, RouteHelper routeHelper) throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    //TODO KSCM
+    public DynamicResult transitioningOutOf(RouteContext routeContext, RouteHelper routeHelper) throws Exception {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    // TODO KSCM @Override
+    public DynamicResult transitioningOutOf(RouteContext context, RouteHelper helper, ContextInfo contextInfo) throws Exception {
         LOG.debug("Variables for transitioningOutOf");
         RouteNodeInstance processInstance = context.getNodeInstance().getProcess();
 
-        List<String> relatedOrgIds = getNextOrganizationIdsForRouting(context, helper);
+        List<String> relatedOrgIds = getNextOrganizationIdsForRouting(context, helper, contextInfo);
         // dynamic routing is complete if there are no more related org ids
         DynamicResult result = new DynamicResult(relatedOrgIds.isEmpty(), null);
         for (String relatedOrgId : relatedOrgIds) {
@@ -217,7 +230,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      * The default implementation retrieves the organization from the previous route node and uses the
      * {@link OrganizationService#getOrgOrgRelationsByRelatedOrg(String)} method to find all organization relations for
      * it. That list is then parsed to find all organization relations that are both active and of the relation type
-     * that matches {@link AbstractCocOrgQualifierResolver#KUALI_ORG_TYPE_CURRICULUM_PARENT}. A unique list of those
+     * that matches {@link AbstractOrganizationServiceQualifierResolver#KUALI_ORG_TYPE_CURRICULUM_PARENT}. A unique list of those
      * organization ids is returned.
      * 
      * @param context
@@ -227,7 +240,7 @@ public class OrganizationDynamicNode implements DynamicNode {
      * @return A list of organization ids that will be used to create next node instances in the routing of the
      *         document.
      */
-    protected List<String> getNextOrganizationIdsForRouting(RouteContext context, RouteHelper helper) {
+    protected List<String> getNextOrganizationIdsForRouting(RouteContext context, RouteHelper helper, ContextInfo contextInfo) {
         RouteNodeInstance currentNode = context.getNodeInstance();
         String currentNodeName = currentNode.getName();
         LOG.debug("currentNodeName = '" + currentNodeName + "'");
@@ -237,13 +250,13 @@ public class OrganizationDynamicNode implements DynamicNode {
         LOG.debug("currentNodeOrgId = '" + currentNodeOrgId + "'");
         Set<String> relatedOrgIds = new HashSet<String>();
         try {
-            List<OrgOrgRelationInfo> relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId);
+            List<OrgOrgRelationInfo> relatedOrgRelationInfos = getOrganizationService().getOrgOrgRelationsByRelatedOrg(currentNodeOrgId, contextInfo);
             for (OrgOrgRelationInfo orgOrgRelationInfo : relatedOrgRelationInfos) {
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getState())) {
-                    if (StringUtils.equals(AbstractCocOrgQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
+                    if (StringUtils.equals(AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT, orgOrgRelationInfo.getType())) {
                         LOG.debug("---- Related Org Relation:");
-                        OrgInfo referenceOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId());
-                        OrgInfo nextNodeOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId());
+                        OrgInfo referenceOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getRelatedOrgId(), contextInfo);
+                        OrgInfo nextNodeOrgInfo = getOrganizationService().getOrganization(orgOrgRelationInfo.getOrgId(), contextInfo);
                         LOG.debug("------------ Reference Org: " + getOrgInfoForPrint(referenceOrgInfo));
                         LOG.debug("------------ Org for Next Node: " + getOrgInfoForPrint(nextNodeOrgInfo));
                         relatedOrgIds.add(nextNodeOrgInfo.getId());
@@ -272,12 +285,11 @@ public class OrganizationDynamicNode implements DynamicNode {
      */
     protected RouteNodeInstance generateNextNodeInstance(String orgId, RouteNode routeNodeDefinition, RouteContext context, Branch branch, RouteHelper helper) {
         LOG.debug("Adding new node with name '" + routeNodeDefinition.getRouteNodeName() + "'");
-        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getRouteHeaderId(), routeNodeDefinition);
+        RouteNodeInstance actualRouteNodeInstance = helper.getNodeFactory().createRouteNodeInstance(context.getDocument().getDocumentId(), routeNodeDefinition);
         actualRouteNodeInstance.setBranch(branch);
         actualRouteNodeInstance.addNodeState(new NodeState(NODE_STATE_ORG_ID_KEY, orgId));
         return actualRouteNodeInstance;
     }
-
     /**
      * Method verifies that the Organization Hierarchy Review node exists on the document type. If it does not exist it
      * will add it and save the document type. This node is required because it will be used as a prototype for any
@@ -314,18 +326,18 @@ public class OrganizationDynamicNode implements DynamicNode {
         RouteNode roleNode = new RouteNode();
         roleNode.setFinalApprovalInd(Boolean.FALSE);
         roleNode.setMandatoryRouteInd(Boolean.FALSE);
-        roleNode.setActivationType(KEWConstants.ROUTE_LEVEL_PARALLEL);
+        roleNode.setActivationType(KewApiConstants.ROUTE_LEVEL_PARALLEL);
         roleNode.setDocumentType(dynamicNodeInstance.getRouteNode().getDocumentType());
         roleNode.setNodeType(RoleNode.class.getName());
         roleNode.setRouteMethodName(RoleRouteModule.class.getName());
-        roleNode.setRouteMethodCode(KEWConstants.ROUTE_LEVEL_ROUTE_MODULE);
+        roleNode.setRouteMethodCode(KewApiConstants.ROUTE_LEVEL_ROUTE_MODULE);
         roleNode.setRouteNodeName(routeNodeName);
         roleNode.setContentFragment("<" + QUALIFIER_RESOLVER_CLASS_ELEMENT + ">" + OrganizationCurriculumCommitteeQualifierResolver.class.getName() + "</" + QUALIFIER_RESOLVER_CLASS_ELEMENT + ">");
         return roleNode;
     }
 
-    protected Process getPrototypeProcess(RouteNode node, DocumentType documentType) {
-        Process process = new Process();
+    protected ProcessDefinitionBo getPrototypeProcess(RouteNode node, DocumentType documentType) {
+        ProcessDefinitionBo process = new ProcessDefinitionBo();
         process.setDocumentType(documentType);
         process.setInitial(false);
         process.setInitialRouteNode(node);

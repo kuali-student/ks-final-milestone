@@ -22,7 +22,7 @@
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	 ">
 	 
 	<import resource="lu-dictionary-config.xml" />
@@ -128,7 +128,7 @@
 	<dict:fieldDescriptor id="lrc.queryParam.resultComponent.idRestrictionList.fd-abstract" abstract="true">
 		<dict:name>Result Component Ids Key</dict:name>
 		<dict:desc>Result Component Ids Key</dict:desc>
-		<dict:dataType>string</dict:dataType>
+		<dict:dataType>list</dict:dataType>
 		<dict:readOnly>true</dict:readOnly>
 	</dict:fieldDescriptor>
 	

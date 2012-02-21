@@ -15,28 +15,32 @@
 
 package org.kuali.student.lum.common.client.lo.rpc;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
-import org.kuali.student.core.dto.StatusInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-
 import java.util.List;
 
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
+import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * 
  * @author Kuali Student Team
- *
+ * 
  */
-public interface LoCategoryRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
+//TODO KSCM-245
+public interface LoCategoryRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync {
 
-    public void  deleteLoCategory(String loCategoryId,AsyncCallback<StatusInfo> callback);
+    public void deleteLoCategory(String loCategoryId, ContextInfo contextInfo, AsyncCallback<StatusInfo> callback);
 
-    public void getLoCategoryTypes( AsyncCallback<List<LoCategoryTypeInfo>> callback);
-    public void  getLoCategoryType(String loCategoryTypeKey, AsyncCallback<LoCategoryTypeInfo> callback );
-    public void getLoCategories(String loRepositoryKey,AsyncCallback<List<LoCategoryInfo>> callback);
+    public void getLoCategoryTypes(AsyncCallback<List<LoCategoryTypeInfo>> callback);
 
+    public void getLoCategoryType(String loCategoryTypeKey, ContextInfo contextInfo,
+            AsyncCallback<LoCategoryTypeInfo> callback);
+
+    public void getLoCategories(String loRepositoryKey, ContextInfo contextInfo,
+            AsyncCallback<List<LoCategoryInfo>> callback);
 
 }

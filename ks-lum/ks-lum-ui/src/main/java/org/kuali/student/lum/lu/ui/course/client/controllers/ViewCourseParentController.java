@@ -51,11 +51,6 @@ public class ViewCourseParentController extends BasicLayout{
     }
 
     @Override
-    public Class<? extends Enum<?>> getViewsEnum() {
-        return Views.class;
-    }
-
-    @Override
     public Enum<?> getViewEnumValue(String enumValue) {
         return Views.valueOf(enumValue);
     }

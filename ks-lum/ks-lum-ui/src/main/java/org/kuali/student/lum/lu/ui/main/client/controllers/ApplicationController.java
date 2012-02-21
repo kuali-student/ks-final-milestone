@@ -6,13 +6,24 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
 import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
-import org.kuali.student.common.ui.client.widgets.KSFooter;
+import org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+/**
+ * The top level application controller for the LUM application.  All other views are part of this controller
+ * or its children.  This controller provides the very basic layout of the app and includes the header and
+ * the main content panel.  The header stays in the same location for all screens of KS.
+ * 
+ * <br> This controller contains one child view, the home view (HomeController).
+ * @author Kuali Student Team
+ * @see HomeController
+ * @see LUMMainEntryPoint
+ */
 public class ApplicationController extends LayoutController{
 
 	public static enum AppViews{HOME}
@@ -21,7 +32,7 @@ public class ApplicationController extends LayoutController{
 	public FlowPanel container = new FlowPanel();
 	
 	public ApplicationController(String controllerId, Widget header) {
-		super(controllerId);
+		super();
 		this.init(header);
 		this.setupViews();
 		this.addHandlers();
@@ -45,8 +56,8 @@ public class ApplicationController extends LayoutController{
 	
 	private void setupViews(){
 		//if a configurer pattern makes sense here this is where it would be called
-		HomeController home = new HomeController(this, "Home", 
-				AppViews.HOME);
+		HomeController home = GWT.create(HomeController.class);
+		home.init(this, "Home", AppViews.HOME);		
 		this.addView(home);
 		this.setDefaultView(AppViews.HOME);
 	}

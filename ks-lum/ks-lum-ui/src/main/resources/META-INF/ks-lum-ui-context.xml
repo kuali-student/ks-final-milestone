@@ -22,27 +22,36 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/tx
-                           http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+                           http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
                            http://www.springframework.org/schema/aop
-                           http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+                           http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
 
-	<bean id="config" class="org.kuali.rice.student.core.config.spring.RiceConfigFactoryBean">
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="properties" value="#{bootstrapConfig.getProperties()}" />
+	</bean>
+
+	<bean id="bootstrapConfig" class="org.kuali.rice.core.impl.config.property.ConfigFactoryBean">
 		<property name="configLocations">
 			<list>
 				<value>classpath:META-INF/ks-lum-ui-config.xml</value>
 			</list>
 		</property>
 	</bean>
-    
-    <bean id="propertyPlaceholder"
-        class="org.kuali.rice.student.core.config.spring.RiceConfigPropertyPlaceholderConfigurer" depends-on="config" />
 
-	<bean class="org.kuali.rice.core.resourceloader.RiceSpringResourceLoaderConfigurer">
+	<bean class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+		<property name="staticMethod" value="org.kuali.rice.core.impl.config.property.ConfigInitializer.initialize" />
+		<property name="arguments">
+			<list><ref bean="bootstrapConfig"/></list>
+		</property>
+	</bean>
+
+	<bean class="org.kuali.rice.core.framework.resourceloader.RiceSpringResourceLoaderConfigurer">
 		<property name="localServiceName" value="KSLumUIContext"/>	
 	</bean>
 	
+	<!-- TODO: Cleanup use of mock message service 
 	<bean id="ks.messageServiceMock" class="org.kuali.student.core.messages.service.impl.MessageServiceMock">
 		<property name="messageFiles">
 			<list>
@@ -52,23 +61,63 @@
 			</list>
 		</property>
 	</bean>
+	-->
+		
+	<bean id="ks.messageServiceMock" class="org.kuali.rice.ksb.messaging.KSBClientProxyFactoryBean">
+        <property name="serviceEndpointInterface" value="org.kuali.student.common.messages.service.MessageService" />
+        <property name="serviceQName" value="{http://student.kuali.org/wsdl/messages}MessageService" />
+    </bean>	
 
     <import resource="classpath:org/kuali/rice/core/RiceJTASpringBeans.xml"/>
     <import resource="classpath:org/kuali/rice/core/RiceDataSourceSpringBeans.xml" />
 
-	<bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
+	<!--bean id="rice" class="org.kuali.rice.core.config.RiceConfigurer">
 		<property name="dataSource" ref="riceDataSource" />
 		<property name="nonTransactionalDataSource" ref="riceNonTransactionalDataSource" />
 		<property name="transactionManager" ref="jtaTransactionManager" />
 		<property name="userTransaction" ref="jtaUserTransaction" />
 		<property name="rootConfig" ref="config" />
-		<property name="serviceNamespace" value="${serviceNamespace}" />
+		<property name="serviceNamespace" value="KSLumUI" />
 		<property name="ksbConfigurer">
 			<bean class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
                 <property name="serviceServletUrl" value="${serviceServletUrl}" />
 			</bean>
 		</property>
+	</bean-->
+	
+	<bean id="coreConfigurer" class="org.kuali.rice.core.impl.config.module.CoreConfigurer">
+		<property name="moduleName" value="CORE" />
+		<property name="hasWebInterface" value="false" />
+		<property name="validRunModes">
+			<list>
+				<value>LOCAL</value>
+			</list>
+		</property>
+		<property name="dataSource" ref="riceDataSource" />
+		<property name="transactionManager" ref="jtaTransactionManager" />
+		<property name="userTransaction" ref="jtaUserTransaction" />
 	</bean>
+	
+	<import resource="classpath:org/kuali/rice/ksb/config/KSBConfigSpringBeans.xml"/>
+	<bean id="ksbConfigurer" class="org.kuali.rice.ksb.messaging.config.KSBConfigurer">
+		<property name="moduleName" value="KSB" />
+		<property name="hasWebInterface" value="true" />
+		<property name="validRunModes">
+			<list>
+				<value>LOCAL</value>
+				<value>REMOTE</value>
+			</list>
+		</property>
+	</bean>
+	<!--import resource="classpath:org/kuali/rice/krad/config/KRADConfigSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/kim/impl/config/KIMConfigSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/kew/config/KEWConfigSpringBeans.xml"/>
+	<import resource="classpath:org/kuali/rice/edl/impl/config/EDLConfigSpringBeans.xml"/>
+  	<import resource="classpath:org/kuali/rice/krms/config/KRMSConfigSpringBeans.xml"/>
+  	<import resource="classpath:org/kuali/rice/location/config/LocationConfigSpringBeans.xml"/-->
+
+    <!--bean id="enAdsService" class="edu.iu.uis.eden.ads.AdsServiceImpl" />
+	<bean class="edu.iu.uis.eden.IUServiceLocatorConfigurer"/-->
 
     <!-- JTA -->
 	<alias name="jtaUserTransaction" alias="userTransaction"/>    

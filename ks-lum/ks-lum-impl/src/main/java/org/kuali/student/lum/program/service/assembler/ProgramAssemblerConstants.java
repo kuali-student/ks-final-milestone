@@ -19,6 +19,8 @@ import java.util.Arrays;
 import java.util.Set;
 import java.util.TreeSet;
 
+import org.kuali.student.common.dto.DtoConstants;
+
 /**
  * These are the constants that are used in the programs.
  * 
@@ -55,14 +57,7 @@ public class ProgramAssemblerConstants {
 	public static final String PROGRAM_REQUIREMENT = "kuali.lu.type.Requirement";
 
 	// clu states
-	public static final String DRAFT = "draft";
-	public static final String ACTIVE = "Active"; // also use for identifiers
-													// and relations
-	public static final String INACTIVE = "Inactive";
-	public static final String SUPERSEDED = "superseded";
-	public static final String SUSPENDED = "suspended";
-	public static final String RETIRED = "retired";
-	public static final String[] LATEST_STATES = { ACTIVE, SUSPENDED, RETIRED };
+	public static final String[] LATEST_STATES = { DtoConstants.STATE_ACTIVE, DtoConstants.STATE_SUSPENDED, DtoConstants.STATE_RETIRED };
 
 	// clu identifier types
 	public static final String OFFICIAL = "kuali.lu.type.program.identifier.official";

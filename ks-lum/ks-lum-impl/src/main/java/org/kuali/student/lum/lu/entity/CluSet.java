@@ -34,14 +34,16 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.core.entity.AttributeOwner;
-import org.kuali.student.core.entity.MetaEntity;
+import org.kuali.student.common.entity.AttributeOwner;
+import org.kuali.student.common.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_CLU_SET")
 @NamedQueries( {
 	@NamedQuery(name = "CluSet.getCluSetInfoByIdList", query = "SELECT c FROM CluSet c WHERE c.id IN (:cluSetIdList)"),
-	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(cluSet) FROM CluSet cluSet JOIN cluSet.cluVerIndIds cluVerIndIds WHERE cluSet.id = :cluSetId AND cluVerIndIds.cluVersionIndId = :cluId ")
+	@NamedQuery(name = "CluSet.isCluInCluSet", query = "SELECT COUNT(cluSet) FROM CluSet cluSet JOIN cluSet.cluVerIndIds cluVerIndIds WHERE cluSet.id = :cluSetId AND cluVerIndIds.cluVersionIndId = :cluId "),
+	@NamedQuery(name = "CluSet.findCluSetsByCluVersionIndIds", query = "SELECT j.cluSet FROM CluSetJoinVersionIndClu j WHERE j.cluVersionIndId IN (:cluVersionIndIds)"),
+	@NamedQuery(name = "CluSet.findAllDynamicCluSets", query = "SELECT cluSet FROM CluSet cluSet WHERE cluSet.membershipQuery IS NULL")
 })
 public class CluSet extends MetaEntity implements AttributeOwner<CluSetAttribute> {
 
