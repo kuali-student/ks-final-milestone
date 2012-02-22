@@ -101,14 +101,20 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 
 	@Override
     @Transactional(readOnly=true)
-	public List<LoRepositoryInfo> getLoRepositories( ContextInfo contextInfo)
+	public List<LoRepositoryInfo> getLoRepositories(@WebParam(name = "contextInfo") ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 	    List<LoRepository> repositories = loDao.find(LoRepository.class);
-		return LearningObjectiveServiceAssembler.toLoRepositoryInfos(repositories);
+	    																									  //* R2 DTO passed here,  R1 Enitity passed here		
+	    List<LoRepositoryInfo> info = LearningObjectiveServiceAssembler.convertEntity_To_Dto_LoRepositoryInfos(new  LoRepositoryInfo(),repositories);
+	    return info;
+		//TODO KSCM : Here we need R2 DTO from R1 Entity. Above is my solution.
+	    // return LearningObjectiveServiceAssembler.toLoRepositoryInfos(repositories);
 	}
 
-    @Override
+
+
+	@Override
     public List<String> getLoRepositoryKeysByType(@WebParam(name = "loRepositoryTypeKey") String loRepositoryTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
