@@ -93,34 +93,14 @@ INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION
 INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.18', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Winter' , 0, 'kuali.atp.type.Winter is a type of Term')
 INSERT INTO KSEN_TYPETYPE_RELTN(ID, VER_NBR, EFF_DT, EXPIR_DT, TYPETYPE_RELATION_TYPE, OWNER_TYPE_ID, RELATED_TYPE_ID, RANK, NAME) values ('kuali.termtype.group.member.19', 0, {ts '2011-01-01 00:00:00.0'}, {ts '2100-01-01 00:00:00.0'}, 'kuali.type.type.relation.type.group', 'kuali.atp.type.group.term', 'kuali.atp.type.Adhoc' , 0, 'kuali.atp.type.Adhoc is a type of Term')
 
-//Term
---INSERT INTO KSEN_RICH_TEXT_T (ID, FORMATTED, PLAIN,VER_NBR) VALUES ('RICHTEXT-101', '<p>Desc 101</p>', 'Desc 101',0)
-
-//LuiTypeEntity
---INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.type.course.offering', 'Course Offering', 'An offering of a course for a particular term', 0)
---INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.type.registration.group', 'registration Group', 'The collection of activity offerings of a single course that are grouped together for registration purposes', 0)
---INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.type.activity.offering.lecture', 'Lecture', 'Instructor presentation of course materials', 0)
---INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.type.activity.offering.lab', 'Lab', 'Student working on projects in a defined laboratory space. Instructors are on-hand for students to ask questions and guidance', 0)
---INSERT INTO KSEN_LUI_TYPE(TYPE_KEY, NAME, TYPE_DESC, VER_NBR)VALUES ('kuali.lui.lui.relation.associated', 'Associated', 'The first LUI is associated with the second LUI', 0)
-
-// LuiRichTextEntity
---INSERT INTO KSEN_LUI_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('Lui-1-Desc', '<p>Lui Desc 101</p>', 'Lui Desc 101',0)
---INSERT INTO KSEN_LUI_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('Lui-2-Desc', '<p>Lui Desc 201</p>', 'Lui Desc 201',0)
---INSERT INTO KSEN_LUI_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('Lui-3-Desc', '<p>Lui Desc 301</p>', 'Lui Desc 301 for deletion',0)
---INSERT INTO KSEN_LUI_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('Lui-4-Desc', '<p>Lui Desc 401</p>', 'Lui Desc 401 for deletion',0)
---INSERT INTO KSEN_LUI_RICH_TEXT (ID, FORMATTED, PLAIN, VER_NBR) VALUES ('Lui-5-Desc', '<p>Lui Desc 501</p>', 'Lui Desc 501',0)
-
 //LuiInstructorEntity
 INSERT INTO KSEN_LUI_INSTR (ID, ORG_ID, PERS_ID, PERS_OVRID, PERCT_EFFT, VER_NBR) VALUES ('LUI-INSTR-1', 'Org-1', 'Pers-1', 'Instr-1', 30.5, 0)
-
-// LuiIdentifierEntity
-INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, VER_NBR) VALUES ('LUI-IDENT-1', 'CHEM123', 'CHEM', '123', 'Chemistry 123', 'Chem 123', null, null, null, 0)
 
 //LuiCapacityEntity
 INSERT INTO KSEN_LUI_CAPACITY (ID, NAME, LUI_CAPACITY_TYPE, LUI_CAPACITY_STATE, DESCR_FORMATTED, DESCR_PLAIN, MAX_SEATS, PROCESSING_ORDER, EFF_DT, EXPIR_DT, VER_NBR) VALUES ('Lui-cap-1', 'Lui Capacity', 'lui.capacity.type', 'lui.capacity.state', 'lui.capacit.descr.formatted', 'lui.capacity.descr.plain', 100, 100, {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 0)
 
 //LuiEntity
-INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXPIR_DT, MAX_SEATS, MIN_SEATS, OFFIC_LUI_ID, VER_NBR) VALUES ('Lui-1', 'Lui one',  'cluId1', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', '<p>Lui Desc 101</p>', 'Lui Desc 101', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 200, 50, 'LUI-IDENT-1', 0)
+INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXPIR_DT, MAX_SEATS, MIN_SEATS, VER_NBR) VALUES ('Lui-1', 'Lui one',  'cluId1', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', '<p>Lui Desc 101</p>', 'Lui Desc 101', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 200, 50, 0)
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXPIR_DT, MAX_SEATS, MIN_SEATS, VER_NBR) VALUES ('Lui-2', 'Lui rwo',  'cluId2', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft', '<p>Lui Desc 201</p>', 'Lui Desc 201', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 200, 50, 0)
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXPIR_DT, MAX_SEATS, MIN_SEATS, VER_NBR) VALUES ('Lui-3', 'Lui three', 'cluId3', 'kuali.lui.type.course.offering', 'kuali.lui.state.draft', '<p>Lui Desc 301</p>', 'Lui Desc 301 for deletion', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 200, 50, 0)
 INSERT INTO KSEN_LUI (ID, NAME, CLU_ID, LUI_TYPE, LUI_STATE, DESCR_FORMATTED, DESCR_PLAIN, EFF_DT, EXPIR_DT, MAX_SEATS, MIN_SEATS, VER_NBR) VALUES ('Lui-4', 'Lui four',  'cluId4', 'kuali.lui.type.activity.offering.lecture', 'kuali.lui.state.draft', '<p>Lui Desc 401</p>', 'Lui Desc 401 for deletion', {ts '2011-01-01 00:00:00.0'}, {ts '2011-12-31 00:00:00.0'}, 200, 50, 0)
@@ -169,3 +149,12 @@ INSERT INTO KSEN_LUICAPACITY_RELTN (ID, LUI_ID, LUI_CAPACITY_ID, VER_NBR) VALUES
 
 //LuiLuCodeEntity
 INSERT INTO KSEN_LUI_LU_CD (ID, LUI_LUCD_TYPE, DESCR_PLAIN, DESCR_FORMATTED, VALUE, VER_NBR) VALUES ('LUI-lu-cd-1', 'lu.code.type', 'lu.code.descr.plain', 'lu.code.descr.formatted', 'code.value', 0)
+
+// LuiIdentifierEntity
+INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-1', 'CHEM123', 'CHEM', '123', 'Chemistry 123', 'Chem 123', null, 'kuali.lui.identifier.type.official', null, 'Lui-1', 0)
+INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-2', 'CHEM456', 'CHEM', '456', 'Chemistry 456', 'Chem 456', null, 'kuali.lui.identifier.type.cross-listed', null, 'Lui-1', 0)
+INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-3', 'BIO123', 'BIO', '123', 'Biology 123', 'Bio 123', null, 'kuali.lui.identifier.type.official', null, 'Lui-2', 0)
+INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-4', 'BIO456', 'BIO', '456', 'Biology 456', 'Bio 456', null, 'kuali.lui.identifier.type.cross-listed', 'Lui-2', null, 0)
+INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-5', 'GEOG123', 'GEOG', '123', 'Geography 123', 'Geog 123', null, 'kuali.lui.identifier.type.official', 'Lui-3', null, 0)
+INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-6', 'MATH123', 'MATH', '123', 'Mathematics 123', 'Math 123', null, 'kuali.lui.identifier.type.official', 'Lui-4', null, 0)
+INSERT INTO KSEN_LUI_IDENT (ID, LUI_CD, DIVISION, SUFX_CD, LNG_NAME, SHRT_NAME, LUI_ID_STATE, LUI_ID_TYPE, VARTN, LUI_ID, VER_NBR) VALUES ('LUI-IDENT-7', 'MATH123', 'MATH', '456', 'Mathematics 456', 'Math 456', null, 'kuali.lui.identifier.type.cross-listed', 'Lui-4', null, 0)
