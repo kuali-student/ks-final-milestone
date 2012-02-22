@@ -5,11 +5,11 @@ import java.sql.Timestamp;
 import javax.persistence.Column;
 import javax.persistence.Transient;
 
-import org.kuali.rice.kns.bo.InactivateableFromTo;
 import org.kuali.student.core.bo.util.InactivatableFromToHelper;
+import org.kuali.rice.krad.bo.InactivatableFromTo;
 
 public class KsMetaInactivatableFromToBase extends KsMetaBusinessObjectBase
-		implements InactivateableFromTo {
+		implements InactivatableFromTo {
 
 	private static final long serialVersionUID = 6285786348480193634L;
 	

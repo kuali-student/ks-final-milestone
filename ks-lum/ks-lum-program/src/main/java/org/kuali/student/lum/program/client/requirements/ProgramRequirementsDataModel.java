@@ -16,14 +16,13 @@ package org.kuali.student.lum.program.client.requirements;
 
 import java.util.*;
 
+import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
 import org.kuali.student.lum.program.client.events.StoreSpecRequirementIDsEvent;
@@ -59,8 +58,8 @@ public class ProgramRequirementsDataModel {
     }
 
     //find out whether we need to reset rules based on whether we have a new program ID or not
-    public void setupRules(Controller parentController, final Callback<Boolean> onReadyCallback) {
-        parentController.requestModel(ProgramConstants.PROGRAM_MODEL_ID, new ModelRequestCallback() {
+    public void setupRules(Controller parentController, String modelId, final Callback<Boolean> onReadyCallback) {
+        parentController.requestModel(modelId, new ModelRequestCallback() {
 
             @Override
             public void onRequestFail(Throwable cause) {
@@ -93,9 +92,9 @@ public class ProgramRequirementsDataModel {
     }
 
     //retrieve rules based on IDs stored in this program
-    public void retrieveProgramRequirements(Controller parentController, final Callback<Boolean> onReadyCallback) {
+    public void retrieveProgramRequirements(Controller parentController, String modelId, final Callback<Boolean> onReadyCallback) {
         
-        setupRules(parentController, new Callback<Boolean>() {
+        setupRules(parentController, modelId, new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 Data program = ((DataModel)model).getRoot().get(ProgramConstants.PROGRAM_REQUIREMENTS);
@@ -131,7 +130,7 @@ public class ProgramRequirementsDataModel {
                 //now retrieve the actual rules
                 retrieveRules(programRequirementIds, onReadyCallback);
             }
-        });
+        },ContextUtils.getContextInfo());
     }
 
     private void retrieveRules(List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
@@ -154,6 +153,10 @@ public class ProgramRequirementsDataModel {
             @Override
             public void onSuccess(List<ProgramRequirementInfo> programReqInfos) {
                 //update rules list with new program requirements
+                origProgReqInfos.clear();
+                origProgReqState.clear();
+                progReqInfos.clear();
+                progReqState.clear();
                 for (ProgramRequirementInfo programReqInfo : programReqInfos) {
 
                     if (getStmtTypeInfo(programReqInfo.getStatement().getType()) == null) {
@@ -171,7 +174,7 @@ public class ProgramRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        });     
+        },ContextUtils.getContextInfo());     
     }
 
     public ProgramRequirementInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalProgReqID, boolean isNewRule) {
@@ -273,7 +276,7 @@ public class ProgramRequirementsDataModel {
 
                 saveRequirementIds(referencedProgReqIds, storedRules, callback);
             }
-        });        
+        },ContextUtils.getContextInfo());        
     }
 
     private void saveRequirementIds(final List<String> referencedProgReqIds, final Map<Integer, ProgramRequirementInfo> storedRules, final Callback<List<ProgramRequirementInfo>> callback) {
@@ -295,35 +298,6 @@ public class ProgramRequirementsDataModel {
         callback.exec(new ArrayList(storedRules.values()));  //update display widgets
     }
 
-    public static void stripStatementIds(StatementTreeViewInfo tree) {
-        List<StatementTreeViewInfo> statements = tree.getStatements();
-        List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
-
-        if ((tree.getId() != null) && (tree.getId().indexOf(ProgramRequirementsSummaryView.NEW_STMT_TREE_ID) >= 0)) {
-            tree.setId(null);
-        }
-        tree.setState("Active");
-
-        if ((statements != null) && (statements.size() > 0)) {
-            // retrieve all statements
-            for (StatementTreeViewInfo statement : statements) {
-                stripStatementIds(statement); // inside set the children of this statementTreeViewInfo
-            }
-        } else if ((reqComponentInfos != null) && (reqComponentInfos.size() > 0)) {
-            // retrieve all req. component LEAFS
-            for (ReqComponentInfo reqComponent : reqComponentInfos) {
-                if ((reqComponent.getId() != null) && (reqComponent.getId().indexOf(ProgramRequirementsSummaryView.NEW_REQ_COMP_ID) >= 0)) {
-                    reqComponent.setId(null);
-                }
-
-                for (ReqCompFieldInfo field : reqComponent.getReqCompFields()) {
-                    field.setId(null);
-                }
-
-                reqComponent.setState("Active");
-            }
-        }
-    }
 
     public List<ProgramRequirementInfo> getProgReqInfo(String stmtTypeId) {
         List<ProgramRequirementInfo> rules = new ArrayList<ProgramRequirementInfo>();
@@ -388,9 +362,11 @@ public class ProgramRequirementsDataModel {
      * 
      * @param programReqInfo
      */
-    protected void setRuleState(ProgramRequirementInfo programReqInfo){
-    	String programState = ((DataModel)model).get(ProgramConstants.STATE);
-    	programReqInfo.setState(programState);    	
+    protected void setRuleState(ProgramRequirementInfo programReqInfo) {
+        if (model != null) {
+            String programState = ((DataModel) model).get(ProgramConstants.STATE);
+            programReqInfo.setState(programState);
+        }
     }
 
     public void markRuleAsDeleted(Integer internalProgReqID) {
