@@ -144,6 +144,18 @@
 
   <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
 
+  <bean id="ks.exp.typeService" class="org.kuali.rice.ksb.api.bus.support.ServiceBusExporter">
+    <property name="serviceDefinition">
+      <bean class="org.kuali.rice.ksb.api.bus.support.SoapServiceDefinition">
+        <property name="jaxWsService" value="true" />
+        <property name="service" ref="typeService" />
+        <property name="serviceInterface" value="org.kuali.student.r2.core.type.service.TypeService" />
+        <property name="localServiceName" value="TypeService" />
+        <property name="serviceNameSpaceURI" value="http://student.kuali.org/wsdl/type" />
+        <property name="busSecurity" value="${ks.lum.bus.security}" />
+      </bean>
+    </property>
+  </bean>
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />
 

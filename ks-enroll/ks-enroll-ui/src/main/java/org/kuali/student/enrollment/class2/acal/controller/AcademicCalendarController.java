@@ -25,6 +25,7 @@ import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -175,9 +176,16 @@ public class AcademicCalendarController extends UifControllerBase {
         //TODO:Build real context.
         ContextInfo context = TestHelper.getContext1();
 
-        if (termWrapper.getKeydates() == null || termWrapper.getKeydates().isEmpty()){
+        if (termWrapper.getKeyDatesGroupWrappers() == null || termWrapper.getKeyDatesGroupWrappers().isEmpty()){
             GlobalVariables.getMessageMap().putError("termWrapperList","error.enroll.term.nokeydates",termWrapper.getTermNameForUI());
             return updateComponent(academicCalendarForm, result, request, response);
+        }else{
+            for (KeyDatesGroupWrapper keyDatesGroup : termWrapper.getKeyDatesGroupWrappers()) {
+                if (keyDatesGroup.getKeydates() == null || keyDatesGroup.getKeydates().isEmpty()){
+                    GlobalVariables.getMessageMap().putError("termWrapperList","error.enroll.term.nokeydates",termWrapper.getTermNameForUI());
+                    return updateComponent(academicCalendarForm, result, request, response);
+                }
+            }
         }
 
         try{
@@ -257,10 +265,50 @@ public class AcademicCalendarController extends UifControllerBase {
         ContextInfo context = TestHelper.getContext1();
 
         String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
+        String selectedKeyDateGroup = StringUtils.substringBetween(selectedCollectionPath,"keyDatesGroupWrappers[","]");
+
+        AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
+        KeyDatesGroupWrapper keydateGroup = termWrapper.getKeyDatesGroupWrappers().get(Integer.parseInt(selectedKeyDateGroup));
+        try {
+
+            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteKeyDate(keydateGroup,selectedLineIndex,context);
+        } catch (Exception e) {
+            //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
+            throw new RuntimeException(e);
+        }
+
+        return updateComponent(academicCalendarForm, result, request, response);
+
+    }
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=deleteKeyDateGroup")
+    public ModelAndView deleteKeyDateGroup(@ModelAttribute("KualiForm") AcademicCalendarForm academicCalendarForm, BindingResult result,
+                                           HttpServletRequest request, HttpServletResponse response) {
+
+        String selectedCollectionPath = academicCalendarForm.getActionParamaterValue(UifParameters.SELLECTED_COLLECTION_PATH);
+        if (StringUtils.isBlank(selectedCollectionPath)) {
+            throw new RuntimeException("unable to determine the selected collection path");
+        }
+
+        int selectedLineIndex = -1;
+        String selectedLine = academicCalendarForm.getActionParamaterValue(UifParameters.SELECTED_LINE_INDEX);
+        if (StringUtils.isNotBlank(selectedLine)) {
+            selectedLineIndex = Integer.parseInt(selectedLine);
+        }
+
+        if (selectedLineIndex == -1) {
+            throw new RuntimeException("unable to determine the selected line index");
+        }
+
+        //TODO:Build real context.
+        ContextInfo context = TestHelper.getContext1();
+
+        String selectedTermIndex = StringUtils.substringBetween(selectedCollectionPath,"termWrapperList[","]");
 
         AcademicTermWrapper termWrapper = academicCalendarForm.getTermWrapperList().get(Integer.parseInt(selectedTermIndex));
         try {
-            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteKeyDate(termWrapper.getKeydates(),selectedLineIndex,context);
+
+            ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).deleteKeyDateGroup(termWrapper,selectedLineIndex,context);
         } catch (Exception e) {
             //TODO:For now, throw RTE, have to look into proper way of handling exceptions.
             throw new RuntimeException(e);

@@ -192,7 +192,6 @@ public class TypeServiceMockImpl implements TypeService{
         typeArrays.add(new String[] {"kuali.atp.milestone.Baccalaureate", "Baccalaureate", "Baccalaureate", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.Commencement", "Commencement", "Commencement", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
 
-
         //for AtpAtpRelations
         typeArrays.add(new String[] {"kuali.atp.atp.relation.includes", "kuali.atp.atp.relation.includes"});
         typeArrays.add(new String[] {"kuali.atp.atp.relation.associated", "kuali.atp.atp.relation.associated"});
@@ -206,27 +205,69 @@ public class TypeServiceMockImpl implements TypeService{
         TypeInfo termGroupType = createTypeInfo("kuali.atp.type.group.term", null);
 
         termGroup.add(getType("kuali.atp.type.Fall"));
-        termGroup.add(getType("kuali.atp.type.FallSpring"));
-        termGroup.add(getType("kuali.atp.type.HalfFall1"));
-        termGroup.add(getType("kuali.atp.type.HalfFall2"));
+//        termGroup.add(getType("kuali.atp.type.FallSpring"));
+//        termGroup.add(getType("kuali.atp.type.HalfFall1"));
+//        termGroup.add(getType("kuali.atp.type.HalfFall2"));
         termGroup.add(getType("kuali.atp.type.Winter"));
         termGroup.add(getType("kuali.atp.type.Spring"));
-        termGroup.add(getType("kuali.atp.type.HalfSpring1"));
-        termGroup.add(getType("kuali.atp.type.HalfSpring2"));
-        termGroup.add(getType("kuali.atp.type.SpringBreak"));
+//        termGroup.add(getType("kuali.atp.type.HalfSpring1"));
+//        termGroup.add(getType("kuali.atp.type.HalfSpring2"));
+//        termGroup.add(getType("kuali.atp.type.SpringBreak"));
         termGroup.add(getType("kuali.atp.type.Summer"));
-        termGroup.add(getType("kuali.atp.type.SummerEve"));
-        termGroup.add(getType("kuali.atp.type.Session1"));
-        termGroup.add(getType("kuali.atp.type.Mini-mester1A"));
-        termGroup.add(getType("kuali.atp.type.Mini-mester1B"));
-        termGroup.add(getType("kuali.atp.type.Session2"));
-        termGroup.add(getType("kuali.atp.type.Mini-mester2C"));
-        termGroup.add(getType("kuali.atp.type.Mini-mester2D"));
-        termGroup.add(getType("kuali.atp.type.SessionG1"));
-        termGroup.add(getType("kuali.atp.type.SessionG2"));
-        termGroup.add(getType("kuali.atp.type.Adhoc"));
+//        termGroup.add(getType("kuali.atp.type.SummerEve"));
+//        termGroup.add(getType("kuali.atp.type.Session1"));
+//        termGroup.add(getType("kuali.atp.type.Mini-mester1A"));
+//        termGroup.add(getType("kuali.atp.type.Mini-mester1B"));
+//        termGroup.add(getType("kuali.atp.type.Session2"));
+//        termGroup.add(getType("kuali.atp.type.Mini-mester2C"));
+//        termGroup.add(getType("kuali.atp.type.Mini-mester2D"));
+//        termGroup.add(getType("kuali.atp.type.SessionG1"));
+//        termGroup.add(getType("kuali.atp.type.SessionG2"));
+//        termGroup.add(getType("kuali.atp.type.Adhoc"));
         for (TypeInfo type : termGroup) {
             createTypeTypeRelationInfo(termGroupType, type);
+        }
+
+        //keydates
+        typeArrays.add(new String[] {"kuali.atp.milestone.AdvanceRegistrationPeriod", "Advance Registration Period", "Advance Registration Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.RegistrationPeriod", "Registration Period", "Registration Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.RegistrationBeginsTransfer", "Registration Begins Transfer", "Registration Begins Transfer", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.DropDeadlineWithoutRecord", "Drop Deadline Without Record", "Drop Deadline Without Record", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.FinalExamPeriod", "Final Exam Period", "Final Exam Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.GradesDue", "Grades Due", "Grades Due", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+
+        //curriculum
+        typeArrays.add(new String[] {"kuali.atp.milestone.CoordinatorsKickoffMeeting", "Coordinators Kickoff Meeting", "Coordinators Kickoff Meeting", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.ProposalPeriod", "Proposal Period", "Proposal Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.ReviewPeriod", "Review Period", "Review Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+
+        for (String[] typeArray : typeArrays) {
+            createTypeInfo(typeArray[0], typeArray[1]);
+        }
+
+        //Keydates grouping
+        Set<TypeInfo> keydateGroup = new HashSet<TypeInfo>();
+        TypeInfo keydateGroupType = createTypeInfo("kuali.milestone.type.group.keydate", "Registration");
+
+        keydateGroup.add(getType("kuali.atp.milestone.AdvanceRegistrationPeriod"));
+        keydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
+        keydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
+        keydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
+        keydateGroup.add(getType("kuali.atp.milestone.FinalExamPeriod"));
+        keydateGroup.add(getType("kuali.atp.milestone.GradesDue"));
+        for (TypeInfo type : keydateGroup) {
+            createTypeTypeRelationInfo(keydateGroupType, type);
+        }
+
+        //curriculum grouping
+        Set<TypeInfo> curriculumGroup = new HashSet<TypeInfo>();
+        TypeInfo curriculumGroupType = createTypeInfo("kuali.milestone.type.group.curriculum", "Curriculum");
+
+        curriculumGroup.add(getType("kuali.atp.milestone.CoordinatorsKickoffMeeting"));
+        curriculumGroup.add(getType("kuali.atp.milestone.ProposalPeriod"));
+        curriculumGroup.add(getType("kuali.atp.milestone.ReviewPeriod"));
+        for (TypeInfo type : curriculumGroup) {
+            createTypeTypeRelationInfo(curriculumGroupType, type);
         }
 
         //Holiday types Grouping

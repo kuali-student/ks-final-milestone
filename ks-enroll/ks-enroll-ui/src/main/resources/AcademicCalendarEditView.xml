@@ -179,7 +179,6 @@
 
     <!-- Academic terms -->
 
-
    <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" >
      <property name="title" value="Terms" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
@@ -204,9 +203,6 @@
              </property>
          </bean>
       </property>
-     <!--<property name="layoutManager">
-      <bean parent="Uif-StackedCollectionLayout-WithBoxItems"/>
-    </property>-->
      <property name="actionFields">
       <list>
         <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Save Term Draft"  p:methodToCall="saveTerm" p:render="@{#line.readOnly eq false}"/>
@@ -248,9 +244,48 @@
      </property>
      <property name="subCollections">
        <list>
+         <ref bean="KS-KeyDatesGroup-EditSubSection" />
+       </list>
+     </property>
+   </bean>
+
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSection">
+     <property name="title" value="Key Dates Group" />
+     <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
+     <!--<property name="layoutManager.style" value="margin-top:1em;"/>-->
+     <property name="propertyName" value="keyDatesGroupWrappers" />
+     <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.keyDateGroupNameUI} Key Dates"/>
+     <property name="addLineLabelField.labelText" value="Add KeyDate Group"/>
+     <property name="actionFields">
+      <list>
+        <bean parent="Uif-SecondaryActionButton-Small" p:methodToCall="deleteKeyDateGroup" p:actionLabel="delete keydate group"/>
+      </list>
+    </property>
+     <property name="header.styleClasses">
+      <list merge="true">
+        <value>ks-borderBottom</value>
+      </list>
+    </property>
+
+     <property name="items">
+       <list>
+         <bean parent="Uif-InputField" p:propertyName="keyDateGroupType" p:label="Key Date Group Type" p:required="true" p:render="@{#isAddLine}" p:finalizeMethodToCall="populateKeyDateGroupTypes" >
+             <property name="control">
+                <bean parent="Uif-DropdownControl"/>
+             </property>
+         </bean>
+       </list>
+     </property>
+     <property name="subCollections">
+       <list>
          <ref bean="KS-KeyDates-EditSubSection" />
        </list>
      </property>
+     <!--<property name="actionFields">
+          <list>
+              <bean parent="Uif-PrimaryActionButton-Small" p:methodToCall="deleteKeyDate" p:actionLabel="delete"/>
+          </list>
+    </property>-->
    </bean>
 
    <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7">

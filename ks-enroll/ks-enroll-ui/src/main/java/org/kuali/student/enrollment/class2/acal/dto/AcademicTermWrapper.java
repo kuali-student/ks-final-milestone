@@ -21,9 +21,7 @@ public class AcademicTermWrapper {
     private Date endDate;
 
     private String termNameForUI;
-
-    private List<KeyDateWrapper> keydates = new ArrayList<KeyDateWrapper>();
-
+    private List<KeyDatesGroupWrapper> keyDatesGroupWrappers = new ArrayList();
     private boolean readOnly = false;
 
     public AcademicTermWrapper(){
@@ -82,14 +80,6 @@ public class AcademicTermWrapper {
         this.instructionalDays = instructionalDays;
     }
 
-    public List<KeyDateWrapper> getKeydates() {
-        return keydates;
-    }
-
-    public void setKeydates(List<KeyDateWrapper> keydates) {
-        this.keydates = keydates;
-    }
-
     public String getTermNameForUI() {
         return termNameForUI;
     }
@@ -106,11 +96,19 @@ public class AcademicTermWrapper {
         this.readOnly = readOnly;
     }
 
+    public List<KeyDatesGroupWrapper> getKeyDatesGroupWrappers() {
+        return keyDatesGroupWrappers;
+    }
+
+    public void setKeyDatesGroupWrappers(List<KeyDatesGroupWrapper> keyDatesGroupWrappers) {
+        this.keyDatesGroupWrappers = keyDatesGroupWrappers;
+    }
+
     public void clear(){
         setEndDate(null);
         setStartDate(null);
         setTermType(null);
-        setKeydates( new ArrayList<KeyDateWrapper>());
+//        setKeydates( new ArrayList<KeyDateWrapper>());
         setName(null);
     }
 }
