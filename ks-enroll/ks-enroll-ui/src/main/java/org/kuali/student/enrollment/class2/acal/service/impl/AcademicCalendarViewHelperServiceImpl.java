@@ -463,7 +463,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         }else if (addLine instanceof KeyDatesGroupWrapper){
             KeyDatesGroupWrapper group = (KeyDatesGroupWrapper)addLine;
             try {
-                TypeInfo termType = getAcalService().getKeyDateType(group.getKeyDateGroupType(),TestHelper.getContext1());
+                TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),TestHelper.getContext1());
                 group.setKeyDateGroupNameUI(termType.getName());
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
