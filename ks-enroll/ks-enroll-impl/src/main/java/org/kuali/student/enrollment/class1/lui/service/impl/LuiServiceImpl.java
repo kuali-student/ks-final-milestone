@@ -93,9 +93,9 @@ public class LuiServiceImpl implements LuiService {
         }
 
         LuiInfo dto = lui.toDto();
-        if (lui.getOfficialIdentifier() != null) {
-            dto.setOfficialIdentifier(lui.getOfficialIdentifier().toDto());
-        }
+        //if (lui.getOfficialIdentifier() != null) {
+        //    dto.setOfficialIdentifier(lui.getOfficialIdentifier().toDto());
+        //}
 
         return dto;
     }
@@ -279,28 +279,6 @@ public class LuiServiceImpl implements LuiService {
         LuiEntity entity = new LuiEntity(luiInfo);
         entity.setId(UUIDHelper.genStringUUID());
 
-        if (null != cluId && checkExistenceForClu(cluId, context))
-            entity.setCluId(cluId);
-
-        if (null != atpId && checkExistenceForAtp(atpId, context))
-            entity.setAtpId(atpId);
-
-        entity.setLuiState(luiInfo.getStateKey());
-
-        entity.setLuiType(luiInfo.getTypeKey());
-
-        if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()) {
-            for (LuCodeEntity luiCode : entity.getLuCodes()) {
-                luiCode.setLui(entity);
-            }
-        }
-
-        if (null != luiInfo.getMeetingSchedules() && !luiInfo.getMeetingSchedules().isEmpty()) {
-            for (MeetingScheduleEntity schedule : entity.getMeetingSchedules()) {
-                schedule.setLui(entity);
-            }
-        }
-
         LuiEntity existing = luiDao.find(entity.getId());
         if (existing != null) {
             throw new AlreadyExistsException();
@@ -325,19 +303,6 @@ public class LuiServiceImpl implements LuiService {
             String atpId = luiInfo.getAtpId();
             if (null != atpId && checkExistenceForAtp(atpId, context))
                 modifiedEntity.setAtpId(atpId);
-
-
-            if (null != luiInfo.getLuiCodes() && !luiInfo.getLuiCodes().isEmpty()) {
-                for (LuCodeEntity luiCode : modifiedEntity.getLuCodes()) {
-                    luiCode.setLui(modifiedEntity);
-                }
-            }
-
-            if (null != luiInfo.getMeetingSchedules() && !luiInfo.getMeetingSchedules().isEmpty()) {
-                for (MeetingScheduleEntity schedule : modifiedEntity.getMeetingSchedules()) {
-                    schedule.setLui(modifiedEntity);
-                }
-            }
 
             luiDao.merge(modifiedEntity);
             return luiDao.find(modifiedEntity.getId()).toDto();
