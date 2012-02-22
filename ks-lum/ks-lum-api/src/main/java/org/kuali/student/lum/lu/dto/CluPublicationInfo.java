@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.HasAttributes;
@@ -43,6 +44,8 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/cluPublicationInfo+Structure+v1.0-rc3">CluPublicationInfo v1.0-rc3</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "CluPublicationInfo", propOrder = {"id", "type", "state", "cluId", "variants",  "startCycle", "endCycle", "effectiveDate", "expirationDate", "attributes", "metaInfo"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluPublicationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

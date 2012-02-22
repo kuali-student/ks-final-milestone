@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.HasAttributes;
@@ -44,6 +45,8 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/resultComponentInfo+Structure">ResultComponentInfo</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "ResultComponentInfo", propOrder = {"id", "name", "desc", "resultValues", "effectiveDate", "expirationDate", "attributes", "metaInfo", "type", "state"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ResultComponentInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 
