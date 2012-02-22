@@ -97,7 +97,6 @@
     
     <bean id="luiService" class="org.kuali.student.enrollment.class1.lui.service.impl.LuiServiceImpl">
 	  	<property name="luiDao" ref="luiDao"/>
-	  	<property name="typeTypeRelationDao" ref="typeTypeRelationDao"/>
 	  	<property name="luiLuiRelationDao" ref="luiLuiRelationDao" />
 	  	<property name="stateService" ref="stateService"/>
 	  	<property name="atpService" ref="atpServiceAuthorization"/>
