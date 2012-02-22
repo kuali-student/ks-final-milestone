@@ -195,4 +195,10 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     public String toString() {
     	return "LoInfo[id=" + id + "]";
     }
+
+	public LoInfo convertR2toR1(
+			org.kuali.student.r2.lum.lo.dto.LoInfo loToDelete) {
+		// TODO Carel 
+		return null;
+	}
 }
