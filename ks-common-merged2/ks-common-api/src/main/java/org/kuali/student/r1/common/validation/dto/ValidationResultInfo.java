@@ -16,6 +16,7 @@
 package org.kuali.student.r1.common.validation.dto;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -204,13 +205,21 @@ public class ValidationResultInfo implements Serializable {
 	}
 
 	public static List<org.kuali.student.r2.common.dto.ValidationResultInfo> convertValidationResultInfoToR2(List<ValidationResultInfo> validationResults) {
-		// TODO KSCM Gert
-		for (ValidationResultInfo validationResultInfo : validationResults) {
-			org.kuali.student.r2.common.dto.ValidationResultInfo tempR2ValidationResultInfo = new org.kuali.student.r2.common.dto.ValidationResultInfo();
-			tempR2ValidationResultInfo.setElement(validationResultInfo.getElement());
-			
-		}
-		return null;
+		// TODO KSCM-322
+	    
+	    org.kuali.student.r2.common.dto.ValidationResultInfo r2ValidationResultInfo =  new org.kuali.student.r2.common.dto.ValidationResultInfo(); //Create new type of R2
+	    
+	    List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResultInfoList = (List<org.kuali.student.r2.common.dto.ValidationResultInfo>) new org.kuali.student.r2.common.dto.ValidationResultInfo(); //Create new List of type R2
+	    
+	    for (ValidationResultInfo validationResultInfo : validationResults) //Loop list
+	    {
+	        r2ValidationResultInfo.setElement(validationResultInfo.getElement()); //Get Element from R1 assign to R2
+	        
+	        r2ValidationResultInfoList.add(r2ValidationResultInfo); //Add Element of Type R2 to List<> of type R2
+	    }
+	    
+	    return r2ValidationResultInfoList;
+	
 	}
 	
 }
