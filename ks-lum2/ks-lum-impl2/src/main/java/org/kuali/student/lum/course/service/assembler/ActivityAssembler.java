@@ -80,13 +80,13 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 		clu.setState(businessDTO.getState());
 		clu.setDefaultEnrollmentEstimate(businessDTO.getDefaultEnrollmentEstimate());
 
-		// TODO KSCM convert R2 to R1 clu.setStdDuration(businessDTO.getDuration());
-		// TODO KSCM clu.setIntensity(businessDTO.getContactHours());
-		// TODO KSCM clu.setMetaInfo(businessDTO.getMetaInfo());
-		// TODO KSCM clu.setAttributes(businessDTO.getAttributes());
+		// TODO KSCM-322 convert R2 to R1 clu.setStdDuration(businessDTO.getDuration());
+		// TODO KSCM-322 clu.setIntensity(businessDTO.getContactHours());
+		// TODO KSCM-322 clu.setMetaInfo(businessDTO.getMetaInfo());
+		// TODO KSCM-322 clu.setAttributes(businessDTO.getAttributes());
 				
 		//Add the Clu to the result 
-		// TODO KSCM result.setNodeData(clu);
+		// TODO KSCM-322 result.setNodeData(clu);
 
 		// Add refernce to Activity
 		result.setBusinessDTORef(businessDTO);
