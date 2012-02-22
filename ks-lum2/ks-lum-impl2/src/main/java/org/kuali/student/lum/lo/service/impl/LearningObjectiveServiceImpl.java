@@ -33,14 +33,15 @@ import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
+//TODO KSCM import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+//TODO KSCM import org.kuali.student.common.search.dto.SearchResult;
+//TODO KSCM import org.kuali.student.common.search.dto.SearchResultCell;
+//TODO KSCM import org.kuali.student.common.search.dto.SearchResultRow;
+//TODO KSCM import org.kuali.student.common.search.dto.SearchResultTypeInfo;
+//TODO KSCM import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.lum.lo.dao.LoDao;
@@ -58,7 +59,7 @@ import org.kuali.student.lum.lo.entity.LoLoRelation;
 import org.kuali.student.lum.lo.entity.LoLoRelationType;
 import org.kuali.student.lum.lo.entity.LoRepository;
 import org.kuali.student.lum.lo.entity.LoType;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 import org.springframework.transaction.annotation.Transactional;
 
 /*n
@@ -97,10 +98,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         this.validatorFactory = validatorFactory;
     }
 
-    /*
-     * (non-Javadoc)
-     * @see org.kuali.student.lum.lo.service.LearningObjectiveService#getLoRepositories()
-     */
+
 	@Override
     @Transactional(readOnly=true)
 	public List<LoRepositoryInfo> getLoRepositories( ContextInfo contextInfo)
