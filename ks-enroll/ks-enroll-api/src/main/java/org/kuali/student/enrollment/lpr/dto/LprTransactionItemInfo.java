@@ -16,7 +16,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LprTransactionItemInfo", propOrder = {"personId", "newLuiId", "existingLuiId", "resultOptionKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
+@XmlType(name = "LprTransactionItemInfo", propOrder = {"id","personId", "newLuiId", "existingLuiId", "resultOptionKeys", "requestOptions", "lprTransactionItemResult", "name", "descr", "typeKey",
         "stateKey", "meta", "attributes", "groupId", "_futureElements"})
 public class LprTransactionItemInfo extends IdEntityInfo implements LPRTransactionItem, Serializable {
 
