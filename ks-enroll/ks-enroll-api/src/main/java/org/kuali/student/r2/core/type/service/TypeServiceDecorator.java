@@ -41,38 +41,52 @@ public class TypeServiceDecorator implements TypeService {
         this.nextDecorator = nextDecorator;
     }
 
+    @Override
     public TypeInfo getType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getType(typeKey, contextInfo);
     }
 
+    @Override
     public List<TypeInfo> getTypesByKeys(List<String> typeKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getTypesByKeys(typeKeys, contextInfo);
     }
 
+    @Override
+    public List<String> getRefObjectUris(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getNextDecorator().getRefObjectUris(contextInfo);
+    }
+    
+    @Override
     public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getTypesByRefObjectUri(refObjectUri, contextInfo);
     }
 
+    @Override
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getAllowedTypesForType(ownerTypeKey, relatedRefObjectUri, contextInfo);
     }
 
+    @Override
     public List<ValidationResultInfo> validateType(String validationTypeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().validateType(validationTypeKey, typeInfo, contextInfo);
     }
 
+    @Override
     public TypeInfo createType(String typeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createType(typeKey, typeInfo, contextInfo);
     }
 
+    @Override
     public TypeInfo updateType(String typeKey, TypeInfo typeInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return getNextDecorator().updateType(typeKey, typeInfo, contextInfo);
     }
 
+    @Override
     public StatusInfo deleteType(String typeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteType(typeKey, contextInfo);
     }
 
+    @Override
     public TypeTypeRelationInfo getTypeTypeRelation(String typeTypeRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getTypeTypeRelation(typeTypeRelationId, contextInfo);
     }
@@ -81,22 +95,27 @@ public class TypeServiceDecorator implements TypeService {
         return getNextDecorator().getTypeTypeRelationsByIds(typeTypeRelationIds, contextInfo);
     }
 
+    @Override
     public List<TypeTypeRelationInfo> getTypeTypeRelationsByOwnerType(String ownerTypeKey, String typeTypeRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().getTypeTypeRelationsByOwnerType(ownerTypeKey, typeTypeRelationTypeKey, contextInfo);
     }
 
+    @Override
     public List<ValidationResultInfo> validateTypeTypeRelation(String validationTypeKey, String typeKey, String typePeerKey, String typeTypeRelationTypeKey, TypeTypeRelationInfo typeTypeRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().validateTypeTypeRelation(validationTypeKey, typeKey, typePeerKey, typeTypeRelationTypeKey, typeTypeRelationInfo, contextInfo);
     }
 
+    @Override
     public TypeTypeRelationInfo createTypeTypeRelation(String typeKey, String typePeerKey, String typeTypeRelationTypeKey, TypeTypeRelationInfo typeTypeRelationInfo, ContextInfo contextInfo) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return getNextDecorator().createTypeTypeRelation(typeKey, typePeerKey, typeTypeRelationTypeKey, typeTypeRelationInfo, contextInfo);
     }
 
+    @Override
     public TypeTypeRelationInfo updateTypeTypeRelation(String typeTypeRelationId, TypeTypeRelationInfo typeTypeRelationInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
         return getNextDecorator().updateTypeTypeRelation(typeTypeRelationId, typeTypeRelationInfo, contextInfo);
     }
 
+    @Override
     public StatusInfo deleteTypeTypeRelation(String typeTypeRelationId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteTypeTypeRelation(typeTypeRelationId, contextInfo);
     }

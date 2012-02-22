@@ -90,6 +90,28 @@ public interface TypeService {
     public List<TypeInfo> getTypesByKeys(@WebParam(name = "typeKeys") List<String> typeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Get a list of refObjectURI's that are known to this implementation of the service. 
+     * 
+     * A RefObjectURI is how objects are uniquely identified in Kuali STudent.
+     * A RefObjectURI is composed of two parts the name space of the service
+     * in which the object is defined and then the simple java name (no class path)
+     * of the object itself.
+     * 
+     * For example: http://student.kuali.org/wsdl/luService/CluInfo
+     * 
+     * @param contextInfo Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a list of string refObjectURIs
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException contextInfo is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getRefObjectUris(@WebParam(name = "contextInfo") ContextInfo contextInfo) 
+            throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+        /**
      * This method returns a list of TypeInfo that belong to a
      * RefObjectUri. For e.g all types for CluInfo
      * 

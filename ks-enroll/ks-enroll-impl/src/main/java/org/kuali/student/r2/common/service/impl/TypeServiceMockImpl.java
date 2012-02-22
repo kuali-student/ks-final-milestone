@@ -20,21 +20,25 @@ import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class TypeServiceMockImpl implements TypeService{
+public class TypeServiceMockImpl implements TypeService {
 
     private Map<String, TypeInfo> allTypes = new HashMap<String, TypeInfo>();
     private Map<String, Map<String, TypeTypeRelationInfo>> relationOwners = new HashMap<String, Map<String, TypeTypeRelationInfo>>();
     private Map<String, Map<String, TypeInfo>> allowedTypes = new HashMap<String, Map<String, TypeInfo>>();
-    {init();}
+
+    {
+        init();
+    }
 
     @Override
     public TypeInfo getType(@WebParam(name = "typeKey") String typeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         TypeInfo type = getType(typeKey);
-        if (type == null ) {
+        if (type == null) {
             throw new DoesNotExistException(typeKey);
         }
         return type;
@@ -43,6 +47,17 @@ public class TypeServiceMockImpl implements TypeService{
     @Override
     public List<TypeInfo> getTypesByKeys(@WebParam(name = "typeKeys") List<String> typeKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         throw new OperationFailedException("Method not implemented."); // TODO implement
+    }
+
+    @Override
+    public List<String> getRefObjectUris(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        Set<String> set = new LinkedHashSet<String>();
+        for (TypeInfo info : allTypes.values()) {
+            if (info.getRefObjectUri() != null) {
+                set.add(info.getRefObjectUri());
+            }
+        }
+        return new ArrayList(set);
     }
 
     @Override
@@ -134,35 +149,34 @@ public class TypeServiceMockImpl implements TypeService{
         throw new OperationFailedException("Method not implemented."); // TODO implement
     }
 
-
     private void init() {
         List<String[]> typeArrays = new ArrayList<String[]>();
-        typeArrays.add(new String[] {"kuali.atp.type.AcademicCalendar", "Academic Calendar", "Academic Calendar", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.HolidayCalendar", "Holiday Calendar", "Holiday Calendar", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Fall", "Fall", "Fall Semester", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Spring", "Spring", "Spring Semester", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.FallSpring", "Fall-Spring", "Fall & Spring Semesters", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.AY", "AY", "Full Academic Year", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.FY", "FY", "Fiscal Year", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Holiday", "Holiday", "Holiday", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.SpringBreak", "SpringBreak", "Spring Break", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Thanksgiving", "Thanksgiving", "Thanksgiving", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.HalfFall1", "Fall Half-Semester 1", "Fall Half-Semester 1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.HalfFall2", "Fall Half-Semester 2", "Fall Half-Semester 2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.HalfSpring1", "Spring Half-Semester 1", "Spring Half-Semester 1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.HalfSpring2", "Spring Half-Semester 1", "Spring Half-Semester 2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Mini-mester1A", "Mini Semester 1A", "Mini Semester 1A", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Mini-mester1B", "Mini Semester 1B", "Mini Semester 1B", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Mini-mester2C", "Mini Semester 2C", "Mini Semester 2C", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Mini-mester2D", "Mini Semester 2D", "Mini Semester 2D", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Session1", "Session 1", "Session 1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Session2", "Session 2", "Session 2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.SessionG1", "Session G1", "Session G1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.SessionG2", "Session G2", "Session G2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Summer", "Summer", "Summer Semester", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.SummerEve", "Summer Eve", "Summer Eve", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Winter", "Winter", "Winter", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
-        typeArrays.add(new String[] {"kuali.atp.type.Adhoc", "Ad hoc", "Ad hoc", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.AcademicCalendar", "Academic Calendar", "Academic Calendar", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.HolidayCalendar", "Holiday Calendar", "Holiday Calendar", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Fall", "Fall", "Fall Semester", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Spring", "Spring", "Spring Semester", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.FallSpring", "Fall-Spring", "Fall & Spring Semesters", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.AY", "AY", "Full Academic Year", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.FY", "FY", "Fiscal Year", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Holiday", "Holiday", "Holiday", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.SpringBreak", "SpringBreak", "Spring Break", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Thanksgiving", "Thanksgiving", "Thanksgiving", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.HalfFall1", "Fall Half-Semester 1", "Fall Half-Semester 1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.HalfFall2", "Fall Half-Semester 2", "Fall Half-Semester 2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.HalfSpring1", "Spring Half-Semester 1", "Spring Half-Semester 1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.HalfSpring2", "Spring Half-Semester 1", "Spring Half-Semester 2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Mini-mester1A", "Mini Semester 1A", "Mini Semester 1A", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Mini-mester1B", "Mini Semester 1B", "Mini Semester 1B", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Mini-mester2C", "Mini Semester 2C", "Mini Semester 2C", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Mini-mester2D", "Mini Semester 2D", "Mini Semester 2D", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Session1", "Session 1", "Session 1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Session2", "Session 2", "Session 2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.SessionG1", "Session G1", "Session G1", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.SessionG2", "Session G2", "Session G2", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Summer", "Summer", "Summer Semester", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.SummerEve", "Summer Eve", "Summer Eve", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Winter", "Winter", "Winter", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
+        typeArrays.add(new String[]{"kuali.atp.type.Adhoc", "Ad hoc", "Ad hoc", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
         for (String[] typeArray : typeArrays) {
             createTypeInfo(typeArray[0], typeArray[1]);
         }
@@ -197,24 +211,24 @@ public class TypeServiceMockImpl implements TypeService{
 
         // Allowed type relations
         List<String[]> allowedArrays = new ArrayList<String[]>();
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.1", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.FallSpring", "1", "AcademicCalendar can contain FallSpring"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.2", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Fall", "2", "AcademicCalendar can contain Fall"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.3", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall1", "1", "Fall can contain HalfFall1"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.4", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall2", "2", "Fall can contain HalfFall2"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.5", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Winter", "3", "AcademicCalendar can contain Winter"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.6", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Spring", "4", "AcademicCalendar can contain Spring"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.7", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring1", "1", "Spring can contain HalfSpring1"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.8", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.SpringBreak", "2", "Spring can contain SpringBreak"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.9", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring2", "3", "Spring can contain HalfSpring2"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.10", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Session1", "5", "AcademicCalendar can contain Session1"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.11", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1A", "1", "Session1 can contain Mini-mester1A"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.12", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1B", "2", "Session1 can contain Mini-mester1B"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.13", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.type.Session2", "2", "Summer can contain Session2"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.14", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2C", "1", "Session2 can contain Mini-mester2C"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.15", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2D", "2", "Session2 can contain Mini-mester2D"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.16", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.SummerEve", "6", "AcademicCalendar can contain SummerEve"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.17", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG1", "1", "SummerEve can contain SessionG1"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.18", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG2", "2", "SummerEve can contain SessionG2"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.1", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.FallSpring", "1", "AcademicCalendar can contain FallSpring"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.2", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Fall", "2", "AcademicCalendar can contain Fall"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.3", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall1", "1", "Fall can contain HalfFall1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.4", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall2", "2", "Fall can contain HalfFall2"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.5", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Winter", "3", "AcademicCalendar can contain Winter"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.6", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Spring", "4", "AcademicCalendar can contain Spring"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.7", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring1", "1", "Spring can contain HalfSpring1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.8", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.SpringBreak", "2", "Spring can contain SpringBreak"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.9", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring2", "3", "Spring can contain HalfSpring2"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.10", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Session1", "5", "AcademicCalendar can contain Session1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.11", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1A", "1", "Session1 can contain Mini-mester1A"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.12", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1B", "2", "Session1 can contain Mini-mester1B"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.13", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.type.Session2", "2", "Summer can contain Session2"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.14", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2C", "1", "Session2 can contain Mini-mester2C"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.15", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2D", "2", "Session2 can contain Mini-mester2D"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.16", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.SummerEve", "6", "AcademicCalendar can contain SummerEve"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.17", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG1", "1", "SummerEve can contain SessionG1"});
+        allowedArrays.add(new String[]{"kuali.atp.type.type.relation.allowed.18", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG2", "2", "SummerEve can contain SessionG2"});
         for (String[] allowedArray : allowedArrays) {
             associate(allowedArray[0], allowedArray[1], allowedArray[2], allowedArray[3], allowedArray[4], allowedArray[5]);
         }
@@ -232,6 +246,7 @@ public class TypeServiceMockImpl implements TypeService{
     private TypeTypeRelationInfo createTypeTypeRelationInfo(TypeInfo ownerType, TypeInfo relatedType) {
         return createTypeTypeRelationInfo(ownerType.getKey(), relatedType.getKey());
     }
+
     private TypeTypeRelationInfo createTypeTypeRelationInfo(String ownerTypeKey, String relatedTypeKey) {
         TypeTypeRelationInfo relation = new TypeTypeRelationInfo();
         relation.setOwnerTypeKey(ownerTypeKey);

@@ -193,6 +193,14 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
+    public List<String> getRefObjectUris(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+//        TODO: waiting for Sambit to implemnet
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    
+    @Override
     public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         List<TypeInfo>  typDTOs =  new ArrayList<TypeInfo>();
