@@ -38,6 +38,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r1.common.entity.Amount;
 import org.kuali.student.r1.common.entity.TimeAmount;
 import org.kuali.student.r1.common.entity.Version;
@@ -57,6 +58,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;
 import org.kuali.student.r1.common.search.dto.SearchResultRow;
@@ -70,35 +72,35 @@ import org.kuali.student.r1.common.validator.Validator;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
-import org.kuali.student.lum.lu.dto.AccreditationInfo;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluFeeRecordInfo;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.CluPublicationInfo;
-import org.kuali.student.lum.lu.dto.CluResultInfo;
-import org.kuali.student.lum.lu.dto.CluResultTypeInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.CluSetTreeViewInfo;
-import org.kuali.student.lum.lu.dto.CluSetTypeInfo;
-import org.kuali.student.lum.lu.dto.DeliveryMethodTypeInfo;
-import org.kuali.student.lum.lu.dto.FieldInfo;
-import org.kuali.student.lum.lu.dto.InstructionalFormatTypeInfo;
-import org.kuali.student.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.lum.lu.dto.LuCodeTypeInfo;
-import org.kuali.student.lum.lu.dto.LuLuRelationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuPublicationTypeInfo;
-import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.dto.LuiInfo;
-import org.kuali.student.lum.lu.dto.LuiLuiRelationInfo;
-import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.dto.ResultOptionInfo;
-import org.kuali.student.lum.lu.dto.ResultUsageTypeInfo;
+import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
+import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluLoRelationTypeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+import org.kuali.student.r1.lum.lu.dto.CluResultTypeInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetTreeViewInfo;
+import org.kuali.student.r1.lum.lu.dto.CluSetTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.DeliveryMethodTypeInfo;
+import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+import org.kuali.student.r1.lum.lu.dto.InstructionalFormatTypeInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuCodeTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuPublicationTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.ResultOptionInfo;
+import org.kuali.student.r1.lum.lu.dto.ResultUsageTypeInfo;
 import org.kuali.student.lum.lu.entity.Clu;
 import org.kuali.student.lum.lu.entity.CluAccounting;
 import org.kuali.student.lum.lu.entity.CluAccountingAttribute;
@@ -144,14 +146,13 @@ import org.kuali.student.lum.lu.entity.LuiLuiRelationAttribute;
 import org.kuali.student.lum.lu.entity.MembershipQuery;
 import org.kuali.student.lum.lu.entity.ResultOption;
 import org.kuali.student.lum.lu.entity.ResultUsageType;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r1.lum.lu.service.LuServiceConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 // TODO KSCM-249
-public class LuServiceImpl implements LuService {
+public class LuServiceImpl implements CluService {
 
 
     private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
@@ -3966,16 +3967,213 @@ public class LuServiceImpl implements LuService {
 		return versionInfos;
     }
 
-	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public void setSearchDispatcher(@WebParam(name = "searchDispatcher") SearchDispatcher searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
 	}
 
-	@Override
-	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public LuiInfo updateLui(@WebParam(name = "luiId") String luiId,@WebParam(name = "luiInfo")  LuiInfo luiInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<TypeInfo> getCluCluRelationTypes(@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<CluInfo> getClusByIds(@WebParam(name = "cluIds") List<String> cluIds,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<String> getAllowedCluCluRelationTypesByClu(@WebParam(name = "cluId") String cluId,
+			@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<CluInfo> getClusByRelatedCluAndRelationType(
+			@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCLuRelationTypeKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<String> getCluIdsByRelatedCluAndRelationType(
+			@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<CluInfo> getRelatedClusByCluAndRelationType(@WebParam(name = "cluId") String cluId,
+			@WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<String> getRelatedCluIdsByCluAndRelationType(@WebParam(name = "cluId") String cluId,
+			@WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<CluPublicationInfo> getCluPublicationsByClu(@WebParam(name = "cluId") String cluId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<String> getResourceRequirementsForClu(@WebParam(name = "cluId") String cluId,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public CluSetInfo getCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<CluSetInfo> getCluSetsByIds(@WebParam(name = "cluSetIds") List<String> cluSetIds,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<ValidationResultInfo> validateCluCluRelation(
+			@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "cluId") String cluId, 
+			@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "cluCluRelationTypeKey") String cluCluRelationTypeKey,
+			@WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<ValidationResultInfo> validateCluPublication(
+			@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "cluId") String cluId,
+			@WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo,
+			@WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<ValidationResultInfo> validateCluResult(
+			@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "cluId") String cluId, 
+			@WebParam(name = "cluResultTypeKey") String cluResultTypeKey, @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo, 
+			@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<ValidationResultInfo> validateCluLoRelation(
+			@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "cluId") String cluId, 
+			@WebParam(name = "loId") String loId, @WebParam(name = "cluLoRelationTypeKey") String cluLoRelationTypeKey, 
+			@WebParam(name = "cluLoRelationInfo") CluLoRelationInfo cluLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    @Deprecated
+    @Override
+    @Transactional(readOnly=true)
+	public List<ValidationResultInfo> validateCluSet(
+			@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "cluSetTypeKey") String cluSetTypeKey,
+			@WebParam(name = "cluSetInfo") CluSetInfo cluSetInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
