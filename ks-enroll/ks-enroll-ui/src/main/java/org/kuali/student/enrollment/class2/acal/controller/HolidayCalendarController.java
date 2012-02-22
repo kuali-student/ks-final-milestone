@@ -12,7 +12,6 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  *
- * Created by Li Pan on 1/18/12
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
@@ -211,6 +210,7 @@ public class HolidayCalendarController extends UifControllerBase {
             createHolidayCalendar(hcForm);
         }
 
+        hcForm.setAdminOrgName(getAdminOrgNameById(hc.getAdminOrgId()));
         GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name","info.enroll.holidaycalendar.saved", hc.getName());
         return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
     }
