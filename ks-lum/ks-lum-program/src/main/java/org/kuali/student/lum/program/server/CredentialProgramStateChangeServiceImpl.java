@@ -5,6 +5,7 @@ import java.util.List;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
@@ -65,7 +66,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
             throw new InvalidParameterException("new state cannot be null");
 
         // The version selected in the UI
-        CredentialProgramInfo selectedVersion = programService.getCredentialProgram(credentialProgramId);
+        CredentialProgramInfo selectedVersion = programService.getCredentialProgram(credentialProgramId,ContextUtils.getContextInfo());
 
         // If we are activating this version we need to mark the previous version superseded,
         // update the previous version end terms, and make the selected version current.
@@ -112,19 +113,19 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 		// higher than previous active program
 
 		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-				selectedVersion.getVersionInfo().getVersionIndId());
+				selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
-			startSeq = currentVersion.getVersionInfo().getSequenceNumber() + 1;
+			startSeq = currentVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
 			boolean isVersionNewerThanCurrentVersion = versionInfo.getSequenceNumber() >= startSeq;
-			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo().getSequenceNumber());  
+			boolean isVersionSelectedVersion = versionInfo.getSequenceNumber().equals(selectedVersion.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber());  
 			boolean updateState = isVersionNewerThanCurrentVersion && !isVersionSelectedVersion;
 			if (updateState) {
-				CredentialProgramInfo otherProgram = programService.getCredentialProgram(versionInfo.getId());
+				CredentialProgramInfo otherProgram = programService.getCredentialProgram(versionInfo.getId(),ContextUtils.getContextInfo());
 				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
 					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
 			        updateCredentialProgramInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED);
@@ -142,15 +143,15 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 	protected CredentialProgramInfo getCurrentVersion(CredentialProgramInfo credentialProgramInfo)
 			throws Exception {
 		// Get version independent id of program
-		String verIndId = credentialProgramInfo.getVersionInfo().getVersionIndId();
+		String verIndId = credentialProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId();
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = programService.getCurrentVersion(
-				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId);
+				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
-		CredentialProgramInfo currentVersion = programService.getCredentialProgram(curVerId);
+		CredentialProgramInfo currentVersion = programService.getCredentialProgram(curVerId,ContextUtils.getContextInfo());
 
 		return currentVersion;
 	}
@@ -186,7 +187,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
         
         // Update program
         credentialProgramInfo.setState(newState);
-        programService.updateCredentialProgram(credentialProgramInfo);
+        programService.updateCredentialProgram(credentialProgramInfo,ContextUtils.getContextInfo());
     }
 
     /**
@@ -198,11 +199,11 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
 
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, credentialProgramInfo.getVersionInfo().getVersionIndId());
+        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, credentialProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(credentialProgramInfo.getVersionInfo().getSequenceNumber())) {
-            programService.setCurrentCredentialProgramVersion(credentialProgramInfo.getId(), null);
+        if (!currentVersion.getSequenceNumber().equals(credentialProgramInfo.getVersionInfo(ContextUtils.getContextInfo()).getSequenceNumber())) {
+            programService.setCurrentCredentialProgramVersion(credentialProgramInfo.getId(), null,ContextUtils.getContextInfo());
         }
     }
 
@@ -220,7 +221,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
         for (String programRequirementId : programRequirementIds) {
 
             // Get program requirement from the program service
-            ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null);
+            ProgramRequirementInfo programRequirementInfo = programService.getProgramRequirement(programRequirementId, null, null,ContextUtils.getContextInfo());
 
             // Look in the requirement for the statement tree
             StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
@@ -232,7 +233,7 @@ public class CredentialProgramStateChangeServiceImpl implements StateChangeServi
             programRequirementInfo.setState(newState);
 
             // The write the requirement back to the program service
-            programService.updateProgramRequirement(programRequirementInfo);
+            programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
 
         }
     }
