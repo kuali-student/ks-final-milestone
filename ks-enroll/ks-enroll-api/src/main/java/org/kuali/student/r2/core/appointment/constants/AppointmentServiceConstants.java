@@ -37,4 +37,24 @@ public class AppointmentServiceConstants {
     public static final String REF_OBJECT_URI_APPOINTMENT_SLOT = NAMESPACE + "/" + AppointmentSlotInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_APPOINTMENT_WINDOW = NAMESPACE + "/" + AppointmentWindowInfo.class.getSimpleName();
 
+    public static final String APPOINTMENT_WINDOW_TYPE_SLOTTED_KEY = "kuali.appointment.window.type.slotted";
+    public static final String APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY = "kuali.appointment.window.type.one.slot";
+
+    public static final String APPOINTMENT_SLOT_TYPE_CLOSED_KEY = "kuali.appointment.slot.type.closed";
+    public static final String APPOINTMENT_SLOT_TYPE_OPEN_KEY = "kuali.appointment.slot.type.open";
+
+    public static final String APPOINTMENT_TYPE_REGISTRATION = "kuali.appointment.type.registration";
+    public static final String APPOINTMENT_TYPE_ADVISING = "kuali.appointment.type.advising";
+
+    public static final String APPOINTMENT_WINDOW_LIFECYCLE = "kuali.appointment.window.lifecycle";
+    public static final String APPOINTMENT_WINDOW_STATE_ACTIVE_KEY = "kuali.appointment.window.state.active";
+    public static final String[] APPOINTMENT_WINDOW_LIFECYCLE_STATES = {APPOINTMENT_WINDOW_STATE_ACTIVE_KEY};
+
+    public static final String APPOINTMENT_SLOTS_LIFECYCLE = "kuali.appointment.slots.lifecycle";
+    public static final String APPOINTMENT_SLOTS_STATE_ACTIVE_KEY = "kuali.appointment.slots.state.active";
+    public static final String[] APPOINTMENT_SLOTS_LIFECYCLE_STATES = {APPOINTMENT_SLOTS_STATE_ACTIVE_KEY};
+
+    public static final String APPOINTMENT_LIFECYCLE = "kuali.appointment.lifecycle";
+    public static final String APPOINTMENT_STATE_ACTIVE_KEY = "kuali.appointment.state.active";
+    public static final String[] APPOINTMENT_LIFECYCLE_STATES = {APPOINTMENT_STATE_ACTIVE_KEY};
 }
