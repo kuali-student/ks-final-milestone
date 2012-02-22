@@ -204,7 +204,12 @@ public class ValidationResultInfo implements Serializable {
 	}
 
 	public static List<org.kuali.student.r2.common.dto.ValidationResultInfo> convertValidationResultInfoToR2(List<ValidationResultInfo> validationResults) {
-		// TODO KSCM
+		// TODO KSCM Gert
+		for (ValidationResultInfo validationResultInfo : validationResults) {
+			org.kuali.student.r2.common.dto.ValidationResultInfo tempR2ValidationResultInfo = new org.kuali.student.r2.common.dto.ValidationResultInfo();
+			tempR2ValidationResultInfo.setElement(validationResultInfo.getElement());
+			
+		}
 		return null;
 	}
 	
