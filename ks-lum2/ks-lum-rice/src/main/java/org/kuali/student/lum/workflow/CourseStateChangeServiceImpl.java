@@ -3,22 +3,25 @@ package org.kuali.student.lum.workflow;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.CircularReferenceException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+
+import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
+
 import org.springframework.transaction.annotation.Transactional;
 
 // TODO KSCM-260
@@ -117,8 +120,9 @@ public class CourseStateChangeServiceImpl {
 		String verIndId = course.getVersionInfo().getVersionIndId();
 
 		// Get id of current version of course given the versionindependen id
-		VersionDisplayInfo curVerDisplayInfo = courseService.getCurrentVersion(
-				CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
+		VersionDisplayInfo curVerDisplayInfo = null; 
+		// TODO KSCM		courseService.getCurrentVersion(
+		// TODO KSCM		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId,contextInfo);
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -194,9 +198,10 @@ public class CourseStateChangeServiceImpl {
 		if (thisVerPrevState.equals(DtoConstants.STATE_APPROVED)
 				&& thisVerNewState.equals(DtoConstants.STATE_ACTIVE)) {
 
-			List<VersionDisplayInfo> versions = courseService.getVersions(
-					CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-							.getVersionInfo().getVersionIndId(),contextInfo);
+			List<VersionDisplayInfo> versions = null;
+			// TODO KSCM courseService.getVersions(
+			// TODO KSCM 		CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
+			// TODO KSCM 				.getVersionInfo().getVersionIndId(),contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {

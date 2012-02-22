@@ -31,14 +31,14 @@ import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.kns.kim.role.RoleTypeServiceBase;
 import org.kuali.rice.core.web.format.BooleanFormatter;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 /**
  * A Role Type Service that will enable an organization qualifier and parsing of the Organization Hierarchy
@@ -111,7 +111,8 @@ public class OrganizationHierarchyRoleTypeService extends RoleTypeServiceBase {
         List<Map<String,String>> returnSets = new ArrayList<Map<String,String>>();
         List<String> ids = getOrganizationService().getAllAncestors(inputOrgId, orgHierarchy, contextInfo);
         if (ids.size() > 0) {
-            List<OrgInfo> orgs = getOrganizationService().getOrganizationsByIdList(ids, contextInfo);
+            List<OrgInfo> orgs = null;
+            // TODO KSCM orgs = getOrganizationService().getOrganizationsByIdList(ids, contextInfo);
             for (OrgInfo orgInfo : orgs) {
                 Map<String, String> attrs = new LinkedHashMap<String,String>();
                 attrs.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());

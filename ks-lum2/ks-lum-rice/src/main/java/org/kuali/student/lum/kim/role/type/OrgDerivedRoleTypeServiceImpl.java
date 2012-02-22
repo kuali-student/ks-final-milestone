@@ -21,9 +21,9 @@ import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.core.organization.dto.OrgPersonRelationInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import javax.xml.namespace.QName;
 import java.util.*;
@@ -75,7 +75,8 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			//If the includedOrgPersonRelationType is set, restrict members to that relationship type
 			if(includedOrgPersonRelationTypes!=null){
 				for(String orgPersonRelationType:includedOrgPersonRelationTypes){
-					List<String> principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType, contextInfo);
+					List<String> principalIds = null;
+					// TODO KSCM principalIds = orgService.getPersonIdsForOrgByRelationType(orgId, orgPersonRelationType, contextInfo);
 					for(String principalId:principalIds){
 						RoleMembership member = RoleMembership.Builder.create(null/*roleId*/, null, principalId, KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, attributes).build();
 						members.add(member);
@@ -85,7 +86,8 @@ public class OrgDerivedRoleTypeServiceImpl extends DerivedRoleTypeServiceBase {
 			}else{
 			    //getCurrent Date
 			    Date now = new Date();
-				List<OrgPersonRelationInfo> relations = orgService.getAllOrgPersonRelationsByOrg(orgId, contextInfo);
+				List<OrgPersonRelationInfo> relations = null;
+				// TODO KSCM relations = orgService.getAllOrgPersonRelationsByOrg(orgId, contextInfo);
 				for(OrgPersonRelationInfo relation:relations){
 					if(excludedOrgPersonRelationTypes==null||!excludedOrgPersonRelationTypes.contains(relation.getType())){
 					    //Add role membership only for memberships that are valid meaning expiration date is greater than or equal to current date.

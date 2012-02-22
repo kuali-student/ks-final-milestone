@@ -22,9 +22,9 @@ import org.kuali.rice.kew.api.extension.ExtensionDefinition;
 import org.kuali.rice.kew.docsearch.SearchableAttributeValue;
 import org.kuali.rice.kew.doctype.service.impl.DocumentTypeServiceImpl;
 import org.kuali.rice.krad.workflow.attribute.KualiXmlSearchableAttributeImpl;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 
 import javax.xml.namespace.QName;
 import java.util.List;
@@ -48,29 +48,30 @@ public class OrgSearchAttribute extends KualiXmlSearchableAttributeImpl {
 		for (DocumentAttribute value : attributeValues) {
 			String orgId = (String)value.getValue();
 			if (orgId != null) {
-				try {
+//				try {
 					if (orgService == null) {
 						orgService = (OrganizationService) GlobalResourceLoader.getService(new QName("http://student.kuali.org/wsdl/organization","OrganizationService"));
 					}
-					OrgInfo orgInfo = orgService.getOrganization(orgId, null);	// TODO KSCM-267
+					OrgInfo orgInfo = null;
+					// TODO KSCM orgInfo = orgService.getOrganization(orgId, null);	// TODO KSCM-267
             //        TODO: RICE-M7 UPGRADE I think this is correct but I'm not sure
 					((SearchableAttributeValue)value).setupAttributeValue(orgInfo.getShortName());
-				} catch (DoesNotExistException e) {
-					LOG.error(e);
-					throw new RuntimeException(e);
-				} catch (InvalidParameterException e) {
-					LOG.error(e);
-					throw new RuntimeException(e);
-				} catch (MissingParameterException e) {
-					LOG.error(e);
-					throw new RuntimeException(e);
-				} catch (OperationFailedException e) {
-					LOG.error(e);
-					throw new RuntimeException(e);
-				} catch (PermissionDeniedException e) {
-					LOG.error(e);
-					throw new RuntimeException(e);
-				}
+//				} catch (DoesNotExistException e) {
+//					LOG.error(e);
+//					throw new RuntimeException(e);
+//				} catch (InvalidParameterException e) {
+//					LOG.error(e);
+//					throw new RuntimeException(e);
+//				} catch (MissingParameterException e) {
+//					LOG.error(e);
+//					throw new RuntimeException(e);
+//				} catch (OperationFailedException e) {
+//					LOG.error(e);
+//					throw new RuntimeException(e);
+//				} catch (PermissionDeniedException e) {
+//					LOG.error(e);
+//					throw new RuntimeException(e);
+//				}
 			}
 		}
 		return attributeValues;

@@ -17,7 +17,7 @@ import javax.xml.xpath.XPathConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -74,7 +74,8 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
                 Node organizationElement = organizationElements.item(i);
                 orgId = "";
                 orgId = organizationElement.getTextContent();
-                OrgInfo orgInfo = getOrganizationService().getOrganization(orgId, contextInfo);
+                OrgInfo orgInfo = null;
+                // TODO KSCM orgInfo = getOrganizationService().getOrganization(orgId, contextInfo);
                 Map<String,String> attrSet = new LinkedHashMap<String,String>();
                 attrSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
                 attributeSets.add(attrSet);

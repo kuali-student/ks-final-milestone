@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 public class AllOrgsValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
@@ -33,24 +33,25 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-            for (SearchResultRow result : getOrganizationService().search(searchRequest, null).getRows()) {  // TODO KSCM-267
-                String orgId = "";
-                String orgShortName = "";
-                String orgOptionalLongName = "";
-                String orgType = "";
-                for (SearchResultCell resultCell : result.getCells()) {
-                    if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
-                        orgId = resultCell.getValue();
-                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
-                        orgShortName = resultCell.getValue();
-                    } else if ("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())) {
-                    	orgOptionalLongName = resultCell.getValue();
-                    } else if ("org.resultColumn.orgType".equals(resultCell.getKey())) {
-                    	orgType = resultCell.getValue();
-                    }
-                }
-                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
-            }
+        	// TODO KSCM 
+//            for (SearchResultRow result : getOrganizationService().search(searchRequest, null).getRows()) {  // TODO KSCM-267
+//                String orgId = "";
+//                String orgShortName = "";
+//                String orgOptionalLongName = "";
+//                String orgType = "";
+//                for (SearchResultCell resultCell : result.getCells()) {
+//                    if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
+//                        orgId = resultCell.getValue();
+//                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
+//                        orgShortName = resultCell.getValue();
+//                    } else if ("org.resultColumn.orgOptionalLongName".equals(resultCell.getKey())) {
+//                    	orgOptionalLongName = resultCell.getValue();
+//                    } else if ("org.resultColumn.orgType".equals(resultCell.getKey())) {
+//                    	orgType = resultCell.getValue();
+//                    }
+//                }
+//                departments.add(buildKeyLabelPair(orgId, orgShortName, orgOptionalLongName, orgType));
+//            }
 
             return departments;
         } catch (Exception e) {

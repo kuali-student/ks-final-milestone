@@ -1,17 +1,19 @@
 package org.kuali.student.lum.workflow;
 
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
+
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.service.ProgramService;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -140,10 +142,11 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
-        VersionDisplayInfo currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(), contextInfo);
+        VersionDisplayInfo currentVersion = null;
+        // TODO KSCM currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersion().getVersionIndId(), contextInfo);
 
         // If this is not the current version, then make it current
-        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
+        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersion().getSequenceNumber())) {
             programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), currentVersion.getCurrentVersionStart(), contextInfo);
         }
     }
@@ -173,17 +176,19 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 		// We should only need to evaluated versions with sequence number
 		// higher than previous active program
 
-		List<VersionDisplayInfo> versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
-				selectedVersion.getVersionInfo().getVersionIndId(), contextInfo);
+		List<VersionDisplayInfo> versions = null;
+		// TODO KSCM versions = programService.getVersions(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, 
+		// TODO KSCM 		selectedVersion.getVersion().getVersionIndId(), contextInfo);
 		Long startSeq = new Long(1);
 
 		if (!isSelectedVersionCurrent) {
-			startSeq = currentVersion.getVersionInfo().getSequenceNumber() + 1;
+			startSeq = currentVersion.getVersion().getSequenceNumber() + 1;
 		}
 
 		for (VersionDisplayInfo versionInfo : versions) {
-			if (versionInfo.getSequenceNumber() >= startSeq  && versionInfo.getSequenceNumber() != selectedVersion.getVersionInfo().getSequenceNumber()) {
-				MajorDisciplineInfo otherProgram = programService.getMajorDiscipline(versionInfo.getId(), contextInfo);
+			if (versionInfo.getSequenceNumber() >= startSeq  && versionInfo.getSequenceNumber() != selectedVersion.getVersion().getSequenceNumber()) {
+				MajorDisciplineInfo otherProgram = null; 
+				// TODO KSCM		otherProgram = programService.getMajorDiscipline(versionInfo.getId(), contextInfo);
 				if (otherProgram.getState().equals(DtoConstants.STATE_APPROVED) ||
 					otherProgram.getState().equals(DtoConstants.STATE_ACTIVE)){
 			        updateMajorDisciplineInfoState(otherProgram, DtoConstants.STATE_SUPERSEDED, contextInfo);
@@ -202,12 +207,14 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 	protected MajorDisciplineInfo getCurrentVersion(MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
 			throws Exception {
 		// Get version independent id of program
-		String verIndId = majorDisciplineInfo.getVersionInfo().getVersionIndId();
+		String verIndId = majorDisciplineInfo.getVersion().getVersionIndId();
 
 		// Get id of current version of program given the version independent id
-		VersionDisplayInfo curVerDisplayInfo = programService.getCurrentVersion(
-				ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId, contextInfo);
-		String curVerId = curVerDisplayInfo.getId();
+		VersionDisplayInfo curVerDisplayInfo = null; 
+		// TODO KSCM		curVerDisplayInfo =		programService.getCurrentVersion(
+		// TODO KSCM		ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId, contextInfo);
+		String curVerId = null;
+		// TODO KSCM		curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
 		MajorDisciplineInfo currentVersion = programService.getMajorDiscipline(curVerId, contextInfo);
@@ -232,8 +239,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
     private void setEndTerms(MajorDisciplineInfo majorDisciplineInfo, String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, DoesNotExistException, PermissionDeniedException {
 
     	//Set the end terms on the major discipline
-    	majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
-        majorDisciplineInfo.setEndTermId(endEnrollTerm);
+    	//TODO KSCM majorDisciplineInfo.setEndProgramEntryTermId(endEntryTerm);
+    	//TODO KSCM majorDisciplineInfo.setEndTermId(endEnrollTerm);
         //TODO KSCM
         //majorDisciplineInfo.getAttributes().put("endInstAdmitTerm", endInstAdmitTerm);
 

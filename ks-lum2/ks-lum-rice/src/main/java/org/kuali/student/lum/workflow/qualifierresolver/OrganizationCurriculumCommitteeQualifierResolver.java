@@ -11,10 +11,10 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
 
 /**
@@ -85,12 +85,14 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
     }
 
     protected OrgInfo getOrganization(String orgId) throws Exception {
-        try {
-            return getOrganizationService().getOrganization(orgId, null);	// TODO KSCM-267
-        } catch (DoesNotExistException e) {
-            LOG.error("No valid organization found for id '" + orgId + "'", e);
-            throw e;
-        }
+//        try {
+        	OrgInfo orgInfo = null;
+        	// TODO KSCM orgInfo = getOrganizationService().getOrganization(orgId, null);	// TODO KSCM-267
+            return orgInfo;
+//        } catch (DoesNotExistException e) {
+//            LOG.error("No valid organization found for id '" + orgId + "'", e);
+//            throw e;
+//        }
     }
 
 }

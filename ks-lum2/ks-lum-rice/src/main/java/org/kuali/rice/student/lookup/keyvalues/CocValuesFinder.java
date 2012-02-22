@@ -21,10 +21,10 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 public abstract class CocValuesFinder extends StudentKeyValuesBase {
 
@@ -45,7 +45,8 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 		searchRequest.addParam("org.queryParam.relatedOrgType","kuali.org.COC");
 
 		try {
-			SearchResult results = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
+			SearchResult results = null;
+			// TODO KSCM results = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
