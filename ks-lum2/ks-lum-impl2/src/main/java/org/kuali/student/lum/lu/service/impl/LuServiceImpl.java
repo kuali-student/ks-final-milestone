@@ -34,29 +34,29 @@ import javax.persistence.NoResultException;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.CurrencyAmountInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r2.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.common.entity.Amount;
 import org.kuali.student.common.entity.TimeAmount;
 import org.kuali.student.common.entity.Version;
 import org.kuali.student.common.entity.VersionEntity;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.CircularRelationshipException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DependentObjectsExistException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.IllegalVersionSequencingException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.UnsupportedActionException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
@@ -2140,7 +2140,7 @@ public class LuServiceImpl implements LuService {
 		if(query == null) {
 			return null;
 		}
-		SearchRequest sr = new SearchRequest();
+		SearchRequestInfo sr = new SearchRequestInfo();
 		sr.setSearchKey(query.getSearchTypeKey());
 		sr.setParams(query.getQueryParamValueList());
 
@@ -2696,7 +2696,7 @@ public class LuServiceImpl implements LuService {
 	}
 
     // TODO KSCM @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+    public SearchResult search(SearchRequestInfo searchRequestInfo) throws MissingParameterException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -2822,7 +2822,7 @@ public class LuServiceImpl implements LuService {
 			return new SearchResult();
 		}
 		//First do a search of courses with said code
-		SearchRequest sr = new SearchRequest("lu.search.mostCurrent.union");
+		SearchRequestInfo sr = new SearchRequestInfo("lu.search.mostCurrent.union");
 		sr.addParam("lu.queryParam.luOptionalCode", courseCode);
 		sr.addParam("lu.queryParam.luOptionalType","kuali.lu.type.CreditCourse");
 		SearchResult results = search(sr);
@@ -2844,7 +2844,7 @@ public class LuServiceImpl implements LuService {
 		}
 		
 		//Do a search for proposals that refer to the clu ids we found
-		sr = new SearchRequest("proposal.search.proposalsForReferenceIds");
+		sr = new SearchRequestInfo("proposal.search.proposalsForReferenceIds");
 		sr.addParam("proposal.queryParam.proposalOptionalReferenceIds", new ArrayList<String>(cluIdToCodeMap.keySet()));
 		results = searchDispatcher.dispatchSearch(sr);
 		for(SearchResultRow row:results.getRows()){
@@ -2889,12 +2889,12 @@ public class LuServiceImpl implements LuService {
 
 	@Override
     @Transactional(readOnly=true)
-	public SearchResult search(SearchRequest searchRequest, ContextInfo context) throws MissingParameterException {
-        checkForMissingParameter(searchRequest, "searchRequest");
+	public SearchResult search(SearchRequestInfo searchRequestInfo, ContextInfo context) throws MissingParameterException {
+        checkForMissingParameter(searchRequestInfo, "searchRequestInfo");
         
-        if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())){
+        if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequestInfo.getSearchKey())){
         	String cluId = null;
-    		for(SearchParam param:searchRequest.getParams()){
+    		for(SearchParam param:searchRequestInfo.getParams()){
     			if("lu.queryParam.luOptionalCluId".equals(param.getKey())){
     				cluId = (String)param.getValue();
     				break;
@@ -2905,31 +2905,31 @@ public class LuServiceImpl implements LuService {
 			} catch (DoesNotExistException e) {
 				throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
 			}
-        }else if(SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequest.getSearchKey())){
+        }else if(SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequestInfo.getSearchKey())){
         	return doBrowseProgramSearch(context);
-        }else if(SEARCH_KEY_PROPOSALS_BY_COURSE_CODE.equals(searchRequest.getSearchKey())){
+        }else if(SEARCH_KEY_PROPOSALS_BY_COURSE_CODE.equals(searchRequestInfo.getSearchKey())){
         	String courseCode = null;
-    		for(SearchParam param:searchRequest.getParams()){
+    		for(SearchParam param:searchRequestInfo.getParams()){
     			if("lu.queryParam.luOptionalCode".equals(param.getKey())){
     				courseCode = (String)param.getValue();
     				break;
     			}
     		}
         	return doSearchProposalsByCourseCode(courseCode);
-        }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
-        	return doBrowseVersionsSearch(searchRequest, context);
-        }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
-        	return doResultComponentTypesForCluSearch(searchRequest, context);
-        }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequest.getSearchKey())){
+        }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequestInfo.getSearchKey())){
+        	return doBrowseVersionsSearch(searchRequestInfo, context);
+        }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequestInfo.getSearchKey())){
+        	return doResultComponentTypesForCluSearch(searchRequestInfo, context);
+        }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequestInfo.getSearchKey())){
     		//If any clu specific params are set, use a search key that has the clu defined in the JPQL 
-        	for(SearchParam param:searchRequest.getParams()){
+        	for(SearchParam param:searchRequestInfo.getParams()){
     			if(param.getKey().contains("queryParam.luOptional")){
-    				searchRequest.setSearchKey(SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS);
+    				searchRequestInfo.setSearchKey(SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS);
     				break;
     			}
     		}
         }
-        return searchManager.search(searchRequest, luDao, context);
+        return searchManager.search(searchRequestInfo, luDao, context);
 	}
 
 	
@@ -2939,7 +2939,7 @@ public class LuServiceImpl implements LuService {
 	 * @return
 	 * @throws MissingParameterException
 	 */
-	private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest, ContextInfo contextInfo) throws MissingParameterException {
+	private SearchResult doResultComponentTypesForCluSearch(SearchRequestInfo cluSearchRequest, ContextInfo contextInfo) throws MissingParameterException {
 
 		SearchResult searchResult = searchManager.search(cluSearchRequest, luDao, contextInfo);
 		
@@ -2962,7 +2962,7 @@ public class LuServiceImpl implements LuService {
 		}
 
 		//Get the LRC names to match the ids
-		SearchRequest lrcSearchRequest = new SearchRequest(SEARCH_KEY_LRC_RESULT_COMPONENT);
+		SearchRequestInfo lrcSearchRequest = new SearchRequestInfo(SEARCH_KEY_LRC_RESULT_COMPONENT);
 		lrcSearchRequest.addParam("lrc.queryParam.resultComponent.idRestrictionList", new ArrayList<String>(rcIdToRowMapping.keySet()));
 		SearchResult lrcSearchResults = searchDispatcher.dispatchSearch(lrcSearchRequest);
 		
@@ -2993,8 +2993,8 @@ public class LuServiceImpl implements LuService {
 	 * @return
 	 * @throws MissingParameterException 
 	 */
-	private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
-		SearchResult searchResult = searchManager.search(searchRequest, luDao, contextInfo);
+	private SearchResult doBrowseVersionsSearch(SearchRequestInfo searchRequestInfo, ContextInfo contextInfo) throws MissingParameterException {
+		SearchResult searchResult = searchManager.search(searchRequestInfo, luDao, contextInfo);
 		
 		Map<String,List<SearchResultCell>> atpIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
 		
@@ -3014,7 +3014,7 @@ public class LuServiceImpl implements LuService {
 		}
 		//Now do an atp search to translate ids to names
 		
-		SearchRequest atpSearchRequest = new SearchRequest("atp.search.advancedAtpSearch");
+		SearchRequestInfo atpSearchRequest = new SearchRequestInfo("atp.search.advancedAtpSearch");
 		atpSearchRequest.addParam("atp.advancedAtpSearchParam.optionalAtpIds", new ArrayList<String>(atpIdToCellMapping.keySet()));
 		SearchResult atpSearchResults = searchDispatcher.dispatchSearch(atpSearchRequest);
 		for(SearchResultRow row:atpSearchResults.getRows()){
@@ -3039,13 +3039,13 @@ public class LuServiceImpl implements LuService {
 
 	private SearchResult doBrowseProgramSearch(ContextInfo contextInfo) throws MissingParameterException {
 		//This is our main result
-		SearchRequest request = new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM);
+		SearchRequestInfo request = new SearchRequestInfo(SEARCH_KEY_BROWSE_PROGRAM);
 		request.setSortDirection(SortDirection.ASC);
 		request.setSortColumn("lu.resultColumn.luOptionalLongName");
 		SearchResult programSearchResults = searchManager.search(request, luDao, contextInfo);
 		
 		//These variations need to be mapped back to the program search results
-		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao, contextInfo);
+		SearchResult variationSearchResults = searchManager.search(new SearchRequestInfo(SEARCH_KEY_BROWSE_VARIATIONS), luDao, contextInfo);
 		
 		//Get a mapping of program id to variation long name mapping:
 		Map<String,List<String>> variationMapping = new HashMap<String,List<String>>();
@@ -3069,7 +3069,7 @@ public class LuServiceImpl implements LuService {
 		
 		
 		//The result component types need to be mapped back as well
-		SearchRequest resultComponentSearchRequest = new SearchRequest(SEARCH_KEY_LRC_RESULT_COMPONENT);
+		SearchRequestInfo resultComponentSearchRequest = new SearchRequestInfo(SEARCH_KEY_LRC_RESULT_COMPONENT);
 		resultComponentSearchRequest.addParam("lrc.queryParam.resultComponent.type", "kuali.resultComponentType.degree");
 		SearchResult resultComponentSearchResults = searchDispatcher.dispatchSearch(resultComponentSearchRequest);
 		
@@ -3239,7 +3239,7 @@ public class LuServiceImpl implements LuService {
 		//Use the org search to Translate the orgIds into Org names and update the holder cells
 		if(!orgIdToCellMapping.isEmpty()){
 			//Perform the Org search
-			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+			SearchRequestInfo orgIdTranslationSearchRequest = new SearchRequestInfo("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToCellMapping.keySet()));
 			orgIdTranslationSearchRequest.setSortColumn("org.resultColumn.orgShortName");
 			SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
@@ -3344,7 +3344,7 @@ public class LuServiceImpl implements LuService {
 		//Now we have the clu id and the list of clusets that the id appears in,
 		//We need to do a statement service search to see what statements use these as 
 		//dependencies
-		SearchRequest statementSearchRequest = new SearchRequest("stmt.search.dependencyAnalysis");
+		SearchRequestInfo statementSearchRequest = new SearchRequestInfo("stmt.search.dependencyAnalysis");
 		
 		statementSearchRequest.addParam("stmt.queryParam.cluSetIds", new ArrayList<String>(cluSetMap.keySet()));
 		statementSearchRequest.addParam("stmt.queryParam.cluVersionIndIds", cluVersionIndIds);
@@ -3487,7 +3487,7 @@ public class LuServiceImpl implements LuService {
 		//Use the org search to Translate the orgIds into Org names and update the holder cells
 		if(!orgIdToCellMapping.isEmpty()){
 			//Perform the Org search
-			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
+			SearchRequestInfo orgIdTranslationSearchRequest = new SearchRequestInfo("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToCellMapping.keySet()));
 			SearchResult orgIdTranslationSearchResult = searchDispatcher.dispatchSearch(orgIdTranslationSearchRequest);
 			
