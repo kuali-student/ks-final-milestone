@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.kuali.student.r1.common.ui.client.mvc.Callback;
 import org.kuali.student.r1.common.ui.client.widgets.tabs.KSTabPanel;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Widget;

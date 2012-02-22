@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.statement.dto;
 
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.statement.infc.ReqCompField;
 import org.kuali.student.r2.core.statement.infc.ReqComponent;
@@ -107,4 +108,11 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
     public void setNaturalLanguageTranslation(String naturalLanguageTranslation) {
         this.naturalLanguageTranslation = naturalLanguageTranslation;
     }
+
+    @Deprecated
+	public org.kuali.student.r1.common.dto.RichTextInfo getDesc() {
+		// TODO KSCM 
+		return null;
+	}
+
 }

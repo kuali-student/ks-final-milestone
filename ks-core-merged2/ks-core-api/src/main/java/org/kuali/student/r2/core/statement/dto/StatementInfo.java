@@ -15,7 +15,9 @@
 
 package org.kuali.student.r2.core.statement.dto;
 
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.statement.infc.Statement;
 import org.w3c.dom.Element;
 
@@ -94,5 +96,22 @@ public class StatementInfo extends IdEntityInfo implements Statement, Serializab
     public String toString() {
         return "StatementInfo[id=" + getId() + "]";
     }
+
+    @Deprecated
+	public void setOperator(StatementOperatorTypeKey op) {
+		// TODO KSCM how to replace
+		
+	}
+
+    @Deprecated
+	public RichTextInfo getDesc() {
+		return this.getDescr();
+	}
+
+    @Deprecated
+	public void setDesc(RichTextInfo desc) {
+		this.setDescr(desc);
+		
+	}
 
 }

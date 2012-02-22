@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.r1.common.dto.MetaInfo;
-import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.r1.core.statement.dto.StatementInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 
 public class RulesUtil {
 
@@ -67,8 +67,8 @@ public class RulesUtil {
             clonedLuStatementInfo.setOperator(inStatementInfo.getOperator());
             clonedLuStatementInfo.setStatementIds(new ArrayList<String>(inStatementInfo.getStatementIds()));
             clonedLuStatementInfo.setReqComponentIds(new ArrayList<String>(inStatementInfo.getReqComponentIds()));
-            clonedLuStatementInfo.setAttributes(clone(inStatementInfo.getAttributes()));
-            clonedLuStatementInfo.setMetaInfo(clone(inStatementInfo.getMetaInfo()));
+            // TODO KSCM clonedLuStatementInfo.setAttributes(clone(inStatementInfo.getAttributes()));
+            clonedLuStatementInfo.setMeta(clone(inStatementInfo.getMeta()));
             clonedLuStatementInfo.setType(inStatementInfo.getType());
             clonedLuStatementInfo.setState(inStatementInfo.getState());
             clonedLuStatementInfo.setId(inStatementInfo.getId());
@@ -107,7 +107,7 @@ public class RulesUtil {
         if (inReqComponentVO != null) {
             clonedReqComponentVO = new ReqComponentVO();
             clonedReqComponentVO.setId(inReqComponentVO.getId());
-            clonedReqComponentVO.setReqComponentInfo(clone(inReqComponentVO.getReqComponentInfo()));
+         // TODO KSCM clonedReqComponentVO.setReqComponentInfo(clone(inReqComponentVO.getReqComponentInfo()));
             clonedReqComponentVO.setTypeDesc(inReqComponentVO.getTypeDesc());
             clonedReqComponentVO.setDirty(inReqComponentVO.isDirty());
             clonedReqComponentVO.setCheckBoxOn(inReqComponentVO.isCheckBoxOn());
@@ -120,7 +120,7 @@ public class RulesUtil {
         if (inReqComponentInfo != null) {
             clonedReqComponentInfo = new ReqComponentInfoUi();
             clonedReqComponentInfo.setDesc(inReqComponentInfo.getDesc());
-            clonedReqComponentInfo.setReqCompFields(clone(inReqComponentInfo.getReqCompFields()));
+         // TODO KSCM clonedReqComponentInfo.setReqCompFields(clone(inReqComponentInfo.getReqCompFields()));
             if (inReqComponentInfo.getEffectiveDate() != null) {
                 clonedReqComponentInfo.setEffectiveDate((java.util.Date)inReqComponentInfo.getEffectiveDate().clone());
             }
@@ -128,15 +128,15 @@ public class RulesUtil {
                 clonedReqComponentInfo.setExpirationDate(
                         (java.util.Date)inReqComponentInfo.getExpirationDate().clone());
             }
-            clonedReqComponentInfo.setMetaInfo(clone(inReqComponentInfo.getMetaInfo()));
+            clonedReqComponentInfo.setMetaInfo(clone(inReqComponentInfo.getMeta()));
             clonedReqComponentInfo.setType(inReqComponentInfo.getType());
             clonedReqComponentInfo.setState(inReqComponentInfo.getState());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
 //            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
-            if (inReqComponentInfo instanceof ReqComponentInfoUi) {
-            	clonedReqComponentInfo.setPreviewNaturalLanguageTranslation(((ReqComponentInfoUi)inReqComponentInfo).getPreviewNaturalLanguageTranslation());
-            }
+         // TODO KSCM if (inReqComponentInfo instanceof ReqComponentInfoUi) {
+         // TODO KSCM             	clonedReqComponentInfo.setPreviewNaturalLanguageTranslation(((ReqComponentInfoUi)inReqComponentInfo).getPreviewNaturalLanguageTranslation());
+         // TODO KSCM             }
         }
         return clonedReqComponentInfo;
     }
@@ -191,8 +191,8 @@ public class RulesUtil {
             clonedStatementTreeViewInfoInfo.setName(inStatementTreeViewInfo.getName());
             clonedStatementTreeViewInfoInfo.setDesc(inStatementTreeViewInfo.getDesc());
             clonedStatementTreeViewInfoInfo.setOperator(inStatementTreeViewInfo.getOperator());
-            clonedStatementTreeViewInfoInfo.setAttributes(clone(inStatementTreeViewInfo.getAttributes()));
-            clonedStatementTreeViewInfoInfo.setMetaInfo(clone(inStatementTreeViewInfo.getMetaInfo()));
+         // TODO KSCM clonedStatementTreeViewInfoInfo.setAttributes(clone(inStatementTreeViewInfo.getAttributes()));
+            clonedStatementTreeViewInfoInfo.setMeta(clone(inStatementTreeViewInfo.getMeta()));
             clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
             clonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
             clonedStatementTreeViewInfoInfo.setId(inStatementTreeViewInfo.getId());
@@ -212,7 +212,7 @@ public class RulesUtil {
                 // retrieve all req. component LEAFS
                 List<ReqComponentInfo> clonedReqComponentList = new ArrayList<ReqComponentInfo>();
                 for (ReqComponentInfo inReqComponent : inReqComponentInfos) {
-                    clonedReqComponentList.add(RulesUtil.clone(inReqComponent));
+                	// TODO KSCM     clonedReqComponentList.add(RulesUtil.clone(inReqComponent));
                 }
                 clonedStatementTreeViewInfoInfo.setReqComponents(clonedReqComponentList);
             }

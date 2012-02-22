@@ -22,8 +22,8 @@ import org.kuali.student.r1.common.ui.client.widgets.KSButton;
 import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
 import org.kuali.student.r1.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 import com.google.gwt.event.dom.client.ClickEvent;

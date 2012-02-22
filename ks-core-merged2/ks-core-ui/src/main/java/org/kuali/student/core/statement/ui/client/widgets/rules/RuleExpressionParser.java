@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
@@ -320,7 +320,7 @@ public class RuleExpressionParser {
                 statementInfo.setType(statementType);
                 statementInfo.setId(oldStatementVO.getStatementInfo().getId());
                 //Need to copy the metadata here to ensure that the statement can be updated correctly.
-                statementInfo.setMetaInfo(oldStatementVO.getStatementInfo().getMetaInfo());
+                statementInfo.setMeta(oldStatementVO.getStatementInfo().getMeta());
                 subS.setStatementInfo(statementInfo);
                 Token right = conditionStack.pop().getUserObject();
                 Token left = conditionStack.pop().getUserObject();

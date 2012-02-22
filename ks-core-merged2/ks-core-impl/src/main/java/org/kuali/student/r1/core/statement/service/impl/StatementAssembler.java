@@ -189,7 +189,7 @@ public class StatementAssembler extends BaseAssembler {
         dto.setType(entity.getRequiredComponentType().getId());
         dto.setReqCompFields(toReqCompFieldInfos(entity.getReqComponentFields()));
         // dto.setRequiredComponentType(toReqComponentTypeInfo(entity.getRequiredComponentType()));
-        dto.setMetaInfo(toMetaInfo(entity));
+     // TODO KSCM dto.setMetaInfo(toMetaInfo(entity));
         dto.setDesc(toRichTextInfo(entity.getDescr()));
         // if(nlUsageTypeKey != null && language != null) {
         // String nl = this.naturalLanguageTranslator.translateReqComponent(entity, nlUsageTypeKey, language);
