@@ -17,6 +17,7 @@ package org.kuali.student.r1.common.assembly;
 
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 
 /**
@@ -52,7 +53,7 @@ public interface BOAssembler<E, T> {
 	 * @return Assembled business DTO
 	 * @throws AssemblyException 
 	 */
-	public E assemble(T baseDTO, E businessDTO, boolean shallowBuild) throws AssemblyException;
+	public E assemble(T baseDTO, E businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException;
 
 	/**
 	 * 
@@ -71,5 +72,5 @@ public interface BOAssembler<E, T> {
 	 * @throws AssemblyException 
 	 */
 	public BaseDTOAssemblyNode<E,	T> disassemble(
-			E businessDTO, NodeOperation operation) throws AssemblyException;
+			E businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException;
 }
