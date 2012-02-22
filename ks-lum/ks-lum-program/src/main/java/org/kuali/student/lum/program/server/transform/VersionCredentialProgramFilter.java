@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 
@@ -23,7 +24,7 @@ public class VersionCredentialProgramFilter extends VersionProgramFilter {
 		String versionFromId = data.query(ProgramConstants.VERSION_FROM_ID);
 		
 		if (versionFromId != null){
-			CredentialProgramInfo previousVersionCoreInfo = programService.getCredentialProgram(versionFromId);
+			CredentialProgramInfo previousVersionCoreInfo = programService.getCredentialProgram(versionFromId, ContextUtils.getContextInfo());
 			
 			if (previousVersionData == null){
 				//This is an initial get. Create previous version data to send back to client 

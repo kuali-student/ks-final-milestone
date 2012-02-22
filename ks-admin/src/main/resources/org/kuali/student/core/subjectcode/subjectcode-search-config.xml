@@ -1,11 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:search="http://student.kuali.org/xsd/search-extension"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:search="http://student.kuali.org/xsd/search-extension"
 	xmlns:dict="http://student.kuali.org/xsd/dictionary-extension"
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
-	 ">
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	<search:searchType id="subjectCode.search.subjectCodeGeneric">
 		<search:name>Generic Subject Code Search</search:name>
 		<search:desc>Search for all Subject Codes</search:desc>
