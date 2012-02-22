@@ -7,6 +7,7 @@
   </parent>
   <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum-impl2</artifactId>
+  <version>2.0.1-cm-SNAPSHOT</version>
   <name>ks-lum-impl2</name>
   <description>ks-lum-impl2</description>
   <properties>
