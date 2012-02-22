@@ -166,13 +166,23 @@ public class TypeServiceMockImpl implements TypeService{
         typeArrays.add(new String[] {"kuali.atp.type.Adhoc", "Ad hoc", "Ad hoc", "http://student.kuali.org/wsdl/atp/AtpInfo", "0"});
 
         //holidays
-        typeArrays.add(new String[] {"kuali.atp.milestone.LaborDay", "Labor Day", "Labor Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.Christmas", "Christmas", "Christmas", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.ChristmasObserved", "Christmas Observed", "Christmas Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.FallBreak", "Fall Break", "Fall Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
-        typeArrays.add(new String[] {"kuali.atp.milestone.ThanksgivingBreak", "Thanksgiving Break", "Thanksgiving Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
-        typeArrays.add(new String[] {"kuali.atp.milestone.MLKDayObserved", "MLK Day Observed", "MLK Day Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
-        typeArrays.add(new String[] {"kuali.atp.milestone.SpringBreak", "Spring Break", "Spring Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
-        typeArrays.add(new String[] {"kuali.atp.milestone.MemorialDayObserved", "Memorial Day Observed", "Memorial Day Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.LaborDay", "Labor Day", "Labor Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.IndependenceDay", "Independence Day", "Independence Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.IndependenceDayObserved", "Independence Day Observed", "Independence Day Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.MemorialDay", "Memorial Day", "Memorial Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.MemorialDayObserved", "Memorial Day Observed", "Memorial Day Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.MLKDay", "Martin Luther King Day", "Martin Luther King Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.MLKDayObserved", "MLK Day Observed", "MLK Day Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.NewYearsDay", "New Years Day", "New Years Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.NewYearsDayObserved", "New Years Day Observed", "New Years Day Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.PresidentsDay", "Presidents Day", "Presidents Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.SpringBreak", "Spring Break", "Spring Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.ThanksgivingBreak", "Thanksgiving Break", "Thanksgiving Break", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.VeteransDay", "Veterans Day", "Veterans Day", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.VeteransDayObserved", "Veterans Day Observed", "Veterans Day Observed", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
 
         //events    -- type_key, name, type_descr, REF_OBJECT_URI
         typeArrays.add(new String[] {"kuali.atp.milestone.FamilyWeekend", "Family Weekend", "Family Weekend", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
@@ -223,13 +233,24 @@ public class TypeServiceMockImpl implements TypeService{
         Set<TypeInfo> holidayGroup = new HashSet<TypeInfo>();
         TypeInfo holidayGroupType = createTypeInfo("kuali.milestone.type.group.holiday", null);
 
-        holidayGroup.add(getType("kuali.atp.milestone.LaborDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.Christmas"));
+        holidayGroup.add(getType("kuali.atp.milestone.ChristmasObserved"));
         holidayGroup.add(getType("kuali.atp.milestone.FallBreak"));
-        holidayGroup.add(getType("kuali.atp.milestone.ThanksgivingBreak"));
-        holidayGroup.add(getType("kuali.atp.milestone.MLKDayObserved"));
-        holidayGroup.add(getType("kuali.atp.milestone.SpringBreak"));
-        holidayGroup.add(getType("kuali.atp.milestone.MemorialDayObserved"));
+        holidayGroup.add(getType("kuali.atp.milestone.LaborDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.IndependenceDay"));
         holidayGroup.add(getType("kuali.atp.milestone.IndependenceDayObserved"));
+        holidayGroup.add(getType("kuali.atp.milestone.MemorialDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.MemorialDayObserved"));
+        holidayGroup.add(getType("kuali.atp.milestone.MLKDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.MLKDayObserved"));
+        holidayGroup.add(getType("kuali.atp.milestone.NewYearsDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.NewYearsDayObserved"));
+        holidayGroup.add(getType("kuali.atp.milestone.PresidentsDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.SpringBreak"));
+        holidayGroup.add(getType("kuali.atp.milestone.ThanksgivingBreak"));
+        holidayGroup.add(getType("kuali.atp.milestone.VeteransDay"));
+        holidayGroup.add(getType("kuali.atp.milestone.VeteransDayObserved"));
+
         for (TypeInfo type : holidayGroup) {
             createTypeTypeRelationInfo(holidayGroupType, type);
         }
