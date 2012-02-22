@@ -34,8 +34,9 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 	private LearningObjectiveService loService;
 	
 
+	@Override
 	public LoDisplayInfo assemble(LoInfo lo, LoDisplayInfo loDisplayInfo,
-			boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
+			boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
 		
 		LoDisplayInfo loDisplay = (null != loDisplayInfo) ? loDisplayInfo : new LoDisplayInfo();
 		
@@ -317,4 +318,5 @@ public class LoAssembler implements BOAssembler<LoDisplayInfo, LoInfo> {
 			return instance;
 		}
 	}
+
 }
