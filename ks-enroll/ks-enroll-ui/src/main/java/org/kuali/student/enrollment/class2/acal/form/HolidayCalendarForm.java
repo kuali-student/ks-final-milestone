@@ -16,7 +16,7 @@ package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -32,7 +32,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     private static final long serialVersionUID = 7526472595622776147L;
 
     private HolidayCalendarInfo holidayCalendarInfo;
-    private List<HolidayInfo> holidays;
+    private List<HolidayWrapper> holidays;
     private String adminOrgName;
     private String newCalendarName;
     private Date newCalendarStartDate;
@@ -42,7 +42,7 @@ public class HolidayCalendarForm  extends UifFormBase {
     public HolidayCalendarForm() {
         super();
         holidayCalendarInfo = new HolidayCalendarInfo();
-        holidays = new ArrayList<HolidayInfo>();
+        holidays = new ArrayList<HolidayWrapper>();
     }
 
     public HolidayCalendarInfo getHolidayCalendarInfo() {
@@ -52,13 +52,12 @@ public class HolidayCalendarForm  extends UifFormBase {
         this.holidayCalendarInfo = holidayCalendarInfo;
     }
 
-    public List<HolidayInfo> getHolidays() {
+    public List<HolidayWrapper> getHolidays() {
         return holidays;
     }
-    public void setHolidays(List<HolidayInfo> holidays) {
-        if (null != holidays) {
-            this.holidays = holidays;
-        }
+
+    public void setHolidays(List<HolidayWrapper> holidays) {
+        this.holidays = holidays;
     }
 
     public String getAdminOrgName() {

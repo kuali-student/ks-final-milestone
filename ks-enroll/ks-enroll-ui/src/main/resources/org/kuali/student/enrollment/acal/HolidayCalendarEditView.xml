@@ -78,9 +78,9 @@
 	<bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
 		p:layoutManager.numberOfColumns="4">
 		<property name="title" value="Holidays" />
-		<property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayInfo" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
 		<property name="propertyName" value="holidays" />
-		<property name="layoutManager.sequencePropertyName" value="name" />
+		<property name="layoutManager.sequencePropertyName" value="startDate" />
 		<property name="layoutManager.renderSequenceField" value="false" />
 		<property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
@@ -88,7 +88,7 @@
         <property name="layoutManager.richTable.render" value="false" />
 		<property name="items">
 			<list>
-                <bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="typeKey"  p:required="true">
+                <bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="holidayInfo.typeKey"  p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -112,7 +112,7 @@
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:label="Non Instructional" p:propertyName="isInstructionalDay">
+				<bean parent="Uif-InputField" p:label="Non Instructional" p:propertyName="holidayInfo.isInstructionalDay">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>

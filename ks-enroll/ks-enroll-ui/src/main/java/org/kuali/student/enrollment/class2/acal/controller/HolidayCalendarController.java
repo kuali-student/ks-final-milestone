@@ -22,12 +22,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -63,15 +62,15 @@ public class HolidayCalendarController extends UifControllerBase {
     public ModelAndView addLine(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
             HttpServletRequest request, HttpServletResponse response) {
         HolidayCalendarForm hcForm = (HolidayCalendarForm) form;
-        List<HolidayInfo> holidays = hcForm.getHolidays();
+        List<HolidayWrapper> holidays = hcForm.getHolidays();
         Map<String, Object> newCollectionLines = form.getNewCollectionLines();
 
         if(newCollectionLines != null && !newCollectionLines.isEmpty()){
             if(holidays != null && !holidays.isEmpty()){
                 GlobalVariables.getMessageMap().removeAllErrorMessagesForProperty(KRADConstants.GLOBAL_ERRORS);
                 for (Map.Entry<String, Object> entry : newCollectionLines.entrySet()){
-                    HolidayInfo newHoliday = (HolidayInfo)entry.getValue();
-                    for(HolidayInfo holiday : holidays){
+                    HolidayWrapper newHoliday = (HolidayWrapper)entry.getValue();
+                    for(HolidayWrapper holiday : holidays){
                         boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
                         if(duplicated){
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "The Holiday is already in the collection.");
@@ -85,11 +84,9 @@ public class HolidayCalendarController extends UifControllerBase {
         return super.addLine(form, result, request, response);
     }
 
-    private boolean isDuplicateHoliday(HolidayInfo newHoliday, HolidayInfo sourceHoliday){
-        return (newHoliday.getTypeKey().equals(sourceHoliday.getTypeKey()) &&
-                       newHoliday.getStartDate().equals(sourceHoliday.getStartDate()) &&
-                       newHoliday.getEndDate().equals(sourceHoliday.getEndDate()));
-
+    private boolean isDuplicateHoliday(HolidayWrapper newHoliday, HolidayWrapper sourceHoliday){
+        return (newHoliday.getHolidayInfo().getTypeKey().equals(sourceHoliday.getHolidayInfo().getTypeKey()) &&
+                       newHoliday.getStartDate().equals(sourceHoliday.getStartDate()));
     }
 
     @Override
@@ -177,7 +174,7 @@ public class HolidayCalendarController extends UifControllerBase {
     public ModelAndView toCreate(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response){
         hcForm.setHolidayCalendarInfo( new HolidayCalendarInfo());
-        hcForm.setHolidays(new ArrayList<HolidayInfo>());
+        hcForm.setHolidays(new ArrayList<HolidayWrapper>());
         return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
     }
 
@@ -227,7 +224,7 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHolidayCalendarInfo(hcInfo);
         hcForm.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
 
-        List<HolidayInfo> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
+        List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
         hcForm.setHolidays(holidays);
     }
 
@@ -237,62 +234,50 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHolidayCalendarInfo(getHolidayCalendarFormHelper(hcForm).getHolidayCalendar(hcId));
 
         //update hc-holidays
-        List<HolidayInfo> holidays = hcForm.getHolidays();
+        List<HolidayWrapper> holidays = hcForm.getHolidays();
         processHolidays(hcForm, holidays, hcId);
     }
 
     private void createHolidays(String holidayCalendarId, HolidayCalendarForm hcForm) throws Exception {
-        List<HolidayInfo> holidays = hcForm.getHolidays();
-        List<HolidayInfo> createdHolidays = new ArrayList<HolidayInfo>();
+        List<HolidayWrapper> holidays = hcForm.getHolidays();
 
-        if(holidays != null && !holidays.isEmpty()){
-            for (HolidayInfo holiday : holidays){
-                createdHolidays.add(createHoliday(holidayCalendarId, holiday.getTypeKey(), holiday, hcForm));
+       if(holidays != null && !holidays.isEmpty()){
+            for (HolidayWrapper holiday : holidays){
+                getHolidayCalendarFormHelper(hcForm).createHoliday(holidayCalendarId, holiday.getHolidayInfo().getTypeKey(), holiday);
             }
-
-            hcForm.setHolidays(createdHolidays);
         }
 
     }
 
-    private HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo, HolidayCalendarForm hcForm)throws Exception {
-        //create dummy value for db MilestoneEntity.descr_plain as it is not nullable
-        RichTextInfo rti = new RichTextInfo();
-        rti.setPlain("Plain description of " + holidayInfo.getTypeKey());
-        holidayInfo.setDescr(rti);
-        holidayInfo.setName(getHolidayCalendarFormHelper(hcForm).getAcalService().getHolidayType(holidayInfo.getTypeKey(), getContextInfo()).getName());
-        return getHolidayCalendarFormHelper(hcForm).createHoliday(holidayCalendarId, holidayTypeKey, holidayInfo);
-    }
-
     private List<String> getHolidayIds(HolidayCalendarForm hcForm) throws Exception{
-        List<HolidayInfo> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
+        List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
         List<String> holidayIds = new ArrayList<String>();
 
         if(holidays != null && !holidays.isEmpty()){
-            for(HolidayInfo holiday : holidays){
-                holidayIds.add(holiday.getId());
+            for(HolidayWrapper holiday : holidays){
+                holidayIds.add(holiday.getHolidayInfo().getId());
             }
         }
 
         return holidayIds;
     }
 
-    private void processHolidays(HolidayCalendarForm hcForm, List<HolidayInfo> holidays, String hcId)throws Exception{
-        List<HolidayInfo> updatedHolidays = new ArrayList<HolidayInfo>();
+    private void processHolidays(HolidayCalendarForm hcForm, List<HolidayWrapper> holidays, String hcId)throws Exception{
+        List<HolidayWrapper> updatedHolidays = new ArrayList<HolidayWrapper>();
         List<String> currentHolidays = getHolidayIds(hcForm);
 
         if(holidays != null && !holidays.isEmpty()){
-            for(HolidayInfo holiday : holidays){
-                if(currentHolidays.contains(holiday.getId())){
+            for(HolidayWrapper holiday : holidays){
+                if(currentHolidays.contains(holiday.getHolidayInfo().getId())){
                     //update holiday
-                    HolidayInfo updatedHoliday = upateHoliday(holiday.getId(), holiday, hcForm);
-                    updatedHolidays.add(updatedHoliday);
-                    currentHolidays.remove(holiday.getId());
+                    getHolidayCalendarFormHelper(hcForm).updateHoliday(holiday.getHolidayInfo().getId(), holiday);
+                    updatedHolidays.add(holiday);
+                    currentHolidays.remove(holiday.getHolidayInfo().getId());
                 }
                 else {
                     //create Holiday
-                    HolidayInfo createdHoliday = createHoliday(hcId, holiday.getTypeKey(), holiday, hcForm);
-                    updatedHolidays.add(createdHoliday);
+                    getHolidayCalendarFormHelper(hcForm).createHoliday(hcId, holiday.getHolidayInfo().getTypeKey(), holiday);
+                    updatedHolidays.add(holiday);
                 }
             }
         }
@@ -301,20 +286,11 @@ public class HolidayCalendarController extends UifControllerBase {
 
         if (currentHolidays != null && currentHolidays.size() > 0){
             for(String holidayId: currentHolidays){
-                //TODO: delete completely from db, when "deleted" state is available, update the holiday with state ="deleted"
-                deleteHoliday(holidayId, hcForm);
+                getHolidayCalendarFormHelper(hcForm).deleteHoliday(holidayId);
             }
         }
 
 	}
-
-    private HolidayInfo upateHoliday(String holidayId, HolidayInfo holidayInfo, HolidayCalendarForm hcForm)throws Exception {
-        return getHolidayCalendarFormHelper(hcForm).updateHoliday(holidayId, holidayInfo);
-    }
-
-    private void deleteHoliday(String holidayId, HolidayCalendarForm hcForm)throws Exception {
-        getHolidayCalendarFormHelper(hcForm).deleteHoliday(holidayId);
-    }
 
     private String getAdminOrgNameById(String id){
         //TODO: hard-coded for now, going to call OrgService
@@ -335,20 +311,4 @@ public class HolidayCalendarController extends UifControllerBase {
         }
         return acalHelper;
     }
-/* //test
-    private AcademicCalendarViewHelperService getHolidayCalendarCopyFormHelper(HolidayCalendarCopyForm hcForm) {
-        if (null == acalHelper) {
-            acalHelper = (AcademicCalendarViewHelperService)hcForm.getView().getViewHelperService();
-        }
-        return acalHelper;
-    }*/
-
-    private ContextInfo getContextInfo() {
-        if (null == contextInfo) {
-            //TODO - get real ContextInfo
-            contextInfo = TestHelper.getContext1();
-        }
-        return contextInfo;
-    }
-
 }

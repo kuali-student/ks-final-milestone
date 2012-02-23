@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Date;
-import javax.management.RuntimeErrorException;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
@@ -33,21 +32,17 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
-import org.kuali.rice.krad.uif.view.ViewIndex;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.*;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
@@ -71,10 +66,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
         hcInfo.setStateKey(AtpServiceConstants.ATP_DRAFT_STATE_KEY);
         hcInfo.setTypeKey(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY);
-        //create dummy descr for db AtpEntity.plain is not nullable
-        RichTextInfo rti = new RichTextInfo();
-        rti.setPlain(hcInfo.getName());
-        hcInfo.setDescr(rti);
+        hcInfo.setDescr(CommonUtils.buildDesc("no description"));
         HolidayCalendarInfo createdHc = getAcalService().createHolidayCalendar(AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY, hcInfo, getContextInfo());
         return createdHc;
     }
@@ -121,22 +113,63 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         return updatedHc;
     }
-    public List<HolidayInfo> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
+
+    public List<HolidayWrapper> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception{
         HolidayCalendarInfo hcInfo = hcForm.getHolidayCalendarInfo();
-        List<HolidayInfo> holidays = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+        List<HolidayInfo> holidayInfos = getAcalService().getHolidaysForHolidayCalendar(hcInfo.getId(), getContextInfo());
+        return assembleHolidays(holidayInfos);
+    }
+
+    private List<HolidayWrapper> assembleHolidays (List<HolidayInfo> holidayInfos) throws Exception{
+        List<HolidayWrapper> holidays = new ArrayList<HolidayWrapper>();
+        if (holidayInfos != null && !holidayInfos.isEmpty()){
+            for (HolidayInfo holidayInfo : holidayInfos) {
+                HolidayWrapper holiday = assembleHoliday(holidayInfo);
+                holidays.add(holiday);
+            }
+        }
 
         return holidays;
     }
 
-    public HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo) throws Exception {
-        holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
-        HolidayInfo createdHoliday = getAcalService().createHoliday(holidayCalendarId, holidayTypeKey, holidayInfo, getContextInfo());
-        return createdHoliday;
+    private HolidayWrapper assembleHoliday(HolidayInfo holidayInfo) throws Exception{
+        HolidayWrapper holiday = new HolidayWrapper();
+        holiday.setHolidayInfo(holidayInfo);
+        holiday.setTypeName(getHolidayTypeName(holidayInfo.getTypeKey()));
+        CommonUtils.assembleTimeSet(holiday, holidayInfo.getStartDate(), holidayInfo.getEndDate());
+
+        return holiday;
     }
 
-    public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo) throws Exception {
+    public String getHolidayTypeName(String holidayTypeKey) throws Exception {
+        TypeInfo typeInfo = getAcalService().getHolidayType(holidayTypeKey, getContextInfo());
+        return typeInfo.getName();
+    }
+
+    public void createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayWrapper holiday) throws Exception {
+        HolidayInfo holidayInfo = holiday.getHolidayInfo();
+        holiday.setTypeName(getHolidayTypeName(holidayInfo.getTypeKey()));
+
+        holidayInfo.setStateKey(AtpServiceConstants.MILESTONE_DRAFT_STATE_KEY);
+        holidayInfo.setDescr(CommonUtils.buildDesc("no description"));
+
+        disassembleHolidayTime(holiday, holidayInfo);
+
+        HolidayInfo createdHoliday = getAcalService().createHoliday(holidayCalendarId, holidayTypeKey, holidayInfo, getContextInfo());
+        holiday.setHolidayInfo(createdHoliday);
+    }
+
+    public void updateHoliday(String holidayId, HolidayWrapper holiday) throws Exception {
+        HolidayInfo holidayInfo = holiday.getHolidayInfo();
+        holiday.setTypeName(getHolidayTypeName(holidayInfo.getTypeKey()));
+        disassembleHolidayTime(holiday, holidayInfo);
         getAcalService().updateHoliday(holidayId, holidayInfo, getContextInfo());
-        return getAcalService().getHoliday(holidayId, getContextInfo());
+        holiday.setHolidayInfo(getAcalService().getHoliday(holidayId, getContextInfo()));
+    }
+
+    private void disassembleHolidayTime(HolidayWrapper holiday, HolidayInfo holidayInfo) throws Exception {
+        holidayInfo.setStartDate(CommonUtils.getStartDate(holiday));
+        holidayInfo.setEndDate(CommonUtils.getEndDate(holiday));
     }
 
     public void deleteHoliday(String holidayId) throws Exception{

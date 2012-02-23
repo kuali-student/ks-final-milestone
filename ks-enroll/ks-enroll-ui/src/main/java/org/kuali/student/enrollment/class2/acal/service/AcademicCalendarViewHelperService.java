@@ -4,12 +4,8 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.ViewHelperService;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.*;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -29,10 +25,11 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public HolidayCalendarInfo copyHolidayCalendar(HolidayCalendarForm form) throws Exception;
     public HolidayCalendarInfo getNewestHolidayCalendar() throws Exception;
     public HolidayCalendarInfo updateHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
-    public List<HolidayInfo> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
-    public HolidayInfo createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayInfo holidayInfo) throws Exception;
-    public HolidayInfo updateHoliday(String holidayId, HolidayInfo holidayInfo) throws Exception;
+    public List<HolidayWrapper> getHolidaysForHolidayCalendar(HolidayCalendarForm hcForm) throws Exception;
+    public void createHoliday(String holidayCalendarId, String holidayTypeKey, HolidayWrapper holiday) throws Exception;
+    public void updateHoliday(String holidayId, HolidayWrapper holiday) throws Exception;
     public void deleteHoliday(String holidayId) throws Exception;
+    public String getHolidayTypeName(String holidayTypeKey) throws Exception;
 
     //Acal
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception;

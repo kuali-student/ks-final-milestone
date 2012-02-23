@@ -106,7 +106,7 @@
     <bean id="KS-HolidayCalendar-View-Holidays" parent="Uif-TableCollectionSection"
             p:title="Holidays"
             p:id="KS-HolidayCalendar-View-Holidays"
-            p:collectionObjectClass="org.kuali.student.enrollment.acal.dto.HolidayInfo"
+            p:collectionObjectClass="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper"
             p:propertyName="holidays"
             p:renderAddLine="false"
             p:renderLineActions="false"
@@ -120,7 +120,7 @@
         <property name="items">
             <list>
                 <bean parent="Uif-InputField"
-                      p:propertyName="name"
+                      p:propertyName="typeName"
                       p:id="KS-HolidayCalendar-View-Holidays-name"
                       p:readOnly="true"
                       p:style="font-weight:bold;">
@@ -148,7 +148,7 @@
                 </bean>
                 <bean parent="Uif-InputField"
                       p:label="Instructional"
-                      p:propertyName="isInstructionalDay"
+                      p:propertyName="holidayInfo.isInstructionalDay"
                       p:id="KS-HolidayCalendar-View-Holidays-isInstructionalDay"
                       p:align="center">
 					<property name="control">
