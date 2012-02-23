@@ -47,8 +47,8 @@ public class CourseDataService extends AbstractDataService {
 
 	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
-	private CourseService courseService;
-	private LuService luService;
+	protected CourseService courseService;
+	protected LuService luService;
 
 	@Override
 	protected Object get(String id) throws Exception {

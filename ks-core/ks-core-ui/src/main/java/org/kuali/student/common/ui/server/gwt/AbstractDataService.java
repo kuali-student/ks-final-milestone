@@ -16,8 +16,8 @@ import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.transform.AuthorizationFilter;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
-import org.kuali.student.common.assembly.transform.TransformationManager;
 import org.kuali.student.common.assembly.transform.TransformFilter.TransformFilterAction;
+import org.kuali.student.common.assembly.transform.TransformationManager;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;
@@ -218,6 +218,9 @@ public abstract class AbstractDataService implements DataService{
 							attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
 							attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getType());
 							attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, routeStatusCode);
+							
+							//Call t his to add any additional attributes that child classes need
+							addAdditionalAttributes(attributes,proposalInfo,docDetail);
 						}
 					} catch (Exception e){
 						LOG.error("Could not retrieve proposal to determine permission qualifiers:" + e.toString());
@@ -248,6 +251,11 @@ public abstract class AbstractDataService implements DataService{
 		return Boolean.valueOf(result);
 	}
 	
+	protected void addAdditionalAttributes(Map<String, String> attributes,
+			ProposalInfo proposalInfo, DocumentDetailDTO docDetail) {
+		return;
+	}
+
 	public Map<String, Object> getDefaultFilterProperties(){
 		Map<String, Object> filterProperties = new HashMap<String,Object>();
 		filterProperties.put(MetadataFilter.METADATA_ID_TYPE, StudentIdentityConstants.QUALIFICATION_KEW_OBJECT_ID);
