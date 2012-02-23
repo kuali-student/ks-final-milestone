@@ -205,14 +205,35 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
     }
 
     //TODO KSCM changed it so that I can return both R1 and R2
-    public static List<LoInfo> toLoInfos(List<Lo> los) {
-        List<LoInfo> list = new ArrayList<LoInfo>();
+    public static <E> List<E> toLoInfos(E returnType,List<Lo> los) {
+       
+    	if (returnType.getClass().getPackage().getName().contains("r1")){
+    	List<E> list	= new ArrayList<E>();
+    	//List<org.kuali.student.r1.lum.lo.dto.LoInfo> list = new ArrayList<org.kuali.student.r1.lum.lo.dto.LoInfo>();
         for (Lo lo : los) {
-            list.add(toLoInfo(lo));
+            list.add(toLoInfo((E)new org.kuali.student.r1.lum.lo.dto.LoInfo(),lo));
         }
         return list;
+    	
+    	}
+    	
+    	
+    	if (returnType.getClass().getPackage().getName().contains("r2")){
+    	
+    	// KSCM need to implement R2 dto list
+    	List<E> list	= new ArrayList<E>();
+    	//List<org.kuali.student.r1.lum.lo.dto.LoInfo> list = new ArrayList<org.kuali.student.r1.lum.lo.dto.LoInfo>();
+        for (Lo lo : los) {
+            list.add(toLoInfo((E)new org.kuali.student.r2.lum.lo.dto.LoInfo(),lo));
+        }
+        return list;
+    	}
+    	
+    	return null;
     }
 
+    
+    // TODO KSCM need to changed this method 
     public static List<LoCategoryInfo> toLoCategoryInfos(List<LoCategory> categories) {
     	if (null == categories) {
     		return new ArrayList<LoCategoryInfo>(0);
@@ -528,7 +549,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         		}
         	}
 
-        	
+        	return null;
         	
         	
         }

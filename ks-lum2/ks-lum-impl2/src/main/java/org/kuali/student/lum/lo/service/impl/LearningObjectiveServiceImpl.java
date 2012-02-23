@@ -415,7 +415,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
 	    List<LoCategory> categories = loDao.getLoCategories(loRepositoryKey);
-        return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
+        return  null; //TODO KSCM : LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
 	/* (non-Javadoc)
@@ -428,7 +428,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
 	    List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
-		return LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
+		return null; //TODO KSCM :LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
 	}
 
 	/* (non-Javadoc)
@@ -441,7 +441,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    
-		return LearningObjectiveServiceAssembler.toLoCategoryInfo(loDao.fetch(LoCategory.class, loCategoryId));
+	  //TODO KSCM  :return LearningObjectiveServiceAssembler.toLoCategoryInfo(loDao.fetch(LoCategory.class, loCategoryId));
+	    return null;
 	}
 
     @Override
@@ -491,7 +492,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    List<Lo> los = loDao.getLosByLoCategory(loCategoryId);
-		return LearningObjectiveServiceAssembler.toLoInfos(los);
+		return LearningObjectiveServiceAssembler.toLoInfos(new LoInfo(), los);
 	}
 
     @Override
@@ -608,18 +609,20 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!", val);
+			//TODO KSCM : throw new DataValidationErrorException("Validation error!", val);
+			throw new DataValidationErrorException("Validation error!");
 		}
 		
 	    Lo lo = loDao.fetch(Lo.class, loId);
         
-        if (!String.valueOf(lo.getVersionNumber()).equals(loInfo.getMetaInfo().getVersionInd())){
+        if (!String.valueOf(lo.getVersionNumber()).equals(loInfo.getMeta().getVersionInd())){
             throw new VersionMismatchException("LO to be updated is not the current version");
         }
         
-        lo = LearningObjectiveServiceAssembler.toLo(true, lo, loInfo, loDao);
+       //TODO KSCM : lo = LearningObjectiveServiceAssembler.toLo(true, lo, loInfo, loDao);
         loDao.update(lo);
-        return LearningObjectiveServiceAssembler.toLoInfo(lo);
+       //TODO KSCM :return LearningObjectiveServiceAssembler.toLoInfo(lo);
+        return null;
 	}
 
 	/* (non-Javadoc)
@@ -639,17 +642,19 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		List<ValidationResultInfo> val = validateLoCategory("SYSTEM", loCategoryInfo,contextInfo);
 
 		//kslum-136 - don't allow dups w/ same name (case insensitive), type, state & repository
-        if (doesLoCategoryExist(loCategoryInfo.getLoRepository(), loCategoryInfo, loCategoryId,contextInfo)) {
-            ValidationResultInfo vr = new ValidationResultInfo();
-            vr.setElement("LO Category Name");
-            vr.setError("LO Category already exists");
-            val.add(vr);
-        }
+		//TODO KSCM :
+//        if (doesLoCategoryExist(loCategoryInfo.getLoRepository(), loCategoryInfo, loCategoryId,contextInfo)) {
+//            ValidationResultInfo vr = new ValidationResultInfo();
+//            vr.setElement("LO Category Name");
+//            vr.setError("LO Category already exists");
+//            val.add(vr);
+//        }
         if(null != val && val.size() > 0) {
             for (ValidationResultInfo result : val) {
                 System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
             }
-            throw new DataValidationErrorException("Validation error!", val);
+          //TODO KSCM : throw new DataValidationErrorException("Validation error!", val);
+            throw new DataValidationErrorException("Validation error!");
         }
 	    LoCategory loCategory = loDao.fetch(LoCategory.class, loCategoryId);
         
@@ -680,10 +685,12 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         if ( ! loCategory.getLoCategoryType().getId().equals(loCategoryInfo.getType()) ) {
         	loCategory = cloneLoCategory(loCategory, loCategoryInfo,contextInfo);
         } else {
-	        loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
+        	//TODO KSCM : loCategory = LearningObjectiveServiceAssembler.toLoCategory(loCategory, loCategoryInfo, loDao);
+        	
 	        loDao.update(loCategory);
         }
-        return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
+        //TODO : return LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
+        return null;
 	}
 
     // inactivate current LoCategory & clone it w/ its relationships,
@@ -699,10 +706,11 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     	}
         	
     	// clone the existing LO
-    	LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
+    	//TODO KSCM :LoCategoryInfo newLoCategoryInfo = LearningObjectiveServiceAssembler.toLoCategoryInfo(loCategory);
+    	LoCategoryInfo newLoCategoryInfo = new LoCategoryInfo(); // Remove this line if the TODO is done above
     	newLoCategoryInfo.setType(catType.getId());
     	newLoCategoryInfo.setName(loCategoryInfo.getName());
-    	LoCategory newLoCategory = loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
+    	LoCategory newLoCategory = new LoCategory(); //TODO KSCM : loDao.create(LearningObjectiveServiceAssembler.toLoCategory(newLoCategoryInfo, loDao));
         	
     	// clone Lo-LoCategory relations
     	List<Lo> catsLos = loDao.getLosByLoCategory(loCategory.getId());         	
@@ -743,9 +751,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 //			//do not checkForEmptyString
 //		}
 	    
-	    ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName(),contextInfo);
+	  //TODO KSCM :ObjectStructureDefinition objStructure = this.getObjectStructure(LoInfo.class.getName(),contextInfo);
 	    Validator validator = validatorFactory.getValidator();
-	    return validator.validateObject(loInfo, objStructure,contextInfo);
+	    //TODO KSCM : return validator.validateObject(loInfo, objStructure,contextInfo);
+	    return null;
 	}
 
 	/* (non-Javadoc)
@@ -767,10 +776,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 //			//do not checkForEmptyString
 //		}
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName(),contextInfo);
+	  //TODO KSCM :   ObjectStructureDefinition objStructure = this.getObjectStructure(LoCategoryInfo.class.getName(),contextInfo);
         Validator validator = validatorFactory.getValidator();
-        return validator.validateObject(loCategoryInfo, objStructure,contextInfo);
-
+        //TODO KSCM : return validator.validateObject(loCategoryInfo, objStructure,contextInfo);
+        return null; 
 	}
 
 	@Override
@@ -779,9 +788,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(LoLoRelationInfo.class.getName(),contextInfo);
+		//TODO KSCM : ObjectStructureDefinition objStructure = this.getObjectStructure(LoLoRelationInfo.class.getName(),contextInfo);
         Validator validator = validatorFactory.getValidator();
-        return validator.validateObject(loLoRelationInfo, objStructure,contextInfo);
+        //TODO KSCM : return validator.validateObject(loLoRelationInfo, objStructure,contextInfo);
+        return null;
 	}
 
     /**
@@ -824,160 +834,160 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 //        }
 //    }
 //
-    /**
-     * @param loRepositoryKey
-     * @param loCategoryInfo
-     * @param loCategoryId
-     * @throws MissingParameterException,OperationFailedException
-     */
-    private boolean doesLoCategoryExist(String loRepositoryKey, LoCategoryInfo loCategoryInfo, String loCategoryId,ContextInfo contextInfo)
-            throws MissingParameterException, DataValidationErrorException {
-    if (loCategoryInfo.getName() == null)
-    {
-     return false;
-    }
-        boolean exists = false;
-	    SearchRequest request = new SearchRequest();
-	    request.setSearchKey("lo.search.loCategoriesByNameRepoTypeState");
-	    
- 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam qpv1 = new SearchParam();
-		qpv1.setKey("lo.queryParam.loCategoryName");
-		qpv1.setValue(loCategoryInfo.getName().toLowerCase());
-		searchParams.add(qpv1);
-		SearchParam qpv2 = new SearchParam();
-		qpv2.setKey("lo.queryParam.loCategoryRepo");
-		qpv2.setValue(loRepositoryKey);
-		searchParams.add(qpv2);
-		SearchParam qpv3 = new SearchParam();
-		qpv3.setKey("lo.queryParam.loCategoryType");
-		qpv3.setValue(loCategoryInfo.getType());
-		searchParams.add(qpv3);
-		SearchParam qpv4 = new SearchParam();
-		qpv4.setKey("lo.queryParam.loCategoryState");
-		qpv4.setValue(loCategoryInfo.getState());
-		searchParams.add(qpv4);
-		
-		request.setParams(searchParams);
-		
-		SearchResult result = search(request, contextInfo);
-		
-		if(loCategoryId != null && !loCategoryId.trim().equals("")){
-			if (result.getRows().size() > 0) {
-				for(SearchResultRow srrow : result.getRows()){
-					List<SearchResultCell> srCells = srrow.getCells();
-					if(srCells != null && srCells.size() > 0){
-						for(SearchResultCell srcell : srCells){
-							if(!srcell.getValue().equals(loCategoryId)) {
-                                exists = true;
-                            }
-						}
-					}
-				}
-			}
-		}
-		else{
-			if (result.getRows().size() > 0) {
-                exists = true;
-			}
-		}
-        return exists;
-    }
+//    /**
+//     * @param loRepositoryKey
+//     * @param loCategoryInfo
+//     * @param loCategoryId
+//     * @throws MissingParameterException,OperationFailedException
+//     */
+//    private boolean doesLoCategoryExist(String loRepositoryKey, LoCategoryInfo loCategoryInfo, String loCategoryId,ContextInfo contextInfo)
+//            throws MissingParameterException, DataValidationErrorException {
+//    if (loCategoryInfo.getName() == null)
+//    {
+//     return false;
+//    }
+//        boolean exists = false;
+//	    SearchRequest request = new SearchRequest();
+//	    request.setSearchKey("lo.search.loCategoriesByNameRepoTypeState");
+//	    
+// 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
+//		SearchParam qpv1 = new SearchParam();
+//		qpv1.setKey("lo.queryParam.loCategoryName");
+//		qpv1.setValue(loCategoryInfo.getName().toLowerCase());
+//		searchParams.add(qpv1);
+//		SearchParam qpv2 = new SearchParam();
+//		qpv2.setKey("lo.queryParam.loCategoryRepo");
+//		qpv2.setValue(loRepositoryKey);
+//		searchParams.add(qpv2);
+//		SearchParam qpv3 = new SearchParam();
+//		qpv3.setKey("lo.queryParam.loCategoryType");
+//		qpv3.setValue(loCategoryInfo.getType());
+//		searchParams.add(qpv3);
+//		SearchParam qpv4 = new SearchParam();
+//		qpv4.setKey("lo.queryParam.loCategoryState");
+//		qpv4.setValue(loCategoryInfo.getState());
+//		searchParams.add(qpv4);
+//		
+//		request.setParams(searchParams);
+		//TODO KSCM :		
+//		SearchResult result = search(request, contextInfo);
+//		
+//		if(loCategoryId != null && !loCategoryId.trim().equals("")){
+//			if (result.getRows().size() > 0) {
+//				for(SearchResultRow srrow : result.getRows()){
+//					List<SearchResultCell> srCells = srrow.getCells();
+//					if(srCells != null && srCells.size() > 0){
+//						for(SearchResultCell srcell : srCells){
+//							if(!srcell.getValue().equals(loCategoryId)) {
+//                                exists = true;
+//                            }
+//						}
+//					}
+//				}
+//			}
+//		}
+//		else{
+//			if (result.getRows().size() > 0) {
+//                exists = true;
+//			}
+//		}
+//        return exists;
+//    }
     
-    @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey,ContextInfo contextInfo) {
-        return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
-    }
+//    @Override
+//    public ObjectStructureDefinition getObjectStructure(String objectTypeKey,ContextInfo contextInfo) {
+//        return dictionaryServiceDelegate.getObjectStructure(objectTypeKey);
+//    }
 
-    @Override
-    public List<String> getObjectTypes(ContextInfo contextInfo) {
-        return dictionaryServiceDelegate.getObjectTypes();
-    }
+//    @Override
+//    public List<String> getObjectTypes(ContextInfo contextInfo) {
+//        return dictionaryServiceDelegate.getObjectTypes();
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
 	 */
-    @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-
-        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, contextInfo);
-    }
+//    @Override
+//    public SearchCriteriaTypeInfo getSearchCriteriaType(
+//            String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException,
+//            OperationFailedException {
+//
+//        return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, contextInfo);
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
 	 */
-    @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
-    throws OperationFailedException {
-        return searchManager.getSearchCriteriaTypes(contextInfo);
-    }
+//    @Override
+//    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
+//    throws OperationFailedException {
+//        return searchManager.getSearchCriteriaTypes(contextInfo);
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
 	 */
-    @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,ContextInfo contextInfo)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchResultType(searchResultTypeKey, contextInfo);
-    }
+//    @Override
+//    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,ContextInfo contextInfo)
+//    throws DoesNotExistException, InvalidParameterException,
+//    MissingParameterException, OperationFailedException {
+//        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+//        return searchManager.getSearchResultType(searchResultTypeKey, contextInfo);
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
 	 */
-    @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
-    throws OperationFailedException {
-        return searchManager.getSearchResultTypes(contextInfo);
-    }
+//    @Override
+//    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
+//    throws OperationFailedException {
+//        return searchManager.getSearchResultTypes(contextInfo);
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
 	 */
-    @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey,ContextInfo contextInfo)
-    throws DoesNotExistException, InvalidParameterException,
-    MissingParameterException, OperationFailedException {
-        checkForMissingParameter(searchTypeKey, "searchTypeKey");
-        return searchManager.getSearchType(searchTypeKey, contextInfo);
-    }
+//    @Override
+//    public SearchTypeInfo getSearchType(String searchTypeKey,ContextInfo contextInfo)
+//    throws DoesNotExistException, InvalidParameterException,
+//    MissingParameterException, OperationFailedException {
+//        checkForMissingParameter(searchTypeKey, "searchTypeKey");
+//        return searchManager.getSearchType(searchTypeKey, contextInfo);
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
 	 */
-    @Override
-    public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
-    throws OperationFailedException {
-        return searchManager.getSearchTypes(contextInfo);
-    }
+//    @Override
+//    public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
+//    throws OperationFailedException {
+//        return searchManager.getSearchTypes(contextInfo);
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
 	 */
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(
-            String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
-    }
+//    @Override
+//    public List<SearchTypeInfo> getSearchTypesByCriteria(
+//            String searchCriteriaTypeKey,ContextInfo contextInfo) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException,
+//            OperationFailedException {
+//        checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+//        return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
+//    }
 
 	/* (non-Javadoc)
 	 * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
 	 */
-    @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(
-            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException,
-            OperationFailedException {
-        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
-    }
+//    @Override
+//    public List<SearchTypeInfo> getSearchTypesByResult(
+//            String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+//            InvalidParameterException, MissingParameterException,
+//            OperationFailedException {
+//        checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+//        return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
+//    }
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
@@ -993,7 +1003,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!", val);
+			//TODO KSCM :throw new DataValidationErrorException("Validation error!", val);
+			throw new DataValidationErrorException("Validation error!");
 		}
 	    
 	    if (null == loLoRelationInfo.getState()) {
@@ -1009,19 +1020,21 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
         loLoRelationInfo.setType(loLoRelationInfo.getType());
 	    
 	    LoLoRelation relation = null;
-	    try {
-		    relation = LearningObjectiveServiceAssembler.toLoLoRelation(false, loLoRelationInfo, loDao);
-	    } catch (VersionMismatchException vme) {
-	    	// should never happen in a create call, but
-	    	throw new OperationFailedException("VersionMismatchException caught during LoLoRelation creation");
-	    }
+	  //TODO KSCM :
+//	    try {
+//	    	//TODO KSCM :   relation = LearningObjectiveServiceAssembler.toLoLoRelation(false, loLoRelationInfo, loDao);
+//	    } catch (VersionMismatchException vme) {
+//	    	// should never happen in a create call, but
+//	    	throw new OperationFailedException("VersionMismatchException caught during LoLoRelation creation");
+//	    }
 	    relation.setLo(lo);
 	    relation.setRelatedLo(relatedLo);
 	    relation.setLoLoRelationType(type);
 	    
 	    relation = loDao.create(relation);
 	    
-		return LearningObjectiveServiceAssembler.toLoLoRelationInfo(relation);
+	  //TODO KSCM :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(relation);
+	    return null;
 	}
 
 	@Override
@@ -1043,7 +1056,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loLoRelationId, "loLoRelationId");
-		return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
+	  //TODO KSCM :return LearningObjectiveServiceAssembler.toLoLoRelationInfo(loDao.fetch(LoLoRelation.class, loLoRelationId));
+	    return null;
 	}
 
 	@Override
@@ -1052,7 +1066,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		List<LoLoRelation> llRelations = loDao.getLoLoRelationsByLoId(loId);
-		return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
+		//TODO KSCM :return LearningObjectiveServiceAssembler.toLoLoRelationInfos(llRelations);
+		return null;
 	}
 
 	@Override
@@ -1062,7 +1077,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		List<Lo> relatedLos = loDao.getLosByRelatedLoId(relatedLoId, loLoRelationType);
-		return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+		//TODO KSCM :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+		return null;
 	}
 
 	@Override
@@ -1073,7 +1089,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loId, "loId");
 	    checkForMissingParameter(loLoRelationTypeKey, "loLoRelationTypeKey");
 	    List<Lo> relatedLos = loDao.getRelatedLosByLoId(loId, loLoRelationTypeKey);
-		return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+	  //TODO KSCM :return LearningObjectiveServiceAssembler.toLoInfos(relatedLos);
+	    return null;
 	}
 
 	@Override
@@ -1086,7 +1103,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		// Validate LoLoRelation
 		List<ValidationResultInfo> val = validateLoLoRelation("SYSTEM", loLoRelationInfo,contextInfo );
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", val);
+			//TODO KSCM :throw new DataValidationErrorException("Validation error!", val);
+			return null;
 		}
 
 	    
@@ -1110,27 +1128,30 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		// Validate LoCategory
 		List<ValidationResultInfo> val = validateLoCategory("SYSTEM", loCategoryInfo,contextInfo);
 
-        //kslum-136 - don't allow dups w/ same name (case insensitive), type, state & repository       
-        if (doesLoCategoryExist(loCategoryInfo.getLoRepositoryKey(), loCategoryInfo, null,contextInfo)) {
-            ValidationResultInfo vr = new ValidationResultInfo();
-            vr.setElement("LO Category Name");
-            vr.setError("LO Category already exists");
-            val.add(vr);
-        }
+        //kslum-136 - don't allow dups w/ same name (case insensitive), type, state & repository
+		//TODO KSCM :
+//        if (doesLoCategoryExist(loCategoryInfo.getLoRepositoryKey(), loCategoryInfo, null,contextInfo)) {
+//            ValidationResultInfo vr = new ValidationResultInfo();
+//            vr.setElement("LO Category Name");
+//            vr.setError("LO Category already exists");
+//            val.add(vr);
+//        }
         if(null != val && val.size() > 0) {
 			for (ValidationResultInfo result : val) {
 				System.err.println("Validation error. Element: " + result.getElement() + ",  Value: " + result.getMessage());
 			}
-			throw new DataValidationErrorException("Validation error!", val);
+			//TODO KSCM :throw new DataValidationErrorException("Validation error!", val);
+			throw new DataValidationErrorException("Validation error!");
 		}
 
-	    LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, loDao);
+      //TODO KSCM : LoCategory category = LearningObjectiveServiceAssembler.toLoCategory(loCategoryInfo, loDao);
 	    LoCategoryType loCatType = loDao.fetch(LoCategoryType.class, loCategoryTypeKey);
-	    category.setLoCategoryType(loCatType);
+	  //TODO KSCM : category.setLoCategoryType(loCatType);
 	    LoRepository loRepository = loDao.fetch(LoRepository.class, loCategoryInfo.getLoRepositoryKey() );
-	    category.setLoRepository(loRepository);
-	    loDao.create(category);
-		return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
+	  //TODO KSCM :category.setLoRepository(loRepository);
+	  //TODO KSCM :loDao.create(category);
+	    //TODO KSCM :return LearningObjectiveServiceAssembler.toLoCategoryInfo(category);
+	    return null;
 	}
 
 	@Override
@@ -1159,63 +1180,74 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			OperationFailedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
 	    List<Lo> los = loDao.getLosByRepository(loRepositoryKey);
-		return LearningObjectiveServiceAssembler.toLoInfos(los);
+	  //TODO KSCM :return LearningObjectiveServiceAssembler.toLoInfos(los);
+	    return null;
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
-        checkForMissingParameter(searchRequest, "searchRequest");
-        SearchResult result =  searchManager.search(searchRequest, loDao, contextInfo);
-        if("lo.search.loByCategory".equals(searchRequest.getSearchKey())){
-//        	for(SearchParam param:searchRequest.getParams()){
-//        		if("lo.queryParam.groupCategories".equals(param.getKey())&&"true".equals(param.getValue())){
-        	groupCategories(result);
-//        		}
-//        	}
-        }
-        
-        return result;
+	public List<LoCategoryInfo> getLoCategoriesByLoRepository(
+			String loRepositoryKey, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
+//	@Override
+//	public SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
+//        checkForMissingParameter(searchRequest, "searchRequest");
+//        SearchResult result =  searchManager.search(searchRequest, loDao, contextInfo);
+//        if("lo.search.loByCategory".equals(searchRequest.getSearchKey())){
+////        	for(SearchParam param:searchRequest.getParams()){
+////        		if("lo.queryParam.groupCategories".equals(param.getKey())&&"true".equals(param.getValue())){
+//        	groupCategories(result);
+////        		}
+////        	}
+//        }
+//        
+//        return result;
+//	}
+
 	//Updates search results grouping category names as a comma delimited list
-	private void groupCategories(SearchResult result) {
-		Map<String,SearchResultCell> idToCellMap = new HashMap<String,SearchResultCell>();
-		for(Iterator<SearchResultRow> iter = result.getRows().iterator();iter.hasNext();){
-			SearchResultRow row = iter.next();
-			SearchResultCell categoryCell = null;
-			String loId = null;
-			//Get search result cell values
-			for(SearchResultCell cell:row.getCells()){
-				if("lo.resultColumn.categoryName".equals(cell.getKey())){
-					categoryCell = cell;
-					break;
-				}else if("lo.resultColumn.loId".equals(cell.getKey())){
-					loId = cell.getValue();
-				}
-			}
-			//If a row exists with the same loId, append the category to the existing row and remove the current row.
-			if(loId!=null){
-				if(idToCellMap.containsKey(loId)){
-					SearchResultCell cell = idToCellMap.get(loId);
-					if(cell == null){
-						cell = new SearchResultCell("lo.resultColumn.categoryName","");
-						idToCellMap.put(loId, cell);
-					}
-					if(categoryCell!=null){
-						if(cell.getValue()==null||cell.getValue().isEmpty()){
-							cell.setValue(categoryCell.getValue());
-						}else if(categoryCell.getValue()!=null && !categoryCell.getValue().isEmpty()){
-							cell.setValue(cell.getValue()+", "+categoryCell.getValue());
-						}
-					}
-					//Remove this row since we alreay have a mapping to a row with this lo Id
-					iter.remove();
-				} else {
-					//Otherwise add a mapping and continue
-					idToCellMap.put(loId, categoryCell);
-				}
-			}
-		}
-	}
+//	private void groupCategories(SearchResult result) {
+//		Map<String,SearchResultCell> idToCellMap = new HashMap<String,SearchResultCell>();
+//		for(Iterator<SearchResultRow> iter = result.getRows().iterator();iter.hasNext();){
+//			SearchResultRow row = iter.next();
+//			SearchResultCell categoryCell = null;
+//			String loId = null;
+//			//Get search result cell values
+//			for(SearchResultCell cell:row.getCells()){
+//				if("lo.resultColumn.categoryName".equals(cell.getKey())){
+//					categoryCell = cell;
+//					break;
+//				}else if("lo.resultColumn.loId".equals(cell.getKey())){
+//					loId = cell.getValue();
+//				}
+//			}
+//			//If a row exists with the same loId, append the category to the existing row and remove the current row.
+//			if(loId!=null){
+//				if(idToCellMap.containsKey(loId)){
+//					SearchResultCell cell = idToCellMap.get(loId);
+//					if(cell == null){
+//						cell = new SearchResultCell("lo.resultColumn.categoryName","");
+//						idToCellMap.put(loId, cell);
+//					}
+//					if(categoryCell!=null){
+//						if(cell.getValue()==null||cell.getValue().isEmpty()){
+//							cell.setValue(categoryCell.getValue());
+//						}else if(categoryCell.getValue()!=null && !categoryCell.getValue().isEmpty()){
+//							cell.setValue(cell.getValue()+", "+categoryCell.getValue());
+//						}
+//					}
+//					//Remove this row since we alreay have a mapping to a row with this lo Id
+//					iter.remove();
+//				} else {
+//					//Otherwise add a mapping and continue
+//					idToCellMap.put(loId, categoryCell);
+//				}
+//			}
+//		}
+//	}
 	
 }
