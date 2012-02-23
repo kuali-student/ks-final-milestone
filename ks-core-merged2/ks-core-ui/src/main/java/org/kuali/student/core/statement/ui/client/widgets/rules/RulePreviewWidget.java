@@ -12,6 +12,7 @@ import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
 import org.kuali.student.r1.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -116,7 +117,7 @@ public class RulePreviewWidget extends FlowPanel {
     private void addSubRule(final StatementTreeViewInfo subTree) {
         //display AND/OR operator between subrules
         if (addRuleOperator) {
-        	// TODO KSCM buildANDOperator(stmtTreeInfo.getOperator());
+        	buildANDOperator(stmtTreeInfo.getOperator());
         }
 
         final SubrulePreviewWidget newSubRuleWidget = new SubrulePreviewWidget(subTree, isReadOnly, clusetWidgets);        
@@ -218,8 +219,8 @@ public class RulePreviewWidget extends FlowPanel {
         actions.addStyleName("KS-Rule-Preview-header-action");
     }
 
-    private void buildANDOperator(StatementOperatorTypeKey operator) {
-        KSLabel andLabel = new KSLabel((operator == StatementOperatorTypeKey.AND ? "AND" : "OR"));
+    private void buildANDOperator(StatementOperator operator) {
+        KSLabel andLabel = new KSLabel((operator == StatementOperator.AND ? "AND" : "OR"));
         andLabel.addStyleName("KS-Rule-Preview-Operator");
         rulePanel.add(andLabel);        
     }

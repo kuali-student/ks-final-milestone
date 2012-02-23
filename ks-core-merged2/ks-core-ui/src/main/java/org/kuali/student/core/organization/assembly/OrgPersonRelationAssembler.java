@@ -210,15 +210,11 @@ public class OrgPersonRelationAssembler implements Assembler<Data, OrgPersonHelp
             OrgPersonHelper orgPersonHelper = OrgPersonHelper.wrap(relationMap);
             orgPersonHelper.setId(relation.getId());
             orgPersonHelper.setOrgId(relation.getOrgId());
-            if(!orgPersonMeta.isCanEdit()){
-                
-              //TODO KSCM orgPersonHelper.setTypeKey(orgService.getOrgPersonRelationType(relation.getTypeKey()).getName());
-               
-            }
-            else{
+            if (!orgPersonMeta.isCanEdit()) {
+                orgPersonHelper.setTypeKey(orgService.getOrgPersonRelationType(relation.getType()).getName());
+            } else {
                 orgPersonHelper.setTypeKey(relation.getType());
             }
-            
             orgPersonHelper.setPersonId(relation.getPersonId());
             orgPersonHelper.setEffectiveDate(relation.getEffectiveDate());
             orgPersonHelper.setExpirationDate(relation.getExpirationDate());

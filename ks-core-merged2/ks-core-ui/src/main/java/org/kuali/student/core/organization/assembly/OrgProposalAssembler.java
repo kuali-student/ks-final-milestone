@@ -246,7 +246,7 @@ public class OrgProposalAssembler extends BaseAssembler<Data, OrgHelper>{
             if (orgProposalMeta.isCanEdit()) {
                 switch (input.getModificationState()) {
                     case CREATED:
-                        // TODO KSCM result = orgService.createOrganization(orgInfo.getTypeKey(), orgInfo);
+                        result = orgService.createOrganization(orgInfo.getType(), orgInfo);
                         break;
                     case UPDATED:
                     	result = orgService.updateOrganization(orgInfo.getId(), orgInfo);

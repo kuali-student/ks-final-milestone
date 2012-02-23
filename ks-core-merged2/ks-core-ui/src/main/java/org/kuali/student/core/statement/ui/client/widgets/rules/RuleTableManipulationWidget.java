@@ -23,6 +23,7 @@ import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
 import org.kuali.student.r1.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementOperator;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
@@ -173,7 +174,7 @@ public class RuleTableManipulationWidget extends FlowPanel {
                 if (isMatchingOperandSelected(Token.Or)) {
                     StatementVO statementVO = rule.getSelectedStatementVOs().get(0);
                     if (statementVO != null) {
-                        //TODO KSCM statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.OR);
+                        statementVO.getStatementInfo().setOperator(StatementOperator.OR);
                         statementVO.toggleAndOr();
                     }
                 } else {
@@ -201,7 +202,7 @@ public class RuleTableManipulationWidget extends FlowPanel {
                 if (isMatchingOperandSelected(Token.And)) {
                     StatementVO statementVO = rule.getSelectedStatementVOs().get(0);
                     if (statementVO != null) {
-                        //TODO KSCM statementVO.getStatementInfo().setOperator(StatementOperatorTypeKey.AND);
+                        statementVO.getStatementInfo().setOperator(StatementOperator.AND);
                         statementVO.toggleAndOr();
                     }
                 } else {

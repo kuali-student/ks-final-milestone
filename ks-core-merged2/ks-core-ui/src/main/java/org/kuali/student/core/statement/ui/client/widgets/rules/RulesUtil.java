@@ -129,8 +129,8 @@ public class RulesUtil {
                         (java.util.Date)inReqComponentInfo.getExpirationDate().clone());
             }
             clonedReqComponentInfo.setMetaInfo(clone(inReqComponentInfo.getMeta()));
-            clonedReqComponentInfo.setType(inReqComponentInfo.getType());
-            clonedReqComponentInfo.setState(inReqComponentInfo.getState());
+            clonedReqComponentInfo.setType(inReqComponentInfo.getTypeKey());
+            clonedReqComponentInfo.setState(inReqComponentInfo.getStateKey());
             clonedReqComponentInfo.setId(inReqComponentInfo.getId());
 //            clonedReqComponentInfo.setRequiredComponentType(inReqComponentInfo.getRequiredComponentType());
             clonedReqComponentInfo.setNaturalLanguageTranslation(inReqComponentInfo.getNaturalLanguageTranslation());
@@ -193,8 +193,8 @@ public class RulesUtil {
             clonedStatementTreeViewInfoInfo.setOperator(inStatementTreeViewInfo.getOperator());
          // TODO KSCM clonedStatementTreeViewInfoInfo.setAttributes(clone(inStatementTreeViewInfo.getAttributes()));
             clonedStatementTreeViewInfoInfo.setMeta(clone(inStatementTreeViewInfo.getMeta()));
-            clonedStatementTreeViewInfoInfo.setType(inStatementTreeViewInfo.getType());
-            clonedStatementTreeViewInfoInfo.setState(inStatementTreeViewInfo.getState());
+            clonedStatementTreeViewInfoInfo.setTypeKey(inStatementTreeViewInfo.getTypeKey());
+            clonedStatementTreeViewInfoInfo.setStateKey(inStatementTreeViewInfo.getStateKey());
             clonedStatementTreeViewInfoInfo.setId(inStatementTreeViewInfo.getId());
 //            clonedStatementTreeViewInfoInfo.setNaturalLanguageTranslation(inStatementTreeViewInfo.getNaturalLanguageTranslation());
 

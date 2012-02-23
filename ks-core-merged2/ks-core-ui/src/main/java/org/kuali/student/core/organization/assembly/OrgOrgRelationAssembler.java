@@ -41,6 +41,7 @@ import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r1.common.ui.client.mvc.DataModel;
 import org.kuali.student.r1.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgHelper;
 import org.kuali.student.core.organization.assembly.data.server.org.OrgorgRelationHelper;
 import org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo;
@@ -71,24 +72,19 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
 
     @Override
     public Data get(String id) throws AssemblyException {
-
         List<OrgOrgRelationInfo> relations = new ArrayList<OrgOrgRelationInfo>();
         List<OrgOrgRelationInfo> parentRelations = new ArrayList<OrgOrgRelationInfo>();
         Data orgOrgRelationMap = null;
-//        try{
-        	// TODO KSCM            relations = orgService.getOrgOrgRelationsByOrg(id);
-        	// TODO KSCM            parentRelations = orgService.getOrgOrgRelationsByRelatedOrg(id);
-            orgOrgRelationMap = buildOrgOrgRelationDataMap(relations,parentRelations);
-            
-//        }
-//        catch(DoesNotExistException dnee){
-//            return null;
-//            
-//        }
-//        catch(Exception e){
-//            LOG.error(e);
-//            throw(new AssemblyException());
-//        }
+        try {
+            relations = orgService.getOrgOrgRelationsByOrg(id);
+            parentRelations = orgService.getOrgOrgRelationsByRelatedOrg(id);
+            orgOrgRelationMap = buildOrgOrgRelationDataMap(relations, parentRelations);
+        } catch (DoesNotExistException dnee) {
+            return null;
+        } catch (Exception e) {
+            LOG.error(e);
+            throw (new AssemblyException());
+        }
         return orgOrgRelationMap;
     }
 
@@ -201,8 +197,6 @@ public class OrgOrgRelationAssembler implements Assembler<Data, OrgorgRelationHe
                 
                 OrgOrgRelationInfo orgOrgRelationInfo = buildOrgOrgRelationInfo(orgOrgRelation);
                 try{
-//                	KSCM-320:  Check TODOs
-//                    OrgOrgRelationInfo result = null;
                     OrgOrgRelationInfo result = orgService.createOrgOrgRelation(orgOrgRelationInfo.getOrgId(), orgOrgRelationInfo.getRelatedOrgId(), orgOrgRelationInfo.getType(), orgOrgRelationInfo);
                     orgOrgRelation.setId(result.getId());
                     addVersionIndicator(orgOrgRelation.getData(),OrgOrgRelationInfo.class.getName(),result.getId(),result.getMetaInfo().getVersionInd());

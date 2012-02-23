@@ -91,7 +91,7 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
 
         // Update proposal with new authors (if any)
         if (updateProposal) {
-            //TODO KSCM proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
+            proposalInfo = proposalService.updateProposal(proposalInfo.getId(), proposalInfo);
             properties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
             
     		//Note: A proposalInfo conversion for data sent to UI happens in PropoposalWorkflowFilter as well. It

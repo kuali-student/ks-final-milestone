@@ -46,6 +46,7 @@ import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
 import org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.ui.server.gwt.old.AbstractBaseDataOrchestrationRpcGwtServlet;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r1.core.organization.dto.OrgInfo;
 import org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo;
@@ -170,21 +171,21 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public OrgInfo createOrganization(OrgInfo orgInfo) {
         try {
-         // TODO KSCM return service.createOrganization(orgInfo.getTypeKey(), orgInfo);
+            return service.createOrganization(orgInfo.getType(), orgInfo);
         } catch (Exception e) {
-        	LOG.error(e);
-		}
+            LOG.error(e);
+        }
         return null;
     }
 
     @Override
     public OrgOrgRelationInfo createOrgOrgRelation(OrgOrgRelationInfo orgOrgRelationInfo) {
         try {
-         // TODO KSCM return service.createOrgOrgRelation(orgOrgRelationInfo.getOrgId(), orgOrgRelationInfo.getRelatedOrgId(),
-         // TODO KSCM          orgOrgRelationInfo.getTypeKey(), orgOrgRelationInfo);
+            return service.createOrgOrgRelation(orgOrgRelationInfo.getOrgId(), orgOrgRelationInfo.getRelatedOrgId(),
+                    orgOrgRelationInfo.getType(), orgOrgRelationInfo);
         } catch (Exception e) {
-        	LOG.error(e);
-		}
+            LOG.error(e);
+        }
         return null;
     }
 
@@ -345,8 +346,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException {
 
         try {
-            DataSaveResult s = null;
-            // TODO KSCM DataSaveResult s = this.saveData(proposal);
+            DataSaveResult s = this.saveData(proposal, ContextUtils.getContextInfo());
             if (s == null) {
                 return null;
             } else {
@@ -440,7 +440,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public Data fetchOrg(String orgId) {
         try {
-         // TODO KSCM return (Data)this.getData(orgId);
+            return (Data)this.getData(orgId, ContextUtils.getContextInfo());
         }
         catch(Exception e){
         	LOG.error(e);
