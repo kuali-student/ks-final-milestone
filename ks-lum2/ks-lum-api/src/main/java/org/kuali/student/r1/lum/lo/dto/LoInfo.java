@@ -18,10 +18,12 @@ package org.kuali.student.r1.lum.lo.dto;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -32,6 +34,7 @@ import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.w3c.dom.Element;
 
 /**
  * Detailed information about a learning objective
@@ -196,9 +199,16 @@ public class LoInfo implements Serializable, Idable, HasTypeState, HasAttributes
     	return "LoInfo[id=" + id + "]";
     }
 
-	public LoInfo convertR2toR1(
-			org.kuali.student.r2.lum.lo.dto.LoInfo loToDelete) {
-		// TODO Carel 
-		return null;
+	public LoInfo convertR2toR1(org.kuali.student.r2.lum.lo.dto.LoInfo loToDelete) {
+	  
+	org.kuali.student.r2.lum.lo.dto.LoInfo r2Object = loToDelete;
+    org.kuali.student.r1.lum.lo.dto.LoInfo r1Object = new   org.kuali.student.r1.lum.lo.dto.LoInfo();
+	
+    r1Object.setLoRepositoryKey(r2Object.getLoRepositoryKey());
+    r1Object.setEffectiveDate(r2Object.getEffectiveDate()); 
+    r1Object.setExpirationDate(r2Object.getExpirationDate());
+	  
+       
+		return r1Object;
 	}
 }
