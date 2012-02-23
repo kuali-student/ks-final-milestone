@@ -18,9 +18,13 @@ package org.kuali.student.r2.lum.lo.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
+import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
@@ -381,8 +385,9 @@ public interface LearningObjectiveService {
      * @throws MissingParameterException    loId or contextInfo is missing or null
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws DependentObjectsExistException 
      */
-    public StatusInfo deleteLo (@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteLo (@WebParam(name = "loId") String loId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
 
     /**
@@ -545,8 +550,9 @@ public interface LearningObjectiveService {
      * @throws MissingParameterException    loCategoryId or contextInfo is missing or null
      * @throws OperationFailedException     unable to complete request
      * @throws PermissionDeniedException    an authorization failure occurred
+     * @throws DependentObjectsExistException 
      */
-    public StatusInfo deleteLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteLoCategory (@WebParam(name = "loCategoryId") String loCategoryId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
     /**
      * Deletes existing LoCategories of a Lo.
@@ -741,5 +747,74 @@ public interface LearningObjectiveService {
      * @throws PermissionDeniedException    an authorization failure occurred
      */
     public StatusInfo deleteLoLoRelation (@WebParam(name = "loLoRelationId") String loLoRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    
+    public List<LoTypeInfo> getLoTypes(@WebParam(name = "contextInfo")ContextInfo contextInfo)
+			throws OperationFailedException;
+
+	public LoTypeInfo getLoType(@WebParam(name = "loTypeKey")String loTypeKey,@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	public List<LoLoRelationTypeInfo> getLoLoRelationTypes(@WebParam(name = "contextInfo")ContextInfo contextInfo)
+			throws OperationFailedException;
+
+	public LoLoRelationTypeInfo getLoLoRelationType(@WebParam(name = "loLoRelationTypeKey")String loLoRelationTypeKey,
+			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws OperationFailedException,
+			MissingParameterException, DoesNotExistException;
+
+	public List<String> getAllowedLoLoRelationTypesForLoType(@WebParam(name = "loTypeKey")String loTypeKey,
+			@WebParam(name = "relatedLoTypeKey")String relatedLoTypeKey,@WebParam(name = "contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	public List<LoInfo> getLoByIdList(List<String> loIds, ContextInfo contextInfo)
+			throws InvalidParameterException, MissingParameterException,
+			OperationFailedException;
+
+	public List<LoCategoryInfo> getLoCategories(@WebParam(name = "loRepositoryKey")String loRepositoryKey,
+			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException;
+
+	public List<LoCategoryInfo> getLoCategoriesForLo(@WebParam(name = "loId")String loId,
+			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException;
+
+	public StatusInfo deleteLoLoRelation(@WebParam(name = "loLoRelationId")String loLoRelationId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+	LoLoRelationInfo getLoLoRelation(String loLoRelationId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	List<LoLoRelationInfo> getLoLoRelationsByLoId(String loId)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	List<LoInfo> getLosByRelatedLoId(String relatedLoId, String loLoRelationType)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	List<LoInfo> getRelatedLosByLoId(String loId, String loLoRelationTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey,
+			ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException;
+
+	List<LoInfo> getLosByRepository(String loRepositoryKey, String loTypeKey,
+			String loStateKey) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+	List<LoCategoryTypeInfo> getLoCategoryTypes()
+			throws OperationFailedException;
+	
+	
 
 }
