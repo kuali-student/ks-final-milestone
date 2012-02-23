@@ -25,9 +25,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.entity.AttributeOwner;
-import org.kuali.student.common.entity.MetaEntity;
+import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.entity.AttributeOwner;
+import org.kuali.student.r1.common.entity.MetaEntity;
 
 @Entity
 @Table(name = "KSLU_LU_CODE")

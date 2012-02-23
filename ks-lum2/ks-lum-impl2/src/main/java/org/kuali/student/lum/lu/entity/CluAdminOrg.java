@@ -25,8 +25,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.kuali.student.common.entity.AttributeOwner;
-import org.kuali.student.common.entity.BaseEntity;
+import org.kuali.student.r1.common.entity.AttributeOwner;
+import org.kuali.student.r1.common.entity.BaseEntity;
 
 /**
  * This is a description of what this class does - hjohnson don't forget to fill this in. 
