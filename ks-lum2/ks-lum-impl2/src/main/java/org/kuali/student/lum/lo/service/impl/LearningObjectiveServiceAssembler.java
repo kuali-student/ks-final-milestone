@@ -52,8 +52,35 @@ import org.springframework.beans.BeanUtils;
 
 public class LearningObjectiveServiceAssembler extends BaseAssembler {
 
-    public static Lo toLo(boolean isUpdate, LoInfo dto, CrudDao dao) throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
-        return toLo(isUpdate, new Lo(), dto, dao);
+	
+	//TODO KSCM : Changed this method to suite the required needs
+    public static <T> Lo toLo(boolean isUpdate, T dto, CrudDao dao) throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
+    	
+    	if (dto.getClass().getPackage().getName().contains("r1")	)
+    	{
+    		
+    		org.kuali.student.r1.lum.lo.dto.LoInfo aDto = (org.kuali.student.r1.lum.lo.dto.LoInfo)dto;
+    		
+    		Lo d =         toLo(isUpdate, new Lo(), aDto, dao);
+    		
+    		return d; 
+    	}
+
+    	if (dto.getClass().getPackage().getName().contains("r1")	)
+    	{
+    		org.kuali.student.r2.lum.lo.dto.LoInfo aDto = (org.kuali.student.r2.lum.lo.dto.LoInfo)dto;
+    		
+    		//TODO KSCM need to implement R2 DTO conversion within toLo method
+    		Lo d  = new Lo();//=         toLo(isUpdate, new Lo(), aDto, dao);
+    		
+    		return d; 
+
+    	
+    	
+    	}
+    	
+    	return null;
+    	
     }
     
     public static Lo toLo(boolean isUpdate, Lo entity, LoInfo dto, CrudDao dao) throws InvalidParameterException, DoesNotExistException, VersionMismatchException {
@@ -94,17 +121,36 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         return lo;
     }
 
-	public static LoInfo toLoInfo(Lo entity) {
-        LoInfo dto = new LoInfo();
-
-        BeanUtils.copyProperties(entity, dto,
-                new String[] { "desc", "attributes", "type" });
-        dto.setDesc(toRichTextInfo(entity.getDescr()));
-        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
-        dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        dto.setType(entity.getLoType().getId());
-        dto.setLoRepositoryKey(entity.getLoRepository() == null? null: entity.getLoRepository().getId());
-        return dto;
+    //TODO KSCM changed the return type to be either R1 DTO or R2 DTO
+	public static <E> E toLoInfo(E returnType,Lo entity) {
+        
+		
+		if (returnType.getClass().getPackage().getName().contains("r1")){
+			org.kuali.student.r1.lum.lo.dto.LoInfo dto = new org.kuali.student.r1.lum.lo.dto.LoInfo();
+	
+	        BeanUtils.copyProperties(entity, dto,
+	                new String[] { "desc", "attributes", "type" });
+	        dto.setDesc(toRichTextInfo(entity.getDescr()));
+	        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+	        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+	        dto.setType(entity.getLoType().getId());
+	        dto.setLoRepositoryKey(entity.getLoRepository() == null? null: entity.getLoRepository().getId());
+        return (E)dto;
+		}
+		if (returnType.getClass().getPackage().getName().contains("r2")){
+			//TODO KSCM : need to implement this correctly
+			org.kuali.student.r2.lum.lo.dto.LoInfo dto = new org.kuali.student.r2.lum.lo.dto.LoInfo();
+	
+//	        BeanUtils.copyProperties(entity, dto,
+//	                new String[] { "desc", "attributes", "type" });
+//	        dto.setDesc(toRichTextInfo(entity.getDescr()));
+//	        dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+//	        dto.setAttributes(toAttributeMap(entity.getAttributes()));
+//	        dto.setType(entity.getLoType().getId());
+//	        dto.setLoRepositoryKey(entity.getLoRepository() == null? null: entity.getLoRepository().getId());
+        return (E)dto;
+		}
+    return null; 
     }
 
     public static LoCategory toLoCategory(LoCategoryInfo dto, LoDao dao) throws InvalidParameterException, DoesNotExistException {
@@ -158,7 +204,7 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
         return dto;
     }
 
-    
+    //TODO KSCM changed it so that I can return both R1 and R2
     public static List<LoInfo> toLoInfos(List<Lo> los) {
         List<LoInfo> list = new ArrayList<LoInfo>();
         for (Lo lo : los) {
@@ -345,6 +391,153 @@ public class LearningObjectiveServiceAssembler extends BaseAssembler {
     
     
 
+    
+    public static <T,E> E convertEntity_To_Dto_LoRepositoryInfos(E c,T repository) {
+    	
+    	//Where E is the type of DTO we want at the end
+    	//Where T is the type of entity we passed --- Repository is a  entity
+    	
+    	
+    	
+
+            
+        	//Determine which entity is passed -- but currently not needed -- since we do not have R2 Entities !!!
+	        	//if (loRepository.getClass().equals(org.kuali.student.lum.lo.entity.LoRepository.class) ) 
+	        	//{
+	        	//	
+	        	//}
+        	
+        	
+    	//Determine to which Dto we must convert to : dto1 or dto2
+        	
+        	if (c.getClass().getPackage().getName().contains("r1"))
+        	{
+        		//Constructor[] constructorss = c.getClass().getDeclaredConstructors();
+        		try{
+        			
+        		// Small piece of reflection to keep with the generics	
+        		Constructor constructor_main = c.getClass().getConstructor(new Class[]{});        		
+        		E dto = (E)constructor_main.newInstance();
+        		
+        		
+        		BeanUtils.copyProperties(repository, dto,
+                        new String[] { "desc", "attributes", "rootLo" });
+        		
+        		//LoRepositoryInfo aDto = (LoRepositoryInfo)dto;
+        		
+        		//Note I am writing out the whole package so that there is now Confusion...
+        		org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo aDto =  new LoRepositoryInfo();
+        		LoRepository entity = (LoRepository)repository;
+        		
+        		// Reflection which we will not need since we are keeping it simple
+			        		//Method methodDto = c.getClass().getMethod("setDesc", org.kuali.student.r1.common.dto.RichTextInfo.class);
+			        		//Method methodEntity = c.getClass().getMethod("getDescr",  org.kuali.student.lum.lo.entity.LoRichText);
+			        		
+			        		//                                     *setDesc((org.kuali.student.lum.lo.entity.LoRichText)methodEntity.invoke(loRepository)) 
+			        		//Object returnValue = methodDto.invoke(dto,toRichTextInfo((org.kuali.student.lum.lo.entity.LoRichText)methodEntity.invoke(loRepository)) );  
+			        		
+			        		//Method m = c.getClass().get
+			        		//Method[] m = c.getClass().getMethods();
+        		
+        		
+                aDto.setDesc(toRichTextInfo(entity.getDescr()));
+                aDto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
+                aDto.setAttributes(toAttributeMap(entity.getAttributes()));
+                aDto.setRootLoId(entity.getRootLo() == null? null :entity.getRootLo().getId());
+        		dto = (E)aDto;
+                
+                
+        		return dto;
+        		}catch(Exception e)
+        		{
+        			
+        			
+        		}
+        		
+        	}
+        	
+        	
+        	if (c.getClass().getPackage().getName().contains("r2"))
+        	{
+        		 
+        		try{
+            		Constructor constructor_main = c.getClass().getConstructor(new Class[]{});
+            		
+            		E dto = (E)constructor_main.newInstance();
+            		
+            		
+            		BeanUtils.copyProperties(repository, dto,
+                            new String[] { "desc", "attributes", "rootLo" });
+        		
+        		org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo aDto =  new org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo();
+        		//Note this is a R1 Entity not R2 Entity ... This whole method is currently suited for R1 Entities not R2
+        		LoRepository entity = (LoRepository)repository;
+        		
+        		
+        		//Method methodDto = c.getClass().getMethod("setDesc", org.kuali.student.r1.common.dto.RichTextInfo.class);
+        		//Method methodEntity = c.getClass().getMethod("getDescr",  org.kuali.student.lum.lo.entity.LoRichText);
+        		
+        		//                                     *setDesc((org.kuali.student.lum.lo.entity.LoRichText)methodEntity.invoke(loRepository)) 
+        		//Object returnValue = methodDto.invoke(dto,toRichTextInfo((org.kuali.student.lum.lo.entity.LoRichText)methodEntity.invoke(loRepository)) );  
+        		
+        		//Method m = c.getClass().get
+        		//Method[] m = c.getClass().getMethods();
+        		
+        		//Enity.getDesc returns a LoRichText
+        		
+        	        if(entity==null){
+        	            return null;
+        	        }else {
+        	        
+        	        // I am doing this since I do not have an BaseAssembler that can convert R1 Enities to R2 DTOs
+        	        // This is the same logic you would find in the BaseAssembler when calling this method : toRichTextInfo(entity.getDescr())
+        	        org.kuali.student.r2.common.dto.RichTextInfo dtoDesc = new org.kuali.student.r2.common.dto.RichTextInfo();
+        	        	
+        	        	BeanUtils.copyProperties(entity.getDescr(), dtoDesc, new String[] { "id" });
+        	        	aDto.setDescr(dtoDesc );
+        	        	
+        	        org.kuali.student.r2.common.dto.MetaInfo dtoMeta = new org.kuali.student.r2.common.dto.MetaInfo();
+    	        	   	    		
+	    	        	// If there was a meta passed in then copy the values
+	    	    		if (entity.getMeta() != null) {
+	    	    			BeanUtils.copyProperties(entity.getMeta(), dtoMeta);
+	    	    		}
+	    	    		if(entity.getVersionNumber()==null){
+	    	    			dtoMeta.setVersionInd(null);
+	    	    		}else{
+	    	    			dtoMeta.setVersionInd(entity.getVersionNumber().toString());
+	    	    		}
+	    	    		aDto.setMeta(dtoMeta);
+    	        	
+        	        	
+        	        
+        	        }
+        	        
+    
+        		
+                // I am not doing this to since the two above just serves as a example.
+                
+                //aDto.setAttributes     (toAttributeMap(entity.getAttributes()));
+                //aDto.setRootLoId (entity.getRootLo() == null? null :entity.getRootLo().getId());
+        		dto = (E)aDto;  
+        		return dto;
+        		}catch(Exception aEx)
+        		{
+        			
+        			
+        		}
+        	}
+
+        	
+        	
+        	
+        }
+        // Last Note : We need a class like BaseAssembler which has static methods that can "copy over values" from a R1 Entity to R2 Dtos
+        // currently we only have R1 entities to R1 dtos 
+        //return list;
+    
+    
+    
     
 
     public static List<LoTypeInfo> toLoTypeInfos(List<LoType> find) {
