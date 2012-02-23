@@ -205,25 +205,25 @@ public class TypeServiceMockImpl implements TypeService{
         TypeInfo termGroupType = createTypeInfo("kuali.atp.type.group.term", null);
 
         termGroup.add(getType("kuali.atp.type.Fall"));
-//        termGroup.add(getType("kuali.atp.type.FallSpring"));
-//        termGroup.add(getType("kuali.atp.type.HalfFall1"));
-//        termGroup.add(getType("kuali.atp.type.HalfFall2"));
+        termGroup.add(getType("kuali.atp.type.FallSpring"));
+        termGroup.add(getType("kuali.atp.type.HalfFall1"));
+        termGroup.add(getType("kuali.atp.type.HalfFall2"));
         termGroup.add(getType("kuali.atp.type.Winter"));
         termGroup.add(getType("kuali.atp.type.Spring"));
-//        termGroup.add(getType("kuali.atp.type.HalfSpring1"));
-//        termGroup.add(getType("kuali.atp.type.HalfSpring2"));
-//        termGroup.add(getType("kuali.atp.type.SpringBreak"));
+        termGroup.add(getType("kuali.atp.type.HalfSpring1"));
+        termGroup.add(getType("kuali.atp.type.HalfSpring2"));
+        termGroup.add(getType("kuali.atp.type.SpringBreak"));
         termGroup.add(getType("kuali.atp.type.Summer"));
-//        termGroup.add(getType("kuali.atp.type.SummerEve"));
-//        termGroup.add(getType("kuali.atp.type.Session1"));
-//        termGroup.add(getType("kuali.atp.type.Mini-mester1A"));
-//        termGroup.add(getType("kuali.atp.type.Mini-mester1B"));
-//        termGroup.add(getType("kuali.atp.type.Session2"));
-//        termGroup.add(getType("kuali.atp.type.Mini-mester2C"));
-//        termGroup.add(getType("kuali.atp.type.Mini-mester2D"));
-//        termGroup.add(getType("kuali.atp.type.SessionG1"));
-//        termGroup.add(getType("kuali.atp.type.SessionG2"));
-//        termGroup.add(getType("kuali.atp.type.Adhoc"));
+        termGroup.add(getType("kuali.atp.type.SummerEve"));
+        termGroup.add(getType("kuali.atp.type.Session1"));
+        termGroup.add(getType("kuali.atp.type.Mini-mester1A"));
+        termGroup.add(getType("kuali.atp.type.Mini-mester1B"));
+        termGroup.add(getType("kuali.atp.type.Session2"));
+        termGroup.add(getType("kuali.atp.type.Mini-mester2C"));
+        termGroup.add(getType("kuali.atp.type.Mini-mester2D"));
+        termGroup.add(getType("kuali.atp.type.SessionG1"));
+        termGroup.add(getType("kuali.atp.type.SessionG2"));
+        termGroup.add(getType("kuali.atp.type.Adhoc"));
         for (TypeInfo type : termGroup) {
             createTypeTypeRelationInfo(termGroupType, type);
         }
