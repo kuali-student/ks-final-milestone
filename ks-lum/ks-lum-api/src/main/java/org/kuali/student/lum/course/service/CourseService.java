@@ -18,9 +18,9 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 // TODO KSCM-159 import org.kuali.student.common.util.constants.CourseServiceConstants;

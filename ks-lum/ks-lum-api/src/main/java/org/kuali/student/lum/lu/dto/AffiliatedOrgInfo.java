@@ -11,14 +11,11 @@
 package org.kuali.student.lum.lu.dto;
 
 // TODO kscm-129
-import org.w3c.dom.Element;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -26,7 +23,7 @@ import org.kuali.student.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.lum.lu.infc.AffiliatedOrg;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "meta", "attributes", "orgId", "percentage", "effectiveDate", "expirationDate", "typeKey", "stateKey", "_futureElements"})
+@XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "meta", "attributes", "orgId", "percentage", "effectiveDate", "expirationDate", "typeKey", "stateKey" /*TODO KSCM-gwt-compile , "_futureElements" */})
 public class AffiliatedOrgInfo extends IdNamelessEntityInfo implements AffiliatedOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,8 +35,10 @@ public class AffiliatedOrgInfo extends IdNamelessEntityInfo implements Affiliate
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public AffiliatedOrgInfo() {
         super();

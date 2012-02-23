@@ -16,19 +16,16 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlType;
-
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.AmountInfo;
 import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.common.dto.TimeAmountInfo;
 import org.kuali.student.lum.course.infc.Activity;
-import org.w3c.dom.Element;
 
-@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes",
-        "_futureElements"})
+@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes"
+        /* TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ActivityInfo extends IdEntityInfo implements Activity, Serializable {
 
@@ -46,8 +43,9 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
     @XmlElement
     private AmountInfo contactHours;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public ActivityInfo() {}
 

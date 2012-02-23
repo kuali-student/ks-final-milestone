@@ -15,12 +15,12 @@ import org.kuali.student.lum.lu.dto.CluInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface StatementRpcServiceAsync extends BaseRpcServiceAsync {
-    public void getStatementTypesForStatementTypeForCourse(String statementTypeKey, AsyncCallback<List<StatementTypeInfo>> callback, ContextInfo contextInfo);
-    public void getStatementTypesForStatementType(String statementTypeKey, AsyncCallback<List<StatementTypeInfo>> callback, ContextInfo contextInfo);
-    public void getReqComponentTypesForStatementType(String luStatementTypeKey, AsyncCallback<List<ReqComponentTypeInfo>> callback, ContextInfo contextInfo);
-    public void translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language, AsyncCallback<String> callback, ContextInfo contextInfo);
-    public void translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language, AsyncCallback<String> callback, ContextInfo contextInfo);
-	public void translateReqComponentToNLs(ReqComponentInfoUi reqComp, String[] nlUsageTypeKeys, String temlateLanguage, AsyncCallback<List<String>> callback, ContextInfo contextInfo);
-    public void getClu(String cluId, AsyncCallback<CluInfo> callback, ContextInfo contextInfo);
-    public void getCurrentVersion(String refObjectTypeURI, String refObjectId, AsyncCallback<VersionDisplayInfo> callback, ContextInfo contextInfo);
+    public void getStatementTypesForStatementTypeForCourse(String statementTypeKey, ContextInfo contextInfo, AsyncCallback<List<StatementTypeInfo>> callback);
+    public void getStatementTypesForStatementType(String statementTypeKey, ContextInfo contextInfo, AsyncCallback<List<StatementTypeInfo>> callback);
+    public void getReqComponentTypesForStatementType(String luStatementTypeKey, ContextInfo contextInfo, AsyncCallback<List<ReqComponentTypeInfo>> callback);
+    public void translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language, ContextInfo contextInfo, AsyncCallback<String> callback);
+    public void translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language, ContextInfo contextInfo, AsyncCallback<String> callback);
+	public void translateReqComponentToNLs(ReqComponentInfoUi reqComp, String[] nlUsageTypeKeys, String temlateLanguage, ContextInfo contextInfo, AsyncCallback<List<String>> callback);
+    public void getClu(String cluId, ContextInfo contextInfo, AsyncCallback<CluInfo> callback);
+    public void getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo, AsyncCallback<VersionDisplayInfo> callback);
 }

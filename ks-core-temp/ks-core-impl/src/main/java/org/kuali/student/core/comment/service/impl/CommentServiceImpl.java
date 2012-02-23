@@ -610,7 +610,7 @@ public class CommentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateComment(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateComment(
 			String validationTypeKey, CommentInfo commentInfo,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

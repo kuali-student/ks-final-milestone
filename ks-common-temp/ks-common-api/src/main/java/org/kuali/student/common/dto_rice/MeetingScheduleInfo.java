@@ -9,7 +9,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.dto;
+package org.kuali.student.common.dto_rice;
 
 import java.io.Serializable;
 
@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.MeetingSchedule;
+import org.kuali.student.common.infc_rice.MeetingSchedule;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeetingScheduleInfo", propOrder = {"id", "spaceId", "timePeriods"})

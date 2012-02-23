@@ -248,7 +248,8 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
         if (selectedId.trim().equals("") || selectedId.equals(UtilConstants.IMPOSSIBLE_CHARACTERS)) {
             showNewCategoryWindow();
         } else {
-            loCatRpcServiceAsync.getData(picker.getSelectedId(), new KSAsyncCallback<Data>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            loCatRpcServiceAsync.getData(picker.getSelectedId(), ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -312,8 +313,9 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
                                 catHelper.setState("active");
                                 catHelper.setLoRepository(repoKey);
                                 catHelper.setType(typesDropDown.getSelectedItem());
-
-                                loCatRpcServiceAsync.saveData(catHelper.getData(), new KSAsyncCallback<DataSaveResult>() {
+                                
+                                //TODO KSCM - Correct ContextInfo parameter?
+                                loCatRpcServiceAsync.saveData(catHelper.getData(), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>() {
                                     @Override
                                     public void handleFailure(Throwable caught) {
                                         Window.alert("Create LO Category failed: " + caught.getMessage());
@@ -404,7 +406,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             picker.reset();
         } else {
             //TODO KSCM - Correct contextInfo param?
-            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), ContextUtils.getContextInfo(), new KSAsyncCallback<LoCategoryTypeInfo>() {
+            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), null, new KSAsyncCallback<LoCategoryTypeInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {

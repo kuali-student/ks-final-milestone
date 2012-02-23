@@ -29,7 +29,7 @@ import org.kuali.student.core.proposal.infc.Proposal;
 import org.w3c.dom.Element;
 
 @XmlType(name = "ProposalInfo", propOrder = {"id", "typeKey", "stateKey", "proposerPerson", "proposerOrg", "proposalReferenceType", "proposalReference", "rationale", "detailDesc", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+        "expirationDate", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 
@@ -62,8 +62,9 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
     @XmlElement
     private String workflowId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public ProposalInfo() {
 

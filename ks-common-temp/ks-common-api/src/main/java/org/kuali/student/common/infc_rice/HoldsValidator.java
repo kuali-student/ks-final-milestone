@@ -12,19 +12,18 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.common.infc;
+package org.kuali.student.common.infc_rice;
 
-// TODO kscm-124 import org.kuali.student.common.dictionary.service.DataDictionaryService;
+import org.kuali.student.common.dictionary.DataDictionaryValidator;
 
 /**
- * Holds the dictionary service
+ * Holds the validator service
  * 
  * @author nwright
  */
-// TODO kscm-124
-public interface HoldsDataDictionaryService {
+public interface HoldsValidator {
 
-	// TODO kscm-124    public DataDictionaryService getDataDictionaryService();
+    public DataDictionaryValidator getValidator();
 
-	// TODO kscm-124    public void setDataDictionaryService(DataDictionaryService dataDictionaryService);
+    public void setValidator (DataDictionaryValidator validator);
 }

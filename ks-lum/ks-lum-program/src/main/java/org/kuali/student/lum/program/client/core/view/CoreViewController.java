@@ -96,11 +96,12 @@ public class CoreViewController extends CoreController implements RequiresAuthor
 
         actionBox.clear();
         if (status == ProgramStatus.ACTIVE) {
-            programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            programRemoteService.isLatestVersion(versionIndId, sequenceNumber, ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>() {
                 public void onSuccess(Boolean isLatest) {
                     actionBox.setList(ActionType.getValuesForCoreProgram(isLatest));
                 }
-            }, ContextUtils.getContextInfo());
+            });
         } else {
             actionBox.setList(ActionType.getValuesForCoreProgram(false));
         }

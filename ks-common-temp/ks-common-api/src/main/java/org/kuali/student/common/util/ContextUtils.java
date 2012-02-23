@@ -1,7 +1,5 @@
 package org.kuali.student.common.util;
 
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.dto.ContextInfo;
 
 /**
@@ -21,11 +19,11 @@ public class ContextUtils {
      */
     public static ContextInfo getContextInfo(){
         ContextInfo contextInfo = new ContextInfo();
-        UserSession userSession = GlobalVariables.getUserSession();
-        if (userSession != null) {
-            contextInfo.setPrincipalId(userSession.getPrincipalId());
-        }
-
+        //TODO KSCM-gwt-compile: UserSession contains references that can't be emulated in GWT.
+//        UserSession userSession = GlobalVariables.getUserSession();
+//        if (userSession != null) {
+//            contextInfo.setPrincipalId(userSession.getPrincipalId());
+//        }
         return contextInfo;
     }
 

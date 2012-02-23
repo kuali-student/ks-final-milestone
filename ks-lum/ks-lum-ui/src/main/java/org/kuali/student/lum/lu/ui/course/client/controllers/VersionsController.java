@@ -24,6 +24,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseSummaryConfigurer;
@@ -137,7 +138,8 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
 	private void getCourseFromCluId(final String courseId, final int modelNum, final ModelRequestCallback callback, final boolean id1Model){
 		KSBlockingProgressIndicator.addTask(loadDataTask);
 	
-	    rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
+		//TODO KSCM - Correct ContextInfo parameter?
+	    rpcServiceAsync.getData(courseId, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
 	
 	        @Override
 	        public void handleFailure(Throwable caught) {
@@ -242,7 +244,8 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
         } else {
         	KSBlockingProgressIndicator.addTask(loadDataTask);
     		
-        	rpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
+        	//TODO KSCM - Correct ContextInfo parameter?
+        	rpcServiceAsync.getMetadata("", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
 
 	        	public void handleFailure(Throwable caught) {
 	        		initialized = false;

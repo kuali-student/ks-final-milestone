@@ -5,7 +5,7 @@
  * under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
  * implied. See the License for the specific language governing permissions and limitations under the License.
  */
-package org.kuali.student.common.dto;
+package org.kuali.student.common.dto_rice;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,7 +16,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.ValidationResult;
+import org.kuali.student.common.infc_rice.ValidationResult;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -30,7 +30,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatementInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "operator", "statementIds", "reqComponentIds", "meta", "attributes", "_futureElements"})
+        "name", "descr", "operator", "statementIds", "reqComponentIds", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 public class StatementInfo extends IdEntityInfo implements Statement, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,8 +41,10 @@ public class StatementInfo extends IdEntityInfo implements Statement, Serializab
     private List<String> statementIds;
     @XmlElement
     private List<String> reqComponentIds;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public StatementInfo() {
     }

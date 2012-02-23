@@ -16,7 +16,7 @@
 package org.kuali.student.common.dictionary;
 
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
-import org.kuali.student.common.dictionary.dto.AttributeDefinitionInfo;
+import org.kuali.student.common.dictionary.dto_rice.AttributeDefinitionInfo;
 
 /**
  *

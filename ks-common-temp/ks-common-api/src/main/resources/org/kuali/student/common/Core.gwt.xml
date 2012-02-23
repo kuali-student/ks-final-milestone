@@ -19,4 +19,9 @@
 	<inherits name='com.google.gwt.user.User' />
     <inherits name="com.googlecode.gwtx.Java" />
 	<source path='dto' />
+	<source path='infc' />
+	<source path='exceptions' />
+	<source path='util'>
+		 <include name="**/ContextUtils.java" />
+	</source>
 </module>

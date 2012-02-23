@@ -29,9 +29,9 @@ import org.kuali.student.common.dto.HasAttributes;
 import org.kuali.student.common.dto.HasTypeState;
 import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RelationshipInfo;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
-import org.kuali.student.common.dto.RelationshipInfo;
 import org.kuali.student.core.proposal.infc.ProposalDocRelation;
 import org.w3c.dom.Element;
 
@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
  * 
  * @author KS Team(sambitpa@kuali.org)
  */
-@XmlType(name = "ProposalDocRelationInfo", propOrder = {"id", "typeKey", "stateKey", "proposalId", "documentId", "title", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "ProposalDocRelationInfo", propOrder = {"id", "typeKey", "stateKey", "proposalId", "documentId", "title", "effectiveDate", "expirationDate", "meta", "attributes" /* TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalDocRelationInfo extends RelationshipInfo implements ProposalDocRelation, Serializable {
 
@@ -56,8 +56,9 @@ public class ProposalDocRelationInfo extends RelationshipInfo implements Proposa
     @XmlElement
     private String title;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public ProposalDocRelationInfo() {
 

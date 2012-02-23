@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", "name", "descr",
                 "shortName", "sortName", "shortDescr", "orgCodes",
                 "effectiveDate", "expirationDate",
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 
 public class OrgInfo 
     extends IdEntityInfo
@@ -67,8 +67,9 @@ public class OrgInfo
     @XmlElement
     private List<OrgCodeInfo> orgCodes;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**

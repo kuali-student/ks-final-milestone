@@ -12,18 +12,19 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.common.infc;
+package org.kuali.student.common.infc_rice;
 
-import org.kuali.rice.kim.api.permission.PermissionService;
+// TODO kscm-124 import org.kuali.student.common.dictionary.service.DataDictionaryService;
 
 /**
- *
+ * Holds the dictionary service
+ * 
  * @author nwright
  */
-public interface HoldsPermissionService {
+// TODO kscm-124
+public interface HoldsDataDictionaryService {
 
-	public PermissionService getPermissionService();
-		
+	// TODO kscm-124    public DataDictionaryService getDataDictionaryService();
 
-	public void setPermissionService(PermissionService permissionService);
+	// TODO kscm-124    public void setDataDictionaryService(DataDictionaryService dataDictionaryService);
 }

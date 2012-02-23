@@ -11,19 +11,16 @@
 
 package org.kuali.student.lum.lo.dto;
 
-import org.kuali.student.common.dto.IdEntityInfo;
-import org.kuali.student.lum.lo.infc.Lo;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.lum.lo.infc.Lo;
 
 /**
  * Detailed information about a learning objective
@@ -31,7 +28,7 @@ import java.util.List;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 
-@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LoInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoInfo extends IdEntityInfo implements Lo, Serializable {
 
@@ -46,8 +43,9 @@ public class LoInfo extends IdEntityInfo implements Lo, Serializable {
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     
     public LoInfo(){

@@ -22,10 +22,10 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.dto_rice.ValidationResultInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.exceptions.DoesNotExistException;

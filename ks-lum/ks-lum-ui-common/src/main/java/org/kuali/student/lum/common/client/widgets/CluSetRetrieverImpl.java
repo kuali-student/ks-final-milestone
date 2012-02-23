@@ -17,6 +17,7 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getCluSetInformation(final String cluSetId, final Callback<CluSetInformation> retrieveDoneCallback) {
+        //TODO KSCM - Correct ContextInfo parameter?
         cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, ContextUtils.getContextInfo(), new AsyncCallback<CluSetInformation>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -32,7 +33,8 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getMetadata(final String id, final Callback<Metadata> callback) {
-        cluSetManagementRpcServiceAsync.getMetadata(id, null, new AsyncCallback<Metadata>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        cluSetManagementRpcServiceAsync.getMetadata(id, null, null, new AsyncCallback<Metadata>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -49,7 +51,8 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getData(final String cluSetId, final Callback<Data> callback) {
-        cluSetManagementRpcServiceAsync.getData(cluSetId, new AsyncCallback<Data>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        cluSetManagementRpcServiceAsync.getData(cluSetId, ContextUtils.getContextInfo(), new AsyncCallback<Data>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failed to retreive data for clu Set with id " + cluSetId);
@@ -64,7 +67,8 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void saveData(final Data data, final Callback<DataSaveResult> callback) {
-        cluSetManagementRpcServiceAsync.saveData(data, new AsyncCallback<DataSaveResult>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        cluSetManagementRpcServiceAsync.saveData(data, ContextUtils.getContextInfo(), new AsyncCallback<DataSaveResult>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failed to save clu set data");

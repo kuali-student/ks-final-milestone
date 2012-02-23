@@ -16,6 +16,7 @@ package org.kuali.student.lum.lu.ui.course.client.requirements;
 
 import java.util.*;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
@@ -87,7 +88,8 @@ public class CourseRequirementsDataModel {
     public void retrieveStatementTypes(final String courseId, final Callback<Boolean> onReadyCallback) {
 
         //retrieve available course requirement types
-            statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", new KSAsyncCallback<List<StatementTypeInfo>>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTypeInfo>>() {
                 @Override
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
@@ -106,7 +108,7 @@ public class CourseRequirementsDataModel {
                     //now retrieve the actual rules
                     retrieveRules(courseId, onReadyCallback);
                 }
-            }, ContextUtils.getContextInfo());
+            });
     }
 
     private void retrieveRules(String courseId, final Callback<Boolean> onReadyCallback) {
@@ -119,7 +121,8 @@ public class CourseRequirementsDataModel {
         }
 
         courseRemoteService.getCourseStatements(courseId, CourseRequirementsManageView.RULEEDIT_TEMLATE,
-                                                    CourseRequirementsManageView.TEMLATE_LANGUAGE, new KSAsyncCallback<List<StatementTreeViewInfo>>() {
+                //TODO KSCM - Correct ContextInfo parameter?
+                                                    CourseRequirementsManageView.TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTreeViewInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -152,7 +155,7 @@ public class CourseRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     public StatementTreeViewInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalCourseReqID, boolean isNewRule) {
@@ -189,8 +192,8 @@ public class CourseRequirementsDataModel {
         }
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
-
-        courseRemoteService.storeCourseStatements(courseId.toString(), courseState, courseReqState, courseReqInfos, new KSAsyncCallback<Map<Integer, StatementTreeViewInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        courseRemoteService.storeCourseStatements(courseId.toString(), courseState, courseReqState, courseReqInfos, ContextUtils.getContextInfo(), new KSAsyncCallback<Map<Integer, StatementTreeViewInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -235,7 +238,7 @@ public class CourseRequirementsDataModel {
                 //MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
                 callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     public static void stripStatementIds(StatementTreeViewInfo tree) {
@@ -400,7 +403,8 @@ public class CourseRequirementsDataModel {
         StatementRpcServiceAsync statementRpcServiceAsync = GWT.create(StatementRpcService.class);
 
         //retrieve available course requirement types
-        statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", new KSAsyncCallback<List<StatementTypeInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        statementRpcServiceAsync.getStatementTypesForStatementTypeForCourse("kuali.statement.type.course", ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
 	            Window.alert(caught.getMessage());
@@ -417,7 +421,7 @@ public class CourseRequirementsDataModel {
                 }
                 onReadyCallback.exec(stmtTypes);
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     public static boolean isEmpty(StatementTreeViewInfo rule) {

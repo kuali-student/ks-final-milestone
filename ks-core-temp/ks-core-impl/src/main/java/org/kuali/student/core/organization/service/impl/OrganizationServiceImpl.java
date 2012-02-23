@@ -1051,7 +1051,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateOrg(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateOrg(
 			String validationTypeKey, String orgTypeKey, OrgInfo orgInfo,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -1200,7 +1200,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateOrgOrgRelation(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateOrgOrgRelation(
 			String validationTypeKey, String orgId, String orgPeerId,
 			String orgOrgRelationTypeKey,
 			OrgOrgRelationInfo orgOrgRelationInfo, ContextInfo contextInfo)
@@ -1373,7 +1373,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateOrgPersonRelation(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateOrgPersonRelation(
 			String validationTypeKey, String orgId, String personId,
 			String orgPersonRelationTypeKey,
 			OrgPersonRelationInfo orgPersonRelationInfo, ContextInfo contextInfo)
@@ -1473,7 +1473,7 @@ public class OrganizationServiceImpl implements OrganizationService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateOrgPositionRestriction(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateOrgPositionRestriction(
 			String validationTypeKey, String orgId,
 			String orgPositionRestrictionTypeKey,
 			OrgPositionRestrictionInfo orgPositionRestrictionInfo,

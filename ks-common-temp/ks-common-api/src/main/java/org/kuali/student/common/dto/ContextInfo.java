@@ -17,19 +17,14 @@ package org.kuali.student.common.dto;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.rice.krad.UserSession;
-import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.common.infc.Context;
 import org.kuali.student.common.infc.Locale;
-import org.w3c.dom.Element;
 
 /**
  * @author Kamal
@@ -41,7 +36,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "ContextInfo", propOrder = {
                 "authenticatedPrincipalId", "principalId", 
                 "currentDate", "locale", "timeZone", 
-                "attributes", "_futureElements"})
+                "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 
 public class ContextInfo 
     extends HasAttributesInfo 
@@ -64,16 +59,17 @@ public class ContextInfo
     @XmlElement
     private String timeZone;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public static ContextInfo newInstance() {
         ContextInfo contextInfo = new ContextInfo();
-        UserSession userSession = GlobalVariables.getUserSession();
-        if (userSession != null) {
-            contextInfo.setPrincipalId(userSession.getPrincipalId());
-        }
-
+      //TODO KSCM-gwt-compile: UserSession contains references that can't be emulated in GWT.
+//        UserSession userSession = GlobalVariables.getUserSession();
+//        if (userSession != null) {
+//            contextInfo.setPrincipalId(userSession.getPrincipalId());
+//        }
         return contextInfo;
     }
 

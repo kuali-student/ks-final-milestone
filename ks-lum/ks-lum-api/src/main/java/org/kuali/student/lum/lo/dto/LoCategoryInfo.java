@@ -11,27 +11,25 @@
 
 package org.kuali.student.lum.lo.dto;
 
-import org.kuali.student.common.dto.IdEntityInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.lum.lo.infc.LoCategory;
-import org.w3c.dom.Element;
+import java.io.Serializable;
+import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import javax.xml.bind.annotation.XmlElement;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.lum.lo.infc.LoCategory;
 
 /**
  * Detailed information about a learning objective category.
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "LoCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LoCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializable {
 
@@ -46,8 +44,9 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     @XmlAnyElement
 	private RichTextInfo descr;

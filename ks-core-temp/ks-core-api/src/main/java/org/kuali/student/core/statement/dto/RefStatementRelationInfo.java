@@ -28,7 +28,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RefStatementRelationInfo", propOrder = {"id", "typeKey", "stateKey", "refObjectTypeKey", "refObjectId", "statementId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RefStatementRelationInfo", propOrder = {"id", "typeKey", "stateKey", "refObjectTypeKey", "refObjectId", "statementId", "effectiveDate", "expirationDate", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class RefStatementRelationInfo extends RelationshipInfo implements RefStatementRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,8 +38,10 @@ public class RefStatementRelationInfo extends RelationshipInfo implements RefSta
     private String refObjectId;
     @XmlElement
     private String statementId;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public RefStatementRelationInfo() {
     }

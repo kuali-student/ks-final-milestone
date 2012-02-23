@@ -15,41 +15,33 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import org.kuali.student.common.messages.dto.LocaleKeyList;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
+import java.util.List;
+
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.LocaleInfo;
+import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.common.messages.dto.MessageInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface MessagesRpcServiceAsync {
-    public void getLocales(AsyncCallback<LocaleKeyList> callback);
+    
+    public void getLocales(ContextInfo contextInfo, AsyncCallback<LocaleInfo> callback);
 
-    public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);
+    //public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);
 
-    public void getMessage(
-            String localeKey, 
-            String messageGroupKey, 
-            String messageKey, 
-            AsyncCallback<Message> callback);
+    public void getMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, ContextInfo contextInfo, 
+            AsyncCallback<MessageInfo> callback);
     
     public void getMessages(
-            String localeKey, 
-            String messageGroupKey, 
-            AsyncCallback<MessageList> callback);
+            LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo,
+            AsyncCallback<MessageInfo> callback);
     
-    public void getMessagesByGroups(
-            String localeKey, 
-            MessageGroupKeyList messageGroupKeyList, 
-            AsyncCallback<MessageList> callback);
+    public void getMessagesByGroups(LocaleInfo localeInfo, List<String> messageGroupKeys, ContextInfo contextInfo, 
+            AsyncCallback<MessageInfo> callback);
     
-    public void updateMessage(
-            String localeKey, 
-            String messageGroupKey, 
-            String messageKey,
-            Message messageInfo, 
-            AsyncCallback<Message> callback);
+    public void updateMessage(LocaleInfo localeInfo, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo, AsyncCallback<MessageInfo> callback);
     
-    public void addMessage(Message messageInfo, 
-            AsyncCallback<Message> callback);
+    public void addMessage(LocaleInfo localeInfo, String messageGroupKey, MessageInfo messageInfo, ContextInfo contextInfo,
+            AsyncCallback<StatusInfo> callback);
 }

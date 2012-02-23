@@ -10,21 +10,19 @@
  */
 package org.kuali.student.lum.course.dto;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
 import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
-import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Detailed information about an LO and all it's children for application use.
@@ -37,7 +35,7 @@ import java.util.List;
  *      >LoDisplayInfo</>
  */
 @XmlType(name = "LoDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loInfo", "loDisplayInfoList", "parentRelType", "parentLoRelationid", "loCategoryInfoList", "meta",
-        "attributes", "_futureElements"})
+        "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializable {
 
@@ -58,8 +56,9 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
     @XmlElement
     private List<LoCategoryInfo> loCategoryInfoList;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public LoDisplayInfo() {
 

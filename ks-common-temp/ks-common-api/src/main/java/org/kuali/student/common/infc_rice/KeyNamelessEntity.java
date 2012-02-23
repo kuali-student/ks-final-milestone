@@ -13,7 +13,12 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.infc;
+package org.kuali.student.common.infc_rice;
+
+import org.kuali.student.common.infc.HasKey;
+import org.kuali.student.common.infc.HasPrimaryKey;
+import org.kuali.student.common.infc.TypeStateEntity;
+
 
 
 /**

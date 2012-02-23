@@ -15,14 +15,15 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.xml.bind.annotation.*;
-
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.TimeAmountInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.infc.ProgramVariation;
-import org.w3c.dom.Element;
 
 /**
  * Detailed information about  major program variations
@@ -34,7 +35,7 @@ import org.w3c.dom.Element;
         "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermId", "endTermId", "endProgramEntryTermId", "effectiveDate", "shortTitle", "longTitle",
         "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations", "programRequirements", "divisionsContentOwner",
         "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources", "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment",
-        "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes", "_futureElements"})
+        "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramVariationInfo extends ProgramAttributesInfo implements ProgramVariation, Serializable {
 
@@ -76,8 +77,9 @@ public class ProgramVariationInfo extends ProgramAttributesInfo implements Progr
     @XmlElement
     private List<String> unitsFinancialControl;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public ProgramVariationInfo() {
         super();

@@ -29,15 +29,17 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReqCompFieldInfo", propOrder = {"id", "typeKey", "stateKey",
-        "value", "meta", "attributes", "_futureElements"})
+        "value", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class ReqCompFieldInfo extends IdNamelessEntityInfo implements ReqCompField, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String value;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public ReqCompFieldInfo() {
     }

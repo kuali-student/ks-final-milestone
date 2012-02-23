@@ -18,7 +18,7 @@ package org.kuali.student.core.population.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.dto_rice.ValidationResultInfo;
 import org.kuali.student.common.exceptions.*;
 import org.kuali.student.core.population.PopulationServiceConstants;
 import org.kuali.student.core.population.dto.PopulationInfo;

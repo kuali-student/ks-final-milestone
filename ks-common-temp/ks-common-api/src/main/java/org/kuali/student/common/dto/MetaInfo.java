@@ -29,7 +29,7 @@ import org.kuali.student.common.infc.Meta;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MetaInfo", propOrder = {"versionInd", "createTime", "createId", "updateTime", "updateId", "_futureElements"})
+@XmlType(name = "MetaInfo", propOrder = {"versionInd", "createTime", "createId", "updateTime", "updateId" /*TODO KSCM-gwt-compile , "_futureElements" */})
 public class MetaInfo implements Meta, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +43,10 @@ public class MetaInfo implements Meta, Serializable {
     private Date updateTime;
     @XmlElement
     private String updateId;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public static MetaInfo newInstance() {
         return new MetaInfo();
@@ -60,7 +62,7 @@ public class MetaInfo implements Meta, Serializable {
         createId = null;
         updateTime = null;
         updateId = null;
-        _futureElements = null;
+        //TODO KSCM-gwt-compile _futureElements = null;
     }
 
     public MetaInfo(Meta meta) {
@@ -70,7 +72,7 @@ public class MetaInfo implements Meta, Serializable {
             this.createId = meta.getCreateId();
             this.updateTime = null != meta.getUpdateTime() ? new Date(meta.getUpdateTime().getTime()) : null;
             this.updateId = meta.getUpdateId();
-            this._futureElements = null;
+            //TODO KSCM-gwt-compile this._futureElements = null;
         }
     }
 

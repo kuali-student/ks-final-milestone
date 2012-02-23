@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.infc;
 
 import java.util.List;
+
 import org.kuali.student.common.infc.HasAttributesAndMeta;
 import org.kuali.student.common.infc.HasId;
 

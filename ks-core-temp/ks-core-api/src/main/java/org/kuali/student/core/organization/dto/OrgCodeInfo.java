@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.core.organization.infc.OrgCode;
 import org.kuali.student.common.dto.IdEntityInfo;
-import org.w3c.dom.Element;
 
 /**
  * Detailed information about organization codes.
@@ -37,7 +36,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgCodeInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 
 public class OrgCodeInfo 
     extends IdEntityInfo
@@ -45,8 +44,9 @@ public class OrgCodeInfo
 
     private static final long serialVersionUID = 1L;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**

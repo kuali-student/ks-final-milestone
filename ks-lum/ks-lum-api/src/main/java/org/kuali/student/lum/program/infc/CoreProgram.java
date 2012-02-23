@@ -1,7 +1,7 @@
 package org.kuali.student.lum.program.infc;
 
-import org.kuali.student.common.infc.RichText;
 import org.kuali.student.common.infc.IdEntity;
+import org.kuali.student.common.infc.RichText;
 import org.kuali.student.lum.course.infc.LoDisplay;
 
 import java.util.List;

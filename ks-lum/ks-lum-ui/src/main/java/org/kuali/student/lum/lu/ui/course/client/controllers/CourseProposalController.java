@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
@@ -63,10 +64,10 @@ import org.kuali.student.common.ui.client.util.ExportUtils;
 import org.kuali.student.common.ui.client.util.WindowTitleUtils;
 import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.YesNoCancelEnum;
 import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
@@ -334,7 +335,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
 		    		
 		    		//Get metadata and complete initializing the screen
-		    		getCourseProposalRpcService().getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+		    		//TODO KSCM - Correct ContextInfo parameter?
+		    		getCourseProposalRpcService().getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
 						@Override
                         public void handleTimeout(Throwable caught) {
 		                	initializeFailed(); 
@@ -397,7 +399,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, "Publication Review");
 		
 		//Get metadata and complete initializing the screen
-		getCourseProposalRpcService().getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+		//TODO KSCM - Correct ContextInfo parameter?
+		getCourseProposalRpcService().getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
 			@Override
 			public void onSuccess(Metadata result) {
 				callback.onSuccess(result);
@@ -439,7 +442,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
 							    KSLabel descLabel = new KSLabel();
 							    descLabel.setText(Application.getApplicationContext().getUILabel("course", LUUIConstants.FINAL_APPROVAL_DIALOG));
 							    if (workflowUtil.getApproveDialogue() != null) {
-// TODO KSCM Paul will fix with ks-core-ui							        workflowUtil.getApproveDialogue().addWidget(descLabel);
+							        workflowUtil.getApproveDialogue().addWidget(descLabel);
 							    }
 							    workflowUtil.addApproveDialogField("", "startTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_START_TERM), modelDefinition, true, true);
 							    workflowUtil.addApproveDialogField("proposal", "prevEndTerm", cfg.generateMessageInfo(LUUIConstants.PROPOSAL_PREV_END_TERM), modelDefinition, false);
@@ -553,7 +556,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     protected void getCluProposalFromProposalId(String id, @SuppressWarnings("rawtypes") final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
-    	getCourseProposalRpcService().getData(id, new KSAsyncCallback<Data>(){
+    	//TODO KSCM - Correct ContextInfo parameter?
+    	getCourseProposalRpcService().getData(id, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {
@@ -583,7 +587,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     @SuppressWarnings("unchecked")
 	protected void getCourseComparisonModelAndReqs(final ModelRequestCallback proposalModelRequestCallback, final Callback<Boolean> workCompleteCallback){
 		if(cluProposalModel.get(VERSION_KEY) != null && !((String)cluProposalModel.get(VERSION_KEY)).equals("")){
-			courseServiceAsync.getData((String)cluProposalModel.get(VERSION_KEY), new KSAsyncCallback<Data>(){
+		    //TODO KSCM - Correct ContextInfo parameter?
+		    courseServiceAsync.getData((String)cluProposalModel.get(VERSION_KEY), ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
 	
 	    		@Override
 	            public void handleFailure(Throwable caught) {
@@ -660,8 +665,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), versionComment);
         data.set(new Data.StringKey("versionInfo"), versionData);
-        
-        cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), new AsyncCallback<DataSaveResult>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        cluProposalRpcServiceAsync.saveData(cluProposalModel.getRoot(), ContextUtils.getContextInfo(), new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
 				cluProposalModel.setRoot(result.getValue());
 				setHeaderTitle();
@@ -692,8 +697,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 
     @SuppressWarnings("unchecked")
     private void createCopyCourseModel(String originalCluId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-
-    	cluProposalRpcServiceAsync.createCopyCourse(originalCluId, new AsyncCallback<DataSaveResult>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+    	cluProposalRpcServiceAsync.createCopyCourse(originalCluId, ContextUtils.getContextInfo(), new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
 				cluProposalModel.setRoot(result.getValue());
 				
@@ -717,13 +722,13 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 createNewCluProposalModel(callback, workCompleteCallback);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);
 			}
-		}, ContextUtils.getContextInfo());
+		});
     }
     
     @SuppressWarnings("unchecked")
     private void createCopyCourseProposalModel(String originalProposalId, final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
-
-    	cluProposalRpcServiceAsync.createCopyCourseProposal(originalProposalId, new AsyncCallback<DataSaveResult>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+    	cluProposalRpcServiceAsync.createCopyCourseProposal(originalProposalId, ContextUtils.getContextInfo(), new AsyncCallback<DataSaveResult>() {
 			public void onSuccess(DataSaveResult result) {
 				cluProposalModel.setRoot(result.getValue());
 		        setHeaderTitle();
@@ -750,7 +755,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 createNewCluProposalModel(callback, workCompleteCallback);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);
 			}
-		}, ContextUtils.getContextInfo());
+		});
     }
     
     public void doSaveAction(final SaveActionEvent saveActionEvent){
@@ -819,7 +824,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
     
     public void saveProposalClu(final SaveActionEvent saveActionEvent){
     	KSBlockingProgressIndicator.addTask(saving);
-        getCourseProposalRpcService().saveData(cluProposalModel.getRoot(), new KSAsyncCallback<DataSaveResult>(){
+    	//TODO KSCM - Correct ContextInfo parameter?
+        getCourseProposalRpcService().saveData(cluProposalModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>(){
 
             @Override
             public void handleFailure(Throwable caught) {
@@ -937,8 +943,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 				if (viewType == CourseSections.SUMMARY){
 				    
 					KSBlockingProgressIndicator.addTask(initializingTask);
-					
-					courseServiceAsync.validate(cluProposalModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){ // server-side call
+					//TODO KSCM - Correct ContextInfo parameter?
+					courseServiceAsync.validate(cluProposalModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<List<ValidationResultInfo>>(){ // server-side call
 					    
 						@Override
 						public void onSuccess(List<ValidationResultInfo> result) {
@@ -995,7 +1001,8 @@ public class CourseProposalController extends MenuEditableSectionController impl
 		//Note: Additional attributes required for permission check (eg. permission details and role qualifiers) will
 		//be determined server side in the AbstractDataService.isAuthorized method. All that is required here is
 		//id of the proposal object)
-		cluProposalRpcServiceAsync.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
+		//TODO KSCM - Correct ContextInfo parameter?
+		cluProposalRpcServiceAsync.isAuthorized(getViewContext().getPermissionType(), attributes, ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
 
 			@Override
 			public void handleFailure(Throwable caught) {

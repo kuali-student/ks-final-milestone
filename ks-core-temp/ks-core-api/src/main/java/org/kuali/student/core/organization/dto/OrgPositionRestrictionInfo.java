@@ -42,7 +42,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", "name", "descr",
                 "orgId", "orgPersonRelationTypeKey", "stdDuration",
                 "minNumRelations", "hasMaxNumRelations", "maxNumRelations",
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 
 public class OrgPositionRestrictionInfo 
     extends IdEntityInfo
@@ -68,8 +68,9 @@ public class OrgPositionRestrictionInfo
     @XmlElement
     private Integer maxNumRelations;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**

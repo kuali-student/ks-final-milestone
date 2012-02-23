@@ -1320,7 +1320,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateRefStatementRelation(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateRefStatementRelation(
 			String validationTypeKey, String statementId,
 			String refStatementRelationTypeKey,
 			RefStatementRelationInfo refStatementRelationInfo,
@@ -1491,7 +1491,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateStatement(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateStatement(
 			String validationTypeKey, String statementTypeKey,
 			StatementInfo statementInfo, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
@@ -1586,7 +1586,7 @@ public class StatementServiceImpl implements StatementService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateReqComponent(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateReqComponent(
 			String validationTypeKey, String reqComponentTypeKey,
 			ReqComponentInfo reqComponentInfo, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,

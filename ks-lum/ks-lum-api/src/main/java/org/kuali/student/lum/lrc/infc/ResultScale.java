@@ -15,8 +15,9 @@
  */
 package org.kuali.student.lum.lrc.infc;
 
-import org.kuali.student.common.infc.KeyEntity;
 import org.kuali.student.common.infc.HasEffectiveDates;
+import org.kuali.student.common.infc.KeyEntity;
+
 import java.util.List;
 
 /**

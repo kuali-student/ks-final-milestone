@@ -12,7 +12,7 @@ import java.util.Map;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.dto_rice.ValidationResultInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.AlreadyExistsException;

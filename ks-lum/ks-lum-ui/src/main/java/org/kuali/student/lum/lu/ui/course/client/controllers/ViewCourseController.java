@@ -49,6 +49,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
@@ -190,7 +191,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
 
     		}
     		
-        	rpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
+    		//TODO KSCM - Correct ContextInfo parameter?
+        	rpcServiceAsync.getMetadata("", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
 
 	        	@Override
                 public void handleFailure(Throwable caught) {
@@ -275,7 +277,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     private void getCourseFromCluId(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback){
     	KSBlockingProgressIndicator.addTask(loadDataTask);
 
-        rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
+    	//TODO KSCM - Correct ContextInfo parameter?
+        rpcServiceAsync.getData(courseId, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
 
             @Override
             public void handleFailure(Throwable caught) {
@@ -308,7 +311,8 @@ public class ViewCourseController extends TabMenuController implements DocumentL
     
     @SuppressWarnings("unchecked")
     private void getCurrentVersion(final ModelRequestCallback callback, final Callback<Boolean> workCompleteCallback) {
-    	rpcServiceAsync.getData(courseId, new KSAsyncCallback<Data>(){
+        //TODO KSCM - Correct ContextInfo parameter?
+    	rpcServiceAsync.getData(courseId, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>(){
 
             @Override
             public void handleFailure(Throwable caught) {

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.dictionary.dto;
+package org.kuali.student.common.dictionary.dto_rice;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;

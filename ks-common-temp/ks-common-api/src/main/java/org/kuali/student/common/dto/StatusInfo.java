@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  * @author nwright
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message", "_futureElements"})
+@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class StatusInfo implements Status, Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -43,20 +43,21 @@ public class StatusInfo implements Status, Serializable {
 	@XmlElement
 	private String message;
 	
-    @XmlAnyElement
-    private List<Element> _futureElements;	
+	//TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;	
 
   
     public StatusInfo() {
 		isSuccess = Boolean.valueOf(true);
 		message = "";
-		_futureElements = null;
+		//TODO KSCM-gwt-compile _futureElements = null;
 	}
 	
     public StatusInfo(Status builder) {
 		this.isSuccess = new Boolean(builder.getIsSuccess().booleanValue());
 		this.message = builder.getMessage();
-		this._futureElements = null;
+		//TODO KSCM-gwt-compile this._futureElements = null;
 	}
 
     @Override

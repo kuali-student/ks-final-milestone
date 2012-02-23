@@ -180,14 +180,14 @@ public interface MessageService {
      */
     public StatusInfo addMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-    @Deprecated
-    public MessageInfo updateMessage(LocaleInfo localeKey, String messageGroupKey, String messageKey, MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo);
+    //@Deprecated
+    //public MessageInfo updateMessage(LocaleInfo localeKey, String messageGroupKey, String messageKey, MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo);
 
     // TODO KSCM-266
-    @Deprecated
-	public MessageList getMessagesByGroups(String locale,
-			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo);
+    //@Deprecated
+//	public MessageList getMessagesByGroups(String locale,
+//			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo);
 
-	public Message addMessage(Message messageInfo, ContextInfo contextInfo);
+	//public Message addMessage(Message messageInfo, ContextInfo contextInfo);
 
 }

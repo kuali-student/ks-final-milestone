@@ -28,8 +28,8 @@ import org.kuali.student.common.dictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.common.dictionary.infc.DictionaryEntry;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.infc.Comparison;
-import org.kuali.student.common.infc.Criteria;
+import org.kuali.student.common.infc_rice.Comparison;
+import org.kuali.student.common.infc_rice.Criteria;
 
 /**
  * A class that validates the criteria against the dictionary

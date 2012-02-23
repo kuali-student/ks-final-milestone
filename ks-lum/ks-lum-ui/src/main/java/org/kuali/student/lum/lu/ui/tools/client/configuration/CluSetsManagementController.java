@@ -44,6 +44,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
@@ -92,7 +93,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
             viewClusetView.setSelectedCluSetId(cluSetId);
             if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
+                //TODO KSCM - Correct ContextInfo parameter?
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
@@ -116,7 +118,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
             viewClusetView.setSelectedCluSetId(cluSetId);
             if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
+                //TODO KSCM - Correct ContextInfo parameter?
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
@@ -234,7 +237,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
             onReadyCallback.exec(true);
         } else {
     		KSBlockingProgressIndicator.addTask(initializingTask);
-            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
+    		//TODO KSCM - Correct ContextInfo parameter?
+            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -329,8 +333,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent) {
     	KSBlockingProgressIndicator.addTask(saving);    	
-        
-    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
+    	//TODO KSCM - Correct ContextInfo parameter?
+    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>() {
     	    @Override
             public void handleFailure(Throwable caught) {
                 GWT.log("Save Failed.", caught);

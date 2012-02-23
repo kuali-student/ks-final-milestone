@@ -27,7 +27,7 @@ import org.kuali.student.core.exemption.dto.ExemptionRequestInfo;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.dto_rice.ValidationResultInfo;
 
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;

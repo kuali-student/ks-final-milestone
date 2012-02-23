@@ -275,7 +275,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
             KSBlockingProgressIndicator.addTask(creatingRuleTask);
 
             //1. update NL for the req. component
-            statementRpcServiceAsync.translateReqComponentToNLs(reqComp, new String[]{RULEEDIT_TEMLATE, RULEPREVIEW_TEMLATE}, TEMLATE_LANGUAGE, new KSAsyncCallback<List<String>>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            statementRpcServiceAsync.translateReqComponentToNLs(reqComp, new String[]{RULEEDIT_TEMLATE, RULEPREVIEW_TEMLATE}, TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<List<String>>() {
                 public void handleFailure(Throwable caught) {
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                     Window.alert(caught.getMessage());
@@ -315,7 +316,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     ruleManageWidget.redraw(rule, true);
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                 }
-            }, ContextUtils.getContextInfo());
+            });
         }
     };
 
@@ -327,8 +328,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
-
-        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), ContextUtils.getContextInfo(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
             public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
             	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
@@ -343,7 +344,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
                 editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     private Map<String, Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
@@ -361,8 +362,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                         @Override
                         public void exec(Object id) {
-
-                            luRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                            //TODO KSCM - Correct ContextInfo parameter?
+                            luRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, ContextUtils.getContextInfo(), new AsyncCallback<VersionDisplayInfo>() {
                                 @Override
                                 public void onFailure(Throwable throwable) {
                                     Window.alert(throwable.getMessage());
@@ -371,7 +372,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                                 @Override
                                 public void onSuccess(final VersionDisplayInfo versionInfo) {
-                                    luRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                    //TODO KSCM - Correct ContextInfo parameter?
+                                    luRpcServiceAsync.getClu(versionInfo.getId(), ContextUtils.getContextInfo(), new AsyncCallback<CluInfo>() {
                                         @Override
                                         public void onFailure(Throwable throwable) {
                                             Window.alert(throwable.getMessage());
@@ -382,11 +384,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             courseWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    }, ContextUtils.getContextInfo());
+                                    });
                                 }
-                            }, ContextUtils.getContextInfo());
-
-
+                            });
                         }
                     });
 
@@ -398,8 +398,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                         @Override
                         public void exec(Object id) {
-
-                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                            //TODO KSCM - Correct ContextInfo parameter?
+                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, ContextUtils.getContextInfo(), new AsyncCallback<VersionDisplayInfo>() {
                                 @Override
                                 public void onFailure(Throwable throwable) {
                                     Window.alert(throwable.getMessage());
@@ -408,7 +408,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                                 @Override
                                 public void onSuccess(final VersionDisplayInfo versionInfo) {
-                                    statementRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                    //TODO KSCM - Correct ContextInfo parameter?
+                                    statementRpcServiceAsync.getClu(versionInfo.getId(), ContextUtils.getContextInfo(), new AsyncCallback<CluInfo>() {
                                         @Override
                                         public void onFailure(Throwable throwable) {
                                             Window.alert(throwable.getMessage());
@@ -419,9 +420,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             programWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    }, ContextUtils.getContextInfo());
+                                    });
                                 }
-                            }, ContextUtils.getContextInfo());
+                            });
                         }
                     });
 
@@ -435,7 +436,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     //called when user selects a rule type in the rule editor
     protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
         public void exec(final ReqComponentInfo reqComp) {
-            statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<String>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
@@ -444,7 +446,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 public void onSuccess(final String compositionTemplate) {
                     editReqCompWidget.displayFieldsStart(compositionTemplate);
                 }
-            }, ContextUtils.getContextInfo());
+            });
         }
     };
 

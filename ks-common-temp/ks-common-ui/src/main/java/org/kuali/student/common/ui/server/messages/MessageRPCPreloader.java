@@ -19,14 +19,17 @@ package org.kuali.student.common.ui.server.messages;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.student.common.dto.LocaleInfo;
 import org.kuali.student.common.messages.dto.Message;
 import org.kuali.student.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.common.messages.dto.MessageInfo;
 import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.messages.service.MessageService;
 import org.kuali.student.common.ui.server.gwt.MessagesRpcGwtServlet;
@@ -70,7 +73,9 @@ public class MessageRPCPreloader {
             messageGroupKeyList.setMessageGroupKeys(Arrays.asList(keys));
             
          // TODO KSCM-266
-            MessageList messageList = getMessageService().getMessagesByGroups(locale,messageGroupKeyList, ContextUtils.getContextInfo());
+            LocaleInfo localeInfo = new LocaleInfo();
+            localeInfo.setLocaleLanguage(locale);
+            List<MessageInfo> messageList = getMessageService().getMessagesByGroups(localeInfo, Arrays.asList(keys), ContextUtils.getContextInfo());
 
             Map<Class<?>, Boolean> whitelist = new HashMap<Class<?>, Boolean>();
             whitelist.put(MessageService.class, true);

@@ -109,7 +109,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<org.kuali.student.common.dto.ValidationResultInfo> validateRefStatementRelation(
+    public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateRefStatementRelation(
             String validationTypeKey, String statementId, String refStatementRelationTypeKey,
             RefStatementRelationInfo refStatementRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -237,7 +237,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<org.kuali.student.common.dto.ValidationResultInfo> validateStatement(String validationTypeKey,
+    public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateStatement(String validationTypeKey,
             String statementTypeKey, StatementInfo statementInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -307,7 +307,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<org.kuali.student.common.dto.ValidationResultInfo> validateReqComponent(String validationTypeKey,
+    public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateReqComponent(String validationTypeKey,
             String reqComponentTypeKey, ReqComponentInfo reqComponentInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {

@@ -16,17 +16,14 @@
 package org.kuali.student.common.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.CurrencyAmount;
-import org.w3c.dom.Element;
 
 /**
  * Detailed information about an amount of currency including both the type of units and the quantity.
@@ -39,7 +36,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CurrencyAmountInfo", propOrder = {"id", "currencyTypeKey", "currencyQuantity",
-        "meta", "_futureElements"})
+        "meta" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,8 +50,9 @@ public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
     @XmlElement
     private Integer currencyQuantity;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     @XmlElement
     private MetaInfo meta;
@@ -64,7 +62,7 @@ public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
         this.currencyTypeKey = null;
         this.currencyQuantity = null;
         this.meta = null;
-        this._futureElements = null;
+        //TODO KSCM-gwt-compile this._futureElements = null;
     }
     
     public CurrencyAmountInfo(CurrencyAmount currency) {
@@ -76,7 +74,7 @@ public class CurrencyAmountInfo implements CurrencyAmount, Serializable {
         this.currencyTypeKey = currency.getCurrencyTypeKey();
         this.meta = null != currency.getMeta() ? MetaInfo
                     .getInstance(currency.getMeta()) : null;
-        this._futureElements = null;
+        //TODO KSCM-gwt-compile this._futureElements = null;
     }
     
     /**

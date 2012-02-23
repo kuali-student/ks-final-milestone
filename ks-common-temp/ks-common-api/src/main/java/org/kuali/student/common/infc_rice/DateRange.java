@@ -10,7 +10,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.infc;
+package org.kuali.student.common.infc_rice;
 
 import java.util.Date;
 

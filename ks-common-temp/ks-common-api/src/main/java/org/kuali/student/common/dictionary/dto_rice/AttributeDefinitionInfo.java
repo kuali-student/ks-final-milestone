@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.kuali.student.common.dictionary.dto;
+package org.kuali.student.common.dictionary.dto_rice;
 
 import java.io.Serializable;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import org.kuali.rice.core.api.uif.DataType;
+import org.kuali.student.common.dictionary.dto_rice.ValidCharactersConstraintInfo.Builder;
 import org.kuali.student.common.dictionary.infc.AttributeDefinitionInfc;
 import org.kuali.student.common.dictionary.infc.ValidCharactersConstraintInfc;
 

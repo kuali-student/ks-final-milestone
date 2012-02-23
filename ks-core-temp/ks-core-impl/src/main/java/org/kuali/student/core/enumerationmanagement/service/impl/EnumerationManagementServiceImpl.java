@@ -327,7 +327,7 @@ public class EnumerationManagementServiceImpl implements EnumerationManagementSe
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateEnumeratedValue(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateEnumeratedValue(
 			String validationTypeKey, String enumerationKey, String code,
 			EnumeratedValueInfo enumeratedValueInfo, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,

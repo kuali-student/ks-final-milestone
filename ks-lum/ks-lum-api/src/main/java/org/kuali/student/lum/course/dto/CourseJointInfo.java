@@ -11,21 +11,18 @@
 package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.EntityInfo;
 import org.kuali.student.lum.course.infc.CourseJoint;
-import org.w3c.dom.Element;
 
-@XmlType(name = "CourseJointInfo", propOrder = {"typeKey", "stateKey", "descr", "courseNumberSuffix", "courseTitle", "subjectArea", "courseId", "relationId", "meta", "attributes",
-        "_futureElements"})
+@XmlType(name = "CourseJointInfo", propOrder = {"typeKey", "stateKey", "descr", "courseNumberSuffix", "courseTitle", "subjectArea", "courseId", "relationId", "meta", "attributes"
+        /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseJointInfo extends EntityInfo implements CourseJoint, Serializable {
 
@@ -46,8 +43,9 @@ public class CourseJointInfo extends EntityInfo implements CourseJoint, Serializ
     @XmlAttribute
     private String relationId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public CourseJointInfo() {
 

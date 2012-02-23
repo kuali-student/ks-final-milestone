@@ -18,4 +18,5 @@
 <module>
     <inherits name="com.googlecode.gwtx.Java" />
 	<source path='dto' />
+	<source path='infc' />
 </module>

@@ -1,4 +1,4 @@
-package org.kuali.student.common.dto;
+package org.kuali.student.common.dto_rice;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.OperationStatus;
+import org.kuali.student.common.infc_rice.OperationStatus;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)

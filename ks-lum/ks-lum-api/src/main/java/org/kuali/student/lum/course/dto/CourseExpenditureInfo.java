@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -24,12 +23,11 @@ import org.kuali.student.common.dto.HasAttributesInfo;
 import org.kuali.student.lum.course.infc.CourseExpenditure;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.lum.lu.infc.AffiliatedOrg;
-import org.w3c.dom.Element;
 
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "CourseCrossListingInfo", propOrder = {"affiliatedOrgs", "attributes", "_futureElements"})
+@XmlType(name = "CourseCrossListingInfo", propOrder = {"affiliatedOrgs", "attributes" /* TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseExpenditureInfo extends HasAttributesInfo implements CourseExpenditure, Serializable {
 
@@ -38,8 +36,9 @@ public class CourseExpenditureInfo extends HasAttributesInfo implements CourseEx
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public CourseExpenditureInfo() {
 

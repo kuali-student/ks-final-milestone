@@ -57,6 +57,7 @@ import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.shared.IdAttributes;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.core.organization.ui.client.mvc.model.SectionConfigInfo;
@@ -189,7 +190,8 @@ public class OrgProposalController extends TabbedSectionLayout{
 
             Map<String,String> idAttributes = new HashMap<String,String>();
             idAttributes.put(IdAttributes.ID_TYPE, QUALIFICATION_ORG_ID);
-            orgProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, 
+            //TODO KSCM - Correct ContextInfo parameter?
+            orgProposalRpcServiceAsync.getMetadata(viewContextId, idAttributes, null,
                     new KSAsyncCallback<Metadata>(){
 
                         @Override
@@ -354,7 +356,8 @@ public class OrgProposalController extends TabbedSectionLayout{
 
         Map<String,String> idAttributes = new HashMap<String,String>();
         idAttributes.put(IdAttributes.ID_TYPE, QUALIFICATION_ORG_ID);
-        orgProposalRpcServiceAsync.getMetadata(modifyActionEvent.getId(),idAttributes,
+        //TODO KSCM - Correct ContextInfo parameter?
+        orgProposalRpcServiceAsync.getMetadata(modifyActionEvent.getId(),idAttributes, null,
                 new KSAsyncCallback<Metadata>(){
 
                     @Override

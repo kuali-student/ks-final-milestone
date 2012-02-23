@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.dto;
+package org.kuali.student.common.dto_rice;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.common.infc.DateRange;
+import org.kuali.student.common.infc_rice.DateRange;
 import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")

@@ -28,8 +28,8 @@ import org.kuali.student.common.infc.RichText;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RichTextInfo", propOrder = { "plain", "formatted",
-		"_futureElements" })
+@XmlType(name = "RichTextInfo", propOrder = { "plain", "formatted"
+        /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class RichTextInfo implements RichText, Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,20 +40,21 @@ public class RichTextInfo implements RichText, Serializable {
 	@XmlElement
 	private String formatted;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+	//TODO KSCM-gwt-compile
+	//@XmlAnyElement
+	//private List<Element> _futureElements;
 
 	public RichTextInfo() {
 		plain = null;
 		formatted = null;
-		_futureElements = null;
+		//TODO KSCM-gwt-compile _futureElements = null;
 	}
 
 	public RichTextInfo(RichText richText) {
 		if (null != richText) {
 			this.plain = richText.getPlain();
 			this.formatted = richText.getFormatted();
-			this._futureElements = null;
+			//TODO KSCM-gwt-compile this._futureElements = null;
 		}
 
 	}

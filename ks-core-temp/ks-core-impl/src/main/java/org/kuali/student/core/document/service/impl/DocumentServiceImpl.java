@@ -424,7 +424,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateDocument(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateDocument(
 			String validationTypeKey, DocumentInfo documentInfo,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -541,7 +541,7 @@ public class DocumentServiceImpl implements DocumentService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateRefDocRelation(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateRefDocRelation(
 			String validationTypeKey, RefDocRelationInfo refDocRelationInfo,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

@@ -18,6 +18,7 @@ package org.kuali.student.common.ui.client.service;
 import java.util.List;
 
 import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
@@ -38,21 +39,21 @@ public interface BaseRpcServiceAsync {
 
     public void getObjectStructure(String objectTypeKey, AsyncCallback<ObjectStructure> callback);
 
-    void getSearchCriteriaType(String searchCriteriaTypeKey, AsyncCallback<SearchCriteriaTypeInfo> callback);
+    void getSearchCriteriaType(String searchCriteriaTypeKey, ContextInfo contextInfo, AsyncCallback<SearchCriteriaTypeInfo> callback);
     
-    void getSearchCriteriaTypes(AsyncCallback<List<SearchCriteriaTypeInfo>> callback);
+    void getSearchCriteriaTypes(ContextInfo contextInfo, AsyncCallback<List<SearchCriteriaTypeInfo>> callback);
     
-    void getSearchResultType(String searchResultTypeKey, AsyncCallback<SearchResultTypeInfo> callback);
+    void getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo, AsyncCallback<SearchResultTypeInfo> callback);
     
-    void getSearchResultTypes(AsyncCallback<List<SearchResultTypeInfo>> callback);
+    void getSearchResultTypes(ContextInfo contextInfo, AsyncCallback<List<SearchResultTypeInfo>> callback);
     
-    void getSearchType(String searchTypeKey, AsyncCallback<SearchTypeInfo> callback);
+    void getSearchType(String searchTypeKey, ContextInfo contextInfo, AsyncCallback<SearchTypeInfo> callback);
     
-    void getSearchTypes(AsyncCallback<List<SearchTypeInfo>> callback);
+    void getSearchTypes(ContextInfo contextInfo, AsyncCallback<List<SearchTypeInfo>> callback);
     
-    void getSearchTypesByCriteria(String searchCriteriaTypeKey, AsyncCallback<List<SearchTypeInfo>> callback);
+    void getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo contextInfo, AsyncCallback<List<SearchTypeInfo>> callback);
     
-    void getSearchTypesByResult(String searchResultTypeKey, AsyncCallback<List<SearchTypeInfo>> callback);
+    void getSearchTypesByResult(String searchResultTypeKey, ContextInfo contextInfo, AsyncCallback<List<SearchTypeInfo>> callback);
     
-    public void search(SearchRequest searchRequest, AsyncCallback<SearchResult> callback);
+    public void search(SearchRequest searchRequest, ContextInfo contextInfo, AsyncCallback<SearchResult> callback);
 }

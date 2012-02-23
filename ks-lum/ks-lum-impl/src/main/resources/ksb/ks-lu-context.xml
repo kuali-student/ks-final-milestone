@@ -228,8 +228,9 @@
 
     <bean id="lumSearchDispatcher"
           class="org.kuali.student.common.search.service.impl.SearchDispatcherImpl">
+        <!--
         <property name="services">
-            <list>
+        	<list>
                 <ref bean="loClient"/>
                 <ref bean="luClient"/>
                 <ref bean="lrcClient"/>
@@ -241,6 +242,7 @@
                 <ref bean="proposalClient"/>
             </list>
         </property>
+        -->
     </bean>
 
     <bean id="lrcClient"

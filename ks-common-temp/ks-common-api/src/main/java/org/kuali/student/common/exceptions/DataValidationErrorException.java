@@ -16,19 +16,17 @@
 package org.kuali.student.common.exceptions;
 
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.List;
 
 import javax.xml.ws.WebFault;
 
-import org.apache.log4j.Logger;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
 @WebFault(faultBean="org.kuali.student.common.exceptions.jaxws.DataValidationErrorExceptionBean")
 public class DataValidationErrorException extends Exception {
 
-	private static final Logger LOG = Logger.getLogger(DataValidationErrorException.class);
+    //TODO KSCM-gwt-compile
+	//private static final Logger LOG = Logger.getLogger(DataValidationErrorException.class);
 
 	private static final long serialVersionUID = 1L;
 
@@ -92,12 +90,13 @@ public class DataValidationErrorException extends Exception {
 		super.printStackTrace(s);
 		logValidationResults();
 	}
-
-	@Override
-	public void printStackTrace(PrintWriter s) {
-		super.printStackTrace(s);
-		logValidationResults();
-	}
+	
+//TODO KSCM-gwt-compile
+//	@Override
+//	public void printStackTrace(PrintWriter s) {
+//		super.printStackTrace(s);
+//		logValidationResults();
+//	}
 
 	@Override
 	public String toString() {
@@ -115,8 +114,8 @@ public class DataValidationErrorException extends Exception {
 	}
 
 	private void logValidationResults(){
-		LOG.debug(toString());	}
-
-
+	    //TODO KSCM-gwt-compile
+	    //LOG.debug(toString());	
+	}
 
 }

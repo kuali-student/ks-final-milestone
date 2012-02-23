@@ -720,7 +720,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateAtp(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateAtp(
 			String validationTypeKey, String atpTypeKey, AtpInfo atpInfo,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -833,7 +833,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateAtpAtpRelation(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateAtpAtpRelation(
 			String validationTypeKey, String atpId, String atpPeerId,
 			String atpAtpRelationTypeKey,
 			AtpAtpRelationInfo atpAtpRelationInfo, ContextInfo contextInfo)
@@ -966,7 +966,7 @@ public class AtpServiceImpl implements AtpService {
 	}
 
 	@Override
-	public List<org.kuali.student.common.dto.ValidationResultInfo> validateMilestone(
+	public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateMilestone(
 			String validationTypeKey, MilestoneInfo milestoneInfo,
 			ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,

@@ -216,7 +216,8 @@ public abstract class ProgramController extends MenuSectionController {
      * @param callback we have to invoke this callback when model is loaded or failed.
      */
     protected void loadModel(final ModelRequestCallback<DataModel> callback) {
-        programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -344,7 +345,8 @@ public abstract class ProgramController extends MenuSectionController {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
             }
         }
-        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new AbstractCallback<Metadata>() {
 
             @Override
             public void onSuccess(Metadata result) {
@@ -447,8 +449,8 @@ public abstract class ProgramController extends MenuSectionController {
      * @param callback will return true if update succeeded
      */
      protected void updateState(String state, final Callback<Boolean> okCallback) {
-
-       	 programRemoteService.updateState(programModel.getRoot(), state,  new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
+         //TODO KSCM - Correct ContextInfo parameter?
+       	 programRemoteService.updateState(programModel.getRoot(), state,  ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
                 @Override
                 public void onSuccess(DataSaveResult result) {
                 	if(result.getValidationResults()==null || result.getValidationResults().isEmpty()){
@@ -465,10 +467,9 @@ public abstract class ProgramController extends MenuSectionController {
                 		okCallback.exec(false);
                 	}
                }
-                
-            }, ContextUtils.getContextInfo()); 
-    	 
+         }); 
      }
+     
      /**
       * This method will refresh the model and view with the data sent back from
       * the server.

@@ -12,17 +12,14 @@
 package org.kuali.student.lum.lu.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.lum.lu.infc.AdminOrg;
-import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -30,7 +27,7 @@ import org.w3c.dom.Element;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",  "isPrimary", "orgId", "meta", "attributes", "_futureElements"})
+@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",  "isPrimary", "orgId", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 
@@ -42,8 +39,9 @@ public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable
     @XmlElement
     private boolean isPrimary;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public AdminOrgInfo() {
 

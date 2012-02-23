@@ -347,7 +347,8 @@ public class MajorViewController extends MajorController implements RequiresAuth
   
         // Call the server to see if this is the latest version of the program
         // and update the drop-down accordingly
-    	programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>(){
+        //TODO KSCM - Correct ContextInfo parameter?
+    	programRemoteService.isLatestVersion(versionIndId, sequenceNumber, ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
 			public void onSuccess(Boolean isLatest) {
 			 
 			    // TODO PLEASE REVIEW.  Should we be passing values from async calls to light boxes
@@ -372,8 +373,8 @@ public class MajorViewController extends MajorController implements RequiresAuth
                     });
                 }
 
- 			}        	
-        }, ContextUtils.getContextInfo());
+ 			}  
+		});
     	
    	
     	// Get the reference ID of the proposal from the XML model
@@ -386,7 +387,8 @@ public class MajorViewController extends MajorController implements RequiresAuth
     	// TODO PLEASE REVIEW.  If this async call runs slow, will the box remain visible? Is this an issue?
     	//      Answer: Yes, it might be an issue, possible solution might to block user action w/progress bar until finished.    	
         if (status == ProgramStatus.DRAFT){
-	    	programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  new KSAsyncCallback<Boolean>(){
+            //TODO KSCM - Correct ContextInfo parameter?
+            programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
 	            public void onSuccess(Boolean isProposal) {
 	             
 	                // If this is a proposal then we cannot take any actions on it
@@ -395,8 +397,8 @@ public class MajorViewController extends MajorController implements RequiresAuth
 	                    actionBox.setVisible(false);
 	                }
 	              
-	            }           
-	        }, ContextUtils.getContextInfo());
+	            }  
+	        });
         }
     } 
   

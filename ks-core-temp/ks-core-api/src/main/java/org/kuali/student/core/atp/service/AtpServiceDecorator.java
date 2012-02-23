@@ -12,7 +12,7 @@ import org.kuali.student.core.atp.dto.MilestoneInfo;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.dto_rice.ValidationResultInfo;
 
 import javax.jws.WebParam;
 

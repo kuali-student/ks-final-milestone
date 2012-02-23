@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey", 
                 "orgId", "personId",
                 "effectiveDate", "expirationDate",
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 
 public class OrgPersonRelationInfo 
     extends RelationshipInfo 
@@ -52,8 +52,9 @@ public class OrgPersonRelationInfo
     @XmlElement
     private String personId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**

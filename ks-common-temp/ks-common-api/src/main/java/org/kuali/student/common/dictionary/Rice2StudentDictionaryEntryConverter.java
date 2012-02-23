@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.kuali.rice.krad.datadictionary.AttributeDefinition;
 import org.kuali.rice.krad.datadictionary.DataObjectEntry;
-import org.kuali.student.common.dictionary.dto.AttributeDefinitionInfo;
-import org.kuali.student.common.dictionary.dto.DictionaryEntryInfo;
+import org.kuali.student.common.dictionary.dto_rice.AttributeDefinitionInfo;
+import org.kuali.student.common.dictionary.dto_rice.DictionaryEntryInfo;
 
 /**
  *

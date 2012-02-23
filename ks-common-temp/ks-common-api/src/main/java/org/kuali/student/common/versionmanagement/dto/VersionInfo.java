@@ -28,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "VersionInfo", propOrder = {"versionIndId", "sequenceNumber", "currentVersionStart", "currentVersionEnd", "versionComment", "versionedFromId", "_futureElements"})
+@XmlType(name = "VersionInfo", propOrder = {"versionIndId", "sequenceNumber", "currentVersionStart", "currentVersionEnd", "versionComment", "versionedFromId" /*TODO KSCM-gwt-compile , "_futureElements" */})
 public class VersionInfo implements Version, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -51,8 +51,9 @@ public class VersionInfo implements Version, Serializable {
     @XmlElement
     private String versionedFromId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public VersionInfo() {
 

@@ -16,21 +16,11 @@
 package org.kuali.student.common.ui.client.service;
 
 
-import org.kuali.student.common.messages.dto.LocaleKeyList;
-import org.kuali.student.common.dto.LocaleInfo;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
+import java.util.List;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.rpc.RemoteService;
-import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
-import org.kuali.student.common.messages.dto.MessageInfo;
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.LocaleInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import java.util.List;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -38,6 +28,12 @@ import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.common.messages.dto.MessageInfo;
+
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 @RemoteServiceRelativePath("rpcservices/MessagesRpcService")
 public interface MessagesRpcService extends RemoteService {

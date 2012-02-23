@@ -28,7 +28,7 @@ import org.kuali.student.common.infc.TimeAmount;
 import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "TimeAmountInfo", propOrder = {"atpDurationTypeKey", "timeQuantity", "_futureElements"})
+@XmlType(name = "TimeAmountInfo", propOrder = {"atpDurationTypeKey", "timeQuantity" /*TODO KSCM-gwt-compile , "_futureElements" */})
 public class TimeAmountInfo implements TimeAmount, Serializable {
 	private static final long serialVersionUID = 1L;
 	
@@ -38,18 +38,19 @@ public class TimeAmountInfo implements TimeAmount, Serializable {
 	@XmlElement
 	private Integer timeQuantity; 
 	
-    @XmlAnyElement
-    private final List<Element> _futureElements;    
+	//TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private final List<Element> _futureElements;    
 		
     public TimeAmountInfo() {
         atpDurationTypeKey = null; 
         timeQuantity = null;
-        _futureElements = null;
+        //TODO KSCM-gwt-compile _futureElements = null;
     }
     
     public TimeAmountInfo(TimeAmount builder) {           
         
-        this._futureElements = null;
+        //TODO KSCM-gwt-compile this._futureElements = null;
         
         if(null == builder) {
             return;

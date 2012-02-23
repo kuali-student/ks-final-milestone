@@ -4,6 +4,8 @@ import org.kuali.student.common.infc.Locale;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
+
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,8 +13,8 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LocaleInfo", propOrder = {"localeLanguage", "localeVariant", "localeRegion", "localeScript", "_futureElements"})
-public class LocaleInfo implements Locale {
+@XmlType(name = "LocaleInfo", propOrder = {"localeLanguage", "localeVariant", "localeRegion", "localeScript" /*TODO KSCM-gwt-compile , "_futureElements" */})
+public class LocaleInfo implements Locale, Serializable {
 
     private static final long serialVersionUID = 1L;
     @XmlElement
@@ -27,8 +29,9 @@ public class LocaleInfo implements Locale {
     @XmlElement
     private String localeScript;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public LocaleInfo() {
     }

@@ -22,13 +22,13 @@ import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
-import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.search.service.SearchService;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.versionmanagement.service.VersionManagementService;
 import org.kuali.student.lum.lu.dto.*;
 import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
 import org.kuali.student.common.exceptions.DataValidationErrorException;

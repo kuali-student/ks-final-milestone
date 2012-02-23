@@ -21,13 +21,11 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.KeyEntityInfo;
 import org.kuali.student.lum.lrc.infc.ResultValuesGroup;
-import org.w3c.dom.Element;
 
 /**
  * Detailed information about a group of result values.
@@ -49,7 +47,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "GradeValuesGroupInfo", propOrder = { 
         "key", "typeKey", "stateKey", "name", "descr", "resultScaleKey", 
         "resultValueKeys", "resultValueRange", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements" })
+        "expirationDate", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 
 public class ResultValuesGroupInfo 
         extends KeyEntityInfo 
@@ -72,8 +70,9 @@ public class ResultValuesGroupInfo
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public ResultValuesGroupInfo() {
         resultScaleKey = null;

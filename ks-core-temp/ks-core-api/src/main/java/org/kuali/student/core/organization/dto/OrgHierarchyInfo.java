@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "OrgHierarchyInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
                 "rootOrgId",
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 
 public class OrgHierarchyInfo 
     extends IdEntityInfo
@@ -49,8 +49,9 @@ public class OrgHierarchyInfo
     @XmlElement
     private String rootOrgId;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**

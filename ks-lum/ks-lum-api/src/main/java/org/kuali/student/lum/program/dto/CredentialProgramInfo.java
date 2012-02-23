@@ -16,7 +16,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -26,7 +25,6 @@ import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.lum.program.infc.CredentialProgram;
-import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate,
@@ -38,7 +36,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "CredentialProgramInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "transcriptTitle", "programLevel", "code", "universityClassification",
         "institution", "resultOptions", "startTermId", "endTermId", "endProgramEntryTermId", "divisionsContentOwner", "divisionsStudentOversight", "unitsContentOwner", "unitsStudentOversight",
         "learningObjectives", "coreProgramIds", "programRequirements", "catalogPublicationTargets", "catalogDescr", "credentialProgramType", "diplomaTitle", "selectiveEnrollmentCode", "hegisCode",
-        "cip2000Code", "cip2010Code", "meta", "attributes", "_futureElements"})
+        "cip2000Code", "cip2010Code", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends ProgramAttributesInfo implements CredentialProgram, Serializable {
 
@@ -59,8 +57,9 @@ public class CredentialProgramInfo extends ProgramAttributesInfo implements Cred
     @XmlElement
     private AdminOrgInfo institution;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public CredentialProgramInfo() {
 

@@ -278,7 +278,8 @@ public class MajorProposalController extends MajorController implements Workflow
             	//FIXME: The proper way of doing this would be a single server side call to validate next state
             	//which would retrieve warnings & required for next state, instead of re-validating warnings for
             	//current state server side and validating required for next state client side.
-            	programRemoteService.validate(programModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+                //TODO KSCM - Correct ContextInfo parameter?
+            	programRemoteService.validate(programModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<List<ValidationResultInfo>>(){
 					@Override
 					public void onSuccess(final List<ValidationResultInfo> currentStateResults) {
 		                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
@@ -404,7 +405,8 @@ public class MajorProposalController extends MajorController implements Workflow
             	Callback<Boolean> reqCallback = new Callback<Boolean>() {
             		@Override
             		public void exec(Boolean result) {
-            			majorDisciplineService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+            		    //TODO KSCM - Correct ContextInfo parameter?
+            			majorDisciplineService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                             @Override
                             public void onSuccess(Data result) {
                                 super.onSuccess(result);
@@ -520,7 +522,8 @@ public class MajorProposalController extends MajorController implements Workflow
             	idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, workflowNode);
             }
         }
-        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new AbstractCallback<Metadata>() {
 
             @Override
             public void onSuccess(Metadata result) {
@@ -553,7 +556,8 @@ public class MajorProposalController extends MajorController implements Workflow
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+    			    //TODO KSCM - Correct ContextInfo parameter?
+    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -596,7 +600,8 @@ public class MajorProposalController extends MajorController implements Workflow
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+    			    //TODO KSCM - Correct ContextInfo parameter?
+    				majorDisciplineService.getData((String)model.get("versionInfo/versionedFromId"), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -646,7 +651,8 @@ public class MajorProposalController extends MajorController implements Workflow
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.saveData(data, ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -723,7 +729,8 @@ public class MajorProposalController extends MajorController implements Workflow
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.saveData(programModel.getRoot(), ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -960,7 +967,8 @@ public class MajorProposalController extends MajorController implements Workflow
 		idAttributes.put(DtoConstants.DTO_WORKFLOW_NODE, "Publication Review");
 		
 		//Get metadata and complete initializing the screen
-		programRemoteService.getMetadata(viewContextId, idAttributes, new KSAsyncCallback<Metadata>(){
+		//TODO KSCM - Correct ContextInfo parameter?
+		programRemoteService.getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
 			@Override
 			public void onSuccess(Metadata metadata) {
 				//This is not being used on screens so removing from validation
@@ -985,7 +993,8 @@ public class MajorProposalController extends MajorController implements Workflow
                 attributes.put(getViewContext().getIdType().toString(), getViewContext().getId());
             }
         }
-        programRemoteService.isAuthorized(getViewContext().getPermissionType(), attributes, new KSAsyncCallback<Boolean>(){
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.isAuthorized(getViewContext().getPermissionType(), attributes, ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
 
             @Override
             public void handleFailure(Throwable caught) {

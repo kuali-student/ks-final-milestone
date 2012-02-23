@@ -225,29 +225,29 @@ public class MessageServiceImpl implements MessageService{
 		return null;
 	}
 
-	@Override
-	public MessageInfo updateMessage(LocaleInfo localeKey,
-			String messageGroupKey, String messageKey, MessageInfo messageInfo,
-			ContextInfo contextInfo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public MessageInfo updateMessage(LocaleInfo localeKey,
+//			String messageGroupKey, String messageKey, MessageInfo messageInfo,
+//			ContextInfo contextInfo) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	// TODO KSCM-266
-	@Override
-	@Deprecated
-	public MessageList getMessagesByGroups(String locale,
-			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	@Deprecated
+//	public MessageList getMessagesByGroups(String locale,
+//			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 	// TODO KSCM-266
-	@Override
-	@Deprecated
-	public Message addMessage(Message messageInfo, ContextInfo contextInfo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	@Deprecated
+//	public Message addMessage(Message messageInfo, ContextInfo contextInfo) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
     
 }

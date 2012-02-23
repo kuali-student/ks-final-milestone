@@ -20,4 +20,5 @@
 	<inherits name='org.kuali.student.common.Core' />
 	<inherits name='org.kuali.student.common.search.Search' />
 	<source path='dto' />
+	<source path='infc' />
 </module>

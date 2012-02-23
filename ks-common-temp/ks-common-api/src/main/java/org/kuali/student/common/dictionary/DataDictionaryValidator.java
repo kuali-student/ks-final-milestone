@@ -7,7 +7,7 @@ package org.kuali.student.common.dictionary;
 
 import java.util.List;
 import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.ValidationResultInfo;
+import org.kuali.student.common.dto_rice.ValidationResultInfo;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;

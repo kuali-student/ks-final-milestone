@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 
@@ -28,14 +29,14 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface BaseDataOrchestrationRpcServiceAsync{
 	
 	//Data operations
-	public void getData(String dataId, AsyncCallback<Data> callback);
+	public void getData(String dataId, ContextInfo contextInfo, AsyncCallback<Data> callback);
 	
-	public void getMetadata(String id, Map<String,String> idType, AsyncCallback<Metadata> callback);
+	public void getMetadata(String id, Map<String,String> idType, ContextInfo contextInfo, AsyncCallback<Metadata> callback);
 
-	public void saveData(Data data, AsyncCallback<DataSaveResult> callback);
+	public void saveData(Data data, ContextInfo contextInfo, AsyncCallback<DataSaveResult> callback);
 	
-	public void validate(Data data, AsyncCallback<List<ValidationResultInfo>> callback);
+	public void validate(Data data, ContextInfo contextInfo, AsyncCallback<List<ValidationResultInfo>> callback);
 	
-	public void isAuthorized(PermissionType type, Map<String,String> attributes, AsyncCallback<Boolean> callback);
+	public void isAuthorized(PermissionType type, Map<String,String> attributes, ContextInfo contextInfo, AsyncCallback<Boolean> callback);
 
 }

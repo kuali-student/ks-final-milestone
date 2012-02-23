@@ -36,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DocumentInfo", propOrder = { "id", "typeKey", "stateKey",
         "name", "descr", "fileName", "documentBinary", "effectiveDate", "expirationDate",
-        "meta", "attributes", "_futureElements" })
+        "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class DocumentInfo extends IdEntityInfo implements Document, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,8 +53,9 @@ public class DocumentInfo extends IdEntityInfo implements Document, Serializable
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     @Override
     public String getFileName() {

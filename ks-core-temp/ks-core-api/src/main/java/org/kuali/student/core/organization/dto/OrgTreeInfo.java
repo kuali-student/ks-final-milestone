@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgTreeInfo", propOrder = {
                 "displayName", "orgHierarchyId", "orgId", "parentId",
-                "positions", "positionId", "personId", "relationTypeKey",
-                "_futureElements" })
+                "positions", "positionId", "personId", "relationTypeKey"
+                /*TODO KSCM-gwt-compile , "_futureElements" */ })
 
 public class OrgTreeInfo 
     implements OrgTree, Serializable {
@@ -63,14 +63,23 @@ public class OrgTreeInfo
     @XmlElement
     private String relationTypeKey;
 	
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     /**
      * Constructs a new OrgTreeInfo.
      */
     public OrgTreeInfo() {
+        super();
+    }
+    
+    public OrgTreeInfo(String orgId, String parentId, String displayName) {
+        super();
+        this.orgId = orgId;
+        this.parentId = parentId;
+        this.displayName = displayName;
     }
     
     /**

@@ -16,15 +16,11 @@
 package org.kuali.student.lum.lu.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
-
-import org.w3c.dom.Element;
 
 import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.lum.lu.infc.LuCode;
@@ -35,7 +31,7 @@ import org.kuali.student.lum.lu.infc.LuCode;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LuCodeInfo", propOrder = { "id", "typeKey", "stateKey", 
                 "name", "descr", "value", 
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class LuCodeInfo extends IdEntityInfo implements LuCode, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,20 +39,21 @@ public class LuCodeInfo extends IdEntityInfo implements LuCode, Serializable {
     @XmlElement
     private String value;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     public LuCodeInfo() {
         super();
-	value = null;
-        _futureElements = null;
+        value = null;
+        //TODO KSCM-gwt-compile _futureElements = null;
     }
 
     public LuCodeInfo(LuCode luCode) {
         super(luCode);
-	this.value = luCode.getValue();
-        _futureElements = null;
+        this.value = luCode.getValue();
+        //TODO KSCM-gwt-compile _futureElements = null;
     }
 	
     public String getValue() {

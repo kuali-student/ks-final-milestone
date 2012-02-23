@@ -17,7 +17,6 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
@@ -36,7 +35,6 @@ import org.kuali.student.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
 import org.kuali.student.lum.lu.infc.CluInstructor;
-import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -48,7 +46,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "CourseInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "code", "courseNumberSuffix", "level", "courseTitle", "transcriptTitle", "formats", "termsOffered",
         "duration", "joints", "crossListings", "variations", "subjectArea", "campusLocations", "outOfClassHours", "primaryInstructor", "instructors", "unitsDeployment", "feeJustification",
         "unitsContentOwner", "fees", "revenues", "expenditure", "courseSpecificLOs", "gradingOptionIds", "creditOptionKeys", "specialTopicsCourse", "pilotCourse", "startTerm", "endTerm",
-        "effectiveDate", "expirationDate", "versionInfo", "meta", "attributes", "versionInfo", "_futureElements"})
+        "effectiveDate", "expirationDate", "versionInfo", "meta", "attributes", "versionInfo" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
@@ -150,8 +148,9 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     @XmlElement
     private VersionInfo versionInfo;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
 
     public CourseInfo(Course courseInfo) {

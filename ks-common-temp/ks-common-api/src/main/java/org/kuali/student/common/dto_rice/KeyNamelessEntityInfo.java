@@ -10,14 +10,15 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.common.dto;
+package org.kuali.student.common.dto_rice;
 
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlTransient;
 
-import org.kuali.student.common.infc.KeyNamelessEntity;
+import org.kuali.student.common.dto.TypeStateEntityInfo;
+import org.kuali.student.common.infc_rice.KeyNamelessEntity;
 
 /**
  * Provkeyes basic method for a nameless entity.

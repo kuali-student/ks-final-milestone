@@ -15,14 +15,16 @@
 
 package org.kuali.student.core.comment.dto;
 
-import org.kuali.student.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.core.comment.infc.Tag;
-import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.core.comment.infc.Tag;
 
 /**
  * Refer to interface javadoc
@@ -33,7 +35,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TagInfo", propOrder = {"id", "typeKey", "stateKey",
         "namespace", "predicate", "value", "referenceTypeKey", "referenceId",
-        "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+        "effectiveDate", "expirationDate", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,8 +61,9 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public TagInfo() {
     }
@@ -75,7 +78,7 @@ public class TagInfo extends IdNamelessEntityInfo implements Tag, Serializable {
             this.referenceId = tag.getReferenceId();
             this.effectiveDate = (null != tag.getEffectiveDate()) ? new Date(tag.getEffectiveDate().getTime()) : null;
             this.expirationDate = (null != tag.getExpirationDate()) ? new Date(tag.getExpirationDate().getTime()) : null;
-            this._futureElements = null;
+            //TODO KSCM-gwt-compile this._futureElements = null;
         }
     }
 

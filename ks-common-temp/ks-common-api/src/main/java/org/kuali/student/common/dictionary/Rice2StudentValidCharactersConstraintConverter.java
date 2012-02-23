@@ -16,7 +16,7 @@
 package org.kuali.student.common.dictionary;
 
 import org.kuali.rice.krad.datadictionary.validation.constraint.ValidCharactersConstraint;
-import org.kuali.student.common.dictionary.dto.ValidCharactersConstraintInfo;
+import org.kuali.student.common.dictionary.dto_rice.ValidCharactersConstraintInfo;
 
 /**
  *

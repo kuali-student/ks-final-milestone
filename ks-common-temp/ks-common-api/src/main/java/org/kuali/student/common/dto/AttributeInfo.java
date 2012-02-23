@@ -8,19 +8,16 @@
 package org.kuali.student.common.dto;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.infc.Attribute;
-import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AttributeInfo", propOrder = {"id", "key", "value", "_futureElements"})
+@XmlType(name = "AttributeInfo", propOrder = {"id", "key", "value"/* TODO KSCM-gwt-compile , "_futureElements"*/})
 public final class AttributeInfo implements Attribute, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -34,22 +31,23 @@ public final class AttributeInfo implements Attribute, Serializable {
     @XmlElement
     private String value;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     
     public AttributeInfo() {
         this.id = null;
         this.key = null;
         this.value = null;
-        this._futureElements = null;
+        //TODO KSCM-gwt-compile this._futureElements = null;
     }
 
     public AttributeInfo(Attribute attribute) {
         this.id = attribute.getId();
         this.key = attribute.getKey();
         this.value = attribute.getValue();
-        this._futureElements = null;
+        //TODO KSCM-gwt-compile this._futureElements = null;
     }
 
     @Override

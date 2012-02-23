@@ -12,7 +12,7 @@
  * or implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package org.kuali.student.common.infc;
+package org.kuali.student.common.infc_rice;
 
 import org.kuali.rice.kim.api.identity.IdentityService;
 

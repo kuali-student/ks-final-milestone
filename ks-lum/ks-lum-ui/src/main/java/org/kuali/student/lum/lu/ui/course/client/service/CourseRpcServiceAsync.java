@@ -27,18 +27,37 @@ import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirements
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
-public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
-    public void getCourseStatements(String courseId, String nlUsageTypeKey, String language, AsyncCallback<List<StatementTreeViewInfo>> callback, ContextInfo contextInfo);
-    public void storeCourseStatements(String courseId, String courseState, Map<Integer, CourseRequirementsDataModel.requirementState> states,
-                                            Map<Integer, StatementTreeViewInfo> rules, AsyncCallback<Map<Integer, StatementTreeViewInfo>> callback, ContextInfo contextInfo);
-    public void createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback, ContextInfo contextInfo);
-    public void deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatusInfo> callback, ContextInfo contextInfo);
-    public void updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo, AsyncCallback<StatementTreeViewInfo> callback, ContextInfo contextInfo);
-    
-    public void changeState(String courseId, String newState, AsyncCallback<StatusInfo> callback, ContextInfo contextInfo);
-    public void changeState(String courseId, String newState, String prevEndTerm, AsyncCallback<StatusInfo> callback, ContextInfo contextInfo);
-	
-    public void createCopyCourse(String originalCluId, AsyncCallback<DataSaveResult> asyncCallback, ContextInfo contextInfo);
-	public void createCopyCourseProposal(String originalProposalId, AsyncCallback<DataSaveResult> asyncCallback, ContextInfo contextInfo);
-	public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback, ContextInfo contextInfo);
+public interface CourseRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync {
+
+    public void getCourseStatements(String courseId, String nlUsageTypeKey, String language, ContextInfo contextInfo,
+            AsyncCallback<List<StatementTreeViewInfo>> callback);
+
+    public void storeCourseStatements(String courseId, String courseState,
+            Map<Integer, CourseRequirementsDataModel.requirementState> states,
+                                            Map<Integer, StatementTreeViewInfo> rules, ContextInfo contextInfo,
+            AsyncCallback<Map<Integer, StatementTreeViewInfo>> callback);
+
+    public void createCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo,
+            ContextInfo contextInfo, AsyncCallback<StatementTreeViewInfo> callback);
+
+    public void deleteCourseStatement(String courseId, StatementTreeViewInfo statementTreeViewInfo,
+            ContextInfo contextInfo, AsyncCallback<StatusInfo> callback);
+
+    public void updateCourseStatement(String courseId, String courseState, StatementTreeViewInfo statementTreeViewInfo,
+            ContextInfo contextInfo, AsyncCallback<StatementTreeViewInfo> callback);
+
+    public void changeState(String courseId, String newState, ContextInfo contextInfo,
+            AsyncCallback<StatusInfo> callback);
+
+    public void changeState(String courseId, String newState, String prevEndTerm, ContextInfo contextInfo,
+            AsyncCallback<StatusInfo> callback);
+
+    public void createCopyCourse(String originalCluId, ContextInfo contextInfo,
+            AsyncCallback<DataSaveResult> asyncCallback);
+
+    public void createCopyCourseProposal(String originalProposalId, ContextInfo contextInfo,
+            AsyncCallback<DataSaveResult> asyncCallback);
+
+    public void isLatestVersion(String versionIndId, Long versionSequenceNumber, ContextInfo contextInfo,
+            AsyncCallback<Boolean> callback);
 }

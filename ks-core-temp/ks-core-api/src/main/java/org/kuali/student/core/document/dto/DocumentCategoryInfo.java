@@ -35,7 +35,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DocumentCategoryInfo", propOrder = { "key", "typeKey", "stateKey",
-        "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
+        "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 public class DocumentCategoryInfo extends KeyEntityInfo implements DocumentCategory, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +46,9 @@ public class DocumentCategoryInfo extends KeyEntityInfo implements DocumentCateg
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public DocumentCategoryInfo() {
     }

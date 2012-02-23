@@ -15,15 +15,17 @@
 
 package org.kuali.student.common.messages.dto;
 
-import org.kuali.student.common.dto.IdNamelessEntityInfo;
-import org.kuali.student.common.infc.HasKey;
-import org.kuali.student.common.infc.IdNamelessEntity;
-import org.kuali.student.common.messages.infc.Message;
-import org.w3c.dom.Element;
-
-import javax.xml.bind.annotation.*;
 import java.io.Serializable;
 import java.util.List;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+
+import org.kuali.student.common.messages.infc.Message;
+import org.w3c.dom.Element;
 
 /**
  *
@@ -34,7 +36,7 @@ import java.util.List;
  *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MessageInfo", propOrder = { "key", "locale", "groupName", "value", "_futureElements" })
+@XmlType(name = "MessageInfo", propOrder = { "key", "locale", "groupName", "value" /*TODO KSCM-gwt-compile , "_futureElements" */ })
 public class MessageInfo implements Message, Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -50,8 +52,9 @@ public class MessageInfo implements Message, Serializable {
     @XmlElement
     protected String value;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public MessageInfo() {
     }

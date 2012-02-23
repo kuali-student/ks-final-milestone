@@ -24,7 +24,6 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.infc.ProgramRequirement;
-import org.w3c.dom.Element;
 
 /**
  * Detailed information about a program requirement
@@ -33,7 +32,7 @@ import org.w3c.dom.Element;
  */
 
 @XmlType(name = "ProgramRequirementInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "shortTitle", "longTitle", "learningObjectives", "statement", "minCredits", "maxCredits", "meta",
-        "attributes", "_futureElements"})
+        "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequirement, Serializable {
 
@@ -57,8 +56,9 @@ public class ProgramRequirementInfo extends IdEntityInfo implements ProgramRequi
     @XmlElement
     private Integer maxCredits;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public ProgramRequirementInfo() {
 

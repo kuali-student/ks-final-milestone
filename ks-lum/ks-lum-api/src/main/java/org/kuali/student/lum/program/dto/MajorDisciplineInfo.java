@@ -17,19 +17,17 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.common.dto.IdEntityInfo;
+import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.common.dto.TimeAmountInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
+import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.lu.dto.AccreditationInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
-import org.kuali.student.common.dto.IdEntityInfo;
-import org.kuali.student.common.dto.TimeAmountInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.program.infc.MajorDiscipline;
-import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single major discipline program
@@ -41,7 +39,7 @@ import org.w3c.dom.Element;
         "cip2000Code", "cip2010Code", "hegisCode", "universityClassification", "selectiveEnrollmentCode", "resultOptions", "stdDuration", "startTermId", "endTermId", "endProgramEntryTermId",
         "nextReviewPeriod", "effectiveDate", "shortTitle", "longTitle", "transcriptTitle", "diplomaTitle", "catalogDescr", "catalogPublicationTargets", "learningObjectives", "campusLocations",
         "coreProgramId", "programRequirements", "accreditingAgencies", "divisionsContentOwner", "divisionsStudentOversight", "divisionsDeployment", "divisionsFinancialResources",
-        "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment", "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes", "_futureElements"})
+        "divisionsFinancialControl", "unitsContentOwner", "unitsStudentOversight", "unitsDeployment", "unitsFinancialResources", "unitsFinancialControl", "meta", "attributes" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline, Serializable {
 
@@ -164,8 +162,9 @@ public class MajorDisciplineInfo extends IdEntityInfo implements MajorDiscipline
     @XmlElement
     private List<String> unitsFinancialControl;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
     public MajorDisciplineInfo() {
 
