@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
+import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.lum.clu.infc.CluCluRelation;
 
@@ -26,6 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluCluRelationInfo", propOrder = {"id", "typeKey",
@@ -88,4 +90,14 @@ public class CluCluRelationInfo extends RelationshipInfo implements CluCluRelati
     public String toString() {
         return "CluCluRelationInfo[id=" + this.getId() + ", cluId=" + cluId + ", relatedCluId=" + relatedCluId + ", type=" + this.getTypeKey() + ", cluRelationRequired=" + isCluRelationRequired + "]";
     }
+
+	public void setMeta(MetaInfo metaInfo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 }

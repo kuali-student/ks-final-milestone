@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
+import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.clu.infc.CluResult;
@@ -125,4 +126,9 @@ public class CluResultInfo extends IdNamelessEntityInfo implements Serializable,
     public String toString() {
         return "CluResultInfo[id=" + this.getId() + ", cluId=" + this.getCluId() + ", type=" + this.getTypeKey() + "]";
     }
+
+	public void setMeta(MetaInfo metaInfo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

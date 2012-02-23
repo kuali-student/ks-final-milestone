@@ -21,6 +21,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)
@@ -67,4 +68,9 @@ public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable
     public void setIsPrimary(Boolean isPrimary) {
         this.isPrimary = isPrimary;
     }
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 }

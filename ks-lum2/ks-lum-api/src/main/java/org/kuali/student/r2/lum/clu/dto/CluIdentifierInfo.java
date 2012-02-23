@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Detailed information about the human readable form of a CLU Identifier
@@ -152,4 +153,9 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
     public void setOrgId(String orgId) {
         this.orgId = orgId;
     }
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 }

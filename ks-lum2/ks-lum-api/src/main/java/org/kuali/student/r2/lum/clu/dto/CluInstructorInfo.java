@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)
@@ -91,4 +92,9 @@ public class CluInstructorInfo extends HasAttributesInfo implements CluInstructo
     public void setPersonInfoOverride(String personInfoOverride) {
         this.personInfoOverride = personInfoOverride;
     }
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
+import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.clu.infc.CluPublication;
 import org.kuali.student.r2.lum.clu.infc.Field;
@@ -29,6 +30,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluPublicationInfo", propOrder = {"id", "typeKey", "stateKey", "cluId", "variants", "startCycle", "endCycle", "effectiveDate",
@@ -138,4 +140,14 @@ public class CluPublicationInfo extends IdNamelessEntityInfo implements Serializ
     public String toString() {
         return "CluPublicationInfo[id=" + this.getId() + ", cluId=" + this.getCluId() + ", type=" + this.getTypeKey() + "]";
     }
+
+	public void setMeta(MetaInfo metaInfo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 }

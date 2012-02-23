@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluAccountingInfo", propOrder = {"id", "descr", "affiliatedOrgs", "attributes", "_futureElements"})
@@ -87,4 +88,9 @@ public class CluAccountingInfo extends HasAttributesInfo implements CluAccountin
     public void setAffiliatedOrgs(List<AffiliatedOrgInfo> affiliatedOrgs) {
         this.affiliatedOrgs = affiliatedOrgs;
     }
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 }

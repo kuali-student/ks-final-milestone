@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Accreditation information
@@ -99,4 +100,9 @@ public class AccreditationInfo extends HasAttributesAndMetaInfo implements Accre
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 }

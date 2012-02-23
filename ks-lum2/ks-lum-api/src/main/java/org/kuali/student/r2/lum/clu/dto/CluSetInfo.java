@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
+import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.clu.infc.CluSet;
 
@@ -28,6 +29,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluSetInfo", propOrder = {"id", "descr", "stateKey", "typeKey", "name", "membershipQuery", "adminOrg", "isReusable", "isReferenceable", "cluSetIds", "cluIds",
@@ -158,4 +160,14 @@ public class CluSetInfo extends IdEntityInfo implements Serializable, CluSet {
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setMeta(MetaInfo metaInfo) {
+		// TODO Auto-generated method stub
+		
+	}
 }

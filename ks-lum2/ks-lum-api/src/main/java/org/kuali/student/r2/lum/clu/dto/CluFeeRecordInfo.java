@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.lum.clu.dto;
 
+import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -32,6 +33,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluFeeRecordInfo", propOrder = {"id", "feeType", "rateType", "feeAmounts", "affiliatedOrgs", "descr", "attributes", "meta", "_futureElements"})
@@ -142,5 +144,15 @@ public class CluFeeRecordInfo extends HasAttributesAndMetaInfo implements CluFee
     public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
+
+	public void setMeta(MetaInfo metaInfo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

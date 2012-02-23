@@ -14,6 +14,7 @@
  */
 package org.kuali.student.r2.lum.clu.dto;
 
+import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
@@ -35,6 +36,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -478,4 +481,32 @@ public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
     public String toString() {
         return "CluInfo[id=" + this.getId() + ", type=" + this.getTypeKey() + "]";
     }
+
+	public void setStdDuration(
+			org.kuali.student.r1.common.dto.TimeAmountInfo timeAmountInfo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setAttributes(Map<String, String> attributeMap) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setMeta(MetaInfo metaInfo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setIntensity(
+			org.kuali.student.r1.common.dto.AmountInfo amountInfo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setVersionInfo(
+			org.kuali.student.r1.common.versionmanagement.dto.VersionInfo versionInfo2) {
+		// TODO Auto-generated method stub
+		
+	}
 }
