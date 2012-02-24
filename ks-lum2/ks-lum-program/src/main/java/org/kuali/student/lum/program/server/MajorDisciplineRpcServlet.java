@@ -175,7 +175,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
             programRequirementInfo.setDescr(new RichTextInfo());    
         }
 
-        ProgramRequirementInfo rule = programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
+        ProgramRequirementInfo rule = programService.updateProgramRequirement(null, null, programRequirementInfo,ContextUtils.getContextInfo());
         setProgReqNL(rule);
         return rule;
     }
@@ -198,9 +198,9 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
         	for (int i = 0; i < reqComponentInfos.size(); i++) {
         		ReqComponentInfoUi reqUi = null;
         		// TODO KSCM reqUi = RulesUtil.clone(reqComponentInfos.get(i));
-        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
-        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
-        		reqComponentInfos.set(i, reqUi);
+        		// TODO KSCM reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
+        		// TODO KSCM reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
+        		// TODO KSCM reqComponentInfos.set(i, reqUi);
         	}
         }
     }
@@ -316,7 +316,9 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 		return null;
 	}
 	@Override
-	public StatusInfo deleteProgramRequirement(String programRequirementId,
+	
+	//TODO KSCM 
+	public org.kuali.student.common.dto.StatusInfo deleteProgramRequirement(String programRequirementId,
 			ContextInfo contextInfo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
