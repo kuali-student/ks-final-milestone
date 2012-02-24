@@ -15,8 +15,6 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.IdEntity;
 
 
@@ -39,9 +37,9 @@ public interface ScheduleRequest extends IdEntity {
     public String getRequestingPersonId();
 
     /**
-     * The Organization Id for this request.
+     * The Org Id for this request.
      *
-     * @name Organization Id
+     * @name Org Id
      */
-    public String getOrganizationId();
+    public String getOrgId();
 }

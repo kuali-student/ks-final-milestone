@@ -15,9 +15,9 @@
 
 package org.kuali.student.r2.core.scheduling.infc;
 
-import java.util.List;
-
 import org.kuali.student.r2.common.infc.HasId;
+
+import java.util.List;
 
 
 /**
@@ -106,5 +106,5 @@ public interface ScheduleRequestItem extends HasId {
      *
      * @name Time Slot Ids
      */
-    public List<TimeSlot> getTimeSlotIds();
+    public List<String> getTimeSlotIds();
 }

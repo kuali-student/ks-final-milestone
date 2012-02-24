@@ -16,7 +16,8 @@
 package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.IdEntity;
-import org.kuali.student.r2.common.infc.TimeAmount;
+
+import java.util.List;
 
 
 /**
@@ -34,7 +35,7 @@ public interface TimeSlot extends IdEntity {
      * @name Weekdays
      * @required
      */
-    public Integer[] getWeekdays();
+    public List<Integer> getWeekdays();
 
     /**
      * The starting hour of the day (0-23).
