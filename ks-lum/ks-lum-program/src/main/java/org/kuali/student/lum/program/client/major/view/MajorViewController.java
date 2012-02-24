@@ -152,7 +152,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
     private void processModifyActionType(final ViewContext viewContext) {
     	SecurityContext securityContext = Application.getApplicationContext().getSecurityContext(); 
     	
-    	securityContext.checkPermission("useCurriculumReview", new Callback<Boolean>() {
+    	securityContext.checkScreenPermission("useCurriculumReview", new Callback<Boolean>() {
             @Override
             public void exec(Boolean result) {
                 final boolean isAuthorized = result;
@@ -359,7 +359,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
                 actionBox.setList(ActionType.getValuesForMajorDiscipline(isLatest));
 
                 if (!isCurrentVersion) {
-                    Application.getApplicationContext().getSecurityContext().checkPermission("useCurriculumReview", new Callback<Boolean>() {
+                    Application.getApplicationContext().getSecurityContext().checkScreenPermission("useCurriculumReview", new Callback<Boolean>() {
                         @Override
                         public void exec(Boolean result) {
                             final boolean isAuthorized = result;
