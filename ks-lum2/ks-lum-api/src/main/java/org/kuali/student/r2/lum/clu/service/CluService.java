@@ -14,6 +14,8 @@
  */
 package org.kuali.student.r2.lum.clu.service;
 
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -1904,4 +1906,6 @@ public interface CluService extends VersionManagementService {
      * @throws UnsupportedActionException CLU set is dynamically determined
      */
     public StatusInfo removeCluFromCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
+//TODO KSCM - This method was need to fix  MajorDisciplineProposalRpcServlet 
+	public SearchResult search(SearchRequest request, ContextInfo contextInfo);
 }

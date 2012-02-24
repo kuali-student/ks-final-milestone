@@ -121,7 +121,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         return rule;
     }
 
-    public StatusInfo deleteProgramRequirement(String programRequirementId) throws Exception {
+    public org.kuali.student.r2.common.dto.StatusInfo deleteProgramRequirement(String programRequirementId) throws Exception {
         return programService.deleteProgramRequirement(programRequirementId,ContextUtils.getContextInfo());
     }
 
@@ -139,7 +139,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
             programRequirementInfo.setDescr(new RichTextInfo());    
         }
 
-        ProgramRequirementInfo rule = programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
+        ProgramRequirementInfo rule = programService.updateProgramRequirement(null, null, programRequirementInfo,ContextUtils.getContextInfo());
         setProgReqNL(rule);
         return rule;
     }
@@ -148,7 +148,14 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         setReqCompNL(programRequirementInfo.getStatement());
     }
 
-    private void setReqCompNL(StatementTreeViewInfo tree) throws Exception {
+    //TODO KSCM This method was created to fix 
+    private void setReqCompNL(
+			org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo statement) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void setReqCompNL(StatementTreeViewInfo tree) throws Exception {
         List<StatementTreeViewInfo> statements = tree.getStatements();
         List<ReqComponentInfo> reqComponentInfos = tree.getReqComponents();
 
@@ -162,9 +169,9 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
         	for (int i = 0; i < reqComponentInfos.size(); i++) {
         		ReqComponentInfoUi reqUi = null;
         		// TODO KSCM reqUi = RulesUtil.clone(reqComponentInfos.get(i));
-        		reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
-        		reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
-        		reqComponentInfos.set(i, reqUi);
+        		// TODO KSCM reqUi.setNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE", "en",ContextUtils.getContextInfo()));
+        		// TODO KSCM reqUi.setPreviewNaturalLanguageTranslation(statementService.translateReqComponentToNL(reqUi, "KUALI.RULE.PREVIEW", "en",ContextUtils.getContextInfo()));
+        		// TODO KSCM reqComponentInfos.set(i, reqUi);
         	}
         }
     }
