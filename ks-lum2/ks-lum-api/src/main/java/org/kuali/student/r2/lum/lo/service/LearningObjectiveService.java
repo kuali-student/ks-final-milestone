@@ -790,33 +790,40 @@ public interface LearningObjectiveService {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException;
 
-	LoLoRelationInfo getLoLoRelation(String loLoRelationId)
+	public LoLoRelationInfo getLoLoRelation(@WebParam(name = "loLoRelationId")String loLoRelationId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
-	List<LoLoRelationInfo> getLoLoRelationsByLoId(String loId)
+	public List<LoLoRelationInfo> getLoLoRelationsByLoId(@WebParam(name = "loId")String loId)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
-	List<LoInfo> getLosByRelatedLoId(String relatedLoId, String loLoRelationType)
+	public List<LoInfo> getLosByRelatedLoId(@WebParam(name = "relatedLoId")String relatedLoId, @WebParam(name = "loLoRelationType")String loLoRelationType)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
-	List<LoInfo> getRelatedLosByLoId(String loId, String loLoRelationTypeKey)
+	public List<LoInfo> getRelatedLosByLoId(@WebParam(name = "loId")String loId,@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
-	LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey,
-			ContextInfo contextInfo) throws DoesNotExistException,
+	public LoCategoryTypeInfo getLoCategoryType(@WebParam(name = "loCategoryTypeKey")String loCategoryTypeKey,
+			@WebParam(name = "contextInfo")ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException;
 
-	List<LoInfo> getLosByRepository(String loRepositoryKey, String loTypeKey,
-			String loStateKey) throws InvalidParameterException,
+	public List<LoInfo> getLosByRepository(@WebParam(name = "loRepositoryKey")String loRepositoryKey, @WebParam(name = "loTypeKey")String loTypeKey,
+			@WebParam(name = "loStateKey")String loStateKey) throws InvalidParameterException,
 			MissingParameterException, OperationFailedException;
 
-	List<LoCategoryTypeInfo> getLoCategoryTypes()
+	public List<LoCategoryTypeInfo> getLoCategoryTypes()
 			throws OperationFailedException;
+
+	public LoLoRelationInfo createLoLoRelation(@WebParam(name = "loLoRelationTypeKey")String loLoRelationTypeKey,
+			@WebParam(name = "loLoRelationInfo")LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo")ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException;
 	
 	
 
