@@ -37,13 +37,14 @@ import org.kuali.student.core.comment.entity.Tag;
  */
 @Deprecated
 public class CommentDaoImpl extends AbstractSearchableCrudDaoImpl implements CommentDao {
-    @PersistenceContext(unitName = "Comment")
-    @Override
+   
+
     public void setEm(EntityManager em) {
         super.setEm(em);
     }
 
-
+	@PersistenceContext(unitName = "Comment")
+    @Override
     public Comment getComment(String referenceId, String referenceTypeKey){
         Query query = em.createNamedQuery("Comment.getComment");
         query.setParameter("refId", referenceId);
