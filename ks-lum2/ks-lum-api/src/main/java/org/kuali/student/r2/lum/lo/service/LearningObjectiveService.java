@@ -18,7 +18,7 @@ package org.kuali.student.r2.lum.lo.service;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.r1.lum.lo.dto.LoLoRelationTypeInfo;
 import org.kuali.student.r1.lum.lo.dto.LoTypeInfo;

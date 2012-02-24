@@ -41,7 +41,7 @@ import org.kuali.student.r2.common.search.dto.SearchRequestInfo;
 //TODO KSCM import org.kuali.student.common.search.dto.SearchResultTypeInfo;
 //TODO KSCM import org.kuali.student.common.search.dto.SearchTypeInfo;
 import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.lum.lo.dao.LoDao;
