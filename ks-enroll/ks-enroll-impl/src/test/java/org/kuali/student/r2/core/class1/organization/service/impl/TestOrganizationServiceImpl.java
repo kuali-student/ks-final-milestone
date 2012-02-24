@@ -34,7 +34,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.kuali.rice.core.api.criteria.PredicateFactory;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-import org.kuali.student.core.organization.entity.OrgPersonRelation;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -120,11 +119,9 @@ public class TestOrganizationServiceImpl {
             assertEquals(1, orgOrgRelationInfos.size());
             OrgOrgRelationInfo orgOrgRelationInfo = orgOrgRelationInfos.get(0);
             assertEquals("1", orgOrgRelationInfo.getId());
-            //assertEquals("KUSystem", orgOrgRelationInfo.getShortName());
-            //assertEquals("Kuali University System", orgOrgRelationInfo.getLongName());
-            //assertEquals("", orgOrgRelationInfo.getShortDescr().getPlain());
-            //assertEquals("", orgOrgRelationInfo.getLongDescr().getPlain());
-            //assertEquals("kuali.org.CorporateEntity", orgOrgRelationInfo.getTypeKey());
+            assertEquals("1", orgOrgRelationInfo.getOrgId());
+            assertEquals("2", orgOrgRelationInfo.getRelatedOrgId());
+            assertEquals("kuali.org.Board", orgOrgRelationInfo.getTypeKey());
             
             List<String> orgOrgRelationIds = orgService.searchForOrgOrgRelationIds(qbc, callContext);
             assertNotNull(orgOrgRelationIds);
@@ -147,11 +144,9 @@ public class TestOrganizationServiceImpl {
             assertEquals(1, orgPositionRestrictionInfos.size());
             OrgPositionRestriction orgPositionRestriction = orgPositionRestrictionInfos.get(0);
             assertEquals("1", orgPositionRestriction.getId());
-            //assertEquals("KUSystem", orgPositionRestriction.getShortName());
-            //assertEquals("Kuali University System", orgPositionRestriction.getLongName());
-            //assertEquals("", orgPositionRestriction.getShortDescr().getPlain());
-            //assertEquals("", orgPositionRestriction.getLongDescr().getPlain());
-            //assertEquals("kuali.org.CorporateEntity", orgPositionRestriction.getTypeKey());
+            assertEquals("2", orgPositionRestriction.getOrgId());
+            assertEquals("100", orgPositionRestriction.getMaxNumRelations());
+            assertEquals("kuali.org.PersonRelation.Member", orgPositionRestriction.getOrgPersonRelationTypeKey());
 
             List<String> orgPositionRestrictionIds = orgService.searchForOrgPositionRestrictionIds(qbc, callContext);
             assertNotNull(orgPositionRestrictionIds);
@@ -173,11 +168,9 @@ public class TestOrganizationServiceImpl {
             assertEquals(1, orgPersonRelationInfos.size());
             OrgPersonRelationInfo orgPersonRelationInfo = orgPersonRelationInfos.get(0);
             assertEquals("1", orgPersonRelationInfo.getId());
-            //assertEquals("KUSystem", orgPersonRelationInfo.getShortName());
-            //assertEquals("Kuali University System", orgPersonRelationInfo.getLongName());
-            //assertEquals("", orgPersonRelationInfo.getShortDescr().getPlain());
-            //assertEquals("", orgPersonRelationInfo.getLongDescr().getPlain());
-            //assertEquals("kuali.org.CorporateEntity", orgPersonRelationInfo.getTypeKey());
+            assertEquals("kuali.org.PersonRelation.Head", orgPersonRelationInfo.getTypeKey());
+            assertEquals("68", orgPersonRelationInfo.getOrgId());
+            assertEquals("KIM-1", orgPersonRelationInfo.getPersonId());
 
             List<String> orgPersonRelationIds = orgService.searchForOrgPersonRelationIds(qbc, callContext);
             assertNotNull(orgPersonRelationIds);
@@ -187,27 +180,6 @@ public class TestOrganizationServiceImpl {
         }
 
     }
-	
-	@Test
-	public void testSearchHierarchyShortName() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
-		/*List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.orgHierarchyId");
-		searchParam.setValue("kuali.org.hierarchy.Main");
-		searchParams.add(searchParam);
-		searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.orgShortName");
-		searchParam.setValue("Bio%");
-		searchParams.add(searchParam);
-		
-		SearchRequest searchRequest = new SearchRequest();
-		searchRequest.setSearchKey("org.search.orgQuickViewByHierarchyShortName");
-		searchRequest.setParams(searchParams);
-		
-		SearchResult result = client.search(searchRequest);
-		assertEquals(4,result.getRows().size());
-		assertEquals(2,result.getRows().get(0).getCells().size());*/
-	}
 	
 	@Test
 	public void testCreateUpdateOrg() throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, ParseException, ReadOnlyException {
@@ -464,8 +436,7 @@ public class TestOrganizationServiceImpl {
 		orgPositionRestrictionInfo.setOrgPersonRelationTypeKey("");
 
 		OrgPositionRestrictionInfo created = orgService.createOrgPositionRestriction("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo, callContext);
-		OrgPositionRestrictionInfo created2 = orgService.createOrgPositionRestriction("1", "kuali.org.PersonRelation.Treasurer", orgPositionRestrictionInfo, callContext);
-
+		
 		//validate fields
 		assertEquals("Description For Position Restriction",created.getDescr().getPlain());
 		assertEquals("2345",created.getMaxNumRelations());
@@ -787,11 +758,11 @@ public class TestOrganizationServiceImpl {
 	public void testGetOrgTreeInfo() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		// test getting one level
 		List<OrgTreeInfo> results = orgService.getOrgTree("4", "kuali.org.hierarchy.Main", 1, callContext);
-		//assertEquals(9,results.size());
+		assertEquals(9,results.size());
 
 		// test getting the whole tree
 		results = orgService.getOrgTree("4", "kuali.org.hierarchy.Main", 0, callContext);
-		//assertEquals(142, results.size());
+		assertEquals(142, results.size());
 	}
 
 	@Test
@@ -823,26 +794,105 @@ public class TestOrganizationServiceImpl {
 		} catch (MissingParameterException e) {
 			assertTrue(true);
 		}
-	}
+	}	
 	
 	@Test
-	public void testHierarchiesOrgIsIn() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		/*List<SearchParam> searchParams = new ArrayList<SearchParam>();
-		SearchParam searchParam = new SearchParam();
-		searchParam.setKey("org.queryParam.orgId");
-		searchParam.setValue("31");
-		searchParams.add(searchParam);
-		
-		SearchRequest searchRequest = new SearchRequest();
-		searchRequest.setSearchKey("org.search.hierarchiesOrgIsIn");
-		searchRequest.setParams(searchParams);
-		
-		SearchResult result = client.search(searchRequest);
-		assertEquals(1,result.getRows().size());
-		List<SearchResultCell> cells = result.getRows().get(0).getCells();
-		assertEquals(1,cells.size());
-		SearchResultCell cell = cells.get(0);
-		assertEquals("org.resultColumn.orgHierarchyId", cell.getKey());
-		assertEquals("kuali.org.hierarchy.Main", cell.getValue());*/
-	}	
+	public void getOrgsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+	    String orgTypeKey = "kuali.org.Department";
+	    List<String> orgIds = orgService.getOrgIdsByType(orgTypeKey, callContext);
+	    assertNotNull(orgIds);
+	    assertEquals(28, orgIds.size());
+	    assertTrue(orgIds.contains("12"));
+	    assertTrue(orgIds.contains("64"));
+    }
+
+	@Test
+    public void getOrgOrgRelationsByTypeAndOrg() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        String orgId = "4"; 
+        String orgOrgRelationTypeKey = "kuali.org.Part";
+        List<OrgOrgRelationInfo> orgOrgRelations = orgService.getOrgOrgRelationsByTypeAndOrg(orgId, orgOrgRelationTypeKey, callContext);
+        assertNotNull(orgOrgRelations);
+        assertEquals(5, orgOrgRelations.size());
+        
+        boolean found = false;
+        for (OrgOrgRelationInfo relation : orgOrgRelations){
+            if (relation.getId().equals("13")){
+                assertEquals("4", relation.getOrgId());
+                assertEquals("15", relation.getRelatedOrgId());
+                assertEquals("kuali.org.Part", relation.getTypeKey());
+                found = true;
+            }
+        }
+        assertTrue(found);
+    }
+    
+	@Test
+    public void getOrgOrgRelationsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String orgOrgRelationTypeKey = "kuali.org.Part";
+        List<String> orgOrgRelationIds = orgService.getOrgOrgRelationIdsByType(orgOrgRelationTypeKey, callContext);
+        assertNotNull(orgOrgRelationIds);
+        assertEquals(45, orgOrgRelationIds.size());
+        assertTrue(orgOrgRelationIds.contains("13"));
+        assertTrue(orgOrgRelationIds.contains("31"));
+    }
+    
+	@Test
+    public void getOrgPositionRestrictionsByIds() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> orgPositionRestrictionIds = new ArrayList<String>();
+        orgPositionRestrictionIds.add("40");
+        orgPositionRestrictionIds.add("41");
+        orgPositionRestrictionIds.add("42");
+        List<OrgPositionRestrictionInfo> orgPositionRestrictions = orgService.getOrgPositionRestrictionsByIds(orgPositionRestrictionIds, callContext);
+        assertNotNull(orgPositionRestrictions);
+        assertEquals(3, orgPositionRestrictions.size());
+        
+        boolean found = false;
+        for (OrgPositionRestrictionInfo restriction : orgPositionRestrictions){
+            if (restriction.getId().equals("40")){
+                assertEquals("67", restriction.getOrgId());
+                assertEquals("kuali.org.PersonRelation.Chair", restriction.getOrgPersonRelationTypeKey());
+                found = true;
+            }
+        }
+        assertTrue(found);
+    }
+
+	@Test
+    public void getOrgPositionRestrictionsByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String orgPersonRelationTypeKey = "kuali.org.PersonRelation.President";
+        List<String> orgPositionRestrictionIds = orgService.getOrgPositionRestrictionIdsByType(orgPersonRelationTypeKey, callContext);
+        assertNotNull(orgPositionRestrictionIds);
+        assertEquals(2, orgPositionRestrictionIds.size());
+        assertTrue(orgPositionRestrictionIds.contains("5"));
+        assertTrue(orgPositionRestrictionIds.contains("70"));
+    }
+    
+	@Test
+    public void getOrgHierarchiesByIds() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        List<String> orgHierarchyIds = new ArrayList<String>();
+        orgHierarchyIds.add("kuali.org.hierarchy.Curriculum");
+        orgHierarchyIds.add("kuali.org.hierarchy.Main");
+        List<OrgHierarchyInfo> orgHierarchies = orgService.getOrgHierarchiesByIds(orgHierarchyIds, callContext);
+        assertNotNull(orgHierarchies);
+        assertEquals(2, orgHierarchies.size());
+        
+        boolean found = false;
+        for (OrgHierarchyInfo hierarchy : orgHierarchies){
+            if (hierarchy.getId().equals("kuali.org.hierarchy.Main")){
+                assertEquals("4", hierarchy.getRootOrgId());
+                assertEquals("Main", hierarchy.getName());
+                found = true;
+            }
+        }
+        assertTrue(found);
+    }
+
+	@Test
+    public void getOrgHierarchiesByType() throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        String orgHierarchyTypeKey = "kuali.org.hierarchy.Main";
+        List<String> orgHierarchyIds = orgService.getOrgHierarchyIdsByType(orgHierarchyTypeKey, callContext);
+        assertNotNull(orgHierarchyIds);
+        assertEquals(1, orgHierarchyIds.size());
+        assertTrue(orgHierarchyIds.contains("kuali.org.hierarchy.Main"));
+    }
 }

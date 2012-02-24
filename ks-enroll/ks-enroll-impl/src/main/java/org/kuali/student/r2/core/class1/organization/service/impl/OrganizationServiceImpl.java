@@ -42,7 +42,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.core.class1.organization.dao.OrgPersonRelationDao;
+import org.kuali.student.r2.core.class1.organization.dao.ExtendedOrgDao;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
@@ -60,11 +60,11 @@ public class OrganizationServiceImpl implements OrganizationService {
     final Logger logger = Logger.getLogger(OrganizationServiceImpl.class);
 
     private OrganizationDao organizationDao;
-    private OrgPersonRelationDao personRelationDao;
+    private ExtendedOrgDao extendedOrgDao;
     private DictionaryService dictionaryServiceDelegate;
     private Validator validator;
     private CriteriaLookupService criteriaLookupService;
-    
+
     /**
      * Check for missing parameter and throw localized exception if missing
      * 
@@ -94,7 +94,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void setValidator(Validator validator) {
         this.validator = validator;
     }
-    
+
     public OrganizationDao getOrganizationDao() {
         return organizationDao;
     }
@@ -102,13 +102,13 @@ public class OrganizationServiceImpl implements OrganizationService {
     public void setOrganizationDao(OrganizationDao organizationDao) {
         this.organizationDao = organizationDao;
     }
-    
-    public OrgPersonRelationDao getPersonRelationDao() {
-        return personRelationDao;
+
+    public ExtendedOrgDao getExtendedOrgDao() {
+        return extendedOrgDao;
     }
 
-    public void setPersonRelationDao(OrgPersonRelationDao personRelationDao) {
-        this.personRelationDao = personRelationDao;
+    public void setExtendedOrgDao(ExtendedOrgDao extendedOrgDao) {
+        this.extendedOrgDao = extendedOrgDao;
     }
 
     public void setCriteriaLookupService(CriteriaLookupService criteriaLookupService) {
@@ -132,14 +132,26 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<OrgHierarchyInfo> getOrgHierarchiesByIds(List<String> orgHierarchyIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgHierarchyIds, "orgHierarchyIds");
+        
+        List<OrgHierarchy> orgHierarchies = extendedOrgDao.getOrgHierarchiesByIds(orgHierarchyIds);
+        return OrganizationAssembler.toOrgHierarchyInfos(orgHierarchies);
     }
 
     @Override
     public List<String> getOrgHierarchyIdsByType(String orgHierarchyTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgHierarchyTypeKey, "orgHierarchyTypeKey");
+        
+        List<String> orgHierarchyIds = new ArrayList<String>();
+        List<OrgHierarchy> orgHierarchies = extendedOrgDao.getOrgHierarchiesByType(orgHierarchyTypeKey);
+        
+        if (orgHierarchies != null){
+            for (OrgHierarchy orgHierarchy : orgHierarchies){
+                orgHierarchyIds.add(orgHierarchy.getId());
+            }
+        }
+                
+        return orgHierarchyIds;
     }
 
     @Override
@@ -173,21 +185,31 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> getOrgIdsByType(String orgTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgTypeKey, "orgTypeKey");
+        
+        List<String> orgIds = new ArrayList<String>();
+        List<Org> orgs = extendedOrgDao.getOrgsByType(orgTypeKey);
+        
+        if (orgs != null){
+            for (Org org : orgs){
+                orgIds.add(org.getId());
+            }
+        }
+        
+        return orgIds;
     }
 
     @Override
     public List<String> searchForOrgIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgIds = new ArrayList<String>();
         List<OrgInfo> orgs = this.searchForOrgs(criteria, contextInfo);
-        
-        if (orgs != null){
-            for (OrgInfo org : orgs){
+
+        if (orgs != null) {
+            for (OrgInfo org : orgs) {
                 orgIds.add(org.getId());
             }
         }
-        
+
         return orgIds;
     }
 
@@ -358,8 +380,18 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> getOrgOrgRelationIdsByType(String orgOrgRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
+        
+        List<String> orgOrgRelationIds = new ArrayList<String>();
+        List<OrgOrgRelation> orgOrgRelations = extendedOrgDao.getOrgOrgRelationsByType(orgOrgRelationTypeKey);
+        
+        if (orgOrgRelations != null){
+            for(OrgOrgRelation orgOrgRelation : orgOrgRelations){
+                orgOrgRelationIds.add(orgOrgRelation.getId());
+            }
+        }
+        
+        return orgOrgRelationIds;
     }
 
     @Override
@@ -372,27 +404,29 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByOrgs(String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        return this.getOrgOrgRelationsByOrg(orgId, contextInfo);
     }
 
     @Override
     public List<OrgOrgRelationInfo> getOrgOrgRelationsByTypeAndOrg(String orgId, String orgOrgRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgId, "orgId");
+        checkForMissingParameter(orgOrgRelationTypeKey, "orgOrgRelationTypeKey");
+        
+        List<OrgOrgRelation> orgOrgRelations = extendedOrgDao.getOrgOrgRelationsByTypeAndOrg(orgId, orgOrgRelationTypeKey);
+        return OrganizationAssembler.toOrgOrgRelationInfos(orgOrgRelations);
     }
 
     @Override
     public List<String> searchForOrgOrgRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgOrgRelationIds = new ArrayList<String>();
         List<OrgOrgRelationInfo> orgOrgRelations = this.searchForOrgOrgRelations(criteria, contextInfo);
-        
-        if (orgOrgRelations != null){
-            for (OrgOrgRelationInfo orgOrgRelation : orgOrgRelations){
+
+        if (orgOrgRelations != null) {
+            for (OrgOrgRelationInfo orgOrgRelation : orgOrgRelations) {
                 orgOrgRelationIds.add(orgOrgRelation.getId());
             }
         }
-        
+
         return orgOrgRelationIds;
     }
 
@@ -529,8 +563,17 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public List<String> getOrgPersonRelationIdsByType(String orgPersonRelationTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
+
+        List<String> orgPersonRelationIds = new ArrayList<String>();
+        List<OrgPersonRelation> orgPersonRelations = extendedOrgDao.getOrgPersonRelationsByType(orgPersonRelationTypeKey);
+        if (orgPersonRelations != null) {
+            for (OrgPersonRelation orgPersonRelation : orgPersonRelations) {
+                orgPersonRelationIds.add(orgPersonRelation.getId());
+            }
+        }
+
+        return orgPersonRelationIds;
     }
 
     @Override
@@ -545,16 +588,16 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndOrg(String orgPersonRelationTypeKey, String orgId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
         checkForMissingParameter(orgId, "orgId");
-        
-        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationTypeKey, orgId);
+
+        List<OrgPersonRelation> orgPersonRelations = extendedOrgDao.getOrgPersonRelationsByTypeAndOrg(orgPersonRelationTypeKey, orgId);
         return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
     @Override
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByPerson(String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(personId, "personId");
-        
-        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByPerson(personId);
+
+        List<OrgPersonRelation> orgPersonRelations = extendedOrgDao.getOrgPersonRelationsByPerson(personId);
         return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
@@ -562,8 +605,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByTypeAndPerson(String orgPersonRelationTypeKey, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
         checkForMissingParameter(personId, "personId");
-        
-        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByTypeAndPerson(orgPersonRelationTypeKey, personId);
+
+        List<OrgPersonRelation> orgPersonRelations = extendedOrgDao.getOrgPersonRelationsByTypeAndPerson(orgPersonRelationTypeKey, personId);
         return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
@@ -571,8 +614,8 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<OrgPersonRelationInfo> getOrgPersonRelationsByOrgAndPerson(String orgId, String personId, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgId, "orgId");
         checkForMissingParameter(personId, "personId");
-        
-        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByOrgAndPerson(orgId, personId);
+
+        List<OrgPersonRelation> orgPersonRelations = extendedOrgDao.getOrgPersonRelationsByOrgAndPerson(orgId, personId);
         return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
@@ -581,8 +624,8 @@ public class OrganizationServiceImpl implements OrganizationService {
         checkForMissingParameter(orgPersonRelationTypeKey, "orgPersonRelationTypeKey");
         checkForMissingParameter(orgId, "orgId");
         checkForMissingParameter(personId, "personId");
-        
-        List<OrgPersonRelation> orgPersonRelations = personRelationDao.getOrgPersonRelationsByTypeAndOrgAndPerson(orgPersonRelationTypeKey, orgId, personId);
+
+        List<OrgPersonRelation> orgPersonRelations = extendedOrgDao.getOrgPersonRelationsByTypeAndOrgAndPerson(orgPersonRelationTypeKey, orgId, personId);
         return OrganizationAssembler.toOrgPersonRelationInfos(orgPersonRelations);
     }
 
@@ -590,13 +633,13 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<String> searchForOrgPersonRelationIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgPersonRelationIds = new ArrayList<String>();
         List<OrgPersonRelationInfo> orgPersonRelations = this.searchForOrgPersonRelations(criteria, contextInfo);
-        
-        if (orgPersonRelations != null){
-            for (OrgPersonRelationInfo orgPersonRelation : orgPersonRelations){
+
+        if (orgPersonRelations != null) {
+            for (OrgPersonRelationInfo orgPersonRelation : orgPersonRelations) {
                 orgPersonRelationIds.add(orgPersonRelation.getId());
             }
         }
-        
+
         return orgPersonRelationIds;
     }
 
@@ -698,20 +741,39 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     @Override
     public OrgPositionRestrictionInfo getOrgPositionRestriction(String orgPositionRestrictionId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPositionRestrictionId, "orgPositionRestrictionId");
+
+        OrgPositionRestriction orgPositionRestriction;
+        try {
+            orgPositionRestriction = organizationDao.fetch(OrgPositionRestriction.class, orgPositionRestrictionId);
+        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            throw new DoesNotExistException(e.getMessage());
+        }
+        return OrganizationAssembler.toOrgPositionRestrictionInfo(orgPositionRestriction);
     }
 
     @Override
     public List<OrgPositionRestrictionInfo> getOrgPositionRestrictionsByIds(List<String> orgPositionRestrictionIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPositionRestrictionIds, "orgPositionRestrictionIds");
+        
+        List<OrgPositionRestriction> orgPositionRestrictions = extendedOrgDao.getOrgPositionRestrictionsByIds(orgPositionRestrictionIds);
+        return OrganizationAssembler.toOrgPositionRestrictionInfos(orgPositionRestrictions);
     }
 
     @Override
     public List<String> getOrgPositionRestrictionIdsByType(String orgPositionRestrictionTypeKey, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO pctsw - THIS METHOD NEEDS JAVADOCS
-        return null;
+        checkForMissingParameter(orgPositionRestrictionTypeKey, "orgPositionRestrictionTypeKey");
+        
+        List<String> orgPositionRestrictionIds = new ArrayList<String>();
+        List<OrgPositionRestriction> orgPositionRestrictions = extendedOrgDao.getOrgPositionRestrictionsByType(orgPositionRestrictionTypeKey);
+        
+        if (orgPositionRestrictions != null){
+            for (OrgPositionRestriction orgPositionRestriction : orgPositionRestrictions){
+                orgPositionRestrictionIds.add(orgPositionRestriction.getId());
+            }
+        }
+        
+        return orgPositionRestrictionIds;
     }
 
     @Override
@@ -731,9 +793,9 @@ public class OrganizationServiceImpl implements OrganizationService {
     public List<String> searchForOrgPositionRestrictionIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> orgPositionRestrictionIds = new ArrayList<String>();
         List<OrgPositionRestrictionInfo> orgPositionRestrictionInfos = this.searchForOrgPositionRestrictions(criteria, contextInfo);
-        
-        if (orgPositionRestrictionInfos != null){
-            for (OrgPositionRestrictionInfo orgPositionRestrictionInfo : orgPositionRestrictionInfos){
+
+        if (orgPositionRestrictionInfos != null) {
+            for (OrgPositionRestrictionInfo orgPositionRestrictionInfo : orgPositionRestrictionInfos) {
                 orgPositionRestrictionIds.add(orgPositionRestrictionInfo.getId());
             }
         }
@@ -816,7 +878,7 @@ public class OrganizationServiceImpl implements OrganizationService {
     @Override
     public StatusInfo deleteOrgPositionRestriction(String orgPositionRestrictionId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         checkForMissingParameter(orgPositionRestrictionId, "orgPositionRestrictionId");
-                
+
         try {
             organizationDao.delete(OrgPositionRestriction.class, orgPositionRestrictionId);
         } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
@@ -863,12 +925,18 @@ public class OrganizationServiceImpl implements OrganizationService {
         Set<OrgTreeInfo> results = new HashSet<OrgTreeInfo>();
         try {
             Org rootOrg = organizationDao.fetch(Org.class, rootOrgId);
-            /*
-             * OrgTreeInfo root = new OrgTreeInfo(rootOrgId, null, rootOrg.getLongName());
-             * root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
-             * root.setOrgHierarchyId(orgHierarchyId); results.add(root); if (maxLevels >= 0) {
-             * results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels, 0)); }
-             */
+
+            OrgTreeInfo root = new OrgTreeInfo();
+            root.setOrgId(rootOrgId);
+            root.setParentId(null);
+            root.setDisplayName(rootOrg.getLongName());
+            root.setPositions(this.organizationDao.getOrgMemebershipCount(root.getOrgId()));
+            root.setOrgHierarchyId(orgHierarchyId);
+            results.add(root);
+            if (maxLevels >= 0) {
+                results.addAll(parseOrgTree(rootOrgId, orgHierarchyId, maxLevels, 0));
+            }
+
         } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException();
         }
@@ -878,13 +946,27 @@ public class OrganizationServiceImpl implements OrganizationService {
 
     private List<OrgTreeInfo> parseOrgTree(String rootOrgId, String orgHierarchyId, int maxLevels, int currentLevel) {
         List<OrgTreeInfo> results = new ArrayList<OrgTreeInfo>();
-        /*
-         * if(maxLevels==0||currentLevel<maxLevels){ List<OrgTreeInfo> orgTreeInfos =
-         * this.organizationDao.getOrgTreeInfo(rootOrgId,orgHierarchyId); for(OrgTreeInfo orgTreeInfo:orgTreeInfos){
-         * orgTreeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
-         * results.addAll(parseOrgTree(orgTreeInfo.getOrgId(),orgHierarchyId, maxLevels, currentLevel+1)); }
-         * results.addAll(orgTreeInfos); }
-         */
+
+        if (maxLevels == 0 || currentLevel < maxLevels) {
+            List<org.kuali.student.core.organization.dto.OrgTreeInfo> orgTreeInfos = this.organizationDao.getOrgTreeInfo(rootOrgId, orgHierarchyId);
+            for (org.kuali.student.core.organization.dto.OrgTreeInfo orgTreeInfo : orgTreeInfos) {
+                
+                OrgTreeInfo treeInfo = new OrgTreeInfo();
+                treeInfo.setOrgId(orgTreeInfo.getOrgId());
+                treeInfo.setDisplayName(orgTreeInfo.getDisplayName());
+                treeInfo.setOrgHierarchyId(orgTreeInfo.getOrgHierarchyId());
+                treeInfo.setParentId(orgTreeInfo.getParentId());
+                treeInfo.setPersonId(orgTreeInfo.getPersonId());
+                treeInfo.setPositionId(orgTreeInfo.getPositionId());
+                treeInfo.setRelationTypeKey(orgTreeInfo.getRelationType());
+                treeInfo.setPositions(this.organizationDao.getOrgMemebershipCount(orgTreeInfo.getOrgId()));
+                
+                results.add(treeInfo);
+                
+                results.addAll(parseOrgTree(orgTreeInfo.getOrgId(), orgHierarchyId, maxLevels, currentLevel + 1));
+            }
+        }
+
         return results;
     }
 
