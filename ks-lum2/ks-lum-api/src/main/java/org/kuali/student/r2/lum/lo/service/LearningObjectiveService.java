@@ -824,6 +824,12 @@ public interface LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException;
+
+	public LoInfo createLo(@WebParam(name = "loTypeKey")String loTypeKey, @WebParam(name = "loInfo")LoInfo loInfo, @WebParam(name = "contextInfo")ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			ReadOnlyException;
 	
 	
 
