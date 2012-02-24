@@ -58,7 +58,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
         return metas;
     }
 
-    public Enumeration addEnumeration(Enumeration entity){
+    public Enumeration addEnumeration(org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration entity){
     	try{
 	        em.persist(entity);
 	        entity = em.find(Enumeration.class, entity.getId());
@@ -72,7 +72,7 @@ public class EnumerationManagementDAOImpl extends AbstractSearchableCrudDaoImpl 
     public boolean removeEnumeration(String enumerationKey){
         boolean removed = false;
         try{
-	    	Enumeration meta = this.fetch(Enumeration.class, enumerationKey);
+	    	Enumeration meta = this.fetch(org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration.class, enumerationKey);
 	        if(meta != null){
 	        	em.remove(meta);
 	        	removed = true;
