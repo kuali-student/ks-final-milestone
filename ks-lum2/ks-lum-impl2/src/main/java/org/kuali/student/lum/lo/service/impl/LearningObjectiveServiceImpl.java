@@ -1194,6 +1194,27 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 		return null;
 	}
 
+	@Override
+	public LoInfo createLo(String loTypeKey, LoInfo loInfo, String lo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public LoLoRelationInfo createLoLoRelation(String loLoRelationTypeKey,
+			String relatedLoId, String type, LoLoRelationInfo loLoRelationInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 //	@Override
 //	public SearchResult search(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
 //        checkForMissingParameter(searchRequest, "searchRequest");
