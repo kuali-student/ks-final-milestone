@@ -343,6 +343,7 @@ public interface LearningObjectiveService {
      * Creates a new Lo. The Lo Id, Type, and Meta information may not be set in the supplied data object.
      *
      * @param loTypeKey     the identifier for the Type of Lo to be created
+     * @param string 
      * @param loInfo        the data with which to create the Lo
      * @param contextInfo   information containing the principalId and locale information about the caller of the service operation
      * @return the new Lo
@@ -354,7 +355,7 @@ public interface LearningObjectiveService {
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information designated as read only
      */
-    public LoInfo createLo (@WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loInfo") LoInfo loInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public LoInfo createLo (@WebParam(name = "loTypeKey") String loTypeKey, @WebParam(name = "loInfo") LoInfo loInfo, @WebParam(name="lo") String lo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing Lo. The Lo Id, Type, and Meta information may not be changed.
@@ -703,6 +704,8 @@ public interface LearningObjectiveService {
      * Creates a new LoLoRelation. The LoLoRelation Id, Type, and Meta information may not be set in the supplied data object.
      *
      * @param loLoRelationTypeKey   the identifier for the Type of LoLoRelation to be created
+     * @param type 
+     * @param relatedLoId 
      * @param loLoRelationInfo      the data with which to create the LoLoRelation
      * @param contextInfo           information containing the principalId and locale information about the caller of the service operation
      * @return the new LoLoRelation
@@ -714,7 +717,7 @@ public interface LearningObjectiveService {
      * @throws PermissionDeniedException    an authorization failure occurred
      * @throws ReadOnlyException            an attempt at supplying information designated as read only
      */
-    public LoLoRelationInfo createLoLoRelation (@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "loLoRelationInfo") LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
+    public LoLoRelationInfo createLoLoRelation (@WebParam(name = "loLoRelationTypeKey") String loLoRelationTypeKey, @WebParam(name = "relatedLoId") String relatedLoId, @WebParam(name = "type") String type, @WebParam(name = "loLoRelationInfo") LoLoRelationInfo loLoRelationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
      * Updates an existing LoLoRelation. The LoLoRelation Id, Type, and Meta information may not be changed.
