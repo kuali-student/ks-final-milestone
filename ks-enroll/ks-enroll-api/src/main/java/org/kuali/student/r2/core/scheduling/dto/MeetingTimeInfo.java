@@ -34,13 +34,13 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MeetingTimeInfo", propOrder = {"id", "startTime", "duration", "roomId", "_futureElements"})
+@XmlType(name = "MeetingTimeInfo", propOrder = {"id", "startDate", "duration", "roomId", "_futureElements"})
 public class MeetingTimeInfo implements MeetingTime, Serializable {
 
     @XmlElement
     private String id;
     @XmlElement
-    private Date startTime;
+    private Date startDate;
     @XmlElement
     private TimeAmountInfo duration;
     @XmlElement
@@ -55,7 +55,7 @@ public class MeetingTimeInfo implements MeetingTime, Serializable {
     public MeetingTimeInfo(MeetingTime meetingTime) {
         if (null != meetingTime) {
             this.id = meetingTime.getId();
-            this.startTime = (null != meetingTime.getStartTime()) ? new Date(meetingTime.getStartTime().getTime()) : null;
+            this.startDate = (null != meetingTime.getStartDate()) ? new Date(meetingTime.getStartDate().getTime()) : null;
             this.duration = (null != meetingTime.getDuration()) ? new TimeAmountInfo(meetingTime.getDuration()) : null;
             this.roomId = meetingTime.getRoomId();
         }
@@ -71,12 +71,12 @@ public class MeetingTimeInfo implements MeetingTime, Serializable {
     }
 
     @Override
-    public Date getStartTime() {
-        return this.startTime;
+    public Date getStartDate() {
+        return this.startDate;
     }
 
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
     @Override

@@ -16,6 +16,8 @@
 package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.core.scheduling.infc.TimeSlot;
 import org.w3c.dom.Element;
 
@@ -33,20 +35,16 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeSlotInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "weekdays", "startHour", "startMinute", "endHour", "endMinute",
+        "weekdays", "startTime", "duration",
         "meta", "attributes", "_futureElements"})
 public class TimeSlotInfo extends IdEntityInfo implements TimeSlot {
 
     @XmlElement
     private List<Integer> weekdays;
     @XmlElement
-    private Integer startHour;
+    private TimeOfDayInfo startTime;
     @XmlElement
-    private Integer startMinute;
-    @XmlElement
-    private Integer endHour;
-    @XmlElement
-    private Integer endMinute;
+    private TimeAmountInfo duration;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -56,10 +54,8 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot {
     public TimeSlotInfo(TimeSlot timeSlot) {
         if (null != timeSlot) {
             this.weekdays = new ArrayList<Integer>(timeSlot.getWeekdays());
-            this.startHour = timeSlot.getStartHour();
-            this.startMinute = timeSlot.getStartMinute();
-            this.endHour = timeSlot.getEndHour();
-            this.endMinute = timeSlot.getEndMinute();
+            this.startTime = (null != timeSlot.getStartTime()) ? new TimeOfDayInfo(timeSlot.getStartTime()) : null;
+            this.duration = (null != timeSlot.getDuration()) ? new TimeAmountInfo(timeSlot.getDuration()) : null;
         }
     }
 
@@ -73,39 +69,20 @@ public class TimeSlotInfo extends IdEntityInfo implements TimeSlot {
     }
 
     @Override
-    public Integer getEndHour() {
-        return endHour;
+    public TimeOfDayInfo getStartTime() {
+        return startTime;
     }
 
-    public void setEndHour(Integer endHour) {
-        this.endHour = endHour;
-    }
-
-    @Override
-    public Integer getEndMinute() {
-        return endMinute;
-    }
-
-    public void setEndMinute(Integer endMinute) {
-        this.endMinute = endMinute;
+    public void setStartTime(TimeOfDayInfo startTime) {
+        this.startTime = startTime;
     }
 
     @Override
-    public Integer getStartHour() {
-        return startHour;
+    public TimeAmountInfo getDuration() {
+        return duration;
     }
 
-    public void setStartHour(Integer startHour) {
-        this.startHour = startHour;
+    public void setDuration(TimeAmountInfo duration) {
+        this.duration = duration;
     }
-
-    @Override
-    public Integer getStartMinute() {
-        return startMinute;
-    }
-
-    public void setStartMinute(Integer startMinute) {
-        this.startMinute = startMinute;
-    }
-
 }
