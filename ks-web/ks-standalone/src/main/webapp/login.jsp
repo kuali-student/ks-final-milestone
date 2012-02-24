@@ -1,7 +1,3 @@
-<%@ page import="org.springframework.security.ui.webapp.AuthenticationProcessingFilter" %>
-<%@ page import="org.springframework.security.ui.AbstractProcessingFilter" %>
-<%@ page import="org.springframework.security.AuthenticationException" %>
-
 <script type="text/javascript">
 	function setSubmitUrl(form){
 		var hash = unescape(self.document.location.hash.substring(1));
