@@ -160,4 +160,9 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
 		// TODO Auto-generated method stub
 		
 	}
+//TODO KSCM This method was required in MajorDisciplineProposalRpcServlet
+	public void setDescr(org.kuali.student.common.dto.RichTextInfo richTextInfo) {
+		// TODO Auto-generated method stub
+		
+	}
 }
