@@ -177,6 +177,8 @@ public class ProgramRequirementsDataModel {
         },ContextUtils.getContextInfo());     
     }
 
+    
+    
     public ProgramRequirementInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalProgReqID, boolean isNewRule) {
 
         ProgramRequirementInfo affectedRule = progReqInfos.get(internalProgReqID);
@@ -192,7 +194,14 @@ public class ProgramRequirementsDataModel {
         }
 
         //if we don't have top level req. components wrapped in statement, do so before we add another statement
-        StatementTreeViewInfo affectedTopTree = affectedRule.getStatement();
+        //TODO KSCM : Jacobus, Paul's dicussion regarding conversion
+        org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo temp1 = affectedRule.getStatement();
+        StatementTreeViewInfo affectedTopTree = new StatementTreeViewInfo();
+        
+        //affectedTopTree.getDesc(temp1.getDesc());
+        //affectedTopTree.getAttributes( temp1.getAttributes())
+        //TODO KSCM This here was the original statement before we started to changes it.... look below :P
+        //StatementTreeViewInfo affectedTopTree = affectedRule.getStatement();
         if ((affectedTopTree.getReqComponents() != null) && !affectedTopTree.getReqComponents().isEmpty()) {
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(ProgramRequirementsSummaryView.generateStatementTreeId());
