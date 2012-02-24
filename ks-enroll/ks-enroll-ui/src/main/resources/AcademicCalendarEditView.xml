@@ -18,7 +18,13 @@
             <bean parent="Uif-HeaderField-Two"/>
         </property>
         <property name="footer">
-            <bean parent="Uif-FooterBase"/>
+            <bean parent="Uif-FooterBase">
+                <property name="items">
+                    <list>
+                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save"  p:clientSideJs="saveForm();" />
+                    </list>
+                </property>
+            </bean>
         </property>
         <property name="items">
             <list>
@@ -55,15 +61,6 @@
                 <ref bean="KS-AcademicCalendar-MetaSection"/>
                 <ref bean="KS-AcademicCalendar-EventSection"/>
             </list>
-        </property>
-        <property name="footer">
-            <bean parent="Uif-FooterBase">
-                <property name="items">
-                    <list>
-                        <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save Calendar Draft"  p:clientSideJs="saveForm();" />
-                    </list>
-                </property>
-            </bean>
         </property>
     </bean>
 
@@ -205,7 +202,6 @@
       </property>
      <property name="actionFields">
       <list>
-        <bean parent="Uif-PrimaryActionButton-Small" p:actionLabel="Save Term Draft"  p:methodToCall="saveTerm" p:render="@{#line.readOnly eq false}"/>
         <bean parent="Uif-SecondaryActionButton" p:actionLabel="Set as Official"  p:methodToCall="setTermOfficial" p:render="@{#line.readOnly eq false}"/>
         <bean parent="Uif-ActionLink" p:methodToCall="deleteTerm" p:actionLabel="Delete"/>
       </list>

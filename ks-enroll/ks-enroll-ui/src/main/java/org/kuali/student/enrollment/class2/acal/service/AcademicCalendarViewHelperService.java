@@ -41,13 +41,13 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public void deleteEvent(String eventId) throws Exception;
 
     //Terms
-    public void saveTerm(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception;
+    public void saveTerm(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception;
 
     public void buildTerm(String termId,AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception;
 
-    public void setTermOfficial(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception;
+    public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception;
 
-    public void deleteTerm(List<AcademicTermWrapper> termWrapper,int selectedIndex,ContextInfo context) throws Exception;
+    public void deleteTerm(List<AcademicTermWrapper> termWrapper,int selectedIndex, String acalId,ContextInfo context) throws Exception;
 
     public void deleteKeyDate(KeyDatesGroupWrapper keyDatesGroup,int selectedIndex,ContextInfo context) throws Exception;
 

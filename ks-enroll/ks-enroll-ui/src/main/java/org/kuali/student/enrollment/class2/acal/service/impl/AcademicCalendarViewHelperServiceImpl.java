@@ -354,7 +354,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     }
 
-    public void saveTerm(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception {
+    public void saveTerm(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception {
 
         boolean isNewTerm = false;
         if (termWrapper.getTermInfo() == null){
@@ -378,11 +378,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         if (isNewTerm){
             TermInfo newTerm = getAcalService().createTerm(termWrapper.getTermType(),term,context);
             termWrapper.setTermInfo(getAcalService().getTerm(newTerm.getId(),context));
+            getAcalService().addTermToAcademicCalendar(acalId,termWrapper.getTermInfo().getId(),context);
         }else{
             TermInfo updatedTerm = getAcalService().updateTerm(term.getId(),term,context);
             termWrapper.setTermInfo(getAcalService().getTerm(updatedTerm.getId(),context));
         }
 
+        //Keydates
         if (termWrapper.getKeyDatesGroupWrappers() != null){
             for (KeyDatesGroupWrapper groupWrapper : termWrapper.getKeyDatesGroupWrappers()){
                 for (KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()) {
@@ -403,7 +405,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDate.setTypeKey(keyDateWrapper.getKeyDateType());
                     keyDate.setStartDate(keyDateWrapper.getStartDate());
                     keyDate.setEndDate(keyDateWrapper.getEndDate());
-                    keyDate.setName("test");
 
                     if (isNewKeyDate){
                         KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,context);
@@ -425,8 +426,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     }
 
-    public void setTermOfficial(AcademicTermWrapper termWrapper,ContextInfo context) throws Exception{
-        saveTerm(termWrapper,context);
+    public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception{
+        saveTerm(termWrapper, acalId, context);
 
         TermInfo term = termWrapper.getTermInfo();
         term.setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
@@ -446,7 +447,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
     }
 
-    public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex,ContextInfo context) throws Exception{
+    public void deleteTerm(List<AcademicTermWrapper> termWrapperList,int selectedIndex, String acalId, ContextInfo context) throws Exception{
         AcademicTermWrapper termWrapper = termWrapperList.get(selectedIndex);
         if (termWrapper.getTermInfo() != null){
             if (termWrapper.getKeyDatesGroupWrappers() != null){
