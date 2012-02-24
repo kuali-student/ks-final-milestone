@@ -27,10 +27,10 @@ import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.widgets.KSButton;
+import org.kuali.student.r1.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.r1.common.ui.client.widgets.searchtable.ResultRow;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -2,13 +2,13 @@ package org.kuali.student.lum.lu.ui.dependency.client.controllers;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.security.AuthorizationCallback;
-import org.kuali.student.common.ui.client.security.RequiresAuthorization;
-import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.r1.common.ui.client.application.Application;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.r1.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.r1.common.ui.client.util.ExportElement;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.lu.ui.dependency.client.views.DependencyAnalysisView;
 

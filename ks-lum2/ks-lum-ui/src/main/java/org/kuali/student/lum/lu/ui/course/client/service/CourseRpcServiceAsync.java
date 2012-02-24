@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.r1.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
+import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 

@@ -17,7 +17,7 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist;
 
 import java.util.List;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
 
 import com.google.gwt.user.client.ui.Widget;
 

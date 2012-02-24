@@ -1,11 +1,11 @@
 package org.kuali.student.lum.lu.ui.main.client.controllers;
 
-import org.kuali.student.common.ui.client.configurable.mvc.LayoutController;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.View;
-import org.kuali.student.common.ui.client.mvc.events.LogoutEvent;
-import org.kuali.student.common.ui.client.mvc.events.LogoutHandler;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.LayoutController;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.mvc.Controller;
+import org.kuali.student.r1.common.ui.client.mvc.View;
+import org.kuali.student.r1.common.ui.client.mvc.events.LogoutEvent;
+import org.kuali.student.r1.common.ui.client.mvc.events.LogoutHandler;
 import org.kuali.student.lum.lu.ui.main.client.LUMMainEntryPoint;
 
 import com.google.gwt.core.client.GWT;

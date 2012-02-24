@@ -23,12 +23,12 @@ import java.util.Map;
 
 import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.r1.common.ui.client.application.Application;
+import org.kuali.student.r1.common.ui.client.application.ViewContext;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.WidgetConfigInfo;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.mvc.Controller;
+import org.kuali.student.r1.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
 
 import com.google.gwt.user.client.Window;

@@ -18,11 +18,11 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.widgets.KSButton;
+import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.r1.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.r1.common.ui.client.widgets.layout.VerticalFlowPanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

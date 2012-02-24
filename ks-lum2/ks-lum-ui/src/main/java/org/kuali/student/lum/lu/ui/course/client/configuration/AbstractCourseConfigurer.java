@@ -1,6 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
-import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.AffiliatedOrgInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseActivityConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;

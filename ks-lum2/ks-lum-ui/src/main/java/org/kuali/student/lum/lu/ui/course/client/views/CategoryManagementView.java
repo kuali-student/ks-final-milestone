@@ -1,12 +1,12 @@
 package org.kuali.student.lum.lu.ui.course.client.views;
 
-import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.security.AuthorizationCallback;
-import org.kuali.student.common.ui.client.security.RequiresAuthorization;
+import org.kuali.student.r1.common.ui.client.application.Application;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.r1.common.ui.client.mvc.Callback;
+import org.kuali.student.r1.common.ui.client.mvc.Controller;
+import org.kuali.student.r1.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.r1.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.r1.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.lum.common.client.lo.CategoryManagement;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 

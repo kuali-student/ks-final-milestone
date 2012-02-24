@@ -1,8 +1,8 @@
 package org.kuali.student.lum.lu.ui.main.client.views;
 
-import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.mvc.ViewComposite;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.r1.common.ui.client.mvc.Controller;
+import org.kuali.student.r1.common.ui.client.mvc.ViewComposite;
+import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.lum.lu.ui.main.client.widgets.ActionList;
 
 import com.google.gwt.user.client.ui.Widget;

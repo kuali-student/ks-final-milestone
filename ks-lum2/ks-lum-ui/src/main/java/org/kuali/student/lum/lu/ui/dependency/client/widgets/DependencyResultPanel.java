@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.common.ui.client.reporting.ReportExportWidget;
-import org.kuali.student.common.ui.client.util.ExportElement;
-import org.kuali.student.common.ui.client.util.ExportUtils;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
-import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
+import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.r1.common.ui.client.reporting.ReportExportWidget;
+import org.kuali.student.r1.common.ui.client.util.ExportElement;
+import org.kuali.student.r1.common.ui.client.util.ExportUtils;
+import org.kuali.student.r1.common.ui.client.widgets.KSButton;
+import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
+import org.kuali.student.r1.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
+import org.kuali.student.r1.common.ui.client.widgets.search.CollapsablePanel;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -19,9 +19,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.common.ui.client.service.ServerPropertiesRpcService;
-import org.kuali.student.common.ui.client.service.ServerPropertiesRpcServiceAsync;
+import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.r1.common.ui.client.service.ServerPropertiesRpcService;
+import org.kuali.student.r1.common.ui.client.service.ServerPropertiesRpcServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Composite;
