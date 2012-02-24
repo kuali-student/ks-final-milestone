@@ -37,7 +37,7 @@ public class MilestoneDao extends GenericEntityDao<MilestoneEntity> {
 
     @SuppressWarnings("unchecked")
     public List<MilestoneEntity> getByAtp(String atpId) {
-        return em.createQuery("select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId")
+        return em.createQuery("select m.milestone from AtpMilestoneRelationEntity m where m.atp.id = :atpId order by m.milestone.startDate")
                 .setParameter("atpId", atpId).getResultList();
     }
 

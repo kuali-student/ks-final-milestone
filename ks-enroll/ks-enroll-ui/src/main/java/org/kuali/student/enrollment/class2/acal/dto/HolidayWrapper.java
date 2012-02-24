@@ -25,12 +25,6 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 public class HolidayWrapper extends TimeSetWrapper {
     private String typeName;
     private String stateName;
-//    private Date startDate;
-//    private Date endDate;
-//    private String startTime;
-//    private String startTimeAmPm;
-//    private String endTime;
-//    private String endTimeAmPm;
     private HolidayInfo holidayInfo;
 
     public HolidayWrapper(){}
@@ -42,54 +36,6 @@ public class HolidayWrapper extends TimeSetWrapper {
     public void setStateName(String stateName) {
         this.stateName = stateName;
     }
-
-    /*    public String getEndTimeAmPm() {
-        return endTimeAmPm;
-    }
-
-    public void setEndTimeAmPm(String endTimeAmPm) {
-        this.endTimeAmPm = endTimeAmPm;
-    }
-
-    public String getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(String endTime) {
-        this.endTime = endTime;
-    }
-
-    public String getStartTimeAmPm() {
-        return startTimeAmPm;
-    }
-
-    public void setStartTimeAmPm(String startTimeAmPm) {
-        this.startTimeAmPm = startTimeAmPm;
-    }
-
-    public String getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(String startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndDate() {
-        return endDate;
-    }
-
-    public void setEndDate(Date endDate) {
-        this.endDate = endDate;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }    */
 
     public String getTypeName() {
         return typeName;
