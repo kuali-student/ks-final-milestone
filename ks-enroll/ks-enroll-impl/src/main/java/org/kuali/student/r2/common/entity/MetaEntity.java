@@ -123,6 +123,7 @@ public abstract class MetaEntity extends BaseVersionEntity {
         if (getCreateTime() == null) {
             setCreateTime(new Date());
         }
+        setUpdateTime(new Date());
 
         String user = SecurityUtils.getCurrentUserId();
         setUpdateId(user);
