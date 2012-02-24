@@ -22,7 +22,7 @@ import java.util.Map;
 import javax.jws.WebParam;
 
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;

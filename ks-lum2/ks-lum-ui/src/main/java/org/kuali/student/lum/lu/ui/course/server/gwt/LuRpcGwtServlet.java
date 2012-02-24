@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;

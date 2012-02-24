@@ -31,7 +31,7 @@ import org.kuali.student.r1.common.ui.client.widgets.buttongroups.ButtonEnumerat
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;

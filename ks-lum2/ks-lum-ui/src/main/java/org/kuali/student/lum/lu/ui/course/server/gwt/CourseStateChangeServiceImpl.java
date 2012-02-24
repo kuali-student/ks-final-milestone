@@ -3,7 +3,7 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.CircularReferenceException;
@@ -17,8 +17,8 @@ import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
-import org.kuali.student.lum.course.dto.CourseInfo;
-import org.kuali.student.lum.course.service.CourseService;
+import org.kuali.student.r2.lum.course.dto.CourseInfo;
+import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 

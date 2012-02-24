@@ -80,7 +80,7 @@ import org.kuali.student.r1.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;

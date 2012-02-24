@@ -21,7 +21,7 @@ import org.kuali.student.r1.common.ui.client.mvc.*;
 import org.kuali.student.r1.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;

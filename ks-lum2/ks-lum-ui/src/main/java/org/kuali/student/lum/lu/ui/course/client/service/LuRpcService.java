@@ -17,7 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dto.CluInfo;
