@@ -6,7 +6,7 @@
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
+ * abUnless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
@@ -19,19 +19,20 @@ import java.io.IOException;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.security.Authentication;
-import org.springframework.security.context.SecurityContextHolder;
-import org.springframework.security.ui.FilterChainOrder;
-import org.springframework.security.ui.SpringSecurityFilter;
-import org.springframework.security.ui.logout.LogoutHandler;
-import org.springframework.security.ui.logout.SecurityContextLogoutHandler;
-import org.springframework.security.util.RedirectUtils;
-import org.springframework.security.util.UrlUtils;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.util.UrlUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
+import org.springframework.web.filter.GenericFilterBean;
 
 /**
  * This is a description of what this class does - Rich don't forget to fill this in. 
@@ -39,7 +40,7 @@ import org.springframework.util.StringUtils;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-public class KSLogoutFilter extends SpringSecurityFilter {
+public class KSLogoutFilter extends GenericFilterBean {
 
     private String filterProcessesUrl = "/j_spring_security_logout";
     private String logoutSuccessUrl = "/";
@@ -64,6 +65,16 @@ public class KSLogoutFilter extends SpringSecurityFilter {
         Assert.isTrue(UrlUtils.isValidRedirectUrl(logoutSuccessUrl), logoutSuccessUrl + " isn't a valid redirect URL");
         this.handlers = handlers;
     }
+
+    public void doFilter(ServletRequest request, ServletResponse response,
+			FilterChain chain) throws IOException, ServletException {
+		if (request instanceof HttpServletRequest && response instanceof HttpServletResponse) {
+			doFilterHttp((HttpServletRequest) request,
+					(HttpServletResponse) response, chain);
+		} else {
+			// TODO: handle this
+		}
+	}
 
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException,
             ServletException {
@@ -163,7 +174,7 @@ public class KSLogoutFilter extends SpringSecurityFilter {
     protected void sendRedirect(HttpServletRequest request, HttpServletResponse response, String url)
             throws IOException {
 
-        RedirectUtils.sendRedirect(request, response, url, useRelativeContext);
+        new DefaultRedirectStrategy().sendRedirect(request, response, url);
     }
 
     public void setFilterProcessesUrl(String filterProcessesUrl) {
@@ -176,6 +187,11 @@ public class KSLogoutFilter extends SpringSecurityFilter {
         return logoutSuccessUrl;
     }    
     
+    public void setLogoutSuccessUrl(String logoutSuccessUrl){
+        this.logoutSuccessUrl = logoutSuccessUrl;
+        Assert.isTrue(UrlUtils.isValidRedirectUrl(logoutSuccessUrl), logoutSuccessUrl + " isn't a valid redirect URL");    	
+    }    
+    
     protected String getFilterProcessesUrl() {
         return filterProcessesUrl;
     }
@@ -184,8 +200,8 @@ public class KSLogoutFilter extends SpringSecurityFilter {
         this.useRelativeContext = useRelativeContext;
     }
 
-    public int getOrder() {
-        return FilterChainOrder.LOGOUT_FILTER;
-    }
+//    public int getOrder() {
+//        return FilterChainOrder.LOGOUT_FILTER;
+//    }
 
 }
