@@ -18,6 +18,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -811,4 +812,12 @@ public interface ProgramService {
      */
     public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+//TODO KSCM - This method was not in MajorDesciplineProposalDataService
+	public VersionDisplayInfo getCurrentVersion(
+			String programNamespaceMajorDisciplineUri,
+			String majorVersionIndId, ContextInfo contextInfo);
+	//TODO KSCM - This method was not inMajorSisciplineStateChangeServiceImpl
+	public List<VersionDisplayInfo> getVersions(
+			String programNamespaceMajorDisciplineUri, String versionIndId,
+			ContextInfo contextInfo);
 }

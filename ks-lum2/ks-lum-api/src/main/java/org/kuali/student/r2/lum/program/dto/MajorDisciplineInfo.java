@@ -206,7 +206,7 @@ public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implemen
 
     // TODO KSCM what to replace this with NINA
 	@Deprecated
-    public Object getVersionInfo()  {
+    public org.kuali.student.r1.common.versionmanagement.dto.VersionInfo getVersionInfo()  {
 		return null;
 	}
 }

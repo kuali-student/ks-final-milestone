@@ -154,4 +154,10 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
     public void setMaxCredits(Integer maxCredits) {
         this.maxCredits = maxCredits;
     }
+//TODO KSCM  Method was needed in ProgramRequirementsDataModel
+	public void setStatement(
+			org.kuali.student.core.statement.dto.StatementTreeViewInfo newSubRule) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -308,6 +309,24 @@ public class ProgramServiceDecorator implements ProgramService {
     public List<ProgramVariationInfo> getProgramVariationsByMajorDiscipline(String majorDisciplineId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         return nextDecorator.getProgramVariationsByMajorDiscipline(majorDisciplineId, contextInfo);
     }
+
+
+	@Override
+	public VersionDisplayInfo getCurrentVersion(
+			String programNamespaceMajorDisciplineUri,
+			String majorVersionIndId, ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public List<VersionDisplayInfo> getVersions(
+			String programNamespaceMajorDisciplineUri, String versionIndId,
+			ContextInfo contextInfo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
     
     
