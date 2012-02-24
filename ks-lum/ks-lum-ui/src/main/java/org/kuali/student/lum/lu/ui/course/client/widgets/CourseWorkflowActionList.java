@@ -28,6 +28,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
@@ -304,8 +305,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
     private void checkLatestVersion(final ViewContext viewContext, final String modifyPath, final DataModel model, final boolean reviewOption){
         String courseVerIndId = getCourseVersionIndId(model);
         Long courseVersionSequence = getCourseVersionSequenceNumber(model);
-    
-        courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+        //TODO KSCM - Correct ContextInfo parameter?
+        courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, ContextUtils.getContextInfo(), new AsyncCallback<Boolean>(){
         
             public void onFailure(Throwable caught) {
                 KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
@@ -346,8 +347,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	 */
     public static void setCourseState(final String courseId, final String newState, final Callback<String> stateChangeCallback) {
     	KSBlockingProgressIndicator.addTask(processingTask);
-    	
-    	courseServiceAsync.changeState(courseId, newState, new KSAsyncCallback<StatusInfo>() {
+    	//TODO KSCM - Correct ContextInfo parameter?
+    	courseServiceAsync.changeState(courseId, newState, ContextUtils.getContextInfo(), new KSAsyncCallback<StatusInfo>() {
     		
     		@Override
  	        public void handleFailure(Throwable caught) {
@@ -365,7 +366,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
  	        		stateChangeCallback.exec(newState);
  	        	}
  	        }
-    	});
+ 	    });
     	
     }
     
@@ -385,7 +386,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			isCurrentVersion = true;
 			doUpdateCourseActionItems(cluModel);
 		}else{
-			courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+		  //TODO KSCM - Correct ContextInfo parameter?
+			courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, ContextUtils.getContextInfo(), new AsyncCallback<Boolean>(){
 				public void onFailure(Throwable caught) {
 					KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
 				}

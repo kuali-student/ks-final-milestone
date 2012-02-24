@@ -1,60 +1,72 @@
-/**
- * Copyright 2010 The Kuali Foundation Licensed under the
- * Educational Community License, Version 2.0 (the "License"); you may
- * not use this file except in compliance with the License. You may
- * obtain a copy of the License at
- *
- * http://www.osedu.org/licenses/ECL-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an "AS IS"
- * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
- * or implied. See the License for the specific language governing
- * permissions and limitations under the License.
+/*
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
-
 package org.kuali.student.lum.lu.dto;
 
+// TODO kscm-129
 import java.io.Serializable;
 import java.util.Date;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-/**
- * Information about an organization that is affiliated in some percentage with a learning unit. For when precision is needed to support counts or dollars.
- *
- * @Author KSContractMojo
- * @Author Kamal
- * @Since Mon Jan 11 15:21:05 PST 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/affiliatedOrgInfo+Structure">AffiliatedOrgInfo</>
- *
- */
+import org.kuali.student.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.lum.lu.infc.AffiliatedOrg;
+
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AffiliatedOrgInfo implements Serializable {
+@XmlType(name = "AffiliatedOrgInfo", propOrder = {"id", "meta", "attributes", "orgId", "percentage", "effectiveDate", "expirationDate", "typeKey", "stateKey" /*TODO KSCM-gwt-compile , "_futureElements" */})
+public class AffiliatedOrgInfo extends IdNamelessEntityInfo implements AffiliatedOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @XmlAttribute
-    private String id;
-
     @XmlElement
     private String orgId;
-
-    @XmlElement
-    private Date effectiveDate;
-
-    @XmlElement
-    private Date expirationDate;
-
     @XmlElement
     private Long percentage;
+    @XmlElement
+    private Date effectiveDate;
+    @XmlElement
+    private Date expirationDate;
+    
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
-    /**
-     * Unique identifier for an organization.
-     */
+    public AffiliatedOrgInfo() {
+        super();
+        orgId = null;
+        percentage = null;
+        effectiveDate = null;
+        expirationDate = null;
+    }
+
+    public AffiliatedOrgInfo(AffiliatedOrg affiliatedOrg) {
+
+        super(affiliatedOrg);
+
+        this.percentage = affiliatedOrg.getPercentage();
+        if (affiliatedOrg.getEffectiveDate() != null) {
+            this.effectiveDate = new Date(affiliatedOrg.getEffectiveDate().getTime());
+        } else {
+            this.effectiveDate = null;
+        }
+
+        if (affiliatedOrg.getExpirationDate() != null) {
+            this.expirationDate = new Date(affiliatedOrg.getExpirationDate().getTime());
+        } else {
+            this.expirationDate = null;
+        }
+    }
+
+    @Override
     public String getOrgId() {
         return orgId;
     }
@@ -63,31 +75,7 @@ public class AffiliatedOrgInfo implements Serializable {
         this.orgId = orgId;
     }
 
-    /**
-     * Specifies a date with no time component.
-     */
-    public Date getEffectiveDate() {
-        return effectiveDate;
-    }
-
-    public void setEffectiveDate(Date effectiveDate) {
-        this.effectiveDate = effectiveDate;
-    }
-
-    /**
-     * Specifies a date with no time component.
-     */
-    public Date getExpirationDate() {
-        return expirationDate;
-    }
-
-    public void setExpirationDate(Date expirationDate) {
-        this.expirationDate = expirationDate;
-    }
-
-    /**
-     * A long numeric value without a fractional component.
-     */
+    @Override
     public Long getPercentage() {
         return percentage;
     }
@@ -96,11 +84,21 @@ public class AffiliatedOrgInfo implements Serializable {
         this.percentage = percentage;
     }
 
-	public String getId() {
-		return id;
-	}
+    @Override
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    @Override
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 }

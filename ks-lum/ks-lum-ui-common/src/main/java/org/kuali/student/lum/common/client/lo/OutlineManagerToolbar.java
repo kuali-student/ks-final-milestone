@@ -12,6 +12,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * @author Igor
  */
+//TODO KSCM-244
 class OutlineManagerToolbar extends HorizontalPanel {
 	Button moveUpButton = new Button();
 

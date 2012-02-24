@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.kuali.student.common.dto.Idable;
@@ -31,6 +32,8 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Detailed information about the human readable form of a CLU Identifier
  */ 
+//KSCM-130:  Add @XmlType
+@XmlType(name = "CluIdentifierInfo", propOrder = {"id", "type", "state", "code", "shortName", "longName", "level", "division", "variation", "suffixCode", "orgId", "attributes"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluIdentifierInfo implements Serializable, Idable {
 

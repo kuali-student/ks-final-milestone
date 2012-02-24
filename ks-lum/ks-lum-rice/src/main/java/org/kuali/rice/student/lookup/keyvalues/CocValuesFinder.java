@@ -45,7 +45,7 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 		searchRequest.addParam("org.queryParam.relatedOrgType","kuali.org.COC");
 
 		try {
-			SearchResult results = getOrganizationService().search(searchRequest);
+			SearchResult results = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";

@@ -38,6 +38,7 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.LUMViews;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
@@ -149,7 +150,8 @@ public class MajorEditController extends MajorController {
             	//FIXME: The proper way of doing this would be a single server side call to validate next state
             	//which would retrieve warnings & required for next state, instead of re-validating warnings for
             	//current state server side and validating required for next state client side.
-            	programRemoteService.validate(programModel.getRoot(), new KSAsyncCallback<List<ValidationResultInfo>>(){
+                //TODO KSCM - Correct ContextInfo parameter?
+            	programRemoteService.validate(programModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<List<ValidationResultInfo>>(){
 					@Override
 					public void onSuccess(final List<ValidationResultInfo> currentStateResults) {
 		                programModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
@@ -277,7 +279,8 @@ public class MajorEditController extends MajorController {
             		Callback<Boolean> reqCallback = new Callback<Boolean>() {
             			@Override
             			public void exec(Boolean result) {
-                           	programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+            			    //TODO KSCM - Correct ContextInfo parameter?
+                           	programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
                         		@Override
                         		public void onFailure(Throwable caught) {
@@ -352,7 +355,8 @@ public class MajorEditController extends MajorController {
                 idAttributes.put(DtoConstants.DTO_NEXT_STATE, programStatus.getNextStatus().getValue());
             }
         }
-        programRemoteService.getMetadata(viewContextId, idAttributes, new AbstractCallback<Metadata>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.getMetadata(viewContextId, idAttributes, ContextUtils.getContextInfo(), new AbstractCallback<Metadata>() {
 
             @Override
             public void onSuccess(Metadata result) {
@@ -380,7 +384,8 @@ public class MajorEditController extends MajorController {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-    				programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+    			    //TODO KSCM - Correct ContextInfo parameter?
+    				programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
                         @Override
                         public void onSuccess(Data result) {
                             super.onSuccess(result);
@@ -423,7 +428,8 @@ public class MajorEditController extends MajorController {
         	ModelRequestCallback<DataModel> comparisonModelCallback = new ModelRequestCallback<DataModel>() {
     			@Override
     			public void onModelReady(DataModel model) {
-                    programRemoteService.getData(getViewContext().getId(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+    			    //TODO KSCM - Correct ContextInfo parameter?
+                    programRemoteService.getData(getViewContext().getId(), ContextUtils.getContextInfo(), new AbstractCallback<Data>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
 
                         @Override
                         public void onFailure(Throwable caught) {
@@ -472,7 +478,8 @@ public class MajorEditController extends MajorController {
         versionData.set(new Data.StringKey("versionComment"), "Major Disicpline Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
 
-        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.saveData(data, ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
@@ -529,7 +536,8 @@ public class MajorEditController extends MajorController {
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.saveData(programModel.getRoot(), ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);

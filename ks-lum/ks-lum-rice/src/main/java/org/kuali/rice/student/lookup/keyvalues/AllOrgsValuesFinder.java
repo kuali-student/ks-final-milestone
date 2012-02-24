@@ -33,7 +33,7 @@ public class AllOrgsValuesFinder extends StudentKeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-            for (SearchResultRow result : getOrganizationService().search(searchRequest).getRows()) {
+            for (SearchResultRow result : getOrganizationService().search(searchRequest, null).getRows()) {  // TODO KSCM-267
                 String orgId = "";
                 String orgShortName = "";
                 String orgOptionalLongName = "";

@@ -130,7 +130,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             searchRequest.setParams(queryParamValues);
             try {
-                SearchResult result = getOrganizationService().search(searchRequest);
+                SearchResult result = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");

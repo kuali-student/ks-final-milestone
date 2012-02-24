@@ -19,6 +19,7 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
+        <!-- TODO NINA CONFIRM -->
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-ui-common</artifactId>
