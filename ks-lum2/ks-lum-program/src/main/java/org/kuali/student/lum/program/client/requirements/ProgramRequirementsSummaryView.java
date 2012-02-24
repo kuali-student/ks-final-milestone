@@ -169,7 +169,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
     }
 
     protected void updateRequirementWidgets(ProgramRequirementInfo programReqInfo) {
-        if (programReqInfo != null) {
+    /* TODO KSCM if (programReqInfo != null) {
             StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(programReqInfo.getStatement().getType());
             SpanPanel reqPanel = perProgramRequirementTypePanel.get(affectedStatementTypeInfo.getId());
 
@@ -190,7 +190,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                     break;
                 }
             }
-        }
+        }*/
     }
 
     public void displayRules() {
@@ -210,7 +210,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         //iterate and display rules for each Program Requirement type e.g. Entrance Requirements, Completion Requirements
         Boolean firstRequirement = true;
         perProgramRequirementTypePanel.clear();
-        for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
+      /* TODO KSCM  for (StatementTypeInfo stmtTypeInfo : rules.getStmtTypes()) {
 
             //create and display one type of program requirement section
             SpanPanel requirementsPanel = new SpanPanel();
@@ -224,7 +224,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 RulePreviewWidget rulePreviewWidget = addProgramRequirement(requirementsPanel, ruleInfo);
                 requirementsPanel.add(rulePreviewWidget);
             }
-        }
+        }*/
 
         //save and cancel buttons
         if (!isReadOnly) {
