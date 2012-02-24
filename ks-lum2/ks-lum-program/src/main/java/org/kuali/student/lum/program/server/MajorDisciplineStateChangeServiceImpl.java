@@ -122,7 +122,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         
         // Update major discipline
         majorDisciplineInfo.setState(newState);
-        programService.updateMajorDiscipline(majorDisciplineInfo,ContextUtils.getContextInfo());
+        programService.updateMajorDiscipline(null, majorDisciplineInfo,ContextUtils.getContextInfo());
     }
 
     /**
@@ -322,7 +322,7 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
             programRequirementInfo.setState(newState);
 
             // The write the requirement back to the program service
-            programService.updateProgramRequirement(programRequirementInfo,ContextUtils.getContextInfo());
+            programService.updateProgramRequirement(programRequirementId, programRequirementId, programRequirementInfo,ContextUtils.getContextInfo());
 
         }
     }
