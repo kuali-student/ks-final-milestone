@@ -15,6 +15,8 @@
  */
 package org.kuali.student.enrollment.class2.acal.controller;
 
+
+import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.util.GlobalVariables;
@@ -22,12 +24,11 @@ import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.test.utilities.TestHelper;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -50,7 +51,6 @@ import java.util.*;
 @RequestMapping(value = "/holidayCalendar")
 public class HolidayCalendarController extends UifControllerBase {
     private AcademicCalendarViewHelperService acalHelper;
-    private ContextInfo contextInfo;
 
     @Override
     protected UifFormBase createInitialForm(HttpServletRequest httpServletRequest) {
@@ -66,22 +66,64 @@ public class HolidayCalendarController extends UifControllerBase {
         Map<String, Object> newCollectionLines = form.getNewCollectionLines();
 
         if(newCollectionLines != null && !newCollectionLines.isEmpty()){
-            if(holidays != null && !holidays.isEmpty()){
-                GlobalVariables.getMessageMap().removeAllErrorMessagesForProperty(KRADConstants.GLOBAL_ERRORS);
-                for (Map.Entry<String, Object> entry : newCollectionLines.entrySet()){
-                    HolidayWrapper newHoliday = (HolidayWrapper)entry.getValue();
-                    for(HolidayWrapper holiday : holidays){
-                        boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
-                        if(duplicated){
-                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "The Holiday is already in the collection.");
-                            return updateComponent(form, result, request, response);
+            for (Map.Entry<String, Object> entry : newCollectionLines.entrySet()){
+                HolidayWrapper newHoliday = (HolidayWrapper)entry.getValue();
+                if(checkHoliday(newHoliday)){
+                    if(holidays != null && !holidays.isEmpty()){
+                        for(HolidayWrapper holiday : holidays){
+                            boolean duplicated = isDuplicateHoliday(newHoliday, holiday);
+                            if(duplicated){
+                                //TODO:change to  putError, when error reload fixed
+                                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The adding holiday is already in the collection.");
+                                return updateComponent(form, result, request, response);
+                            }
                         }
                     }
+                }
+                else {
+                    return updateComponent(form, result, request, response);
                 }
             }
         }
 
         return super.addLine(form, result, request, response);
+    }
+
+    private boolean checkHoliday(HolidayWrapper holiday) {
+        boolean valid = true;
+        Date startDate = holiday.getStartDate();
+        Date endDate = holiday.getEndDate();
+        String startTime = holiday.getStartTime();
+        String endTime = holiday.getEndTime();
+        HolidayInfo holidayInfo = holiday.getHolidayInfo();
+
+        if (endDate == null)  {
+            holidayInfo.setIsDateRange(false);
+
+            if(StringUtils.isBlank(startTime)){
+                holidayInfo.setIsAllDay(true);
+            }
+        }
+        else {
+            int timeDiff = startDate.compareTo(endDate);
+            if(timeDiff > 0) {
+                //TODO:change to  putError, when error reload fixed
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The adding holiday start date should not be later than the end date.");
+                return false;
+            }else if (timeDiff == 0 ) {
+                holidayInfo.setIsDateRange(false);
+            }else {
+                holidayInfo.setIsDateRange(true);
+            }
+
+            if (StringUtils.isBlank(startTime) & StringUtils.isBlank(endTime)) {
+                holidayInfo.setIsAllDay(true);
+            }else if(StringUtils.isNotEmpty(startTime)){
+                holidayInfo.setIsAllDay(false);
+            }
+        }
+
+        return valid;
     }
 
     private boolean isDuplicateHoliday(HolidayWrapper newHoliday, HolidayWrapper sourceHoliday){
@@ -198,18 +240,38 @@ public class HolidayCalendarController extends UifControllerBase {
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
         HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
 
-        if(hc.getId() != null && !hc.getId().trim().isEmpty()){
-            // edit hc
-           updateHolidayCalendar(hc.getId(), hcForm);
+        if(isValidHolidayCalendar(hc)){
+            if(hc.getId() != null && !hc.getId().trim().isEmpty()){
+                // edit hc
+               updateHolidayCalendar(hc.getId(), hcForm);
+            }
+            else {
+               // create hc
+                createHolidayCalendar(hcForm);
+            }
+
+            hcForm.setAdminOrgName(getAdminOrgNameById(hc.getAdminOrgId()));
+            GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name","info.enroll.holidaycalendar.saved", hc.getName());
+            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
         }
         else {
-           // create hc
-            createHolidayCalendar(hcForm);
+            return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
+        }
+    }
+
+    private boolean isValidHolidayCalendar(HolidayCalendarInfo hc)throws Exception {
+        boolean valid = true;
+        Date startDate = hc.getStartDate();
+        Date endDate = hc.getEndDate();
+
+        if(startDate.after(endDate)) {
+            //TODO:change to  putError, when error reload fixed
+            //GlobalVariables.getMessageMap().putError("holidayCalendarInfo.name","error.enroll.holidaycalendar.invalidDates", hc.getName());
+            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: " +  hc.getName() + "start date should not be later than the end date.");
+            valid = false;
         }
 
-        hcForm.setAdminOrgName(getAdminOrgNameById(hc.getAdminOrgId()));
-        GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name","info.enroll.holidaycalendar.saved", hc.getName());
-        return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
+        return valid;
     }
 
     private void createHolidayCalendar(HolidayCalendarForm hcForm) throws Exception {
@@ -228,7 +290,7 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setHolidays(holidays);
     }
 
-    public void updateHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
+    private void updateHolidayCalendar(String hcId, HolidayCalendarForm hcForm) throws Exception {
         //update hc meta data
         getHolidayCalendarFormHelper(hcForm).updateHolidayCalendar(hcForm);
         hcForm.setHolidayCalendarInfo(getHolidayCalendarFormHelper(hcForm).getHolidayCalendar(hcId));

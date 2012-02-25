@@ -24,18 +24,9 @@ import org.kuali.student.enrollment.acal.dto.HolidayInfo;
  */
 public class HolidayWrapper extends TimeSetWrapper {
     private String typeName;
-    private String stateName;
     private HolidayInfo holidayInfo;
 
     public HolidayWrapper(){}
-
-    public String getStateName() {
-        return stateName;
-    }
-
-    public void setStateName(String stateName) {
-        this.stateName = stateName;
-    }
 
     public String getTypeName() {
         return typeName;

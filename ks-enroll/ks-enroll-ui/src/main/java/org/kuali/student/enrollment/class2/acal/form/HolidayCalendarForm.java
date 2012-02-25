@@ -33,6 +33,7 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     private HolidayCalendarInfo holidayCalendarInfo;
     private List<HolidayWrapper> holidays;
+    private String stateName;
     private String adminOrgName;
     private String newCalendarName;
     private Date newCalendarStartDate;
@@ -58,6 +59,14 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     public void setHolidays(List<HolidayWrapper> holidays) {
         this.holidays = holidays;
+    }
+
+    public String getStateName() {
+        return stateName;
+    }
+
+    public void setStateName(String stateName) {
+        this.stateName = stateName;
     }
 
     public String getAdminOrgName() {

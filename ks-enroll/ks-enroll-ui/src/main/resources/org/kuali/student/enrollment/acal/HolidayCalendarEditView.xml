@@ -76,19 +76,18 @@
     </bean>
 
 	<bean id="KS-HolidayCalendar-HolidaySection" parent="Uif-TableCollectionSection"
-		p:layoutManager.numberOfColumns="4">
+		p:layoutManager.numberOfColumns="8">
 		<property name="title" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
 		<property name="propertyName" value="holidays" />
 		<property name="layoutManager.sequencePropertyName" value="startDate" />
 		<property name="layoutManager.renderSequenceField" value="false" />
-		<property name="layoutManager.generateAutoSequence" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
-        <property name="layoutManager.richTable.disableTableSort" value="true" />
         <property name="layoutManager.richTable.render" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
 		<property name="items">
 			<list>
-                <bean parent="Uif-InputField" p:label="Holiday Type" p:propertyName="holidayInfo.typeKey"  p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:label="Holiday Type" p:propertyName="holidayInfo.typeKey"  p:required="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
@@ -96,7 +95,35 @@
                         <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayTypeKeyValues" />
                     </property>
                 </bean>
-				<bean parent="Uif-InputField" p:label="Start Date" p:propertyName="startDate" p:required="true" p:width="200px">
+                <bean parent="Uif-InputField-LabelTop" p:label="Start Date" p:propertyName="startDate" p:required="true"  p:width="130px">
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
+                    </property>
+                    <property name="control">
+                        <bean parent="Uif-DateControl" />
+                    </property>
+                </bean>
+                <bean parent="Uif-HorizontalFieldGroup" p:label="Start Time" p:style="width: 160px" >
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:label="Start Time" p:labelField.render="false" p:propertyName="startTime">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField-LabelTop" p:label="AM/PM" p:labelField.render="false" p:propertyName="startTimeAmPm">
+                                 <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:options-ref="time-options"/>
+                                 </property>
+                             </bean>
+                        </list>
+                    </property>
+                </bean>
+               <!--TODO:Change endDate to not required-->
+				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true" p:width="130px">
                     <property name="validCharactersConstraint">
 						<bean parent="BasicDatePatternConstraint" />
 					</property>
@@ -104,15 +131,36 @@
 						<bean parent="Uif-DateControl" />
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="true" p:width="200px">
-                    <property name="validCharactersConstraint">
-						<bean parent="BasicDatePatternConstraint" />
-					</property>
-                    <property name="control">
-						<bean parent="Uif-DateControl" />
+                <bean parent="Uif-HorizontalFieldGroup" p:label="End Time" p:style="width: 160px">
+                    <property name="items">
+                        <list>
+                            <bean parent="Uif-InputField-LabelTop" p:label="End Time" p:labelField.render="false" p:propertyName="endTime" p:width="60px">
+                                <property name="validCharactersConstraint">
+                                    <bean parent="TimePatternConstraint" />
+                                </property>
+                                <property name="control">
+                                    <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                                </property>
+                            </bean>
+                            <bean parent="Uif-InputField-LabelTop" p:label="AM/PM" p:labelField.render="false" p:propertyName="endTimeAmPm">
+                                 <property name="control">
+                                    <bean parent="Uif-DropdownControl" p:options-ref="time-options"/>
+                                 </property>
+                             </bean>
+                        </list>
+                    </property>
+                </bean>
+	            <bean parent="Uif-InputField" p:label="All Day" p:propertyName="holidayInfo.isAllDay"  p:width="50px">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:disabled="true"/>
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:label="Non Instructional" p:propertyName="holidayInfo.isInstructionalDay">
+                <bean parent="Uif-InputField" p:label="Date Range" p:propertyName="holidayInfo.isDateRange" p:width="50px">
+					<property name="control">
+						<bean parent="Uif-CheckboxControl" p:disabled="true"/>
+					</property>
+				</bean>
+				<bean parent="Uif-InputField" p:label="Non&lt;br/&gt;Instructional" p:propertyName="holidayInfo.isInstructionalDay" p:width="50px">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>
