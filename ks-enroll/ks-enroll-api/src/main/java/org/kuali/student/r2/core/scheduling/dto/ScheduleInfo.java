@@ -37,7 +37,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "atpId", "scheduleComponentIds", "blackoutDates", "blackoutMilestoneIds", "meetingTimes",
+        "atpId", "scheduleComponentIds", "blackoutDates", "blackoutMilestoneIds", "additionalMeetingTimes",
         "meta", "attributes", "_futureElements"})
 public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable {
 
@@ -50,7 +50,7 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     @XmlElement
     private List<String> blackoutMilestoneIds;
     @XmlElement
-    private List<MeetingTimeInfo> meetingTimes;
+    private List<MeetingTimeInfo> additionalMeetingTimes;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -66,9 +66,9 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
                 this.blackoutDates.add(new DateRangeInfo(dateRange));
             }
             this.blackoutMilestoneIds = new ArrayList<String>(schedule.getScheduleComponentIds());
-            this.meetingTimes = new ArrayList<MeetingTimeInfo>();
-            for (MeetingTime meetingTime : schedule.getMeetingTimes()) {
-                this.meetingTimes.add(new MeetingTimeInfo(meetingTime));
+            this.additionalMeetingTimes = new ArrayList<MeetingTimeInfo>();
+            for (MeetingTime meetingTime : schedule.getAdditionalMeetingTimes()) {
+                this.additionalMeetingTimes.add(new MeetingTimeInfo(meetingTime));
             }
         }
     }
@@ -110,12 +110,12 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
     }
 
     @Override
-    public List<MeetingTimeInfo> getMeetingTimes() {
-        return this.meetingTimes;
+    public List<MeetingTimeInfo> getAdditionalMeetingTimes() {
+        return this.additionalMeetingTimes;
     }
 
-    public void setMeetingTimes(List<MeetingTimeInfo> meetingTimes) {
-        this.meetingTimes = meetingTimes;
+    public void setAdditionalMeetingTimes(List<MeetingTimeInfo> additionalMeetingTimes) {
+        this.additionalMeetingTimes = additionalMeetingTimes;
     }
 
 }

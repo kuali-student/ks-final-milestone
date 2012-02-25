@@ -30,6 +30,8 @@ import org.kuali.student.r2.core.scheduling.constants.SchedulingServiceConstants
 import org.kuali.student.r2.core.scheduling.dto.ScheduleComponentInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleInfo;
 import org.kuali.student.r2.core.scheduling.dto.ScheduleRequestInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleResponseInfo;
+import org.kuali.student.r2.core.scheduling.dto.ScheduleResponseItemInfo;
 import org.kuali.student.r2.core.scheduling.dto.TimeSlotInfo;
 
 import javax.jws.WebParam;
@@ -669,4 +671,38 @@ public interface SchedulingService {
      */
     public StatusInfo schedule(@WebParam(name = "scheduleRequestId") String scheduleRequestId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    /**
+     * Retrieves a ScheduleResponse
+     *
+     * @param scheduleResponseId  a unique Id of an ScheduleResponse
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the ScheduleResponse
+     * @throws DoesNotExistException     scheduleResponseId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleResponseId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ScheduleResponseInfo getScheduleResponse(@WebParam(name = "scheduleResponseId") String scheduleResponseId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
+     * Retrieves a ScheduleResponseItem
+     *
+     * @param scheduleResponseItemId  a unique Id of an ScheduleResponseItem
+     * @param contextInfo Context information containing the principalId and
+     *                    locale information about the caller of service
+     *                    operation
+     * @return the ScheduleResponseItem
+     * @throws DoesNotExistException     scheduleResponseItemId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException scheduleResponseItemId or contextInfo is missing or
+     *                                   null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public ScheduleResponseItemInfo getScheduleResponseItem(@WebParam(name = "scheduleResponseItemId") String scheduleResponseItemId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    
 }

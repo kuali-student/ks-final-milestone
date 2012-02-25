@@ -71,5 +71,5 @@ public interface Schedule extends IdEntity {
      *
      * @name Meeting Times
      */
-    public List<? extends MeetingTime> getMeetingTimes();
+    public List<? extends MeetingTime> getAdditionalMeetingTimes();
 }
