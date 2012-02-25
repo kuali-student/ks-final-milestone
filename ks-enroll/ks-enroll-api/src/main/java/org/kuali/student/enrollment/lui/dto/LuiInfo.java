@@ -100,7 +100,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         officialIdentifier = null;
         alternateIdentifiers = null;
         cluId = null;
-        cluCluRelationIds = null;
+        cluCluRelationIds = new ArrayList<String>();
         atpId = null;
         luiCodes = null;
 
@@ -141,7 +141,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         }
 
         this.cluId = lui.getCluId();
-        this.cluCluRelationIds = null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>();
+        this.cluCluRelationIds = (null != lui.getCluCluRelationIds() ? new ArrayList<String>(getCluCluRelationIds()) : new ArrayList<String>());
         this.atpId = lui.getAtpId();
 
         this.luiCodes = new ArrayList<LuCodeInfo>();

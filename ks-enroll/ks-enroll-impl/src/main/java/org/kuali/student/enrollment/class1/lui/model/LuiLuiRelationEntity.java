@@ -88,8 +88,10 @@ public class LuiLuiRelationEntity extends MetaEntity implements AttributeOwner<L
     public LuiLuiRelationInfo toDto() {
     	LuiLuiRelationInfo obj = new LuiLuiRelationInfo();
     	obj.setId(getId());
-    	obj.setLuiId(lui.getId());
-    	obj.setRelatedLuiId(relatedLui.getId());
+        if(lui!=null)
+    	    obj.setLuiId(lui.getId());
+        if(relatedLui!=null)
+    	    obj.setRelatedLuiId(relatedLui.getId());
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
         obj.setStateKey(luiLuiRelationState);

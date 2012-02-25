@@ -232,15 +232,11 @@ public class TestLuiServiceImpl {
 
     @Test
     public void testUpdateLuiLuiRelation() throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-        LuiLuiRelationInfo info = luiServiceValidation.getLuiLuiRelation("LUILUIREL-1", callContext);
+        LuiLuiRelationInfo info = luiServiceValidation.getLuiLuiRelation("LUILUIREL-2", callContext);
         assertNotNull(info);
-        assertEquals("Lui-1", info.getId());
-        assertEquals("Lui one", info.getName());
-
-        LuiLuiRelationInfo modified = new LuiLuiRelationInfo(info);
-        modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
-
-
+        info.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_INACTIVE_STATE_KEY);
+        luiServiceValidation.updateLuiLuiRelation(info.getId(), info, callContext);
+        assertEquals(info.getStateKey(), LuiServiceConstants.LUI_LUI_RELATION_INACTIVE_STATE_KEY);
     }
     @Test
     public void testGetLuiLuiRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {

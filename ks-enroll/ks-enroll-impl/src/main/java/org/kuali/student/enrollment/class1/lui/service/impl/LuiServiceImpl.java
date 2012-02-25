@@ -398,24 +398,22 @@ public class LuiServiceImpl implements LuiService {
     @Transactional
     public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-         LuiLuiRelationEntity entity = luiLuiRelationDao.find(luiLuiRelationId);
 
-            LuiLuiRelationEntity luiLuiRelationEntity = new LuiLuiRelationEntity(luiLuiRelationInfo);
-            luiLuiRelationEntity.setId(luiLuiRelationId);
-            return luiLuiRelationDao.merge(luiLuiRelationEntity).toDto();
+         luiLuiRelationInfo.setId(luiLuiRelationId);
+         LuiLuiRelationEntity luiLuiRelationEntity = luiLuiRelationDao.find(luiLuiRelationId) ;
+         luiLuiRelationEntity = new LuiLuiRelationEntity(luiLuiRelationInfo) ;
+         return luiLuiRelationEntity.toDto();
      }
 
     @Override
     @Transactional
     public StatusInfo deleteLuiLuiRelation(String luiLuiRelationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
+
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.FALSE);
-
         LuiLuiRelationEntity deleteLuiLuiRelationEntity = luiLuiRelationDao.find(luiLuiRelationId);
-
         luiLuiRelationDao.remove(deleteLuiLuiRelationEntity);
-
         status.setSuccess(Boolean.TRUE);
         return status;
     }
