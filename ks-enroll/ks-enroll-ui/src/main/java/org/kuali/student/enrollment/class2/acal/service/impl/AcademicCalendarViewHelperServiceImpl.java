@@ -188,17 +188,6 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return newAcal;
     }
 
-    public AcademicCalendarInfo getAcademicCalendar(String acalId) throws Exception {
-        AcademicCalendarInfo acalInfo = getAcalService().getAcademicCalendar(acalId, getContextInfo());
-        return acalInfo;
-    }
-
-    public AcademicCalendarInfo updateAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
-        AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
-        AcademicCalendarInfo updatedAcalInfo = getAcalService().updateAcademicCalendar(acalInfo.getId(), acalInfo, getContextInfo());
-        return updatedAcalInfo;
-    }
-
     public List<AcalEventWrapper> getEventsForAcademicCalendar(AcademicCalendarForm acalForm) throws Exception {
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         List<AcalEventInfo> eventInfos = getAcalService().getAcalEventsForAcademicCalendar(acalInfo.getId(), getContextInfo());
