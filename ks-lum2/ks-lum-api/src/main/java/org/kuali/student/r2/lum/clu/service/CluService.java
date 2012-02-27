@@ -14,8 +14,12 @@
  */
 package org.kuali.student.r2.lum.clu.service;
 
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.lum.lu.dto.LuLuRelationTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiInfo;
+import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -1907,7 +1911,565 @@ public interface CluService extends VersionManagementService {
      */
     public StatusInfo removeCluFromCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 //TODO KSCM - This method was need to fix  MajorDisciplineProposalRpcServlet 
-	public SearchResult search(SearchRequest request, ContextInfo contextInfo);
+	public SearchResult search(SearchRequest request, ContextInfo contextInfo) throws MissingParameterException;
+
+	/**
+	 * 
+	 * @param contextInfo
+	 * @return
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<TypeInfo> getLuLuRelationTypes(@WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluIdList
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<CluInfo> getClusByIdList(@WebParam(name="cluIdList") List<String> cluIdList, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param relatedCluId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getAllowedLuLuRelationTypesByCluId(@WebParam(name="cluId") String cluId,
+			@WebParam(name="relatedCluId") String relatedCluId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param relatedCluId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<CluInfo> getClusByRelation(@WebParam(name="relatedCluId") String relatedCluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey, 
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 	
+	 * @param relatedCluId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getCluIdsByRelation(@WebParam(name="relatedCluId") String relatedCluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<CluInfo> getRelatedClusByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
+			@WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getRelatedCluIdsByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<CluPublicationInfo> getCluPublicationsByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getResourceRequirementsForCluId(@WebParam(name="cluId") String cluId, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluSetId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws UnsupportedOperationException
+	 */
+	public CluSetInfo getCluSetInfo(@WebParam(name="cluSetId") String cluSetId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluSetIdList
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<CluSetInfo> getCluSetInfoByIdList(@WebParam(name="cluSetIdList") List<String> cluSetIdList, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public LuiInfo getLui(@WebParam(name="luiId") String luiId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiIdList
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<LuiInfo> getLuisByIdList(@WebParam(name="luiIdList") List<String> luiIdList, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param atpKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<LuiInfo> getLuisInAtpByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="atpKey") String atpKey, 
+			@WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getLuiIdsByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param atpKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getLuiIdsInAtpByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="atpKey") String atpKey, 
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param relatedLuiId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getAllowedLuLuRelationTypesByLuiId(@WebParam(name="luiId") String luiId, @WebParam(name="relatedLuiId") String relatedLuiId, 
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<LuiInfo> getLuisByRelation(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getLuiIdsByRelation(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<LuiInfo> getRelatedLuisByLuiId(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param luLuRelationTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getRelatedLuiIdsByLuiId(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiLuiRelationId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public LuiLuiRelationInfo getLuiLuiRelation(@WebParam(name="luiLuiRelationId") String luiLuiRelationId, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(@WebParam(name="luiId") String luiId, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param validationType
+	 * @param luiInfo
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<ValidationResultInfo> validateLui(@WebParam(name="validationType") String validationType, @WebParam(name="luiInfo") LuiInfo luiInfo,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param cluId
+	 * @param atpKey
+	 * @param luiInfo
+	 * @param contextInfo
+	 * @return
+	 * @throws AlreadyExistsException
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws UnsupportedOperationException
+	 */
+	public LuiInfo createLui(@WebParam(name="cluId") String cluId, @WebParam(name="atpKey") String atpKey, @WebParam(name="luiInfo") LuiInfo luiInfo,
+			@WebParam(name="contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+			PermissionDeniedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param luiInfo
+	 * @param contextInfo
+	 * @return
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws VersionMismatchException
+	 * @throws UnsupportedOperationException
+	 */
+	public LuiInfo updateLui(@WebParam(name="luiId") String luiId, @WebParam(name="luiInfo") LuiInfo luiInfo, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param contextInfo
+	 * @return
+	 * @throws DependentObjectsExistException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws UnsupportedOperationException
+	 */
+	public StatusInfo deleteLui(@WebParam(name="luiId") String luiId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param luiState
+	 * @param contextInfo
+	 * @return
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws UnsupportedOperationException
+	 */
+	public LuiInfo updateLuiState(@WebParam(name="luiId") String luiId, @WebParam(name="luiState") String luiState, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param validationType
+	 * @param luiLuiRelationInfo
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<ValidationResultInfo> validateLuiLuiRelation(@WebParam(name="validationType") String validationType, @WebParam(name="luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
+			@WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiId
+	 * @param relatedLuiId
+	 * @param luLuRelationTypeKey
+	 * @param luiLuiRelationInfo
+	 * @param contextInfo
+	 * @return
+	 * @throws AlreadyExistsException
+	 * @throws CircularRelationshipException
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws UnsupportedOperationException
+	 */
+	public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name="luiId") String luiId, @WebParam(name="relatedLuiId") String relatedLuiId,
+			@WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name="luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
+			@WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws AlreadyExistsException, CircularRelationshipException,
+			DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiLuiRelationId
+	 * @param luiLuiRelationInfo
+	 * @param contextInfo
+	 * @return
+	 * @throws DataValidationErrorException
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws VersionMismatchException
+	 * @throws UnsupportedOperationException
+	 */
+	public LuiLuiRelationInfo updateLuiLuiRelation(@WebParam(name="luiLuiRelationId") String luiLuiRelationId, @WebParam(name="luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
+			@WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param luiLuiRelationId
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws PermissionDeniedException
+	 * @throws UnsupportedOperationException
+	 */
+	public StatusInfo deleteLuiLuiRelation(@WebParam(name="luiLuiRelationId") String luiLuiRelationId, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param objectTypeKey
+	 * @param contextInfo
+	 * @return
+	 * @throws UnsupportedOperationException
+	 */
+	public ObjectStructureDefinition getObjectStructure(@WebParam(name="objectTypeKey") String objectTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo)
+			 throws UnsupportedOperationException;
+
+	/**
+	 * 
+	 * @param contextInfo
+	 * @return
+	 * @throws UnsupportedOperationException
+	 */
+	public List<String> getObjectTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws UnsupportedOperationException;
 
 	public List<String> getRelatedCluIdsByCluId(@WebParam(name = "id")String id,
 			@WebParam(name = "hasProgramRequirement")String hasProgramRequirement, @WebParam(name = "contextInfo")ContextInfo contextInfo);
