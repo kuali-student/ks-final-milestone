@@ -31,7 +31,8 @@ import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
 import org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.r1.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
+
 import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
@@ -176,13 +177,15 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                     //TODO KSCM - Correct ContextInfo parameter?
                 	VersionDisplayInfo versionInfo = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
                 	//TODO KSCM - Correct ContextInfo parameter?
-                	CluInfo cluInfo = cluService.getClu(versionInfo.getId(), contextInfo);
+                	CluInfo cluInfo = null;
+                	//TODO KSCM Version cluService.getClu(versionInfo.getId(), contextInfo);
                     if (cluInfo != null) {
 
                         //retrieve credits
                         String credits = "";
                         //TODO KSCM - Correct ContextInfo parameter?
-                        List<CluResultInfo> cluResultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
+                        List<CluResultInfo> cluResultInfos = null;
+                      //TODO KSCM Version cluREsultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
                                 String cluType = cluResultInfo.getType();
@@ -200,7 +203,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                     for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
                                         if (resultOption.getResultComponentId() != null) {
                                             //TODO KSCM - Correct ContextInfo parameter?
-                                            resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId(), contextInfo);
+                                            resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId());
                                             resultValues = resultComponentInfo.getResultValues();
                                             creditType = resultComponentInfo.getType();
                                             break;
