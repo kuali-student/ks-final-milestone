@@ -19,11 +19,11 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.r1.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluLoRelationInfo;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 
 /**
@@ -33,7 +33,7 @@ import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
  * @author Kuali Student Team
  * 
  */
-public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<LuService>
+public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 		implements LuRpcService {
 
 	private static final long serialVersionUID = 1L;

@@ -35,7 +35,7 @@ import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.lum.course.service.CourseServiceConstants;
-import org.kuali.student.lum.lu.LUConstants;
+import org.kuali.student.lum.clu.CLUConstants;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 import org.kuali.student.lum.program.service.ProgramServiceConstants;

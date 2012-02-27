@@ -20,7 +20,7 @@ import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.exceptions.UnsupportedActionException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.server.gwt.DataService;
+import org.kuali.student.r1.common.ui.server.gwt.DataService;
 import org.kuali.student.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.service.ProposalService;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
