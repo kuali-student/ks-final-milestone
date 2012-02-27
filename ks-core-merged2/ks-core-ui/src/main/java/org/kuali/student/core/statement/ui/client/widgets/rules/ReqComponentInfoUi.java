@@ -15,7 +15,8 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 
 /**
  * @author glindhol
@@ -36,6 +37,12 @@ public class ReqComponentInfoUi extends ReqComponentInfo {
 	public void setPreviewNaturalLanguageTranslation(
 			String previewNaturalLanguageTranslation) {
 		this.previewNaturalLanguageTranslation = previewNaturalLanguageTranslation;
+	}
+
+	@Deprecated
+	public void setMetaInfo(MetaInfo metaInfo) {
+		this.setMeta(metaInfo);
+		
 	}
 
 }
