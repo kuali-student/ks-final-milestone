@@ -160,7 +160,7 @@
 						<bean parent="Uif-CheckboxControl" p:disabled="true"/>
 					</property>
 				</bean>
-				<bean parent="Uif-InputField" p:label="Non&lt;br/&gt;Instructional" p:propertyName="holidayInfo.isInstructionalDay" p:width="50px">
+				<bean parent="Uif-InputField" p:label="Instructional" p:propertyName="holidayInfo.isInstructionalDay" p:width="50px">
 					<property name="control">
 						<bean parent="Uif-CheckboxControl" />
 					</property>
