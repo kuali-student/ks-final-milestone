@@ -156,11 +156,11 @@ public class ProgramMsgConstants {
     public static final String SIDEBAR_VIEWHISTORY = "sideBar.viewHistory"; //"View version history"
 
     //Status
-    public static final String STATUS_ACTIVE = "active"; //"Active"
-    public static final String STATUS_APPROVED = "approved"; //"Approved"
-    public static final String STATUS_DRAFT = "draft"; //"Draft"
-    public static final String STATUS_NOTAPPROVED = "notapproved"; //"NotApproved"
-    public static final String STATUS_SUPERSEDED = "superseded"; //"Superseded"
+    public static final String STATUS_ACTIVE = "Active"; //"Active"
+    public static final String STATUS_APPROVED = "Approved"; //"Approved"
+    public static final String STATUS_DRAFT = "Draft"; //"Draft"
+    public static final String STATUS_NOTAPPROVED = "Notapproved"; //"NotApproved"
+    public static final String STATUS_SUPERSEDED = "Superseded"; //"Superseded"
 
     //Variation
     public static final String VARIATION_MENU_SECTIONS = "variation.menu.sections"; //"Variation Sections"
