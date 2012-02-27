@@ -19,7 +19,7 @@ import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(noRollbackFor = { DoesNotExistException.class }, rollbackFor = { Throwable.class })

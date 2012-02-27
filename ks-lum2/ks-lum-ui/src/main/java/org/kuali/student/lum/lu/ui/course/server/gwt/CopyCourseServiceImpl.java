@@ -41,7 +41,6 @@ import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
 @Transactional(noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})

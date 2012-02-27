@@ -34,7 +34,7 @@ import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.lum.course.service.CourseServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.lum.clu.CLUConstants;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;

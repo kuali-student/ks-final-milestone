@@ -48,7 +48,7 @@ import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.common.client.widgets.CourseWidget;
 import org.kuali.student.lum.common.client.widgets.GradeWidget;
 import org.kuali.student.lum.common.client.widgets.ProgramWidget;
-import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;

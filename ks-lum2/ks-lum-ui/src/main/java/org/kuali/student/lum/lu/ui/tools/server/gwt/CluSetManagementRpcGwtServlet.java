@@ -16,6 +16,7 @@
 package org.kuali.student.lum.lu.ui.tools.server.gwt;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.AssemblyException;
@@ -36,13 +37,13 @@ import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.lu.dto.*;
+import org.kuali.student.r2.lum.clu.dto.*;
 import org.kuali.student.lum.lu.service.LuService;
 import org.kuali.student.lum.lu.service.LuServiceConstants;
 
 import org.apache.log4j.Logger;
 
-import edu.emory.mathcs.backport.java.util.Collections;
+// TODO KSCM import edu.emory.mathcs.backport.java.util.Collections;
 
 public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 		CluSetManagementRpcService {
