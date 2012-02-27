@@ -21,14 +21,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
 import org.kuali.student.r1.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.service.StatementService;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;

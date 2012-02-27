@@ -89,7 +89,8 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
     @Override
     public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) {
 		try {
-			return service.getCurrentVersion(refObjectTypeURI, refObjectId, contextInfo);
+			// TODO KSCM Version return service.getCurrentVersion(refObjectTypeURI, refObjectId, contextInfo);
+			return null;
 		} catch (Exception e) {
 			LOG.error(e);
 		}

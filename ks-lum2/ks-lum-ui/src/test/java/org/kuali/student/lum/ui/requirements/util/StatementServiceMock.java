@@ -108,7 +108,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<org.kuali.student.common.dto.ValidationResultInfo> validateRefStatementRelation(
+    public List<ValidationResultInfo> validateRefStatementRelation(
             String validationTypeKey, String statementId, String refStatementRelationTypeKey,
             RefStatementRelationInfo refStatementRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {

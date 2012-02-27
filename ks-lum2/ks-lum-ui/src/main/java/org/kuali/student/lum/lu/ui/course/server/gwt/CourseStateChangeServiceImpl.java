@@ -4,8 +4,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -107,8 +107,10 @@ public class CourseStateChangeServiceImpl {
 		String verIndId = course.getVersionInfo().getVersionIndId();
 
 		// Get id of current version of course given the versionindependen id
-		VersionDisplayInfo curVerDisplayInfo = courseService.getCurrentVersion(
-				CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId, contextInfo);
+		VersionDisplayInfo curVerDisplayInfo = null;
+		// TODO KSCM Versions
+		// TODO KSCM Versions curVerDisplayInfo = courseService.getCurrentVersion(
+		// TODO KSCM Versions		CourseServiceConstants.COURSE_NAMESPACE_URI, verIndId, contextInfo);
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
@@ -183,9 +185,10 @@ public class CourseStateChangeServiceImpl {
 		if (thisVerPrevState.equals(DtoConstants.STATE_APPROVED)
 				&& thisVerNewState.equals(DtoConstants.STATE_ACTIVE)) {
 
-			List<VersionDisplayInfo> versions = courseService.getVersions(
-					CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
-							.getVersionInfo().getVersionIndId(), contextInfo);
+			List<VersionDisplayInfo> versions = null;
+			// TODO KSCM Versions versions = courseService.getVersions(
+			// TODO KSCM Versions		CourseServiceConstants.COURSE_NAMESPACE_URI, thisVerCourse
+			// TODO KSCM Versions				.getVersionInfo().getVersionIndId(), contextInfo);
 			Long startSeq = new Long(1);
 
 			if (!isCurrent && (currVerCourse.getId() != thisVerCourse.getId())) {

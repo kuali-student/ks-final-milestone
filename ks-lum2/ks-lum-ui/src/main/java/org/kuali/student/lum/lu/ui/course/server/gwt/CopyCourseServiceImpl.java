@@ -6,8 +6,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.dto.CurrencyAmountInfo;
-import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
+import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -21,12 +21,12 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
 import org.kuali.student.r1.common.ui.server.gwt.DataService;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
-import org.kuali.student.core.proposal.service.ProposalService;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.proposal.service.ProposalService;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.statement.service.StatementService;
 import org.kuali.student.r2.lum.course.dto.ActivityInfo;
 import org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo;
 import org.kuali.student.r2.lum.course.dto.CourseFeeInfo;
@@ -39,7 +39,7 @@ import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lu.LUConstants;
-import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
+//TODO KSCM import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
@@ -131,17 +131,18 @@ public class CopyCourseServiceImpl {
 			}
 		}
 		//Clear result component ids
-		for(ResultComponentInfo result:course.getCreditOptions()){
-			result.setId(null);
-		}
+		// TODO KSCM 
+		// TODO KSCM for(ResultComponentInfo result:course.getCreditOptions()){
+		// TODO KSCM 	result.setId(null);
+		// TODO KSCM }
 		//Clear cross listing ids
 		for(CourseCrossListingInfo crossListing:course.getCrossListings()){
 			crossListing.setId(null);
 		}
 		//Clear Expenditures
-		for(AffiliatedOrgInfo orgInfo:course.getExpenditure().getAffiliatedOrgs()){
-			orgInfo.setId(null);
-		}
+		// TODO KSCM for(AffiliatedOrgInfo orgInfo:course.getExpenditure().getAffiliatedOrgs()){
+		// TODO KSCM 	orgInfo.setId(null);
+		// TODO KSCM }
 		//Clear Fees
 		for(CourseFeeInfo fee:course.getFees()){
 			fee.setId(null);
@@ -152,9 +153,9 @@ public class CopyCourseServiceImpl {
 		//Clear revenue
 		for(CourseRevenueInfo revenue:course.getRevenues()){
 			revenue.setId(null);
-			for(AffiliatedOrgInfo orgInfo:revenue.getAffiliatedOrgs()){
-				orgInfo.setId(null);
-			}
+			// TODO KSCM for(AffiliatedOrgInfo orgInfo:revenue.getAffiliatedOrgs()){
+			// TODO KSCM 	orgInfo.setId(null);
+			// TODO KSCM }
 		}
 		//Clear variation ids
 		for(CourseVariationInfo variation:course.getVariations()){
