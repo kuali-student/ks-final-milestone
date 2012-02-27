@@ -16,6 +16,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;
 import org.kuali.student.common.exceptions.CircularRelationshipException;
@@ -45,7 +46,7 @@ import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
  */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.COURSE_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseService extends DictionaryService, VersionManagementService {
+public interface CourseService extends DictionaryService, VersionManagementService, SearchService {
     /**
      * Retrieves a Course
      *
