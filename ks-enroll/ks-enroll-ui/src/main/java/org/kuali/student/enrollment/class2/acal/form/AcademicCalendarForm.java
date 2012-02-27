@@ -22,9 +22,10 @@ import java.text.SimpleDateFormat;
 import org.kuali.rice.krad.web.form.UifFormBase;
 
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-//import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
+
 /**
  * This class //TODO ...
  *
@@ -36,9 +37,10 @@ public class AcademicCalendarForm extends UifFormBase {
 
     private AcademicCalendarInfo academicCalendarInfo;
     private String adminOrgName;
-    private List<AcalEventWrapper> events;
     private String updateTimeString;
 
+    private List<AcalEventWrapper> events;
+    private List<HolidayCalendarInfo> holidayCalendarList;
     private List<AcademicTermWrapper> termWrapperList;
 
     public AcademicCalendarForm() {
@@ -61,6 +63,14 @@ public class AcademicCalendarForm extends UifFormBase {
 
     public void setAdminOrgName(String adminOrgName) {
         this.adminOrgName = adminOrgName;
+    }
+
+    public void setHolidayCalendarList(List<HolidayCalendarInfo> holidayCalendarList) {
+        this.holidayCalendarList = holidayCalendarList;
+    }
+
+    public List<HolidayCalendarInfo> getHolidayCalendarList() {
+        return holidayCalendarList;
     }
 
     public void setTermWrapperList(List<AcademicTermWrapper> termWrapperList) {

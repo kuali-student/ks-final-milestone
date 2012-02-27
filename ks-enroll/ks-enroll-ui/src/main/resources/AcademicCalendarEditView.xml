@@ -60,6 +60,7 @@
                 <bean parent="Uif-MessageField" p:messageText="@{updateTimeString}" p:styleClasses="font-light12"/>
                 <ref bean="KS-AcademicCalendar-MetaSection"/>
                 <ref bean="KS-AcademicCalendar-EventSection"/>
+                <ref bean="KS-AcademicCalendar-HolidaySection"/>
             </list>
         </property>
     </bean>
@@ -166,6 +167,43 @@
 			</list>
 		</property>
 	</bean>
+
+    <bean id="KS-AcademicCalendar-HolidaySection" parent="Uif-Disclosure-StackedCollectionSection">
+        <property name="title" value="Holidays" />
+        <property name="collectionObjectClass" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
+        <property name="propertyName" value="holidayCalendarList" />
+        <!--
+            <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
+            <property name="layoutManager.lineGroupPrototype.readOnly" value="@{#line.readOnly}"/>
+            <property name="layoutManager.lineGroupPrototype.instructionalMessageField.styleClasses">
+                <list merge="true">
+                    <value>ks-header-boldWithLine</value>
+                </list>
+            </property>
+
+               <property name="layoutManager.lineGroupPrototype.header.headerText" value="@{#line.termNameForUI}"/>
+               <property name="layoutManager.lineGroupPrototype.instructionalText" value="@{#line.termNameForUI} Term Information"/>
+        -->
+        <property name="items">
+            <list>
+                <bean parent="Uif-InputField" p:propertyName="id" p:label="Holiday Calendar" p:required="true" p:render="@{#isAddLine}">
+                    <!--                  <property name="control">
+                      <bean parent="Uif-DropdownControl"/>
+                  </property>
+                  <property name="optionsFinder">
+                      <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermTypeKeyValues"/>
+                  </property>  -->
+                </bean>
+            </list>
+        </property>
+        <property name="actionFields">
+            <list>
+                <bean parent="Uif-ActionLink" p:methodToCall="deleteHC" p:actionLabel="Delete"/>
+            </list>
+        </property>
+    </bean>
+
+
 
     <util:list id="org-options">
         <bean parent="Uif-KeyLabelPair" p:key="102" p:value="Registrar's Office"/>
