@@ -15,8 +15,13 @@
 package org.kuali.student.r2.lum.clu.service;
 
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.CluLoRelationTypeInfo;
+import org.kuali.student.r1.lum.lu.dto.DeliveryMethodTypeInfo;
 import org.kuali.student.r1.lum.lu.dto.LuLuRelationTypeInfo;
 import org.kuali.student.r1.lum.lu.dto.LuiInfo;
 import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
@@ -36,7 +41,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-import org.kuali.student.r2.common.dto.TypeInfo;
+import org.kuali.student.r1.common.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -1384,7 +1389,7 @@ public interface CluService extends VersionManagementService {
      *                                      designated as read only
      * @throws AlreadyExistsException 
      */
-    public CluPublicationInfo createCluPublication(@WebParam(name = "cluId") String cluId, @WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException;
+    public CluPublicationInfo createCluPublication(@WebParam(name = "cluId") String cluId, @WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, AlreadyExistsException, DoesNotExistException;
 
     /**
      * Updates an existing clu publication object
@@ -2471,6 +2476,103 @@ public interface CluService extends VersionManagementService {
 	 */
 	public List<String> getObjectTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws UnsupportedOperationException;
 
-	public List<String> getRelatedCluIdsByCluId(@WebParam(name = "id")String id,
-			@WebParam(name = "hasProgramRequirement")String hasProgramRequirement, @WebParam(name = "contextInfo")ContextInfo contextInfo);
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param searchCriteriaTypeKey
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @return
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param searchResultTypeKey
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public SearchResultTypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @return
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param searchTypeKey
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @return
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param searchCriteriaTypeKey
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param searchResultTypeKey
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 }
