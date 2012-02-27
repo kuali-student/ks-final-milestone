@@ -39,6 +39,7 @@ import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.util.MessageUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 public class DefaultValidatorImpl extends BaseAbstractValidator {
     final static Logger LOG = Logger.getLogger(DefaultValidatorImpl.class);
@@ -925,4 +926,6 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 			Object o, ObjectStructureDefinition objStructure,Stack<String> elementStack) {
 		return null;
 	}
+
+
 }

@@ -8,11 +8,12 @@ import java.util.Stack;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+//import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.DefaultValidatorImpl;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 
@@ -22,7 +23,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
     // TODO KSCM-254
     public List<ValidationResultInfo> validateObject(FieldDefinition field,
             Object o, ObjectStructureDefinition objStructure,
-            Stack<String> elementStack, ContextInfo contextInfo) {
+            Stack<String> elementStack) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
         String element = getElementXpath(elementStack) + "/" + field.getName();
@@ -96,7 +97,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
     private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
-        String message = getMessage("validation.programManagingBodiesMatch" , new ContextInfo());
+        String message = getMessage("validation.programManagingBodiesMatch" );
         String collegeName = getCollegeName(collegeId);
         List<String> departments = getDepartments(departmentIds);
 

@@ -14,17 +14,17 @@ import org.kuali.student.common.dao.SearchableDao;
 import org.kuali.student.common.dictionary.dto.DataType;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
-import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
@@ -37,31 +37,54 @@ import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.lum.course.dto.LoDisplayInfo;
-import org.kuali.student.lum.course.infc.LoDisplay;
+import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.course.service.impl.CourseServiceUtils;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
-import org.kuali.student.lum.lu.dto.LuTypeInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.program.dto.CoreProgramInfo;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
-import org.kuali.student.lum.program.dto.HonorsProgramInfo;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
-import org.kuali.student.lum.program.dto.MinorDisciplineInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
-import org.kuali.student.lum.program.dto.ProgramVariationInfo;
-import org.kuali.student.lum.program.infc.CredentialProgram;
-import org.kuali.student.lum.program.service.ProgramService;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluTypeInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+//import org.kuali.student.r2.lum.clu.service.CluServiceConstants;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
+import org.kuali.student.r2.lum.program.infc.CredentialProgram;
+import org.kuali.student.r2.lum.program.service.ProgramService;
+//import org.kuali.student.r2.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.MajorDisciplineAssembler;
 import org.kuali.student.lum.program.service.assembler.ProgramAssemblerConstants;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 import org.springframework.transaction.annotation.Transactional;
+
+import org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException ;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException; 
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.CircularReferenceException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
+//import org.kuali.student.r2.common.exceptions.*;
 
 import javax.jws.WebParam;
 
@@ -71,7 +94,7 @@ import static org.kuali.student.common.service.impl.BaseAssembler.toGenericMap;
 public class ProgramServiceImpl implements ProgramService, SearchManager{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
-    private LuService luService;
+    private CluService luService;
     private ValidatorFactory validatorFactory;
     private BusinessServiceMethodInvoker programServiceMethodInvoker;
     private DictionaryService dictionaryService;
@@ -961,7 +984,7 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(
-            String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            String searchCriteriaTypeKey) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException,
             OperationFailedException {
         // TODO Auto-generated method stub
@@ -1562,8 +1585,8 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 
 	// TODO KSCM-267
 	@Override
-	public SearchResult search(SearchRequest searchRequest,
-			ContextInfo contextInfo) throws MissingParameterException {
+	public SearchResult search(SearchRequest searchRequest
+			) throws MissingParameterException {
 		// TODO Auto-generated method stub
 		return null;
 	}
