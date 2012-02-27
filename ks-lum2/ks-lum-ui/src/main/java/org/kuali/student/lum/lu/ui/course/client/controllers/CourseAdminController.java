@@ -26,7 +26,7 @@ import org.kuali.student.r1.common.ui.client.widgets.KSButton;
 import org.kuali.student.r1.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r1.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowUtilities;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;

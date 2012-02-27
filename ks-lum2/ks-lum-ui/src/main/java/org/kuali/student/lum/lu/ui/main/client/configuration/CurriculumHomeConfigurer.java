@@ -23,7 +23,7 @@ import org.kuali.student.r1.common.ui.client.widgets.layout.LinkContentBlock;
 import org.kuali.student.r1.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.r1.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.r1.common.ui.client.widgets.search.SelectedResults;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r1.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;

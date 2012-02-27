@@ -27,7 +27,7 @@ import org.kuali.student.r1.common.ui.client.widgets.headers.KSDocumentHeader;
 import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.r1.common.ui.client.widgets.searchtable.ResultRow;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r1.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.BrowsePanel;
 

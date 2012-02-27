@@ -21,7 +21,7 @@ import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract.ButtonStyl
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ButtonLayout;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
 import org.kuali.student.r1.common.ui.client.widgets.search.SearchResultsTable;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r1.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
 
