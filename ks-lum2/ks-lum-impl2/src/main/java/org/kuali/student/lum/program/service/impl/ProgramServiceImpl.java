@@ -30,13 +30,13 @@ import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
 import org.kuali.student.common.validator.ValidatorUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.core.document.service.DocumentService;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r2.core.document.service.DocumentService;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.course.service.impl.CourseServiceUtils;
@@ -57,6 +57,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r2.lum.program.infc.CredentialProgram;
 import org.kuali.student.r2.lum.program.service.ProgramService;
 //import org.kuali.student.r2.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r2.common.util.constants.LuServiceConstants;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.lum.program.service.assembler.CoreProgramAssembler;
 import org.kuali.student.lum.program.service.assembler.CredentialProgramAssembler;
@@ -107,7 +108,7 @@ public class ProgramServiceImpl implements ProgramService{
     private AtpService atpService;
     private DocumentService documentService;
     
-    
+
     @Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public CredentialProgramInfo createCredentialProgram( String credentialProgramTypeKey,
@@ -119,8 +120,9 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {
@@ -149,8 +151,9 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-        	throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {
@@ -172,8 +175,9 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {
@@ -190,7 +194,7 @@ public class ProgramServiceImpl implements ProgramService{
                                                                ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException, VersionMismatchException, DataValidationErrorException,ReadOnlyException {
 		//step one, get the original
-		VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, majorDisciplineId,contextInfo);
+		VersionDisplayInfo currentVersion = luService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, majorDisciplineId,contextInfo);
 		MajorDisciplineInfo originalMajorDiscipline = getMajorDiscipline(currentVersion.getId(),contextInfo);
 
 		//Version the Clu
@@ -366,9 +370,9 @@ public class ProgramServiceImpl implements ProgramService{
      */
     private void processCopy(MajorDisciplineInfo majorDiscipline,String originalId,ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException,ReadOnlyException {
 		//Clear Terms (needs to be set on new version anyway so this forces the issue)
-    	majorDiscipline.setStartTermId(null);
-    	majorDiscipline.setEndTermId(null);
-    	majorDiscipline.setEndProgramEntryTermId(null);
+    	majorDiscipline.setStartTerm(null);
+    	majorDiscipline.setEndTerm(null);
+    	majorDiscipline.setEndProgramEntryTerm(null);
     	majorDiscipline.getAttributes().remove("endInstAdmitTerm");
     	
     	//Clear Los
@@ -411,7 +415,7 @@ public class ProgramServiceImpl implements ProgramService{
 	        
 			//Set variation id & versionInfo to new variation clu
 			variation.setId(newVariationClu.getId());
-			variation.setMetaInfo(newVariationClu.getMetaInfo());
+			variation.setMeta(newVariationClu.getMeta());
 						
 			//Set state to parent program's state
 			variation.setState(majorDiscipline.getState());
@@ -827,8 +831,9 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {
@@ -866,8 +871,9 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {
@@ -902,8 +908,9 @@ public class ProgramServiceImpl implements ProgramService{
     	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-        	throw new DataValidationErrorException("Validation error!", validationResults);
+        	throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {
@@ -1197,8 +1204,9 @@ public class ProgramServiceImpl implements ProgramService{
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo, contextInfo );
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {
@@ -1309,8 +1317,9 @@ public class ProgramServiceImpl implements ProgramService{
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo,contextInfo);
+        List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
         if (ValidatorUtils.hasErrors(validationResults)) {
-            throw new DataValidationErrorException("Validation error!", validationResults);
+            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
         }
 
         try {

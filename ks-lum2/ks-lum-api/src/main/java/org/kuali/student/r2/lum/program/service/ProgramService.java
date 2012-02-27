@@ -35,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
+import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
 import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
@@ -53,7 +54,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE)
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService extends  SearchService //, DictionaryService, VersionManagementService 
+public interface ProgramService extends  SearchService ,  VersionManagementService //DictionaryService,
 {
 
     /**
