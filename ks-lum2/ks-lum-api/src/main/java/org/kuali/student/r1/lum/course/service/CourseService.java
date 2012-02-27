@@ -46,7 +46,7 @@ import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
  */
 @WebService(name = "CourseService", targetNamespace = CourseServiceConstants.COURSE_NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CourseService extends DictionaryService, VersionManagementService, SearchService {
+public interface CourseService extends DictionaryService, VersionManagementService {
     /**
      * Retrieves a Course
      *
