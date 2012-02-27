@@ -18,11 +18,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.LookupResultMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.search.dto.CrossSearchTypeInfo;
 import org.kuali.student.r1.common.search.dto.JoinResultMappingInfo;
 import org.kuali.student.r1.common.search.dto.QueryParamInfo;

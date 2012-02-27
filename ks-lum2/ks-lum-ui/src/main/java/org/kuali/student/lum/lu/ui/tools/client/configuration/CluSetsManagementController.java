@@ -17,8 +17,8 @@ package org.kuali.student.lum.lu.ui.tools.client.configuration;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.ui.client.application.Application;
 import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.BasicLayout;

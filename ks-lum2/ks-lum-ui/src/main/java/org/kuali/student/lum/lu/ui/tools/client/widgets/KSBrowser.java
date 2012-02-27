@@ -21,8 +21,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.ui.client.application.Application;
 import org.kuali.student.r1.common.ui.client.application.ViewContext;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.WidgetConfigInfo;

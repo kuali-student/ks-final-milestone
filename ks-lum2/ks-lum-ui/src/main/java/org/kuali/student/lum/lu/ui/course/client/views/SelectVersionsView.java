@@ -3,9 +3,9 @@ package org.kuali.student.lum.lu.ui.course.client.views;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.search.dto.SearchParam;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SortDirection;

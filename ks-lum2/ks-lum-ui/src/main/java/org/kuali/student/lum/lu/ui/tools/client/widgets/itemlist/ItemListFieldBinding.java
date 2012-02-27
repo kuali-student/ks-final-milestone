@@ -17,8 +17,8 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
 import org.kuali.student.r1.common.ui.client.mvc.DataModel;
 

@@ -1,7 +1,7 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
-import org.kuali.student.common.assembly.data.Data.Value;
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Data.Value;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.ui.client.mvc.Callback;
 import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeHandler;

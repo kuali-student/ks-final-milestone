@@ -21,12 +21,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.common.assembly.old.BaseAssembler;
-import org.kuali.student.common.assembly.old.data.SaveResult;
+import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
+import org.kuali.student.r1.common.assembly.old.BaseAssembler;
+import org.kuali.student.r1.common.assembly.old.data.SaveResult;
 import org.kuali.student.common.dto.MetaInfo;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;

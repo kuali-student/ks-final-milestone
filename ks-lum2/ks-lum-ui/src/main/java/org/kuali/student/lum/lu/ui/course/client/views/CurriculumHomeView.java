@@ -1,6 +1,6 @@
 package org.kuali.student.lum.lu.ui.course.client.views;
 
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.r1.common.ui.client.mvc.Controller;
 import org.kuali.student.r1.common.ui.client.mvc.ViewComposite;

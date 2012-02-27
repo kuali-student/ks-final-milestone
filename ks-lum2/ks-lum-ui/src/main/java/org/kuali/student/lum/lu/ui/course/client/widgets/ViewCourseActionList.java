@@ -18,7 +18,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.ui.client.mvc.Controller;
 import org.kuali.student.r1.common.ui.client.mvc.DataModel;
 import org.kuali.student.r1.common.ui.client.mvc.ModelRequestCallback;

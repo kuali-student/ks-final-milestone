@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.common.assembly.data.LookupResultMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultCell;

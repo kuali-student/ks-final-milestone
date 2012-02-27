@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;

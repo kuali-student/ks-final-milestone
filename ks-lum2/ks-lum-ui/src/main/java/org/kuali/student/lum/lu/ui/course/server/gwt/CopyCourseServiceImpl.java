@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CurrencyAmountInfo;
 import org.kuali.student.common.dto.DtoConstants;

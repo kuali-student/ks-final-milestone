@@ -3,7 +3,7 @@ package org.kuali.student.lum.lu.ui.course.client.widgets;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.rice.StudentIdentityConstants;

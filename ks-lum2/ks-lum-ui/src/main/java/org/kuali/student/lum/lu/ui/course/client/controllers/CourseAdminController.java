@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
