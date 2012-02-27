@@ -42,7 +42,7 @@ import org.kuali.student.r1.lum.lu.dto.CluPublicationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
 import org.kuali.student.r1.lum.lu.dto.FieldInfo;
 import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
-import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
@@ -57,7 +57,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 public class ProgramAssemblerUtils {
 
-    private LuService luService;
+    private CluService luService;
     private CluAssemblerUtils cluAssemblerUtils;
 
      /**

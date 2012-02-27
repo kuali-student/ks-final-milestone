@@ -27,7 +27,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
-import org.kuali.student.r2.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
@@ -39,7 +39,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 public class ProgramVariationAssembler implements BOAssembler<ProgramVariationInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(ProgramVariationAssembler.class);
 
-    private LuService luService;
+    private CluService luService;
     private CluAssemblerUtils cluAssemblerUtils;
     private ProgramAssemblerUtils programAssemblerUtils;
 
@@ -62,7 +62,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) pvInfo, contextInfo);
         	pvInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(), contextInfo));
-            pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild));
+            pvInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
         }
         
         pvInfo.setIntensity((null != baseDTO.getIntensity()) ? baseDTO.getIntensity().getUnitType() : null);
@@ -115,7 +115,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         }
 
         if (businessDTO.getLearningObjectives() != null) {
-            disassembleLearningObjectives(businessDTO, operation, result);
+            disassembleLearningObjectives(businessDTO, operation, result,contextInfo);
         }
  
 		AmountInfo intensity = new AmountInfo();
@@ -135,9 +135,9 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     	
     }
 
-    private void disassembleLearningObjectives(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result) throws AssemblyException {
+    private void disassembleLearningObjectives(ProgramVariationInfo variation, NodeOperation operation, BaseDTOAssemblyNode<ProgramVariationInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
         try {
-            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(variation.getId(), variation.getState(), (List<LoDisplayInfo>) variation.getLearningObjectives(), operation);
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(variation.getId(), variation.getState(), (List<LoDisplayInfo>) variation.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
@@ -156,7 +156,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
     }
     
     // Spring setter
-    public void setLuService(LuService luService) {
+    public void setLuService(CluService luService) {
         this.luService = luService;
     }
     
