@@ -1,6 +1,8 @@
 package org.kuali.student.lum.statement.config.context.util;
 
-import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+
+
 
 public class NLHelper {
 

@@ -18,8 +18,9 @@ package org.kuali.student.lum.statement.config.context.util;
 import java.util.List;
 
 import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.dto.CluSetInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
+
 
 /**
  * <p><b><u>Warning</u></b><br/>
