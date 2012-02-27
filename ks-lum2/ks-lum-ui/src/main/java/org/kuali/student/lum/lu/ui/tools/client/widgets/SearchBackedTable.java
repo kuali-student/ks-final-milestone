@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.Set;
 
 import org.kuali.student.common.assembly.data.LookupResultMetadata;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.r1.common.ui.client.mvc.Callback;
 import org.kuali.student.r1.common.ui.client.service.CachingSearchService;

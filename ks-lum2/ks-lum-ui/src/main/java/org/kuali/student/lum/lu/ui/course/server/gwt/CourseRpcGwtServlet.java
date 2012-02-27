@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
 import org.kuali.student.r1.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
@@ -33,7 +33,7 @@ import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfo
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.server.StatementUtil;
 import org.kuali.student.r2.lum.course.service.CourseService;
-import org.kuali.student.lum.lu.service.LuService;
+import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 
@@ -42,7 +42,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 	private static final long serialVersionUID = 1L;
 
     private CourseService courseService;
-    private LuService luService;
+    private CluService cluService;
 	private StatementService statementService;
 	private CourseStateChangeServiceImpl stateChangeService;
 
@@ -165,7 +165,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     	states.add("Draft");
     	states.add("Superseded");
     	request.addParam("lu.queryParam.luOptionalState", states);
-    	SearchResult result = luService.search(request, contextInfo);
+    	SearchResult result = cluService.search(request, contextInfo);
     	
     	String resultString = result.getRows().get(0).getCells().get(0).getValue();
     	return "0".equals(resultString);
@@ -184,7 +184,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
 		this.stateChangeService = stateChangeService;
 	}
 
-	public void setLuService(LuService luService) {
-		this.luService = luService;
+	public void seCluService(CluService cluService) {
+		this.cluService = cluService;
 	}
 }

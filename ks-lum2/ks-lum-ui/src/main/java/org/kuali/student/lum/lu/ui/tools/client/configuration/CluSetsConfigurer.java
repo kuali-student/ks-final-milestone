@@ -25,7 +25,7 @@ import org.kuali.student.common.assembly.data.LookupMetadata;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.assembly.data.Data.DataValue;
-import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.ui.client.application.Application;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.LayoutController;
