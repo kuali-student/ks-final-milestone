@@ -89,4 +89,18 @@ public interface CommentRpcServiceAsync extends BaseRpcServiceAsync {
      * @param callback
      */
     public void getUserRealName(String userId, AsyncCallback<String> callback);
+    
+    /**
+     * user IdentityService to get user name by principalId
+     * @param principalId
+     * @param callback
+     */
+    public void getUserRealNameByPrincipalId(String principalId, AsyncCallback<String> callback);
+    
+    /**
+     * user IdentityService to get principalName by principalId
+     * @param principalName
+     * @param callback
+     */
+    public void getPrincipalNameByPrincipalId(String principalId, AsyncCallback<String> callback);
 }

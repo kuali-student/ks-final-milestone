@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.rice.kim.bo.entity.dto.KimEntityInfo;
 import org.kuali.rice.kim.bo.entity.dto.KimEntityNameInfo;
+import org.kuali.rice.kim.bo.entity.dto.KimPrincipalInfo;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.rice.kim.service.IdentityManagementService;
 import org.kuali.student.common.dto.StatusInfo;
@@ -98,7 +99,25 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
     @Override
     public String getUserRealName(String principalName) {
         KimEntityInfo kimEntityInfo = identityService.getEntityInfoByPrincipalName(principalName);
-        KimEntityNameInfo kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
+        return getUserRealNameByEntityInfo(kimEntityInfo);
+    }
+    
+    @Override
+    public String getUserRealNameByPrincipalId(String principalId) {
+        KimEntityInfo kimEntityInfo = identityService.getEntityInfoByPrincipalId(principalId);
+        return getUserRealNameByEntityInfo(kimEntityInfo);
+        
+    }
+    
+    @Override
+    public String getPrincipalNameByPrincipalId(String principalId) {
+        KimPrincipalInfo kimPrincipalInfo = identityService.getPrincipal(principalId);
+        return kimPrincipalInfo.getPrincipalName();
+        
+    }
+    
+    protected String getUserRealNameByEntityInfo(KimEntityInfo kimEntityInfo){
+    	KimEntityNameInfo kimEntityNameInfo = (kimEntityInfo == null)? null : kimEntityInfo.getDefaultName();
         StringBuilder name = new StringBuilder(); 
         if (kimEntityNameInfo != null) {
             if (!nvl(kimEntityNameInfo.getFirstName()).trim().isEmpty()) {
@@ -122,6 +141,6 @@ public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentServi
             }
         }
         return name.toString();
-    }
+    }       
 
 }

@@ -335,21 +335,22 @@ public class CommentTool implements HasReferenceId {
                 }
                 VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
                 final HTML userNameLabel = new HTML();
-                final String principleName = Application.getApplicationContext().getSecurityContext().getUserId();
-                commentServiceAsync.getUserRealName(principleName, new AsyncCallback<String>() {
+                final String principalId = commentInfo.getMetaInfo().getUpdateId();
+                commentServiceAsync.getUserRealNameByPrincipalId(principalId, new AsyncCallback<String>() {
                     @Override
                     public void onFailure(Throwable caught) {
-                        userNameLabel.setHTML("<b>" + principleName + "</b>");
+                        userNameLabel.setHTML("<b>" + principalId + "</b>");
                     }
                     @Override
                     public void onSuccess(String result) {
                         if (result != null && !result.isEmpty()) {
                             userNameLabel.setHTML("<b>" + result + "</b>");
                         } else {
-                            userNameLabel.setHTML("<b>" + principleName + "</b>");
+                            userNameLabel.setHTML("<b>" + principalId + "</b>");
                         }
                     }
-                });
+                });                               
+                
                 Date createTime = commentInfo.getMetaInfo().getCreateTime();
                 userNameAndTime.add(userNameLabel);
                 DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
@@ -439,10 +440,23 @@ public class CommentTool implements HasReferenceId {
                 commentsTableLayout.setWidget(rowIndex, columnIndex, deleteButton);
                 deleteButtonMap.put(commentCounter, deleteButton);
                 columnIndex++;
-                if (principleName == null || !principleName.equals(this.loggedInUserId)) {
-                    editButton.setVisible(false);
-                    deleteButton.setVisible(false);
-                }
+               
+                commentServiceAsync.getPrincipalNameByPrincipalId(principalId, new AsyncCallback<String>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                    	// What do we do here?
+                    	String warning = "Unable to find PrincipalName via PrincipalId["+principalId+"]";                        
+                    }
+                    @Override
+                    public void onSuccess(String principalName) {
+                    	if (principalName == null || !principalName.equals(getLoggedInUserId())) {
+                            editButton.setVisible(false);
+                            deleteButton.setVisible(false);
+                        }
+                    }
+                });
+                
+                
                 
                 rowIndex++;
                 
@@ -611,5 +625,9 @@ public class CommentTool implements HasReferenceId {
             }
         });
     }
+
+	public String getLoggedInUserId() {
+		return loggedInUserId;
+	}
 
 }
