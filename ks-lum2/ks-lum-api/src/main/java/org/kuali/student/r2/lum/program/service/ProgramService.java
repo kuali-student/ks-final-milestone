@@ -31,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
@@ -346,10 +347,11 @@ public interface ProgramService extends  SearchService //, DictionaryService, Ve
      * @throws VersionMismatchException The action was attempted on an out of
      *             date version
      * @throws DataValidationErrorException
+     * @throws ReadOnlyException 
      */
     public MajorDisciplineInfo createNewMajorDisciplineVersion(@WebParam(name = "majorDisciplineId") String majorDisciplineId, @WebParam(name = "versionComment") String versionComment,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
 
     /**
      * Retrieves a HonorsProgram
