@@ -30,7 +30,7 @@ import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgress
 import org.kuali.student.r1.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.lu.LUConstants;
+import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.CourseRpcServiceAsync;

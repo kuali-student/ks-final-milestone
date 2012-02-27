@@ -29,7 +29,7 @@ import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
 import org.kuali.student.r1.common.ui.client.service.exceptions.OperationFailedException;
-import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.r1.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.widgets.CluInformation;

@@ -38,7 +38,7 @@ import org.kuali.student.r2.lum.course.dto.FormatInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lu.LUConstants;
+import org.kuali.student.r1.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;

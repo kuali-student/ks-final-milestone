@@ -3,7 +3,7 @@ package org.kuali.student.lum.lu.ui.dependency.client.service;
 import java.util.List;
 
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

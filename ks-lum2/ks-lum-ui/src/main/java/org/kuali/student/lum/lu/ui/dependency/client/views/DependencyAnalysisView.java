@@ -63,7 +63,7 @@ import org.kuali.student.lum.lu.ui.dependency.client.service.DependencyAnalysisR
 import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel;
 import org.kuali.student.lum.lu.ui.dependency.client.widgets.DependencyResultPanel.DependencyTypeSection;
 import org.kuali.student.lum.lu.ui.tools.client.configuration.ClusetView.Picker;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

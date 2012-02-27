@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.r1.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsDataModel;
 import org.kuali.student.lum.lu.ui.course.client.service.CreditCourseProposalRpcService;

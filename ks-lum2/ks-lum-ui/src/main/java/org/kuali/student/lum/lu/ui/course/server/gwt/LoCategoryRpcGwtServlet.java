@@ -19,12 +19,12 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.r1.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
-import org.kuali.student.lum.lo.dto.LoInfo;
-import org.kuali.student.lum.lo.service.LearningObjectiveService;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
 import java.util.Date;
 import java.util.List;
