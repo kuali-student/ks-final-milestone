@@ -44,7 +44,7 @@ import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotification
 import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.r1.common.ui.shared.IdAttributes.IdType;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.common.client.helpers.RecentlyViewedHelper;
 import org.kuali.student.lum.lu.ui.course.client.configuration.CourseProposalConfigurer;

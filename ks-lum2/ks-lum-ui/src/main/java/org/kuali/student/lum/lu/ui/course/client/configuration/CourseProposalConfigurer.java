@@ -86,7 +86,7 @@ import org.kuali.student.r1.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.core.comments.ui.client.widgets.commenttool.CommentTool;
 import org.kuali.student.core.comments.ui.client.widgets.decisiontool.DecisionPanel;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentTool;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.lo.LOBuilder;
 import org.kuali.student.lum.common.client.lo.LOBuilderBinding;
