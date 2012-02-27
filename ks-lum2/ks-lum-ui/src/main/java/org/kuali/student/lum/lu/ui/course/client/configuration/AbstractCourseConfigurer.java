@@ -10,7 +10,7 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourse
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseRevenueInfoConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.FeeInfoConstants;
 
-public abstract class AbstractCourseConfigurer extends org.kuali.student.common.ui.client.configurable.mvc.Configurer implements
+public abstract class AbstractCourseConfigurer extends org.kuali.student.r1.common.ui.client.configurable.mvc.Configurer implements
     CreditCourseConstants,
     CreditCourseFormatConstants,
     CreditCourseActivityConstants,

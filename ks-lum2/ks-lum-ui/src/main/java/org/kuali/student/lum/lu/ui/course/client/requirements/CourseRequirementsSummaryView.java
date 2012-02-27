@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.ui.client.application.Application;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.views.SectionView;
@@ -27,10 +27,10 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.AbbrBu
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.lum.common.client.widgets.AppLocations;

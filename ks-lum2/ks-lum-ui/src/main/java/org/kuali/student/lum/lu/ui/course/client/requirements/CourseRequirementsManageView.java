@@ -32,13 +32,14 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ActionC
 import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.r2.common.util.ContextUtils;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RuleManageWidget;

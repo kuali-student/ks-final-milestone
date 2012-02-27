@@ -31,12 +31,13 @@ import org.kuali.student.r1.common.ui.client.widgets.table.summary.ShowRowCondit
 import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentList;
 import org.kuali.student.core.document.ui.client.widgets.documenttool.DocumentListBinding;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
 import org.kuali.student.core.workflow.ui.client.widgets.WorkflowEnhancedNavController;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
