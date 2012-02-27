@@ -24,7 +24,7 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.ServerDateParser;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
@@ -91,7 +91,7 @@ import javax.jws.WebParam;
 import static org.kuali.student.common.service.impl.BaseAssembler.toGenericMap;
 
 // TODO KSCM-253
-public class ProgramServiceImpl implements ProgramService, SearchManager{
+public class ProgramServiceImpl implements ProgramService{
 	final static Logger LOG = Logger.getLogger(ProgramServiceImpl.class);
 
     private CluService luService;
@@ -394,7 +394,8 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 	    	variation.getAttributes().remove("endInstAdmitTerm");
 	    	
 			//Create new variation version
-			String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
+			//TODO KSCM :String variationVersionIndId = variation.getVersionInfo().getVersionIndId();
+	    	String variationVersionIndId = variation.getVersion().getVersionIndId();
 			CluInfo newVariationClu = luService.createNewCluVersion(variationVersionIndId, "Variation version for MajorDiscipline version " + majorDiscipline.getVersionInfo().getSequenceNumber(),contextInfo);
 			
 			//Create relation b/w new major discipline and new variation
@@ -550,7 +551,8 @@ public class ProgramServiceImpl implements ProgramService, SearchManager{
 		for (ProgramVariationInfo variationInfo:variationList){
 			String variationId = variationInfo.getId();
 			//If null set to current (non-null value means version is first and is already current)
-			if (variationInfo.getVersionInfo().getCurrentVersionStart() == null){
+			//TODO KSCM :if (variationInfo.getVersionInfo().getCurrentVersionStart() == null){
+			if (variationInfo.getVersion().getCurrentVersionStart() == null){
 				luService.setCurrentCluVersion(variationId, currentVersionStart,contextInfo);
 			}
 		}
