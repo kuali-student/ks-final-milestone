@@ -19,6 +19,7 @@ import javax.jws.soap.SOAPBinding;
 
 
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -51,7 +52,8 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE)
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService {
+public interface ProgramService extends  SearchService //, DictionaryService, VersionManagementService 
+{
 
     /**
      * Retrieves a CredentialProgram
