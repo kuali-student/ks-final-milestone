@@ -1,13 +1,142 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<!-- ks-common-api: org.kuali.student.r1.common.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
 		<class-b>org.kuali.student.r2.common.dto.AmountInfo</class-b>
-		<field><a>unitQuantity</a><b>unitQuantity</b></field><field>
+		<field>
 			<a>unitType</a>
 			<b>unitTypeKey</b>
 		</field>
 	</mapping>
-	
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.CurrencyAmountInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.CurrencyAmountInfo</class-b>
+		<field>
+			<a>metaInfo</a>
+			<b>meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.MetaInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.MetaInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.RichTextInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.RichTextInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.StatusInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.StatusInfo</class-b>
+		<field>
+			<a>success</a>
+			<b>isSuccess</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.TimeAmountInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.TimeAmountInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.TypeInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.TypeInfo</class-b>
+		<field>
+			<a>id</a>
+			<b>key</b>
+		</field>
+	</mapping>
+
+	<!-- ks-common-api: org.kuali.student.r1.common.exceptions mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.AlreadyExistsException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.AlreadyExistsException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.CircularReferenceException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.CircularReferenceException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.CircularRelationshipException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.CircularRelationshipException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DataValidationErrorException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DataValidationErrorException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DependentObjectsExistException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DependentObjectsExistException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DisabledIdentifierException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DisabledIdentifierException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DoesNotExistException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DoesNotExistException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.IllegalVersionSequencingException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.InvalidParameterException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.InvalidParameterException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.MissingParameterException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.MissingParameterException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.OperationFailedException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.OperationFailedException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.PermissionDeniedException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.PermissionDeniedException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.ReadOnlyException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.ReadOnlyException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.UnsupportedActionException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.UnsupportedActionException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.VersionMismatchException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.VersionMismatchException
+		</class-b>
+	</mapping>
 </mappings>
