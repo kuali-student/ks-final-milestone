@@ -93,4 +93,11 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
     public void setQueryParamValues(List<SearchParamInfo> queryParamValues) {
         this.queryParamValues = queryParamValues;
     }
+
+    // TODO KSCM HOW TO IMPL 
+    @Deprecated
+	public List<org.kuali.student.r1.common.search.dto.SearchParam> getQueryParamValueList() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
