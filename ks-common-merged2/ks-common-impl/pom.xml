@@ -56,6 +56,12 @@
       <groupId>commons-beanutils</groupId>
       <artifactId>commons-beanutils</artifactId>
     </dependency>
+    
+    <dependency>
+	    <groupId>net.sf.dozer</groupId>
+	    <artifactId>dozer</artifactId>
+	</dependency>
+	
   </dependencies>
   <profiles>
     <profile>

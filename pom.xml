@@ -169,6 +169,7 @@
     <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
     <selenium.version>2.7.0</selenium.version>
     <httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
+    <dozer.version>5.3.2</dozer.version>
     
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
@@ -1185,6 +1186,13 @@
         <artifactId>jxl</artifactId>
         <version>${net.sourceforge.jexcelapi.version}</version>
       </dependency>
+      
+      <!-- Dozer dependency -->
+	  <dependency>
+	    <groupId>net.sf.dozer</groupId>
+	    <artifactId>dozer</artifactId>
+	    <version>${dozer.version}</version>
+	  </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>

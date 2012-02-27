@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.AmountInfo</class-b>
+		<field><a>unitQuantity</a><b>unitQuantity</b></field><field>
+			<a>unitType</a>
+			<b>unitTypeKey</b>
+		</field>
+	</mapping>
+	
+</mappings>
