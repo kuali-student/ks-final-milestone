@@ -26,6 +26,13 @@ import org.kuali.student.lum.lrc.entity.Scale;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.common.search.service.SearchService;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.Validator;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
@@ -54,7 +61,7 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(endpointInterface = "org.kuali.student.lum.lrc.service.LrcService", serviceName = "LrcService", portName = "LrcService", targetNamespace = "http://student.kuali.org/wsdl/lrc")
 public class LrcServiceImpl implements LRCService {
 	private LrcDao lrcDao;
-// TODO KSCM    private SearchManager searchManager;
+    private SearchManager searchManager;
     private DictionaryService dictionaryServiceDelegate;
     private ValidatorFactory validatorFactory;
     
@@ -441,90 +448,85 @@ public class LrcServiceImpl implements LRCService {
         }
     }
 
-//	@Override
-//	public SearchCriteriaTypeInfo getSearchCriteriaType(
-//			String searchCriteriaTypeKey) throws DoesNotExistException,
-//			InvalidParameterException, MissingParameterException,
-//			OperationFailedException {
-//
-//		// TODO KSCM		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
-//		return null;
-//	}
+	@Override
+	public SearchCriteriaTypeInfo getSearchCriteriaType(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
 
-//	@Override
-//	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
-//			throws OperationFailedException {
-//		// TODO KSCM return searchManager.getSearchCriteriaTypes();
-//		return null;
-//	}
+	 	return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		
+	}
 
-//	@Override
-//	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
-//			throws DoesNotExistException, InvalidParameterException,
-//			MissingParameterException, OperationFailedException {
-//		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-//		// TODO KSCM return searchManager.getSearchResultType(searchResultTypeKey);
-//		return null;
-//	}
+	@Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+			throws OperationFailedException {
+		// TODO KSCM return searchManager.getSearchCriteriaTypes();
+		return null;
+	}
 
-//	@Override
-//	public List<SearchResultTypeInfo> getSearchResultTypes()
-//			throws OperationFailedException {
-//		// TODO KSCM return searchManager.getSearchResultTypes();
-//		return null;
-//	}
+	@Override
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+		// TODO KSCM return searchManager.getSearchResultType(searchResultTypeKey);
+		return null;
+	}
 
-//	@Override
-//	public SearchTypeInfo getSearchType(String searchTypeKey)
-//			throws DoesNotExistException, InvalidParameterException,
-//			MissingParameterException, OperationFailedException {
-//		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-//		// TODO KSCM return searchManager.getSearchType(searchTypeKey);
-//		return null;
-//	}
+	@Override
+	public List<SearchResultTypeInfo> getSearchResultTypes()
+			throws OperationFailedException {
+		// TODO KSCM return searchManager.getSearchResultTypes();
+		return null;
+	}
 
-//	@Override
-//	public List<SearchTypeInfo> getSearchTypes()
-//			throws OperationFailedException {
-//		// TODO KSCM return searchManager.getSearchTypes();
-//		return null;
-//	}
+	@Override
+	public SearchTypeInfo getSearchType(String searchTypeKey)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
+		checkForMissingParameter(searchTypeKey, "searchTypeKey");
+		// TODO KSCM return searchManager.getSearchType(searchTypeKey);
+		return null;
+	}
 
-//	@Override
-//	public List<SearchTypeInfo> getSearchTypesByCriteria(
-//			String searchCriteriaTypeKey) throws DoesNotExistException,
-//			InvalidParameterException, MissingParameterException,
-//			OperationFailedException {
-//		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-//		// TODO KSCM return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
-//		return null;
-//	}
+	@Override
+	public List<SearchTypeInfo> getSearchTypes()
+			throws OperationFailedException {
+		// TODO KSCM return searchManager.getSearchTypes();
+		return null;
+	}
 
-//	@Override
-//	public List<SearchTypeInfo> getSearchTypesByResult(
-//			String searchResultTypeKey) throws DoesNotExistException,
-//			InvalidParameterException, MissingParameterException,
-//			OperationFailedException {
-//		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-//	//	 TODO KSCM return searchManager.getSearchTypesByResult(searchResultTypeKey);
-//		return null;
-//	}
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByCriteria(
+			String searchCriteriaTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
+		// TODO KSCM return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return null;
+	}
 
-//	public SearchManager getSearchManager() {
+	@Override
+	public List<SearchTypeInfo> getSearchTypesByResult(
+			String searchResultTypeKey) throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException {
+		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
+	//	 TODO KSCM return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return null;
+	}
+
+	public SearchManager getSearchManager() {
 		// TODO KSCM return searchManager;
-//		return null;
-//	}
+		return null;
+	}
 
-//	public void setSearchManager(SearchManager searchManager) {
+	public void setSearchManager(SearchManager searchManager) {
 		// TODO KSCM this.searchManager = searchManager;
-//	}
+	}
 
-//	@Override
-//	public SearchResultInfo search(SearchRequestInfo searchRequest) throws MissingParameterException {
-//        checkForMissingParameter(searchRequest, "searchRequest");
-//     // TODO KSCM return searchManager.search(searchRequest, lrcDao);
-//        return null;
-//	}
+
 
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
@@ -689,5 +691,13 @@ public class LrcServiceImpl implements LRCService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
 		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+	}
+
+	//TODO KSCM 
+	@Override
+	public SearchResult search(SearchRequest searchRequest)
+			throws MissingParameterException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
