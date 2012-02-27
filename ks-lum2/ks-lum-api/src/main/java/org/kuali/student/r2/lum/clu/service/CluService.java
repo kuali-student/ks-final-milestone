@@ -1908,4 +1908,7 @@ public interface CluService extends VersionManagementService {
     public StatusInfo removeCluFromCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException;
 //TODO KSCM - This method was need to fix  MajorDisciplineProposalRpcServlet 
 	public SearchResult search(SearchRequest request, ContextInfo contextInfo);
+
+	public List<String> getRelatedCluIdsByCluId(@WebParam(name = "id")String id,
+			@WebParam(name = "hasProgramRequirement")String hasProgramRequirement, @WebParam(name = "contextInfo")ContextInfo contextInfo);
 }
