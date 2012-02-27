@@ -46,8 +46,8 @@ import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.transaction.annotation.Transactional;
 
 @Transactional(readOnly=true,rollbackFor={Throwable.class})
@@ -67,7 +67,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 //    public static final String CREDIT_COURSE_PROPOSAL_DATA_TYPE = "CreditCourseProposal";
     public static final String CLUSET_DATA_TYPE = "cluset";
 
-    private LuService luService;
+    private CluService cluService;
     private MetadataServiceImpl metadataService;
 
     public MetadataServiceImpl getMetadataService() {
@@ -104,12 +104,12 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
     public CluSetInfo getCluSetInfo(String cluSetId) throws Exception {
         List<String> cluIds = null;
         CluSetInfo cluSetInfo = null;
-        // note: the cluIds returned by luService.getCluSetInfo also contains the clus
+        // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
         //       that are the result of query parameter search.  Set to null here and
         //       retrieve the clus that are direct members.
-        cluSetInfo = luService.getCluSetInfo(cluSetId, ContextUtils.getContextInfo());
+        cluSetInfo = cluService.getCluSetInfo(cluSetId, ContextUtils.getContextInfo());
         cluSetInfo.setCluIds(null);
-        cluIds = luService.getCluIdsFromCluSet(cluSetId, ContextUtils.getContextInfo());
+        cluIds = cluService.getCluIdsFromCluSet(cluSetId, ContextUtils.getContextInfo());
         cluSetInfo.setCluIds(cluIds);
         upWrap(cluSetInfo);
         return cluSetInfo;
@@ -177,7 +177,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
         try {
             if (cluSetIds != null && !cluSetIds.isEmpty()) {
-                subCluSets = luService.getCluSetInfoByIdList(cluSetIds, ContextUtils.getContextInfo());
+                subCluSets = cluService.getCluSetInfoByIdList(cluSetIds, ContextUtils.getContextInfo());
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -244,7 +244,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                     if (wrapperCluSet.getType() == null) {
                 	    wrapperCluSet.setType("kuali.cluSet.type.CreditCourse");
                     }
-                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
+                    wrapperCluSet = cluService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
                     throw new AssemblyException(e);
@@ -258,7 +258,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setMembershipQuery(mqInfo);
                 cluSetInfo.setMembershipQuery(null);
                 try {
-                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
+                    wrapperCluSet = cluService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
                     throw new AssemblyException(e);
@@ -312,7 +312,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
-                updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
+                updatedCluSetInfo = cluService.updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
             } catch (Exception e) {
             	LOG.error("Failed to update cluset",e);
                 throw new AssemblyException(e);
@@ -322,7 +322,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 if (cluSetInfo.getType() == null) {
                     cluSetInfo.setType("kuali.cluSet.type.CreditCourse");
                 }
-                updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo, ContextUtils.getContextInfo());
+                updatedCluSetInfo = cluService.createCluSet(cluSetInfo.getType(), cluSetInfo, ContextUtils.getContextInfo());
             } catch (Exception e) {
                 LOG.error("Failed to create cluset",e);
                 throw new AssemblyException(e);
@@ -352,7 +352,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         sr.setSearchKey(query.getSearchTypeKey());
         sr.setParams(query.getQueryParamValueList());
 
-        SearchResult result = luService.search(sr, ContextUtils.getContextInfo());
+        SearchResult result = cluService.search(sr, ContextUtils.getContextInfo());
 
         List<String> cluIds = new ArrayList<String>();
         List<SearchResultRow> rows = result.getRows();
@@ -376,8 +376,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             if (cluSetInfo.getCluIds() != null && !cluSetInfo.getCluIds().isEmpty()) {
             	List<CluInfo> cluInfos = new ArrayList<CluInfo>();
             	for(String id:cluSetInfo.getCluIds()){
-            		VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, id, ContextUtils.getContextInfo());
-            		cluInfos.add(luService.getClu(versionInfo.getId(), ContextUtils.getContextInfo()));
+            		VersionDisplayInfo versionInfo = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, id, ContextUtils.getContextInfo());
+            		cluInfos.add(cluService.getClu(versionInfo.getId(), ContextUtils.getContextInfo()));
             	}
                 result.setApprovedClus(new Data());
                 for (CluInfo cluInfo : cluInfos) {
@@ -502,12 +502,12 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         throw new UnsupportedOperationException("Data disassembly not supported");
     }
 
-    public LuService getLuService() {
-        return luService;
+    public CluService getCluService() {
+        return cluService;
     }
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setCluService(CluService cluService) {
+        this.cluService = cluService;
     }
 
 	@Override

@@ -36,10 +36,10 @@ import org.kuali.student.lum.common.client.widgets.CluInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetInformation;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
 import org.kuali.student.r2.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
+import org.kuali.student.r2.lum.lrc.service.LRCService;
 import org.kuali.student.r2.lum.clu.dto.*;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 
 import org.apache.log4j.Logger;
 
@@ -50,22 +50,22 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 
 	private static final long serialVersionUID = 1L;
 	final static Logger LOG = Logger.getLogger(CluSetManagementRpcGwtServlet.class);
-	private LuService luService;
-	private LrcService lrcService;
+	private CluService cluService;
+	private LRCService lrcService;
     
-	public LuService getLuService() {
-        return luService;
+	public CluService getLuService() {
+        return cluService;
     }
 
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setLuService(CluService cluService) {
+        this.cluService = cluService;
     }
 
-    public LrcService getLrcService() {
+    public LRCService getLRCService() {
         return lrcService;
     }
 
-    public void setLrcService(LrcService lrcService) {
+    public void setLRCService(LRCService lrcService) {
         this.lrcService = lrcService;
     }
     
@@ -95,14 +95,14 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         List<String> cluIds = null;
         CluSetInfo cluSetInfo = null;
         try {
-            // note: the cluIds returned by luService.getCluSetInfo also contains the clus
+            // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
             //       that are the result of query parameter search.  Set to null here and
             //       retrieve the clus that are direct members.
             //TODO KSCM - Correct ContextInfo parameter?
-            cluSetInfo = luService.getCluSetInfo(cluSetId, contextInfo);
+            cluSetInfo = cluService.getCluSetInfo(cluSetId, contextInfo);
             cluSetInfo.setCluIds(null);
             //TODO KSCM - Correct ContextInfo parameter?
-            cluIds = luService.getCluIdsFromCluSet(cluSetId, contextInfo);
+            cluIds = cluService.getCluIdsFromCluSet(cluSetId, contextInfo);
             cluSetInfo.setCluIds(cluIds);
             //TODO KSCM - Correct ContextInfo parameter?
             upWrap(cluSetInfo, contextInfo);
@@ -133,7 +133,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         try {
             if (cluSetIds != null && !cluSetIds.isEmpty()) {
                 //TODO KSCM - Correct ContextInfo parameter?
-                subCluSets = luService.getCluSetInfoByIdList(cluSetIds, contextInfo);
+                subCluSets = cluService.getCluSetInfoByIdList(cluSetIds, contextInfo);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -174,15 +174,15 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             for (String cluId : cluIds) {
                 try {
                     //TODO KSCM - Correct ContextInfo parameter?
-                	VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
+                	VersionDisplayInfo versionInfo = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
                 	//TODO KSCM - Correct ContextInfo parameter?
-                	CluInfo cluInfo = luService.getClu(versionInfo.getId(), contextInfo);
+                	CluInfo cluInfo = cluService.getClu(versionInfo.getId(), contextInfo);
                     if (cluInfo != null) {
 
                         //retrieve credits
                         String credits = "";
                         //TODO KSCM - Correct ContextInfo parameter?
-                        List<CluResultInfo> cluResultInfos = luService.getCluResultByClu(versionInfo.getId(), contextInfo);
+                        List<CluResultInfo> cluResultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
                         if (cluResultInfos != null) {
                             for (CluResultInfo cluResultInfo : cluResultInfos) {
                                 String cluType = cluResultInfo.getType();
@@ -240,7 +240,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                         //If the clu type is variation, get the parent clu id. 
                         if ("kuali.lu.type.Variation".equals(cluInfo.getType())){
                             //TODO KSCM - Correct ContextInfo parameter?
-                            List<String> clus = luService.getCluIdsByRelation(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
+                            List<String> clus = cluService.getCluIdsByRelation(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
                             if (clus == null || clus.size() == 0){ 
                                 throw new RuntimeException("Statement Dependency clu found, but no parent Program exists"); 
                             } else if(clus.size()>1){ 
@@ -285,7 +285,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             SearchResult searchResult = null;
             try {
                 //TODO KSCM - Correct ContextInfo parameter?
-                searchResult = luService.search(searchRequest, contextInfo);
+                searchResult = cluService.search(searchRequest, contextInfo);
             } catch (Exception e) {
                 throw new OperationFailedException("Failed to search for clus in clu range", e);
             }

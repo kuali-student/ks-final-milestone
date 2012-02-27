@@ -49,7 +49,6 @@ import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
-import org.kuali.student.core.type.dto.TypeInfo;
 
 public class StatementServiceMock implements StatementService {
 
