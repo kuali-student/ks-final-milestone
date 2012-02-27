@@ -23,8 +23,8 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.server.gwt.AbstractDataService;
@@ -36,9 +36,9 @@ import org.kuali.student.r2.lum.course.dto.CourseInfo;
 import org.kuali.student.r2.lum.course.service.CourseService;
 import org.kuali.student.r2.lum.util.constants.CourseServiceConstants;
 import org.kuali.student.r1.lum.lu.LUConstants;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.lu.service.LuServiceConstants;
-import org.kuali.student.lum.program.service.ProgramServiceConstants;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
+import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.springframework.util.StringUtils;
 
 public class CourseDataService extends AbstractDataService {
@@ -49,7 +49,7 @@ public class CourseDataService extends AbstractDataService {
 	private static final String DEFAULT_METADATA_STATE = DtoConstants.STATE_DRAFT;
 	
 	private CourseService courseService;
-	private LuService luService;
+	private CluService cluService;
 
 	@Override
 	protected Object get(String id, ContextInfo contextInfo) throws Exception {
@@ -177,7 +177,7 @@ public class CourseDataService extends AbstractDataService {
 	}
 	
 	public Boolean isLatestVersion(String versionIndId, ContextInfo contextInfo) throws Exception {
-	    VersionDisplayInfo currentVersion = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, versionIndId, contextInfo);
+	    VersionDisplayInfo currentVersion = luService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, versionIndId, contextInfo);
         //Perform a search to see if there are any new versions of the course that are approved, draft, etc.
         //We don't want to version if there are
         SearchRequest request = new SearchRequest("lu.search.isVersionable");

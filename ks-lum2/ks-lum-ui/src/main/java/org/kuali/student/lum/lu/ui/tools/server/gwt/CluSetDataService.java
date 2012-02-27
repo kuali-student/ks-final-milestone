@@ -13,16 +13,16 @@ import org.kuali.student.common.assembly.old.data.SaveResult;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
 import org.kuali.student.common.assembly.transform.TransformFilter;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.server.gwt.DataService;
-import org.kuali.student.common.ui.shared.IdAttributes;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.ui.server.gwt.DataService;
+import org.kuali.student.r1.common.ui.shared.IdAttributes;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 public class CluSetDataService  implements DataService{
 

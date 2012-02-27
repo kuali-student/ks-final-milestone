@@ -22,7 +22,7 @@ import java.util.List;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
