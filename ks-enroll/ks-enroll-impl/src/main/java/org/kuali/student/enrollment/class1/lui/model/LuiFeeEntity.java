@@ -1,20 +1,29 @@
 package org.kuali.student.enrollment.class1.lui.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.enrollment.lui.infc.Lui;
+import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
+import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.common.infc.RichText;
 import org.kuali.student.r2.lum.clu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.infc.Fee;
 
 @Entity
 @Table(name = "KSEN_LUI_FEE")
-public class LuiFeeEntity extends MetaEntity {
+public class LuiFeeEntity extends MetaEntity implements AttributeOwner<LuiFeeAttributeEntity> {
 
     @Column(name = "FEE_TYPE")
     private String feeType;
@@ -35,10 +44,32 @@ public class LuiFeeEntity extends MetaEntity {
     @JoinColumn(name = "LUI_ID")
     private LuiEntity lui;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
+    private List<LuiFeeAttributeEntity> attributes;
+
     public LuiFeeEntity() {}
 
-    public LuiFeeEntity(Lui lui) {
+    public LuiFeeEntity(Fee fee) {
+        super(fee);
+        this.setFeeKey(fee.getKey());
+        this.setFeeType(fee.getFeeType());
+        this.setRateType(fee.getRateType());
 
+        // Description
+        if (fee.getDescr() != null) {
+            RichText rt = fee.getDescr();
+            this.setFormatted(rt.getFormatted());
+            this.setPlain(rt.getPlain());
+        }
+
+        // Attributes
+        this.setAttributes(new ArrayList<LuiFeeAttributeEntity>());
+        if (null != fee.getAttributes()) {
+            for (Attribute att : fee.getAttributes()) {
+                LuiFeeAttributeEntity attEntity = new LuiFeeAttributeEntity(att);
+                this.getAttributes().add(attEntity);
+            }
+        }
     }
 
     public String getFeeType() {
@@ -92,18 +123,38 @@ public class LuiFeeEntity extends MetaEntity {
     public FeeInfo toDto() {
         FeeInfo obj = new FeeInfo();
         obj.setId(this.getId());
+        //if(lui!=null)
+        //    obj.setLuiId(lui.getId());
         obj.setFeeType(this.getFeeType());
         obj.setRateType(this.getRateType());
-        //TODO: obj.setFeeAmounts(feeAmounts)
-        
+        // TODO: obj.setFeeAmounts(feeAmounts)
+
         RichTextInfo rtInfo = new RichTextInfo();
         rtInfo.setFormatted(this.getFormatted());
         rtInfo.setPlain(this.getPlain());
         obj.setDescr(rtInfo);
+
+        // Attributes
+        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
+        for (LuiFeeAttributeEntity att : getAttributes()) {
+            AttributeInfo attInfo = att.toDto();
+            atts.add(attInfo);
+        }
+        obj.setAttributes(atts);
         
-        //TODO: attributes
-        
+        obj.setMeta(super.toDTO());
+
         return obj;
 
+    }
+
+    @Override
+    public void setAttributes(List<LuiFeeAttributeEntity> attributes) {
+        this.attributes = attributes;
+    }
+
+    @Override
+    public List<LuiFeeAttributeEntity> getAttributes() {
+        return attributes;
     }
 }

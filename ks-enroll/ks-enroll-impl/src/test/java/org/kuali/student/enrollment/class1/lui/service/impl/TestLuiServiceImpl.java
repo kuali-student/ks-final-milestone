@@ -14,11 +14,11 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -32,6 +32,9 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
+import org.kuali.student.r2.lum.clu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -77,7 +80,7 @@ public class TestLuiServiceImpl {
 
             assertEquals("Lui Desc 101", obj.getDescr().getPlain());
 
-            //assertNotNull(obj.getOfficialIdentifier());
+            // assertNotNull(obj.getOfficialIdentifier());
             assertEquals("Chem 123", obj.getOfficialIdentifier().getShortName());
             // assertNotNull(obj.getAlternateIdentifiers());
 
@@ -167,16 +170,49 @@ public class TestLuiServiceImpl {
         info.setCluId("testCluId");
         info.setAtpId("testAtpId1");
 
-        List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
-        OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-        instructor.setId("LUI-INSTR-Test-1");
-        instructor.setPersonId("Pers-2");
-        instructor.setPercentageEffort((float) 100);
-        instructors.add(instructor);
+        //List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
+        //OfferingInstructorInfo instructor = new OfferingInstructorInfo();
+        //instructor.setId("LUI-INSTR-Test-1");
+        //instructor.setPersonId("Pers-2");
+        //instructor.setPercentageEffort((float) 100);
+        //instructors.add(instructor);
         // info.setInstructors(instructors);
+        
+        List<String> cluCluRelationIds = new ArrayList<String>();
+        cluCluRelationIds.add("CluClu-2");
+        info.setCluCluRelationIds(cluCluRelationIds);
+        
+        List<String> unitsContentOwner = new ArrayList<String>();
+        unitsContentOwner.add("Org-2");
+        info.setUnitsContentOwner(unitsContentOwner);
+        
+        List<String> unitsDeployment = new ArrayList<String>();
+        unitsDeployment.add("Org-1");
+        info.setUnitsDeployment(unitsDeployment);
+        
+        List<String> resultValueGroupKeys = new ArrayList<String>();
+        resultValueGroupKeys.add("Val-Group-3");
+        info.setResultValuesGroupKeys(resultValueGroupKeys);
+        
+        List<FeeInfo> fees = new ArrayList<FeeInfo>();
+        FeeInfo fee = new FeeInfo();
+        fees.add(fee);
+        info.setFees(fees);
+        
+        List<RevenueInfo> revenues = new ArrayList<RevenueInfo>();
+        RevenueInfo revenue = new RevenueInfo();
+        revenues.add(revenue);
+        info.setRevenues(revenues);
+        
+        ExpenditureInfo expenditure = new ExpenditureInfo();
+        info.setExpenditure(expenditure);
+        
+        List<MeetingScheduleInfo> meetingSchedules = new ArrayList<MeetingScheduleInfo>();
+        MeetingScheduleInfo meetingSchedule = new MeetingScheduleInfo();
+        meetingSchedules.add(meetingSchedule);
+        info.setMeetingSchedules(meetingSchedules);
 
         LuiInfo created = null;
-        // try{
         created = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
         assertNotNull(created);
         assertEquals("Test lui one", created.getName());
@@ -186,6 +222,16 @@ public class TestLuiServiceImpl {
         assertEquals(Integer.valueOf(10), created.getMinimumEnrollment());
         assertEquals("testCluId", created.getCluId());
         assertEquals("testAtpId1", created.getAtpId());
+        
+        assertTrue(created.getCluCluRelationIds().contains("CluClu-2"));
+        assertTrue(created.getUnitsContentOwner().contains("Org-2"));
+        assertTrue(created.getUnitsDeployment().contains("Org-1"));
+        assertTrue(created.getResultValuesGroupKeys().contains("Val-Group-3"));
+        
+        //assertEquals(1, created.getFees().size());
+        //assertEquals(1, created.getRevenues().size());
+        //assertNotNull(created.getExpenditure().getId());
+        //assertEquals(1, created.getMeetingSchedules().size());
 
         try {
             LuiInfo retrieved = luiServiceValidation.getLui(created.getId(), callContext);
@@ -213,20 +259,20 @@ public class TestLuiServiceImpl {
         modified.setStateKey(LuiServiceConstants.LUI_APROVED_STATE_KEY);
         modified.setMaximumEnrollment(25);
         modified.setMinimumEnrollment(10);
-        // assertNotNull(modified.getOfficialIdentifier());
-        // modified.getOfficialIdentifier().setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
-        // modified.getOfficialIdentifier().setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        assertNotNull(modified.getOfficialIdentifier());
+        modified.getOfficialIdentifier().setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        modified.getOfficialIdentifier().setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
 
-        //try {
-       //     LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);
-        //    assertNotNull(updated);
-        //    assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, updated.getStateKey());
-        //    assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, updated.getTypeKey());
-        //    assertEquals(Integer.valueOf(25), updated.getMaximumEnrollment());
-        //    assertEquals(Integer.valueOf(10), updated.getMinimumEnrollment());
-        //} catch (Exception e) {
-        //    fail(e.getMessage());
-       // }
+        try {
+            LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);
+            assertNotNull(updated);
+            assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, updated.getStateKey());
+            assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, updated.getTypeKey());
+            assertEquals(Integer.valueOf(25), updated.getMaximumEnrollment());
+            assertEquals(Integer.valueOf(10), updated.getMinimumEnrollment());
+        } catch (Exception e) {
+            fail(e.getMessage());
+        }
 
     }
 
@@ -238,6 +284,7 @@ public class TestLuiServiceImpl {
         luiServiceValidation.updateLuiLuiRelation(info.getId(), info, callContext);
         assertEquals(info.getStateKey(), LuiServiceConstants.LUI_LUI_RELATION_INACTIVE_STATE_KEY);
     }
+
     @Test
     public void testGetLuiLuiRelation() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
         try {

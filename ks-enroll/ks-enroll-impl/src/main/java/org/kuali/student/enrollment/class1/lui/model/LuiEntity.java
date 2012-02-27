@@ -130,7 +130,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
                 this.setDescrFormatted(rt.getFormatted());
                 this.setDescrPlain(rt.getPlain());
             }
-
+            
             // Lui Identifiers
             this.setIdentifiers(new ArrayList<LuiIdentifierEntity>());
             if (lui.getOfficialIdentifier() != null)
@@ -264,7 +264,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
         // CluClu Relations
         List<String> cluCluRelationIds = new ArrayList<String>();
-        if (null != this.getUnitsContOwners()) {
+        if (null != this.getCluCluReltns()) {
             for (LuiCluCluRelationEntity luCluCluRelation : this.getCluCluReltns()) {
                 cluCluRelationIds.add(luCluCluRelation.getClucluRelationId());
             }
@@ -273,7 +273,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
         // Units Deployments
         List<String> unitsDeploymentIds = new ArrayList<String>();
-        if (null != this.getUnitsContOwners()) {
+        if (null != this.getUnitsDeployments()) {
             for (LuiUnitsDeploymentEntity unitDeployment : this.getUnitsDeployments()) {
                 unitsDeploymentIds.add(unitDeployment.getOrgId());
             }
@@ -282,8 +282,8 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
         // Units Content Owners
         List<String> unitsContentOwnerIds = new ArrayList<String>();
-        if (null != this.getUnitsContOwners()) {
-            for (LuiUnitsContentOwnerEntity unitContentOwner : this.getUnitsContOwners()) {
+        if (null != this.getUnitsContentOwners()) {
+            for (LuiUnitsContentOwnerEntity unitContentOwner : this.getUnitsContentOwners()) {
                 unitsContentOwnerIds.add(unitContentOwner.getOrgId());
             }
         }
@@ -485,14 +485,6 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
 
     public void setUnitsDeployments(List<LuiUnitsDeploymentEntity> unitsDeployments) {
         this.unitsDeployments = unitsDeployments;
-    }
-
-    public List<LuiUnitsContentOwnerEntity> getUnitsContOwners() {
-        return unitsContentOwners;
-    }
-
-    public void setUnitsContOwners(List<LuiUnitsContentOwnerEntity> unitsContOwners) {
-        this.unitsContentOwners = unitsContOwners;
     }
 
     public List<LuiResultValuesGroupRelationEntity> getResultValuesGroupRelationEntities() {
