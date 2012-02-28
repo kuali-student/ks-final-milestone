@@ -33,7 +33,7 @@ import javax.persistence.NoResultException;
 import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.dictionary.service.DictionaryService;
-import org.kuali.student.r1.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.DtoConstants;
@@ -65,10 +65,10 @@ import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchManager;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r1.common.validator.Validator;
 import org.kuali.student.r1.common.validator.ValidatorFactory;
-import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
 import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
@@ -184,6 +184,7 @@ public class LuServiceImpl implements CluService {
 	 * SETUP OPERATION *
 	 **************************************************************************/
 
+	/* TODO KSCM
 	@Override
 	public List<DeliveryMethodTypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		return LuServiceAssembler.toDeliveryMethodTypeInfos(luDao
@@ -253,7 +254,7 @@ public class LuServiceImpl implements CluService {
 		LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class,
 		        cluCluRelationTypeKey);
 		return LuServiceAssembler.toLuLuRelationTypeInfo(luLuRelationType);
-	}
+	}*/
 
 	@Override
 	public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey, String relatedLuTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -264,6 +265,7 @@ public class LuServiceImpl implements CluService {
 				relatedLuTypeKey);
 	}
 
+	/* TODO KSCM
 	@Override
 	public List<LuPublicationTypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		return LuServiceAssembler.toLuPublicationTypeInfos(luDao
@@ -276,13 +278,14 @@ public class LuServiceImpl implements CluService {
 
 		return LuServiceAssembler.toLuPublicationTypeInfo(luDao.fetch(
 				LuPublicationType.class, luPublicationTypeKey));
-	}
+	}*/
 
 	@Override
 	public List<String> getLuPublicationTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		throw new UnsupportedOperationException("getLuPublicationTypesForLuType");
 	}
 
+	/* TODO KSCM
 	@Override
 	public List<CluResultTypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		return LuServiceAssembler.toCluResultTypeInfos(luDao
@@ -313,7 +316,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(resultUsageTypeKey, "resultUsageTypeKey");
 		return LuServiceAssembler.toResultUsageTypeInfo(luDao.fetch(
 				ResultUsageType.class, resultUsageTypeKey));
-	}
+	}*/
 
 	@Override
 	public List<String> getAllowedResultUsageTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -331,6 +334,7 @@ public class LuServiceImpl implements CluService {
 				.getAllowedResultComponentTypesForResultUsageType(resultUsageTypeKey);
 	}
 
+	/* TODO KSCM
 	@Override
 	public CluLoRelationTypeInfo getCluLoRelationType(String cluLoRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluLoRelationTypeKey, "cluLoRelationTypeKey");
@@ -338,13 +342,14 @@ public class LuServiceImpl implements CluService {
 		CluLoRelationType cluLoRelationType = luDao.fetch(
 				CluLoRelationType.class, cluLoRelationTypeKey);
 		return LuServiceAssembler.toCluLoRelationTypeInfo(cluLoRelationType);
-	}
+	}*/
 
+	/* TODO KSCM
 	@Override
 	public List<CluLoRelationTypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		return LuServiceAssembler.toCluLoRelationTypeInfos(luDao
 				.find(CluLoRelationType.class));
-	}
+	}*/
 
 	@Override
 	public List<String> getAllowedCluLoRelationTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -354,18 +359,20 @@ public class LuServiceImpl implements CluService {
 		return luDao.getAllowedCluLoRelationTypesForLuType(luTypeKey);
 	}
 
+	/* TODO KSCM
 	@Override
 	public List<CluSetTypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		return LuServiceAssembler.toCluSetTypeInfos(luDao
 				.find(CluSetType.class));
-	}
+	}*/
 
+	/* TODO KSCM
 	@Override
 	public CluSetTypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetTypeKey, "cluSetTypeKey");
 		return LuServiceAssembler.toCluSetTypeInfo(luDao.fetch(
 				CluSetType.class, cluSetTypeKey));
-	}
+	}*/
 
 	/**************************************************************************
 	 * READ OPERATION *
@@ -830,7 +837,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationTypeKey, "validationType");
 		checkForMissingParameter(cluInfo, "cluInfo");
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure);
         
@@ -860,9 +867,8 @@ public class LuServiceImpl implements CluService {
 
 		// Validate CLU
 		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, contextInfo);
-		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		Clu clu = new Clu();
@@ -875,10 +881,10 @@ public class LuServiceImpl implements CluService {
 		}
 		clu.setAlternateIdentifiers(LuServiceAssembler.createAlternateIdentifiers(cluInfo, luDao));
 		if (cluInfo.getDescr() != null) {
-		    LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, cluInfo.getDescr());
-		    if (descr.getPlain() != null || descr.getFormatted() != null) {
-		        clu.setDescr(descr);
-		    }
+		    // TODO KSCM LuRichText descr = LuServiceAssembler.toRichText(LuRichText.class, cluInfo.getDescr());
+		    //if (descr.getPlain() != null || descr.getFormatted() != null) {
+		    //    clu.setDescr(descr);
+		    //}
 		}
 
 		if (clu.getAdminOrgs() == null) {
@@ -889,9 +895,9 @@ public class LuServiceImpl implements CluService {
 			CluAdminOrg instructor = new CluAdminOrg();
 			BeanUtils.copyProperties(orgInfo, instructor,
 					new String[] { "attributes" });
-			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
-					instructor, luDao));
+			// TODO KSCM instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		CluAdminOrgAttribute.class, orgInfo.getAttributes(),
+			//		instructor, luDao));
 			instructor.setClu(clu);
 			adminOrgs.add(instructor);
 		}
@@ -900,10 +906,10 @@ public class LuServiceImpl implements CluService {
 			CluInstructor primaryInstructor = new CluInstructor();
 			BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),
 					primaryInstructor, new String[] { "attributes" });
-			primaryInstructor.setAttributes(LuServiceAssembler
-					.toGenericAttributes(CluInstructorAttribute.class, cluInfo
-							.getPrimaryInstructor().getAttributes(),
-							primaryInstructor, luDao));
+			// TODO KSCM primaryInstructor.setAttributes(LuServiceAssembler
+			//		.toGenericAttributes(CluInstructorAttribute.class, cluInfo
+			//				.getPrimaryInstructor().getAttributes(),
+			//				primaryInstructor, luDao));
 			clu.setPrimaryInstructor(primaryInstructor);
 		}
 
@@ -915,9 +921,9 @@ public class LuServiceImpl implements CluService {
 			CluInstructor instructor = new CluInstructor();
 			BeanUtils.copyProperties(instructorInfo, instructor,
 					new String[] { "attributes" });
-			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluInstructorAttribute.class, instructorInfo
-							.getAttributes(), instructor, luDao));
+			// TODO KSCM instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		CluInstructorAttribute.class, instructorInfo
+			//				.getAttributes(), instructor, luDao));
 			instructors.add(instructor);
 		}
 
@@ -932,9 +938,9 @@ public class LuServiceImpl implements CluService {
 		List<LuCode> luCodes = clu.getLuCodes();
 		for (LuCodeInfo luCodeInfo : cluInfo.getLuCodes()) {
 			LuCode luCode = new LuCode();
-			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(
-					LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
-					luDao));
+			// TODO KSCM luCode.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
+			//		luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
 			luCode.setDescr(luCodeInfo.getDescr());
@@ -967,9 +973,9 @@ public class LuServiceImpl implements CluService {
 
 		if (cluInfo.getAccountingInfo() != null) {
 			CluAccounting cluAccounting = new CluAccounting();
-			cluAccounting.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluAccountingAttribute.class, cluInfo.getAccountingInfo()
-							.getAttributes(), cluAccounting, luDao));
+			// TODO KSCM cluAccounting.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		CluAccountingAttribute.class, cluInfo.getAccountingInfo()
+			//				.getAttributes(), cluAccounting, luDao));
 			cluAccounting.setAffiliatedOrgs(LuServiceAssembler
 					.toAffiliatedOrgs(false, cluAccounting.getAffiliatedOrgs(),
 							cluInfo.getAccountingInfo().getAffiliatedOrgs(),
@@ -977,8 +983,8 @@ public class LuServiceImpl implements CluService {
 			clu.setAccounting(cluAccounting);
 		}
 
-		clu.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
+		// TODO KSCM clu.setAttributes(LuServiceAssembler.toGenericAttributes(
+		//		CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
 
 
 		if (cluInfo.getIntensity() != null) {
@@ -1005,9 +1011,9 @@ public class LuServiceImpl implements CluService {
 			CluAccreditation accreditation = new CluAccreditation();
 			BeanUtils.copyProperties(accreditationInfo, accreditation,
 					new String[] { "attributes" });
-			accreditation.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluAccreditationAttribute.class, accreditationInfo
-							.getAttributes(), accreditation, luDao));
+			// TODO KSCM accreditation.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		CluAccreditationAttribute.class, accreditationInfo
+			//				.getAttributes(), accreditation, luDao));
 			accreditations.add(accreditation);
 		}
 		
@@ -1032,9 +1038,8 @@ public class LuServiceImpl implements CluService {
 
 		// Validate CLU
 		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, contextInfo);
-		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val); 
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+			throw new DataValidationErrorException("Validation error!", val);
 		}
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
@@ -1080,11 +1085,11 @@ public class LuServiceImpl implements CluService {
 			}
 			BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(), clu
 					.getPrimaryInstructor(), new String[] { "attributes" });
-			clu.getPrimaryInstructor().setAttributes(
-					LuServiceAssembler.toGenericAttributes(
-							CluInstructorAttribute.class, cluInfo
-									.getPrimaryInstructor().getAttributes(),
-							clu.getPrimaryInstructor(), luDao));
+			// TODO KSCM clu.getPrimaryInstructor().setAttributes(
+			//		LuServiceAssembler.toGenericAttributes(
+			//				CluInstructorAttribute.class, cluInfo
+			//						.getPrimaryInstructor().getAttributes(),
+			//				clu.getPrimaryInstructor(), luDao));
 		} else if (clu.getPrimaryInstructor() != null) {
 			luDao.delete(clu.getPrimaryInstructor());
 		}
@@ -1112,9 +1117,9 @@ public class LuServiceImpl implements CluService {
 			// Do Copy
 			BeanUtils.copyProperties(instructorInfo, cluInstructor,
 					new String[] { "attributes" });
-			cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluInstructorAttribute.class, instructorInfo
-							.getAttributes(), cluInstructor, luDao));
+			// TODO KSCM cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		CluInstructorAttribute.class, instructorInfo
+			//				.getAttributes(), cluInstructor, luDao));
 			clu.getInstructors().add(cluInstructor);
 		}
 
@@ -1157,9 +1162,9 @@ public class LuServiceImpl implements CluService {
 				}
 			}
 			// Do Copy
-			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(
-					LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
-					luDao));
+			// TODO KSCM luCode.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
+			//		luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
 			luCode.setDescr(luCodeInfo.getDescr());
@@ -1220,11 +1225,11 @@ public class LuServiceImpl implements CluService {
 			if (clu.getAccounting() == null) {
 				clu.setAccounting(new CluAccounting());
 			}
-			clu.getAccounting().setAttributes(
-					LuServiceAssembler.toGenericAttributes(
-							CluAccountingAttribute.class, cluInfo
-									.getAccountingInfo().getAttributes(), clu
-									.getAccounting(), luDao));
+			// TODO KSCM clu.getAccounting().setAttributes(
+			//		LuServiceAssembler.toGenericAttributes(
+			//				CluAccountingAttribute.class, cluInfo
+			//						.getAccountingInfo().getAttributes(), clu
+			//						.getAccounting(), luDao));
 			clu.getAccounting().setAffiliatedOrgs(LuServiceAssembler
 					.toAffiliatedOrgs(true, clu.getAccounting().getAffiliatedOrgs(),
 							cluInfo.getAccountingInfo().getAffiliatedOrgs(),
@@ -1234,8 +1239,8 @@ public class LuServiceImpl implements CluService {
 			clu.setAccounting(null);
 		}
 
-		clu.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
+		// TODO KSCM clu.setAttributes(LuServiceAssembler.toGenericAttributes(
+		//		CluAttribute.class, cluInfo.getAttributes(), clu, luDao));
 
 		if (cluInfo.getIntensity() != null) {
 			if (clu.getIntensity() == null) {
@@ -1301,10 +1306,10 @@ public class LuServiceImpl implements CluService {
 			// Do Copy
 			BeanUtils.copyProperties(accreditationInfo, cluAccreditation,
 					new String[] { "attributes" });
-			cluAccreditation.setAttributes(LuServiceAssembler
-					.toGenericAttributes(CluAccreditationAttribute.class,
-							accreditationInfo.getAttributes(),
-							cluAccreditation, luDao));
+			// TODO KSCM cluAccreditation.setAttributes(LuServiceAssembler
+			//		.toGenericAttributes(CluAccreditationAttribute.class,
+			//				accreditationInfo.getAttributes(),
+			//				cluAccreditation, luDao));
 			clu.getAccreditations().add(cluAccreditation);
 		}
 
@@ -1341,9 +1346,9 @@ public class LuServiceImpl implements CluService {
 			// Do Copy
 			BeanUtils.copyProperties(orgInfo, cluOrg,
 					new String[] { "attributes","id" });
-			cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
-					cluOrg, luDao));
+			// TODO KSCM cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
+			//		CluAdminOrgAttribute.class, orgInfo.getAttributes(),
+			//		cluOrg, luDao));
 			cluOrg.setClu(clu);
 			clu.getAdminOrgs().add(cluOrg);
 		}
@@ -1399,7 +1404,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationTypeKey, "validationType");
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure);
         
@@ -1420,11 +1425,10 @@ public class LuServiceImpl implements CluService {
 		}
 
 		// Validate CluCluRelationInfo
-		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
-		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val); 
-		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
-		}
+		// TODO KSCM List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+		//if(null != val && val.size() > 0) {
+		//	throw new DataValidationErrorException("Validation error!", val);
+		//}
 
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
@@ -1441,9 +1445,9 @@ public class LuServiceImpl implements CluService {
 				.getIsCluRelationRequired() == null ? true : cluCluRelationInfo
 				.getIsCluRelationRequired()); // TODO maybe this is unnecessary,
 		// contract specifies not null
-		cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluCluRelationAttribute.class, cluCluRelationInfo
-						.getAttributes(), cluCluRelation, luDao));
+		// TODO KSCM cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
+		//		CluCluRelationAttribute.class, cluCluRelationInfo
+		//				.getAttributes(), cluCluRelation, luDao));
 
 		LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class,
 		        cluCluRelationTypeKey);
@@ -1462,12 +1466,10 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
 		// Validate CluCluRelationInfo
-		// TODO KSCM Parameters passed to validateCluCluRelation
-		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", null, null, null, cluCluRelationInfo, contextInfo);
-		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val); 
-		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
-		}
+		// TODO KSCM List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+		//if(null != val && val.size() > 0) {
+		//	throw new DataValidationErrorException("Validation error!", val);
+		//}
 
 		final CluCluRelation cluCluRelation = luDao.fetch(CluCluRelation.class,
 				cluCluRelationId);
@@ -1483,9 +1485,9 @@ public class LuServiceImpl implements CluService {
 				.getIsCluRelationRequired() == null ? true : cluCluRelationInfo
 				.getIsCluRelationRequired()); // TODO maybe this is unnecessary,
 		// contract specifies not null
-		cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluCluRelationAttribute.class, cluCluRelationInfo
-						.getAttributes(), cluCluRelation, luDao));
+		// TODO KSCM cluCluRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
+		//		CluCluRelationAttribute.class, cluCluRelationInfo
+		//				.getAttributes(), cluCluRelation, luDao));
 
 		cluCluRelation.setLuLuRelationType(luDao.fetch(LuLuRelationType.class,
 				cluCluRelationInfo.getType()));
@@ -1514,7 +1516,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationTypeKey, "validationType");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 		
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure);
         return validationResults;
@@ -1528,17 +1530,16 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 		
 		// Validate CLU
+		/* TODO KSCM
 		List<ValidationResultInfo> val;
-		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult;
 		try {
 			val = validateCluPublication("SYSTEM", cluPublicationInfo);
-			r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val);
 			if(null != val && val.size() > 0) {
-				throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+				throw new DataValidationErrorException("Validation error!", val);
 			}
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("Error creating clu",e);
-		}
+		} */
 
 		
 		CluPublication cluPub = new CluPublication();
@@ -1564,7 +1565,7 @@ public class LuServiceImpl implements CluService {
 		cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
 		cluPub.setState(cluPublicationInfo.getState());
 		cluPub.setType(type);
-		cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
+		// TODO KSCM cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
 		cluPub.setVariants(LuServiceAssembler.toCluPublicationVariants(cluPublicationInfo.getVariants(), cluPub, luDao));
 
         luDao.create(cluPub);
@@ -1579,6 +1580,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 		
 		// Validate CLU
+		/* TODO KSCM
 		List<ValidationResultInfo> val;
 		try {
 			val = validateCluPublication("SYSTEM", cluPublicationInfo);
@@ -1587,7 +1589,7 @@ public class LuServiceImpl implements CluService {
 			}
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("Error creating clu",e);
-		}
+		}*/
 		
 		CluPublication cluPub = luDao.fetch(CluPublication.class, cluPublicationId);
 		
@@ -1651,7 +1653,7 @@ public class LuServiceImpl implements CluService {
 		cluPub.setExpirationDate(cluPublicationInfo.getExpirationDate());
 		cluPub.setState(cluPublicationInfo.getState());
 		cluPub.setType(type);
-		cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
+		// TODO KSCM cluPub.setAttributes(LuServiceAssembler.toGenericAttributes(CluPublicationAttribute.class, cluPublicationInfo.getAttributes(), cluPub, luDao));
 
         CluPublication updated = luDao.update(cluPub);
 
@@ -1675,7 +1677,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationTypeKey, "validationType");
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure);
         return validationResults;
@@ -1690,10 +1692,11 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
 		// Validate CluResult
+		/* TODO KSCM
 		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
-		}
+		}*/
 
 		cluResultInfo.setType(cluResultTypeKey);
 		cluResultInfo.setCluId(cluId);
@@ -1709,7 +1712,7 @@ public class LuServiceImpl implements CluService {
 						resOptInfo.getResultUsageTypeKey());
 				resOpt.setResultUsageType(resUsageType);
 			}
-			resOpt.setDesc(LuServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDescr()));
+			// TODO KSCM resOpt.setDesc(LuServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDescr()));
 			luDao.create(resOpt);
 			resOptList.add(resOpt);
 		}
@@ -1718,8 +1721,8 @@ public class LuServiceImpl implements CluService {
 		BeanUtils.copyProperties(cluResultInfo, cluResult, new String[] { "id",
 				"desc", "resultOptions", "metaInfo" });
 
-		cluResult.setDesc(LuServiceAssembler
-				.toRichText(LuRichText.class, cluResultInfo.getDescr()));
+		// TODO KSCM cluResult.setDesc(LuServiceAssembler
+		//		.toRichText(LuRichText.class, cluResultInfo.getDescr()));
 		cluResult.setResultOptions(resOptList);
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
@@ -1741,10 +1744,11 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
 		// Validate CluResult
+		/* TODO KSCM
 		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
-		}
+		}*/
 
 		CluResult result = luDao.fetch(CluResult.class, cluResultId);
 		if (!String.valueOf(result.getVersionNumber()).equals(
@@ -1784,7 +1788,7 @@ public class LuServiceImpl implements CluService {
 						resOptInfo.getResultUsageTypeKey());
 				opt.setResultUsageType(resUsageType);
 			}
-			opt.setDesc(LuServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDescr()));
+			// TODO KSCM opt.setDesc(LuServiceAssembler.toRichText(LuRichText.class, resOptInfo.getDescr()));
 			result.getResultOptions().add(opt);
 		}
 
@@ -1796,7 +1800,7 @@ public class LuServiceImpl implements CluService {
 		BeanUtils.copyProperties(cluResultInfo, result, new String[] { "id",
 				"desc", "resultOptions" });
 
-		result.setDesc(LuServiceAssembler.toRichText(LuRichText.class, cluResultInfo.getDescr()));
+		// TODO KSCM result.setDesc(LuServiceAssembler.toRichText(LuRichText.class, cluResultInfo.getDescr()));
 		CluResultType type = luDao.fetch(CluResultType.class, cluResultInfo.getType());
 		result.setCluResultType(type);
 
@@ -1825,7 +1829,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationTypeKey, "validationType");
 		checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure);
         return validationResults;
@@ -1840,10 +1844,10 @@ public class LuServiceImpl implements CluService {
 		checkForEmptyList(cluLoRelationInfo, "cluLoRelationInfo");
 
 		// Validate CluLoRelation
-		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
-		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", val);
-		}
+		// TODO KSCM List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+		//if(null != val && val.size() > 0) {
+		//	throw new DataValidationErrorException("Validation error!", val);
+		//}
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
 		if (clu == null) {
@@ -1871,9 +1875,9 @@ public class LuServiceImpl implements CluService {
 				new String[] { "cluId", "attributes", "metaInfo", "type" });
 
 		cluLoRelation.setClu(clu);
-		cluLoRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluLoRelationAttribute.class,
-				cluLoRelationInfo.getAttributes(), cluLoRelation, luDao));
+		// TODO KSCM cluLoRelation.setAttributes(LuServiceAssembler.toGenericAttributes(
+		//		CluLoRelationAttribute.class,
+		//		cluLoRelationInfo.getAttributes(), cluLoRelation, luDao));
 		cluLoRelation.setType(cluLoRelationTypeEntity);
 		
 		luDao.create(cluLoRelation);
@@ -1888,10 +1892,10 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
 		// Validate CluLoRelation
-		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
-		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", val);
-		}
+		// TODO KSCM List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+		//if(null != val && val.size() > 0) {
+		//	throw new DataValidationErrorException("Validation error!", val);
+		//}
 
 		CluLoRelation reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
 
@@ -1917,9 +1921,9 @@ public class LuServiceImpl implements CluService {
 				"cluId", "attributes", "metaInfo", "type"});
 
 		reltn.setClu(clu);
-		reltn.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluLoRelationAttribute.class,
-				cluLoRelationInfo.getAttributes(), reltn, luDao));
+		// TODO KSCM reltn.setAttributes(LuServiceAssembler.toGenericAttributes(
+		//		CluLoRelationAttribute.class,
+		//		cluLoRelationInfo.getAttributes(), reltn, luDao));
 		reltn.setType(cluLoRelationTypeEntity);
 		CluLoRelation updated = luDao.update(reltn);
 
@@ -1963,7 +1967,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationTypeKey, "validationType");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure);
         return validationResults;
@@ -1981,6 +1985,7 @@ public class LuServiceImpl implements CluService {
 		validateCluSet(cluSetInfo);
 
 		// Validate CluSet
+		/* TODO KSCM
 		List<ValidationResultInfo> val;
 		try {
 			val = validateCluSet("SYSTEM", cluSetInfo);
@@ -1989,7 +1994,7 @@ public class LuServiceImpl implements CluService {
 		}
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
-		}
+		}*/
 
 		List<String> cluIdList = getMembershipQuerySearchResult(cluSetInfo.getMembershipQuery());
 
@@ -2066,10 +2071,11 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
 		// Validate CluSet
+		/* TODO KSCM
 		List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
-		}
+		}*/
 
 		cluSetInfo.setId(cluSetId);
 
@@ -2088,7 +2094,7 @@ public class LuServiceImpl implements CluService {
 			throw new VersionMismatchException(
 					"CluSet (id=" + cluSetId +
 					") to be updated is not the current version " +
-					"(version=" + cluSetInfo.getMetaInfo().getVersionInd() +
+					"(version=" + cluSetInfo.getMeta().getVersionInd() +
 					"), current version="+cluSet.getVersionNumber());
 		}
 
@@ -2117,16 +2123,16 @@ public class LuServiceImpl implements CluService {
 
         // clean up existing wrappers if any
         if (cluSetInfo.getId() != null) {
-            CluSetInfo originalCluSet = getCluSetInfo(cluSetInfo.getId());
+            CluSetInfo originalCluSet = getCluSet(cluSetInfo.getId(), contextInfo);
             List<CluSetInfo> origSubCSs = null;
             List<String> origSubCSIds = originalCluSet.getCluSetIds();
             if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
-                origSubCSs = getCluSetInfoByIdList(origSubCSIds);
+                // TODO KSCM origSubCSs = getCluSetInfoByIdList(origSubCSIds);
             }
             if (origSubCSs != null) {
                 for (CluSetInfo origSubCS : origSubCSs) {
                     if (!origSubCS.getIsReusable()) {
-                        deleteCluSet(origSubCS.getId());
+                        deleteCluSet(origSubCS.getId(), contextInfo);
                     }
                 }
             }
@@ -2152,9 +2158,9 @@ public class LuServiceImpl implements CluService {
 
 		BeanUtils.copyProperties(cluSetInfo, cluSet, new String[] { "descr",
 				"attributes", "metaInfo", "membershipQuery" });
-		cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
-				CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
-		cluSet.setDescr(LuServiceAssembler.toRichText(LuRichText.class, cluSetInfo.getDescr()));
+		// TODO KSCM cluSet.setAttributes(LuServiceAssembler.toGenericAttributes(
+		//		CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
+		// TODO KSCM cluSet.setDescr(LuServiceAssembler.toRichText(LuRichText.class, cluSetInfo.getDescr()));
 
 		MembershipQuery mq = LuServiceAssembler.toMembershipQueryEntity(cluSetInfo.getMembershipQuery());
 		cluSet.setMembershipQuery(mq);
@@ -2306,7 +2312,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(luiInfo, "luiInfo");
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(LuiInfo.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(LuiInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure);
         return validationResults;
@@ -2407,7 +2413,7 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(LuiLuiRelation.class.getName());
+        ObjectStructureDefinition objStructure = this.getObjectStructure(LuiLuiRelation.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure);
         return validationResults;
@@ -2527,6 +2533,7 @@ public class LuServiceImpl implements CluService {
 	 * SEARCH OPERATIONS *
 	 **************************************************************************/
 
+	/* TODO KSCM
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
@@ -2586,7 +2593,7 @@ public class LuServiceImpl implements CluService {
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
 		return searchManager.getSearchTypesByResult(searchResultTypeKey);
-	}
+	}*/
 
 	private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
 			throws OperationFailedException {
@@ -3313,12 +3320,12 @@ public class LuServiceImpl implements CluService {
 		Clu latestClu;
 		Clu currentClu; 
 		try{
-			latestClu = luDao.getLatestCluVersion(versionIndCluId);
+			latestClu = luDao.getLatestCluVersion(null); // TODO KSCM versionIndCluId
 		}catch(NoResultException e){
 			throw new DoesNotExistException("There are no matching versions of this clu", e);
 		}
 		try{
-			currentClu = luDao.getCurrentCluVersion(versionIndCluId);
+			currentClu = luDao.getCurrentCluVersion(null); // TODO KSCM versionIndCluId
 		}catch(NoResultException e){
 			throw new DoesNotExistException("There is no current version of this clu. Only current clus can be versioned. Use setCurrentCluVersion to make a clu current.", e);
 		}
@@ -3332,11 +3339,11 @@ public class LuServiceImpl implements CluService {
 	    CluInfo newClu = null;
 	    
         try {
-    		Clu clu = toCluForCreate(cluInfo.getType(), cluInfo);
+    		Clu clu = toCluForCreate(cluInfo.getType(), cluInfo, contextInfo);
     	    //Set the Version data
     		Version version = new Version();
     		version.setSequenceNumber(latestClu.getVersion().getSequenceNumber() + 1);
-    		version.setVersionIndId(versionIndCluId);
+    		// TODO KSCM version.setVersionIndId(versionIndCluId);
     		version.setCurrentVersionStart(null);
     		version.setCurrentVersionEnd(null);
     		version.setVersionComment(versionComment);
@@ -3432,15 +3439,15 @@ public class LuServiceImpl implements CluService {
 		
 		
 		//Get any clus that are set to become current in the future, and clear their current dates
-		List<VersionDisplayInfo> versionsInFuture = luDao.getVersionsInDateRange(versionIndId, null, currentDbDate, null);
-		for(VersionDisplayInfo versionInFuture:versionsInFuture){
-			if(oldClu==null || !versionInFuture.getId().equals(oldClu.getId())){
-				VersionEntity futureClu = luDao.fetch(Clu.class, versionInFuture.getId());
-				futureClu.getVersion().setCurrentVersionStart(null);
-				futureClu.getVersion().setCurrentVersionEnd(null);
-				futureClu = luDao.update(futureClu);
-			}
-		}
+		// TODO KSCM List<VersionDisplayInfo> versionsInFuture = luDao.getVersionsInDateRange(versionIndId, null, currentDbDate, null);
+//		for(VersionDisplayInfo versionInFuture:versionsInFuture){
+//			if(oldClu==null || !versionInFuture.getId().equals(oldClu.getId())){
+//				VersionEntity futureClu = luDao.fetch(Clu.class, versionInFuture.getId());
+//				futureClu.getVersion().setCurrentVersionStart(null);
+//				futureClu.getVersion().setCurrentVersionEnd(null);
+//				futureClu = luDao.update(futureClu);
+//			}
+//		}
 		
 		//If there is a current clu, set its end date to the new clu's start date
 		if(oldClu!=null){
@@ -3461,14 +3468,14 @@ public class LuServiceImpl implements CluService {
     @Override
     public VersionDisplayInfo getLatestVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
-		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
+		if(CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)){
         	try{
-        		versionInfo = luDao.getLatestVersion(refObjectId, refObjectTypeURI);
+        	 // TODO KSCM versionInfo = luDao.getLatestVersion(refObjectId, refObjectUri);
         	}catch(NoResultException e){
         		throw new DoesNotExistException();
         	}
         }else{
-        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectUri);
         }
 		return versionInfo;
 	}
@@ -3476,14 +3483,14 @@ public class LuServiceImpl implements CluService {
 	@Override
     public VersionDisplayInfo getCurrentVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
-		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
+		if(CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)){
         	try{
-        		versionInfo = luDao.getCurrentCluVersionInfo(refObjectId, refObjectTypeURI);
+        	 // TODO KSCM versionInfo = luDao.getCurrentCluVersionInfo(refObjectId, refObjectUri);
         	}catch(NoResultException e){
         		throw new DoesNotExistException();
         	}
         }else{
-        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectUri);
         }
 		return versionInfo;
 	}
@@ -3491,14 +3498,14 @@ public class LuServiceImpl implements CluService {
     @Override
     public VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri, String refObjectId, Date date, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
-		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
+		if(CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)){
         	try{
-        		versionInfo = luDao.getCurrentVersionOnDate(refObjectId, refObjectTypeURI, date);
+        	 // TODO KSCM versionInfo = luDao.getCurrentVersionOnDate(refObjectId, refObjectUri, date);
         	}catch(NoResultException e){
         		throw new DoesNotExistException();
         	}
         }else{
-        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectUri);
         }
 		return versionInfo;
     }
@@ -3506,14 +3513,14 @@ public class LuServiceImpl implements CluService {
     @Override
     public VersionDisplayInfo getFirstVersion(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
-		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
+		if(CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)){
         	try{
-        		versionInfo = luDao.getFirstVersion(refObjectId, refObjectTypeURI);
+        	 // TODO KSCM versionInfo = luDao.getFirstVersion(refObjectId, refObjectUri);
         	}catch(NoResultException e){
         		throw new DoesNotExistException();
         	}
         }else{
-        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectUri);
         }
 		return versionInfo;
     }
@@ -3521,14 +3528,14 @@ public class LuServiceImpl implements CluService {
     @Override
     public VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri, String refObjectId, Long sequence, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
-		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
+		if(CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)){
         	try{
-        		versionInfo = luDao.getVersionBySequenceNumber(refObjectId, refObjectTypeURI, sequence);
+        	 // TODO KSCM versionInfo = luDao.getVersionBySequenceNumber(refObjectId, refObjectUri, sequence);
         	}catch(NoResultException e){
         		throw new DoesNotExistException();
         	}
         }else{
-        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectUri);
         }
 		return versionInfo;
     }
@@ -3536,13 +3543,13 @@ public class LuServiceImpl implements CluService {
     @Override
     public List<VersionDisplayInfo> getVersions(String refObjectUri, String refObjectId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	List<VersionDisplayInfo> versionInfos = null;
-		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
-       		versionInfos = luDao.getVersions(refObjectId, refObjectTypeURI);
+		if(CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)){
+       		// TODO KSCM versionInfos = luDao.getVersions(refObjectId, refObjectUri);
        		if(versionInfos==null){
        			versionInfos = Collections.<VersionDisplayInfo>emptyList();
        		}
         }else{
-        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectUri);
         }
 		return versionInfos;
     }
@@ -3550,13 +3557,13 @@ public class LuServiceImpl implements CluService {
     @Override
     public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectUri, String refObjectId, Date from, Date to, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	List<VersionDisplayInfo> versionInfos = null;
-		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
-    		versionInfos = luDao.getVersionsInDateRange(refObjectId, refObjectTypeURI, from, to);
+		if(CluServiceConstants.CLU_NAMESPACE_URI.equals(refObjectUri)){
+    		// TODO KSCM versionInfos = luDao.getVersionsInDateRange(refObjectId, refObjectUri, from, to);
        		if(versionInfos==null){
        			versionInfos = Collections.<VersionDisplayInfo>emptyList();
        		}
         }else{
-        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectTypeURI);
+        	throw new UnsupportedOperationException("This method does not know how to handle object type:"+refObjectUri);
         }
 		return versionInfos;
     }
@@ -3567,6 +3574,180 @@ public class LuServiceImpl implements CluService {
 
     @Override
     public List<TypeInfo> getCluCluRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getDeliveryMethodTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getDeliveryMethodType(String deliveryMethodTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getInstructionalFormatTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getInstructionalFormatType(String instructionalFormatTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getLuTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getLuCodeTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getLuCodeType(String luCodeTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getLuLuRelationType(String cluCluRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getLuPublicationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getLuPublicationType(String luPublicationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getCluResultTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getCluResultType(String cluResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getCluResultTypesForLuType(String luTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getResultUsageTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getResultUsageType(String resultUsageTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getCluLoRelationTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getCluLoRelationType(String cluLoRelationTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getCluSetTypes(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getCluSetType(String cluSetTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getLuLuRelationTypes(ContextInfo contextInfo) throws OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public TypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+        return null;
+    }
+
+    @Override
+    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
         // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
         return null;
     }
