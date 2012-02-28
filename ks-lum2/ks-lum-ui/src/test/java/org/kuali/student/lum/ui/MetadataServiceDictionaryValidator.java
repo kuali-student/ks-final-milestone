@@ -29,7 +29,7 @@ import org.kuali.student.r1.common.search.dto.QueryParamInfo;
 import org.kuali.student.r1.common.search.dto.ResultColumnInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.dto.SubSearchInfo;
-import org.kuali.student.core.personsearch.service.impl.QuickViewByGivenNameSearchTypeCreator;
+import org.kuali.student.r1.core.personsearch.service.impl.QuickViewByGivenNameSearchTypeCreator;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
