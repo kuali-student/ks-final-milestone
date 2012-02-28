@@ -139,7 +139,7 @@
 		<class-b>org.kuali.student.r2.common.exceptions.VersionMismatchException
 		</class-b>
 	</mapping>
-	
+
 	<!-- ks-common-api: org.kuali.student.r1.common.messages.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.common.messages.dto.Message</class-a>
@@ -150,11 +150,12 @@
 			<b>key</b>
 		</field>
 	</mapping>
-	
+
 	<!-- ks-common-api: org.kuali.student.r1.common.search.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.common.search.dto.SearchParam</class-a>
-		<class-b>org.kuali.student.r2.common.search.dto.SearchParamInfo</class-b>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchParamInfo
+		</class-b>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.common.search.dto.SearchRequest
@@ -179,5 +180,77 @@
 		<class-b>org.kuali.student.r2.common.search.dto.SearchResultRowInfo
 		</class-b>
 	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r1.core.atp.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.atp.dto.AtpInfo</class-a>
+		<class-b>org.kuali.student.r2.core.atp.dto.AtpInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.atp.dto.MilestoneInfo</class-a>
+		<class-b>org.kuali.student.r2.core.atp.dto.MilestoneInfo</class-b>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r1.core.comment.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.comment.dto.CommentInfo</class-a>
+		<class-b>org.kuali.student.r2.core.comment.dto.CommentInfo</class-b>
+	</mapping>
+
+	<mapping>
+		<class-a>org.kuali.student.r1.core.comment.dto.TagInfo</class-a>
+		<class-b>org.kuali.student.r2.core.comment.dto.TagInfo</class-b>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r1.core.document.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.DocumentBinaryInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.DocumentBinaryInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.DocumentCategoryInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.DocumentCategoryInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.DocumentInfo</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.DocumentInfo</class-b>
+		<field>
+			<a>documentBinaryInfo</a>
+			<b>documentBinary</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.RefDocRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.RefDocRelationInfo
+		</class-b>
+		<field>
+			<a>desc</a>
+			<b>descr</b>
+		</field>
+	</mapping>
 	
+	<!-- ks-core-api: org.kuali.student.r1.core.enumerationmanagement.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumContextValueInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumContextValueInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumeratedValueInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo
+		</class-b>
+	</mapping>
 </mappings>

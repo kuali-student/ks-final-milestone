@@ -19,6 +19,12 @@
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-kim-api</artifactId>
     </dependency>
+    
+    <dependency>
+	    <groupId>net.sf.dozer</groupId>
+	    <artifactId>dozer</artifactId>
+	</dependency>
+	
   </dependencies>
   <build>
     <plugins>

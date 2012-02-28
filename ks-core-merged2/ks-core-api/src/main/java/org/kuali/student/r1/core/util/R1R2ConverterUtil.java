@@ -1,4 +1,4 @@
-package org.kuali.student.r1.common.assembly.util;
+package org.kuali.student.r1.core.util;
 
 import java.util.ArrayList;
 import java.util.List;
