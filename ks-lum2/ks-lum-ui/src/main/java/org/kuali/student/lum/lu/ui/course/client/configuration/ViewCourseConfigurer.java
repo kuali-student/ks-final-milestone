@@ -17,7 +17,7 @@ package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.r1.common.ui.client.mvc.Controller;
 import org.kuali.student.r1.common.ui.client.mvc.DataModelDefinition;

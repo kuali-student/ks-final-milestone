@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.r2.common.dto.DtoConstants;
 import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.r1.common.ui.client.application.Application;
 import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;

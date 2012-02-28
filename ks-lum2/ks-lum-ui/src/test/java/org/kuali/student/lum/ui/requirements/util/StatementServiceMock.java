@@ -21,9 +21,10 @@ import java.util.Map;
 
 import javax.jws.WebParam;
 
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularReferenceException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
@@ -40,15 +41,15 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.core.statement.dto.NlUsageTypeInfo;
-import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.core.statement.dto.RefStatementRelationTypeInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
-import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.r1.core.statement.dto.NlUsageTypeInfo;
+import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.r1.core.statement.dto.RefStatementRelationTypeInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r2.core.statement.service.StatementService;
 
 public class StatementServiceMock implements StatementService {
 
@@ -236,7 +237,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<org.kuali.student.common.dto.ValidationResultInfo> validateStatement(String validationTypeKey,
+    public List<ValidationResultInfo> validateStatement(String validationTypeKey,
             String statementTypeKey, StatementInfo statementInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
@@ -306,7 +307,7 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public List<org.kuali.student.common.dto.ValidationResultInfo> validateReqComponent(String validationTypeKey,
+    public List<ValidationResultInfo> validateReqComponent(String validationTypeKey,
             String reqComponentTypeKey, ReqComponentInfo reqComponentInfo, ContextInfo contextInfo)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
