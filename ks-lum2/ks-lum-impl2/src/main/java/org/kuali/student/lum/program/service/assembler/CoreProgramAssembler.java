@@ -26,9 +26,9 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
-import org.kuali.student.r1.lum.lu.dto.CluInfo;
-import org.kuali.student.r1.lum.lu.service.LuService;
-import org.kuali.student.r1.lum.program.dto.CoreProgramInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
+import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
@@ -39,7 +39,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
 
-    private LuService luService;
+    private CluService cluService;
     private ProgramAssemblerUtils programAssemblerUtils;
     private CluAssemblerUtils cluAssemblerUtils;
 
@@ -131,8 +131,8 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     }
     
     // Spring setter
-    public void setLuService(LuService luService) {
-        this.luService = luService;
+    public void setLuService(CluService cluService) {
+        this.cluService = cluService;
     }
 
     public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
@@ -142,6 +142,5 @@ public class CoreProgramAssembler implements BOAssembler<CoreProgramInfo, CluInf
     public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
         this.cluAssemblerUtils = cluAssemblerUtils;
     }
-
 
 }
