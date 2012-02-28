@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import java.net.URLDecoder;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.kuali.rice.kew.dto.DocumentDetailDTO;
@@ -56,7 +57,7 @@ public abstract class AbstractDataService implements DataService{
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.GET);
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
-		String dtoId = id;
+		String dtoId = URLDecoder.decode(id);
 		//First check if this is a proposal id
         //TODO: Igor : Why do we check for this when getting the data for programs?
 		try{
