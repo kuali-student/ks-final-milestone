@@ -5,6 +5,7 @@ import java.util.List;
 
 
 
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
@@ -69,13 +70,13 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public CredentialProgramInfo createNewCredentialProgramVersion(String credentialProgramId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
         return this.getNextDecorator().createNewCredentialProgramVersion(credentialProgramId, versionComment, contextInfo);
     }
 
     @Override
     public StatusInfo setCurrentCredentialProgramVersion(String credentialProgramId, Date currentVersionStart, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         return this.getNextDecorator().setCurrentCredentialProgramVersion(credentialProgramId, currentVersionStart, contextInfo);
     }
 
@@ -105,7 +106,7 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public List<ValidationResultInfo> validateMajorDiscipline(String validationType, MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return this.getNextDecorator().validateMajorDiscipline(validationType, majorDisciplineInfo, contextInfo);
     }
 
@@ -191,13 +192,13 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public CoreProgramInfo createNewCoreProgramVersion(String coreProgramId, String versionComment, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException {
+            MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException {
         return this.getNextDecorator().createNewCoreProgramVersion(coreProgramId, versionComment, contextInfo);
     }
 
     @Override
     public StatusInfo setCurrentCoreProgramVersion(String coreProgramId, Date currentVersionStart, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         return this.getNextDecorator().setCurrentCoreProgramVersion(coreProgramId, currentVersionStart, contextInfo);
     }
 
@@ -246,7 +247,7 @@ public class ProgramServiceDecorator implements ProgramService {
 
     @Override
     public StatusInfo setCurrentMajorDisciplineVersion(String majorDisciplineId, Date currentVersionStart, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
-            MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
+            MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
         return this.getNextDecorator().setCurrentMajorDisciplineVersion(majorDisciplineId, currentVersionStart, contextInfo);
     }
 
@@ -501,6 +502,92 @@ public class ProgramServiceDecorator implements ProgramService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+
+		// TODO KSCM
+				@Override
+				@Deprecated
+		public List<String> getObjectTypes() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+				// TODO KSCM
+				@Override
+				@Deprecated
+		public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+				// TODO KSCM
+				@Override
+				@Deprecated
+		public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
+				String majorDisciplineId, ContextInfo contextInfo)
+				throws DoesNotExistException, InvalidParameterException,
+				MissingParameterException, OperationFailedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+				// TODO KSCM
+				@Override
+				@Deprecated
+		public ProgramRequirementInfo getProgramRequirement(
+				String programRequirementId, String nlUsageTypeKey,
+				String language, ContextInfo contextInfo)
+				throws DoesNotExistException, InvalidParameterException,
+				MissingParameterException, OperationFailedException,
+				PermissionDeniedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+				// TODO KSCM
+				@Override
+				@Deprecated
+		public CredentialProgramInfo updateCredentialProgram(
+				CredentialProgramInfo credentialProgramInfo,
+				ContextInfo contextInfo) throws DataValidationErrorException,
+				DoesNotExistException, InvalidParameterException,
+				MissingParameterException, VersionMismatchException,
+				OperationFailedException, PermissionDeniedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+				// TODO KSCM
+				@Override
+				@Deprecated
+		public MajorDisciplineInfo updateMajorDiscipline(
+				MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
+				throws DataValidationErrorException, DoesNotExistException,
+				InvalidParameterException, MissingParameterException,
+				VersionMismatchException, OperationFailedException,
+				PermissionDeniedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+
+				// TODO KSCM
+				@Override
+				@Deprecated
+		public ProgramRequirementInfo updateProgramRequirement(
+				ProgramRequirementInfo programRequirementInfo,
+				ContextInfo contextInfo) throws DataValidationErrorException,
+				DoesNotExistException, InvalidParameterException,
+				MissingParameterException, VersionMismatchException,
+				OperationFailedException, PermissionDeniedException {
+			// TODO Auto-generated method stub
+			return null;
+		}
 
     
     
