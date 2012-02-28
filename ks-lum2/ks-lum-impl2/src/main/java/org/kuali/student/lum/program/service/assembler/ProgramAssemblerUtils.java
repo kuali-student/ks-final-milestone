@@ -23,9 +23,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r1.common.assembly.util.R1R2ConverterUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r1.common.dto.RichTextInfo;
@@ -33,7 +35,19 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.util.UUIDHelper;
+
+//import org.kuali.student.r2.lum.clu.dto.AdminOrgInfo;
+//import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
+//import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+//import org.kuali.student.r2.lum.clu.dto.CluInfo;
+//import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
+//import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
+//import org.kuali.student.r2.lum.clu.dto.FieldInfo;
+//import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
+//import org.kuali.student.r2.lum.clu.service.CluService;
+
 import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluIdentifierInfo;
@@ -43,6 +57,8 @@ import org.kuali.student.r1.lum.lu.dto.CluResultInfo;
 import org.kuali.student.r1.lum.lu.dto.FieldInfo;
 import org.kuali.student.r1.lum.lu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+
+
 import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r1.lum.program.dto.assembly.ProgramAtpAssembly;
 import org.kuali.student.r1.lum.program.dto.assembly.ProgramBasicOrgAssembly;
@@ -104,6 +120,7 @@ public class ProgramAssemblerUtils {
         clu.setId(UUIDHelper.genStringUUID(program.getId()));
         
         // Default 
+        //TODO KSCM determine if getState and getStateKey will be the same ?
         clu.setState(program.getState());
         clu.setMetaInfo(program.getMetaInfo());
         clu.setAttributes(program.getAttributes());
@@ -115,7 +132,7 @@ public class ProgramAssemblerUtils {
     public ProgramRequirementAssembly assembleRequirements(CluInfo clu, ProgramRequirementAssembly program, ContextInfo contextInfo) throws AssemblyException {
 
         try {
-            List<String> requirements = luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT, contextInfo);
+            List<String> requirements = luService.getRelatedCluIdsByCluAndRelationType(clu.getId(), ProgramAssemblerConstants.HAS_PROGRAM_REQUIREMENT, contextInfo);
             if (requirements != null && requirements.size() > 0) {
                 program.setProgramRequirements(requirements);
             }
@@ -181,11 +198,13 @@ public class ProgramAssemblerUtils {
      * @throws OperationFailedException 
      * @throws MissingParameterException 
      * @throws InvalidParameterException 
+     * @throws PermissionDeniedException 
      */
-    private void addUpdateRequirementStateNodes(List<String> requirements, String state, BaseDTOAssemblyNode<?, ?> result, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
+    private void addUpdateRequirementStateNodes(List<String> requirements, String state, BaseDTOAssemblyNode<?, ?> result, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	for (String requirementId:requirements){
     		try {
-	    		CluInfo requirementClu = luService.getClu(requirementId, contextInfo);
+    			
+	    		CluInfo requirementClu = R1R2ConverterUtil.convert(luService.getClu(requirementId, contextInfo),new CluInfo());
 	            requirementClu.setState(state);
 	            BaseDTOAssemblyNode<Object, CluInfo> reqCluNode = new BaseDTOAssemblyNode<Object, CluInfo>(null);
 	            reqCluNode.setNodeData(requirementClu);
@@ -480,7 +499,7 @@ public class ProgramAssemblerUtils {
     public List<String> assembleResultOptions(String cluId, ContextInfo contextInfo) throws AssemblyException {
         List<String> resultOptions = null;
         try{
-            List<CluResultInfo> cluResults = luService.getCluResultByClu(cluId, contextInfo);
+            List<CluResultInfo> cluResults = R1R2ConverterUtil.convert(luService.getCluResultByClu(cluId, contextInfo), new ArrayList<CluResultInfo>()) ;
 
             List<String> resultTypes = new ArrayList<String>();
             resultTypes.add(ProgramAssemblerConstants.DEGREE_RESULTS);
@@ -543,8 +562,9 @@ public class ProgramAssemblerUtils {
      * @param program
      * @return
      * @throws AssemblyException
+     * @throws PermissionDeniedException 
      */
-    public ProgramPublicationAssembly assemblePublications(CluInfo clu, ProgramPublicationAssembly program, ContextInfo contextInfo) throws AssemblyException {
+    public ProgramPublicationAssembly assemblePublications(CluInfo clu, ProgramPublicationAssembly program, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException {
 
 
         if (clu.getReferenceURL() != null) {
@@ -552,7 +572,7 @@ public class ProgramAssemblerUtils {
         }
 
         try {
-            List<CluPublicationInfo> cluPublications = luService.getCluPublicationsByCluId(clu.getId(), contextInfo);
+            List<CluPublicationInfo> cluPublications = R1R2ConverterUtil.convert(luService.getCluPublicationsByClu(clu.getId(), contextInfo),new ArrayList<CluPublicationInfo>());
 
             List<String> targets = new ArrayList<String>();
 
@@ -600,7 +620,7 @@ public class ProgramAssemblerUtils {
 
              // if not create get current catalog descr
              if (!NodeOperation.CREATE.equals(operation)) {
-                 List<CluPublicationInfo> pubs = luService.getCluPublicationsByCluId(program.getId(), contextInfo);
+                 List<CluPublicationInfo> pubs = R1R2ConverterUtil.convert(luService.getCluPublicationsByClu(program.getId(), contextInfo),new ArrayList<CluPublicationInfo>());
                  for (CluPublicationInfo pubInfo : pubs) {
                      if (pubInfo.getType().equals(ProgramAssemblerConstants.CATALOG)) {
                          currentPubInfo = pubInfo;
@@ -703,13 +723,14 @@ public class ProgramAssemblerUtils {
      * @param operation
      * @return
      * @throws AssemblyException
+     * @throws PermissionDeniedException 
      */
-    public List<BaseDTOAssemblyNode<?,?>>  disassembleCredentialProgram(ProgramCredentialAssembly program, NodeOperation operation, String relationType, ContextInfo contextInfo) throws AssemblyException {
+    public List<BaseDTOAssemblyNode<?,?>>  disassembleCredentialProgram(ProgramCredentialAssembly program, NodeOperation operation, String relationType, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException {
 
         List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
         try {
-            CluInfo credentialClu = luService.getClu(program.getCredentialProgramId(), contextInfo);
+            CluInfo credentialClu = R1R2ConverterUtil.convert(luService.getClu(program.getCredentialProgramId(),contextInfo),new CluInfo());
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Credential Clu does not exist for " + program.getCredentialProgramId());
@@ -719,7 +740,7 @@ public class ProgramAssemblerUtils {
 
         if (!NodeOperation.CREATE.equals(operation)) {
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(program.getId(),contextInfo);
+                List<CluCluRelationInfo> cluRelations = R1R2ConverterUtil.convert(luService.getCluCluRelationsByClu(program.getId(),contextInfo), new ArrayList<CluCluRelationInfo>());
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType()) ) {
                         currentRelations.put(cluRelation.getRelatedCluId(), cluRelation.getId());
@@ -791,12 +812,12 @@ public class ProgramAssemblerUtils {
         return results;
     }
 
-    public List<BaseDTOAssemblyNode<?, ?>> addRelationNodes(String cluId, String relatedCluId, String relationType, NodeOperation operation, ContextInfo contextInfo)throws AssemblyException{
+    public List<BaseDTOAssemblyNode<?, ?>> addRelationNodes(String cluId, String relatedCluId, String relationType, NodeOperation operation, ContextInfo contextInfo)throws AssemblyException, PermissionDeniedException{
     	Map<String, String> currentRelations = null;
     	List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
         if (!NodeOperation.CREATE.equals(operation)) {
-        	currentRelations = getCluCluRelations(cluId, relationType, contextInfo);
+        	currentRelations =  R1R2ConverterUtil.convert(getCluCluRelations(cluId, relationType, contextInfo), new HashMap<String, String>()) ;
         }
 
         //  If this is a create then vreate new relation
@@ -862,11 +883,11 @@ public class ProgramAssemblerUtils {
         
         return results;
     }
-    public Map<String, String> getCluCluRelations(String cluId, String relationType, ContextInfo contextInfo) throws AssemblyException{
+    public Map<String, String> getCluCluRelations(String cluId, String relationType, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException{
         Map<String, String> currentRelations = new HashMap<String, String>();
 
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId, contextInfo);
+                List<CluCluRelationInfo> cluRelations = R1R2ConverterUtil.convert(luService.getCluCluRelationsByClu(cluId, contextInfo), new ArrayList<CluCluRelationInfo>() );
                
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType())) {
@@ -883,11 +904,11 @@ public class ProgramAssemblerUtils {
             return currentRelations;
     }
     
-    public Map<String, CluCluRelationInfo> getCluCluActiveRelations(String cluId, String relationType, ContextInfo contextInfo) throws AssemblyException{
+    public Map<String, CluCluRelationInfo> getCluCluActiveRelations(String cluId, String relationType, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException{
         Map<String, CluCluRelationInfo> currentRelations = new HashMap<String, CluCluRelationInfo>();
 
             try {
-                List<CluCluRelationInfo> cluRelations = luService.getCluCluRelationsByClu(cluId, contextInfo);
+                List<CluCluRelationInfo> cluRelations =  R1R2ConverterUtil.convert(luService.getCluCluRelationsByClu(cluId,contextInfo),new ArrayList<CluCluRelationInfo>());
 
                 for (CluCluRelationInfo cluRelation : cluRelations) {
                     if (relationType.equals(cluRelation.getType()) && (!cluRelation.getState().isEmpty() && cluRelation.getState().equalsIgnoreCase(DtoConstants.STATE_ACTIVE))) {
@@ -980,7 +1001,7 @@ public class ProgramAssemblerUtils {
 
             // Get the current publications and put them in a map
             try {
-                List<CluPublicationInfo> cluPubs = luService.getCluPublicationsByCluId(program.getId(),contextInfo);
+                List<CluPublicationInfo> cluPubs = R1R2ConverterUtil.convert(luService.getCluPublicationsByClu(program.getId(),contextInfo), new ArrayList<CluPublicationInfo>() );
                 for(CluPublicationInfo cluPub : cluPubs){
                     cluPub.setState(program.getState());
                     if (!cluPub.getType().equals(ProgramAssemblerConstants.CATALOG)) {
@@ -1057,7 +1078,7 @@ public class ProgramAssemblerUtils {
     }
 
     // Spring setters
-    public void setLuService(LuService luService) {
+    public void setLuService(CluService luService) {
         this.luService = luService;
     }
 
@@ -1069,7 +1090,7 @@ public class ProgramAssemblerUtils {
 
         List<String> credentialProgramIDs = null;
         try {
-            credentialProgramIDs = luService.getCluIdsByRelation(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM, contextInfo);
+            credentialProgramIDs = luService.getCluIdsByRelatedCluAndRelationType(cluId, ProgramAssemblerConstants.HAS_MAJOR_PROGRAM, contextInfo);
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
