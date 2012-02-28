@@ -73,7 +73,7 @@ public class StatementServiceMock implements StatementService {
         return null;
     }
 
-    @Override
+   
     public List<TypeInfo> getRefObjectSubTypes(String refObjectTypeKey, ContextInfo contextInfo)
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
@@ -372,20 +372,20 @@ public class StatementServiceMock implements StatementService {
         return null;
     }
 
-    @Override
+    
     public List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId,
             ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException {
         return null;
     }
 
-    @Override
+  
     public StatementTypeInfo getStatementType(String topStatementType) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException {
         return null;
     }
 
-    @Override
+   
     public String getNaturalLanguageForReqComponent(String reqComponentId, String string, String string2)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException {
