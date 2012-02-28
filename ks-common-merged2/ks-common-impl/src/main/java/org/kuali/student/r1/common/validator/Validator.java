@@ -7,6 +7,9 @@ import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
 
+//TODO KSCM Hopefully this interface isn't here after refactoring, a equivelent with Contextinfo
+//class has been created in R2 packages with upgraded metods/parameters
+
 @Deprecated
 public interface Validator {
 

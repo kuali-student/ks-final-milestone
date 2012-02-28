@@ -23,6 +23,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+
 @Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ValidationResultInfo implements Serializable {
@@ -48,6 +50,26 @@ public class ValidationResultInfo implements Serializable {
 
 		public static ErrorLevel max(ErrorLevel e1, ErrorLevel e2) {
 			return e1.ordinal() > e2.ordinal() ? e1 : e2;
+		}
+		
+        public static ErrorLevel fromInt(int level) {
+            switch (level) {
+                case 0:
+                    return OK;
+                case 1:
+                    return WARN;
+                case 2:
+                    return ERROR;
+                default:
+                    throw new IllegalArgumentException(level + "");
+            }
+        }
+        
+        // TODO KSCM This method was added to maintain some of the R1 packages which are old and 
+        // should be replaced, but still need to compile
+		
+		public static ErrorLevel convertR2toR1(org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel errorLevelR2){	    
+		    return ErrorLevel.fromInt(errorLevelR2.getLevel());
 		}
 	}
 
