@@ -69,11 +69,15 @@ public interface LprTransactionItem extends IdEntity {
     public LprTransactionItemResult getLprTransactionItemResult();
 
     /**
-     * Specify the grading and credit options for the course.
+     * The keys of the result values groups to be applied to the LPR
+     * once created.
      * 
-     * @return
+     * For example, setting the grading option to pass/fail or the credits to 3
+     * for a course.
+     * 
+     * @name Result Values Group Keys
      */
-    public List<String> getResultOptionKeys();
+    public List<String> getResultValuesGroupKeys();
 
     /**
      * The transaction item group id to link the LPR transaction items of the

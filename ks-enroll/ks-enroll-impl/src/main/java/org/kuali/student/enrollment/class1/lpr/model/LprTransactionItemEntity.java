@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemInfo;
 import org.kuali.student.enrollment.lpr.dto.LprTransactionItemResultInfo;
-import org.kuali.student.enrollment.lpr.infc.LPRTransactionItem;
+import org.kuali.student.enrollment.lpr.infc.LprTransactionItem;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
@@ -57,7 +57,7 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
 
     public LprTransactionItemEntity() {}
 
-    public LprTransactionItemEntity(LPRTransactionItem lprTransactionItem) {
+    public LprTransactionItemEntity(LprTransactionItem lprTransactionItem) {
 
         super(lprTransactionItem);
         if (lprTransactionItem != null) {

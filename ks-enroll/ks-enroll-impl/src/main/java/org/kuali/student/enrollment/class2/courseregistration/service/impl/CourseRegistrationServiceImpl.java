@@ -187,9 +187,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             LprTransactionItemInfo courseOfferingItemInfo = regRequestAssembler.disassembleItem(regRequestItem, null, context);
             courseOfferingItemInfo.setNewLuiId(courseOfferingId);
             courseOfferingItemInfo.setId(null);
-            ArrayList<String> resultOptions = new ArrayList<String>();
-            resultOptions.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
-            courseOfferingItemInfo.setResultOptionKeys(resultOptions);
+            ArrayList<String> rvgs = new ArrayList<String>();
+            rvgs.add(LrcServiceConstants.RESULT_GROUP_KEY_GRADE_LETTER);
+            courseOfferingItemInfo.setResultValuesGroupKeys(rvgs);
             newTransactionItems.add(courseOfferingItemInfo);
 
         } else {
