@@ -258,7 +258,7 @@ public class CopyCourseServiceImpl {
 				try {
 					PropertyUtils.setProperty(originalCourse, property, null);
 				} catch (Exception e) {
-					throw new InvalidParameterException("Ignore property is invalid and is causing an exception.",e);
+					throw new InvalidParameterException("Ignore property is invalid and is causing an exception.");
 				}
 			}
 		}
