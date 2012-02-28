@@ -44,8 +44,8 @@ import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotification
 import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
