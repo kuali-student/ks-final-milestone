@@ -233,7 +233,7 @@
 			<b>descr</b>
 		</field>
 	</mapping>
-	
+
 	<!-- ks-core-api: org.kuali.student.r1.core.enumerationmanagement.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumContextValueInfo
@@ -252,5 +252,67 @@
 		</class-a>
 		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo
 		</class-b>
+	</mapping>
+	
+	<!-- ks-core-api: org.kuali.student.r1.core.organization.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgCodeInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgCodeInfo
+		</class-b>
+		<field>
+			<a>desc</a>
+			<b>descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgInfo</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgInfo</class-b>
+		<field>
+			<a>shortDesc</a>
+			<b>shortDescr</b>
+		</field>
+		<field>
+			<a>longDesc</a>
+			<b>longDescr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo
+		</class-b>
+		<field>
+			<a>desc</a>
+			<b>descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgTreeInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgTreeInfo
+		</class-b>
+		<field>
+			<a>relationType</a>
+			<b>relationTypeKey</b>
+		</field>
 	</mapping>
 </mappings>
