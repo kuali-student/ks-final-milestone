@@ -392,6 +392,15 @@ public class StatementServiceMock implements StatementService {
         return null;
     }
 
+	@Override
+	public List<TypeInfo> getRefObjectSubTypes(ContextInfo refObjectTypeKey,
+			ContextInfo contextInfo) throws InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
     //from before the service contract change:
 
     // getLuStatement
