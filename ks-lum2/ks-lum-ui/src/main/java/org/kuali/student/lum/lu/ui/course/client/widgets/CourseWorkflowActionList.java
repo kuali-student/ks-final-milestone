@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.r1.common.dto.DtoConstants;
-import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.ui.client.application.Application;
 import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
@@ -360,7 +360,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
  	        @Override
  	        public void onSuccess(StatusInfo result) { 	        	
  	        	KSBlockingProgressIndicator.removeTask(processingTask);
- 	        	if (!result.getSuccess()){
+ 	        	if (!result.getIsSuccess()){
  	        		stateChangeCallback.exec(null);
  	        	} else {
  	        		stateChangeCallback.exec(newState);

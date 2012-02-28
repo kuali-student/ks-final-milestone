@@ -107,7 +107,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
         //       that are the result of query parameter search.  Set to null here and
         //       retrieve the clus that are direct members.
-        cluSetInfo = cluService.getCluSetInfo(cluSetId, ContextUtils.getContextInfo());
+        cluSetInfo = cluService.getCluSet(cluSetId, ContextUtils.getContextInfo());
         cluSetInfo.setCluIds(null);
         cluIds = cluService.getCluIdsFromCluSet(cluSetId, ContextUtils.getContextInfo());
         cluSetInfo.setCluIds(cluIds);
@@ -177,7 +177,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
         try {
             if (cluSetIds != null && !cluSetIds.isEmpty()) {
-                subCluSets = cluService.getCluSetInfoByIdList(cluSetIds, ContextUtils.getContextInfo());
+                subCluSets = cluService.getCluSetsByIds(cluSetIds, ContextUtils.getContextInfo());
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -352,7 +352,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         sr.setSearchKey(query.getSearchTypeKey());
         sr.setParams(query.getQueryParamValueList());
 
-        SearchResult result = cluService.search(sr, ContextUtils.getContextInfo());
+        SearchResult result = cluService.search(sr);
 
         List<String> cluIds = new ArrayList<String>();
         List<SearchResultRow> rows = result.getRows();
