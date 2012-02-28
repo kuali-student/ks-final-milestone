@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+
 import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
@@ -23,6 +23,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.program.dto.CoreProgramInfo;
 import org.kuali.student.r2.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.r2.lum.program.dto.HonorsProgramInfo;
@@ -317,7 +318,9 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
 
+    // TODO KSCM
 	@Override
+	@Deprecated
 	public VersionDisplayInfo getCurrentVersion(
 			String programNamespaceMajorDisciplineUri,
 			String majorVersionIndId, ContextInfo contextInfo) {
@@ -326,7 +329,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
+	// TODO KSCM
 	@Override
+	@Deprecated
 	public List<VersionDisplayInfo> getVersions(
 			String programNamespaceMajorDisciplineUri, String versionIndId,
 			ContextInfo contextInfo) {
@@ -335,7 +340,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+	// TODO KSCM
+		@Override
+		@Deprecated
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
 		// TODO Auto-generated method stub
@@ -343,7 +350,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public SearchTypeInfo getSearchType(String searchTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -352,7 +361,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByResult(
 			String searchResultTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -362,7 +373,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -372,7 +385,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
 		// TODO Auto-generated method stub
@@ -380,7 +395,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
@@ -389,7 +406,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
 		// TODO Auto-generated method stub
@@ -397,7 +416,9 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -407,9 +428,76 @@ public class ProgramServiceDecorator implements ProgramService {
 	}
 
 
-	@Override
+		// TODO KSCM
+		@Override
+		@Deprecated
 	public SearchResult search(SearchRequest searchRequest)
 			throws MissingParameterException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+		// TODO KSCM
+		@Override
+		@Deprecated
+	public VersionDisplayInfo getFirstVersion(String refObjectUri,
+			String refObjectId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+		// TODO KSCM
+		@Override
+		@Deprecated
+	public VersionDisplayInfo getLatestVersion(String refObjectUri,
+			String refObjectId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+		// TODO KSCM
+		@Override
+		@Deprecated
+	public VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri,
+			String refObjectId, Long sequence, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+		// TODO KSCM
+		@Override
+		@Deprecated
+	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri,
+			String refObjectId, Date date, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+		// TODO KSCM
+		@Override
+		@Deprecated
+	public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectUri,
+			String refObjectId, Date from, Date to, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
