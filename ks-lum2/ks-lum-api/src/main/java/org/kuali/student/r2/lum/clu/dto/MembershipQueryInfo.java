@@ -100,4 +100,12 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+ // TODO KSCM HOW TO IMPL 
+    @Deprecated
+	public void setQueryParamValueList(
+			ArrayList<org.kuali.student.r1.common.search.dto.SearchParam> arrayList) {
+		// TODO Auto-generated method stub
+		
+	}
 }
