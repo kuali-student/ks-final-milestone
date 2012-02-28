@@ -100,6 +100,17 @@
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                 </bean>
+                <!--
+                <bean parent="Uif-InputField" p:label="Holiday Calendar"
+                                         p:instructionalText="click the button to perform a lookup on Holiday Calendar"
+                                         p:propertyName="holidayCalendarName">
+                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
+                    <property name="fieldLookup.fieldConversions">
+                        <map>
+                            <entry key="id" value="holidayCalendarName" />
+                        </map>
+                    </property>
+                </bean> -->
             </list>
         </property>
     </bean>
@@ -186,13 +197,26 @@
         -->
         <property name="items">
             <list>
-                <bean parent="Uif-InputField" p:propertyName="id" p:label="Holiday Calendar" p:required="true" p:render="@{#isAddLine}">
-                    <!--                  <property name="control">
-                      <bean parent="Uif-DropdownControl"/>
-                  </property>
-                  <property name="optionsFinder">
-                      <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermTypeKeyValues"/>
-                  </property>  -->
+        <!--
+    <bean parent="Uif-InputField" p:propertyName="id" p:label="Holiday Calendar" p:required="true" p:render="@{#isAddLine}">
+                          <property name="control">
+          <bean parent="Uif-DropdownControl"/>
+      </property>
+      <property name="optionsFinder">
+          <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.TermTypeKeyValues"/>
+      </property>
+
+                </bean> -->
+                <bean parent="Uif-InputField" p:label="Holiday Calendar"
+                      p:instructionalText="click the button to perform a lookup on Holiday Calendar"
+                      p:propertyName="id"
+                      p:render="@{#isAddLine}"  >
+                    <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
+                    <property name="fieldLookup.fieldConversions">
+                        <map>
+                            <entry key="id" value="id" />
+                        </map>
+                    </property>
                 </bean>
             </list>
         </property>
