@@ -18,6 +18,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 
 
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -54,7 +55,7 @@ import org.kuali.student.r2.lum.program.dto.ProgramVariationInfo;
 @WebService(name = "ProgramService", targetNamespace = ProgramServiceConstants.PROGRAM_NAMESPACE)
 // TODO CHECK THESE VALUES
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface ProgramService extends  SearchService ,  VersionManagementService //DictionaryService,
+public interface ProgramService extends  SearchService ,  VersionManagementService, DictionaryService
 {
 
     /**
@@ -138,10 +139,11 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      * @throws VersionMismatchException The action was attempted on an out of
      *             date version
      * @throws DataValidationErrorException
+     * @throws ReadOnlyException 
      */
     public CredentialProgramInfo createNewCredentialProgramVersion(@WebParam(name = "credentialProgramId") String credentialProgramId, @WebParam(name = "versionComment") String versionComment,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
 
     /**
      * Sets a specific version of the Credential Program as current. The
@@ -167,10 +169,11 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      *             current
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException 
      */
     public StatusInfo setCurrentCredentialProgramVersion(@WebParam(name = "credentialProgramId") String credentialProgramId, @WebParam(name = "currentVersionStart") Date currentVersionStart,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-            OperationFailedException, PermissionDeniedException;
+            OperationFailedException, PermissionDeniedException, DataValidationErrorException;
 
     /**
      * Updates a Credential Program
@@ -278,10 +281,11 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      * @throws InvalidParameterException invalid validationTypeKey, cluInfo
      * @throws MissingParameterException missing validationTypeKey, cluInfo
      * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException 
      */
     public List<ValidationResultInfo> validateMajorDiscipline(@WebParam(name = "validationType") String validationType,
             @WebParam(name = "majorDisciplineInfo") MajorDisciplineInfo majorDisciplineInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
-            MissingParameterException, OperationFailedException;
+            MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Creates a Major Discipline Program
@@ -535,10 +539,11 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      * @throws VersionMismatchException The action was attempted on an out of
      *             date version
      * @throws DataValidationErrorException
+     * @throws ReadOnlyException 
      */
     public CoreProgramInfo createNewCoreProgramVersion(@WebParam(name = "coreProgramId") String coreProgramId, @WebParam(name = "versionComment") String versionComment,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
-            PermissionDeniedException, VersionMismatchException, DataValidationErrorException;
+            PermissionDeniedException, VersionMismatchException, DataValidationErrorException, ReadOnlyException;
 
     /**
      * Sets a specific version of the Core Program as current. The sequence
@@ -563,10 +568,11 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      *             sequence number from the one provided is marked current
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException 
      */
     public StatusInfo setCurrentCoreProgramVersion(@WebParam(name = "coreProgramId") String coreProgramId, @WebParam(name = "currentVersionStart") Date currentVersionStart,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-            OperationFailedException, PermissionDeniedException;
+            OperationFailedException, PermissionDeniedException, DataValidationErrorException;
 
     /**
      * Updates a Core Program
@@ -721,10 +727,11 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      *             number from the one provided is marked current
      * @throws OperationFailedException unable to complete request
      * @throws PermissionDeniedException authorization failure
+     * @throws DataValidationErrorException 
      */
     public StatusInfo setCurrentMajorDisciplineVersion(@WebParam(name = "majorDisciplineId") String majorDisciplineId, @WebParam(name = "currentVersionStart") Date currentVersionStart,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException,
-            OperationFailedException, PermissionDeniedException;
+            OperationFailedException, PermissionDeniedException, DataValidationErrorException;
 
     /**
      * Retrieves a MinorDiscipline
@@ -817,12 +824,42 @@ public interface ProgramService extends  SearchService ,  VersionManagementServi
      */
     public StatusInfo deleteMinorDiscipline(@WebParam(name = "minorDisciplineId") String minorDisciplineId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-//TODO KSCM - This method was not in MajorDesciplineProposalDataService
-	public VersionDisplayInfo getCurrentVersion(
-			String programNamespaceMajorDisciplineUri,
-			String majorVersionIndId, ContextInfo contextInfo);
-	//TODO KSCM - This method was not inMajorSisciplineStateChangeServiceImpl
-	public List<VersionDisplayInfo> getVersions(
-			String programNamespaceMajorDisciplineUri, String versionIndId,
-			ContextInfo contextInfo);
+
+    @Deprecated
+	public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
+			String majorDisciplineId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException;
+
+    @Deprecated
+	public ProgramRequirementInfo getProgramRequirement(String programRequirementId,
+			String nlUsageTypeKey, String language, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException;
+
+    @Deprecated
+	public CredentialProgramInfo updateCredentialProgram(
+			CredentialProgramInfo credentialProgramInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			VersionMismatchException, OperationFailedException,
+			PermissionDeniedException;
+
+    @Deprecated
+	public MajorDisciplineInfo updateMajorDiscipline(
+			MajorDisciplineInfo majorDisciplineInfo, ContextInfo contextInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			VersionMismatchException, OperationFailedException,
+			PermissionDeniedException;
+
+    @Deprecated
+	public ProgramRequirementInfo updateProgramRequirement(
+			ProgramRequirementInfo programRequirementInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, VersionMismatchException,
+			OperationFailedException, PermissionDeniedException;
+
 }

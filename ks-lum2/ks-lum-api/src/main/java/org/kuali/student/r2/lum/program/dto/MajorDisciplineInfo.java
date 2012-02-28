@@ -209,4 +209,10 @@ public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implemen
     public org.kuali.student.r1.common.versionmanagement.dto.VersionInfo getVersionInfo()  {
 		return null;
 	}
+	
+	// TODO KSCM how to imple
+	@Deprecated
+	public String getEndProgramEntryTermId() {
+		return this.getId();
+	}
 }
