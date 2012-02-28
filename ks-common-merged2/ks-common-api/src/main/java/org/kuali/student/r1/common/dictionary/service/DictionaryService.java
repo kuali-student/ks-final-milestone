@@ -16,7 +16,6 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 @WebService(name = "DictionaryService", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DictionaryService {
-    // TODO KSCM CONFIRM that it's ok that we've addd ContextInfo contextInfo
 	@WebMethod
     @RequestWrapper(className="org.kuali.student.common.dictionary.service.jaxws.GetObjectTypes", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
     @ResponseWrapper(className="org.kuali.student.common.dictionary.service.jaxws.GetObjectTypesResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
