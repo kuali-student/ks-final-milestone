@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.statement.dto;
 
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.statement.infc.ReqComponent;
@@ -110,6 +111,11 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
     @Deprecated
 	public void setDesc(RichTextInfo desc) {
 		this.setDescr(desc);
+		
+	}
+
+	public void setOperator(StatementOperatorTypeKey and) {
+		// TODO KSCM
 		
 	}
 }

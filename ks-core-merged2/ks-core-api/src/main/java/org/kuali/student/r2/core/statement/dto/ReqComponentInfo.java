@@ -115,4 +115,9 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
 		return null;
 	}
 
+	public void setDesc(org.kuali.student.r1.common.dto.RichTextInfo desc) {
+		// TODO KSCM
+		
+	}
+
 }
