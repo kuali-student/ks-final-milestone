@@ -22,8 +22,8 @@ import java.util.List;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 @Deprecated
 public class ValidatorUtils {
