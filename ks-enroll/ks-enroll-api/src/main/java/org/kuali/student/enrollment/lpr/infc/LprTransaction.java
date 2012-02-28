@@ -26,6 +26,6 @@ public interface LprTransaction extends IdEntity {
      * 
      * @return
      */
-    List<? extends LPRTransactionItem> getLprTransactionItems();
+    List<? extends LprTransactionItem> getLprTransactionItems();
 
 }
