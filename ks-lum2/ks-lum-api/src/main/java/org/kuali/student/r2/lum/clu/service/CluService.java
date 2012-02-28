@@ -28,6 +28,7 @@ import org.kuali.student.r1.lum.lu.dto.LuiLuiRelationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
@@ -41,7 +42,7 @@ import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
-import org.kuali.student.r1.common.dto.TypeInfo;
+import org.kuali.student.r2.common.dto.TypeInfo;
 import org.kuali.student.r2.core.versionmanagement.service.VersionManagementService;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
@@ -56,7 +57,6 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.Date;
 import java.util.List;
-import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 
 /**
  * Learning Unit (LU) Service
@@ -2334,7 +2334,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+	public TypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2345,7 +2345,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException;
+	public List<TypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2360,7 +2360,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public SearchResultTypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+	public TypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2371,7 +2371,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException;
+	public List<TypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2386,7 +2386,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+	public TypeInfo getSearchType(@WebParam(name="searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2397,7 +2397,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException;
+	public List<TypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2412,7 +2412,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+	public List<TypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2427,7 +2427,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws UnsupportedOperationException
 	 */
 	@Deprecated
-	public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+	public List<TypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
