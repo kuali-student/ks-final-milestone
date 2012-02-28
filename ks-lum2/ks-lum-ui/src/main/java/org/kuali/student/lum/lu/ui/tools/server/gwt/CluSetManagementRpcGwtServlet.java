@@ -100,7 +100,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             //       that are the result of query parameter search.  Set to null here and
             //       retrieve the clus that are direct members.
             //TODO KSCM - Correct ContextInfo parameter?
-            cluSetInfo = cluService.getCluSetInfo(cluSetId, contextInfo);
+            cluSetInfo = cluService.getCluSet(cluSetId, contextInfo);
             cluSetInfo.setCluIds(null);
             //TODO KSCM - Correct ContextInfo parameter?
             cluIds = cluService.getCluIdsFromCluSet(cluSetId, contextInfo);
@@ -134,7 +134,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         try {
             if (cluSetIds != null && !cluSetIds.isEmpty()) {
                 //TODO KSCM - Correct ContextInfo parameter?
-                subCluSets = cluService.getCluSetInfoByIdList(cluSetIds, contextInfo);
+                subCluSets = cluService.getCluSetsByIds(cluSetIds, contextInfo);
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -243,7 +243,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                         //If the clu type is variation, get the parent clu id. 
                         if ("kuali.lu.type.Variation".equals(cluInfo.getType())){
                             //TODO KSCM - Correct ContextInfo parameter?
-                            List<String> clus = cluService.getCluIdsByRelation(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
+                            List<String> clus = cluService.getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
                             if (clus == null || clus.size() == 0){ 
                                 throw new RuntimeException("Statement Dependency clu found, but no parent Program exists"); 
                             } else if(clus.size()>1){ 
@@ -288,7 +288,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             SearchResult searchResult = null;
             try {
                 //TODO KSCM - Correct ContextInfo parameter?
-                searchResult = cluService.search(searchRequest, contextInfo);
+                searchResult = cluService.search(searchRequest);
             } catch (Exception e) {
                 throw new OperationFailedException("Failed to search for clus in clu range", e);
             }
