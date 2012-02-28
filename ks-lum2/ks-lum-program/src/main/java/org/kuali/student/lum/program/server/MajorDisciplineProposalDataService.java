@@ -13,10 +13,11 @@ import org.kuali.student.common.ui.server.gwt.AbstractDataService;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.util.constants.ProgramServiceConstants;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+
 import org.kuali.student.core.assembly.transform.ProposalWorkflowFilter;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.service.AtpService;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.lum.program.client.ProgramClientConstants;
 import org.kuali.student.lum.program.client.ProgramConstants;

@@ -12,7 +12,7 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.Messag
 import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableSection;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;

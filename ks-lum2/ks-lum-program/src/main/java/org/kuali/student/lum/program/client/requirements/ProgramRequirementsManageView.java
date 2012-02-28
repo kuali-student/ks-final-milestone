@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqCompEditWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
