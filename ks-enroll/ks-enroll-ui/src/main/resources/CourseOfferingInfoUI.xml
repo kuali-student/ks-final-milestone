@@ -164,7 +164,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
                         <list>
                             <bean parent="Uif-InputField" p:propertyName="termId">
                                 <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo"/>
-                                <property name="fieldLookup.fieldConversions" value="key:termId"/>
+                                <property name="fieldLookup.fieldConversions">
+                                    <map>
+                                        <entry key="code" value="id"/>
+                                    </map>
+                                </property>
                                 <property name="control">
               			            <bean parent="Uif-DropdownControl"/>
             		            </property>
