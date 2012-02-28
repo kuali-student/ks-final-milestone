@@ -39,7 +39,7 @@ import org.kuali.student.r1.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.r1.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo;
+import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
