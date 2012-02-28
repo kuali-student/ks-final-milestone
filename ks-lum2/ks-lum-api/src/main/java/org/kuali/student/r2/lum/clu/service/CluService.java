@@ -1925,171 +1925,9 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<TypeInfo> getLuLuRelationTypes(@WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluIdList
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<CluInfo> getClusByIdList(@WebParam(name="cluIdList") List<String> cluIdList, @WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluId
-	 * @param relatedCluId
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<String> getAllowedLuLuRelationTypesByCluId(@WebParam(name="cluId") String cluId,
-			@WebParam(name="relatedCluId") String relatedCluId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param relatedCluId
-	 * @param luLuRelationTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<CluInfo> getClusByRelation(@WebParam(name="relatedCluId") String relatedCluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey, 
-			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 	
-	 * @param relatedCluId
-	 * @param luLuRelationTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<String> getCluIdsByRelation(@WebParam(name="relatedCluId") String relatedCluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
-			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluId
-	 * @param luLuRelationTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<CluInfo> getRelatedClusByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
-			@WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluId
-	 * @param luLuRelationTypeKey
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<String> getRelatedCluIdsByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
-			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluId
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<CluPublicationInfo> getCluPublicationsByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluId
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<String> getResourceRequirementsForCluId(@WebParam(name="cluId") String cluId, @WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluSetId
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 * @throws UnsupportedOperationException
-	 */
-	public CluSetInfo getCluSetInfo(@WebParam(name="cluSetId") String cluSetId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param cluSetIdList
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws PermissionDeniedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<CluSetInfo> getCluSetInfoByIdList(@WebParam(name="cluSetIdList") List<String> cluSetIdList, @WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2102,24 +1940,10 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public LuiInfo getLui(@WebParam(name="luiId") String luiId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, UnsupportedOperationException;
-
-	/**
-	 * 
-	 * @param luiIdList
-	 * @param contextInfo
-	 * @return
-	 * @throws DoesNotExistException
-	 * @throws InvalidParameterException
-	 * @throws MissingParameterException
-	 * @throws OperationFailedException
-	 * @throws UnsupportedOperationException
-	 */
-	public List<LuiInfo> getLuisByIdList(@WebParam(name="luiIdList") List<String> luiIdList, @WebParam(name="contextInfo") ContextInfo contextInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
 	 * 
@@ -2133,6 +1957,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<LuiInfo> getLuisInAtpByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="atpKey") String atpKey, 
 			@WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
@@ -2149,6 +1974,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<String> getLuiIdsByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, UnsupportedOperationException;
@@ -2165,6 +1991,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<String> getLuiIdsInAtpByCluId(@WebParam(name="cluId") String cluId, @WebParam(name="atpKey") String atpKey, 
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, UnsupportedOperationException;
@@ -2181,6 +2008,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<String> getAllowedLuLuRelationTypesByLuiId(@WebParam(name="luiId") String luiId, @WebParam(name="relatedLuiId") String relatedLuiId, 
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2198,6 +2026,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<LuiInfo> getLuisByRelation(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, UnsupportedOperationException;
@@ -2214,6 +2043,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<String> getLuiIdsByRelation(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, UnsupportedOperationException;
@@ -2230,6 +2060,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<LuiInfo> getRelatedLuisByLuiId(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, UnsupportedOperationException;
@@ -2246,6 +2077,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<String> getRelatedLuiIdsByLuiId(@WebParam(name="luiId") String luiId, @WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey,
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2262,6 +2094,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public LuiLuiRelationInfo getLuiLuiRelation(@WebParam(name="luiLuiRelationId") String luiLuiRelationId, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, UnsupportedOperationException;
@@ -2277,6 +2110,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<LuiLuiRelationInfo> getLuiLuiRelationsByLui(@WebParam(name="luiId") String luiId, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, UnsupportedOperationException;
@@ -2293,6 +2127,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<ValidationResultInfo> validateLui(@WebParam(name="validationType") String validationType, @WebParam(name="luiInfo") LuiInfo luiInfo,
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException, UnsupportedOperationException;
@@ -2313,6 +2148,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws PermissionDeniedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public LuiInfo createLui(@WebParam(name="cluId") String cluId, @WebParam(name="atpKey") String atpKey, @WebParam(name="luiInfo") LuiInfo luiInfo,
 			@WebParam(name="contextInfo") ContextInfo contextInfo) throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
@@ -2333,6 +2169,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws VersionMismatchException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public LuiInfo updateLui(@WebParam(name="luiId") String luiId, @WebParam(name="luiInfo") LuiInfo luiInfo, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2352,6 +2189,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws PermissionDeniedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public StatusInfo deleteLui(@WebParam(name="luiId") String luiId, @WebParam(name="contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2371,6 +2209,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws PermissionDeniedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public LuiInfo updateLuiState(@WebParam(name="luiId") String luiId, @WebParam(name="luiState") String luiState, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2388,6 +2227,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<ValidationResultInfo> validateLuiLuiRelation(@WebParam(name="validationType") String validationType, @WebParam(name="luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
 			@WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
@@ -2411,6 +2251,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws PermissionDeniedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public LuiLuiRelationInfo createLuiLuiRelation(@WebParam(name="luiId") String luiId, @WebParam(name="relatedLuiId") String relatedLuiId,
 			@WebParam(name="luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name="luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
 			@WebParam(name="contextInfo") ContextInfo contextInfo)
@@ -2434,6 +2275,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws VersionMismatchException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public LuiLuiRelationInfo updateLuiLuiRelation(@WebParam(name="luiLuiRelationId") String luiLuiRelationId, @WebParam(name="luiLuiRelationInfo") LuiLuiRelationInfo luiLuiRelationInfo,
 			@WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
@@ -2453,6 +2295,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws PermissionDeniedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public StatusInfo deleteLuiLuiRelation(@WebParam(name="luiLuiRelationId") String luiLuiRelationId, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2465,6 +2308,7 @@ public interface CluService extends VersionManagementService {
 	 * @return
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public ObjectStructureDefinition getObjectStructure(@WebParam(name="objectTypeKey") String objectTypeKey, @WebParam(name="contextInfo") ContextInfo contextInfo)
 			 throws UnsupportedOperationException;
 
@@ -2474,6 +2318,7 @@ public interface CluService extends VersionManagementService {
 	 * @return
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<String> getObjectTypes(@WebParam(name="contextInfo") ContextInfo contextInfo) throws UnsupportedOperationException;
 
 	/**
@@ -2488,6 +2333,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public SearchCriteriaTypeInfo getSearchCriteriaType(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
@@ -2498,6 +2344,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException;
 
 	/**
@@ -2512,6 +2359,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public SearchResultTypeInfo getSearchResultType(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
@@ -2522,6 +2370,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException;
 
 	/**
@@ -2536,6 +2385,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public SearchTypeInfo getSearchType(@WebParam(name="searchTypeKey") String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
@@ -2546,6 +2396,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException;
 
 	/**
@@ -2560,6 +2411,7 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByCriteria(@WebParam(name="searchCriteriaTypeKey") String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 
 	/**
@@ -2574,5 +2426,22 @@ public interface CluService extends VersionManagementService {
 	 * @throws OperationFailedException
 	 * @throws UnsupportedOperationException
 	 */
+	@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByResult(@WebParam(name="searchResultTypeKey") String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
+
+	/**
+	 * 
+	 * This method ...
+	 * 
+	 * @param luiIdList
+	 * @param contextInfo
+	 * @return
+	 * @throws DoesNotExistException
+	 * @throws InvalidParameterException
+	 * @throws MissingParameterException
+	 * @throws OperationFailedException
+	 * @throws UnsupportedOperationException
+	 */
+	@Deprecated
+    public List<LuiInfo> getLuisByIds(@WebParam(name="searchResultTypeKey") List<String> luiIdList, @WebParam(name="searchResultTypeKey") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException;
 }
