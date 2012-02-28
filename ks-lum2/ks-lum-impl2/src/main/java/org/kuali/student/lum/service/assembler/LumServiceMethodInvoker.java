@@ -23,11 +23,11 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r2.core.statement.service.StatementService;
+import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
 import org.kuali.student.lum.course.service.assembler.LoCategoryRelationInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
 import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
@@ -260,68 +260,68 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			switch(results.getOperation()){
 			case CREATE:
 				// TODO KSCM
-				RefStatementRelationInfo created = statementService.createRefStatementRelation(null, null, null, relation, contextInfo);
-				relation.setMeta(created.getMeta());
+				RefStatementRelationInfo created = statementService.createRefStatementRelation(relation);
+				relation.setMetaInfo(created.getMetaInfo());
 				break;
 			case UPDATE:
-				RefStatementRelationInfo updated = statementService.updateRefStatementRelation(relation.getId(), relation, contextInfo);
-				relation.setMeta(updated.getMeta());
+				RefStatementRelationInfo updated = statementService.updateRefStatementRelation(relation.getId(), relation);
+				relation.setMetaInfo(updated.getMetaInfo());
 				break;
 			case DELETE:
-				statementService.deleteRefStatementRelation(relation.getId(), contextInfo);
+				statementService.deleteRefStatementRelation(relation.getId());
 				break;
 			}
 		} else if(nodeData instanceof StatementInfo){
 			StatementInfo statement = (StatementInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				StatementInfo created = statementService.createStatement(statement.getType(), statement, contextInfo);
+				StatementInfo created = statementService.createStatement(statement.getType(), statement);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
 					results.getAssembler().assemble(created, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case UPDATE:
-				StatementInfo updated = statementService.updateStatement(statement.getId(), statement, contextInfo);
+				StatementInfo updated = statementService.updateStatement(statement.getId(), statement);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
 					results.getAssembler().assemble(updated, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case DELETE:
-				statementService.deleteStatement(statement.getId(), contextInfo);
+				statementService.deleteStatement(statement.getId());
 				break;
 			}
 		} else if(nodeData instanceof ReqComponentInfo){
 			ReqComponentInfo reqComp = (ReqComponentInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				ReqComponentInfo created = statementService.createReqComponent(reqComp.getType(), reqComp, contextInfo);
-				reqComp.setMeta(created.getMeta());
+				ReqComponentInfo created = statementService.createReqComponent(reqComp.getType(), reqComp);
+				reqComp.setMetaInfo(created.getMetaInfo());
 				break;
 			case UPDATE:
-				ReqComponentInfo updated = statementService.updateReqComponent(reqComp.getId(), reqComp, contextInfo);
-				reqComp.setMeta(updated.getMeta());
+				ReqComponentInfo updated = statementService.updateReqComponent(reqComp.getId(), reqComp);
+				reqComp.setMetaInfo(updated.getMetaInfo());
 				break;
 			case DELETE:
-				statementService.deleteReqComponent(reqComp.getId(), contextInfo);
+				statementService.deleteReqComponent(reqComp.getId());
 				break;
 			}
 		}else if(nodeData instanceof StatementTreeViewInfo){
 			StatementTreeViewInfo treeView = (StatementTreeViewInfo) nodeData;
 			switch(results.getOperation()){
 			case CREATE:
-				StatementTreeViewInfo created = statementService.createStatementTreeView(treeView, contextInfo);
+				StatementTreeViewInfo created = statementService.createStatementTreeView(treeView);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
 					results.getAssembler().assemble(created, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case UPDATE:
-				StatementTreeViewInfo updated = statementService.updateStatementTreeView(treeView.getId(), treeView, contextInfo);
+				StatementTreeViewInfo updated = statementService.updateStatementTreeView(treeView.getId(), treeView);
 				if(results.getAssembler() != null && results.getBusinessDTORef() != null) {
 					results.getAssembler().assemble(updated, results.getBusinessDTORef(), true, contextInfo);
 				}
 				break;
 			case DELETE:
-				statementService.deleteStatementTreeView(treeView.getId(), contextInfo);
+				statementService.deleteStatementTreeView(treeView.getId());
 				break;
 			}
    		}else if(nodeData instanceof CluPublicationInfo){
