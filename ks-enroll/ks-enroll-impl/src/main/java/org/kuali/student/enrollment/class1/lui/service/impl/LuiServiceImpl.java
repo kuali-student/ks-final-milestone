@@ -5,13 +5,12 @@ import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.class1.lui.dao.LuiCluCluRelationDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiDao;
 import org.kuali.student.enrollment.class1.lui.dao.LuiLuiRelationDao;
 import org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiLuiRelationEntity;
-import org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupRelationEntity;
+import org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity;
 import org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity;
 import org.kuali.student.enrollment.lui.dto.LuiCapacityInfo;
@@ -42,7 +41,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class LuiServiceImpl implements LuiService {
     private LuiDao luiDao;
     private LuiLuiRelationDao luiLuiRelationDao;
-    private LuiCluCluRelationDao luiCluCluRelationDao;
     private StateService stateService;
     private AtpService atpService;
     private CluService luService;
@@ -94,12 +92,7 @@ public class LuiServiceImpl implements LuiService {
             throw new DoesNotExistException(luiId);
         }
 
-        LuiInfo dto = lui.toDto();
-        // if (lui.getOfficialIdentifier() != null) {
-        // dto.setOfficialIdentifier(lui.getOfficialIdentifier().toDto());
-        // }
-
-        return dto;
+        return lui.toDto();
     }
 
     @Override
@@ -274,57 +267,11 @@ public class LuiServiceImpl implements LuiService {
             throw new AlreadyExistsException();
         }
 
-        // Lui Clu Clu Relations
-        if (luiInfo.getCluCluRelationIds() != null) {
-            List<LuiCluCluRelationEntity> cluCluRelations = new ArrayList<LuiCluCluRelationEntity>();
-            for (String cluCluRelationId : luiInfo.getCluCluRelationIds()) {
-                LuiCluCluRelationEntity cluCluRelation = new LuiCluCluRelationEntity();
-                cluCluRelation.setId(UUIDHelper.genStringUUID());
-                cluCluRelation.setClucluRelationId(cluCluRelationId);
-                cluCluRelation.setLui(entity);
-                cluCluRelations.add(cluCluRelation);
-            }
-            entity.setCluCluReltns(cluCluRelations);
-        }
+        this.setLuiCluCluRelations(luiInfo.getCluCluRelationIds(), entity.getCluCluReltns(), entity);
+        this.setUnitsContentOwner(luiInfo.getUnitsContentOwner(), entity.getUnitsContentOwners(), entity);
+        this.addUnitsDeployment(luiInfo.getUnitsDeployment(), entity.getUnitsDeployments(), entity);
+        this.addResultValuesGroups(luiInfo.getResultValuesGroupKeys(), entity.getResultValuesGroupRelationEntities(), entity);
 
-        // Units Content Owner
-        if (luiInfo.getUnitsContentOwner() != null) {
-            List<LuiUnitsContentOwnerEntity> cluCluRelations = new ArrayList<LuiUnitsContentOwnerEntity>();
-            for (String orgId : luiInfo.getUnitsContentOwner()) {
-                LuiUnitsContentOwnerEntity unitsContentOwner = new LuiUnitsContentOwnerEntity();
-                unitsContentOwner.setId(UUIDHelper.genStringUUID());
-                unitsContentOwner.setOrgId(orgId);
-                unitsContentOwner.setLui(entity);
-                cluCluRelations.add(unitsContentOwner);
-            }
-            entity.setUnitsContentOwners(cluCluRelations);
-        }
-
-        // Units Deployment
-        if (luiInfo.getUnitsDeployment() != null) {
-            List<LuiUnitsDeploymentEntity> unitsDeployment = new ArrayList<LuiUnitsDeploymentEntity>();
-            for (String orgId : luiInfo.getUnitsDeployment()) {
-                LuiUnitsDeploymentEntity unitDeployment = new LuiUnitsDeploymentEntity();
-                unitDeployment.setId(UUIDHelper.genStringUUID());
-                unitDeployment.setOrgId(orgId);
-                unitDeployment.setLui(entity);
-                unitsDeployment.add(unitDeployment);
-            }
-            entity.setUnitsDeployments(unitsDeployment);
-        }
-
-        // Result Value Groups
-        if (luiInfo.getResultValuesGroupKeys() != null) {
-            List<LuiResultValuesGroupRelationEntity> resultValuesGroups = new ArrayList<LuiResultValuesGroupRelationEntity>();
-            for (String resultValueGroupKey : luiInfo.getResultValuesGroupKeys()) {
-                LuiResultValuesGroupRelationEntity resultValueGroup = new LuiResultValuesGroupRelationEntity();
-                resultValueGroup.setId(UUIDHelper.genStringUUID());
-                resultValueGroup.setResultValuesGroupKey(resultValueGroupKey);
-                resultValueGroup.setLui(entity);
-                resultValuesGroups.add(resultValueGroup);
-            }
-            entity.setResultValuesGroupRelationEntities(resultValuesGroups);
-        }
         luiDao.persist(entity);
 
         return luiDao.find(entity.getId()).toDto();
@@ -344,6 +291,11 @@ public class LuiServiceImpl implements LuiService {
             String atpId = luiInfo.getAtpId();
             if (null != atpId && checkExistenceForAtp(atpId, context))
                 modifiedEntity.setAtpId(atpId);
+
+            this.setLuiCluCluRelations(luiInfo.getCluCluRelationIds(), entity.getCluCluReltns(), modifiedEntity);
+            this.setUnitsContentOwner(luiInfo.getUnitsContentOwner(), entity.getUnitsContentOwners(), modifiedEntity);
+            this.addUnitsDeployment(luiInfo.getUnitsDeployment(), entity.getUnitsDeployments(), modifiedEntity);
+            this.addResultValuesGroups(luiInfo.getResultValuesGroupKeys(), entity.getResultValuesGroupRelationEntities(), modifiedEntity);
 
             luiDao.merge(modifiedEntity);
             return luiDao.find(modifiedEntity.getId()).toDto();
@@ -370,6 +322,78 @@ public class LuiServiceImpl implements LuiService {
             throw new DoesNotExistException(luiId);
 
         return status;
+    }
+
+    private void addResultValuesGroups(final List<String> resultValuesGroupKeys, final List<LuiResultValuesGroupEntity> existingResultValuesGrps, LuiEntity entity) {
+
+        if (resultValuesGroupKeys == null)
+            return;
+
+        keys: for (String resultValueGroupKey : resultValuesGroupKeys) {
+            for (LuiResultValuesGroupEntity existingResultValueGroup : existingResultValuesGrps) {
+                if (existingResultValueGroup.getResultValuesGroupKey().equals(resultValueGroupKey)) {
+                    entity.getResultValuesGroupRelationEntities().add(existingResultValueGroup);
+                    continue keys;
+                }
+            }
+
+            entity.getResultValuesGroupRelationEntities().add(new LuiResultValuesGroupEntity(entity, resultValueGroupKey));
+        }
+
+    }
+
+    private void addUnitsDeployment(final List<String> orgIds, final List<LuiUnitsDeploymentEntity> existingUnitsDeployments, LuiEntity entity) {
+        
+        if (orgIds == null)
+            return;
+
+        orgs: for (String orgId : orgIds) {
+            for (LuiUnitsDeploymentEntity existingUnitsDeployment : existingUnitsDeployments) {
+                if (existingUnitsDeployment.getOrgId().equals(orgId)) {
+                    entity.getUnitsDeployments().add(existingUnitsDeployment);
+                    continue orgs;
+                }
+            }
+            
+            entity.getUnitsDeployments().add(new LuiUnitsDeploymentEntity(entity, orgId));
+        }
+
+    }
+
+    private void setUnitsContentOwner(final List<String> orgIds, final List<LuiUnitsContentOwnerEntity> existingUnitsContentOwners, LuiEntity entity) {
+        
+        if (orgIds == null)
+            return;
+
+        orgs: for (String orgId : orgIds) {
+            for (LuiUnitsContentOwnerEntity existingUnitsContentOwner : existingUnitsContentOwners) {
+                if (existingUnitsContentOwner.getOrgId().equals(orgId)) {
+                    entity.getUnitsContentOwners().add(existingUnitsContentOwner);
+                    continue orgs;
+                }
+            }
+            
+            entity.getUnitsContentOwners().add(new LuiUnitsContentOwnerEntity(entity, orgId));
+        }
+
+    }
+
+    private void setLuiCluCluRelations(final List<String> cluCluRelationdIds, List<LuiCluCluRelationEntity> existingCluCluReltns, LuiEntity entity) {
+        
+        if (cluCluRelationdIds == null)
+            return;
+
+        reltns: for (String cluCluRelationId : cluCluRelationdIds) {
+            for (LuiCluCluRelationEntity existingCluCluReltn : existingCluCluReltns) {
+                if (existingCluCluReltn.getClucluRelationId().equals(cluCluRelationId)) {
+                    entity.getCluCluReltns().add(existingCluCluReltn);
+                    continue reltns;
+                }
+            }
+            
+            entity.getCluCluReltns().add(new LuiCluCluRelationEntity(entity, cluCluRelationId));
+        }
+
     }
 
     @Override

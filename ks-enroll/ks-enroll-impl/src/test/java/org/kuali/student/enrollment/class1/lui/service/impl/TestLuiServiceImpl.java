@@ -14,6 +14,7 @@ import javax.annotation.Resource;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.dto.LuiLuiRelationInfo;
 import org.kuali.student.enrollment.lui.service.LuiService;
@@ -34,6 +35,7 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
 import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
 import org.kuali.student.r2.lum.clu.dto.FeeInfo;
+import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
 import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -80,22 +82,24 @@ public class TestLuiServiceImpl {
 
             assertEquals("Lui Desc 101", obj.getDescr().getPlain());
 
-            // assertNotNull(obj.getOfficialIdentifier());
+            assertNotNull(obj.getOfficialIdentifier());
             assertEquals("Chem 123", obj.getOfficialIdentifier().getShortName());
-            // assertNotNull(obj.getAlternateIdentifiers());
+            assertNotNull(obj.getAlternateIdentifiers());
+            assertEquals("LUI-IDENT-2", obj.getAlternateIdentifiers().get(0).getId());
 
             assertNotNull(obj.getEffectiveDate());
             assertNotNull(obj.getExpirationDate());
 
-            assertNotNull(obj.getCluId());
-            // assertNotNull(obj.getAtpId());
-            // assertNotNull(obj.getLuiCodes());
+            assertEquals("cluId1", obj.getCluId());
+            assertEquals("atpId1", obj.getAtpId());
+            assertEquals(1, obj.getLuiCodes().size());
+            assertEquals("LUI-lu-cd-1", obj.getLuiCodes().get(0).getId());
 
             assertNotNull(obj.getMaximumEnrollment());
             assertEquals(200, obj.getMaximumEnrollment().intValue());
             assertNotNull(obj.getMinimumEnrollment());
             assertEquals(50, obj.getMinimumEnrollment().intValue());
-            // assertNotNull(obj.getReferenceURL());
+            assertEquals("ref.url", obj.getReferenceURL());
 
             assertNotNull(obj.getCluCluRelationIds());
             assertEquals(2, obj.getCluCluRelationIds().size());
@@ -115,7 +119,7 @@ public class TestLuiServiceImpl {
             assertNotNull(obj.getRevenues());
             assertEquals(2, obj.getRevenues().size());
             assertNotNull(obj.getExpenditure());
-            // assertEquals(2, obj.getExpenditure().size());
+            assertEquals("LUI-Expen-1", obj.getExpenditure().getId());
             assertNotNull(obj.getMeetingSchedules());
             assertEquals(4, obj.getMeetingSchedules().size());
 
@@ -163,20 +167,25 @@ public class TestLuiServiceImpl {
         info.setEffectiveDate(Calendar.getInstance().getTime());
         info.setMaximumEnrollment(25);
         info.setMinimumEnrollment(10);
+        info.setReferenceURL("ref.create.url");
         if (info.getOfficialIdentifier() != null) {
             fail("official identifier is not null but it was never set");
         }
-        // info.setStudySubjectArea("Math");
+        
+        LuiIdentifierInfo identifier = new LuiIdentifierInfo();
+        identifier.setShortName("identifier.shortname");
+        identifier.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
+        identifier.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        info.setOfficialIdentifier(identifier);
+        
+        LuiIdentifierInfo identifier2 = new LuiIdentifierInfo();
+        identifier2.setShortName("alternate.identifier.shortname");
+        identifier2.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY);
+        identifier2.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        info.getAlternateIdentifiers().add(identifier2);
+        
         info.setCluId("testCluId");
         info.setAtpId("testAtpId1");
-
-        //List<OfferingInstructorInfo> instructors = new ArrayList<OfferingInstructorInfo>();
-        //OfferingInstructorInfo instructor = new OfferingInstructorInfo();
-        //instructor.setId("LUI-INSTR-Test-1");
-        //instructor.setPersonId("Pers-2");
-        //instructor.setPercentageEffort((float) 100);
-        //instructors.add(instructor);
-        // info.setInstructors(instructors);
         
         List<String> cluCluRelationIds = new ArrayList<String>();
         cluCluRelationIds.add("CluClu-2");
@@ -194,23 +203,28 @@ public class TestLuiServiceImpl {
         resultValueGroupKeys.add("Val-Group-3");
         info.setResultValuesGroupKeys(resultValueGroupKeys);
         
-        List<FeeInfo> fees = new ArrayList<FeeInfo>();
-        FeeInfo fee = new FeeInfo();
-        fees.add(fee);
-        info.setFees(fees);
+        LuCodeInfo luCode = new LuCodeInfo();
+        RichTextInfo rt = new RichTextInfo();
+        rt.setPlain("fee.plain");
+        rt.setFormatted("fee.formatted");
+        luCode.setDescr(rt);
+        info.getLuiCodes().add(luCode);
         
-        List<RevenueInfo> revenues = new ArrayList<RevenueInfo>();
+        FeeInfo fee = new FeeInfo();
+        RichTextInfo rtf = new RichTextInfo();
+        rtf.setPlain("fee.plain");
+        rtf.setFormatted("fee.formatted");
+        fee.setDescr(rtf);
+        info.getFees().add(fee);
+        
         RevenueInfo revenue = new RevenueInfo();
-        revenues.add(revenue);
-        info.setRevenues(revenues);
+        info.getRevenues().add(revenue);
         
         ExpenditureInfo expenditure = new ExpenditureInfo();
         info.setExpenditure(expenditure);
         
-        List<MeetingScheduleInfo> meetingSchedules = new ArrayList<MeetingScheduleInfo>();
         MeetingScheduleInfo meetingSchedule = new MeetingScheduleInfo();
-        meetingSchedules.add(meetingSchedule);
-        info.setMeetingSchedules(meetingSchedules);
+        info.getMeetingSchedules().add(meetingSchedule);
 
         LuiInfo created = null;
         created = luiServiceValidation.createLui("testCluId", "testAtpId1", info, callContext);
@@ -218,34 +232,31 @@ public class TestLuiServiceImpl {
         assertEquals("Test lui one", created.getName());
         assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, created.getStateKey());
         assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, created.getTypeKey());
+        assertNotNull(created.getEffectiveDate());
+        assertEquals(null, created.getExpirationDate());
+        
+        assertNotNull(created.getOfficialIdentifier());
+        assertEquals("identifier.shortname", created.getOfficialIdentifier().getShortName());
+        assertEquals(1, created.getAlternateIdentifiers().size());
+        assertEquals("alternate.identifier.shortname", created.getAlternateIdentifiers().get(0).getShortName());
+        
         assertEquals(Integer.valueOf(25), created.getMaximumEnrollment());
         assertEquals(Integer.valueOf(10), created.getMinimumEnrollment());
         assertEquals("testCluId", created.getCluId());
         assertEquals("testAtpId1", created.getAtpId());
+        assertEquals("ref.create.url", created.getReferenceURL());
         
         assertTrue(created.getCluCluRelationIds().contains("CluClu-2"));
         assertTrue(created.getUnitsContentOwner().contains("Org-2"));
         assertTrue(created.getUnitsDeployment().contains("Org-1"));
         assertTrue(created.getResultValuesGroupKeys().contains("Val-Group-3"));
         
-        //assertEquals(1, created.getFees().size());
-        //assertEquals(1, created.getRevenues().size());
-        //assertNotNull(created.getExpenditure().getId());
-        //assertEquals(1, created.getMeetingSchedules().size());
+        assertEquals(1, created.getLuiCodes().size());
+        assertEquals(1, created.getFees().size());
+        assertEquals(1, created.getRevenues().size());
+        assertNotNull(created.getExpenditure().getId());
+        assertEquals(1, created.getMeetingSchedules().size());
 
-        try {
-            LuiInfo retrieved = luiServiceValidation.getLui(created.getId(), callContext);
-            assertNotNull(retrieved);
-            assertEquals("Test lui one", retrieved.getName());
-            assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, retrieved.getStateKey());
-            assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, retrieved.getTypeKey());
-            assertEquals(Integer.valueOf(25), retrieved.getMaximumEnrollment());
-            assertEquals(Integer.valueOf(10), retrieved.getMinimumEnrollment());
-            assertEquals("testCluId", retrieved.getCluId());
-            assertEquals("testAtpId1", retrieved.getAtpId());
-        } catch (DoesNotExistException e) {
-            fail(e.getMessage());
-        }
     }
 
     @Test
@@ -262,14 +273,87 @@ public class TestLuiServiceImpl {
         assertNotNull(modified.getOfficialIdentifier());
         modified.getOfficialIdentifier().setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY);
         modified.getOfficialIdentifier().setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        modified.getOfficialIdentifier().setShortName("identifier.shortname");
+        
+        modified.getAlternateIdentifiers().clear();
+        LuiIdentifierInfo identifier2 = new LuiIdentifierInfo();
+        identifier2.setShortName("alternate.identifier.shortname");
+        identifier2.setTypeKey(LuiServiceConstants.LUI_IDENTIFIER_CROSSLISTED_TYPE_KEY);
+        identifier2.setStateKey(LuiServiceConstants.LUI_IDENTIFIER_ACTIVE_STATE_KEY);
+        modified.getAlternateIdentifiers().add(identifier2);
+        
+        modified.setReferenceURL("ref.update.url");
+        modified.setCluId("updateCluId");
+        modified.setAtpId("updateAtpId1");
 
+        modified.getCluCluRelationIds().remove("CluClu-2");
+        modified.getCluCluRelationIds().add("CluClu-22");
+        modified.getUnitsContentOwner().add("Org-22");
+        modified.getUnitsDeployment().add("Org-11");
+        modified.getResultValuesGroupKeys().remove("Val-Group-2");
+        modified.getResultValuesGroupKeys().remove("Val-Group-3");
+        modified.getResultValuesGroupKeys().add("Val-Group-33");
+        
+        LuCodeInfo luCode = new LuCodeInfo();
+        RichTextInfo rt = new RichTextInfo();
+        rt.setPlain("fee.plain");
+        rt.setFormatted("fee.formatted");
+        luCode.setDescr(rt);
+        modified.getLuiCodes().add(luCode);
+        
+        FeeInfo fee = new FeeInfo();
+        RichTextInfo rtf = new RichTextInfo();
+        rtf.setPlain("fee.plain");
+        rtf.setFormatted("fee.formatted");
+        fee.setDescr(rtf);
+        modified.getFees().add(fee);
+        
+        RevenueInfo revenue = new RevenueInfo();
+        modified.getRevenues().add(revenue);
+        
+        ExpenditureInfo expenditure = new ExpenditureInfo();
+        modified.setExpenditure(expenditure);
+        
+        MeetingScheduleInfo meetingSchedule = new MeetingScheduleInfo();
+        modified.getMeetingSchedules().add(meetingSchedule);
+        
         try {
             LuiInfo updated = luiServiceValidation.updateLui("Lui-1", modified, callContext);
+            
             assertNotNull(updated);
             assertEquals(LuiServiceConstants.LUI_APROVED_STATE_KEY, updated.getStateKey());
             assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, updated.getTypeKey());
             assertEquals(Integer.valueOf(25), updated.getMaximumEnrollment());
             assertEquals(Integer.valueOf(10), updated.getMinimumEnrollment());
+            assertEquals("ref.update.url", updated.getReferenceURL());
+            assertNotNull(updated.getEffectiveDate());
+            assertNotNull(updated.getExpirationDate());
+            assertEquals("updateCluId", updated.getCluId());
+            assertEquals("updateAtpId1", updated.getAtpId());
+            
+            assertNotNull(updated.getOfficialIdentifier());
+            assertEquals("identifier.shortname", updated.getOfficialIdentifier().getShortName());
+            assertEquals(1, updated.getAlternateIdentifiers().size());
+            assertEquals("alternate.identifier.shortname", updated.getAlternateIdentifiers().get(0).getShortName());
+            
+            assertEquals(2, updated.getResultValuesGroupKeys().size());
+            assertTrue(updated.getCluCluRelationIds().contains("CluClu-1"));
+            assertTrue(updated.getCluCluRelationIds().contains("CluClu-22"));
+            assertEquals(2, updated.getResultValuesGroupKeys().size());
+            assertTrue(updated.getUnitsContentOwner().contains("Org-22"));
+            assertEquals(2, updated.getResultValuesGroupKeys().size());
+            assertTrue(updated.getUnitsDeployment().contains("Org-11"));
+            assertEquals(2, updated.getResultValuesGroupKeys().size());
+            assertTrue(updated.getResultValuesGroupKeys().contains("Val-Group-33"));
+            assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-2"));
+            assertTrue(!updated.getResultValuesGroupKeys().contains("Val-Group-3"));
+            
+            assertEquals(2, updated.getLuiCodes().size());
+            assertEquals(4, updated.getFees().size());
+            assertEquals(3, updated.getRevenues().size());
+            assertTrue(!"LUI-Expen-1".equals(updated.getExpenditure().getId()));
+            assertEquals(5, updated.getMeetingSchedules().size());
+            
         } catch (Exception e) {
             fail(e.getMessage());
         }

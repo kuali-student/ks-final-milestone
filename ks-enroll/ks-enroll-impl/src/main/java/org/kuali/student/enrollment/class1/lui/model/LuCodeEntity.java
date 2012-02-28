@@ -81,7 +81,7 @@ public class LuCodeEntity extends MetaEntity implements AttributeOwner<LuCodeAtt
             rti.setFormatted(getDescrFormatted());
             obj.setDescr(rti);
         }
-        
+    	obj.setMeta(super.toDTO());
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuCodeAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();

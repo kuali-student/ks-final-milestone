@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
+
 @Entity
 @Table(name = "KSEN_LUI_UNITS_DEPLOYMENT")
 public class LuiUnitsDeploymentEntity {
@@ -21,7 +23,16 @@ public class LuiUnitsDeploymentEntity {
 
     @Column(name = "ORG_ID", nullable = false)
     private String orgId;
+    
+    public LuiUnitsDeploymentEntity(){
+    }
 
+    public LuiUnitsDeploymentEntity(LuiEntity lui, String orgId){
+        this.setId(UUIDHelper.genStringUUID());
+        this.setLui(lui);
+        this.setOrgId(orgId);
+    }
+    
     public String getId() {
         return id;
     }

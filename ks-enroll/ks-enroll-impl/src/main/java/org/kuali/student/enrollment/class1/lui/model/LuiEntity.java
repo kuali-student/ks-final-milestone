@@ -13,24 +13,19 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.kuali.student.common.entity.KSEntityConstants;
-import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.enrollment.lui.dto.LuiIdentifierInfo;
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
 import org.kuali.student.enrollment.lui.infc.Lui;
 import org.kuali.student.enrollment.lui.infc.LuiIdentifier;
-import org.kuali.student.r2.common.dto.AttributeInfo;
-import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
 import org.kuali.student.r2.common.infc.MeetingSchedule;
 import org.kuali.student.r2.common.infc.RichText;
-import org.kuali.student.r2.lum.clu.dto.ExpenditureInfo;
-import org.kuali.student.r2.lum.clu.dto.FeeInfo;
-import org.kuali.student.r2.lum.clu.dto.LuCodeInfo;
-import org.kuali.student.r2.lum.clu.dto.RevenueInfo;
+import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
+import org.kuali.student.r2.lum.clu.infc.Fee;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
+import org.kuali.student.r2.lum.clu.infc.Revenue;
 
 @Entity
 @Table(name = "KSEN_LUI")
@@ -101,7 +96,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     private List<LuiUnitsContentOwnerEntity> unitsContentOwners;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "lui")
-    private List<LuiResultValuesGroupRelationEntity> resultValuesGroupRelationEntities;
+    private List<LuiResultValuesGroupEntity> resultValuesGroupRelationEntities;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<LuiAttributeEntity> attributes;
@@ -130,7 +125,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
                 this.setDescrFormatted(rt.getFormatted());
                 this.setDescrPlain(rt.getPlain());
             }
-            
+
             // Lui Identifiers
             this.setIdentifiers(new ArrayList<LuiIdentifierEntity>());
             if (lui.getOfficialIdentifier() != null)
@@ -145,8 +140,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             this.setLuCodes(new ArrayList<LuCodeEntity>());
             if (null != lui.getLuiCodes()) {
                 for (LuCode luCode : lui.getLuiCodes()) {
-                    LuCodeEntity lcdEntity = new LuCodeEntity(luCode);
-                    this.getLuCodes().add(lcdEntity);
+                    this.getLuCodes().add(new LuCodeEntity(luCode));
                 }
             }
 
@@ -154,28 +148,42 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
             this.setMeetingSchedules(new ArrayList<MeetingScheduleEntity>());
             if (null != lui.getMeetingSchedules()) {
                 for (MeetingSchedule ms : lui.getMeetingSchedules()) {
-                    MeetingScheduleEntity msEntity = new MeetingScheduleEntity(ms);
-                    this.getMeetingSchedules().add(msEntity);
+                    this.getMeetingSchedules().add(new MeetingScheduleEntity(ms));
                 }
             }
 
-            // Lui Result Values Group Relations
-            List<LuiResultValuesGroupRelationEntity> resultValuesGroupRelationList = new ArrayList<LuiResultValuesGroupRelationEntity>();
-            if (lui.getResultValuesGroupKeys() != null) {
-                for (String resValueGroupKey : lui.getResultValuesGroupKeys()) {
-                    LuiResultValuesGroupRelationEntity resultValuesGroupRelationEntity = new LuiResultValuesGroupRelationEntity(this, resValueGroupKey);
-                    resultValuesGroupRelationEntity.setId(UUIDHelper.genStringUUID());
-                    resultValuesGroupRelationList.add(resultValuesGroupRelationEntity);
+            // Lui Fees
+            this.setLuiFees(new ArrayList<LuiFeeEntity>());
+            if (null != lui.getFees()) {
+                for (Fee fee : lui.getFees()) {
+                    this.getLuiFees().add(new LuiFeeEntity(fee));
                 }
             }
-            this.setResultValuesGroupRelationEntities(resultValuesGroupRelationList);
+
+            // Lui Expenditures
+            this.setLuiExpenditures(new ArrayList<LuiExpenditureEntity>());
+            if (null != lui.getExpenditure()) {
+                this.getLuiExpenditures().add(new LuiExpenditureEntity(lui.getExpenditure()));
+            }
+
+            // Lui Revenues
+            this.setLuiRevenues(new ArrayList<LuiRevenueEntity>());
+            if (null != lui.getFees()) {
+                for (Revenue revenue : lui.getRevenues()) {
+                    this.getLuiRevenues().add(new LuiRevenueEntity(revenue));
+                }
+            }
+
+            this.setResultValuesGroupRelationEntities(new ArrayList<LuiResultValuesGroupEntity>());
+            this.setUnitsDeployments(new ArrayList<LuiUnitsDeploymentEntity>());
+            this.setUnitsContentOwners(new ArrayList<LuiUnitsContentOwnerEntity>());
+            this.setCluCluReltns(new ArrayList<LuiCluCluRelationEntity>());
 
             // Lui Attributes
             this.setAttributes(new ArrayList<LuiAttributeEntity>());
             if (null != lui.getAttributes()) {
                 for (Attribute att : lui.getAttributes()) {
-                    LuiAttributeEntity attEntity = new LuiAttributeEntity(att);
-                    this.getAttributes().add(attEntity);
+                    this.getAttributes().add(new LuiAttributeEntity(att));
                 }
             }
         } catch (Exception e) {
@@ -190,19 +198,14 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         obj.setAtpId(atpId);
         obj.setCluId(cluId);
 
-        List<LuCodeInfo> codes = new ArrayList<LuCodeInfo>();
-        for (LuCodeEntity code : luCodes) {
-            LuCodeInfo codeInfo = code.toDto();
-            codes.add(codeInfo);
-        }
-        obj.setLuiCodes(codes);
-
         if (maxSeats != null)
             obj.setMaximumEnrollment(maxSeats);
         if (minSeats != null)
             obj.setMinimumEnrollment(minSeats);
         obj.setEffectiveDate(effectiveDate);
         obj.setExpirationDate(expirationDate);
+        obj.setReferenceURL(referenceURL);
+        
         if (luiType != null)
             obj.setTypeKey(luiType);
         if (luiState != null)
@@ -216,96 +219,79 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         }
 
         // Identifiers
-        List<LuiIdentifierInfo> identifierInfos = new ArrayList<LuiIdentifierInfo>();
         for (LuiIdentifierEntity identifier : identifiers) {
-            if ("kuali.lui.identifier.type.official".equals(identifier.getType())) {
+            if (LuiServiceConstants.LUI_IDENTIFIER_OFFICIAL_TYPE_KEY.equals(identifier.getType())) {
                 obj.setOfficialIdentifier(identifier.toDto());
             } else {
-                identifierInfos.add(identifier.toDto());
+                obj.getAlternateIdentifiers().add(identifier.toDto());
             }
         }
-        obj.setAlternateIdentifiers(identifierInfos);
+        
+        // Lu Codes
+        for (LuCodeEntity luCode : this.getLuCodes()){
+            obj.getLuiCodes().add(luCode.toDto());
+        }
 
         // Meeting Schedules
-        List<MeetingScheduleInfo> schedules = new ArrayList<MeetingScheduleInfo>();
         for (MeetingScheduleEntity ms : meetingSchedules) {
-            MeetingScheduleInfo msInfo = ms.toDto();
-            schedules.add(msInfo);
+            obj.getMeetingSchedules().add(ms.toDto());
         }
-        obj.setMeetingSchedules(schedules);
 
         // Expenditures
-        ExpenditureInfo expenditureInfo = new ExpenditureInfo();
         if (null != this.getLuiExpenditures()) {
             for (LuiExpenditureEntity luiExpenditure : this.getLuiExpenditures()) {
-                expenditureInfo = luiExpenditure.toDto();
+                obj.setExpenditure(luiExpenditure.toDto());
                 break;
             }
         }
-        obj.setExpenditure(expenditureInfo);
 
         // Fees
-        List<FeeInfo> feeInfos = new ArrayList<FeeInfo>();
         if (null != this.getLuiFees()) {
             for (LuiFeeEntity luiFee : this.getLuiFees()) {
-                feeInfos.add(luiFee.toDto());
+                obj.getFees().add(luiFee.toDto());
             }
         }
-        obj.setFees(feeInfos);
-
+        
         // Revenues
-        List<RevenueInfo> revenueInfos = new ArrayList<RevenueInfo>();
         if (null != this.getLuiRevenues()) {
             for (LuiRevenueEntity luiRevenue : this.getLuiRevenues()) {
-                revenueInfos.add(luiRevenue.toDto());
+                obj.getRevenues().add(luiRevenue.toDto());
             }
         }
-        obj.setRevenues(revenueInfos);
 
         // CluClu Relations
-        List<String> cluCluRelationIds = new ArrayList<String>();
         if (null != this.getCluCluReltns()) {
             for (LuiCluCluRelationEntity luCluCluRelation : this.getCluCluReltns()) {
-                cluCluRelationIds.add(luCluCluRelation.getClucluRelationId());
+                obj.getCluCluRelationIds().add(luCluCluRelation.getClucluRelationId());
             }
         }
-        obj.setCluCluRelationIds(cluCluRelationIds);
 
         // Units Deployments
-        List<String> unitsDeploymentIds = new ArrayList<String>();
         if (null != this.getUnitsDeployments()) {
             for (LuiUnitsDeploymentEntity unitDeployment : this.getUnitsDeployments()) {
-                unitsDeploymentIds.add(unitDeployment.getOrgId());
+                obj.getUnitsDeployment().add(unitDeployment.getOrgId());
             }
         }
-        obj.setUnitsDeployment(unitsDeploymentIds);
 
         // Units Content Owners
-        List<String> unitsContentOwnerIds = new ArrayList<String>();
         if (null != this.getUnitsContentOwners()) {
             for (LuiUnitsContentOwnerEntity unitContentOwner : this.getUnitsContentOwners()) {
-                unitsContentOwnerIds.add(unitContentOwner.getOrgId());
+                obj.getUnitsContentOwner().add(unitContentOwner.getOrgId());
             }
         }
-        obj.setUnitsContentOwner(unitsContentOwnerIds);
 
         // Result Values Group Relations
-        List<String> rvGroupIds = new ArrayList<String>();
         if (null != getResultValuesGroupRelationEntities()) {
-            for (LuiResultValuesGroupRelationEntity relationEntity : getResultValuesGroupRelationEntities()) {
-                rvGroupIds.add(relationEntity.getResultValuesGroupKey());
+            for (LuiResultValuesGroupEntity relationEntity : getResultValuesGroupRelationEntities()) {
+                obj.getResultValuesGroupKeys().add(relationEntity.getResultValuesGroupKey());
             }
         }
-        obj.setResultValuesGroupKeys(rvGroupIds);
 
         // Attributes
-        List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (LuiAttributeEntity att : getAttributes()) {
-            AttributeInfo attInfo = att.toDto();
-            atts.add(attInfo);
+            obj.getAttributes().add(att.toDto());
         }
-        obj.setAttributes(atts);
-
+        
         return obj;
     }
 
@@ -487,11 +473,11 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
         this.unitsDeployments = unitsDeployments;
     }
 
-    public List<LuiResultValuesGroupRelationEntity> getResultValuesGroupRelationEntities() {
+    public List<LuiResultValuesGroupEntity> getResultValuesGroupRelationEntities() {
         return resultValuesGroupRelationEntities;
     }
 
-    public void setResultValuesGroupRelationEntities(List<LuiResultValuesGroupRelationEntity> resultValuesGroupRelationEntities) {
+    public void setResultValuesGroupRelationEntities(List<LuiResultValuesGroupEntity> resultValuesGroupRelationEntities) {
         this.resultValuesGroupRelationEntities = resultValuesGroupRelationEntities;
     }
 

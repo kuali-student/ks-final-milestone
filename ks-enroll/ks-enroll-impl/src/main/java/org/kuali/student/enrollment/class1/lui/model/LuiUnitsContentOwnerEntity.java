@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
+
 @Entity
 @Table(name = "KSEN_LUI_UNITS_CONT_OWNER")
 public class LuiUnitsContentOwnerEntity {
@@ -21,6 +23,15 @@ public class LuiUnitsContentOwnerEntity {
 
     @Column(name = "ORG_ID", nullable = false)
     private String orgId;
+    
+    public LuiUnitsContentOwnerEntity(){
+    }
+
+    public LuiUnitsContentOwnerEntity(LuiEntity lui, String orgId){
+        this.setId(UUIDHelper.genStringUUID());
+        this.setLui(lui);
+        this.setOrgId(orgId);
+    }
 
     public String getId() {
         return id;

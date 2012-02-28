@@ -2,9 +2,11 @@ package org.kuali.student.enrollment.class1.lui.model;
 
 import javax.persistence.*;
 
+import org.kuali.student.common.util.UUIDHelper;
+
 @Entity
 @Table(name = "KSEN_LUI_RESULT_VAL_GRP")
-public class LuiResultValuesGroupRelationEntity{
+public class LuiResultValuesGroupEntity{
 
     @Id
 	@Column(name = "ID")
@@ -17,13 +19,14 @@ public class LuiResultValuesGroupRelationEntity{
     @Column(name = "RESULT_VAL_GRP_ID", nullable = false)
     private String resultValuesGroupKey;
 
-    public LuiResultValuesGroupRelationEntity(){
+    public LuiResultValuesGroupEntity(){
 
     }
 
-    public LuiResultValuesGroupRelationEntity(LuiEntity lui, String resultValuesGroupKey){
-        setLui(lui);
-        setResultValuesGroupKey(resultValuesGroupKey);
+    public LuiResultValuesGroupEntity(LuiEntity lui, String resultValuesGroupKey){
+        this.setId(UUIDHelper.genStringUUID());
+        this.setLui(lui);
+        this.setResultValuesGroupKey(resultValuesGroupKey);
     }
 
     public String getResultValuesGroupKey() {

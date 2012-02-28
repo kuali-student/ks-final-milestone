@@ -7,6 +7,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.kuali.student.common.util.UUIDHelper;
+
 @Entity
 @Table(name = "KSEN_LUI_CLUCLU_RELTN")
 public class LuiCluCluRelationEntity {
@@ -24,10 +26,10 @@ public class LuiCluCluRelationEntity {
     
     public LuiCluCluRelationEntity() {}
 
-    public LuiCluCluRelationEntity(LuiCluCluRelationEntity luiCluRelationEntity) {
-        this.setId(luiCluRelationEntity.getId());
-        this.setClucluRelationId(luiCluRelationEntity.getClucluRelationId());
-        this.setLui(luiCluRelationEntity.getLui());
+    public LuiCluCluRelationEntity(LuiEntity lui, String clucluRelationId) {
+        this.setId(UUIDHelper.genStringUUID());
+        this.setClucluRelationId(clucluRelationId);
+        this.setLui(lui);
     }
     
     public String getId() {

@@ -98,11 +98,11 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         expirationDate = null;
 
         officialIdentifier = null;
-        alternateIdentifiers = null;
+        alternateIdentifiers = new ArrayList<LuiIdentifierInfo>();
         cluId = null;
         cluCluRelationIds = new ArrayList<String>();
         atpId = null;
-        luiCodes = null;
+        luiCodes = new ArrayList<LuCodeInfo>();
 
         maximumEnrollment = null;
         minimumEnrollment = null;
