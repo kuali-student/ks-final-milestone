@@ -28,6 +28,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import org.kuali.student.r1.common.dto.HasAttributes;
 import org.kuali.student.r1.common.dto.Idable;
 import org.kuali.student.r1.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -39,7 +40,7 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     private static final long serialVersionUID = 1L;
 
     @XmlElement
-    private String descr;
+    private RichTextInfo descr;
 
     @XmlAttribute
     private String type;
@@ -60,11 +61,11 @@ public class LuCodeInfo implements Serializable, Idable, HasAttributes {
     /**
      * The description of the code.
      */
-    public String getDescr() {
+    public RichTextInfo getDescr() {
         return descr;
     }
 
-    public void setDescr(String descr) {
+    public void setDescr(RichTextInfo descr) {
         this.descr = descr;
     }
 
