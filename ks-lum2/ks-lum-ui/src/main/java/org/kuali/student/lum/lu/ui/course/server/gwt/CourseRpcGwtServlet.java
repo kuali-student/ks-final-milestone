@@ -165,7 +165,7 @@ public class CourseRpcGwtServlet extends DataGwtServlet implements CourseRpcServ
     	states.add("Draft");
     	states.add("Superseded");
     	request.addParam("lu.queryParam.luOptionalState", states);
-    	SearchResult result = cluService.search(request, contextInfo);
+    	SearchResult result = cluService.search(request);
     	
     	String resultString = result.getRows().get(0).getCells().get(0).getValue();
     	return "0".equals(resultString);
