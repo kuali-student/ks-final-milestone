@@ -860,8 +860,9 @@ public class LuServiceImpl implements CluService {
 
 		// Validate CLU
 		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, contextInfo);
+		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val);
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", val);
+			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
 		}
 
 		Clu clu = new Clu();
@@ -1031,8 +1032,9 @@ public class LuServiceImpl implements CluService {
 
 		// Validate CLU
 		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, contextInfo);
+		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val); 
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", val);
+			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
 		}
 
 		Clu clu = luDao.fetch(Clu.class, cluId);
@@ -1419,8 +1421,9 @@ public class LuServiceImpl implements CluService {
 
 		// Validate CluCluRelationInfo
 		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val); 
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", val);
+			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
 		}
 
 
@@ -1459,9 +1462,11 @@ public class LuServiceImpl implements CluService {
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
 		// Validate CluCluRelationInfo
-		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+		// TODO KSCM Parameters passed to validateCluCluRelation
+		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", null, null, null, cluCluRelationInfo, contextInfo);
+		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val); 
 		if(null != val && val.size() > 0) {
-			throw new DataValidationErrorException("Validation error!", val);
+			throw new DataValidationErrorException("Validation error!", r2ValidationResult);
 		}
 
 		final CluCluRelation cluCluRelation = luDao.fetch(CluCluRelation.class,
@@ -1524,10 +1529,12 @@ public class LuServiceImpl implements CluService {
 		
 		// Validate CLU
 		List<ValidationResultInfo> val;
+		List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult;
 		try {
 			val = validateCluPublication("SYSTEM", cluPublicationInfo);
+			r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(val);
 			if(null != val && val.size() > 0) {
-				throw new DataValidationErrorException("Validation error!", val);
+				throw new DataValidationErrorException("Validation error!", r2ValidationResult);
 			}
 		} catch (DoesNotExistException e) {
 			throw new OperationFailedException("Error creating clu",e);
