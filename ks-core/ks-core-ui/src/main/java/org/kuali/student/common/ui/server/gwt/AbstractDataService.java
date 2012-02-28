@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.server.gwt;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +57,7 @@ public abstract class AbstractDataService implements DataService{
 		filterProperties.put(TransformFilter.FILTER_ACTION, TransformFilterAction.GET);
 		filterProperties.put(MetadataFilter.METADATA_ID_VALUE, id);
 		
-		String dtoId = id;
+		String dtoId = URLDecoder.decode(id);
 		//First check if this is a proposal id
         //TODO: Igor : Why do we check for this when getting the data for programs?
 		try{
