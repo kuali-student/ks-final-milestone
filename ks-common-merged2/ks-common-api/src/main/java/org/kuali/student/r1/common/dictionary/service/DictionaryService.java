@@ -10,12 +10,14 @@ import javax.xml.ws.RequestWrapper;
 import javax.xml.ws.ResponseWrapper;
 
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 @Deprecated
 @WebService(name = "DictionaryService", targetNamespace = "http://student.kuali.org/wsdl/dictionary")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public interface DictionaryService {
-    @WebMethod
+    // TODO KSCM CONFIRM that it's ok that we've addd ContextInfo contextInfo
+	@WebMethod
     @RequestWrapper(className="org.kuali.student.common.dictionary.service.jaxws.GetObjectTypes", targetNamespace="http://student.kuali.org/wsdl/dictionary")    
     @ResponseWrapper(className="org.kuali.student.common.dictionary.service.jaxws.GetObjectTypesResponse", targetNamespace="http://student.kuali.org/wsdl/dictionary")
     public List<String> getObjectTypes();
