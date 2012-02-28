@@ -8,11 +8,10 @@ import org.kuali.student.r1.common.ui.client.widgets.KSButton;
 import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.r1.common.ui.client.widgets.ULPanel;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -55,7 +54,7 @@ public class SubrulePreviewWidget extends FlowPanel {
     private void buildRequirementHeader(StatementTreeViewInfo stmtTreeInfo) {
 
         SectionTitle header = SectionTitle.generateH6Title("");
-        if (stmtTreeInfo.getOperator() == StatementOperator.AND) {
+        if (stmtTreeInfo.getOperator() == StatementOperatorTypeKey.AND) {
             header.setHTML("Must meet <b>all of the following:</b>");
         } else {
             header.setHTML("Must meet <b>1 of the following:</b>");
@@ -136,7 +135,7 @@ public class SubrulePreviewWidget extends FlowPanel {
      * @param list
      */
     private void populateRequirementComponentWidgets(StatementTreeViewInfo statement, ULPanel list) {
-        StatementOperator includedOperator = null;
+    	StatementOperatorTypeKey includedOperator = null;
         for (ReqComponentInfo reqComp : statement.getReqComponents()) {
             String nl = getPreviewNaturalLanguageForReqComponent(reqComp);
             
@@ -160,7 +159,7 @@ public class SubrulePreviewWidget extends FlowPanel {
      * @return
      */
     private Widget buildSubStatementWidget(StatementTreeViewInfo subStatement, StatementTreeViewInfo parentStatement, boolean firstInList) {
-        StatementOperator prefixOperator = null;
+    	StatementOperatorTypeKey prefixOperator = null;
         
         boolean hasReqComponents = (subStatement.getReqComponents() != null && !subStatement.getReqComponents().isEmpty());
         
@@ -184,7 +183,7 @@ public class SubrulePreviewWidget extends FlowPanel {
 
         appendOperatorTag(headerText, prefixOperator);
         
-        headerText.append(subStatement.getOperator() == StatementOperator.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);
+        headerText.append(subStatement.getOperator() == StatementOperatorTypeKey.AND ? OPERATOR_HEADER_AND : OPERATOR_HEADER_OR);
         
         FlowPanel panel = new FlowPanel();
         panel.add(new HTML(headerText.toString()));
@@ -212,7 +211,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         return panel;
     }
     
-    private void appendOperatorTag(StringBuilder builder, StatementOperator operator) {
+    private void appendOperatorTag(StringBuilder builder, StatementOperatorTypeKey operator) {
         if(operator != null && builder != null) {
             builder.append("<span class=\"KS-Program-Rule-Preview-Subrule-ORAND\">").append(operator.toString()).append(" ").append("</span>");
         }
@@ -229,7 +228,7 @@ public class SubrulePreviewWidget extends FlowPanel {
         return nl;
     }
     
-    private FlowPanel buildRequirementPanel(ReqComponentInfo reqComp, StatementOperator operator, String requirement) {
+    private FlowPanel buildRequirementPanel(ReqComponentInfo reqComp, StatementOperatorTypeKey operator, String requirement) {
         
         FlowPanel requirementPanel = new FlowPanel();
         

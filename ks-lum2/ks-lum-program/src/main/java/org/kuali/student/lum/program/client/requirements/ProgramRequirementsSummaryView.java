@@ -36,9 +36,10 @@ import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
@@ -322,9 +323,9 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 final StatementTreeViewInfo newSubRule = new StatementTreeViewInfo();
                 newSubRule.setId(generateStatementTreeId());
                 newSubRule.setType(stmtTypeId);
-                RichTextInfo text = new RichTextInfo();
+                org.kuali.student.r1.common.dto.RichTextInfo text = new org.kuali.student.r1.common.dto.RichTextInfo();
                 text.setPlain("");
-                newSubRule.setDescr(text);
+                newSubRule.setDesc(text);
                 parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>() {
 
                     @Override
@@ -570,10 +571,10 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(generateStatementTreeId());
             stmtTree.setType(stmtTypeId);
-            RichTextInfo text2 = new RichTextInfo();
+            org.kuali.student.r1.common.dto.RichTextInfo text2 = new org.kuali.student.r1.common.dto.RichTextInfo();
             text2.setPlain("");
-            stmtTree.setDescr(text2);
-         // TODO KSCM wait for ks-core-ui/paul            stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
+            stmtTree.setDesc(text2);
+            stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
 
             //add new statement to the rule because even if user cancel on rule manage screen, we want to have at least one statement present
             progReqInfo.setStatement(stmtTree);

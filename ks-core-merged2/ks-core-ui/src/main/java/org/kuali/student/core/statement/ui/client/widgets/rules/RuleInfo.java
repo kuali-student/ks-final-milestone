@@ -17,8 +17,8 @@ package org.kuali.student.core.statement.ui.client.widgets.rules;
 
 import java.util.List;
 
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 public class RuleInfo {
@@ -34,8 +34,8 @@ public class RuleInfo {
 
     public StatementVO createNewStatementVO() {
         StatementInfo newStatementTree = new StatementInfo();
-        newStatementTree.setOperator(StatementOperator.AND);
-        newStatementTree.setTypeKey(getStatementTypeKey());
+        newStatementTree.setOperator(StatementOperatorTypeKey.AND);
+        newStatementTree.setType(getStatementTypeKey());
         StatementVO statementVO = new StatementVO();                            
         statementVO.setStatementInfo(newStatementTree);
         return statementVO;
@@ -124,7 +124,7 @@ public class RuleInfo {
         // create new statement to hold the new OR group
         StatementVO newStatementVO = createNewStatementVO();
         StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
-        newLuStatementInfo.setOperator(StatementOperator.OR);
+        newLuStatementInfo.setOperator(StatementOperatorTypeKey.OR);
         newStatementVO.setStatementInfo(newLuStatementInfo);
 
         // remove the selected RCs from original statement and move them into the new StatementVO
@@ -152,7 +152,7 @@ public class RuleInfo {
         // create new statement to hold the new OR group
         StatementVO newStatementVO = createNewStatementVO();
         StatementInfo newLuStatementInfo = newStatementVO.getStatementInfo();
-        newLuStatementInfo.setOperator(StatementOperator.AND);
+        newLuStatementInfo.setOperator(StatementOperatorTypeKey.AND);
         newStatementVO.setStatementInfo(newLuStatementInfo);
 
         // remove the selected RCs from original statement and move them into the new StatementVO

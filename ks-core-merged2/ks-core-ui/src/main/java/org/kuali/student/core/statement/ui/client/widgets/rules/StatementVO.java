@@ -22,10 +22,10 @@ import java.util.List;
 
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementInfo;
-import org.kuali.student.r2.core.statement.dto.StatementOperator;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -323,7 +323,7 @@ public class StatementVO extends Token implements Serializable {
 
     public void setStatementInfo(StatementInfo statementInfo) {
         this.statementInfo = statementInfo;
-        this.setType(statementInfo.getOperator() == StatementOperator.OR ? Token.Or : Token.And);
+        this.setType(statementInfo.getOperator() == StatementOperatorTypeKey.OR ? Token.Or : Token.And);
     }
 
     public List<ReqComponentVO> getReqComponentVOs() {
@@ -485,13 +485,13 @@ public class StatementVO extends Token implements Serializable {
 
     private void setOperatorNode(Node node, StatementVO statementVO) {
         if (statementVO.getStatementInfo() != null 
-        		&& statementVO.getStatementInfo().getOperator() == StatementOperator.AND
+        		&& statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.AND
                 ) {
             statementVO.type = Token.And;
             statementVO.value = "and";
             node.setUserObject(statementVO);
         } else if (statementVO.getStatementInfo() != null 
-        		&& statementVO.getStatementInfo().getOperator() == StatementOperator.OR
+        		&& statementVO.getStatementInfo().getOperator() == StatementOperatorTypeKey.OR
                 ) {
             statementVO.type = Token.Or;
             statementVO.value = "or";
@@ -685,9 +685,9 @@ public class StatementVO extends Token implements Serializable {
 
     private boolean doSimplify(StatementVO statementVO, StatementVO parent) {
         boolean structureChanged = false;
-        StatementOperator op = (statementVO == null || statementVO.getStatementInfo() == null) ? null : statementVO
+        StatementOperatorTypeKey op = (statementVO == null || statementVO.getStatementInfo() == null) ? null : statementVO
                 .getStatementInfo().getOperator();
-        StatementOperator parentOp = (parent == null || parent.getStatementInfo() == null) ? null : parent
+        StatementOperatorTypeKey parentOp = (parent == null || parent.getStatementInfo() == null) ? null : parent
                 .getStatementInfo().getOperator();
 
         if (parent != null && parentOp != op && statementVO.isWrapperStatementVO()) {
@@ -784,7 +784,7 @@ public class StatementVO extends Token implements Serializable {
             int statementCounter = 0;
             for (StatementVO childStatementVO : statementVO.getStatementVOs()) {
                 if (statementCounter > 0) {
-                    StatementOperator operator = (statementVO == null || statementVO.getStatementInfo() == null) ? null
+                	StatementOperatorTypeKey operator = (statementVO == null || statementVO.getStatementInfo() == null) ? null
                             :
                             statementVO.getStatementInfo().getOperator();
                     inSbResult.append(" " + operator + " ");
@@ -806,7 +806,7 @@ public class StatementVO extends Token implements Serializable {
                     if(statementVO != null &&
                        statementVO.getStatementInfo() != null &&
                        statementVO.getStatementInfo().getOperator() != null) {
-	                	StatementOperator operator = statementVO.getStatementInfo().getOperator();
+                    	StatementOperatorTypeKey operator = statementVO.getStatementInfo().getOperator();
 	                    inSbResult.append(" " + operator.toString().toLowerCase() + " ");
                     }
                 }
@@ -890,7 +890,7 @@ public class StatementVO extends Token implements Serializable {
         stvInfo.setAttributes(getStatementInfo().getAttributes());
         stvInfo.setDesc(getStatementInfo().getDesc());
         stvInfo.setId(getStatementInfo().getId());
-        stvInfo.setMeta(getStatementInfo().getMeta());
+        stvInfo.setMetaInfo(getStatementInfo().getMetaInfo());
         stvInfo.setName(getStatementInfo().getName());
         stvInfo.setOperator(getStatementInfo().getOperator());
         stvInfo.setState(getStatementInfo().getState());
@@ -940,7 +940,7 @@ public class StatementVO extends Token implements Serializable {
         getStatementInfo().setAttributes(statementTreeViewInfo.getAttributes());
         getStatementInfo().setDesc(statementTreeViewInfo.getDesc());
         getStatementInfo().setId(statementTreeViewInfo.getId());
-        getStatementInfo().setMeta(statementTreeViewInfo.getMeta());
+        getStatementInfo().setMetaInfo(statementTreeViewInfo.getMetaInfo());
         getStatementInfo().setName(statementTreeViewInfo.getName());
         getStatementInfo().setOperator(statementTreeViewInfo.getOperator());
         getStatementInfo().setState(statementTreeViewInfo.getState());

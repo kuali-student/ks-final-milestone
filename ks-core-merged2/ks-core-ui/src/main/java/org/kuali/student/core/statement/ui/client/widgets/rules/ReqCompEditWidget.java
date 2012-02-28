@@ -30,9 +30,9 @@ import org.kuali.student.r1.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldTypeInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.ReqComponentTypeInfo;
 
 import com.google.gwt.core.client.GWT;

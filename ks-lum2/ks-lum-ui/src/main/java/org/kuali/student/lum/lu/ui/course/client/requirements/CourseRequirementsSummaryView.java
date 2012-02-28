@@ -27,9 +27,9 @@ import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.AbbrBu
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.AbbrButton.AbbrButtonType;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.LabelPanel;
 import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.core.statement.ui.client.widgets.rules.SubrulePreviewWidget;
@@ -163,11 +163,11 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
     private void updateRequirementWidgets(StatementTreeViewInfo rule) {
         if (rule != null) {
-            StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(rule.getTypeKey());
+            StatementTypeInfo affectedStatementTypeInfo = rules.getStmtTypeInfo(rule.getType());
             SpanPanel reqPanel = perCourseRequisiteTypePanel.get(affectedStatementTypeInfo.getId());
 
             //don't show 'add rule' button if we have one rule already
-            addButtonsList.get(rule.getTypeKey()).setVisible(false);
+            addButtonsList.get(rule.getType()).setVisible(false);
 
             //if this is a new rule then add it to the panel
             if (reqPanel.getWidgetCount() == 0) {
@@ -184,7 +184,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 }   
                 reqPanel.remove(subrulePreviewWidget);
                 if (rule.getStatements().isEmpty() && rule.getReqComponents().isEmpty())                 
-                    addButtonsList.get(rule.getTypeKey()).setVisible(true);                    
+                    addButtonsList.get(rule.getType()).setVisible(true);                    
                 break; //there should be only one rule per requisite type
             }
         }
@@ -278,9 +278,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                                 final StatementTreeViewInfo newRule = new StatementTreeViewInfo();
                                 newRule.setId(generateStatementTreeId());
                                 newRule.setType(stmtId);
-                                RichTextInfo text = new RichTextInfo();
+                                org.kuali.student.r1.common.dto.RichTextInfo text = new org.kuali.student.r1.common.dto.RichTextInfo();
                                 text.setPlain("");
-                                newRule.setDescr(text);
+                                newRule.setDesc(text);
                                 parentController.getView(
                                         CourseRequirementsViewController.CourseRequirementsViews.MANAGE,
                                         new Callback<View>() {

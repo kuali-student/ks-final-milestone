@@ -150,7 +150,7 @@ public class MajorDisciplineProposalRpcServlet extends DataGwtServlet implements
 
     //TODO KSCM This method was created to fix 
     private void setReqCompNL(
-			org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo statement) {
+			org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo statement) {
 		// TODO Auto-generated method stub
 		
 	}
