@@ -66,8 +66,8 @@ import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.validator.Validator;
-import org.kuali.student.r1.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.lu.dao.LuDao;
 import org.kuali.student.r2.lum.clu.dto.AccreditationInfo;
@@ -839,7 +839,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure, contextInfo);
         
         return validationResults;
 	}
@@ -1406,7 +1406,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure, contextInfo);
         
         return validationResults;
 	}
@@ -1518,7 +1518,7 @@ public class LuServiceImpl implements CluService {
 		
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure, contextInfo);
         return validationResults;
 	}
 
@@ -1679,7 +1679,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure, contextInfo);
         return validationResults;
 	}
 
@@ -1831,7 +1831,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure, contextInfo);
         return validationResults;
 	}
 
@@ -1969,7 +1969,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure, contextInfo);
         return validationResults;
 	}
 
@@ -2314,7 +2314,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure, contextInfo);
         return validationResults;
 	}
 
@@ -2415,7 +2415,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiLuiRelation.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure, contextInfo);
         return validationResults;
 	}
 
