@@ -38,7 +38,7 @@ import org.kuali.student.r1.common.search.dto.SearchResultRow;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.r2.core.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeHelper;
@@ -409,7 +409,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             result.setEffectiveDate(cluSetInfo.getEffectiveDate());
             result.setExpirationDate(cluSetInfo.getExpirationDate());
             result.setId(cluSetInfo.getId());
-            result.setMetaInfo(toMetaInfoHelper(cluSetInfo.getMetaInfo()));
+            result.setMetaInfo(toMetaInfoHelper(cluSetInfo.getMeta()));
             result.setName(cluSetInfo.getName());
             result.setOrganization(cluSetInfo.getAdminOrg());
             result.setState(cluSetInfo.getState());
@@ -468,7 +468,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setExpirationDate(cluSetHelper.getExpirationDate());
         cluSetInfo.setMembershipQuery(toMembershipQueryInfo(cluSetHelper.getCluRangeParams()));
 
-        cluSetInfo.setMetaInfo(toMetaInfo(cluSetHelper.getMetaInfo()));
+        cluSetInfo.setMeta(toMetaInfo(cluSetHelper.getMetaInfo()));
         cluSetInfo.setName(cluSetHelper.getName());
         cluSetInfo.setState(cluSetHelper.getState());
         if (cluSetInfo.getState() == null) {
