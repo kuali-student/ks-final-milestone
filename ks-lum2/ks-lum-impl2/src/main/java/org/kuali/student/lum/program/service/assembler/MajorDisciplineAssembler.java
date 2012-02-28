@@ -32,6 +32,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.lum.course.service.assembler.CourseAssembler;
 import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
@@ -88,7 +89,12 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
             mdInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
             mdInfo.setVariations(assembleVariations(baseDTO.getId(), shallowBuild, contextInfo));
             mdInfo.setOrgCoreProgram(assembleCoreProgram(baseDTO.getId(), shallowBuild, contextInfo));
-            programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) mdInfo, contextInfo);
+            try {
+				programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) mdInfo, contextInfo);
+			} catch (PermissionDeniedException e) {
+				// TODO KSCM - Could not add it to BO assembler
+				e.printStackTrace();
+			}
         }
         
        return mdInfo;
@@ -247,7 +253,7 @@ public class MajorDisciplineAssembler implements BOAssembler<MajorDisciplineInfo
         }
     }
 
-    private void disassembleVariations(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    private void disassembleVariations(MajorDisciplineInfo major, NodeOperation operation, BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	Map<String, CluCluRelationInfo> currentRelations = null;
     	List<BaseDTOAssemblyNode<?, ?>> nodes = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
     	

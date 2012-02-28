@@ -25,6 +25,7 @@ import org.kuali.student.r1.common.assembly.data.AssemblyException;
 import org.kuali.student.r1.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -32,6 +33,7 @@ import org.kuali.student.r1.lum.program.dto.ProgramVariationInfo;
 import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
+import org.kuali.student.r1.common.assembly.util.R1R2ConverterUtil;
 /**
  * @author KS
  *
@@ -57,7 +59,12 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
         programAssemblerUtils.assembleFullOrgs(baseDTO, (ProgramFullOrgAssembly) pvInfo);
         programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) pvInfo);
         programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) pvInfo);
-        programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) pvInfo, contextInfo);
+        try {
+			programAssemblerUtils.assemblePublications(baseDTO, (ProgramPublicationAssembly) pvInfo, contextInfo);
+		} catch (PermissionDeniedException e) {
+			// // TODO KSCM could not add this to BoAssembler interface, since it is r2 exception and not a R1
+			e.printStackTrace();
+		}
         
         if (!shallowBuild) {
         	programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) pvInfo, contextInfo);
@@ -89,7 +96,7 @@ public class ProgramVariationAssembler implements BOAssembler<ProgramVariationIn
 
 		CluInfo clu;
 		try {
-			clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+			clu = (NodeOperation.UPDATE == operation) ? R1R2ConverterUtil.convert(luService.getClu(businessDTO.getId(), contextInfo),new CluInfo()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during variation update", e);
         } 
