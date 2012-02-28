@@ -139,4 +139,45 @@
 		<class-b>org.kuali.student.r2.common.exceptions.VersionMismatchException
 		</class-b>
 	</mapping>
+	
+	<!-- ks-common-api: org.kuali.student.r1.common.messages.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.common.messages.dto.Message</class-a>
+		<class-b>org.kuali.student.r2.common.messages.dto.MessageInfo
+		</class-b>
+		<field>
+			<a>id</a>
+			<b>key</b>
+		</field>
+	</mapping>
+	
+	<!-- ks-common-api: org.kuali.student.r1.common.search.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchParam</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchParamInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchRequest
+		</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchRequestInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchResultCell
+		</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchResultCellInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchResult</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchResultInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchResultRow
+		</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchResultRowInfo
+		</class-b>
+	</mapping>
+	
 </mappings>
