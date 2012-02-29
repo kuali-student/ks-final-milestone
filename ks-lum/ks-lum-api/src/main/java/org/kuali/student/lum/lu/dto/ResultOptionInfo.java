@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.dto.MetaInfo;
@@ -36,6 +37,8 @@ import org.kuali.student.common.dto.RichTextInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/resultOptionInfo+Structure+v1.0-rc3">ResultOptionInfo</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "ResultOptionInfo", propOrder = {"id", "state", "desc", "resultUsageTypeKey", "resultComponentId", "effectiveDate", "expirationDate", "metaInfo"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ResultOptionInfo implements Serializable, Idable {
 
