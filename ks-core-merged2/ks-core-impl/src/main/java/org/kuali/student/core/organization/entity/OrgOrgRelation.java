@@ -96,8 +96,9 @@ public class OrgOrgRelation extends MetaEntity implements
 	 */
 	@Override
 	public void onPrePersist() {
-		super.setId(UUIDHelper.genStringUUID(super.getId()));
+        super.setId(UUIDHelper.genStringUUID(super.getId()));
 	}
+
 
 	public Org getOrg() {
 		return org;

@@ -15,6 +15,8 @@
 
 package org.kuali.student.core.organization.entity;
 
+import org.kuali.student.common.entity.Attribute;
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
