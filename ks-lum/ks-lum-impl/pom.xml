@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>2.0.0-cm-SNAPSHOT</version>
   </parent>
   <build>
     <plugins>
@@ -28,17 +28,17 @@
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${kuali.student.api.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.kuali.student.common</groupId>
-      <artifactId>ks-common-impl</artifactId>
       <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-impl</artifactId>
+      <version>${ks-temp-project.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${kuali.student.api.version}</version>
+      <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
@@ -54,17 +54,17 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${kuali.student.api.version}</version>
+        <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
-      <version>${project.version}</version>
+        <version>${ks-temp-project.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+      <version>${ks-temp-project.version}</version>
       <scope>test</scope>
     </dependency>
     <!-- This is a temp fix for SecurityContextHolder -->
@@ -73,7 +73,20 @@
     	<artifactId>spring-security-core</artifactId>
     	<scope>test</scope>
     </dependency>
+	<dependency>
+		<groupId>org.apache.openjpa</groupId>
+		<artifactId>openjpa</artifactId>
+		<version>2.0.1</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>antlr</groupId>
+		<artifactId>antlr</artifactId>
+		<version>2.7.7</version>
+		<scope>test</scope>
+	</dependency>
   </dependencies>
+  
   <profiles>
     <profile>
       <id>ks-hibernate</id>

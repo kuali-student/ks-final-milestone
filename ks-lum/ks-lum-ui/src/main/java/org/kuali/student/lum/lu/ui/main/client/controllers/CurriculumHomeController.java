@@ -35,7 +35,7 @@ import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.Window;
 
 /**
- * Curriculum home controller which controls the main LayoutController views of the lum application.  The
+ *   Curriculum home controller which controls the main LayoutController views of the lum application.  The
  * default view of this controller is the Curriculum Home Landing page.  The following views are views within
  * this controller's scope:<br>
  * 		COURSE_PROPOSAL<br>
@@ -82,6 +82,13 @@ public class CurriculumHomeController extends LayoutController {
         public void onFailure(Throwable reason) {
             Window.alert("Download failed.  Please try again.");
         }
+    }
+    
+    public CurriculumHomeController() {
+        super();
+        this.setDefaultView(LUMViews.DEFAULT);
+        this.initWidget(panel);
+        setupDefaultView();
     }
 
     public CurriculumHomeController(Controller controller, String name, Enum<?> viewType) {
@@ -355,7 +362,7 @@ public class CurriculumHomeController extends LayoutController {
     }
 
 
-    private View getCategoryManagementController() {
+   protected View getCategoryManagementController() {
         return new CategoryManagementView(this, "Learning Objective Categories", LUMViews.LO_CATEGORIES);
     }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CurrencyAmountInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
@@ -59,38 +60,38 @@ public class CopyCourseServiceImpl {
 	
 	private List<String> ignoreProperties;
 	
-	public DataSaveResult createCopyCourse(String originalCluId) throws Exception {
+	public DataSaveResult createCopyCourse(String originalCluId, ContextInfo contextInfo) throws Exception {
 		//Copy the course and use the data service to return
-		CourseInfo copiedCourse = copyCourse(originalCluId);
+		CourseInfo copiedCourse = copyCourse(originalCluId, contextInfo);
 		
 		DataSaveResult result = new DataSaveResult();
-		result.setValue(courseDataService.getData(copiedCourse.getId()));
+		result.setValue(courseDataService.getData(copiedCourse.getId(), contextInfo));
 		return result;
 	}
 
-	public DataSaveResult createCopyCourseProposal(String originalProposalId) throws Exception {
+	public DataSaveResult createCopyCourseProposal(String originalProposalId, ContextInfo contextInfo) throws Exception {
 		//Copy the proposal and use the data service to return
-		ProposalInfo copiedProposal = copyProposal(originalProposalId);
+		ProposalInfo copiedProposal = copyProposal(originalProposalId, contextInfo);
 		
 		//Grab the data object so it is transformed
-		Data data = courseProposalDataService.getData(copiedProposal.getId());
+		Data data = courseProposalDataService.getData(copiedProposal.getId(), contextInfo);
 		
 		//Save it so that it goes through the filters and creates workflow
-		return courseProposalDataService.saveData(data);
+		return courseProposalDataService.saveData(data, contextInfo);
 	}
 	
-	private CourseInfo copyCourse(String originalCluId) throws Exception{
+	private CourseInfo copyCourse(String originalCluId, ContextInfo contextInfo) throws Exception{
 		//Copy the course
-		return copyCourse(originalCluId, null, defaultState, ignoreProperties, statementService, luService, courseService);
+		return copyCourse(originalCluId, null, defaultState, ignoreProperties, statementService, luService, courseService, contextInfo);
 	}
-	private ProposalInfo copyProposal(String originalProposalId) throws Exception{
+	private ProposalInfo copyProposal(String originalProposalId, ContextInfo contextInfo) throws Exception{
 		try {
 			//Get the original Proposal
-			ProposalInfo originalProposal = proposalService.getProposal(originalProposalId);
+			ProposalInfo originalProposal = proposalService.getProposal(originalProposalId, contextInfo);
 			
 			//Copy the course from the original Proposal
 			String originalCluId = originalProposal.getProposalReference().get(0);
-			CourseInfo copiedCourse = copyCourse(originalCluId);
+			CourseInfo copiedCourse = copyCourse(originalCluId, contextInfo);
 			
 			//Clear ids and set the reference to the copied course
 			originalProposal.setId(null);
@@ -103,7 +104,7 @@ public class CopyCourseServiceImpl {
             originalProposal.setName(null);
 			
 			//Create the proposal
-			ProposalInfo copiedProposal = proposalService.createProposal(defaultDocumentType, originalProposal);
+			ProposalInfo copiedProposal = proposalService.createProposal(defaultDocumentType, originalProposal, contextInfo);
 			
 			return copiedProposal;
 			
@@ -170,10 +171,10 @@ public class CopyCourseServiceImpl {
 	}
 
 	private void clearStatementTreeViewIds(
-			List<StatementTreeViewInfo> statementTreeViews, String newState, LuService luService) throws OperationFailedException {
+			List<StatementTreeViewInfo> statementTreeViews, String newState, LuService luService, ContextInfo contextInfo) throws OperationFailedException {
 		//Clear out all statement ids recursively
 		for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-			clearStatementTreeViewIdsRecursively(statementTreeView, newState, luService);
+			clearStatementTreeViewIdsRecursively(statementTreeView, newState, luService, contextInfo);
 		}
 	}
 
@@ -183,7 +184,7 @@ public class CopyCourseServiceImpl {
 	 * @param luService
 	 * @throws OperationFailedException
 	 */
-	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState,LuService luService) throws OperationFailedException{
+	private void clearStatementTreeViewIdsRecursively(StatementTreeViewInfo statementTreeView, String newState,LuService luService, ContextInfo contextInfo) throws OperationFailedException{
 		statementTreeView.setId(null);
 		statementTreeView.setState(newState);
 		
@@ -198,7 +199,7 @@ public class CopyCourseServiceImpl {
 				   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
 				   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 					try {
-						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue());
+						CluSetInfo cluSet = luService.getCluSetInfo(field.getValue(), contextInfo);
 						cluSet.setId(null);
 						cluSet.setState(newState);
 						//Clear clu ids if membership info exists, they will be re-added based on membership info 
@@ -206,7 +207,7 @@ public class CopyCourseServiceImpl {
 							cluSet.getCluIds().clear();
 							cluSet.getCluSetIds().clear();
 						}
-						cluSet = luService.createCluSet(cluSet.getType(), cluSet);
+						cluSet = luService.createCluSet(cluSet.getType(), cluSet, contextInfo);
 						field.setValue(cluSet.getId());
 					} catch (Exception e) {
 						throw new OperationFailedException("Error copying clusets.", e);
@@ -217,27 +218,27 @@ public class CopyCourseServiceImpl {
 		}
 		//recurse through nested statements
 		for(StatementTreeViewInfo child: statementTreeView.getStatements()){
-			clearStatementTreeViewIdsRecursively(child,newState,luService);
+			clearStatementTreeViewIdsRecursively(child,newState,luService, contextInfo);
 		}
 	}
 
     private void copyStatements(String originalCluId, String newCluId, String newState,
-			StatementService statementService, LuService luService, CourseService courseService) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
+			StatementService statementService, LuService luService, CourseService courseService, ContextInfo contextInfo) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
 		//Get the course statements
-		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null);
+		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null, contextInfo);
 		
 		//Clear out the ids and create causing a copy to be made
 		if(statementTreeViews!=null){
-			clearStatementTreeViewIds(statementTreeViews,newState,luService);
+			clearStatementTreeViewIds(statementTreeViews,newState,luService, contextInfo);
 			
 			for(StatementTreeViewInfo statementTreeView:statementTreeViews){
-				courseService.createCourseStatement(newCluId, statementTreeView);
+				courseService.createCourseStatement(newCluId, statementTreeView, contextInfo);
 			}
 		}
 	}
 	
-	private CourseInfo copyCourse(String originalCluId, String newCluId, String newState, List<String> ignoreProperties, StatementService statementService, LuService luService, CourseService courseService) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
-		CourseInfo originalCourse = courseService.getCourse(originalCluId);
+	private CourseInfo copyCourse(String originalCluId, String newCluId, String newState, List<String> ignoreProperties, StatementService statementService, LuService luService, CourseService courseService, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, AlreadyExistsException, DataValidationErrorException, VersionMismatchException, CircularRelationshipException, DependentObjectsExistException, UnsupportedActionException{
+		CourseInfo originalCourse = courseService.getCourse(originalCluId, contextInfo);
 		resetIds(originalCourse);
 		originalCourse.setCourseTitle("Copy of "+originalCourse.getCourseTitle());
 		//Default the newState to the existing course state if no state was set.
@@ -261,8 +262,8 @@ public class CopyCourseServiceImpl {
 			}
 		}
 		
-		CourseInfo newCourse = courseService.createCourse(originalCourse);
-        copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService);
+		CourseInfo newCourse = courseService.createCourse(originalCourse, contextInfo);
+        copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService, contextInfo);
 		return newCourse;
 	}
 

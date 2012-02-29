@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
@@ -19,15 +20,15 @@ public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 	 * @param orgType
 	 * @return
 	 */
-	public static List<KeyLabelPair> findOrgs(String orgType) {
-		List<KeyLabelPair> orgEntities = new ArrayList<KeyLabelPair>();
+	public static List<KeyValue> findOrgs(String orgType) {
+		List<KeyValue> orgEntities = new ArrayList<KeyValue>();
 
 		SearchRequest searchRequest = new SearchRequest("org.search.generic");
 		searchRequest.addParam("org.queryParam.orgOptionalType",orgType);
 		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
 		searchRequest.setSortDirection(SortDirection.ASC);
 		try {
-			SearchResult results = getOrganizationService().search(searchRequest);
+			SearchResult results = getOrganizationService().search(searchRequest, null);	// TODO KSCM-267
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
@@ -44,7 +45,7 @@ public abstract class OrgsOfTypeValuesFinder extends StudentKeyValuesBase {
 	             * the drop-down list for Department or Division should display the full/long 
 	             * names instead of short names.
 	             */
-	            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
+	            orgEntities.add(new ConcreteKeyValue(orgId, orgLongName));
 			}
 
 			return orgEntities;

@@ -3,10 +3,7 @@
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.namespace.QName;
 import javax.xml.xpath.XPath;
@@ -14,14 +11,13 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.role.QualifierResolver;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.XmlHelper;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
@@ -78,15 +74,14 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
      *         KS code)
      */
     protected Set<String> getOrganizationIdsFromDocumentContent(RouteContext context) {
-        String baseXpathExpression = "/" + KEWConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KEWConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
+        String baseXpathExpression = "/" + KewApiConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KewApiConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
         String orgXpathExpression = "./" + getOrganizationIdDocumentContentFieldKey(context);
         Document xmlContent = context.getDocumentContent().getDocument();
         XPath xPath = XPathHelper.newXPath();
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:");
-                XmlHelper.printDocumentStructure(xmlContent);
+                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:" + XmlJotter.jotDocument(xmlContent));
             }
             Set<String> distinctiveOrganizationIds = new HashSet<String>();
             for (int i = 0; i < baseElements.getLength(); i++) {
@@ -135,7 +130,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             searchRequest.setSearchKey("org.search.orgQuickViewByRelationTypeRelatedOrgTypeOrgId");
             searchRequest.setParams(queryParamValues);
             try {
-                SearchResult result = getOrganizationService().search(searchRequest);
+                SearchResult result = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");
@@ -148,16 +143,18 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
     /*
      *  Add attributes for derived role and adhoc routing participants to the results
      */
-    protected List<AttributeSet> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
-        List<AttributeSet> returnAttrSetList = new ArrayList<AttributeSet>();
+    protected List<Map<String,String>> attributeSetFromSearchResult(List<SearchResultRow> results, String orgIdKey) {
+        List<Map<String,String>> returnAttrSetList = new ArrayList<Map<String,String>>();
         if (results != null) {
             for (SearchResultRow result : results) {
-                AttributeSet attributeSet = new AttributeSet();
+                Map<String,String> attributeSet = new LinkedHashMap<String,String>();
                 String resolvedOrgId = "";
+                String resolvedOrgShortName = "";
                 for (SearchResultCell resultCell : result.getCells()) {
                     if ("org.resultColumn.orgId".equals(resultCell.getKey())) {
                         resolvedOrgId = resultCell.getValue();
-                        break;
+                    } else if ("org.resultColumn.orgShortName".equals(resultCell.getKey())) {
+                        resolvedOrgShortName = resultCell.getValue();
                     }
                 }
                 if (orgIdKey != null) {

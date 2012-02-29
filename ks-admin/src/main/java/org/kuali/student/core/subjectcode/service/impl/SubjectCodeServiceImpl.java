@@ -9,17 +9,19 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.MaxAgeSoftReference;
-import org.kuali.rice.core.util.MaxSizeMap;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
-import org.kuali.rice.kns.service.LookupService;
+import com.google.common.collect.MapMaker;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
+import org.kuali.rice.krad.service.LookupService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
@@ -53,66 +55,66 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
-
+	//protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
+	protected Map<String,SearchResult> searchCache;
 	@Override
-	public List<SearchTypeInfo> getSearchTypes()
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
 			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+		return searchManager.getSearchTypes(context);
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return searchManager.getSearchType(searchTypeKey);
+		return searchManager.getSearchType(searchTypeKey, context);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+			String searchResultTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey, context);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, context);
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+		return searchManager.getSearchResultTypes(context);
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return searchManager.getSearchResultType(searchResultTypeKey);
+		return searchManager.getSearchResultType(searchResultTypeKey, context);
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context)
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
+		return searchManager.getSearchCriteriaTypes(context);
 	}
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, context);
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest)
+	public SearchResult search(SearchRequest searchRequest, ContextInfo context)
 			throws MissingParameterException {
 		String searchKey = searchRequest.getSearchKey();
 		//Check Params
@@ -130,13 +132,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		
     	if(cachingEnabled){
     		//Get From Cache
-    		MaxAgeSoftReference<SearchResult> ref = searchCache.get(searchRequest.toString());
-    		if ( ref != null ) {
-    			searchResult = ref.get();
-    			if(searchResult != null){
-    				return searchResult;
-    			}
-    		}
+            return searchCache.get(searchRequest.toString());
 		}
 		
 		//Do searches
@@ -149,7 +145,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 		//Store to Cache
     	if(cachingEnabled){
     		//Store to cache
-    		searchCache.put(searchRequest.toString(), new MaxAgeSoftReference<SearchResult>( searchCacheMaxAgeSeconds, searchResult) );
+    		searchCache.put(searchRequest.toString(), searchResult );
     	}
     	
 		return searchResult;
@@ -199,7 +195,8 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 			//Perform the Org search
 			SearchRequest orgIdTranslationSearchRequest = new SearchRequest("org.search.generic");
 			orgIdTranslationSearchRequest.addParam("org.queryParam.orgOptionalIds", new ArrayList<String>(orgIdToRowMapping.keySet()));
-			SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
+// TODO KSCM-165			SearchResult orgIdTranslationSearchResult = getOrganizationService().search(orgIdTranslationSearchRequest);
+            SearchResult orgIdTranslationSearchResult = null;   // TODO KSCM-165
 			
 			//For each translation, update the result cell with the translated org name
 			for(SearchResultRow row:orgIdTranslationSearchResult.getRows()){
@@ -232,7 +229,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 
 	private SearchResult doSubjectCodeGenericSearch(Map<String, Object> paramMap) {
 		SearchResult searchResult = new SearchResult();
-		Map<String,Object> queryMap = new HashMap<String,Object>();
+		Map<String,String> queryMap = new HashMap<String,String>();
 		String code = (String) paramMap.get("subjectCode.queryParam.code");
 		if(code!=null){ 
 			queryMap.put("code", "*" + paramMap.get("subjectCode.queryParam.code") + "*");
@@ -265,13 +262,13 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 
 	protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return  businessObjectService;
     }
 	protected LookupService getLookupService() {
         if (lookupService == null) {
-        	lookupService = KNSServiceLocator.getLookupService();
+        	lookupService = KRADServiceLocatorWeb.getLookupService();
         }
         return lookupService;
     }
@@ -289,7 +286,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-			searchCache = Collections.synchronizedMap( new MaxSizeMap<String,MaxAgeSoftReference<SearchResult>>( searchCacheMaxSize ) );
+            searchCache = new MapMaker().expireAfterAccess(searchCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(searchCacheMaxSize).softValues().makeMap();
 		}
 	}
 	

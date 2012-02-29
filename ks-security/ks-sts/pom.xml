@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kuali.student.security</groupId>
     <artifactId>ks-security</artifactId>
-    <version>1.2.1-SNAPSHOT</version>
+    <version>2.0.0-cm-SNAPSHOT</version>
   </parent>
   <artifactId>ks-sts</artifactId>
   <name>KS Security Token Service</name>
@@ -17,7 +17,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+	        <version>${ks-temp-project.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -70,7 +70,7 @@
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
+      <artifactId>rice-kim-api</artifactId>
     </dependency>
   </dependencies>
   <build>

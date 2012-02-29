@@ -27,12 +27,14 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.persistence.NoResultException;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.common.dictionary.service.DictionaryService;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.CurrencyAmountInfo;
 import org.kuali.student.common.dto.DtoConstants;
 import org.kuali.student.common.dto.StatusInfo;
@@ -148,15 +150,19 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
 @WebService(endpointInterface = "org.kuali.student.lum.lu.service.LuService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
+// TODO KSCM-249
 public class LuServiceImpl implements LuService {
 
-	private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
+
+    private static final String SEARCH_KEY_DEPENDENCY_ANALYSIS = "lu.search.dependencyAnalysis";
 	private static final String SEARCH_KEY_BROWSE_PROGRAM = "lu.search.browseProgram";
 	private static final String SEARCH_KEY_BROWSE_VARIATIONS = "lu.search.browseVariations";
 	private static final String SEARCH_KEY_LRC_RESULT_COMPONENT = "lrc.search.resultComponent";
 	private static final String SEARCH_KEY_PROPOSALS_BY_COURSE_CODE = "lu.search.proposalsByCourseCode";
 	private static final String SEARCH_KEY_BROWSE_VERSIONS = "lu.search.clu.versions";
 	private static final String SEARCH_KEY_LU_RESULT_COMPONENTS = "lu.search.resultComponents";
+	private static final String SEARCH_KEY_CLUSET_SEARCH_GENERIC = "cluset.search.generic";
+	private static final String SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS = "cluset.search.genericWithClus";
 	
 	final Logger logger = Logger.getLogger(LuServiceImpl.class);
 
@@ -186,39 +192,31 @@ public class LuServiceImpl implements LuService {
 
 	@Override
     @Transactional(readOnly=true)
-	public List<DeliveryMethodTypeInfo> getDeliveryMethodTypes()
-			throws OperationFailedException {
+    public List<DeliveryMethodTypeInfo> getDeliveryMethodTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toDeliveryMethodTypeInfos(luDao
 				.find(DeliveryMethodType.class));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public DeliveryMethodTypeInfo getDeliveryMethodType(
-			String deliveryMethodTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
-
+    public DeliveryMethodTypeInfo getDeliveryMethodType(@WebParam(name = "deliveryMethodTypeKey") String deliveryMethodTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(deliveryMethodTypeKey, "deliveryMethodTypeKey");
 
 		return LuServiceAssembler.toDeliveryMethodTypeInfo(luDao.fetch(
 				DeliveryMethodType.class, deliveryMethodTypeKey));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<InstructionalFormatTypeInfo> getInstructionalFormatTypes()
-			throws OperationFailedException {
+    public List<InstructionalFormatTypeInfo> getInstructionalFormatTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toInstructionalFormatTypeInfos(luDao
 				.find(InstructionalFormatType.class));
 	}
 
-	@Override
+
+    @Override
     @Transactional(readOnly=true)
-	public InstructionalFormatTypeInfo getInstructionalFormatType(
-			String instructionalFormatTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public InstructionalFormatTypeInfo getInstructionalFormatType(@WebParam(name = "instructionalFormatTypeKey") String instructionalFormatTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(instructionalFormatTypeKey,
 				"instructionalFormatTypeKey");
 
@@ -226,54 +224,48 @@ public class LuServiceImpl implements LuService {
 				InstructionalFormatType.class, instructionalFormatTypeKey));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<LuTypeInfo> getLuTypes() throws OperationFailedException {
+    public List<LuTypeInfo> getLuTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toLuTypeInfos(luDao.find(LuType.class));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public LuTypeInfo getLuType(String luTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public LuTypeInfo getLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 
 		return LuServiceAssembler.toLuTypeInfo(luDao.fetch(LuType.class,
 				luTypeKey));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public LuCodeTypeInfo getLuCodeType(String luCodeTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public LuCodeTypeInfo getLuCodeType(@WebParam(name = "luCodeTypeKey") String luCodeTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luCodeTypeKey, "luCodeTypeKey");
 		return LuServiceAssembler.toLuCodeTypeInfo(luDao.fetch(
 				LuCodeType.class, luCodeTypeKey));
 	}
 
-	@Override
+
+    @Override
     @Transactional(readOnly=true)
-	public List<LuCodeTypeInfo> getLuCodeTypes()
-			throws OperationFailedException {
+    public List<LuCodeTypeInfo> getLuCodeTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toLuCodeTypeInfos(luDao
 				.find(LuCodeType.class));
 	}
 
-	@Override
+
+    @Override
     @Transactional(readOnly=true)
-	public List<LuLuRelationTypeInfo> getLuLuRelationTypes()
-			throws OperationFailedException {
+    public List<LuLuRelationTypeInfo> getLuLuRelationTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toLuLuRelationTypeInfos(luDao
 				.find(LuLuRelationType.class));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public LuLuRelationTypeInfo getLuLuRelationType(String luLuRelationTypeKey)
-			throws OperationFailedException, MissingParameterException,
-			DoesNotExistException {
+    public LuLuRelationTypeInfo getLuLuRelationType(@WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws OperationFailedException, MissingParameterException, DoesNotExistException {
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
 
 		LuLuRelationType luLuRelationType = luDao.fetch(LuLuRelationType.class,
@@ -281,12 +273,9 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toLuLuRelationTypeInfo(luLuRelationType);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getAllowedLuLuRelationTypesForLuType(String luTypeKey,
-			String relatedLuTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<String> getAllowedLuLuRelationTypesForLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "relatedLuTypeKey") String relatedLuTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(relatedLuTypeKey, "relatedLuTypeKey");
 
@@ -294,95 +283,76 @@ public class LuServiceImpl implements LuService {
 				relatedLuTypeKey);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<LuPublicationTypeInfo> getLuPublicationTypes()
-			throws OperationFailedException {
+    public List<LuPublicationTypeInfo> getLuPublicationTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toLuPublicationTypeInfos(luDao
 				.find(LuPublicationType.class));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public LuPublicationTypeInfo getLuPublicationType(
-			String luPublicationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public LuPublicationTypeInfo getLuPublicationType(@WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luPublicationTypeKey, "luPublicationTypeKey");
 
 		return LuServiceAssembler.toLuPublicationTypeInfo(luDao.fetch(
 				LuPublicationType.class, luPublicationTypeKey));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getLuPublicationTypesForLuType(String luTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<String> getLuPublicationTypesForLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		throw new UnsupportedOperationException("getLuPublicationTypesForLuType");
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluResultTypeInfo> getCluResultTypes()
-			throws OperationFailedException {
+    public List<CluResultTypeInfo> getCluResultTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toCluResultTypeInfos(luDao
 				.find(CluResultType.class));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public CluResultTypeInfo getCluResultType(String cluResultTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public CluResultTypeInfo getCluResultType(@WebParam(name = "cluResultTypeKey") String cluResultTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return LuServiceAssembler.toCluResultTypeInfo(luDao.fetch(
 				CluResultType.class, cluResultTypeKey));
 	}
 
-	@Override
+       @Override
     @Transactional(readOnly=true)
-	public List<CluResultTypeInfo> getCluResultTypesForLuType(String luTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+       public List<CluResultTypeInfo> getCluResultTypesForLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		return LuServiceAssembler.toCluResultTypeInfos((luDao
 				.getAllowedCluResultTypesForLuType(luTypeKey)));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<ResultUsageTypeInfo> getResultUsageTypes()
-			throws OperationFailedException {
+    public List<ResultUsageTypeInfo> getResultUsageTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toResultUsageTypeInfos(luDao
 				.find(ResultUsageType.class));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public ResultUsageTypeInfo getResultUsageType(String resultUsageTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public ResultUsageTypeInfo getResultUsageType(@WebParam(name = "resultUsageTypeKey") String resultUsageTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(resultUsageTypeKey, "resultUsageTypeKey");
 		return LuServiceAssembler.toResultUsageTypeInfo(luDao.fetch(
 				ResultUsageType.class, resultUsageTypeKey));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getAllowedResultUsageTypesForLuType(String luTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<String> getAllowedResultUsageTypesForLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 
 		return luDao.getAllowedResultUsageTypesForLuType(luTypeKey);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getAllowedResultComponentTypesForResultUsageType(
-			String resultUsageTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<String> getAllowedResultComponentTypesForResultUsageType(@WebParam(name = "resultUsageTypeKey") String resultUsageTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(resultUsageTypeKey, "resultUsageTypeKey");
 
@@ -390,12 +360,10 @@ public class LuServiceImpl implements LuService {
 				.getAllowedResultComponentTypesForResultUsageType(resultUsageTypeKey);
 	}
 
-	@Override
+
+    @Override
     @Transactional(readOnly=true)
-	public CluLoRelationTypeInfo getCluLoRelationType(
-			String cluLoRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public CluLoRelationTypeInfo getCluLoRelationType(@WebParam(name = "cluLoRelationTypeKey") String cluLoRelationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluLoRelationTypeKey, "cluLoRelationTypeKey");
 
 		CluLoRelationType cluLoRelationType = luDao.fetch(
@@ -403,53 +371,47 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluLoRelationTypeInfo(cluLoRelationType);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluLoRelationTypeInfo> getCluLoRelationTypes()
-			throws OperationFailedException {
+
+    public List<CluLoRelationTypeInfo> getCluLoRelationTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toCluLoRelationTypeInfos(luDao
 				.find(CluLoRelationType.class));
 	}
 
-	@Override
-    @Transactional(readOnly=true)
-	public List<String> getAllowedCluLoRelationTypesForLuType(String luTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    @Override
+    public List<String> getAllowedCluLoRelationTypesForLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(luTypeKey, luTypeKey);
 
 		return luDao.getAllowedCluLoRelationTypesForLuType(luTypeKey);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluSetTypeInfo> getCluSetTypes()
-			throws OperationFailedException {
+    public List<CluSetTypeInfo> getCluSetTypes(@WebParam(name = "context") ContextInfo context) throws OperationFailedException {
 		return LuServiceAssembler.toCluSetTypeInfos(luDao
 				.find(CluSetType.class));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public CluSetTypeInfo getCluSetType(String cluSetTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public CluSetTypeInfo getCluSetType(@WebParam(name = "cluSetTypeKey") String cluSetTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluSetTypeKey, "cluSetTypeKey");
 		return LuServiceAssembler.toCluSetTypeInfo(luDao.fetch(
 				CluSetType.class, cluSetTypeKey));
 	}
 
-	/**************************************************************************
+
+
+    /**************************************************************************
 	 * READ OPERATION *
 	 **************************************************************************/
 
 	// **** Core **********
 	@Override
     @Transactional(readOnly=true)
-	public CluInfo getClu(String cluId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public CluInfo getClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(cluId, "cluId");
 
@@ -457,33 +419,27 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluInfo(clu);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluInfo> getClusByIdList(List<String> cluIdList)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<CluInfo> getClusByIdList(@WebParam(name = "cluIdList") List<String> cluIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluIdList, "cluIdList");
 		checkForEmptyList(cluIdList, "cluIdList");
 		List<Clu> clus = luDao.getClusByIdList(cluIdList);
 		return LuServiceAssembler.toCluInfos(clus);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluInfo> getClusByLuType(String luTypeKey, String luState)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<CluInfo> getClusByLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "luState") String luState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(luState, "lustate");
 		List<Clu> clus = luDao.getClusByLuType(luTypeKey, luState);
 		return LuServiceAssembler.toCluInfos(clus);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getCluIdsByLuType(String luTypeKey, String luState)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<String> getCluIdsByLuType(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "luState") String luState, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(luTypeKey, "luTypeKey");
 		checkForMissingParameter(luState, "luState");
 		List<Clu> clus = luDao.getClusByLuType(luTypeKey, luState);
@@ -494,135 +450,109 @@ public class LuServiceImpl implements LuService {
 		return ids;
 	}
 
-	// ****** Relations
+
+    // ****** Relations
 
 	@Override
     @Transactional(readOnly=true)
-	public List<String> getAllowedLuLuRelationTypesByCluId(String cluId,
-			String relatedCluId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<String> getAllowedLuLuRelationTypesByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(relatedCluId, "relatedCluId");
 
 		return luDao.getAllowedLuLuRelationTypesByCluId(cluId, relatedCluId);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluInfo> getClusByRelation(String relatedCluId,
-			String luLuRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<CluInfo> getClusByRelation(@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "luLuRelationType") String luLuRelationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(relatedCluId, "relatedCluId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+		checkForMissingParameter(luLuRelationType, "luLuRelationType");
 
 		List<Clu> clus = luDao.getClusByRelation(relatedCluId,
-				luLuRelationTypeKey);
+                luLuRelationType);
 		List<CluInfo> result = LuServiceAssembler.toCluInfos(clus);
 		return result;
 
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getCluIdsByRelation(String relatedCluId,
-			String luLuRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<String> getCluIdsByRelation(@WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "luLuRelationType") String luLuRelationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(relatedCluId, "relatedCluId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+		checkForMissingParameter(luLuRelationType, "luLuRelationType");
 
-        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, luLuRelationTypeKey);
+        List<String> cluIds = luDao.getCluIdsByRelatedCluId(relatedCluId, luLuRelationType);
         return cluIds;
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluInfo> getRelatedClusByCluId(String cluId,
-			String luLuRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<CluInfo> getRelatedClusByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "luLuRelationType") String luLuRelationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+		checkForMissingParameter(luLuRelationType, "luLuRelationType");
 		List<Clu> relatedClus = luDao.getRelatedClusByCluId(cluId,
-				luLuRelationTypeKey);
+                luLuRelationType);
 		return LuServiceAssembler.toCluInfos(relatedClus);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getRelatedCluIdsByCluId(String cluId,
-			String luLuRelationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<String> getRelatedCluIdsByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "luLuRelationType") String luLuRelationType, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
+		checkForMissingParameter(luLuRelationType, "luLuRelationTypeKey");
 		List<String> relatedCluIds = luDao.getRelatedCluIdsByCluId(cluId,
-				luLuRelationTypeKey);
+                luLuRelationType);
 		return relatedCluIds;
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public CluCluRelationInfo getCluCluRelation(String cluCluRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public CluCluRelationInfo getCluCluRelation(@WebParam(name = "cluCluRelationId") String cluCluRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluCluRelationId, "cluCluRelationId");
 		return LuServiceAssembler.toCluCluRelationInfo(luDao.fetch(
 				CluCluRelation.class, cluCluRelationId));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluCluRelationInfo> getCluCluRelationsByClu(String cluId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<CluCluRelationInfo> getCluCluRelationsByClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(cluId, "cluId");
 		List<CluCluRelation> cluCluRelations = luDao
 				.getCluCluRelationsByClu(cluId);
 		return LuServiceAssembler.toCluCluRelationInfos(cluCluRelations);
 	}
 
-	// **** Publication
+    // **** Publication
 	@Override
     @Transactional(readOnly=true)
-	public List<CluPublicationInfo> getCluPublicationsByCluId(String cluId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<CluPublicationInfo> getCluPublicationsByCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 	      checkForMissingParameter(cluId, "cluId");
 	      List<CluPublication> cluPublications = luDao.getCluPublicationsByCluId(cluId);
 	      return LuServiceAssembler.toCluPublicationInfos(cluPublications);
 	}
 
-	@Override
+
+    @Override
     @Transactional(readOnly=true)
-	public List<CluPublicationInfo> getCluPublicationsByType(
-			String luPublicationTypeKey) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<CluPublicationInfo> getCluPublicationsByType(@WebParam(name = "luPublicationTypeKey") String luPublicationTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 	      checkForMissingParameter(luPublicationTypeKey, "luPublicationTypeKey");
 	      List<CluPublication> cluPublications = luDao.getCluPublicationsByType(luPublicationTypeKey);
 	      return LuServiceAssembler.toCluPublicationInfos(cluPublications);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public CluPublicationInfo getCluPublication(String cluPublicationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public CluPublicationInfo getCluPublication(@WebParam(name = "cluPublicationId") String cluPublicationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 	      checkForMissingParameter(cluPublicationId, "cluPublicationId");
 	      CluPublication cluPublication = luDao.fetch(CluPublication.class, cluPublicationId);
 	      return LuServiceAssembler.toCluPublicationInfo(cluPublication);
 	}
 
-	// **** Results
+    // **** Results
 
 	@Override
     @Transactional(readOnly=true)
-	public CluResultInfo getCluResult(String cluResultId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public CluResultInfo getCluResult(@WebParam(name = "cluResultId") String cluResultId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(cluResultId, "cluResultId");
 
@@ -630,11 +560,9 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluResultInfo(cluResult);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluResultInfo> getCluResultByClu(String cluId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<CluResultInfo> getCluResultByClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(cluId, "cluId");
 
@@ -642,30 +570,25 @@ public class LuServiceImpl implements LuService {
 				.getCluResultByClu(cluId));
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getCluIdsByResultUsageType(String resultUsageTypeKey)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<String> getCluIdsByResultUsageType(@WebParam(name = "resultUsageTypeKey") String resultUsageTypeKey, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return luDao.getCluIdsByResultUsageType(resultUsageTypeKey);
 	}
 
-	@Override
+
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getCluIdsByResultComponent(String resultComponentId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<String> getCluIdsByResultComponent(@WebParam(name = "resultComponentId") String resultComponentId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		return luDao.getCluIdsByResultComponentId(resultComponentId);
 	}
 
-	// **** Learning Objectives
+
+    // **** Learning Objectives
 
 	@Override
     @Transactional(readOnly=true)
-	public CluLoRelationInfo getCluLoRelation(String cluLoRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public CluLoRelationInfo getCluLoRelation(@WebParam(name = "cluLoRelationId") String cluLoRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 		checkForMissingParameter(cluLoRelationId, "cluLoRelationId");
 
@@ -674,11 +597,9 @@ public class LuServiceImpl implements LuService {
 
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<CluLoRelationInfo> getCluLoRelationsByClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(cluId, "cluId");
 		List<CluLoRelation> cluLoRelations = luDao
@@ -687,33 +608,26 @@ public class LuServiceImpl implements LuService {
 
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluLoRelationInfo> getCluLoRelationsByLo(String loId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<CluLoRelationInfo> getCluLoRelationsByLo(@WebParam(name = "loId") String loId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(loId, "loId");
 		List<CluLoRelation> cluLoRelations = luDao.getCluLoRelationsByLo(loId);
 		return LuServiceAssembler.toCluLoRelationInfos(cluLoRelations);
 	}
 
-	// *** Resources
+    // *** Resources
 
 	@Override
-	public List<String> getResourceRequirementsForCluId(String cluId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<String> getResourceRequirementsForCluId(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-	// *** Sets
+    // *** Sets
 
 	@Override
     @Transactional(readOnly=true)
-	public CluSetInfo getCluSetInfo(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public CluSetInfo getCluSetInfo(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 		CluSetInfo cluSetInfo = LuServiceAssembler.toCluSetInfo(cluSet);
@@ -721,25 +635,23 @@ public class LuServiceImpl implements LuService {
 		return cluSetInfo;
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public CluSetTreeViewInfo getCluSetTreeView(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public CluSetTreeViewInfo getCluSetTreeView(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 		checkForMissingParameter(cluSetId, "cluSetId");
-		CluSetInfo cluSet = getCluSetInfo(cluSetId);
+		CluSetInfo cluSet = getCluSetInfo(cluSetId, context);
 		if (cluSet == null) {
 			return null;
 		}
 
 		CluSetTreeViewInfo cluSetTreeView = new CluSetTreeViewInfo();
-		getCluSetTreeViewHelper(cluSet, cluSetTreeView);
+		getCluSetTreeViewHelper(cluSet, cluSetTreeView, context);
 		return cluSetTreeView;
 	}
 
-	/**
+
+    /**
 	 * Go through the list of CluSets and retrieve all the information regarding child
 	 * Clu Sets and associated Clus
 	 *
@@ -752,7 +664,7 @@ public class LuServiceImpl implements LuService {
 	 * @throws PermissionDeniedException
 	 */
 	private void getCluSetTreeViewHelper(CluSetInfo cluSetInfo,
-			CluSetTreeViewInfo cluSetTreeViewInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+			CluSetTreeViewInfo cluSetTreeViewInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		cluSetTreeViewInfo.setName(cluSetInfo.getName());
 		cluSetTreeViewInfo.setDescr(cluSetInfo.getDescr());
 		cluSetTreeViewInfo.setEffectiveDate(cluSetInfo.getEffectiveDate());
@@ -768,13 +680,13 @@ public class LuServiceImpl implements LuService {
 
 		if (!cluSetInfo.getCluSetIds().isEmpty()) {
 			for (String cluSetId : cluSetInfo.getCluSetIds()) {
-				CluSetInfo subCluSet = getCluSetInfo(cluSetId);
+				CluSetInfo subCluSet = getCluSetInfo(cluSetId, contextInfo);
 				List<CluSetTreeViewInfo> cluSets =
                     cluSetTreeViewInfo.getCluSets() == null ?
                             new ArrayList<CluSetTreeViewInfo>(0) : cluSetTreeViewInfo.getCluSets();
 
                 CluSetTreeViewInfo subCluSetTreeViewInfo = new CluSetTreeViewInfo();
-                getCluSetTreeViewHelper(subCluSet, subCluSetTreeViewInfo);
+                getCluSetTreeViewHelper(subCluSet, subCluSetTreeViewInfo, contextInfo);
                 cluSets.add(subCluSetTreeViewInfo);
 
                 cluSetTreeViewInfo.setCluSets(cluSets);
@@ -798,22 +710,16 @@ public class LuServiceImpl implements LuService {
 
 	@Override
     @Transactional(readOnly=true)
-	public List<CluSetInfo> getCluSetInfoByIdList(List<String> cluSetIdList)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public List<CluSetInfo> getCluSetInfoByIdList(@WebParam(name = "cluSetIdList") List<String> cluSetIdList, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetIdList, "cluSetIdList");
 		checkForEmptyList(cluSetIdList, "cluSetIdList");
 		List<CluSet> cluSets = luDao.getCluSetInfoByIdList(cluSetIdList);
 		return LuServiceAssembler.toCluSetInfos(cluSets);
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getCluSetIdsFromCluSet(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public List<String> getCluSetIdsFromCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 		List<String> ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
@@ -825,20 +731,14 @@ public class LuServiceImpl implements LuService {
 		return ids;
 	}
 
-	@Override
-	public Boolean isCluSetDynamic(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    @Override
+    public Boolean isCluSetDynamic(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluInfo> getClusFromCluSet(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public List<CluInfo> getClusFromCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 		List<CluInfo> clus = new ArrayList<CluInfo>(cluSet.getCluVerIndIds().size());
@@ -848,12 +748,9 @@ public class LuServiceImpl implements LuService {
 		return clus;
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getCluIdsFromCluSet(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public List<String> getCluIdsFromCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 		List<String> ids = new ArrayList<String>(cluSet.getCluVerIndIds().size());
@@ -863,12 +760,9 @@ public class LuServiceImpl implements LuService {
 		return ids;
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<CluInfo> getAllClusInCluSet(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public List<CluInfo> getAllClusInCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		List<String> cluIndIds = new ArrayList<String>();
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
@@ -880,12 +774,9 @@ public class LuServiceImpl implements LuService {
 		return infos;
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public List<String> getAllCluIdsInCluSet(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public List<String> getAllCluIdsInCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		List<String> ids = new ArrayList<String>();
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
@@ -893,18 +784,15 @@ public class LuServiceImpl implements LuService {
 		return ids;
 	}
 
-	@Override
+    @Override
     @Transactional(readOnly=true)
-	public Boolean isCluInCluSet(String cluId, String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public Boolean isCluInCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(cluSetId, "cluSetId");
 		return luDao.isCluInCluSet(cluId, cluSetId);
 	}
 
-	// ******** LUI OPERATIONS
+    // ******** LUI OPERATIONS
 	// *** Core
 
 	@Override
@@ -1046,33 +934,28 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toLuiLuiRelationInfos(entities);
 	}
 
-	/**************************************************************************
+
+
+    /**************************************************************************
 	 * MAINTENANCE OPERATIONS *
 	 **************************************************************************/
 
 	@Override
-	public List<ValidationResultInfo> validateClu(String validationType,
-			CluInfo cluInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    public List<ValidationResultInfo> validateClu(@WebParam(name = "validationType") String validationType, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluInfo, "cluInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure, context);
         
         return validationResults;
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluInfo createClu(String luTypeKey, CluInfo cluInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		Clu clu = toCluForCreate(luTypeKey,cluInfo);
+    public CluInfo createClu(@WebParam(name = "luTypeKey") String luTypeKey, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+		Clu clu = toCluForCreate(luTypeKey,cluInfo, context);
 		//Set current (since this is brand new and every verIndId needs one current)
 		if(clu.getVersion() == null){
 			clu.setVersion(new Version());
@@ -1081,8 +964,8 @@ public class LuServiceImpl implements LuService {
 		luDao.create(clu);
 		return LuServiceAssembler.toCluInfo(clu);
 	}
-	
-	public Clu toCluForCreate(String luTypeKey, CluInfo cluInfo)
+
+    public Clu toCluForCreate(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -1091,7 +974,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(cluInfo, "cluInfo");
 
 		// Validate CLU
-		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo);
+		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo,contextInfo );
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -1120,9 +1003,7 @@ public class LuServiceImpl implements LuService {
 			CluAdminOrg instructor = new CluAdminOrg();
 			BeanUtils.copyProperties(orgInfo, instructor,
 					new String[] { "attributes" });
-			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
-					instructor, luDao));
+			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(CluAdminOrgAttribute.class, (Map<String,String>) orgInfo.getAttributes(),instructor, luDao));
 			instructor.setClu(clu);
 			adminOrgs.add(instructor);
 		}
@@ -1132,7 +1013,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(cluInfo.getPrimaryInstructor(),
 					primaryInstructor, new String[] { "attributes" });
 			primaryInstructor.setAttributes(LuServiceAssembler
-					.toGenericAttributes(CluInstructorAttribute.class, cluInfo
+					.toGenericAttributes(CluInstructorAttribute.class, (Map<String,String>) cluInfo
 							.getPrimaryInstructor().getAttributes(),
 							primaryInstructor, luDao));
 			clu.setPrimaryInstructor(primaryInstructor);
@@ -1147,7 +1028,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(instructorInfo, instructor,
 					new String[] { "attributes" });
 			instructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluInstructorAttribute.class, instructorInfo
+					CluInstructorAttribute.class, (Map<String,String>) instructorInfo
 							.getAttributes(), instructor, luDao));
 			instructors.add(instructor);
 		}
@@ -1164,7 +1045,7 @@ public class LuServiceImpl implements LuService {
 		for (LuCodeInfo luCodeInfo : cluInfo.getLuCodes()) {
 			LuCode luCode = new LuCode();
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(
-					LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
+					LuCodeAttribute.class, (Map<String,String>) luCodeInfo.getAttributes(), luCode,
 					luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
@@ -1256,17 +1137,13 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluInfo updateClu(String cluId, CluInfo cluInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+  public CluInfo updateClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluInfo") CluInfo cluInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(cluInfo, "cluInfo");
 
 		// Validate CLU
-		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo);
+		List<ValidationResultInfo> val = validateClu("SYSTEM", cluInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -1316,7 +1193,7 @@ public class LuServiceImpl implements LuService {
 					.getPrimaryInstructor(), new String[] { "attributes" });
 			clu.getPrimaryInstructor().setAttributes(
 					LuServiceAssembler.toGenericAttributes(
-							CluInstructorAttribute.class, cluInfo
+							CluInstructorAttribute.class, (Map<String,String>) cluInfo
 									.getPrimaryInstructor().getAttributes(),
 							clu.getPrimaryInstructor(), luDao));
 		} else if (clu.getPrimaryInstructor() != null) {
@@ -1347,7 +1224,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(instructorInfo, cluInstructor,
 					new String[] { "attributes" });
 			cluInstructor.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluInstructorAttribute.class, instructorInfo
+					CluInstructorAttribute.class, (Map<String,String>) instructorInfo
 							.getAttributes(), cluInstructor, luDao));
 			clu.getInstructors().add(cluInstructor);
 		}
@@ -1392,7 +1269,7 @@ public class LuServiceImpl implements LuService {
 			}
 			// Do Copy
 			luCode.setAttributes(LuServiceAssembler.toGenericAttributes(
-					LuCodeAttribute.class, luCodeInfo.getAttributes(), luCode,
+					LuCodeAttribute.class, (Map<String,String>) luCodeInfo.getAttributes(), luCode,
 					luDao));
 			BeanUtils.copyProperties(luCodeInfo, luCode, new String[] {
 					"attributes", "metaInfo" });
@@ -1576,7 +1453,7 @@ public class LuServiceImpl implements LuService {
 			BeanUtils.copyProperties(orgInfo, cluOrg,
 					new String[] { "attributes","id" });
 			cluOrg.setAttributes(LuServiceAssembler.toGenericAttributes(
-					CluAdminOrgAttribute.class, orgInfo.getAttributes(),
+					CluAdminOrgAttribute.class, (Map<String,String>) orgInfo.getAttributes(),
 					cluOrg, luDao));
 			cluOrg.setClu(clu);
 			clu.getAdminOrgs().add(cluOrg);
@@ -1605,10 +1482,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteClu(String cluId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			DependentObjectsExistException, OperationFailedException,
-			PermissionDeniedException {
+    public StatusInfo deleteClu(@WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluId, "cluId");
 
 		luDao.delete(Clu.class, cluId);
@@ -1619,12 +1493,9 @@ public class LuServiceImpl implements LuService {
 		return statusInfo;
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluInfo updateCluState(String cluId, String luState)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+    public CluInfo updateCluState(@WebParam(name = "cluId") String cluId, @WebParam(name = "luState") String luState, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		// Check Missing params
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(luState, "luState");
@@ -1635,29 +1506,20 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<ValidationResultInfo> validateCluCluRelation(
-			String validationType, CluCluRelationInfo cluCluRelationInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateCluCluRelation(@WebParam(name = "validationType") String validationType, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure, context);
         
         return validationResults;
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluCluRelationInfo createCluCluRelation(String cluId,
-			String relatedCluId, String luLuRelationTypeKey,
-			CluCluRelationInfo cluCluRelationInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, CircularRelationshipException {
+    public CluCluRelationInfo createCluCluRelation(@WebParam(name = "cluId") String cluId, @WebParam(name = "relatedCluId") String relatedCluId, @WebParam(name = "luLuRelationTypeKey") String luLuRelationTypeKey, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, CircularRelationshipException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(relatedCluId, "relatedCluId");
 		checkForMissingParameter(luLuRelationTypeKey, "luLuRelationTypeKey");
@@ -1669,7 +1531,7 @@ public class LuServiceImpl implements LuService {
 		}
 
 		// Validate CluCluRelationInfo
-		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -1703,20 +1565,15 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluCluRelationInfo(cluCluRelation);
 	}
 
-	@Override
+
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluCluRelationInfo updateCluCluRelation(
-			final String cluCluRelationId,
-			final CluCluRelationInfo cluCluRelationInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+    public CluCluRelationInfo updateCluCluRelation(@WebParam(name = "cluCluRelationId") String cluCluRelationId, @WebParam(name = "cluCluRelationInfo") CluCluRelationInfo cluCluRelationInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		checkForMissingParameter(cluCluRelationId, "cluCluRelationId");
 		checkForMissingParameter(cluCluRelationInfo, "cluCluRelationInfo");
 
 		// Validate CluCluRelationInfo
-		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo);
+		List<ValidationResultInfo> val = validateCluCluRelation("SYSTEM", cluCluRelationInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -1747,12 +1604,10 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluCluRelationInfo(update);
 	}
 
-	@Override
+
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteCluCluRelation(String cluCluRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public StatusInfo deleteCluCluRelation(@WebParam(name = "cluCluRelationId") String cluCluRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluCluRelationId, "cluCluRelationId");
 
 		luDao.delete(CluCluRelation.class, cluCluRelationId);
@@ -1763,28 +1618,22 @@ public class LuServiceImpl implements LuService {
 		return statusInfo;
 	}
 
-	@Override
-	public List<ValidationResultInfo> validateCluPublication(
-			String validationType, CluPublicationInfo cluPublicationInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    @Override
+    public List<ValidationResultInfo> validateCluPublication(@WebParam(name = "validationType") String validationType, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 		
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure,context);
         return validationResults;
 	}
 
-	@Override
+
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluPublicationInfo createCluPublication(String cluId,
-			String luPublicationType, CluPublicationInfo cluPublicationInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+    public CluPublicationInfo createCluPublication(@WebParam(name = "cluId") String cluId, @WebParam(name = "luPublicationType") String luPublicationType, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(luPublicationType, "luPublicationType");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
@@ -1792,7 +1641,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CLU
 		List<ValidationResultInfo> val;
 		try {
-			val = validateCluPublication("SYSTEM", cluPublicationInfo);
+			val = validateCluPublication("SYSTEM", cluPublicationInfo, context);
 			if(null != val && val.size() > 0) {
 				throw new DataValidationErrorException("Validation error!", val);
 			}
@@ -1832,21 +1681,16 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluPublicationInfo(cluPub);
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluPublicationInfo updateCluPublication(String cluPublicationId,
-			CluPublicationInfo cluPublicationInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+    public CluPublicationInfo updateCluPublication(@WebParam(name = "cluPublicationId") String cluPublicationId, @WebParam(name = "cluPublicationInfo") CluPublicationInfo cluPublicationInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		checkForMissingParameter(cluPublicationId, "cluPublicationId");
 		checkForMissingParameter(cluPublicationInfo, "cluPublicationInfo");
 		
 		// Validate CLU
 		List<ValidationResultInfo> val;
 		try {
-			val = validateCluPublication("SYSTEM", cluPublicationInfo);
+			val = validateCluPublication("SYSTEM", cluPublicationInfo, context);
 			if(null != val && val.size() > 0) {
 				throw new DataValidationErrorException("Validation error!", val);
 			}
@@ -1923,12 +1767,9 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluPublicationInfo(updated);
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteCluPublication(String cluPublicationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, DependentObjectsExistException,
-			OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCluPublication(@WebParam(name = "cluPublicationId") String cluPublicationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluPublicationId, "cluPublicationId");
 
 		luDao.delete(CluPublication.class, cluPublicationId);
@@ -1938,39 +1779,32 @@ public class LuServiceImpl implements LuService {
 
 		return statusInfo;	}
 
-	@Override
-	public List<ValidationResultInfo> validateCluResult(String validationType,
-			CluResultInfo cluResultInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+    @Override
+    public List<ValidationResultInfo> validateCluResult(@WebParam(name = "validationType") String validationType, @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure, context);
         return validationResults;
 	}
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluResultInfo createCluResult(String cluId, String cluResultTypeKey,
-			CluResultInfo cluResultInfo) throws AlreadyExistsException,
-			DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, DoesNotExistException {
+    public CluResultInfo createCluResult(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluResultType") String cluResultType, @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DoesNotExistException {
 
 		checkForMissingParameter(cluId, "cluId");
-		checkForMissingParameter(cluResultTypeKey, "cluResultTypeKey");
+		checkForMissingParameter(cluResultType, "cluResultType");
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
 		// Validate CluResult
-		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
+		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
 
-		cluResultInfo.setType(cluResultTypeKey);
+		cluResultInfo.setType(cluResultType);
 		cluResultInfo.setCluId(cluId);
 
 		List<ResultOption> resOptList = new ArrayList<ResultOption>();
@@ -2000,7 +1834,7 @@ public class LuServiceImpl implements LuService {
 		Clu clu = luDao.fetch(Clu.class, cluId);
 		cluResult.setClu(clu);
 
-		CluResultType type = luDao.fetch(CluResultType.class, cluResultTypeKey);
+		CluResultType type = luDao.fetch(CluResultType.class, cluResultType);
 		cluResult.setCluResultType(type);
 
 		luDao.create(cluResult);
@@ -2008,19 +1842,17 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluResultInfo(cluResult);
 	}
 
-	@Override
+
+
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluResultInfo updateCluResult(String cluResultId,
-			CluResultInfo cluResultInfo) throws DataValidationErrorException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, VersionMismatchException {
+    public CluResultInfo updateCluResult(@WebParam(name = "cluResultId") String cluResultId, @WebParam(name = "cluResultInfo") CluResultInfo cluResultInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 
 		checkForMissingParameter(cluResultId, "cluResultId");
 		checkForMissingParameter(cluResultInfo, "cluResultInfo");
 
 		// Validate CluResult
-		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo);
+		List<ValidationResultInfo> val = validateCluResult("SYSTEM", cluResultInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -2084,12 +1916,10 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluResultInfo(updated);
 	}
 
-	@Override
+
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteCluResult(String cluResultId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, DependentObjectsExistException,
-			OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteCluResult(@WebParam(name = "cluResultId") String cluResultId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, DependentObjectsExistException, OperationFailedException, PermissionDeniedException {
 
 		checkForMissingParameter(cluResultId, "cluResultId");
 
@@ -2102,34 +1932,27 @@ public class LuServiceImpl implements LuService {
 	}
 
 	@Override
-	public List<ValidationResultInfo> validateCluLoRelation(
-			String validationType, CluLoRelationInfo cluLoRelationInfo)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException {
+    public List<ValidationResultInfo> validateCluLoRelation(@WebParam(name = "validationType") String validationType, @WebParam(name = "cluLoRelationInfo") CluLoRelationInfo cluLoRelationInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure, context);
         return validationResults;
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluLoRelationInfo createCluLoRelation(String cluId, String loId,
-			String cluLoRelationType, CluLoRelationInfo cluLoRelationInfo)
-			throws AlreadyExistsException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException, DataValidationErrorException {
+    public CluLoRelationInfo createCluLoRelation(@WebParam(name = "cluId") String cluId, @WebParam(name = "loId") String loId, @WebParam(name = "cluLoRelationType") String cluLoRelationType, @WebParam(name = "cluLoRelationInfo") CluLoRelationInfo cluLoRelationInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DataValidationErrorException {
 		checkForMissingParameter(loId, "loId");
 		checkForMissingParameter(cluId, "cluId");
 		checkForEmptyList(cluLoRelationType, "cluLoRelationType");
 		checkForEmptyList(cluLoRelationInfo, "cluLoRelationInfo");
 
 		// Validate CluLoRelation
-		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -2170,19 +1993,15 @@ public class LuServiceImpl implements LuService {
 		return LuServiceAssembler.toCluLoRelationInfo(cluLoRelation);
 	}
 
-	@Override
+
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluLoRelationInfo updateCluLoRelation(String cluLoRelationId,
-			CluLoRelationInfo cluLoRelationInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException {
+    public CluLoRelationInfo updateCluLoRelation(@WebParam(name = "cluLoRelationId") String cluLoRelationId, @WebParam(name = "cluLoRelationInfo") CluLoRelationInfo cluLoRelationInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		checkForMissingParameter(cluLoRelationId, "cluLoRelationId");
 		checkForMissingParameter(cluLoRelationInfo, "cluLoRelationInfo");
 
 		// Validate CluLoRelation
-		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo);
+		List<ValidationResultInfo> val = validateCluLoRelation("SYSTEM", cluLoRelationInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -2222,10 +2041,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteCluLoRelation(String cluLoRelationId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public StatusInfo deleteCluLoRelation(@WebParam(name = "cluLoRelationId") String cluLoRelationId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		checkForMissingParameter(cluLoRelationId, "cluLoRelationId");
 
 		CluLoRelation reltn = luDao.fetch(CluLoRelation.class, cluLoRelationId);
@@ -2242,46 +2058,36 @@ public class LuServiceImpl implements LuService {
 		return statusInfo;
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo addCluResourceRequirement(String resourceTypeKey,
-			String cluId) throws AlreadyExistsException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+    public StatusInfo addCluResourceRequirement(@WebParam(name = "resourceTypeKey") String resourceTypeKey, @WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	      throw new UnsupportedOperationException("Method not yet implemented!");
 	}
 
-	@Override
+
+
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo removeCluResourceRequirement(String resourceTypeKey,
-			String cluId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
+    public StatusInfo removeCluResourceRequirement(@WebParam(name = "resourceTypeKey") String resourceTypeKey, @WebParam(name = "cluId") String cluId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	@Override
-	public List<ValidationResultInfo> validateCluSet(String validationType,
-			CluSetInfo cluSetInfo) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException {
+
+    @Override
+    public List<ValidationResultInfo> validateCluSet(@WebParam(name = "validationType") String validationType, @WebParam(name = "cluSetInfo") CluSetInfo cluSetInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure, context);
         return validationResults;
 	}
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluSetInfo createCluSet(String cluSetType, CluSetInfo cluSetInfo)
-			throws AlreadyExistsException, DataValidationErrorException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			UnsupportedActionException {
+    public CluSetInfo createCluSet(@WebParam(name = "cluSetType") String cluSetType, @WebParam(name = "cluSetInfo") CluSetInfo cluSetInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
 		checkForMissingParameter(cluSetType, "cluSetType");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
@@ -2293,7 +2099,7 @@ public class LuServiceImpl implements LuService {
 		// Validate CluSet
 		List<ValidationResultInfo> val;
 		try {
-			val = validateCluSet("SYSTEM", cluSetInfo);
+			val = validateCluSet("SYSTEM", cluSetInfo, context);
 		} catch (DoesNotExistException e) {
 			throw new DataValidationErrorException("Validation error! " + e.getMessage());
 		}
@@ -2321,7 +2127,8 @@ public class LuServiceImpl implements LuService {
 		return newCluSetInfo;
 	}
 
-	private void setMembershipQuerySearchResult(CluSetInfo cluSetInfo) throws MissingParameterException {
+
+    private void setMembershipQuerySearchResult(CluSetInfo cluSetInfo) throws MissingParameterException {
 		if(cluSetInfo.getMembershipQuery() == null) {
 			return;
 		}
@@ -2370,19 +2177,14 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluSetInfo updateCluSet(String cluSetId, CluSetInfo cluSetInfo)
-			throws DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			VersionMismatchException, CircularRelationshipException,
-			UnsupportedActionException {
+    public CluSetInfo updateCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "cluSetInfo") CluSetInfo cluSetInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException, UnsupportedActionException, CircularRelationshipException {
 
 		// Check Missing params
 		checkForMissingParameter(cluSetId, "cluSetId");
 		checkForMissingParameter(cluSetInfo, "cluSetInfo");
 
 		// Validate CluSet
-		List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo);
+		List<ValidationResultInfo> val = validateCluSet("SYSTEM", cluSetInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -2433,16 +2235,16 @@ public class LuServiceImpl implements LuService {
 
         // clean up existing wrappers if any
         if (cluSetInfo.getId() != null) {
-            CluSetInfo originalCluSet = getCluSetInfo(cluSetInfo.getId());
+            CluSetInfo originalCluSet = getCluSetInfo(cluSetInfo.getId(), context);
             List<CluSetInfo> origSubCSs = null;
             List<String> origSubCSIds = originalCluSet.getCluSetIds();
             if (origSubCSIds != null && !origSubCSIds.isEmpty()) {
-                origSubCSs = getCluSetInfoByIdList(origSubCSIds);
+                origSubCSs = getCluSetInfoByIdList(origSubCSIds, context);
             }
             if (origSubCSs != null) {
                 for (CluSetInfo origSubCS : origSubCSs) {
                     if (!origSubCS.getIsReusable()) {
-                        deleteCluSet(origSubCS.getId());
+                        deleteCluSet(origSubCS.getId(), context);
                     }
                 }
             }
@@ -2488,10 +2290,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo deleteCluSet(String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
+    public StatusInfo deleteCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
 		checkForMissingParameter(cluSetId, "cluSetId");
 
@@ -2503,13 +2302,9 @@ public class LuServiceImpl implements LuService {
 		return statusInfo;
 	}
 
-	@Override
+    @Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo addCluSetToCluSet(String cluSetId, String addedCluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, UnsupportedActionException,
-			CircularRelationshipException {
+    public StatusInfo addCluSetToCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "addedCluSetId") String addedCluSetId, @WebParam(name = "context") ContextInfo context) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 		checkForMissingParameter(cluSetId, "cluSetId");
 		checkForMissingParameter(addedCluSetId, "addedCluSetId");
 
@@ -2536,11 +2331,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo removeCluSetFromCluSet(String cluSetId,
-			String removedCluSetId) throws DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException,
-			UnsupportedActionException {
+    public StatusInfo removeCluSetFromCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "removedCluSetId") String removedCluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
 		checkForMissingParameter(cluSetId, "cluSetId");
 		checkForMissingParameter(removedCluSetId, "removedCluSetId");
@@ -2570,44 +2361,43 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo addCluToCluSet(String cluId, String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, UnsupportedActionException {
+    public StatusInfo addCluToCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(cluSetId, "cluSetId");
 
 		CluSet cluSet = luDao.fetch(CluSet.class, cluSetId);
 
-		checkCluAlreadyAdded(cluSet, cluId);
-		
-		try{
-			luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
-		}catch(NoResultException e){
-			throw new DoesNotExistException();
-		}
-		
-		CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
-		join.setCluSet(cluSet);
-		join.setCluVersionIndId(cluId);
-		
-		cluSet.getCluVerIndIds().add(join);
-
-		luDao.update(cluSet);
-
 		StatusInfo statusInfo = new StatusInfo();
-		statusInfo.setSuccess(true);
 
+		//If the clu already exists return false but dont throw an exception
+		if(!checkCluAlreadyAdded(cluSet, cluId)){
+			statusInfo.setSuccess(Boolean.FALSE);
+			statusInfo.setMessage("CluSet already contains Clu (id='" + cluId + "')");
+		}else{
+			try{
+				luDao.getCurrentCluVersionInfo(cluId, LuServiceConstants.CLU_NAMESPACE_URI);
+			}catch(NoResultException e){
+				throw new DoesNotExistException();
+			}
+			
+			CluSetJoinVersionIndClu join = new CluSetJoinVersionIndClu();
+			join.setCluSet(cluSet);
+			join.setCluVersionIndId(cluId);
+			
+			cluSet.getCluVerIndIds().add(join);
+	
+			luDao.update(cluSet);
+	
+	
+			statusInfo.setSuccess(true);
+		}
 		return statusInfo;
 	}
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo removeCluFromCluSet(String cluId, String cluSetId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, UnsupportedActionException {
+    public StatusInfo removeCluFromCluSet(@WebParam(name = "cluId") String cluId, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
 		checkForMissingParameter(cluId, "cluId");
 		checkForMissingParameter(cluSetId, "cluSetId");
@@ -2636,7 +2426,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<ValidationResultInfo> validateLui(String validationType,
-			LuiInfo luiInfo) throws DoesNotExistException,
+                                                  LuiInfo luiInfo, ContextInfo context) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
@@ -2644,13 +2434,13 @@ public class LuServiceImpl implements LuService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure, context);
         return validationResults;
 	}
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo)
+	public LuiInfo createLui(String cluId, String atpKey, LuiInfo luiInfo, ContextInfo context)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -2660,7 +2450,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luiInfo, "luiInfo");
 
 		// Validate Lui
-		List<ValidationResultInfo> val = validateLui("SYSTEM", luiInfo);
+		List<ValidationResultInfo> val = validateLui("SYSTEM", luiInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -2681,7 +2471,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
+	public LuiInfo updateLui(String luiId, LuiInfo luiInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -2691,7 +2481,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luiInfo, "luiInfo");
 
 		// Validate Lui
-		List<ValidationResultInfo> val = validateLui("SYSTEM", luiInfo);
+		List<ValidationResultInfo> val = validateLui("SYSTEM", luiInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -2738,7 +2528,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public LuiInfo updateLuiState(String luiId, String luiState)
+	public LuiInfo updateLuiState(String luiId, String luiState, ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
@@ -2746,7 +2536,8 @@ public class LuServiceImpl implements LuService {
 		// check for missing params
 		checkForMissingParameter(luiId, "luiId");
 		checkForMissingParameter(luiState, "luiState");
-		Lui lui = luDao.fetch(Lui.class, luiId);
+		Lui lui = null;
+		// TODO KSCM DAO lui = luDao.fetch(Lui.class, luiId);
 		lui.setState(luiState);
 		Lui updated = luDao.update(lui);
 		return LuServiceAssembler.toLuiInfo(updated);
@@ -2754,7 +2545,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public List<ValidationResultInfo> validateLuiLuiRelation(
-			String validationType, LuiLuiRelationInfo luiLuiRelationInfo)
+			String validationType, LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(validationType, "validationType");
@@ -2762,7 +2553,7 @@ public class LuServiceImpl implements LuService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiLuiRelation.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure, contextInfo);
         return validationResults;
 	}
 
@@ -2770,7 +2561,7 @@ public class LuServiceImpl implements LuService {
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public LuiLuiRelationInfo createLuiLuiRelation(String luiId,
 			String relatedLuiId, String luLuRelationTypeKey,
-			LuiLuiRelationInfo luiLuiRelationInfo)
+			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
 			throws AlreadyExistsException, CircularRelationshipException,
 			DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
@@ -2781,7 +2572,7 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
 
 		// Validate LuiLuiRelation
-		List<ValidationResultInfo> val = validateLuiLuiRelation("SYSTEM", luiLuiRelationInfo);
+		List<ValidationResultInfo> val = validateLuiLuiRelation("SYSTEM", luiLuiRelationInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
@@ -2818,7 +2609,7 @@ public class LuServiceImpl implements LuService {
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public LuiLuiRelationInfo updateLuiLuiRelation(String luiLuiRelationId,
-			LuiLuiRelationInfo luiLuiRelationInfo)
+			LuiLuiRelationInfo luiLuiRelationInfo, ContextInfo context)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -2828,13 +2619,14 @@ public class LuServiceImpl implements LuService {
 		checkForMissingParameter(luiLuiRelationInfo, "luiLuiRelationInfo");
 
 		// Validate LuiLuiRelation
-		List<ValidationResultInfo> val = validateLuiLuiRelation("SYSTEM", luiLuiRelationInfo);
+		List<ValidationResultInfo> val = validateLuiLuiRelation("SYSTEM", luiLuiRelationInfo, context);
 		if(null != val && val.size() > 0) {
 			throw new DataValidationErrorException("Validation error!", val);
 		}
 
-		LuiLuiRelation luiLuiRelation = luDao.fetch(LuiLuiRelation.class,
-				luiLuiRelationId);
+		LuiLuiRelation luiLuiRelation = null;
+		// TODO KSCM DAO luDao.fetch(LuiLuiRelation.class,
+		// TODO KSCM DAO 		luiLuiRelationId);
 
 		if (!String.valueOf(luiLuiRelation.getVersionNumber()).equals(
 				luiLuiRelationInfo.getMetaInfo().getVersionInd())) {
@@ -2896,72 +2688,78 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, contextInfo);
 	}
 
-	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
+    // TODO KSCM @Override
+    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes();
+		return searchManager.getSearchCriteriaTypes(contextInfo);
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchResultType(searchResultTypeKey);
+		return searchManager.getSearchResultType(searchResultTypeKey, contextInfo);
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes()
+	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes();
+		return searchManager.getSearchResultTypes(contextInfo);
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey)
+	public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo contextInfo)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		return searchManager.getSearchType(searchTypeKey);
+		return searchManager.getSearchType(searchTypeKey, contextInfo);
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypes()
+	public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo)
 			throws OperationFailedException {
-		return searchManager.getSearchTypes();
+		return searchManager.getSearchTypes(contextInfo);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey) throws DoesNotExistException,
+			String searchCriteriaTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, contextInfo);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey) throws DoesNotExistException,
+			String searchResultTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		return searchManager.getSearchTypesByResult(searchResultTypeKey);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey, contextInfo);
 	}
 
-	private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
+	private boolean checkCluAlreadyAdded(CluSet cluSet, String cluId)
 			throws OperationFailedException {
 		for (CluSetJoinVersionIndClu join : cluSet.getCluVerIndIds()) {
 			if (join.getCluVersionIndId().equals(cluId)) {
-				throw new OperationFailedException("CluSet already contains Clu (id='" + cluId + "')");
+				return false;
 			}
 		}
+		return true;
 	}
 
 	private void checkCluSetAlreadyAdded(CluSet cluSet, String cluSetIdToAdd)
@@ -3091,7 +2889,7 @@ public class LuServiceImpl implements LuService {
 
 	@Override
     @Transactional(readOnly=true)
-	public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+	public SearchResult search(SearchRequest searchRequest, ContextInfo context) throws MissingParameterException {
         checkForMissingParameter(searchRequest, "searchRequest");
         
         if(SEARCH_KEY_DEPENDENCY_ANALYSIS.equals(searchRequest.getSearchKey())){
@@ -3103,12 +2901,12 @@ public class LuServiceImpl implements LuService {
     			}
     		}
         	try {
-				return doDependencyAnalysisSearch(cluId);
+				return doDependencyAnalysisSearch(cluId, context);
 			} catch (DoesNotExistException e) {
 				throw new RuntimeException("Error performing search");//FIXME should be more checked service exceptions thrown
 			}
         }else if(SEARCH_KEY_BROWSE_PROGRAM.equals(searchRequest.getSearchKey())){
-        	return doBrowseProgramSearch();
+        	return doBrowseProgramSearch(context);
         }else if(SEARCH_KEY_PROPOSALS_BY_COURSE_CODE.equals(searchRequest.getSearchKey())){
         	String courseCode = null;
     		for(SearchParam param:searchRequest.getParams()){
@@ -3119,11 +2917,19 @@ public class LuServiceImpl implements LuService {
     		}
         	return doSearchProposalsByCourseCode(courseCode);
         }else if(SEARCH_KEY_BROWSE_VERSIONS.equals(searchRequest.getSearchKey())){
-        	return doBrowseVersionsSearch(searchRequest);
+        	return doBrowseVersionsSearch(searchRequest, context);
         }else if(SEARCH_KEY_LU_RESULT_COMPONENTS.equals(searchRequest.getSearchKey())){
-        	return doResultComponentTypesForCluSearch(searchRequest);
+        	return doResultComponentTypesForCluSearch(searchRequest, context);
+        }else if(SEARCH_KEY_CLUSET_SEARCH_GENERIC.equals(searchRequest.getSearchKey())){
+    		//If any clu specific params are set, use a search key that has the clu defined in the JPQL 
+        	for(SearchParam param:searchRequest.getParams()){
+    			if(param.getKey().contains("queryParam.luOptional")){
+    				searchRequest.setSearchKey(SEARCH_KEY_CLUSET_SEARCH_GENERICWITHCLUS);
+    				break;
+    			}
+    		}
         }
-        return searchManager.search(searchRequest, luDao);
+        return searchManager.search(searchRequest, luDao, context);
 	}
 
 	
@@ -3133,9 +2939,9 @@ public class LuServiceImpl implements LuService {
 	 * @return
 	 * @throws MissingParameterException
 	 */
-	private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest) throws MissingParameterException {
+	private SearchResult doResultComponentTypesForCluSearch(SearchRequest cluSearchRequest, ContextInfo contextInfo) throws MissingParameterException {
 
-		SearchResult searchResult = searchManager.search(cluSearchRequest, luDao);
+		SearchResult searchResult = searchManager.search(cluSearchRequest, luDao, contextInfo);
 		
 		//Get the result Component Ids using a search
 		Map<String,List<SearchResultRow>> rcIdToRowMapping = new HashMap<String,List<SearchResultRow>>();
@@ -3187,8 +2993,8 @@ public class LuServiceImpl implements LuService {
 	 * @return
 	 * @throws MissingParameterException 
 	 */
-	private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest) throws MissingParameterException {
-		SearchResult searchResult = searchManager.search(searchRequest, luDao);
+	private SearchResult doBrowseVersionsSearch(SearchRequest searchRequest, ContextInfo contextInfo) throws MissingParameterException {
+		SearchResult searchResult = searchManager.search(searchRequest, luDao, contextInfo);
 		
 		Map<String,List<SearchResultCell>> atpIdToCellMapping = new HashMap<String,List<SearchResultCell>>();
 		
@@ -3231,15 +3037,15 @@ public class LuServiceImpl implements LuService {
 		return searchResult;
 	}
 
-	private SearchResult doBrowseProgramSearch() throws MissingParameterException {
+	private SearchResult doBrowseProgramSearch(ContextInfo contextInfo) throws MissingParameterException {
 		//This is our main result
 		SearchRequest request = new SearchRequest(SEARCH_KEY_BROWSE_PROGRAM);
 		request.setSortDirection(SortDirection.ASC);
 		request.setSortColumn("lu.resultColumn.luOptionalLongName");
-		SearchResult programSearchResults = searchManager.search(request, luDao);
+		SearchResult programSearchResults = searchManager.search(request, luDao, contextInfo);
 		
 		//These variations need to be mapped back to the program search results
-		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao);
+		SearchResult variationSearchResults = searchManager.search(new SearchRequest(SEARCH_KEY_BROWSE_VARIATIONS), luDao, contextInfo);
 		
 		//Get a mapping of program id to variation long name mapping:
 		Map<String,List<String>> variationMapping = new HashMap<String,List<String>>();
@@ -3496,7 +3302,7 @@ public class LuServiceImpl implements LuService {
 	}
 
 	//TODO move all of these procedural custom searches to a new search manager
-	private SearchResult doDependencyAnalysisSearch(String cluId) throws MissingParameterException, DoesNotExistException {
+	private SearchResult doDependencyAnalysisSearch(String cluId, ContextInfo contextInfo) throws MissingParameterException, DoesNotExistException {
 
 		checkForMissingParameter(cluId, "cluId");
 
@@ -3622,7 +3428,7 @@ public class LuServiceImpl implements LuService {
 				try{
 					// If this is a variation, we need to find the parent program in order to properly create a url link
 					// so here we're finding the variation's parent
-					List<String> relatedClus = this.getCluIdsByRelation(clu.getId(), "kuali.lu.lu.relation.type.hasVariationProgram");				
+					List<String> relatedClus = this.getCluIdsByRelation(clu.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
 					for(String parentCluId: relatedClus){
 						resultRow.addCell("lu.resultColumn.parentCluId", parentCluId);
 					}
@@ -3771,8 +3577,10 @@ public class LuServiceImpl implements LuService {
 		
 		return searchResult;
 	}
-	
-	public class SearchResultRowComparator implements Comparator<SearchResultRow>{
+
+
+
+    public class SearchResultRowComparator implements Comparator<SearchResultRow>{
 		private String sortColumn;
 		
 		SearchResultRowComparator(String sortColumn){
@@ -3840,20 +3648,16 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo addCluSetsToCluSet(String cluSetId, List<String> cluSetIdList)
-		throws CircularRelationshipException,
-			DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, UnsupportedActionException {
+    public StatusInfo addCluSetsToCluSet(@WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "addedCluSetIdList") List<String> addedCluSetIdList, @WebParam(name = "context") ContextInfo context) throws CircularRelationshipException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
 		checkForMissingParameter(cluSetId, "cluSetId");
-		checkForMissingParameter(cluSetIdList, "cluSetIdList");
+		checkForMissingParameter(addedCluSetIdList, "cluSetIdList");
 
 		// Check that CluSet exists
 		luDao.fetch(CluSet.class, cluSetId);
 
-		for(String cluSetIdToAdd : cluSetIdList) {
-			StatusInfo status = addCluSetToCluSet(cluSetId, cluSetIdToAdd);
+		for(String cluSetIdToAdd : addedCluSetIdList) {
+			StatusInfo status = addCluSetToCluSet(cluSetId, cluSetIdToAdd, context);
 			if (!status.getSuccess()) {
 				return status;
 			}
@@ -3867,23 +3671,25 @@ public class LuServiceImpl implements LuService {
 
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public StatusInfo addClusToCluSet(List<String> cluIdList, String cluSetId)
-		throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException, UnsupportedActionException {
+    public StatusInfo addClusToCluSet(@WebParam(name = "cluIdList") List<String> cluIdList, @WebParam(name = "cluSetId") String cluSetId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, UnsupportedActionException {
 
+		StatusInfo statusInfo = new StatusInfo();
+		statusInfo.setSuccess(Boolean.TRUE);
+		
 		checkForMissingParameter(cluIdList, "cluIdList");
 		checkForMissingParameter(cluSetId, "cluSetId");
 		
 		for(String cluId : cluIdList) {
-			StatusInfo status = addCluToCluSet(cluId, cluSetId);
+			StatusInfo status = addCluToCluSet(cluId, cluSetId, context);
 			if (!status.getSuccess()) {
-				return status;
+				//One or more clus already existed
+				if(statusInfo.getMessage().isEmpty()){
+					statusInfo.setMessage(status.getMessage());
+				}else{
+					statusInfo.setMessage(statusInfo.getMessage()+"\n"+status.getMessage());	
+				}
 			}
 		}
-
-		StatusInfo statusInfo = new StatusInfo();
-		statusInfo.setSuccess(true);
 
 		return statusInfo;
 	}
@@ -3900,16 +3706,16 @@ public class LuServiceImpl implements LuService {
 	
 	@Override
     @Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public CluInfo createNewCluVersion(String versionIndCluId, String versionComment) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {	    
+    public CluInfo createNewCluVersion(@WebParam(name = "cluId") String cluId, @WebParam(name = "versionComment") String versionComment, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
 		Clu latestClu;
 		Clu currentClu; 
 		try{
-			latestClu = luDao.getLatestCluVersion(versionIndCluId);
+			latestClu = luDao.getLatestCluVersion(cluId);
 		}catch(NoResultException e){
 			throw new DoesNotExistException("There are no matching versions of this clu", e);
 		}
 		try{
-			currentClu = luDao.getCurrentCluVersion(versionIndCluId);
+			currentClu = luDao.getCurrentCluVersion(cluId);
 		}catch(NoResultException e){
 			throw new DoesNotExistException("There is no current version of this clu. Only current clus can be versioned. Use setCurrentCluVersion to make a clu current.", e);
 		}
@@ -3923,11 +3729,11 @@ public class LuServiceImpl implements LuService {
 	    CluInfo newClu = null;
 	    
         try {
-    		Clu clu = toCluForCreate(cluInfo.getType(), cluInfo);
+    		Clu clu = toCluForCreate(cluInfo.getType(), cluInfo, context);
     	    //Set the Version data
     		Version version = new Version();
     		version.setSequenceNumber(latestClu.getVersion().getSequenceNumber() + 1);
-    		version.setVersionIndId(versionIndCluId);
+    		version.setVersionIndId(cluId);
     		version.setCurrentVersionStart(null);
     		version.setCurrentVersionEnd(null);
     		version.setVersionComment(versionComment);
@@ -3991,7 +3797,7 @@ public class LuServiceImpl implements LuService {
 	 */
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-    public StatusInfo setCurrentCluVersion(String cluVersionId, Date currentVersionStart) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo setCurrentCluVersion(@WebParam(name = "cluVersionId") String cluVersionId, @WebParam(name = "currentVersionStart") Date currentVersionStart, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, IllegalVersionSequencingException, OperationFailedException, PermissionDeniedException {
         //Check params
 		Date currentDbDate = new Date();//FIXME, this should be DB time
 		if(currentVersionStart!=null&&currentVersionStart.compareTo(currentDbDate)<0){
@@ -4047,11 +3853,11 @@ public class LuServiceImpl implements LuService {
 		StatusInfo statusInfo = new StatusInfo();
 		statusInfo.setSuccess(true);
         return statusInfo;
-    }   
-	
+    }
+
     @Override
     @Transactional(readOnly=true)
-    public VersionDisplayInfo getLatestVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getLatestVersion(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
         	try{
@@ -4065,9 +3871,10 @@ public class LuServiceImpl implements LuService {
 		return versionInfo;
 	}
 
-	@Override
+
+    @Override
     @Transactional(readOnly=true)
-    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getCurrentVersion(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
         	try{
@@ -4083,7 +3890,7 @@ public class LuServiceImpl implements LuService {
 
     @Override
     @Transactional(readOnly=true)
-    public VersionDisplayInfo getCurrentVersionOnDate(String refObjectTypeURI, String refObjectId, Date date) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getCurrentVersionOnDate(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "date") Date date, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
         	try{
@@ -4099,7 +3906,7 @@ public class LuServiceImpl implements LuService {
 
     @Override
     @Transactional(readOnly=true)
-    public VersionDisplayInfo getFirstVersion(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getFirstVersion(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
         	try{
@@ -4115,7 +3922,7 @@ public class LuServiceImpl implements LuService {
 
     @Override
     @Transactional(readOnly=true)
-    public VersionDisplayInfo getVersionBySequenceNumber(String refObjectTypeURI, String refObjectId, Long sequence) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public VersionDisplayInfo getVersionBySequenceNumber(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "sequence") Long sequence, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		VersionDisplayInfo versionInfo = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
         	try{
@@ -4131,7 +3938,7 @@ public class LuServiceImpl implements LuService {
 
     @Override
     @Transactional(readOnly=true)
-    public List<VersionDisplayInfo> getVersions(String refObjectTypeURI, String refObjectId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<VersionDisplayInfo> getVersions(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	List<VersionDisplayInfo> versionInfos = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
        		versionInfos = luDao.getVersions(refObjectId, refObjectTypeURI);
@@ -4146,7 +3953,7 @@ public class LuServiceImpl implements LuService {
 
     @Override
     @Transactional(readOnly=true)
-    public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectTypeURI, String refObjectId, Date from, Date to) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<VersionDisplayInfo> getVersionsInDateRange(@WebParam(name = "refObjectTypeURI") String refObjectTypeURI, @WebParam(name = "refObjectId") String refObjectId, @WebParam(name = "from") Date from, @WebParam(name = "to") Date to, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	List<VersionDisplayInfo> versionInfos = null;
 		if(LuServiceConstants.CLU_NAMESPACE_URI.equals(refObjectTypeURI)){
     		versionInfos = luDao.getVersionsInDateRange(refObjectId, refObjectTypeURI, from, to);
@@ -4161,5 +3968,15 @@ public class LuServiceImpl implements LuService {
 
 	public void setSearchDispatcher(SearchDispatcher searchDispatcher) {
 		this.searchDispatcher = searchDispatcher;
+	}
+
+	@Override
+	public LuiInfo updateLui(String luiId, LuiInfo luiInfo)
+			throws DataValidationErrorException, DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException,
+			VersionMismatchException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

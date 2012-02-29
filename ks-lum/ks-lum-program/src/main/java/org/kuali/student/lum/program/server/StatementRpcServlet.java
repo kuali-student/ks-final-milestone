@@ -17,7 +17,9 @@ package org.kuali.student.lum.program.server;
 
 import java.util.List;
 
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
@@ -34,63 +36,64 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<LuService> im
 	private StatementRpcService statmentDataService;
 
 	public void setStatmentDataService(StatementRpcService statmentDataService) {
+		
 		this.statmentDataService = statmentDataService;
 	}
 
 	@Override
 	public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(
-			String statementTypeKey) throws Exception {
+			String statementTypeKey,ContextInfo contextInfo) throws Exception {
 		return statmentDataService
-				.getStatementTypesForStatementTypeForCourse(statementTypeKey);
+				.getStatementTypesForStatementTypeForCourse(statementTypeKey,ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<StatementTypeInfo> getStatementTypesForStatementType(
-			String statementTypeKey) throws Exception {
+			String statementTypeKey,ContextInfo contextInfo) throws Exception {
 		return statmentDataService
-				.getStatementTypesForStatementType(statementTypeKey);
+				.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(
-			String luStatementTypeKey) throws Exception {
+			String luStatementTypeKey,ContextInfo contextInfo) throws Exception {
 		return statmentDataService
-				.getReqComponentTypesForStatementType(luStatementTypeKey);
+				.getReqComponentTypesForStatementType(luStatementTypeKey,ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo,
-			String nlUsageTypeKey, String language) throws Exception {
+			String nlUsageTypeKey, String language,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.translateReqComponentToNL(reqComponentInfo,
-				nlUsageTypeKey, language);
+				nlUsageTypeKey, language,ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public String translateStatementTreeViewToNL(
 			StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey,
-			String language) throws Exception {
+			String language,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.translateStatementTreeViewToNL(
-				statementTreeViewInfo, nlUsageTypeKey, language);
+				statementTreeViewInfo, nlUsageTypeKey, language,ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<String> translateReqComponentToNLs(
 			ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys,
-			String language) throws Exception {
+			String language,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.translateReqComponentToNLs(reqComponentInfo,
-				nlUsageTypeKeys, language);
+				nlUsageTypeKeys, language,ContextUtils.getContextInfo());
 	}
 
 	@Override
-	public CluInfo getClu(String cluId) throws Exception {
-		return statmentDataService.getClu(cluId);
+	public CluInfo getClu(String cluId,ContextInfo contextInfo) throws Exception {
+		return statmentDataService.getClu(cluId,ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
-			String refObjectId) throws Exception {
+			String refObjectId,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.getCurrentVersion(refObjectTypeURI,
-				refObjectId);
+				refObjectId,ContextUtils.getContextInfo());
 	}
 
 }
