@@ -149,6 +149,8 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
+import org.kuali.student.r1.core.util.R1R2ConverterUtil;
+
 @WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 public class LuServiceImpl implements CluService {
@@ -839,7 +841,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluInfo,  objStructure,contextInfo);
         
         return validationResults;
 	}
@@ -1406,7 +1408,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluCluRelationInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluCluRelationInfo, objStructure,contextInfo);
         
         return validationResults;
 	}
@@ -1518,7 +1520,7 @@ public class LuServiceImpl implements CluService {
 		
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluPublicationInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluPublicationInfo, objStructure,contextInfo);
         return validationResults;
 	}
 
@@ -1679,7 +1681,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluResultInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluResultInfo, objStructure,contextInfo);
         return validationResults;
 	}
 
@@ -1831,7 +1833,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluLoRelation.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluLoRelationInfo, objStructure,contextInfo);
         return validationResults;
 	}
 
@@ -1969,7 +1971,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(CluSetInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(cluSetInfo, objStructure,contextInfo);
         return validationResults;
 	}
 
@@ -2314,7 +2316,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiInfo.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiInfo, objStructure,contextInfo);
         return validationResults;
 	}
 
@@ -2415,7 +2417,7 @@ public class LuServiceImpl implements CluService {
 
         ObjectStructureDefinition objStructure = this.getObjectStructure(LuiLuiRelation.class.getName(), contextInfo);
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure, contextInfo);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(luiLuiRelationInfo, objStructure,contextInfo);
         return validationResults;
 	}
 
@@ -2533,7 +2535,7 @@ public class LuServiceImpl implements CluService {
 	 * SEARCH OPERATIONS *
 	 **************************************************************************/
 
-	/* TODO KSCM
+	 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
@@ -2593,7 +2595,7 @@ public class LuServiceImpl implements CluService {
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
 		return searchManager.getSearchTypesByResult(searchResultTypeKey);
-	}*/
+	}
 
 	private void checkCluAlreadyAdded(CluSet cluSet, String cluId)
 			throws OperationFailedException {
@@ -3704,51 +3706,51 @@ public class LuServiceImpl implements CluService {
         return null;
     }
 
-    @Override
-    public TypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public TypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public TypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
-    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
-        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
+//    @Override
+//    public TypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+//
+//    @Override
+//    public List<TypeInfo> getSearchCriteriaTypes() throws OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+//
+//    @Override
+//    public TypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+//
+//    @Override
+//    public List<TypeInfo> getSearchResultTypes() throws OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+//
+//    @Override
+//    public TypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+//
+//    @Override
+//    public List<TypeInfo> getSearchTypes() throws OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+//
+//    @Override
+//    public List<TypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
+//
+//    @Override
+//    public List<TypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, UnsupportedOperationException {
+//        // TODO NWUuser - THIS METHOD NEEDS JAVADOCS
+//        return null;
+//    }
 }
