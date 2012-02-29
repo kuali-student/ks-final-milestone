@@ -1,7 +1,4 @@
-INSERT INTO ksen_rich_text_t (id, ver_nbr, formatted, plain) (SELECT concat('rt',id), 0, descr_formatted, descr_plain FROM ksen_atp);
-ALTER TABLE ksen_atp RENAME CONSTRAINT ksen_atpp1 TO ksen_atp_tmpp1;
-ALTER index ksen_atpp1 RENAME TO ksen_atp_tmpp1;
-ALTER TABLE ksen_atp RENAME TO ksen_atp_tmp;
-CREATE TABLE ksen_atp(id VARCHAR2(255) NOT NULL, obj_id VARCHAR2(36), ver_nbr NUMBER(19), createid VARCHAR2(255), createtime TIMESTAMP(6), updateid VARCHAR2(255), updatetime TIMESTAMP(6), end_dt TIMESTAMP(6) NOT NULL, name VARCHAR2(255), start_dt TIMESTAMP(6) NOT NULL, admin_org_id VARCHAR2(50), atp_state_id VARCHAR2(255) NOT NULL, atp_type_id VARCHAR2(255) NOT NULL, rt_descr_id VARCHAR2(255) NOT NULL, atp_cd VARCHAR2(255), CONSTRAINT ksen_atpp1 PRIMARY KEY (id), CONSTRAINT ksen_atp_FK1 FOREIGN KEY (rt_descr_id) REFERENCES ksen_rich_text_t (id));
-INSERT INTO ksen_atp (id, obj_id, ver_nbr, createid, createtime, updateid, updatetime, end_dt, name, start_dt, admin_org_id, atp_state_id, atp_type_id, rt_descr_id, atp_cd) (SELECT id, obj_id, ver_nbr, createid, createtime, updateid, updatetime, end_dt, name, start_dt, admin_org_id, atp_state, atp_type, CONCAT('rt',id), atp_cd FROM ksen_atp_tmp);
-DROP TABLE ksen_atp_tmp;
+ALTER TABLE ksen_atpatp_reltn RENAME COLUMN atp_state_id TO atp_atp_reltn_state;
+ALTER TABLE ksen_atpatp_reltn RENAME COLUMN atp_reltn_type_id TO atp_atp_reltn_type;
+ALTER TABLE ksen_atpmstone_reltn RENAME COLUMN atp_state_id TO am_reltn_state;
+ALTER TABLE ksen_atpmstone_reltn RENAME COLUMN am_reltn_type_id TO am_reltn_type;
