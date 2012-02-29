@@ -16,10 +16,11 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
@@ -34,6 +35,7 @@ import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
@@ -105,9 +107,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         // note: the cluIds returned by luService.getCluSetInfo also contains the clus
         //       that are the result of query parameter search.  Set to null here and
         //       retrieve the clus that are direct members.
-        cluSetInfo = luService.getCluSetInfo(cluSetId);
+        cluSetInfo = luService.getCluSetInfo(cluSetId, ContextUtils.getContextInfo());
         cluSetInfo.setCluIds(null);
-        cluIds = luService.getCluIdsFromCluSet(cluSetId);
+        cluIds = luService.getCluIdsFromCluSet(cluSetId, ContextUtils.getContextInfo());
         cluSetInfo.setCluIds(cluIds);
         upWrap(cluSetInfo);
         return cluSetInfo;
@@ -175,7 +177,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 
         try {
             if (cluSetIds != null && !cluSetIds.isEmpty()) {
-                subCluSets = luService.getCluSetInfoByIdList(cluSetIds);
+                subCluSets = luService.getCluSetInfoByIdList(cluSetIds, ContextUtils.getContextInfo());
             }
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);
@@ -242,7 +244,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                     if (wrapperCluSet.getType() == null) {
                 	    wrapperCluSet.setType("kuali.cluSet.type.CreditCourse");
                     }
-                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
+                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
                     throw new AssemblyException(e);
@@ -256,7 +258,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 wrapperCluSet.setMembershipQuery(mqInfo);
                 cluSetInfo.setMembershipQuery(null);
                 try {
-                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet);
+                    wrapperCluSet = luService.createCluSet(wrapperCluSet.getType(), wrapperCluSet, ContextUtils.getContextInfo());
                 } catch (Exception e) {
                     LOG.error("Failed to create wrapper cluset",e);
                     throw new AssemblyException(e);
@@ -310,7 +312,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         
         if (cluSetInfo.getId() != null && cluSetInfo.getId().trim().length() > 0) {
             try {
-                updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo);
+                updatedCluSetInfo = luService.updateCluSet(cluSetInfo.getId(), cluSetInfo, ContextUtils.getContextInfo());
             } catch (Exception e) {
             	LOG.error("Failed to update cluset",e);
                 throw new AssemblyException(e);
@@ -320,7 +322,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
                 if (cluSetInfo.getType() == null) {
                     cluSetInfo.setType("kuali.cluSet.type.CreditCourse");
                 }
-                updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo);
+                updatedCluSetInfo = luService.createCluSet(cluSetInfo.getType(), cluSetInfo, ContextUtils.getContextInfo());
             } catch (Exception e) {
                 LOG.error("Failed to create cluset",e);
                 throw new AssemblyException(e);
@@ -350,7 +352,7 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         sr.setSearchKey(query.getSearchTypeKey());
         sr.setParams(query.getQueryParamValueList());
 
-        SearchResult result = luService.search(sr);
+        SearchResult result = luService.search(sr, ContextUtils.getContextInfo());
 
         List<String> cluIds = new ArrayList<String>();
         List<SearchResultRow> rows = result.getRows();
@@ -374,8 +376,8 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             if (cluSetInfo.getCluIds() != null && !cluSetInfo.getCluIds().isEmpty()) {
             	List<CluInfo> cluInfos = new ArrayList<CluInfo>();
             	for(String id:cluSetInfo.getCluIds()){
-            		VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, id);
-            		cluInfos.add(luService.getClu(versionInfo.getId()));
+            		VersionDisplayInfo versionInfo = luService.getCurrentVersion(LuServiceConstants.CLU_NAMESPACE_URI, id, ContextUtils.getContextInfo());
+            		cluInfos.add(luService.getClu(versionInfo.getId(), ContextUtils.getContextInfo()));
             	}
                 result.setApprovedClus(new Data());
                 for (CluInfo cluInfo : cluInfos) {
@@ -530,9 +532,9 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
 	}
 
 	@Override
-	protected AttributeSet getQualification(String idType, String id) {   //FIXME
+	protected Map<String,String> getQualification(String idType, String id) {   //FIXME
 		String DOCUMENT_TYPE_NAME = "documentTypeName";
-		AttributeSet qualification = new AttributeSet();
+		Map<String,String> qualification = new LinkedHashMap<String,String>();
 		qualification.put(DOCUMENT_TYPE_NAME, "CluCreditCourse");
 		/*
 		 *	This commented out for permission changes

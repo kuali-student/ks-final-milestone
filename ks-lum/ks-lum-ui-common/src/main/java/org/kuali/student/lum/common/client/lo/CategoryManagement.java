@@ -16,6 +16,7 @@
 package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
@@ -24,12 +25,12 @@ import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextBox;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.GroupFieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.TableFieldLayout;
@@ -41,6 +42,7 @@ import org.kuali.student.common.ui.client.widgets.list.impl.SimpleListItems;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcServiceAsync;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
@@ -59,6 +61,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 
+// TODO KSCM-244
 public class CategoryManagement extends Composite {
     private KSButton addButton = new KSButton("Create", ButtonStyle.SECONDARY);
     private KSButton deleteButton = new KSButton("Delete", ButtonStyle.SECONDARY);
@@ -242,7 +245,8 @@ public class CategoryManagement extends Composite {
                 
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
                 if(id != null){
-	                loCatRpcServiceAsync.getData(id, new KSAsyncCallback<Data>() {
+                    //TODO KSCM - Correct ContextInfo parameter?
+	                loCatRpcServiceAsync.getData(id, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
 	                    @Override
 	                    public void handleFailure(Throwable caught) {
 	                        GWT.log("getSelectedLoCategoryInfo failed", caught);
@@ -265,7 +269,8 @@ public class CategoryManagement extends Composite {
             public void onClick(ClickEvent event) {
                 String id = categoryManagementTable.getSelectedLoCategoryInfoId();
                 if(id != null){
-	                loCatRpcServiceAsync.getData(id, new KSAsyncCallback<Data>() {
+                    //TODO KSCM - Correct ContextInfo parameter?
+	                loCatRpcServiceAsync.getData(id, ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
 	                    @Override
 	                    public void handleFailure(Throwable caught) {
 	                        GWT.log("getSelectedLoCategoryInfo failed", caught);
@@ -324,6 +329,7 @@ public class CategoryManagement extends Composite {
         if(accreditationCheckBox.getValue() == true){
             bufferList.addAll(categoryManagementTable.getRowsByType("loCategoryType.accreditation"));
         }
+        Collections.sort(bufferList);
         categoryManagementTable.redraw(bufferList);
 
     }
@@ -387,8 +393,9 @@ public class CategoryManagement extends Composite {
                 @Override
                 public void onClick(ClickEvent event) {
                     // not really deleting; rather 'retiring' LoCategory, but switching state to "inactive"
-                	categoryInfo.setState("inactive");
-                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(categoryInfo), new KSAsyncCallback<DataSaveResult>(){
+                	categoryInfo.setStateKey("inactive");
+                	//TODO KSCM - Correct ContextInfo parameter?
+                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(categoryInfo), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>(){
                         @Override
                         public void handleFailure(Throwable caught) {
                             GWT.log("updateLoCategory failed ", caught);
@@ -434,7 +441,14 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             categoryNameLabel.setText(categoryInfo.getName());
-            categoryTypeLabel.setText(categoryInfo.getType());
+            if (categoryTypeList != null) {
+                for (LoCategoryTypeInfo catTypeInfo : categoryTypeList) {
+                    if (catTypeInfo.getId() != null && catTypeInfo.getId().equals(categoryInfo.getTypeKey())) {
+                        categoryTypeLabel.setText(catTypeInfo.getName());
+                        break;
+                    }
+                }
+            }
         }
     }
     class UpdateCategoryDialog extends KSLightBox {
@@ -479,7 +493,8 @@ public class CategoryManagement extends Composite {
                     }
                     
                     if(!error){
-	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
+                        //TODO KSCM - Correct ContextInfo parameter?
+	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>(){
 	                        @Override
 	                        public void handleFailure(Throwable caught) {
 	                            GWT.log("updateLoCategory failed ", caught);
@@ -534,13 +549,13 @@ public class CategoryManagement extends Composite {
         public void setCategory(LoCategoryInfo cate) {
             categoryInfo = cate;
             nameTextBox.setText(categoryInfo.getName());
-           	typeListBox.selectItem(categoryInfo.getType());
+           	typeListBox.selectItem(categoryInfo.getTypeKey());
         }
 
         public LoCategoryInfo getCategory() {
             categoryInfo.setName(nameTextBox.getText());
             //categoryInfo.setType(typeListBox.getItemText(typeListBox.getSelectedIndex()));
-            categoryInfo.setType(typeListBox.getSelectedItem());
+            categoryInfo.setTypeKey(typeListBox.getSelectedItem());
             return categoryInfo;
         }
     }
@@ -586,7 +601,8 @@ public class CategoryManagement extends Composite {
                     }
                     
                     if(!error){
-	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), new KSAsyncCallback<DataSaveResult>(){
+                        //TODO KSCM - Correct ContextInfo parameter?
+	                    loCatRpcServiceAsync.saveData(CategoryDataUtil.toData(cate), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>(){
 	                        @Override
 	                        public void handleFailure(Throwable caught) {
 	                            Window.alert("Create LO Category failed: " + caught.getMessage());
@@ -637,8 +653,8 @@ public class CategoryManagement extends Composite {
         public LoCategoryInfo getCategory() {
             LoCategoryInfo info = new LoCategoryInfo();
             info.setName(nameTextBox.getText());
-            info.setType(typeListBox.getSelectedItem());
-            info.setState("active");
+            info.setTypeKey(typeListBox.getSelectedItem());
+            info.setStateKey("active");
             info.setLoRepository("kuali.loRepository.key.singleUse");
             // FIXME [KSCOR-225] user needs to specify what LoRepository they want category to tagged with
             return info;

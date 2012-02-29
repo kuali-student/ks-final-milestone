@@ -18,7 +18,7 @@ package org.kuali.rice.student.lookup.keyvalues;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.rice.core.util.KeyLabelPair;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
@@ -28,8 +28,8 @@ import org.kuali.student.common.search.dto.SearchResultRow;
 public class OrgCocValuesFinder extends StudentKeyValuesBase {
 	private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(AllOrgsValuesFinder.class);
 
-	public static List<KeyLabelPair> findCocOrgs() {
-        List<KeyLabelPair> departments = new ArrayList<KeyLabelPair>();
+	public static List<KeyValue> findCocOrgs() {
+        List<KeyValue> departments = new ArrayList<KeyValue>();
 
         List<String> types = new ArrayList<String>();
         types.add("kuali.org.College");
@@ -57,7 +57,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
         searchRequest.setParams(queryParamValues);
         
         try {
-            SearchResult results = getOrganizationService().search(searchRequest);
+            SearchResult results = getOrganizationService().search(searchRequest, null);	// TODO KSCM-267
 
             for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
@@ -82,8 +82,7 @@ public class OrgCocValuesFinder extends StudentKeyValuesBase {
     }
 
     @Override
-    public List getKeyValues() {
-
+    public List<KeyValue> getKeyValues() {
         return findCocOrgs();
     }
 

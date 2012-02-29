@@ -42,7 +42,7 @@ public class CluIdentifier extends BaseEntity implements AttributeOwner<CluIdent
     @Column(name = "LVL")
     private String level;
 
-    @Column(name = "DIV")
+    @Column(name = "DIVISION")
     private String division;
 
     @Column(name = "VARTN")
