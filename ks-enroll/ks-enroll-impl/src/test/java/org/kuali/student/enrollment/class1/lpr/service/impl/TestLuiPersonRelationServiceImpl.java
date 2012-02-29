@@ -488,7 +488,7 @@ public class TestLuiPersonRelationServiceImpl {
         LprRosterEntryInfo info = new LprRosterEntryInfo();
         info.setLprId(lprId);
         info.setLprRosterId(lprRosterId);
-        info.setPosition("1");
+        info.setPosition(1);
 
         Date effectiveDate = new Date();
         Date expiryDate = DateUtils.addYears(new Date(), 20);
@@ -535,7 +535,7 @@ public class TestLuiPersonRelationServiceImpl {
         LprRosterEntryInfo info = new LprRosterEntryInfo();
         info.setLprId(lprId);
         info.setLprRosterId(lprRosterId);
-        info.setPosition("1");
+        info.setPosition(1);
 
         String lprEntryId = lprServiceValidationDecorator.createLprRosterEntry(info, callContext);
 

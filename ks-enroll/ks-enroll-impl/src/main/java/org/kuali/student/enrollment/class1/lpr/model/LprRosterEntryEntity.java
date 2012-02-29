@@ -23,7 +23,7 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
     private String lprId;
 
     @Column(name = "POSITION")
-    private String position;
+    private Integer position;
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date effectiveDate;
@@ -93,11 +93,11 @@ public class LprRosterEntryEntity extends MetaEntity implements AttributeOwner<L
         this.lprRosterId = lprRosterId;
     }
 
-    public String getPosition() {
+    public Integer getPosition() {
         return position;
     }
 
-    public void setPosition(String position) {
+    public void setPosition(Integer position) {
         this.position = position;
     }
 

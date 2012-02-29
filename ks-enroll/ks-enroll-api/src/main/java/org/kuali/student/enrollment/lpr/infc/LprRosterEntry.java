@@ -9,21 +9,21 @@ public interface LprRosterEntry extends Relationship {
     /**
      * The LPR Roster Id this LPR roster entry is a part of. 
      * 
-     * @return
+     * @name Lui Person Relation Roster Id
      */
     public String getLprRosterId();
 
     /**
      * The LPR that this roster entry represents.
      * 
-     * @return
+     * @name Lui Person Relation Id
      */
     public String getLprId();
 
     /**
      * The position of this entry in the LPR Roster.
      * 
-     * @return
+     * @name Position
      */
-    public String getPosition();
+    public Integer getPosition();
 }
