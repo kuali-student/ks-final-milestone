@@ -42,8 +42,8 @@ import org.kuali.student.lum.common.client.widgets.CluSetDetailsWidget;
 import org.kuali.student.lum.common.client.widgets.CluSetRetriever;
 import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
 import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 
@@ -197,7 +197,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         //display 'Program Requirements' page title (don't add if read only because the section itself will display the title)
         if (!isReadOnly) {
-            SectionTitle pageTitle = SectionTitle.generateH2Title(ProgramProperties.get().programRequirements_summaryViewPageTitle());
+            SectionTitle pageTitle = SectionTitle.generateH2Title(getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGETITLE));
             //pageTitle.setStyleName("KS-Program-Requirements-Section-header");  //make the header orange
             pageTitle.addStyleName("ks-layout-header");// change the header to green
 
@@ -254,7 +254,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         //display "Add Rule" button if user is in 'edit' mode
         if (!isReadOnly) {
-            String addRuleLabel = ProgramProperties.get().programRequirements_summaryViewPageAddRule(stmtTypeInfo.getName());
+            String addRuleLabel = getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEADDRULE, stmtTypeInfo.getName());
             KSButton addProgramReqBtn = new KSButton(addRuleLabel, KSButtonAbstract.ButtonStyle.FORM_SMALL);
             addProgramReqBtn.addClickHandler(new ClickHandler() {
                 public void onClick(ClickEvent event) {
@@ -295,8 +295,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
         rulePreviewWidget.addProgReqDeleteButtonClickHandler(new ClickHandler() {
             public void onClick(ClickEvent event) {
                 final ConfirmationDialog dialog = new ConfirmationDialog(
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogTitle(),
-                        ProgramProperties.get().programRequirements_summaryViewPageDeleteRequirementDialogMsg());
+                        getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEDELETEREQUIREMENTDIALOGTITLE),
+                        getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEDELETEREQUIREMENTDIALOGMSG));
 
                 dialog.getConfirmButton().addClickHandler(new ClickHandler() {
                     @Override
@@ -321,7 +321,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
                 newSubRule.setType(stmtTypeId);
                 RichTextInfo text = new RichTextInfo();
                 text.setPlain("");
-                newSubRule.setDesc(text);
+                newSubRule.setDescr(text);
                 parentController.getView(ProgramRequirementsViewController.ProgramRequirementsViews.MANAGE, new Callback<View>() {
 
                     @Override
@@ -391,7 +391,7 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
         boolean isAddProgReq = (internalProgReqID == null);
 
-        String addRuleText = (isAddProgReq ? ProgramProperties.get().programRequirements_summaryViewPageAddRule(rules.getStmtTypeName(stmtTypeId)) : "Edit " + rules.getStmtTypeName(stmtTypeId));
+        String addRuleText = (isAddProgReq ? getLabel(ProgramMsgConstants.PROGRAMREQUIREMENTS_SUMMARYVIEWPAGEADDRULE, rules.getStmtTypeName(stmtTypeId)) : "Edit " + rules.getStmtTypeName(stmtTypeId));
         final KSLightBox dialog = new KSLightBox(addRuleText);
 
         final ButtonEnumerations.ButtonEnum actionButton = (isAddProgReq ? ButtonEnumerations.AddCancelEnum.ADD : ButtonEnumerations.UpdateCancelEnum.UPDATE);
@@ -569,8 +569,8 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
             stmtTree.setType(stmtTypeId);
             RichTextInfo text2 = new RichTextInfo();
             text2.setPlain("");
-            stmtTree.setDesc(text2);
-            stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
+            stmtTree.setDescr(text2);
+         // TODO KSCM wait for ks-core-ui/paul            stmtTree.setOperator(StatementOperatorTypeKey.AND); //AND is top level operator for rules within a Program Requirement
 
             //add new statement to the rule because even if user cancel on rule manage screen, we want to have at least one statement present
             progReqInfo.setStatement(stmtTree);
@@ -641,5 +641,15 @@ public class ProgramRequirementsSummaryView extends VerticalSectionView {
 
     static public String generateStatementTreeId() {
         return (NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeID++));
+    }
+    
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
+    }
+    
+    protected String getLabel(String messageKey, String parameter) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("0", parameter);
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey, parameters);
     }
 }

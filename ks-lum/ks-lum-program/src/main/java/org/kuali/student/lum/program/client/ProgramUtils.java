@@ -8,7 +8,6 @@ import java.util.TreeSet;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.ModelDefinition;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
@@ -20,7 +19,6 @@ import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.common.client.configuration.ConfigurationManager;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
@@ -115,9 +113,9 @@ public class ProgramUtils {
             resultMessage = resultMessage.substring(0, resultMessage.length() - 2);
             
             if (failedSpecializations.size() == 1) {
-            	KSNotifier.add(new KSNotification(ProgramProperties.get().major_variationFailed(resultMessage), false, true, 5000));
+            	KSNotifier.add(new KSNotification(getLabel(ProgramMsgConstants.MAJOR_VARIATIONFAILED, resultMessage), false, true, 5000));
             } else {
-            	KSNotifier.add(new KSNotification(ProgramProperties.get().major_variationsFailed(resultMessage), false, true, 5000));
+            	KSNotifier.add(new KSNotification(getLabel(ProgramMsgConstants.MAJOR_VARIATIONSFAILED, resultMessage), false, true, 5000));
             }
         }
     }
@@ -168,5 +166,11 @@ public class ProgramUtils {
 
     public static String getProgramState(DataModel programModel) {
         return programModel.get(                ProgramConstants.STATE);
+    }
+    
+    public static String getLabel(String messageKey, String parameter) {
+        Map<String, Object> parameters = new HashMap<String, Object>();
+        parameters.put("0", parameter);
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey, parameters);
     }
 }

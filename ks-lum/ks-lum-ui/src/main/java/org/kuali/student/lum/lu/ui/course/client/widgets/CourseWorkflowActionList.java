@@ -15,21 +15,20 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.service.SecurityRpcService;
-import org.kuali.student.common.ui.client.service.SecurityRpcServiceAsync;
 import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.LUConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourseConstants;
@@ -104,7 +103,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 				@Override
 				public void onClick(ClickEvent event) {
 					
-					checkAdminPermission("cluModifyItem", viewContext, modifyPath, model);
+					setupModifyCourseDialog(viewContext, modifyPath, model);
 				}
 			});
             
@@ -306,8 +305,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
     private void checkLatestVersion(final ViewContext viewContext, final String modifyPath, final DataModel model, final boolean reviewOption){
         String courseVerIndId = getCourseVersionIndId(model);
         Long courseVersionSequence = getCourseVersionSequenceNumber(model);
-    
-        courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+        //TODO KSCM - Correct ContextInfo parameter?
+        courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, ContextUtils.getContextInfo(), new AsyncCallback<Boolean>(){
         
             public void onFailure(Throwable caught) {
                 KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
@@ -348,8 +347,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
 	 */
     public static void setCourseState(final String courseId, final String newState, final Callback<String> stateChangeCallback) {
     	KSBlockingProgressIndicator.addTask(processingTask);
-    	
-    	courseServiceAsync.changeState(courseId, newState, new KSAsyncCallback<StatusInfo>() {
+    	//TODO KSCM - Correct ContextInfo parameter?
+    	courseServiceAsync.changeState(courseId, newState, ContextUtils.getContextInfo(), new KSAsyncCallback<StatusInfo>() {
     		
     		@Override
  	        public void handleFailure(Throwable caught) {
@@ -367,7 +366,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
  	        		stateChangeCallback.exec(newState);
  	        	}
  	        }
-    	});
+ 	    });
     	
     }
     
@@ -387,7 +386,8 @@ public class CourseWorkflowActionList extends StylishDropDown {
 			isCurrentVersion = true;
 			doUpdateCourseActionItems(cluModel);
 		}else{
-			courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, new AsyncCallback<Boolean>(){
+		  //TODO KSCM - Correct ContextInfo parameter?
+			courseServiceAsync.isLatestVersion(courseVerIndId, courseVersionSequence, ContextUtils.getContextInfo(), new AsyncCallback<Boolean>(){
 				public void onFailure(Throwable caught) {
 					KSNotifier.add(new KSNotification("Error determining latest version of course", false, 5000));
 				}
@@ -407,19 +407,10 @@ public class CourseWorkflowActionList extends StylishDropDown {
     	
     	items.clear();      
     	
-		String principalId = Application.getApplicationContext().getUserId();
-		SecurityRpcServiceAsync securityRpc = GWT.create(SecurityRpcService.class);
-
-		securityRpc.checkAdminPermission(principalId, "cluModifyItem",
-				new KSAsyncCallback<Boolean>() {
-					public void handleFailure(Throwable caught) {
-						// Assume no admin access on failure
-						//doModifyActionItem(viewContext, modifyPath, model);
-					    setItems(getNonAdminItems(cluState));
-					}
-
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission("cluModifyItem",
+				new Callback<Boolean>() {
 					@Override
-					public void onSuccess(Boolean result) {
+					public void exec(Boolean result) {
 						
 						if (!result){
 						    setItems(getNonAdminItems(cluState));
@@ -444,13 +435,18 @@ public class CourseWorkflowActionList extends StylishDropDown {
             items.add(activateCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
             items.add(modifyCourseActionItem);
-            items.add(inactivateCourseActionItem);
+//            items.add(inactivateCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
             items.add(activateCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_RETIRED)){
             items.add(modifyCourseActionItem);          
         }
         items.add(copyCourseActionItem);
+
+        if (!isCurrentVersion) {
+            items.remove(modifyCourseActionItem);
+        }
+
         return items;
     }
 	
@@ -463,7 +459,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
             }
         } else if (cluState.equals(DtoConstants.STATE_ACTIVE)) {
             items.add(modifyCourseActionItem);
-            items.add(inactivateCourseActionItem);
+//            items.add(inactivateCourseActionItem);
             items.add(retireCourseActionItem);
         } else if (cluState.equals(DtoConstants.STATE_SUSPENDED)) {
             items.add(activateCourseActionItem);
@@ -518,20 +514,11 @@ public class CourseWorkflowActionList extends StylishDropDown {
    		return (Long)courseModel.get(CreditCourseConstants.VERSION_INFO + QueryPath.getPathSeparator() + CreditCourseConstants.VERSION_SEQ_NUMBER);
     }
 
-    private void checkAdminPermission(String screenComponent, final ViewContext viewContext, final String modifyPath, final DataModel model) {
-		String principalId = Application.getApplicationContext().getUserId();
-		SecurityRpcServiceAsync securityRpc = GWT
-				.create(SecurityRpcService.class);
-
-		securityRpc.checkAdminPermission(principalId, screenComponent,
-				new KSAsyncCallback<Boolean>() {
-					public void handleFailure(Throwable caught) {
-						// Assume no admin access on failure
-						doModifyActionItem(viewContext, modifyPath, model);
-					}
-
+    private void setupModifyCourseDialog(final ViewContext viewContext, final String modifyPath, final DataModel model) {
+		Application.getApplicationContext().getSecurityContext().checkScreenPermission("cluModifyItem",
+				new Callback<Boolean>() {
 					@Override
-					public void onSuccess(Boolean result) {
+					public void exec(Boolean result) {
 						hasAdminAccess = result;
    	            	    if (hasAdminAccess){
 					    	//Admin users have the option to make modifications to the course administratively or via the
