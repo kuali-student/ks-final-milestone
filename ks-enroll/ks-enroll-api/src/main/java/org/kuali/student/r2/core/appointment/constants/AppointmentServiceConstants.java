@@ -40,6 +40,7 @@ public class AppointmentServiceConstants {
     public static final String APPOINTMENT_WINDOW_TYPE_SLOTTED_UNIFORM_KEY = "kuali.appointment.window.type.slotted.uniform";
     public static final String APPOINTMENT_WINDOW_TYPE_SLOTTED_MAX_KEY = "kuali.appointment.window.type.slotted.max";
     public static final String APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY = "kuali.appointment.window.type.one.slot";
+    public static final String APPOINTMENT_WINDOW_TYPE_MANUAL = "kuali.appointment.window.type.manual";
 
     public static final String APPOINTMENT_SLOT_TYPE_CLOSED_KEY = "kuali.appointment.slot.type.closed";
     public static final String APPOINTMENT_SLOT_TYPE_OPEN_KEY = "kuali.appointment.slot.type.open";
