@@ -10,6 +10,8 @@ import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.security.SecurityContext;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSCheckBox;
@@ -18,6 +20,8 @@ import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRadioButton;
 import org.kuali.student.common.ui.shared.IdAttributes;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.common.client.widgets.DropdownList;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -42,7 +46,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 
-public class MajorViewController extends MajorController {
+public class MajorViewController extends MajorController implements RequiresAuthorization {
 
     // TODO: Change to program and copy msgs
     private static final String MSG_GROUP = "program";
@@ -343,7 +347,8 @@ public class MajorViewController extends MajorController {
   
         // Call the server to see if this is the latest version of the program
         // and update the drop-down accordingly
-    	programRemoteService.isLatestVersion(versionIndId, sequenceNumber, new KSAsyncCallback<Boolean>(){
+        //TODO KSCM - Correct ContextInfo parameter?
+    	programRemoteService.isLatestVersion(versionIndId, sequenceNumber, ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
 			public void onSuccess(Boolean isLatest) {
 			 
 			    // TODO PLEASE REVIEW.  Should we be passing values from async calls to light boxes
@@ -368,8 +373,8 @@ public class MajorViewController extends MajorController {
                     });
                 }
 
- 			}        	
-        });
+ 			}  
+		});
     	
    	
     	// Get the reference ID of the proposal from the XML model
@@ -382,7 +387,8 @@ public class MajorViewController extends MajorController {
     	// TODO PLEASE REVIEW.  If this async call runs slow, will the box remain visible? Is this an issue?
     	//      Answer: Yes, it might be an issue, possible solution might to block user action w/progress bar until finished.    	
         if (status == ProgramStatus.DRAFT){
-	    	programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  new KSAsyncCallback<Boolean>(){
+            //TODO KSCM - Correct ContextInfo parameter?
+            programRemoteService.isProposal( "kuali.proposal.referenceType.clu", referenceId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Boolean>(){
 	            public void onSuccess(Boolean isProposal) {
 	             
 	                // If this is a proposal then we cannot take any actions on it
@@ -391,7 +397,7 @@ public class MajorViewController extends MajorController {
 	                    actionBox.setVisible(false);
 	                }
 	              
-	            }           
+	            }  
 	        });
         }
     } 
@@ -456,4 +462,32 @@ public class MajorViewController extends MajorController {
         viewContext.setIdType(IdAttributes.IdType.COPY_OF_OBJECT_ID); 
         Application.navigate(AppLocations.Locations.PROGRAM_PROPOSAL.getLocation(), viewContext);
     }
+    
+    @Override
+    public boolean isAuthorizationRequired() {
+        return true;
+    }
+
+    @Override
+    public void setAuthorizationRequired(boolean required) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void checkAuthorization(final AuthorizationCallback authCallback) {
+        Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_FIND_PROGRAM_SCREEN, new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+
+                final boolean isAuthorized = result;
+            
+                if(isAuthorized){
+                    authCallback.isAuthorized();
+                }
+                else
+                    authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_FIND_PROGRAM_SCREEN);
+            }   
+        });
+    }
+    
 }

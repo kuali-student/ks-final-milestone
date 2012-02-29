@@ -12,6 +12,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.common.search.dto.SearchRequest;
+import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.service.OrganizationService;
@@ -30,7 +31,9 @@ public class RemoteOrganizationValuesFinder extends KeyValuesBase {
         searchRequest.setSearchKey("org.search.generic");
 
         try {
-            for (SearchResultRow result : getOrganizationService().search(searchRequest).getRows()) {
+            SearchResult results = null; // TODO KSCM-165
+// TODO KSCM-165            SearchResult results = getOrganizationService().search(searchRequest);
+            for (SearchResultRow result : results.getRows()) {
                 String orgId = "";
                 String orgShortName = "";
                 String orgOptionalLongName = "";

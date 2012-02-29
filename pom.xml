@@ -52,10 +52,10 @@
       </activation>
       <modules>
         <module>ks-cfg-dbs</module>
-        <module>ks-common</module>
+        <module>ks-common-temp</module>
         <module>ks-security</module>
         <module>ks-admin</module>
-        <module>ks-core</module>
+        <module>ks-core-temp</module>
         <module>ks-lum</module>
         <module>ks-web</module>
       </modules>
@@ -63,10 +63,10 @@
     <profile>
       <id>skip-ui</id>
       <modules>
-        <module>ks-common</module>
+          <module>ks-common-temp</module>
         <module>ks-security</module>
         <module>ks-admin</module>
-        <module>ks-core</module>
+        <module>ks-core-temp</module>
         <module>ks-lum</module>
       </modules>
       <properties>
@@ -76,10 +76,10 @@
     <profile>
       <id>skip-all-wars</id>
       <modules>
-        <module>ks-common</module>
+          <module>ks-common-temp</module>
         <module>ks-security</module>
         <module>ks-admin</module>
-        <module>ks-core</module>
+        <module>ks-core-temp</module>
         <module>ks-lum</module>
       </modules>
     </profile>
@@ -92,12 +92,22 @@
     <profile>
       <id>sql-only</id>
       <modules>
-        <module>ks-core</module>
+        <module>ks-core-temp</module>
         <module>ks-lum</module>
       </modules>
       <properties>
         <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
       </properties>
+    </profile>
+    <profile>
+      <id>merged</id>
+      <modules>
+          <module>ks-common-merged2</module>
+        <module>ks-security</module>
+        <module>ks-admin</module>
+        <module>ks-core-merged2</module>
+        <module>ks-lum2</module>
+      </modules>
     </profile>
   </profiles>
   <scm>
@@ -159,6 +169,7 @@
     <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
     <selenium.version>2.7.0</selenium.version>
     <httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
+    <dozer.version>5.3.2</dozer.version>
     
     <!-- plugin versions -->
     <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
@@ -187,6 +198,7 @@
     <ks.contractdoc.phase>site</ks.contractdoc.phase>
     <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
     <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
+    <ks-temp-project.version>0.0.1-SNAPSHOT</ks-temp-project.version>
   </properties>
   <build>
     <pluginManagement>
@@ -221,6 +233,7 @@
                   <genWrapperbean>true</genWrapperbean>
                   <verbose>true</verbose>
                   <argline>-s ${project.build.directory}/generated/src -classdir ${project.build.outputDirectory}</argline>
+                  <className/>
               </configuration>
           </plugin>
 
@@ -511,6 +524,21 @@
           </exclusion>
         </exclusions>
       </dependency>
+        <!-- dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-core</artifactId>
+            <version>${spring.security.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-support</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-expression</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency-->
 
         <!-- This jar is only needed if you are using CAS with Spring Security
         -->
@@ -871,31 +899,31 @@
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-jta</artifactId>
-        <version>${project.version}</version>
+          <version>${ks-temp-project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-cxf</artifactId>
-        <version>${project.version}</version>
+          <version>${ks-temp-project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-metro</artifactId>
-        <version>${project.version}</version>
+          <version>${ks-temp-project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-eclipselink</artifactId>
-        <version>${project.version}</version>
+          <version>${ks-temp-project.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-hibernate</artifactId>
-        <version>${project.version}</version>
+          <version>${ks-temp-project.version}</version>
         <type>pom</type>
       </dependency>
 
@@ -1075,10 +1103,10 @@
             <groupId>itext</groupId>
             <artifactId>itext</artifactId>
           </exclusion>
-          <exclusion>
+          <!-- RU exclusion>
             <groupId>net.sf.ehcache</groupId>
             <artifactId>ehcache</artifactId>
-          </exclusion>
+          </exclusion-->
         </exclusions>
       </dependency>
       <dependency>
@@ -1102,11 +1130,11 @@
         <version>${mysql.connector.version}</version>
       </dependency>
       <!-- Caching dependencies -->
-      <dependency>
+      <!-- RU dependency>
         <groupId>net.sf.ehcache</groupId>
         <artifactId>ehcache-core</artifactId>
         <version>${ehcache.version}</version>
-      </dependency>
+      </dependency-->
       <dependency>
         <groupId>backport-util-concurrent</groupId>
         <artifactId>backport-util-concurrent</artifactId>
@@ -1158,6 +1186,13 @@
         <artifactId>jxl</artifactId>
         <version>${net.sourceforge.jexcelapi.version}</version>
       </dependency>
+      
+      <!-- Dozer dependency -->
+	  <dependency>
+	    <groupId>net.sf.dozer</groupId>
+	    <artifactId>dozer</artifactId>
+	    <version>${dozer.version}</version>
+	  </dependency>
     </dependencies>
   </dependencyManagement>
   <dependencies>

@@ -49,6 +49,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
+//TODO KSCM-244
 public class CategoryManagementTable extends Composite {
     static String NAME_COLUMN_HEADER = "Category";
     static String TYPE_COLUMN_HEADER = "Type";

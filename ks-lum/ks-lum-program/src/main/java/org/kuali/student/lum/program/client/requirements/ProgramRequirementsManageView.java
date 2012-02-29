@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
@@ -33,6 +34,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.core.statement.dto.*;
 import org.kuali.student.core.statement.ui.client.widgets.rules.ReqCompEditWidget;
@@ -265,7 +267,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
             KSBlockingProgressIndicator.addTask(creatingRuleTask);
 
             //1. update NL for the req. component
-            statementRpcServiceAsync.translateReqComponentToNLs(reqComp, new String[]{RULEEDIT_TEMLATE,RULEPREVIEW_TEMLATE}, TEMLATE_LANGUAGE, new KSAsyncCallback<List<String>>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            statementRpcServiceAsync.translateReqComponentToNLs(reqComp, new String[]{RULEEDIT_TEMLATE,RULEPREVIEW_TEMLATE}, TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<List<String>>() {
                 public void handleFailure(Throwable caught) {
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                     Window.alert(caught.getMessage());
@@ -290,9 +293,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                         } else {
                             rule.getReqComponents().add(reqComp);
                             //set default operator between req. components of the rule
-                            if (rule.getOperator() == null) {
-                                rule.setOperator(StatementOperatorTypeKey.AND);
-                            }
+                         // TODO KSCM wait for ks-core-ui/paul                            if (rule.getOperator() == null) {
+                         // TODO KSCM wait for ks-core-ui/paul                                rule.setOperator(StatementOperatorTypeKey.AND);
+                         // TODO KSCM wait for ks-core-ui/paul                            }
                         }
                     } else {    //update req. component
                         editedReqCompInfo.setNaturalLanguageTranslation(reqComp.getNaturalLanguageTranslation());
@@ -316,8 +319,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
-
-        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), ContextUtils.getContextInfo(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
             public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
             	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
@@ -350,8 +353,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
                         @Override
                         public void exec(Object id) {
-
-                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                            //TODO KSCM - Correct ContextInfo parameter?
+                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, ContextUtils.getContextInfo(), new AsyncCallback<VersionDisplayInfo>() {
                                 @Override
                                 public void onFailure(Throwable throwable) {
                                     Window.alert(throwable.getMessage());
@@ -360,7 +363,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
                                 @Override
                                 public void onSuccess(final VersionDisplayInfo versionInfo) {
-                                    statementRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                    //TODO KSCM - Correct ContextInfo parameter?
+                                    statementRpcServiceAsync.getClu(versionInfo.getId(), ContextUtils.getContextInfo(), new AsyncCallback<CluInfo>() {
                                         @Override
                                         public void onFailure(Throwable throwable) {
                                             Window.alert(throwable.getMessage());
@@ -374,9 +378,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                                     });
                                 }
                             });
-
-
-                        }
+                         }
                     });
 
                     customWidgets.put("kuali.reqComponent.field.type.course.clu.id", courseWidget);
@@ -387,8 +389,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
                         @Override
                         public void exec(Object id) {
-
-                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                            //TODO KSCM - Correct ContextInfo parameter?
+                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, ContextUtils.getContextInfo(), new AsyncCallback<VersionDisplayInfo>() {
                                 @Override
                                 public void onFailure(Throwable throwable) {
                                     Window.alert(throwable.getMessage());
@@ -397,7 +399,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
 
                                 @Override
                                 public void onSuccess(final VersionDisplayInfo versionInfo) {
-                                    statementRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                    //TODO KSCM - Correct ContextInfo parameter?
+                                    statementRpcServiceAsync.getClu(versionInfo.getId(), ContextUtils.getContextInfo(), new AsyncCallback<CluInfo>() {
                                         @Override
                                         public void onFailure(Throwable throwable) {
                                             Window.alert(throwable.getMessage());
@@ -424,7 +427,8 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
     //called when user selects a rule type in the rule editor
     protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
         public void exec(final ReqComponentInfo reqComp) {
-            statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<String>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);

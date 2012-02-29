@@ -132,7 +132,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     public enum CourseSections {
         CLU_BEGIN, PEOPLE_PERMISSONS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
-        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS,DECISIONS, DOCUMENTS,
+        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS, DECISIONS, DOCUMENTS,
         PROGRAM_INFO, ASSEMBLER_TEST, WF_APPROVE_DIALOG
     }
 
@@ -876,7 +876,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     }
 
     protected VerticalSectionView initSectionView(Enum<?> viewEnum, String labelKey) {
-        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), COURSE_PROPOSAL_MODEL);
+        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), this.getModelId());
         section.addStyleName(LUUIConstants.STYLE_SECTION);
         return section;
     }

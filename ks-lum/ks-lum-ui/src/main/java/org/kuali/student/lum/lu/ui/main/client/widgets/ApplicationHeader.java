@@ -71,24 +71,24 @@ public class ApplicationHeader extends Composite{
 
 	private KSHeader ksHeader = GWT.create(KSHeader.class);
 
-	private StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
+	protected StylishDropDown navDropDown = new StylishDropDown("Select an area\u2026");
 	//private Widget headerCustomWidget = Theme.INSTANCE.getCommonWidgets().getHeaderWidget();
 
 	private SimplePanel content = new SimplePanel();
-	private KSLightBox docSearchDialog = new KSLightBox();
+	protected KSLightBox docSearchDialog = new KSLightBox();
 
 	private Frame docSearch;
     private String docSearchUrl = "";
     private String appUrl = "..";
     private String lumAppUrl = "..";
-    private String riceURL ="..";
+    protected String riceURL ="..";
     private String riceLinkLabel="Rice";
     private String appVersion = "";
     private String codeServer = "";
 
     private boolean loaded = false;
 
-    private static class WrapperNavigationHandler extends NavigationHandler{
+    protected static class WrapperNavigationHandler extends NavigationHandler{
 		public WrapperNavigationHandler(String url) {
 			super(url);
 		}
@@ -163,7 +163,7 @@ public class ApplicationHeader extends Composite{
     	items.add(new KSMenuItemData(getMessage("wrapperPanelLogout"),new WrapperNavigationHandler("j_spring_security_logout")));
 	}
 
-	private void createNavDropDown() {
+	protected void createNavDropDown() {
 		navDropDown.setImageLocation(MenuImageLocation.LEFT);
 
 		List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
@@ -257,7 +257,7 @@ public class ApplicationHeader extends Composite{
     }
 
     //Method to build the light box for the doc search
-    private void buildDocSearchPanel(){
+    protected void buildDocSearchPanel(){
     	if (docSearch == null){
 	        docSearch = new Frame();
 	    	docSearch.setSize("700px", "500px");
@@ -278,7 +278,7 @@ public class ApplicationHeader extends Composite{
     	}
     }
 
-    private static String getMessage(final String messageId) {
+    protected static String getMessage(final String messageId) {
         return Application.getApplicationContext().getMessage(messageId);
     }
     

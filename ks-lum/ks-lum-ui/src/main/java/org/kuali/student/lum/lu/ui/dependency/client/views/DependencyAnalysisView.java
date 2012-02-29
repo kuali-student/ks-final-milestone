@@ -46,6 +46,7 @@ import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -378,7 +379,8 @@ public class DependencyAnalysisView extends ViewComposite{
 						if (complexContent.getWidgetCount() <= 0){
 							KSBlockingProgressIndicator.addTask(loadDataTask);
 							//TODO: This code copied from program screens, need common reusable code
-							depRpcServiceAsync.getProgramRequirement(rootId, new KSAsyncCallback<ProgramRequirementInfo>(){
+							//TODO KSCM - Correct ContextInfo parameter?
+							depRpcServiceAsync.getProgramRequirement(rootId, ContextUtils.getContextInfo(), new KSAsyncCallback<ProgramRequirementInfo>(){
 								public void onSuccess(ProgramRequirementInfo progReqInfo) {															
 							        int minCredits = (progReqInfo.getMinCredits() == null ? 0 : progReqInfo.getMinCredits());
 							        int maxCredits = (progReqInfo.getMaxCredits() == null ? 0 : progReqInfo.getMaxCredits());

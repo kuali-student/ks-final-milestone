@@ -19,6 +19,7 @@ import java.util.*;
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
@@ -111,7 +112,8 @@ public class ProgramRequirementsDataModel {
     private void retrieveStatementTypes(final List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
 
         //retrieve available program requirement types
-        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", new KSAsyncCallback<List<StatementTypeInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        statementRpcServiceAsync.getStatementTypesForStatementType("kuali.statement.type.program", ContextUtils.getContextInfo(), new KSAsyncCallback<List<StatementTypeInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
 	            Window.alert(caught.getMessage());
@@ -140,8 +142,8 @@ public class ProgramRequirementsDataModel {
             onReadyCallback.exec(true);
             return;
         }
-
-        programRemoteService.getProgramRequirements(programRequirementIds, new KSAsyncCallback<List<ProgramRequirementInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.getProgramRequirements(programRequirementIds, ContextUtils.getContextInfo(), new KSAsyncCallback<List<ProgramRequirementInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -231,8 +233,8 @@ public class ProgramRequirementsDataModel {
     public void updateProgramEntities(final Callback<List<ProgramRequirementInfo>> callback) {
 
         final List<String> referencedProgReqIds = new ArrayList<String>();
-
-        programRemoteService.storeProgramRequirements(progReqState, progReqInfos, new KSAsyncCallback<Map<Integer, ProgramRequirementInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.storeProgramRequirements(progReqState, progReqInfos, ContextUtils.getContextInfo(), new KSAsyncCallback<Map<Integer, ProgramRequirementInfo>>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert(caught.getMessage());
@@ -364,7 +366,7 @@ public class ProgramRequirementsDataModel {
     protected void setRuleState(ProgramRequirementInfo programReqInfo) {
         if (model != null) {
             String programState = ((DataModel) model).get(ProgramConstants.STATE);
-            programReqInfo.setState(programState);
+            programReqInfo.setStateKey(programState);
         }
     }
 
@@ -456,8 +458,8 @@ public class ProgramRequirementsDataModel {
             clonedProgReqInfo.setDescr(inProgReqInfo.getDescr());
             clonedProgReqInfo.setMinCredits(inProgReqInfo.getMinCredits());
             clonedProgReqInfo.setMaxCredits(inProgReqInfo.getMaxCredits());
-            clonedProgReqInfo.setState(inProgReqInfo.getState());
-            clonedProgReqInfo.setType(inProgReqInfo.getType());
+            clonedProgReqInfo.setStateKey(inProgReqInfo.getStateKey());
+            clonedProgReqInfo.setTypeKey(inProgReqInfo.getTypeKey());
             clonedProgReqInfo.setStatement(RulesUtil.clone(inProgReqInfo.getStatement()));
             //TODO clonedProgReqInfo.setAttributes();
             //TODO clonedProgReqInfo.setLearningObjectives();

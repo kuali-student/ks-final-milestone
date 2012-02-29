@@ -1,5 +1,6 @@
 package org.kuali.student.lum.lu.ui.main.client.configuration;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.kuali.student.common.assembly.data.Metadata;
@@ -29,6 +30,7 @@ import org.kuali.student.lum.lu.ui.course.client.widgets.RecentlyViewedBlock;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -45,82 +47,129 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 	protected Metadata searchMetadata;
 	protected final KSCheckBox useCurricReviewCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
 
-    public Widget configure(Metadata searchMeta) {
+	public Widget configure(Metadata searchMeta) {
         this.searchMetadata = searchMeta;
-        ContentBlockLayout layout = new ContentBlockLayout(getMessage(CURRICULUM_MANAGEMENT));
+        final ContentBlockLayout layout = new ContentBlockLayout(getMessage(CURRICULUM_MANAGEMENT));
+        ArrayList<String> permissionList = new ArrayList<String>();
+        
         layout.addContentTitleWidget(getHowToWidget());
         layout.addContentTitleWidget(getActionListLink());
 
         //TODO: Fix to improve performance, so permissions don't have to be loaded every time
         Application.getApplicationContext().getSecurityContext().loadPermissionsByPermissionType(PermissionType.INITIATE);
+        permissionList.add(LUUIPermissions.USE_CREATE_COURSE_BY_PROPOSAL);
+        permissionList.add(LUUIPermissions.USE_CREATE_COURSE_BY_ADMIN_PROPOSAL);
+        permissionList.add(LUUIPermissions.USE_CREATE_PROGRAM_BY_PROPOSAL);       
+        permissionList.add(LUUIPermissions.USE_BROWSE_CATALOG_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_COURSE_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_COURSE_PROPOSAL_SCREEN);
+        permissionList.add(LUUIPermissions.USE_BROWSE_PROGRAM_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_PROGRAM_SCREEN);
+        permissionList.add(LUUIPermissions.USE_FIND_PROGRAM_PROPOSAL_SCREEN);
+        permissionList.add(LUUIPermissions.USE_VIEW_CORE_PROGRAMS_SCREEN);
+        permissionList.add(LUUIPermissions.USE_VIEW_CREDENTIAL_PROGRAMS_SCREEN);
+        permissionList.add(LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS);
+        permissionList.add(LUUIPermissions.USE_LO_CATEGORY_SCREEN);
+        permissionList.add(LUUIPermissions.USE_DEPENDENCY_ANALYSIS_SCREEN);    
         
-        //Create Block
-        final LinkContentBlock create = new LinkContentBlock(
-                getMessage(CREATE),
-                getMessage(CREATE_DESC));
-        
+        Application.getApplicationContext().getSecurityContext().loadScreenPermissions(permissionList, new Callback<Boolean>(){
 
-        //Add "Create Course" link if user has create course permission
-		Application.getApplicationContext().getSecurityContext().checkPermission(LUUIPermissions.CREATE_COURSE_BY_PROPOSAL,	
-			new Callback<Boolean>() {
-				public void exec(Boolean result) {
-					if (result){
-						create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
-					}
-				}			
-		});
-        
-		//Add "Create Program" link if user has any create program permission
-		String[] permissionsToCheck = {LUUIPermissions.CREATE_PROGRAM_BY_PROPOSAL, LUUIPermissions.CREATE_PROGRAM_BY_ADMIN};
-		Application.getApplicationContext().getSecurityContext().checkPermission(permissionsToCheck,	
-			new Callback<Boolean>() {
-			public void exec(Boolean result) {
-				if (result)	{
-					create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
-				}				
-			}
-        });
+            @Override
+            public void exec(Boolean result) {
+                //Create Block
+                final LinkContentBlock create = new LinkContentBlock(getMessage(CREATE), getMessage(CREATE_DESC));
                 
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_CREATE_COURSE_BY_PROPOSAL)||
+                        Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_CREATE_COURSE_BY_ADMIN_PROPOSAL)){
+                        
+                    create.addNavLinkWidget(getMessage(CREATE_COURSE), getCreateCourseClickHandler());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_CREATE_PROGRAM_BY_PROPOSAL)){
+                 
+                    create.addNavLinkWidget(getMessage(CREATE_PROGRAM), AppLocations.Locations.EDIT_PROGRAM.getLocation());
+                }
+                
+                //View + Modify
+                final LinkContentBlock viewModify = new LinkContentBlock(getMessage(VIEW_MODIFY), getMessage(VIEW_MODIFY_DESC));
+                SectionTitle courses = SectionTitle.generateH4Title(getMessage("courses"));
+                courses.addStyleName("bold");
+                viewModify.add(courses);
+                
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_BROWSE_CATALOG_SCREEN)){
+                    
+                    viewModify.addNavLinkWidget(getMessage(BROWSE_CATALOG), AppLocations.Locations.BROWSE_CATALOG.getLocation());
+                }
+            
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_COURSE_SCREEN)){
+                                 
+                    viewModify.add(getFindCoursesWidget());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_COURSE_PROPOSAL_SCREEN)){
+                    
+                    viewModify.add(getFindCourseProposalsWidget()); 
+                }
+                
+                SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
+                programs.addStyleName("bold");
+                viewModify.add(programs);
+                                    
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_BROWSE_PROGRAM_SCREEN)){
+                    
+                     viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_PROGRAM_SCREEN)){
+                    
+                    viewModify.add(getFindMajorsWidget());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_FIND_PROGRAM_PROPOSAL_SCREEN)){
+                    
+                    viewModify.add(getFindProgramProposalsWidget());        
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_VIEW_CORE_PROGRAMS_SCREEN)){
+                    
+                    viewModify.add(getViewCoreProgramWidget());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_VIEW_CREDENTIAL_PROGRAMS_SCREEN)){
+                    
+                    viewModify.add(getViewCredentialProgramWidget());
+                }
+                
+                //RecentlyViewed
+                RecentlyViewedBlock recent = new RecentlyViewedBlock(getMessage(RECENTLY_VIEWED), getMessage(RV_DESC));
+                recent.addStyleName("recentlyViewed-block");
 
-        //View + Modify
-        LinkContentBlock viewModify = new LinkContentBlock(
-                getMessage(VIEW_MODIFY),
-                getMessage(VIEW_MODIFY_DESC));
-        SectionTitle courses = SectionTitle.generateH4Title(getMessage("courses"));
-        courses.addStyleName("bold");
-        viewModify.add(courses);
-        viewModify.addNavLinkWidget(getMessage(BROWSE_CATALOG), AppLocations.Locations.BROWSE_CATALOG.getLocation());
-        viewModify.add(getFindCoursesWidget());
-        viewModify.add(getFindCourseProposalsWidget());
-        SectionTitle programs = SectionTitle.generateH4Title(getMessage("programs"));
-        programs.addStyleName("bold");
-        viewModify.add(programs);
-        viewModify.addNavLinkWidget(getMessage(BROWSE_PROGRAM), AppLocations.Locations.BROWSE_PROGRAM.getLocation());
-        viewModify.add(getFindMajorsWidget());
-        viewModify.add(getFindProgramProposalsWidget());
-        viewModify.add(getViewCoreProgramWidget());
-        viewModify.add(getViewCredentialProgramWidget());
-        
-        //RecentlyViewed
-        RecentlyViewedBlock recent = new RecentlyViewedBlock(
-                getMessage(RECENTLY_VIEWED),
-                getMessage(RV_DESC));
-        recent.addStyleName("recentlyViewed-block");
-
-        //Tools
-        LinkContentBlock tools = new LinkContentBlock(
-                getMessage(TOOLS),
-                getMessage(TOOLS_DESC));
-        tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
-        tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
-        tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
-        
-        //Add all blocks
-        layout.addContentBlock(create);
-        layout.addContentBlock(viewModify);
-        recent.addBlock(tools);
-        layout.addContentBlock(recent);
-
+                //Tools
+                final LinkContentBlock tools = new LinkContentBlock(getMessage(TOOLS), getMessage(TOOLS_DESC));
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS)){
+                    
+                     tools.addNavLinkWidget(getMessage(COURSE_SETS), AppLocations.Locations.MANAGE_CLU_SETS.getLocation());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_LO_CATEGORY_SCREEN)){
+                    
+                    tools.addNavLinkWidget(getMessage(LO_CATEGORIES), AppLocations.Locations.MANAGE_LO_CATEGORIES.getLocation());
+                }
+                
+                if(Application.getApplicationContext().getSecurityContext().checkCachedScreenPermission(LUUIPermissions.USE_DEPENDENCY_ANALYSIS_SCREEN)){
+                    
+                    tools.addNavLinkWidget(getMessage(DEP_ANALYSIS), AppLocations.Locations.DEPENDENCY_ANALYSIS.getLocation());
+                }
+                
+                //Add all blocks
+                layout.addContentBlock(create);
+                layout.addContentBlock(viewModify);
+                recent.addBlock(tools);
+                layout.addContentBlock(recent);
+            }}
+        );
         return layout;
     }
 
@@ -526,7 +575,8 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
             @Override
             public void onClick(ClickEvent event) {
                 final KSLightBox pop = new KSLightBox();
-                pop.setWidget(new CurriculumHomeHelpTable());
+                pop.setWidget((Widget)GWT.create(CurriculumHomeHelpTable.class));
+                //pop.setWidget(new CurriculumHomeHelpTable());
                 pop.setSize(800, 680);
                 pop.show();
             }
