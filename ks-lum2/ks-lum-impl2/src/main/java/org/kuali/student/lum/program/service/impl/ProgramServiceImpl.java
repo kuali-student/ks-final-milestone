@@ -116,7 +116,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -208,7 +208,7 @@ public class ProgramServiceImpl implements ProgramService{
             updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT,contextInfo);
             
 			//Disassemble the new major discipline
-			results = majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOper ation.UPDATE,contextInfo);
+			results = R1R2ConverterUtil.convertGeneric( majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOperation.UPDATE,contextInfo),new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>());
 			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
@@ -1230,8 +1230,8 @@ public class ProgramServiceImpl implements ProgramService{
 	        BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			coreProgramAssembler.assemble(newVersionClu, originalCoreProgram, true,contextInfo);
-
+			coreProgramAssembler.assemble(R1R2ConverterUtil.convert( newVersionClu,new org.kuali.student.r1.lum.lu.dto.CluInfo()), R1R2ConverterUtil.convert(originalCoreProgram,new org.kuali.student.r1.lum.program.dto.CoreProgramInfo()), true,contextInfo);
+			
 			//Clear Ids from the original so it will make a copy and do other processing
 			processCopy(originalCoreProgram, currentVersion.getId(),contextInfo);
 
