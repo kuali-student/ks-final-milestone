@@ -1,57 +1,56 @@
 /*
- * Copyright 2009 The Kuali Foundation
- *
- * Licensed under the Educational Community License, Version 1.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.opensource.org/licenses/ecl1.php
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright 2009 The Kuali Foundation Licensed under the Educational Community
+ * License, Version 1.0 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.opensource.org/licenses/ecl1.php Unless required by applicable law
+ * or agreed to in writing, software distributed under the License is
+ * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
  */
 package org.kuali.student.lum.course.dto;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.common.dto.AmountInfo;
-import org.kuali.student.common.dto.HasAttributes;
-import org.kuali.student.common.dto.HasTypeState;
-import org.kuali.student.common.dto.Idable;
-import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.IdEntityInfo;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.TimeAmountInfo;
 import org.kuali.student.common.versionmanagement.dto.VersionInfo;
-import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
+import org.kuali.student.lum.course.infc.Course;
+import org.kuali.student.lum.course.infc.CourseCrossListing;
+import org.kuali.student.lum.course.infc.CourseFee;
+import org.kuali.student.lum.course.infc.CourseJoint;
+import org.kuali.student.lum.course.infc.CourseRevenue;
+import org.kuali.student.lum.course.infc.Format;
+import org.kuali.student.lum.course.infc.LoDisplay;
 import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.lum.lu.dto.CluInstructorInfo;
+import org.kuali.student.lum.lu.infc.CluInstructor;
 
 /**
- * Detailed information about a single course.
- * For specific usage, check the specific service(s) implementation(s)
- *
- * @Author KSContractMojo
- * @Author Daniel Epstein
- * @Since Mon Jul 26 14:12:05 EDT 2010
- * @See <a href="https://test.kuali.org/confluence/display/KULSTU/courseInfo+Structure">CourseInfo</>
- *
+ * This is a description of what this class does - sambit don't forget to fill
+ * this in.
+ * 
+ * @author Kuali Student Team (sambitpa@kuali.org)
  */
+
+@XmlType(name = "CourseInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "code", "courseNumberSuffix", "level", "courseTitle", "transcriptTitle", "formats", "termsOffered",
+        "duration", "joints", "crossListings", "variations", "subjectArea", "campusLocations", "outOfClassHours", "primaryInstructor", "instructors", "unitsDeployment", "feeJustification",
+        "unitsContentOwner", "fees", "revenues", "expenditure", "courseSpecificLOs", "gradingOptionIds", "creditOptionKeys", "specialTopicsCourse", "pilotCourse", "startTerm", "endTerm",
+        "effectiveDate", "expirationDate", "versionInfo", "meta", "attributes", "versionInfo" /*TODO KSCM-gwt-compile , "_futureElements" */})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttributes {
+public class CourseInfo extends IdEntityInfo implements Course, Serializable {
+
+   
 
     private static final long serialVersionUID = 1L;
 
@@ -69,9 +68,6 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
 
     @XmlElement
     private String transcriptTitle;
-
-    @XmlElement
-    private RichTextInfo descr;
 
     @XmlElement
     private List<FormatInfo> formats;
@@ -107,17 +103,14 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<CluInstructorInfo> instructors;
 
     @XmlElement
-
-    private List<String> unitsDeployment;  
-
+    private List<String> unitsDeployment;
+    @XmlElement
     private RichTextInfo feeJustification;
 
-
     @XmlElement
-    private List<String> unitsContentOwner; 
+    private List<String> unitsContentOwner;
 
     private List<CourseFeeInfo> fees;
-
 
     @XmlElement
     private List<CourseRevenueInfo> revenues;
@@ -129,10 +122,10 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private List<LoDisplayInfo> courseSpecificLOs;
 
     @XmlElement
-    private List<String> gradingOptions;
+    private List<String> gradingOptionIds;
 
     @XmlElement
-    private List<ResultComponentInfo> creditOptions;
+    private List<String> creditOptionKeys;
 
     @XmlElement
     private boolean specialTopicsCourse;
@@ -153,27 +146,138 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     private Date expirationDate;
 
     @XmlElement
-    @XmlJavaTypeAdapter(JaxbAttributeMapListAdapter.class)
-    private Map<String, String> attributes;
-
-    @XmlElement
-    private MetaInfo metaInfo;
-    
-    @XmlElement
     private VersionInfo versionInfo;
-    
-	@XmlAttribute
-    private String type;
 
-    @XmlAttribute
-    private String state;
+    //TODO KSCM-gwt-compile
+    //@XmlAnyElement
+    //private List<Element> _futureElements;
 
-    @XmlAttribute
-    private String id;
+
+    public CourseInfo(Course courseInfo) {
+        super(courseInfo);
+        if (courseInfo != null) {
+            this.code = courseInfo.getCode();
+
+            this.courseNumberSuffix = courseInfo.getCourseNumberSuffix();
+
+            this.level = courseInfo.getLevel();
+
+            this.courseTitle = courseInfo.getCourseTitle();
+
+            this.transcriptTitle = courseInfo.getTranscriptTitle();
+
+            List<FormatInfo> formatList = new ArrayList<FormatInfo>();
+
+            for (Format format : courseInfo.getFormats()) {
+
+                formatList.add(new FormatInfo(format));
+            }
+
+            this.termsOffered = new ArrayList<String>(courseInfo.getTermsOffered());
+
+            this.duration = new TimeAmountInfo(courseInfo.getDuration());
+
+            List<CourseJointInfo> courseJointList = new ArrayList<CourseJointInfo>();
+
+            for (CourseJoint courseJoint : courseInfo.getJoints()) {
+
+                courseJointList.add(new CourseJointInfo(courseJoint));
+            }
+
+            this.joints = courseJointList;
+
+            this.crossListings = new ArrayList<CourseCrossListingInfo>();
+
+            List<CourseCrossListingInfo> courseCrossListingList = new ArrayList<CourseCrossListingInfo>();
+
+            for (CourseCrossListing courseCrossListing : courseInfo.getCrossListings()) {
+
+                courseCrossListingList.add(new CourseCrossListingInfo(courseCrossListing));
+            }
+
+            this.variations = new ArrayList<CourseVariationInfo>();
+
+            this.subjectArea = courseInfo.getSubjectArea();
+            this.campusLocations = new ArrayList<String>(courseInfo.getCampusLocations());
+
+            this.outOfClassHours = new AmountInfo(courseInfo.getOutOfClassHours());
+
+            this.primaryInstructor = new CluInstructorInfo(courseInfo.getPrimaryInstructor());
+
+            List<CluInstructorInfo> instructorList = new ArrayList<CluInstructorInfo>();
+
+            for (CluInstructor cluInstructor : courseInfo.getInstructors()) {
+
+                instructorList.add(new CluInstructorInfo(cluInstructor));
+            }
+
+            this.instructors = instructorList;
+
+            this.unitsDeployment = new ArrayList<String>(courseInfo.getUnitsDeployment());
+
+            this.feeJustification = new RichTextInfo(courseInfo.getFeeJustification());
+
+            this.unitsContentOwner = new ArrayList<String>(courseInfo.getUnitsContentOwner());
+
+            List<CourseFeeInfo> courseFeeList = new ArrayList<CourseFeeInfo>();
+            for (CourseFee courseFee : courseInfo.getFees()) {
+
+                courseFeeList.add(new CourseFeeInfo(courseFee));
+            }
+
+            this.fees = courseFeeList;
+
+            List<CourseRevenueInfo> courseRevList = new ArrayList<CourseRevenueInfo>();
+            for (CourseRevenue courseRevenue : courseInfo.getRevenues()) {
+
+                courseRevList.add(new CourseRevenueInfo(courseRevenue));
+            }
+
+            this.revenues = courseRevList;
+
+            this.expenditure = new CourseExpenditureInfo(courseInfo.getExpenditure());
+
+            List<LoDisplayInfo> courseLos = new ArrayList<LoDisplayInfo>();
+
+            for (LoDisplay courseRevenue : courseInfo.getCourseSpecificLOs()) {
+
+                courseLos.add(new LoDisplayInfo(courseRevenue));
+            }
+
+            this.courseSpecificLOs = courseLos;
+
+            this.gradingOptionIds = new ArrayList<String>(courseInfo.getGradingOptionIds());
+
+            this.creditOptionKeys = new ArrayList<String>(courseInfo.getCreditOptionKeys());
+
+            this.specialTopicsCourse = courseInfo.isSpecialTopicsCourse();
+
+            this.pilotCourse = courseInfo.isPilotCourse();
+            this.startTerm = courseInfo.getStartTerm();
+
+            this.endTerm = courseInfo.getEndTerm();
+
+            this.effectiveDate = new Date(courseInfo.getEffectiveDate().getTime());
+
+            this.expirationDate = new Date(courseInfo.getExpirationDate().getTime());
+            this.transcriptTitle = courseInfo.getTranscriptTitle();
+            this.code = courseInfo.getCode();
+
+            this.unitsContentOwner = courseInfo.getUnitsContentOwner() != null ? new ArrayList<String>(courseInfo.getUnitsContentOwner()) : new ArrayList<String>();
+            
+            this.versionInfo =  new VersionInfo(courseInfo.getVersionInfo());
+
+        }
+    }
 
     /**
-     * The composite string that is used to officially reference or publish the CLU. Note it may have an internal structure that each Institution may want to enforce. This structure may be composed from the other parts of the structure such as Level amp; Division, but may include items such as cluType.
+     * The composite string that is used to officially reference or publish the
+     * CLU. Note it may have an internal structure that each Institution may
+     * want to enforce. This structure may be composed from the other parts of
+     * the structure such as Level amp; Division, but may include items such as
+     * cluType.
      */
+    @Override
     public String getCode() {
         return code;
     }
@@ -183,8 +287,12 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * The "extra" portion of the code, which usually corresponds with the most detailed part of the number. Ex. at MIT we might map Division to subject area(Ex:6) but overall we need to say the code is 6.120. This field would represent the 120 part.
+     * The "extra" portion of the code, which usually corresponds with the most
+     * detailed part of the number. Ex. at MIT we might map Division to subject
+     * area(Ex:6) but overall we need to say the code is 6.120. This field would
+     * represent the 120 part.
      */
+    @Override
     public String getCourseNumberSuffix() {
         return courseNumberSuffix;
     }
@@ -194,11 +302,12 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * 
-     * A code that indicates what level 100, 200 or upper division, lower division etc
+     * A code that indicates what level 100, 200 or upper division, lower
+     * division etc
      * 
      * @return
      */
+    @Override
     public String getLevel() {
         return level;
     }
@@ -210,6 +319,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Abbreviated name of the Course
      */
+    @Override
     public String getCourseTitle() {
         return courseTitle;
     }
@@ -219,8 +329,11 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Information related to the official identification of the credit course, typically in human readable form. Used to officially reference or publish.
+     * Information related to the official identification of the credit course,
+     * typically in human readable form. Used to officially reference or
+     * publish.
      */
+    @Override
     public String getTranscriptTitle() {
         return transcriptTitle;
     }
@@ -230,19 +343,9 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Narrative description of the Course.
-     */
-    public RichTextInfo getDescr() {
-        return descr;
-    }
-
-    public void setDescr(RichTextInfo descr) {
-        this.descr = descr;
-    }
-
-    /**
      * 
      */
+    @Override
     public List<FormatInfo> getFormats() {
         if (formats == null) {
             formats = new ArrayList<FormatInfo>(0);
@@ -257,6 +360,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Terms in which this Course is typically offered.
      */
+    @Override
     public List<String> getTermsOffered() {
         if (termsOffered == null) {
             termsOffered = new ArrayList<String>(0);
@@ -271,6 +375,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * The standard duration of the Course.
      */
+    @Override
     public TimeAmountInfo getDuration() {
         return duration;
     }
@@ -282,6 +387,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * 
      */
+    @Override
     public List<CourseJointInfo> getJoints() {
         if (joints == null) {
             joints = new ArrayList<CourseJointInfo>(0);
@@ -296,6 +402,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * 
      */
+    @Override
     public List<CourseCrossListingInfo> getCrossListings() {
         if (crossListings == null) {
             crossListings = new ArrayList<CourseCrossListingInfo>(0);
@@ -310,6 +417,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * 
      */
+    @Override
     public List<CourseVariationInfo> getVariations() {
         if (variations == null) {
             variations = new ArrayList<CourseVariationInfo>(0);
@@ -322,8 +430,11 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * The Study Subject Area is used to identify the area of study associated with the course. It may be a general study area (e.g. Chemistry) or very specific (e.g. Naval Architecture).
+     * The Study Subject Area is used to identify the area of study associated
+     * with the course. It may be a general study area (e.g. Chemistry) or very
+     * specific (e.g. Naval Architecture).
      */
+    @Override
     public String getSubjectArea() {
         return subjectArea;
     }
@@ -335,6 +446,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Places where this course might be offered
      */
+    @Override
     public List<String> getCampusLocations() {
         if (campusLocations == null) {
             campusLocations = new ArrayList<String>(0);
@@ -347,8 +459,10 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * The expected level of out of class time commitment between the student and the course.
+     * The expected level of out of class time commitment between the student
+     * and the course.
      */
+    @Override
     public AmountInfo getOutOfClassHours() {
         return outOfClassHours;
     }
@@ -358,8 +472,10 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Primary potential instructor for the clu. This is primarily for use in advertising the course and may not be the actual instructor.
+     * Primary potential instructor for the clu. This is primarily for use in
+     * advertising the course and may not be the actual instructor.
      */
+    @Override
     public CluInstructorInfo getPrimaryInstructor() {
         return primaryInstructor;
     }
@@ -371,6 +487,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Instructors associated with this course.
      */
+    @Override
     public List<CluInstructorInfo> getInstructors() {
         if (instructors == null) {
             instructors = new ArrayList<CluInstructorInfo>(0);
@@ -382,54 +499,55 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
         this.instructors = instructors;
     }
 
-
+    @Override
     public List<String> getUnitsDeployment() {
-    	if(unitsDeployment == null){
-    		unitsDeployment = new ArrayList<String>(0);
-    	}
+        if (unitsDeployment == null) {
+            unitsDeployment = new ArrayList<String>(0);
+        }
         return unitsDeployment;
     }
-    
+
     /**
      * Narrative description of overall course fee justification.
      */
+    @Override
     public RichTextInfo getFeeJustification() {
-       return feeJustification;
+        return feeJustification;
 
     }
-
 
     public void setUnitsDeployment(List<String> unitsDeployment) {
         this.unitsDeployment = unitsDeployment;
     }
-    
+
     public void setFeeJustification(RichTextInfo feeJustification) {
         this.feeJustification = feeJustification;
 
     }
 
+    @Override
     public List<String> getUnitsContentOwner() {
-    	if(unitsContentOwner == null){
-    		unitsContentOwner = new ArrayList<String>(0);
-    	}
-    	return unitsContentOwner;
+        if (unitsContentOwner == null) {
+            unitsContentOwner = new ArrayList<String>(0);
+        }
+        return unitsContentOwner;
     }
-    
+
     /**
      * Fees information associated with this Course.
      */
+    @Override
     public List<CourseFeeInfo> getFees() {
         if (fees == null) {
             fees = new ArrayList<CourseFeeInfo>(0);
         }
         return fees;
-
     }
 
     public void setUnitsContentOwner(List<String> unitsContentOwner) {
         this.unitsContentOwner = unitsContentOwner;
     }
-    
+
     public void setFees(List<CourseFeeInfo> fees) {
         this.fees = fees;
     }
@@ -437,6 +555,8 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Revenue information associated with this Course.
      */
+
+    @Override
     public List<CourseRevenueInfo> getRevenues() {
         if (revenues == null) {
             revenues = new ArrayList<CourseRevenueInfo>(0);
@@ -451,6 +571,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Expenditure information associated with this Course.
      */
+    @Override
     public CourseExpenditureInfo getExpenditure() {
         return expenditure;
     }
@@ -462,6 +583,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Learning Objectives associated with this Course.
      */
+    @Override
     public List<LoDisplayInfo> getCourseSpecificLOs() {
         if (courseSpecificLOs == null) {
             courseSpecificLOs = new ArrayList<LoDisplayInfo>(0);
@@ -476,34 +598,37 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * Grading opitons available for the course
      */
-    public List<String> getGradingOptions() {
-        if (gradingOptions == null) {
-            gradingOptions = new ArrayList<String>(0);
+    @Override
+    public List<String> getGradingOptionIds() {
+        if (gradingOptionIds == null) {
+            gradingOptionIds = new ArrayList<String>(0);
         }
-        return gradingOptions;
+        return gradingOptionIds;
     }
 
     public void setGradingOptions(List<String> gradingOptions) {
-        this.gradingOptions = gradingOptions;
+        this.gradingOptionIds = gradingOptions;
     }
 
     /**
      * Credit outcomes from taking the course
      */
-    public List<ResultComponentInfo> getCreditOptions() {
-        if (creditOptions == null) {
-            creditOptions = new ArrayList<ResultComponentInfo>(0);
+    @Override
+    public List<String> getCreditOptionKeys() {
+        if (creditOptionKeys == null) {
+            creditOptionKeys = new ArrayList<String>(0);
         }
-        return creditOptions;
+        return creditOptionKeys;
     }
 
-    public void setCreditOptions(List<ResultComponentInfo> creditOptions) {
-        this.creditOptions = creditOptions;
+    public void setCreditOptions(List<String> creditOptions) {
+        this.creditOptionKeys = creditOptions;
     }
 
     /**
      * Flag to indicate the course as a special topics course
      */
+    @Override
     public boolean isSpecialTopicsCourse() {
         return specialTopicsCourse;
     }
@@ -513,8 +638,10 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Flag to indicate a one-time or pilot course, which is likely to have expedited approval process
+     * Flag to indicate a one-time or pilot course, which is likely to have
+     * expedited approval process
      */
+    @Override
     public boolean isPilotCourse() {
         return pilotCourse;
     }
@@ -526,6 +653,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * The first academic time period that this Course would be effective.
      */
+    @Override
     public String getStartTerm() {
         return startTerm;
     }
@@ -537,6 +665,7 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     /**
      * The last academic time period that this Course would be effective.
      */
+    @Override
     public String getEndTerm() {
         return endTerm;
     }
@@ -546,8 +675,11 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Date and time the Course became effective. This is a similar concept to the effective date on enumerated values. When an expiration date has been specified, this field must be less than or equal to the expiration date.
+     * Date and time the Course became effective. This is a similar concept to
+     * the effective date on enumerated values. When an expiration date has been
+     * specified, this field must be less than or equal to the expiration date.
      */
+    @Override
     public Date getEffectiveDate() {
         return effectiveDate;
     }
@@ -557,8 +689,13 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     }
 
     /**
-     * Date and time that this Course expires. This is a similar concept to the expiration date on enumerated values. If specified, this should be greater than or equal to the effective date. If this field is not specified, then no expiration date has been currently defined and should automatically be considered greater than the effective date.
+     * Date and time that this Course expires. This is a similar concept to the
+     * expiration date on enumerated values. If specified, this should be
+     * greater than or equal to the effective date. If this field is not
+     * specified, then no expiration date has been currently defined and should
+     * automatically be considered greater than the effective date.
      */
+    @Override
     public Date getExpirationDate() {
         return expirationDate;
     }
@@ -566,70 +703,30 @@ public class CourseInfo implements Serializable, Idable, HasTypeState, HasAttrib
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
     }
-
-    /**
-     * List of key/value pairs, typically used for dynamic attributes.
-     */
-    public Map<String, String> getAttributes() {
-        if (attributes == null) {
-            attributes = new HashMap<String, String>();
-        }
-        return attributes;
-    }
-
-    public void setAttributes(Map<String, String> attributes) {
-        this.attributes = attributes;
-    }
-
-    /**
-     * Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
-     */
-    public MetaInfo getMetaInfo() {
-        return metaInfo;
-    }
-
-    public void setMetaInfo(MetaInfo metaInfo) {
-        this.metaInfo = metaInfo;
-    }
-
-    /**
-     * Unique identifier for a learning unit type. Once set at create time, this field may not be updated.
-     */
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    /**
-     * The current status of the course. The values for this field are constrained to those in the luState enumeration. A separate setup operation does not exist for retrieval of the meta data around this value. This field may not be updated through updating this structure and must instead be updated through a dedicated operation.
-     */
-    public String getState() {
-        return state;
-    }
-
-    public void setState(String state) {
-        this.state = state;
-    }
-
-    /**
-     * Unique identifier for a Course. This is optional, due to the identifier being set at the time of creation. Once the Course has been created, this should be seen as required.
-     */
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    
+    @Override
     public VersionInfo getVersionInfo() {
-		return versionInfo;
-	}
+        return versionInfo;
+    }
 
-	public void setVersionInfo(VersionInfo versionInfo) {
-		this.versionInfo = versionInfo;
-	}    
+    public void setVersionInfo(VersionInfo versionInfo) {
+        this.versionInfo = versionInfo;
+    }
+
+    public void setGradingOptionIds(List<String> gradingOptionIds) {
+        this.gradingOptionIds = gradingOptionIds;
+    }
+
+    public void setCreditOptionKeys(List<String> creditOptionKeys) {
+        this.creditOptionKeys = creditOptionKeys;
+    }
+    @Deprecated
+    public ResultComponentInfo[] getCreditOptions() {
+        return null;
+    }
+    // TODO KSCM replaced implementation with ENR
+    @Deprecated
+    public List<String>  getGradingOptions() {
+        return this.getGradingOptionIds();
+    }
 }

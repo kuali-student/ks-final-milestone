@@ -36,8 +36,8 @@ public abstract class KsVersionBusinessObjectBase extends KsMetaBusinessObjectBa
     
     
     @Override
-    public void beforeInsert(PersistenceBroker persistenceBroker) throws PersistenceBrokerException {
-        super.beforeInsert(persistenceBroker);
+    public void prePersist() {
+        super.prePersist();
         
         if(this.getSequenceNumber() == null){
             this.setSequenceNumber(Long.valueOf(1));
