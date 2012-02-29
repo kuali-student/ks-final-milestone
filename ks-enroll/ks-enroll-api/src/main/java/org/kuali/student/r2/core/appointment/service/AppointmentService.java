@@ -245,9 +245,9 @@ public interface AppointmentService {
     public AppointmentInfo createAppointment(@WebParam(name = "personId") String personId, @WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "appointmentTypeKey") String appointmentTypeKey, @WebParam(name = "appointmentInfo") AppointmentInfo appointmentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-     * Create Appointments for an AppointmentWindow.
+     * Generate Appointments for an AppointmentWindow.
      *
-     * @param appointmentWindowId appointment slot of the person
+     * @param appointmentWindowId appointment window to which these appointments belong
      * @param appointmentTypeKey  appointment type
      * @param contextInfo         Context information containing the principalId
      *                            and locale information about the caller of
@@ -722,10 +722,10 @@ public interface AppointmentService {
     public AppointmentSlotInfo createAppointmentSlot(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentSlotTypeKey") String appointmentSlotTypeKey, @WebParam(name = "appointmentSlotInfo") AppointmentSlotInfo appointmentSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException;
 
     /**
-     * Create AppointmentSlots for the AppointmentWindow using its
+     * Generate AppointmentSlots for the AppointmentWindow using its
      * AppointmentSlotRule information
      *
-     * @param appointmentWindowId appointment slot of the person
+     * @param appointmentWindowId appointment window to which these slots belong
      * @param contextInfo         context information containing the principalId
      *                            and locale information about the caller of
      *                            service operation
