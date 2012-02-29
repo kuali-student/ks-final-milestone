@@ -146,7 +146,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -169,7 +169,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -197,7 +197,7 @@ public class ProgramServiceImpl implements ProgramService{
 	        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			majorDisciplineAssembler.assemble(newVersionClu, originalMajorDiscipline, true,contextInfo);
+			majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(newVersionClu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , R1R2ConverterUtil.convert(originalMajorDiscipline, new org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo()), true,contextInfo);
 
 			//Clear Ids from the original so it will make a copy and do other processing
 			processCopy(originalMajorDiscipline, currentVersion.getId(),contextInfo);
@@ -827,7 +827,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -866,7 +866,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -902,7 +902,7 @@ public class ProgramServiceImpl implements ProgramService{
     	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -977,13 +977,13 @@ public class ProgramServiceImpl implements ProgramService{
     //TODO KSCM : Need to figure out if we need to implement ... I am commenting out the override
     //@Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) {
-        return dictionaryService.getObjectStructure(objectTypeKey, contextInfo);
+        return dictionaryService.getObjectStructure(objectTypeKey);
     }
 
     //TODO KSCM : Need to figure out if we need to implement ... I am commenting out the override
     //@Override
     public List<String> getObjectTypes(ContextInfo contextInfo) {
-        return dictionaryService.getObjectTypes(contextInfo);
+        return dictionaryService.getObjectTypes();
     }
 
     @Override
@@ -1199,7 +1199,7 @@ public class ProgramServiceImpl implements ProgramService{
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo, contextInfo );
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1311,7 +1311,7 @@ public class ProgramServiceImpl implements ProgramService{
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(validationResults)) {
+        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
