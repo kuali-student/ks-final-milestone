@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
@@ -33,6 +34,8 @@ import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.mvc.WorkQueue;
 import org.kuali.student.common.ui.client.mvc.WorkQueue.WorkItem;
+import org.kuali.student.common.ui.client.security.AuthorizationCallback;
+import org.kuali.student.common.ui.client.security.RequiresAuthorization;
 import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ButtonEnum;
@@ -41,8 +44,10 @@ import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.lum.common.client.lu.LUUIPermissions;
 import org.kuali.student.lum.common.client.widgets.CluSetHelper;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcService;
 import org.kuali.student.lum.common.client.widgets.CluSetManagementRpcServiceAsync;
@@ -52,7 +57,7 @@ import com.google.gwt.dom.client.Style;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
-public class CluSetsManagementController extends BasicLayout {  
+public class CluSetsManagementController extends BasicLayout implements RequiresAuthorization {  
 
     private final DataModel cluSetModel = new DataModel();    
     private WorkQueue cluSetModelRequestQueue;
@@ -88,7 +93,8 @@ public class CluSetsManagementController extends BasicLayout {
             viewClusetView.setSelectedCluSetId(cluSetId);
             if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
+                //TODO KSCM - Correct ContextInfo parameter?
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
@@ -112,7 +118,8 @@ public class CluSetsManagementController extends BasicLayout {
             viewClusetView.setSelectedCluSetId(cluSetId);
             if (cluSetId != null) {
                 KSBlockingProgressIndicator.addTask(retrievingTask);
-                cluSetManagementRpcServiceAsync.getData(cluSetId,  new KSAsyncCallback<Data>() {
+                //TODO KSCM - Correct ContextInfo parameter?
+                cluSetManagementRpcServiceAsync.getData(cluSetId,  ContextUtils.getContextInfo(), new KSAsyncCallback<Data>() {
                     @Override
                     public void handleFailure(Throwable caught) {
                         KSBlockingProgressIndicator.removeTask(retrievingTask);
@@ -230,7 +237,8 @@ public class CluSetsManagementController extends BasicLayout {
             onReadyCallback.exec(true);
         } else {
     		KSBlockingProgressIndicator.addTask(initializingTask);
-            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>(){
+    		//TODO KSCM - Correct ContextInfo parameter?
+            cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>(){
 
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -325,8 +333,8 @@ public class CluSetsManagementController extends BasicLayout {
 
     private void saveModel(final DataModel dataModel, final SaveActionEvent saveActionEvent) {
     	KSBlockingProgressIndicator.addTask(saving);    	
-        
-    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), new KSAsyncCallback<DataSaveResult>() {
+    	//TODO KSCM - Correct ContextInfo parameter?
+    	cluSetManagementRpcServiceAsync.saveData(dataModel.getRoot(), ContextUtils.getContextInfo(), new KSAsyncCallback<DataSaveResult>() {
     	    @Override
             public void handleFailure(Throwable caught) {
                 GWT.log("Save Failed.", caught);
@@ -386,6 +394,33 @@ public class CluSetsManagementController extends BasicLayout {
     @Override
     public void setParentController(Controller controller) {
         super.setParentController(controller);    
+    }
+    
+    @Override
+    public boolean isAuthorizationRequired() {
+        return true;
+    }
+
+    @Override
+    public void setAuthorizationRequired(boolean required) {
+        throw new UnsupportedOperationException();
+    }
+    
+    @Override
+    public void checkAuthorization(final AuthorizationCallback authCallback) {
+        Application.getApplicationContext().getSecurityContext().checkScreenPermission(LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS, new Callback<Boolean>() {
+            @Override
+            public void exec(Boolean result) {
+
+                final boolean isAuthorized = result;
+            
+                if(isAuthorized){
+                    authCallback.isAuthorized();
+                }
+                else
+                    authCallback.isNotAuthorized("User is not authorized: " + LUUIPermissions.USE_VIEW_COURSE_SET_MANAGEMENT_SCREENS);
+            }   
+        });
     }
     
 }

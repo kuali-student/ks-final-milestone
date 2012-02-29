@@ -5,9 +5,10 @@ import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.kuali.rice.core.resourceloader.GlobalResourceLoader;
-import org.kuali.rice.core.util.KeyLabelPair;
-import org.kuali.rice.kns.lookup.keyvalues.KeyValuesBase;
+import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
+import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
+import org.kuali.rice.krad.keyvalues.KeyValuesBase;
 import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.search.dto.SearchResultCell;
@@ -21,15 +22,15 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 		if (organizationService == null) {
 			organizationService = (OrganizationService) GlobalResourceLoader
 					.getService(new QName(
-							"http://student.kuali.org/wsdl/organization",
-							"OrganizationService"));
+                            "http://student.kuali.org/wsdl/organization",
+                            "OrganizationService"));
 		}
 		return organizationService;
 	}
 
 	@Override
 	public List getKeyValues() {
-		List<KeyLabelPair> orgEntities = new ArrayList<KeyLabelPair>();
+		List<KeyValue> orgEntities = new ArrayList<KeyValue>();
 
 		SearchRequest searchRequest = new SearchRequest("org.search.generic");
 		List<String> orgTypes = new ArrayList<String>();
@@ -41,8 +42,8 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 		searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
 		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
 		try {
-			SearchResult results = getOrganizationService().search(searchRequest);
-
+// TODO KSCM-165			SearchResult results = getOrganizationService().search(searchRequest);
+            SearchResult results = null;  // TODO KSCM-165
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = null;
 				String orgLongName = null;
@@ -53,7 +54,7 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 						orgLongName = resultCell.getValue();
 					}					
 				}
-	            orgEntities.add(new KeyLabelPair(orgId, orgLongName));
+	            orgEntities.add(new ConcreteKeyValue(orgId, orgLongName));
 			}
 
 			return orgEntities;

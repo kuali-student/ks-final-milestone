@@ -46,6 +46,7 @@ import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.suggestbox.KSSuggestBox;
 import org.kuali.student.common.ui.client.widgets.suggestbox.IdableSuggestOracle.IdableSuggestion;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
@@ -144,7 +145,8 @@ public class DependencyAnalysisView extends ViewComposite{
         //Get search definition for dependency analysis trigger search and create trigger picker          
 		Metadata metaData = searchDefinition.getMetadata("courseId");
 		final KSPicker triggerPicker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
-        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");		
+        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");	
+        triggerPicker.getInputWidget().ensureDebugId("Dependency-Analysis-Course-Code");
 
         //Setup the "go" button for trigger picker
         KSButton goButton = new KSButton("Go", ButtonStyle.PRIMARY_SMALL);
@@ -377,7 +379,8 @@ public class DependencyAnalysisView extends ViewComposite{
 						if (complexContent.getWidgetCount() <= 0){
 							KSBlockingProgressIndicator.addTask(loadDataTask);
 							//TODO: This code copied from program screens, need common reusable code
-							depRpcServiceAsync.getProgramRequirement(rootId, new KSAsyncCallback<ProgramRequirementInfo>(){
+							//TODO KSCM - Correct ContextInfo parameter?
+							depRpcServiceAsync.getProgramRequirement(rootId, ContextUtils.getContextInfo(), new KSAsyncCallback<ProgramRequirementInfo>(){
 								public void onSuccess(ProgramRequirementInfo progReqInfo) {															
 							        int minCredits = (progReqInfo.getMinCredits() == null ? 0 : progReqInfo.getMinCredits());
 							        int maxCredits = (progReqInfo.getMaxCredits() == null ? 0 : progReqInfo.getMaxCredits());

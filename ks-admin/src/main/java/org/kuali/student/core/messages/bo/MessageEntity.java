@@ -23,7 +23,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.core.bo.KsBusinessObjectBase;
 import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 
@@ -48,26 +48,26 @@ public class MessageEntity extends KsBusinessObjectBase {
     @Transient
     private transient EnumeratedValue groupNameEnumValue;
 
-    
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-
-        map.put("locale", locale);
-        map.put("groupName", groupName);
-        map.put("messageId", messageId);
-
-        return map;
-
-    }
+    // now handled with reflection
+//    @Override
+//    protected LinkedHashMap<String, Object> toStringMapper() {
+//
+//        LinkedHashMap<String, Object> map = super.toStringMapper();
+//
+//        map.put("locale", locale);
+//        map.put("groupName", groupName);
+//        map.put("messageId", messageId);
+//
+//        return map;
+//
+//    }
     
     protected EnumeratedValue retrieveEnumeratedValue(String enumerationId, String enumerationCode) {
         Map<String, Object> criteria = new HashMap<String, Object>();
         criteria.put("enumerationId", enumerationId);
         criteria.put("code", enumerationCode);
         
-        return (EnumeratedValue) KNSServiceLocator.getBusinessObjectService().findByPrimaryKey(EnumeratedValue.class, criteria);
+        return (EnumeratedValue) KRADServiceLocator.getBusinessObjectService().findByPrimaryKey(EnumeratedValue.class, criteria);
     }
     
     
