@@ -68,6 +68,7 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -485,6 +486,7 @@ public class DependencyAnalysisView extends ViewComposite{
 					}else {
 						url += "&docId=" + cluId;
 					}
+					url = URL.encode(url);
 					String features = "height=600,width=960,dependent=0,directories=1," +
 							"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
 					Window.open(url, HTMLPanel.createUniqueId(), features);				
