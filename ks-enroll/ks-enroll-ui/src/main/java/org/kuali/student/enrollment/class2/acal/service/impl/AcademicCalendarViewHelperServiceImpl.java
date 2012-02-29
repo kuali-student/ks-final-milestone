@@ -23,8 +23,11 @@ import java.util.Date;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
+import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
 import org.kuali.rice.krad.uif.control.SelectControl;
@@ -32,6 +35,8 @@ import org.kuali.rice.krad.uif.field.InputField;
 import org.kuali.rice.krad.uif.service.impl.ViewHelperServiceImpl;
 import org.kuali.rice.krad.uif.util.ObjectPropertyUtils;
 import org.kuali.rice.krad.uif.view.View;
+import org.kuali.rice.krad.util.GlobalVariables;
+import org.kuali.rice.krad.util.KRADConstants;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.*;
@@ -335,12 +340,50 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
         List keyValues = new ArrayList();
 
+        //TODO
+        //Use getKeyDateTypesForTermType
+
         keyValues.add(new ConcreteKeyValue("", ""));
         keyValues.add(new ConcreteKeyValue("kuali.milestone.type.group.keydate","Registration Period"));
         keyValues.add(new ConcreteKeyValue("kuali.milestone.type.group.curriculum","Curriculum"));
 
         ((SelectControl) field.getControl()).setOptions(keyValues);
 
+    }
+
+    public void validateTerm(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception {
+        int index1 = 0;
+        for (AcademicTermWrapper academicTermWrapper : termWrapper) {
+            index1++;
+            int index2 = 0;
+            //Validate duplicate term name
+            for (AcademicTermWrapper wrapper : termWrapper) {
+                index2++;
+                if (wrapper != academicTermWrapper){
+                    if (StringUtils.equalsIgnoreCase(wrapper.getName(),academicTermWrapper.getName())){
+                        if (index1 < index2){
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.term.dupliateName",""+ NumberUtils.min(new int[]{index1,index2}),""+NumberUtils.max(new int[]{index1,index2}));
+                        }
+                    }
+                }
+
+                for(KeyDatesGroupWrapper keyDatesGroupWrapper : wrapper.getKeyDatesGroupWrappers()){
+                    for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
+                        if (keyDateWrapper.isDateRange() && keyDateWrapper.getEndDate() == null){
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",wrapper.getTermNameForUI(),keyDatesGroupWrapper.getKeyDateGroupType());
+                        }
+                        if (!keyDateWrapper.isAllDay() &&
+                                (StringUtils.isBlank(keyDateWrapper.getStartTime()) ||
+                                 StringUtils.isBlank(keyDateWrapper.getEndTime()) ||
+                                 StringUtils.isBlank(keyDateWrapper.getStartTimeAmPm()) ||
+                                 StringUtils.isBlank(keyDateWrapper.getEndTimeAmPm()))){
+                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",wrapper.getTermNameForUI(),keyDatesGroupWrapper.getKeyDateGroupType());
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception {
@@ -394,6 +437,17 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                     keyDate.setTypeKey(keyDateWrapper.getKeyDateType());
                     keyDate.setStartDate(keyDateWrapper.getStartDate());
                     keyDate.setEndDate(keyDateWrapper.getEndDate());
+                    keyDate.setIsAllDay(keyDateWrapper.isAllDay());
+                    keyDate.setIsDateRange(keyDateWrapper.isDateRange());
+
+                    if (!keyDateWrapper.isAllDay()){
+                        keyDate.setStartDate(updateTime(keyDate.getStartDate(),keyDateWrapper.getStartTime(),keyDateWrapper.getStartTimeAmPm()));
+                        keyDate.setEndDate(updateTime(keyDate.getEndDate(),keyDateWrapper.getEndTime(),keyDateWrapper.getEndTimeAmPm()));
+                    }
+
+                    if (!keyDateWrapper.isDateRange()){
+                        keyDate.setEndDate(null);
+                    }
 
                     if (isNewKeyDate){
                         KeyDateInfo newKeyDate = getAcalService().createKeyDate(termWrapper.getTermInfo().getId(),keyDate.getTypeKey(),keyDate,context);
@@ -406,13 +460,49 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             }
         }
 
+
+        for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapper.getKeyDatesGroupWrappers()) {
+            for (KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()) {
+                if (keyDateWrapper.getKeyDateInfo().getTypeKey().equals(AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)) {
+
+                }
+            }
+        }
+
+
         //FIXME: Have to fix the exception thrown when there are not keydates added
         try{
 //            termWrapper.setInstructionalDays(getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),context));
         }catch(Exception e){
 //            e.printStackTrace();
+
+       }
+
+    }
+
+    private Date updateTime(Date date,String time,String amPm){
+
+        //FIXME: Use Joda DateTime
+
+        // Get Calendar object set to the date and time of the given Date object
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+
+        // Set time fields to zero
+        cal.set(Calendar.HOUR, Integer.parseInt(StringUtils.substringBefore(time,":")));
+        cal.set(Calendar.MINUTE, Integer.parseInt(StringUtils.substringAfter(time,":")));
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+        if (StringUtils.isNotBlank(amPm)){
+
+        if (StringUtils.equalsIgnoreCase(amPm,"am")){
+                cal.set(Calendar.AM_PM,Calendar.AM);
+            }else {
+                cal.set(Calendar.AM_PM,Calendar.PM);
+            }
         }
 
+        return cal.getTime();
     }
 
     public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception{
@@ -480,6 +570,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 newLine.setTermNameForUI(termType.getName());
                 SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
                 newLine.setName(termType.getName() + " " + simpleDateformat.format(newLine.getStartDate()));
+                newLine.setTypeInfo(termType);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -488,29 +579,11 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             try {
                 TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),TestHelper.getContext1());
                 group.setKeyDateGroupNameUI(termType.getName());
+                group.setTypeInfo(termType);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
-    }
-
-    public void buildTerm(String termId,AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception {
-
-        List<AcademicTermWrapper> termWrappers = academicCalendarForm.getTermWrapperList();
-
-        for (AcademicTermWrapper termWrapper : termWrappers) {
-            TermInfo term = getAcalService().getTerm(termId, context);
-
-            termWrapper.setTermInfo(term);
-         termWrapper.setStartDate(term.getStartDate());
-         termWrapper.setEndDate(term.getEndDate());
-         termWrapper.setTermType(term.getTypeKey());
-         termWrapper.setName(term.getName());
-        }
-
-        //Commented out for now as there are no keydates in ref data.
-//         int instructionalDays = getAcalService().getInstructionalDaysForTerm(termId,context);
-//         academicTermForm.setInstructionalDays(instructionalDays);
     }
 
     public AcademicCalendarService getAcalService() {

@@ -41,8 +41,6 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     //Terms
     public void saveTerm(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception;
 
-    public void buildTerm(String termId,AcademicCalendarForm academicCalendarForm,ContextInfo context) throws Exception;
-
     public void setTermOfficial(AcademicTermWrapper termWrapper, String acalId, ContextInfo context) throws Exception;
 
     public void deleteTerm(List<AcademicTermWrapper> termWrapper,int selectedIndex, String acalId,ContextInfo context) throws Exception;
@@ -54,6 +52,8 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
     public void deleteKeyDateGroup(AcademicTermWrapper termWrapper,int selectedIndex,ContextInfo context) throws Exception;
 
     public void populateKeyDateGroupTypes(InputField field, AcademicCalendarForm acalForm) throws Exception;
+
+    public void validateTerm(List<AcademicTermWrapper> termWrapper, ContextInfo context) throws Exception;
 
     public AcademicCalendarService getAcalService();
 }

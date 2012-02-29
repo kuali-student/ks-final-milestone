@@ -5,6 +5,7 @@ import org.kuali.rice.core.api.util.ConcreteKeyValue;
 import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
+import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
@@ -34,19 +35,14 @@ public class TermTypeKeyValues  extends UifKeyValuesFinderBase implements Serial
     @Override
     public List<KeyValue> getKeyValues(ViewModel model) {
 
-        AcademicCalendarForm form = (AcademicCalendarForm)model;
-
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
         //TODO:Build real context.
         ContextInfo context = TestHelper.getContext1();
         List<TypeInfo> types = null;
         try {
-            if (form.getAcademicCalendarInfo() != null && org.apache.commons.lang.StringUtils.isNotBlank(form.getAcademicCalendarInfo().getTypeKey())){
-                types = getAcalService().getTermTypesForAcademicCalendarType(form.getAcademicCalendarInfo().getTypeKey(),context);
-            }else{
-                types = getAcalService().getTermTypes(context);
-            }
+            types = getAcalService().getTermTypesForAcademicCalendarType(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY,context);
+
             for (TypeInfo type : types) {
                 ConcreteKeyValue keyValue = new ConcreteKeyValue();
                 keyValue.setKey(type.getKey());

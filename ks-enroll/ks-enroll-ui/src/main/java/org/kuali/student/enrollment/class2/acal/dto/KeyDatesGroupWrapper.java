@@ -1,5 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.kuali.student.r2.core.type.dto.TypeInfo;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,6 +10,8 @@ public class KeyDatesGroupWrapper {
     private String keyDateGroupType;
     private String keyDateGroupNameUI;
     private List<KeyDateWrapper> keydates = new ArrayList<KeyDateWrapper>();
+
+    private TypeInfo typeInfo;
 
     public KeyDatesGroupWrapper(){
 
@@ -37,7 +41,13 @@ public class KeyDatesGroupWrapper {
         this.keydates = keydates;
     }
 
+    public TypeInfo getTypeInfo() {
+        return typeInfo;
+    }
 
+    public void setTypeInfo(TypeInfo typeInfo) {
+        this.typeInfo = typeInfo;
+    }
 
 
 }

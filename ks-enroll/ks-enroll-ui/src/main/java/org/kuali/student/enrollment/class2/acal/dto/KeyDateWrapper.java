@@ -13,6 +13,8 @@ public class KeyDateWrapper {
     private Date endDate;
     private String startTime;
     private String endTime;
+    private boolean allDay = false;
+    private boolean dateRange = true;
 
     private KeyDateInfo keyDateInfo;
 
@@ -83,4 +85,19 @@ public class KeyDateWrapper {
         this.keyDateInfo = keyDateInfo;
     }
 
+    public boolean isAllDay() {
+        return allDay;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
+
+    public boolean isDateRange() {
+        return dateRange;
+    }
+
+    public void setDateRange(boolean dateRange) {
+        this.dateRange = dateRange;
+    }
 }

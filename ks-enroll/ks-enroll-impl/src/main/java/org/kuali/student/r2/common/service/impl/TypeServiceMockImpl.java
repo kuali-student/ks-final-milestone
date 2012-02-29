@@ -235,6 +235,7 @@ public class TypeServiceMockImpl implements TypeService{
         typeArrays.add(new String[] {"kuali.atp.milestone.DropDeadlineWithoutRecord", "Drop Deadline Without Record", "Drop Deadline Without Record", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.FinalExamPeriod", "Final Exam Period", "Final Exam Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
         typeArrays.add(new String[] {"kuali.atp.milestone.GradesDue", "Grades Due", "Grades Due", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
+        typeArrays.add(new String[] {"kuali.atp.milestone.InstructionalPeriod", "Instructional Period", "Instructional Period", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
 
         //curriculum
         typeArrays.add(new String[] {"kuali.atp.milestone.CoordinatorsKickoffMeeting", "Coordinators Kickoff Meeting", "Coordinators Kickoff Meeting", "http://kuali.org/wsdl/atp/MilestoneInfo')", "0"});
@@ -250,6 +251,7 @@ public class TypeServiceMockImpl implements TypeService{
         TypeInfo keydateGroupType = createTypeInfo("kuali.milestone.type.group.keydate", "Registration");
 
         keydateGroup.add(getType("kuali.atp.milestone.AdvanceRegistrationPeriod"));
+        keydateGroup.add(getType("kuali.atp.milestone.InstructionalPeriod"));
         keydateGroup.add(getType("kuali.atp.milestone.RegistrationPeriod"));
         keydateGroup.add(getType("kuali.atp.milestone.RegistrationBeginsTransfer"));
         keydateGroup.add(getType("kuali.atp.milestone.DropDeadlineWithoutRecord"));
@@ -313,7 +315,7 @@ public class TypeServiceMockImpl implements TypeService{
 
         // Allowed type relations
         List<String[]> allowedArrays = new ArrayList<String[]>();
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.1", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.FallSpring", "1", "AcademicCalendar can contain FallSpring"});
+//        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.1", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.FallSpring", "1", "AcademicCalendar can contain FallSpring"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.2", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Fall", "2", "AcademicCalendar can contain Fall"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.3", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall1", "1", "Fall can contain HalfFall1"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.4", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Fall", "kuali.atp.type.HalfFall2", "2", "Fall can contain HalfFall2"});
@@ -322,13 +324,13 @@ public class TypeServiceMockImpl implements TypeService{
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.7", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring1", "1", "Spring can contain HalfSpring1"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.8", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.SpringBreak", "2", "Spring can contain SpringBreak"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.9", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Spring", "kuali.atp.type.HalfSpring2", "3", "Spring can contain HalfSpring2"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.10", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Session1", "5", "AcademicCalendar can contain Session1"});
+//        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.10", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Session1", "5", "AcademicCalendar can contain Session1"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.11", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1A", "1", "Session1 can contain Mini-mester1A"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.12", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session1", "kuali.atp.type.Mini-mester1B", "2", "Session1 can contain Mini-mester1B"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.13", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Summer", "kuali.atp.type.Session2", "2", "Summer can contain Session2"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.14", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2C", "1", "Session2 can contain Mini-mester2C"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.15", "kuali.type.type.relation.type.allowed", "kuali.atp.type.Session2", "kuali.atp.type.Mini-mester2D", "2", "Session2 can contain Mini-mester2D"});
-        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.16", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.SummerEve", "6", "AcademicCalendar can contain SummerEve"});
+        allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.16", "kuali.type.type.relation.type.allowed", "kuali.atp.type.AcademicCalendar", "kuali.atp.type.Summer", "6", "AcademicCalendar can contain SummerEve"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.17", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG1", "1", "SummerEve can contain SessionG1"});
         allowedArrays.add(new String[] {"kuali.atp.type.type.relation.allowed.18", "kuali.type.type.relation.type.allowed", "kuali.atp.type.SummerEve", "kuali.atp.type.SessionG2", "2", "SummerEve can contain SessionG2"});
         for (String[] allowedArray : allowedArrays) {

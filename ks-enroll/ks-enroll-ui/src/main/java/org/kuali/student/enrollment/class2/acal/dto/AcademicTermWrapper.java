@@ -3,6 +3,7 @@ package org.kuali.student.enrollment.class2.acal.dto;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,8 @@ public class AcademicTermWrapper {
     private String termNameForUI;
     private List<KeyDatesGroupWrapper> keyDatesGroupWrappers = new ArrayList();
     private boolean readOnly = false;
+
+    private TypeInfo typeInfo;
 
     public AcademicTermWrapper(){
     }
@@ -110,5 +113,14 @@ public class AcademicTermWrapper {
         setTermType(null);
 //        setKeydates( new ArrayList<KeyDateWrapper>());
         setName(null);
+        setTypeInfo(null);
+    }
+
+    public TypeInfo getTypeInfo() {
+        return typeInfo;
+    }
+
+    public void setTypeInfo(TypeInfo typeInfo) {
+        this.typeInfo = typeInfo;
     }
 }

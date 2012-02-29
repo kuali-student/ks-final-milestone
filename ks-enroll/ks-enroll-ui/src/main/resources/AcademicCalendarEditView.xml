@@ -47,7 +47,7 @@
         <property name="formClass" value="org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm"/>
     </bean>
 
-    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false">
+    <bean id="KS-AcademicCalendar-EditSection" parent="Uif-Page" p:disclosure.render="false" p:id="acal-info">
         <property name="title" value="Information" />
         <property name="items">
             <list>
@@ -65,7 +65,7 @@
         </property>
     </bean>
 
-    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL">
+    <bean id="KS-AcademicCalendar-MetaSection" parent="Uif-VerticalBoxSection" p:layoutManager.orientation="HORIZONTAL" p:id="acal-info-meta">
         <property name="title" value="Calendar Information" />
         <property name="disclosure.render" value="false"/>
         <property name="items">
@@ -116,7 +116,7 @@
     </bean>
 
 	<bean id="KS-AcademicCalendar-EventSection" parent="Uif-Disclosure-TableCollectionSection"
-		p:layoutManager.numberOfColumns="7">
+		p:layoutManager.numberOfColumns="7" p:id="acal-info-event">
 		<property name="title" value="Events" />
         <property name="disclosure.defaultOpen" value="@{!#form.events.empty}"/>
         <property name="instructionalText" value="Adding events is optional. If events are added, Event type and Start Date are required fields."/>
@@ -238,7 +238,7 @@
 
     <!-- Academic terms -->
 
-   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" >
+   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term">
      <property name="title" value="Terms" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
@@ -257,7 +257,7 @@
              <property name="layoutManager.orientation" value="VERTICAL"/>
              <property name="items">
                 <list>
-                   <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingTerm" p:actionLabel="Cancel Adding Term" p:clientSideJs="performCollectionAction('KS-AcademicTerm-EditSection');"/>
+                   <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingTerm" p:actionLabel="Cancel Adding Term" p:clientSideJs="performCollectionAction('acal-term');"/>
                 </list>
              </property>
          </bean>
@@ -307,7 +307,7 @@
      </property>
    </bean>
 
-    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSection">
+    <bean id="KS-KeyDatesGroup-EditSubSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term-keydatesgroup">
      <property name="title" value="Key Dates Group" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper" />
      <!--<property name="layoutManager.style" value="margin-top:1em;"/>-->
@@ -346,7 +346,7 @@
     </property>-->
    </bean>
 
-   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7">
+   <bean id="KS-KeyDates-EditSubSection" parent="Uif-Disclosure-TableSubCollection-WithinSection" p:layoutManager.numberOfColumns="7" p:id="acal-term-keydates">
      <property name="title" value="Key Dates" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.KeyDateWrapper" />
      <property name="layoutManager.style" value="margin-top:1em;"/>
@@ -374,30 +374,57 @@
                 <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="startTime" p:label="Start Time">
-            <property name="control">
-                <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="Start Time">
+            <property name="items">
+                <list>
+                    <bean parent="Uif-InputField-LabelTop" p:propertyName="startTime" p:refreshWhenChanged="#lp.allDay"
+					p:readOnly="@{#lp.allDay eq true}">
+                        <property name="control">
+                            <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                        </property>
+                    </bean>
+                    <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:refreshWhenChanged="#lp.allDay"
+					p:readOnly="@{#lp.allDay eq true}">
+                         <property name="control">
+                            <bean parent="Uif-DropdownControl" p:options-ref="time-options"/>
+                         </property>
+                     </bean>
+                </list>
             </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="startTimeAmPm" p:label="">
-             <property name="control">
-                <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
-             </property>
          </bean>
-        <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date">
+        <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:refreshWhenChanged="#lp.dateRange"
+					p:readOnly="@{#lp.dateRange eq false}" >
             <property name="control">
                 <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
         </bean>
-        <bean parent="Uif-InputField" p:propertyName="endTime" p:label="End Time">
-            <property name="control">
-                <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+        <bean parent="Uif-HorizontalFieldGroup" p:label="End Time" p:style="width: 160px"> <!--p:refreshDiscloseMethodToCall=""-->
+            <property name="items">
+                <list>
+                    <bean parent="Uif-InputField-LabelTop" p:propertyName="endTime" p:refreshWhenChanged="#lp.allDay"
+					p:readOnly="@{#lp.allDay eq true}">
+                        <property name="control">
+                            <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
+                        </property>
+                    </bean>
+                    <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm" p:refreshWhenChanged="#lp.allDay"
+					p:readOnly="@{#lp.allDay eq true}">
+                         <property name="control">
+                            <bean parent="Uif-DropdownControl" p:options-ref="time-options"/>
+                         </property>
+                     </bean>
+                </list>
             </property>
-        </bean>
-        <bean parent="Uif-InputField" p:propertyName="endTimeAmPm" p:label="">
-             <property name="control">
-                <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
-             </property>
+         </bean>
+         <bean parent="Uif-InputField" p:label="All Day" p:propertyName="allDay"  p:width="50px">
+            <property name="control">
+                <bean parent="Uif-CheckboxControl"/>
+            </property>
+         </bean>
+         <bean parent="Uif-InputField" p:label="Date Range" p:propertyName="dateRange" p:width="50px">
+            <property name="control">
+                <bean parent="Uif-CheckboxControl"/>
+            </property>
          </bean>
        </list>
      </property>
@@ -409,6 +436,7 @@
    </bean>
 
     <util:list id="time-options">
+       <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
        <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
        <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
     </util:list>

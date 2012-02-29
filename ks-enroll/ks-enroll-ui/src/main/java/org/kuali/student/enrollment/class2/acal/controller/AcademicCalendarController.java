@@ -124,6 +124,14 @@ public class AcademicCalendarController extends UifControllerBase {
         //TODO:Build real context.
         ContextInfo context = TestHelper.getContext1();
 
+
+        //Validate Term
+        ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).validateTerm(academicCalendarForm.getTermWrapperList(),context);
+
+        if (GlobalVariables.getMessageMap().getErrorCount() > 0){
+           return getUIFModelAndView(academicCalendarForm);
+        }
+
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
             ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);
