@@ -242,7 +242,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 		this.cachingEnabled = cachingEnabled;
 	}
 
-	// TODO KSCM-266
+	// TODO KSCM-211
 //	@Override
 //	public MessageList getMessagesByGroups(String locale,
 //			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo) {
@@ -250,7 +250,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 //		return null;
 //	}
 
-	// TODO KSCM-266
+	// TODO KSCM-211
 //	@Override
 //	public Message addMessage(Message messageInfo, ContextInfo contextInfo) {
 //		// TODO Auto-generated method stub
