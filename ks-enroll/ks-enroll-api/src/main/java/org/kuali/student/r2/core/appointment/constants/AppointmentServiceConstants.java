@@ -37,7 +37,8 @@ public class AppointmentServiceConstants {
     public static final String REF_OBJECT_URI_APPOINTMENT_SLOT = NAMESPACE + "/" + AppointmentSlotInfo.class.getSimpleName();
     public static final String REF_OBJECT_URI_APPOINTMENT_WINDOW = NAMESPACE + "/" + AppointmentWindowInfo.class.getSimpleName();
 
-    public static final String APPOINTMENT_WINDOW_TYPE_SLOTTED_KEY = "kuali.appointment.window.type.slotted";
+    public static final String APPOINTMENT_WINDOW_TYPE_SLOTTED_KEY = "kuali.appointment.window.type.slotted.uniform";
+    public static final String APPOINTMENT_WINDOW_TYPE_SLOTTED_KEY = "kuali.appointment.window.type.slotted.max";
     public static final String APPOINTMENT_WINDOW_TYPE_ONE_SLOT_KEY = "kuali.appointment.window.type.one.slot";
 
     public static final String APPOINTMENT_SLOT_TYPE_CLOSED_KEY = "kuali.appointment.slot.type.closed";
