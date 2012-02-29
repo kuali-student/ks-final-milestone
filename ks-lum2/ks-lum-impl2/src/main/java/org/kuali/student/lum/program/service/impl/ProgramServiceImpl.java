@@ -721,7 +721,7 @@ public class ProgramServiceImpl implements ProgramService{
             if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Major Discipline");
             }
-            majorDiscipline = majorDisciplineAssembler.assemble(clu, null, false,contextInfo);
+            majorDiscipline = R1R2ConverterUtil.convert(majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r2.lum.clu.dto.CluInfo()) , null, false,contextInfo),new MajorDisciplineInfo());
         } catch (AssemblyException e) {
             LOG.error("Error assembling MajorDiscipline", e);
             throw new OperationFailedException("Error assembling MajorDiscipline");
@@ -776,7 +776,7 @@ public class ProgramServiceImpl implements ProgramService{
 			throw new DoesNotExistException("Specified CLU is not a Program Requirement");
 		}
 		try {
-			ProgramRequirementInfo progReqInfo = programRequirementAssembler.assemble(clu, null, false,contextInfo);
+			ProgramRequirementInfo progReqInfo = R1R2ConverterUtil.convert( programRequirementAssembler.assemble(R1R2ConverterUtil.convert( clu,new org.kuali.student.r1.lum.lu.dto.CluInfo()  ), null, false,contextInfo),new ProgramRequirementInfo());
 			return progReqInfo;
 		} catch (AssemblyException e) {
             LOG.error("Error assembling program requirement", e);
@@ -793,7 +793,7 @@ public class ProgramServiceImpl implements ProgramService{
     	List<ProgramVariationInfo> pvInfos = new ArrayList<ProgramVariationInfo>();
 
     	try {
-    			List<CluInfo> clus = cluService.getRelatedClusByCluId(majorDisciplineId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION,contextInfo);
+    			List<CluInfo> clus = cluService.getRelatedClusByCluAndRelationType(majorDisciplineId, ProgramAssemblerConstants.HAS_PROGRAM_VARIATION,contextInfo);
 
 		        if(clus != null && clus.size() > 0){
 		        	for(CluInfo clu : clus){
@@ -971,6 +971,7 @@ public class ProgramServiceImpl implements ProgramService{
         return validationResults;
     }
 
+    //TODO KSCM : Need to figure out if we need to implement
     @Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) {
         return dictionaryService.getObjectStructure(objectTypeKey, contextInfo);
