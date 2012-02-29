@@ -20,4 +20,5 @@
     <inherits name='org.kuali.student.lum.lrc.Lrc'/>
     <inherits name='org.kuali.student.common.versionmanagement.VersionManagement'/>
     <source path='dto'/>
+    <source path='infc' />
 </module>
