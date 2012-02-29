@@ -921,7 +921,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 //        if ( ! ProgramAssemblerConstants.DRAFT.equals(credentialProgramInfo.getState()) ) {
-            ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName(),contextInfo);
+            ObjectStructureDefinition objStructure = this.getObjectStructure(CredentialProgramInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(credentialProgramInfo, objStructure,contextInfo));
 //        }
@@ -944,7 +944,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 //        if ( ! ProgramAssemblerConstants.DRAFT.equalsIgnoreCase(majorDisciplineInfo.getState()) ) {
-            ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName(),contextInfo);
+            ObjectStructureDefinition objStructure = this.getObjectStructure(MajorDisciplineInfo.class.getName());
             Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(majorDisciplineInfo, objStructure,contextInfo));
 //        }
@@ -967,22 +967,22 @@ public class ProgramServiceImpl implements ProgramService{
             throws InvalidParameterException,
             MissingParameterException, OperationFailedException {
 
-        ObjectStructureDefinition objStructure = this.getObjectStructure(ProgramRequirementInfo.class.getName(),contextInfo);
+        ObjectStructureDefinition objStructure = this.getObjectStructure(ProgramRequirementInfo.class.getName());
         Validator validator = validatorFactory.getValidator();
         List<ValidationResultInfo> validationResults = validator.validateObject(programRequirementInfo, objStructure,contextInfo);
 
         return validationResults;
     }
 
-    //TODO KSCM : Need to figure out if we need to implement ... I am commenting out the override
-    //@Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) {
+
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
         return dictionaryService.getObjectStructure(objectTypeKey);
     }
 
-    //TODO KSCM : Need to figure out if we need to implement ... I am commenting out the override
-    //@Override
-    public List<String> getObjectTypes(ContextInfo contextInfo) {
+
+   @Override
+    public List<String> getObjectTypes() {
         return dictionaryService.getObjectTypes();
     }
 
@@ -1714,6 +1714,19 @@ public class ProgramServiceImpl implements ProgramService{
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, VersionMismatchException,
 			OperationFailedException, PermissionDeniedException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+
+	@Override
+	public List<ProgramVariationInfo> getProgramVariationsByMajorDiscipline(
+			String majorDisciplineId, ContextInfo contextInfo)
+			throws DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
