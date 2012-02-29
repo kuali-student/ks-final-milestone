@@ -721,7 +721,7 @@ public class ProgramServiceImpl implements ProgramService{
             if ( ! ProgramAssemblerConstants.MAJOR_DISCIPLINE.equals(clu.getType()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Major Discipline");
             }
-            majorDiscipline = R1R2ConverterUtil.convert(majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r2.lum.clu.dto.CluInfo()) , null, false,contextInfo),new MajorDisciplineInfo());
+            majorDiscipline = R1R2ConverterUtil.convert(majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , null, false,contextInfo),new MajorDisciplineInfo());
         } catch (AssemblyException e) {
             LOG.error("Error assembling MajorDiscipline", e);
             throw new OperationFailedException("Error assembling MajorDiscipline");
@@ -797,7 +797,7 @@ public class ProgramServiceImpl implements ProgramService{
 
 		        if(clus != null && clus.size() > 0){
 		        	for(CluInfo clu : clus){
-		        		ProgramVariationInfo pvInfo = majorDisciplineAssembler.getProgramVariationAssembler().assemble(clu, null, false,contextInfo);
+		        		ProgramVariationInfo pvInfo = R1R2ConverterUtil.convert( majorDisciplineAssembler.getProgramVariationAssembler().assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , null, false,contextInfo), new ProgramVariationInfo());
 		        		if(pvInfo != null){
 		        			pvInfos.add(pvInfo);
 		        		}
@@ -806,7 +806,10 @@ public class ProgramServiceImpl implements ProgramService{
 		    } catch (AssemblyException e) {
 		        LOG.error("Error assembling ProgramVariation", e);
 		        throw new OperationFailedException("Error assembling ProgramVariation");
-		    }
+		    } catch (PermissionDeniedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
         return pvInfos;
     }
@@ -971,13 +974,14 @@ public class ProgramServiceImpl implements ProgramService{
         return validationResults;
     }
 
-    //TODO KSCM : Need to figure out if we need to implement
-    @Override
+    //TODO KSCM : Need to figure out if we need to implement ... I am commenting out the override
+    //@Override
     public ObjectStructureDefinition getObjectStructure(String objectTypeKey, ContextInfo contextInfo) {
         return dictionaryService.getObjectStructure(objectTypeKey, contextInfo);
     }
 
-    @Override
+    //TODO KSCM : Need to figure out if we need to implement ... I am commenting out the override
+    //@Override
     public List<String> getObjectTypes(ContextInfo contextInfo) {
         return dictionaryService.getObjectTypes(contextInfo);
     }
