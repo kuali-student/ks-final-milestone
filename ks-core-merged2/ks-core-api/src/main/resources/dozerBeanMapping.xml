@@ -253,7 +253,7 @@
 		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo
 		</class-b>
 	</mapping>
-	
+
 	<!-- ks-core-api: org.kuali.student.r1.core.organization.dto mappings -->
 	<mapping>
 		<class-a>org.kuali.student.r1.core.organization.dto.OrgCodeInfo
@@ -315,4 +315,49 @@
 			<b>relationTypeKey</b>
 		</field>
 	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r1.core.proposal.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.proposal.dto.ProposalDocRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.proposal.dto.ProposalDocRelationInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.proposal.dto.ProposalInfo</class-a>
+		<class-b>org.kuali.student.r2.core.proposal.dto.ProposalInfo</class-b>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r1.core.statement.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqComponentInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqComponentInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo
+		</class-b>
+	</mapping>
+	
 </mappings>
