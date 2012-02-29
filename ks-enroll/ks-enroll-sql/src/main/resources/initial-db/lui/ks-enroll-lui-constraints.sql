@@ -1,4 +1,12 @@
 --------------------------------------------------------
+--  Constraints for Table KSEN_LUI
+--------------------------------------------------------
+
+ALTER TABLE KSEN_LUI
+  ADD CONSTRAINT  KSEN_LUI_P PRIMARY KEY (ID)
+/
+
+--------------------------------------------------------
 --  Constraints for Table KSEN_LUILUI_RELTN
 --------------------------------------------------------
 
@@ -27,14 +35,6 @@ ALTER TABLE KSEN_LUILUI_RELTN_ATTR
 	ADD (CONSTRAINT KSEN_LUILUI_RELTN_ATTR_FK1 FOREIGN KEY (OWNER_ID) REFERENCES KSEN_LUILUI_RELTN (ID))
 /
 
---------------------------------------------------------
---  Constraints for Table KSEN_LUI
---------------------------------------------------------
-
-ALTER TABLE KSEN_LUI
-	ADD CONSTRAINT  KSEN_LUI_P PRIMARY KEY (ID)
-/
- 
 --------------------------------------------------------
 --  Constraints for Table KSEN_LUI_IDENT_ATTR
 --------------------------------------------------------
@@ -71,9 +71,14 @@ ALTER TABLE KSEN_LUI_IDENT
 	ADD (CONSTRAINT KSEN_LUI_IDENT_FK1 FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
 /
 
+
 --------------------------------------------------------
 --  Constraints for Table KSEN_LUI_LUCD
 --------------------------------------------------------
+
+ALTER TABLE KSEN_LUI_LU_CD
+	ADD CONSTRAINT  KSEN_LUI_LU_CD_P PRIMARY KEY (ID)
+/
 
 ALTER TABLE KSEN_LUI_LU_CD
 	ADD (CONSTRAINT KSEN_LUI_LU_CD_FK1 FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
@@ -100,14 +105,6 @@ ALTER TABLE KSEN_LUI_IDENT_ATTR
 /
 
 --------------------------------------------------------
---  Ref Constraints for Table KSEN_LUI_LUCD
---------------------------------------------------------
-
-ALTER TABLE KSEN_LUI_LU_CD
-	ADD CONSTRAINT  KSEN_LUI_LU_CD_P PRIMARY KEY (ID)
-/
-
---------------------------------------------------------
 --  Constraints for Table KSEN_LUI_MTG_SCHE
 --------------------------------------------------------
 ALTER TABLE KSEN_LUI_MTG_SCHE
@@ -129,6 +126,54 @@ ALTER TABLE KSEN_LUI_MTG_SCHE_ATTR
 	ADD (CONSTRAINT KSEN_LUI_MTR_SCHE_ATTR_FK1 FOREIGN KEY (OWNER_ID) REFERENCES KSEN_LUI_MTG_SCHE (ID))
 /
 
+--------------------------------------------------------
+--  KSEN_LUI_EXPENDITURE
+--------------------------------------------------------
+
+ALTER TABLE KSEN_LUI_EXPENDITURE
+	ADD CONSTRAINT  KSEN_LUI_EXPENDITURE_P PRIMARY KEY (ID)
+/
+
+ALTER TABLE KSEN_LUI_EXPENDITURE
+	ADD (CONSTRAINT KSEN_LUI_EXPENDITURE_FK1 FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
+/
+
+--------------------------------------------------------
+--  KSEN_LUI_EXPEND_ATTR
+--------------------------------------------------------
+
+ALTER TABLE KSEN_LUI_EXPEND_ATTR
+	ADD CONSTRAINT  KSEN_EXPENDITURE_ATTR_P PRIMARY KEY (ID)
+/
+
+ALTER TABLE KSEN_LUI_EXPEND_ATTR
+	ADD (CONSTRAINT KSEN_EXPENDITURE_ATTR_FK1 FOREIGN KEY (OWNER_ID) REFERENCES KSEN_LUI_EXPENDITURE (ID))
+/
+
+--------------------------------------------------------
+--  KSEN_LUI_REVENUE
+--------------------------------------------------------
+
+ALTER TABLE KSEN_LUI_REVENUE
+	ADD CONSTRAINT  KSEN_LUI_REVENUE_P PRIMARY KEY (ID)
+/
+
+ALTER TABLE KSEN_LUI_REVENUE
+	ADD (CONSTRAINT KSEN_LUI_REVENUE_FK1 FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
+/
+
+--------------------------------------------------------
+--  KSEN_LUI_REVENUE_ATTR
+--------------------------------------------------------
+
+ALTER TABLE KSEN_LUI_REVENUE_ATTR
+	ADD CONSTRAINT  KSEN_LUI_REVENUE_ATTR_P PRIMARY KEY (ID)
+/	
+
+ALTER TABLE KSEN_LUI_REVENUE_ATTR
+	ADD (CONSTRAINT KSEN_LUI_REVENUE_ATTR_FK1 FOREIGN KEY (OWNER_ID) REFERENCES KSEN_LUI_REVENUE (ID))
+/
+	
 --------------------------------------------------------
 --  Constraints for Table KSEN_LUI_AFFILIATED_ORG
 --------------------------------------------------------
@@ -182,42 +227,6 @@ ALTER TABLE KSEN_LUI_CLUCLU_RELTN
 /
 
 --------------------------------------------------------
---  KSEN_LUI_CURRENCY_AMT
---------------------------------------------------------
-
-ALTER TABLE KSEN_LUI_CURRENCY_AMT
-	ADD CONSTRAINT  KSEN_LUI_CURRENCY_AMT_P PRIMARY KEY (ID)
-/
-
-ALTER TABLE KSEN_LUI_CURRENCY_AMT
-	ADD (CONSTRAINT KSEN_LUI_CURRENCY_AMT_FK1 FOREIGN KEY (FEE_ID) REFERENCES KSEN_LUI_FEE (ID))
-/
-
---------------------------------------------------------
---  KSEN_LUI_EXPEND_ATTR
---------------------------------------------------------
-
-ALTER TABLE KSEN_LUI_EXPEND_ATTR
-	ADD CONSTRAINT  KSEN_EXPENDITURE_ATTR_P PRIMARY KEY (ID)
-/
-
-ALTER TABLE KSEN_LUI_EXPEND_ATTR
-	ADD (CONSTRAINT KSEN_EXPENDITURE_ATTR_FK1 FOREIGN KEY (OWNER_ID) REFERENCES KSEN_LUI_EXPENDITURE (ID))
-/
-
---------------------------------------------------------
---  KSEN_LUI_EXPENDITURE
---------------------------------------------------------
-
-ALTER TABLE KSEN_LUI_EXPENDITURE
-	ADD CONSTRAINT  KSEN_LUI_EXPENDITURE_P PRIMARY KEY (ID)
-/
-
-ALTER TABLE KSEN_LUI_EXPENDITURE
-	ADD (CONSTRAINT KSEN_LUI_EXPENDITURE_FK1 FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
-/
-
---------------------------------------------------------
 --  KSEN_LUI_FEE
 --------------------------------------------------------
 
@@ -242,6 +251,18 @@ ALTER TABLE KSEN_LUI_FEE_ATTR
 /
 
 --------------------------------------------------------
+--  KSEN_LUI_CURRENCY_AMT
+--------------------------------------------------------
+
+ALTER TABLE KSEN_LUI_CURRENCY_AMT
+	ADD CONSTRAINT  KSEN_LUI_CURRENCY_AMT_P PRIMARY KEY (ID)
+/
+
+ALTER TABLE KSEN_LUI_CURRENCY_AMT
+	ADD (CONSTRAINT KSEN_LUI_CURRENCY_AMT_FK1 FOREIGN KEY (FEE_ID) REFERENCES KSEN_LUI_FEE (ID))
+/
+
+--------------------------------------------------------
 --  KSEN_LUI_RESULT_VAL_GRP
 --------------------------------------------------------
 
@@ -257,29 +278,7 @@ ALTER TABLE KSEN_LUI_RESULT_VAL_GRP
 	ADD (CONSTRAINT KSEN_LUI_RESULT_VAL_GRP_FK1 FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
 /
 
---------------------------------------------------------
---  KSEN_LUI_REVENUE
---------------------------------------------------------
 
-ALTER TABLE KSEN_LUI_REVENUE
-	ADD CONSTRAINT  KSEN_LUI_REVENUE_P PRIMARY KEY (ID)
-/
-
-ALTER TABLE KSEN_LUI_REVENUE
-	ADD (CONSTRAINT KSEN_LUI_REVENUE_FK1 FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
-/
-
---------------------------------------------------------
---  KSEN_LUI_REVENUE_ATTR
---------------------------------------------------------
-
-ALTER TABLE KSEN_LUI_REVENUE_ATTR
-	ADD CONSTRAINT  KSEN_LUI_REVENUE_ATTR_P PRIMARY KEY (ID)
-/	
-
-ALTER TABLE KSEN_LUI_REVENUE_ATTR
-	ADD (CONSTRAINT KSEN_LUI_REVENUE_ATTR_FK1 FOREIGN KEY (OWNER_ID) REFERENCES KSEN_LUI_REVENUE (ID))
-	
 --------------------------------------------------------
 --  KSEN_LUI_UNITS_CONT_OWNER
 --------------------------------------------------------
@@ -294,6 +293,7 @@ ADD CONSTRAINT  KSEN_LUI_UNITS_CONT_OWNER_I1 UNIQUE (LUI_ID,ORG_ID)
 
 ALTER TABLE KSEN_LUI_UNITS_CONT_OWNER
 	ADD (CONSTRAINT KSEN_LUI_UNITS_CONT_OWNER_F FOREIGN KEY (LUI_ID) REFERENCES KSEN_LUI (ID))
+/
 	
 --------------------------------------------------------
 --  KSEN_LUI_UNITS_DEPLOYMENT
