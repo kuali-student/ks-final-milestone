@@ -1,6 +1,6 @@
-<%@ page import="org.springframework.security.ui.webapp.AuthenticationProcessingFilter" %>
-<%@ page import="org.springframework.security.ui.AbstractProcessingFilter" %>
-<%@ page import="org.springframework.security.AuthenticationException" %>
+<%@ page import="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter" %>
+<%@ page import="org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter" %>
+<%@ page import="org.springframework.security.core.AuthenticationException" %>
 
 <script type="text/javascript">
 	function setSubmitUrl(form){
@@ -10,7 +10,7 @@
 	} 
 </script>
 
-<form method="get" onSubmit="return setSubmitUrl(this);">
+<form method="post" onSubmit="return setSubmitUrl(this);">
 	<label for="j_username">Username</label>
 	<input type="text" name="j_username" id="j_username"/>
 	<br/>

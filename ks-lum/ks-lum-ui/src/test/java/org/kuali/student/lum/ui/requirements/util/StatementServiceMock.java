@@ -19,7 +19,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jws.WebParam;
+
 import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.exceptions.AlreadyExistsException;
 import org.kuali.student.common.exceptions.CircularReferenceException;
@@ -29,6 +32,7 @@ import org.kuali.student.common.exceptions.InvalidParameterException;
 import org.kuali.student.common.exceptions.MissingParameterException;
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.common.exceptions.PermissionDeniedException;
+import org.kuali.student.common.exceptions.ReadOnlyException;
 import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
 import org.kuali.student.common.search.dto.SearchRequest;
@@ -45,6 +49,7 @@ import org.kuali.student.core.statement.dto.StatementInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.service.StatementService;
+import org.kuali.student.core.type.dto.TypeInfo;
 
 public class StatementServiceMock implements StatementService {
 
@@ -63,310 +68,329 @@ public class StatementServiceMock implements StatementService {
     }
 
     @Override
-    public ReqComponentInfo createReqComponent(String reqComponentType, ReqComponentInfo reqComponentInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TypeInfo> getRefObjectTypes(ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatementInfo createStatement(String statementType, StatementInfo statementInfo) throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<TypeInfo> getRefObjectSubTypes(String refObjectTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatusInfo deleteReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public RefStatementRelationInfo getRefStatementRelation(String refStatementRelationId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatusInfo deleteStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<RefStatementRelationInfo> getRefStatementRelationsByIds(List<String> refStatementRelationIds,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public String getNaturalLanguageForReqComponent(String reqComponentId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<RefStatementRelationInfo> getRefStatementRelationsByType(String refStatementRelationTypeKey,
+            ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException {
         return null;
     }
 
     @Override
-    public String getNaturalLanguageForStatement(String statementId, String nlUsageTypeKey, String language) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(String statementId,
+            ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public NlUsageTypeInfo getNlUsageType(String nlUsageTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateRefStatementRelation(
+            String validationTypeKey, String statementId, String refStatementRelationTypeKey,
+            RefStatementRelationInfo refStatementRelationInfo, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<NlUsageTypeInfo> getNlUsageTypes() throws OperationFailedException {
+    public RefStatementRelationInfo createRefStatementRelation(String refObjectId, String statementId,
+            String refObjectTypeKey, RefStatementRelationInfo refStatementRelationInfo, ContextInfo contextInfo)
+            throws AlreadyExistsException, DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException {
         return null;
     }
 
     @Override
-    public List<String> getRefObjectSubTypes(String objectTypeKey) throws OperationFailedException {
+    public RefStatementRelationInfo updateRefStatementRelation(String refStatementRelationId,
+            RefStatementRelationInfo refStatementRelationInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
+            VersionMismatchException {
         return null;
     }
 
     @Override
-    public List<String> getRefObjectTypes() throws OperationFailedException {
+    public StatusInfo deleteRefStatementRelation(String refStatementRelationId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public RefStatementRelationInfo getRefStatementRelation(String refStatementRelationId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public TypeInfo getNlUsageByType(String nlUsageTypeKey, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public ReqComponentInfo getReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public String getNlByStatementId(String statementId, String nlUsageTypeKey, String language, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<ReqComponentInfo> getReqComponentsByType(String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public String getNlByRefStatementRelation(String refStatementRelationId, String nlUsageTypeKey, String language,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public ReqComponentTypeInfo getReqComponentType(String reqComponentTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public String getNlByReqComponent(String reqComponentId, String nlUsageTypeKey, String language,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<ReqComponentTypeInfo> getReqComponentTypes() throws OperationFailedException {
+    public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey,
+            String language, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatementInfo getStatement(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public StatementInfo getStatement(String statementId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<StatementInfo> getStatementsByType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StatementInfo> getStatementsByReqComponentId(String reqComponentId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<StatementInfo> getStatementsUsingReqComponent(String reqComponentId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StatementInfo> getStatementsByType(String statementTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatementTreeViewInfo getStatementTreeView(String statementId) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<StatementInfo> getStatementsForStatement(String statementId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatementTypeInfo getStatementType(String statementTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getStatementTypes(ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public ReqComponentInfo updateReqComponent(String reqComponentId, ReqComponentInfo reqComponentInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public List<TypeInfo> getStatementTypesForStatementType(String statementTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatementInfo updateStatement(String statementId, StatementInfo statementInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public List<TypeInfo> getStatementTypesForRefStatementRelationType(String refStatementRelationTypeKey,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public StatementTreeViewInfo updateStatementTreeView(String statementId, StatementTreeViewInfo statementTreeViewInfo) throws CircularReferenceException, DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+    public List<TypeInfo> getRefStatementRelationTypesForRefObjectSubType(String refSubTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<ValidationResultInfo> validateReqComponent(String validationType, ReqComponentInfo reqComponentInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateStatement(String validationTypeKey,
+            String statementTypeKey, StatementInfo statementInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<ValidationResultInfo> validateStatement(String validationType, StatementInfo statementInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public StatementInfo createStatement(String statementTypeKey, StatementInfo statementInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         return null;
     }
 
     @Override
-    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+    public StatementInfo updateStatement(String statementId, StatementInfo statementInfo, ContextInfo contextInfo)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException,
+            VersionMismatchException {
         return null;
     }
 
     @Override
-    public List<String> getObjectTypes() {
+    public StatusInfo deleteStatement(String statementId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getReqCompFieldTypesForReqComponentType(String reqComponentTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() throws OperationFailedException {
+    public ReqComponentInfo getReqComponent(String reqComponentId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<ReqComponentInfo> getReqComponentsByType(String reqComponentTypeKey, ContextInfo contextInfo)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes() throws OperationFailedException {
+    public TypeInfo getReqComponentType(String reqComponentTypeKey, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<TypeInfo> getReqComponentTypes(ContextInfo contextInfo) throws InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypes() throws OperationFailedException {
+    public List<TypeInfo> getReqComponentTypesForStatementType(String statementTypeKey)
+            throws InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public List<org.kuali.student.common.dto_rice.ValidationResultInfo> validateReqComponent(String validationTypeKey,
+            String reqComponentTypeKey, ReqComponentInfo reqComponentInfo, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
         return null;
     }
 
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+    public ReqComponentInfo createReqComponent(String reqComponentTypeKey, ReqComponentInfo reqComponentInfo,
+            ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            ReadOnlyException {
         return null;
     }
 
     @Override
-    public SearchResult search(SearchRequest searchRequest) throws MissingParameterException {
+    public ReqComponentInfo updateReqComponent(String reqComponentId, ReqComponentInfo reqComponentInfo,
+            ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException,
+            VersionMismatchException {
         return null;
     }
 
     @Override
-    public RefStatementRelationInfo createRefStatementRelation(RefStatementRelationInfo refStatementRelationInfo) throws AlreadyExistsException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public StatusInfo deleteReqComponent(String reqComponentId, ContextInfo contextInfo) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;
     }
 
-	@Override
-	public StatusInfo deleteRefStatementRelation(String refStatementRelationId)
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-		return null;
-	}
+    @Override
+    public StatementTreeViewInfo getStatementTreeView(String statementId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	@Override
-	public String getNaturalLanguageForRefStatementRelation(String refStatementRelationId, String nlUsageTypeKey, String language) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
+    @Override
+    public StatementTreeViewInfo getStatementTreeViewForNlUsageType(String statementId, String nlUsageTypeKey,
+            String language, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	@Override
-	public List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId)
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
+    @Override
+    public StatementTreeViewInfo createStatementTreeView(StatementTreeViewInfo statementTreeViewInfo,
+            ContextInfo contextInfo) throws DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        return null;
+    }
 
-	@Override
-	public List<RefStatementRelationInfo> getRefStatementRelationsByStatement(String statementId) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
+    @Override
+    public StatementTreeViewInfo updateStatementTreeView(String statementId,
+            StatementTreeViewInfo statementTreeViewInfo, ContextInfo contextInfo) throws DataValidationErrorException,
+            DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+            PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        return null;
+    }
 
-	@Override
-	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language)
-			throws InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
+    @Override
+    public StatusInfo deleteStatementTreeView(String statementId, ContextInfo contextInfo)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException, PermissionDeniedException {
+        return null;
+    }
 
-	@Override
-	public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language) 
-			throws InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
+    @Override
+    public List<RefStatementRelationInfo> getRefStatementRelationsByRef(String refObjectTypeKey, String refObjectId,
+            ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
+            MissingParameterException, OperationFailedException {
+        return null;
+    }
 
-	@Override
-	public RefStatementRelationInfo updateRefStatementRelation(String refStatementRelationId, RefStatementRelationInfo refStatementRelationInfo)
-			throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
-		return null;
-	}
+    @Override
+    public StatementTypeInfo getStatementType(String topStatementType) throws DoesNotExistException,
+            InvalidParameterException, MissingParameterException, OperationFailedException {
+        return null;
+    }
 
-	@Override
-	public List<StatementTypeInfo> getStatementTypes()
-			throws OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<String> getStatementTypesForStatementType(String statementTypeKey) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public RefStatementRelationTypeInfo getRefStatementRelationType(String refStatementRelationTypeKey) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<RefStatementRelationTypeInfo> getRefStatementRelationTypes()
-			throws OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<String> getRefStatementRelationTypesForRefObjectSubType(String refSubTypeKey) 
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<String> getStatementTypesForRefStatementRelationType(String refStatementRelationTypeKey) 
-		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<StatementInfo> getStatementsUsingStatement(String statementId)
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public List<ValidationResultInfo> validateRefStatementRelation(String validationType, RefStatementRelationInfo refStatementRelationInfo)
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
-
-	public StatementTreeViewInfo getStatementTreeViewForNlUsageType(String statementId, String nlUsageTypeKey, String language)
-			throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
-		return null;
-	}
-
-	@Override
-	public StatementTreeViewInfo createStatementTreeView(
-			StatementTreeViewInfo statementTreeViewInfo)
-			throws CircularReferenceException, AlreadyExistsException,
-			DataValidationErrorException, DoesNotExistException,
-			InvalidParameterException, MissingParameterException,
-			OperationFailedException, PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public StatusInfo deleteStatementTreeView(String statementId)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-    
+    @Override
+    public String getNaturalLanguageForReqComponent(String reqComponentId, String string, String string2)
+            throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+            OperationFailedException {
+        return null;
+    }
 
     //from before the service contract change:
 

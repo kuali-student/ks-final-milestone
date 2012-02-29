@@ -35,6 +35,7 @@
     <param name="rice.logging.configure">true</param>
     
     <param name="lum.application.url" override="false">http://localhost:8080/ks-standalone-dev</param>
+
     <!-- OrgUrls -->
     <param name="ks.org.MainEntryPoint" override="false">${lum.application.url}/org.kuali.student.core.organization.ui.OrgEntry/OrgEntry.jsp</param>
 
@@ -80,7 +81,7 @@
 	<param name="ks.core.datasource.password">KSSTANDALONE</param>
 
     <!-- Keystore Configuration -->
-    <param name="keystore.file">${rice.base}../../src/main/resources/rice.keystore</param>
+    <param name="keystore.file">${user.home}/rice.keystore</param>
     <param name="keystore.alias">rice</param>
     <param name="keystore.password">r1c3pw</param>
 
