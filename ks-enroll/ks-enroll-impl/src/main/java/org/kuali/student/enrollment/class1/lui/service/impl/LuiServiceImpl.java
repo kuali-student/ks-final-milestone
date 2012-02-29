@@ -324,6 +324,17 @@ public class LuiServiceImpl implements LuiService {
         return status;
     }
 
+    /**
+     * 
+     * Sets the LuiResultValuesGroup entities on the LuiEntity.
+     * 
+     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
+     * are created based on the given resultValuesGroupKeys.  
+     * 
+     * @param resultValuesGroupKeys
+     * @param existingResultValuesGrps
+     * @param entity
+     */
     private void addResultValuesGroups(final List<String> resultValuesGroupKeys, final List<LuiResultValuesGroupEntity> existingResultValuesGrps, LuiEntity entity) {
 
         if (resultValuesGroupKeys == null)
@@ -342,6 +353,17 @@ public class LuiServiceImpl implements LuiService {
 
     }
 
+    /**
+     * 
+     * Sets the LuiResultValuesGroup entities on the LuiEntity.
+     * 
+     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
+     * are created based on the given orgIds. 
+     * 
+     * @param orgIds
+     * @param existingUnitsDeployments
+     * @param entity
+     */
     private void addUnitsDeployment(final List<String> orgIds, final List<LuiUnitsDeploymentEntity> existingUnitsDeployments, LuiEntity entity) {
         
         if (orgIds == null)
@@ -360,6 +382,17 @@ public class LuiServiceImpl implements LuiService {
 
     }
 
+    /**
+     * 
+     * Sets the LuiUnitsContentOwner entities on the LuiEntity.
+     * 
+     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
+     * are created based on the given orgIds.
+     * 
+     * @param orgIds
+     * @param existingUnitsContentOwners
+     * @param entity
+     */
     private void setUnitsContentOwner(final List<String> orgIds, final List<LuiUnitsContentOwnerEntity> existingUnitsContentOwners, LuiEntity entity) {
         
         if (orgIds == null)
@@ -378,6 +411,17 @@ public class LuiServiceImpl implements LuiService {
 
     }
 
+    /**
+     * 
+     * Sets the LuiCluCluRelation entities on the LuiEntity.
+     * 
+     * The method loops thru the existing entities to find already added relations and only add new entities if required. New entities 
+     * are created based on the given cluCluRelationdIds.
+     * 
+     * @param cluCluRelationdIds
+     * @param existingCluCluReltns
+     * @param entity
+     */
     private void setLuiCluCluRelations(final List<String> cluCluRelationdIds, List<LuiCluCluRelationEntity> existingCluCluReltns, LuiEntity entity) {
         
         if (cluCluRelationdIds == null)
