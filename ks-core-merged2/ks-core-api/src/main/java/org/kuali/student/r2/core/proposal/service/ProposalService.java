@@ -18,6 +18,7 @@ import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.xml.bind.annotation.XmlSeeAlso;
 
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -42,7 +43,7 @@ import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 @WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 @XmlSeeAlso({org.kuali.student.common.dto.ReferenceTypeInfo.class})
-public interface ProposalService {
+public interface ProposalService extends SearchService {
 
     /**
      * Retrieves the details of a single Proposal by proposalId
