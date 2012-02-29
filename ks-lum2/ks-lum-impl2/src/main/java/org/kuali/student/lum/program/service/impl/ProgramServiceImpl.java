@@ -85,6 +85,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import javax.jws.WebParam;
 
+import org.kuali.student.r1.common.assembly.util.R1R2ConverterUtil;
 
 // TODO KSCM-253
 public class ProgramServiceImpl implements ProgramService{
@@ -207,7 +208,7 @@ public class ProgramServiceImpl implements ProgramService{
             updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT,contextInfo);
             
 			//Disassemble the new major discipline
-			results = majorDisciplineAssembler.disassemble(originalMajorDiscipline, NodeOperation.UPDATE,contextInfo);
+			results = majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOper ation.UPDATE,contextInfo);
 			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
@@ -322,7 +323,7 @@ public class ProgramServiceImpl implements ProgramService{
 					   ReqComponentFieldTypes.PROGRAM_CLUSET_KEY.getId().equals(field.getType())||
 					   ReqComponentFieldTypes.CLUSET_KEY.getId().equals(field.getType())){
 						try {
-							CluSetInfo cluSet = cluService.getCluSetInfo(field.getValue(),contextInfo);
+							CluSetInfo cluSet = cluService.getCluSet(field.getValue(),contextInfo);
 							cluSet.setId(null);
 							//Clear clu ids if membership info exists, they will be re-added based on membership info 
 							if (cluSet.getMembershipQuery() != null){
@@ -658,8 +659,8 @@ public class ProgramServiceImpl implements ProgramService{
             if ( ! ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType()) ) {
                 throw new DoesNotExistException("Specified CLU is not a Credential Program");
             }
-
-            credentialProgramInfo = credentialProgramAssembler.assemble(clu, null, false,contextInfo);
+            ;
+            credentialProgramInfo = R1R2ConverterUtil.convert(credentialProgramAssembler.assemble( R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo()), null, false,contextInfo),new CredentialProgramInfo());
         } catch (AssemblyException e) {
             LOG.error("Error assembling CredentialProgram", e);
             throw new OperationFailedException("Error assembling CredentialProgram");
@@ -1349,7 +1350,8 @@ public class ProgramServiceImpl implements ProgramService{
 	        BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
-			credentialProgramAssembler.assemble(newVersionClu, originaCredentialProgram, true,contextInfo);
+	        
+			credentialProgramAssembler.assemble(R1R2ConverterUtil.convert(newVersionClu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , R1R2ConverterUtil.convert(originaCredentialProgram, new org.kuali.student.r1.lum.program.dto.CredentialProgramInfo()) , true,contextInfo);
 
 			//Clear Ids from the original so it will make a copy and do other processing
 
