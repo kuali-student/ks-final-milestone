@@ -40,7 +40,7 @@
         TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>
     <KREW_RTE_NODE_T ACTVN_TYP="S" DOC_TYP_ID="2680" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="PreRoute" RTE_NODE_ID="2840"
-        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="7"/>
+        TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="2"/>
     <KREW_RTE_NODE_T ACTVN_TYP="S" DOC_TYP_ID="2995" FNL_APRVR_IND="0"
         MNDTRY_RTE_IND="0" NM="AdHoc" RTE_NODE_ID="2898"
         TYP="org.kuali.rice.kew.engine.node.InitialNode" VER_NBR="1"/>

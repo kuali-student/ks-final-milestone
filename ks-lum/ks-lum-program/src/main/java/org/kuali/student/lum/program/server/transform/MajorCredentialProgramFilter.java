@@ -9,6 +9,7 @@ import org.kuali.student.common.assembly.transform.AbstractDataFilter;
 import org.kuali.student.common.assembly.transform.DataBeanMapper;
 import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
 import org.kuali.student.common.assembly.transform.MetadataFilter;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.dto.CredentialProgramInfo;
 import org.kuali.student.lum.program.service.ProgramService;
@@ -46,9 +47,9 @@ public class MajorCredentialProgramFilter extends AbstractDataFilter implements 
         // Get CredentialProgram associated with this data    	
         String credentialProgramId = data.get(ProgramConstants.CREDENTIAL_PROGRAM_ID);
         if (credentialProgramId != null && !credentialProgramId.isEmpty()){
-	        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId);
+	        CredentialProgramInfo credPgm = programService.getCredentialProgram(credentialProgramId, ContextUtils.getContextInfo());
 	        // and convert to Data
-	        Data credPgmData = mapper.convertFromBean(credPgm, null);
+	        Data credPgmData = mapper.convertFromBean(credPgm, metadata );
 	
 	        // Add the CredentialProgram to the data passed in
 	        data.set(ProgramConstants.CREDENTIAL_PROGRAM, credPgmData);
