@@ -1282,7 +1282,7 @@ public class ProgramServiceImpl implements ProgramService{
             if ( ! ProgramAssemblerConstants.CORE_PROGRAM.equals(clu.getType()) ) {
                 throw new DoesNotExistException("Specified CLU is not a CoreProgram");
             }
-            coreProgramInfo = coreProgramAssembler.assemble(clu, null, false,contextInfo);
+            coreProgramInfo = R1R2ConverterUtil.convert(coreProgramAssembler.assemble(R1R2ConverterUtil.convert(clu, new org.kuali.student.r1.lum.lu.dto.CluInfo() ), null, false,contextInfo), new CoreProgramInfo());
         } catch (AssemblyException e) {
             LOG.error("Error assembling CoreProgram", e);
             throw new OperationFailedException("Error assembling CoreProgram");
