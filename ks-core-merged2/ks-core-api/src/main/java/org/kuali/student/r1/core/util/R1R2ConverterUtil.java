@@ -2,7 +2,7 @@ package org.kuali.student.r1.core.util;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//import org.kuali.student.r1.common.assemble.BaseDTOAssemblyNode;
 import org.dozer.DozerBeanMapperSingletonWrapper;
 import org.dozer.Mapper;
 
@@ -28,4 +28,14 @@ public class R1R2ConverterUtil {
         return targetList;
     }
     
+//    public static <A ,B ,C ,D >  BaseDTOAssemblyNode<A,B> convertBOasm(BaseDTOAssemblyNode<C,D> source, BaseDTOAssemblyNode<A,B> target)
+//    {
+//
+//    	
+//    	
+//    	
+//    	return target;
+//    	
+//    }
+//    
 }
