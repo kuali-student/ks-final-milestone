@@ -46,7 +46,7 @@
 					</property>
 				</bean>
                 <bean parent="Uif-InputField" p:propertyName="holidayCalendarInfo.adminOrgId"
-                      p:label="Organizations" p:labelField.renderColon="false" p:labelField.style="display:block;">
+                      p:label="Organization" p:labelField.renderColon="false" p:labelField.style="display:block;">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" p:options-ref="hcorg-options"/>
                     </property>
