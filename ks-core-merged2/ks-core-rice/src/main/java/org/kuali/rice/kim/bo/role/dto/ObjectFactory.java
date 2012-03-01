@@ -16,11 +16,12 @@ public class ObjectFactory {
     public ObjectFactory() {
     }
 
-    public KimPermissionInfo createKimPermissionInfo() {
-        return new KimPermissionInfo();
-    }
-
-    public KimPermissionTemplateInfo createKimPermissionTemplateInfo() {
-        return new KimPermissionTemplateInfo();
-    }
+    // TODO KSCM KimPermissionInfo Rice-1.0.3 object and not Rice-2
+//    public KimPermissionInfo createKimPermissionInfo() {
+//        return new KimPermissionInfo();
+//    }
+//
+//    public KimPermissionTemplateInfo createKimPermissionTemplateInfo() {
+//        return new KimPermissionTemplateInfo();
+//    }
 }
