@@ -60,7 +60,6 @@ public class LprTransactionItemInfo extends IdEntityInfo implements LprTransacti
 
         super(lprTransactionItem);
         if (null != lprTransactionItem) {
-            this.setId(lprTransactionItem.getId());
             this.personId = lprTransactionItem.getPersonId();
             this.newLuiId = lprTransactionItem.getNewLuiId();
             this.existingLuiId = lprTransactionItem.getExistingLuiId();

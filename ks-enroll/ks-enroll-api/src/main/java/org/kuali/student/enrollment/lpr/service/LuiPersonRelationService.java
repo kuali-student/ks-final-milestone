@@ -930,7 +930,9 @@ public interface LuiPersonRelationService {
      * 
      * Validates the transaction generates a unique id for the request and 
      * persists it in the back-end.
-     *
+     * 
+     * TODO: Add requesting person Id and ATP id to these signature
+     * 
      * @param lprTransactionInfo LPR transaction info
      * @param lprTransactionType LPR transaction type
      * @param context
@@ -1128,30 +1130,19 @@ public interface LuiPersonRelationService {
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves transactions with items person and based on the person and the ATP.
+     * Retrieves transactions for the requesting person and the ATP.
      * 
-     * Selects all transactions that have at least one item that matches the specified 
-     * person and either the existing or new lui is for the specified atp.
-     * 
-     * Note: this matches the person on the item not the person requesting the transaction 
-     * which is on the transaction.
-     * 
-     * TODO: Think about recasting this to return Transaction Items instead, that is
-     * what we really want here and if we have to track back to the Transaction 
-     * then put the transaction id on the item so that can be done.
-     * 
-     * @param personId The person identifier
+     * @param requestingPersonId The person identifier
      * @param atpId   The ATP Id
      * @param context
-     * @return
      * @throws DoesNotExistException     atpId or personId doesn't exist
      * @throws InvalidParameterException Invalid personId or atpId
      * @throws MissingParameterException Missing personId or atpId
      * @throws OperationFailedException  Unable to complete request
      * @throws PermissionDeniedException Authorization failure
      */
-    public List<LprTransactionInfo> getLprTransactionsWithItemsByPersonAndAtp(
-            @WebParam(name = "personId") String personId,
+    public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(
+            @WebParam(name = "personId") String requestingPersonId,
             @WebParam(name = "atpId") String atpId,
             @WebParam(name = "lprTransactionStates") List<String> lprTransactionStates,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,

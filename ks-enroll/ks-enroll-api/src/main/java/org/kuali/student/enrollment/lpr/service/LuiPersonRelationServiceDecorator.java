@@ -335,10 +335,10 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsWithItemsByPersonAndAtp(String personId, String atpId, 
+    public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(String personId, String atpId, 
             List<String> lprStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprTransactionsWithItemsByPersonAndAtp(personId, atpId, lprStates, context);
+        return getNextDecorator().getLprTransactionsByRequestingPersonAndAtp(personId, atpId, lprStates, context);
     }
 
     @Override

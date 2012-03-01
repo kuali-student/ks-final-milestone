@@ -30,6 +30,9 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     @Column(name = "REQ_PERSON_ID")
     private String requestingPersonId;
 
+    @Column(name = "ATP_ID")
+    private String atpId;
+    
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "RT_DESCR_ID")
     private LprRichTextEntity descr;
@@ -53,6 +56,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         super(lprTransaction);
         this.setName(lprTransaction.getName());
         this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
+        this.requestingPersonId = lprTransaction.getAtpId();
         this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
         this.setLprTransState(lprTransaction.getStateKey());
         this.setLprTransType(lprTransaction.getTypeKey());
@@ -90,6 +94,7 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         }
         lpr.setName(getName());
         lpr.setRequestingPersonId(getRequestingPersonId());
+        lpr.setAtpId(getAtpId());        
         List<LprTransactionItemInfo> lprItemsInfo = new ArrayList<LprTransactionItemInfo>();
         if (lprTransactionItems != null) {
             for (LprTransactionItemEntity lprItemEntity : lprTransactionItems) {
@@ -140,6 +145,16 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
     public void setRequestingPersonId(String requestingPersonId) {
         this.requestingPersonId = requestingPersonId;
     }
+
+    public String getAtpId() {
+        return atpId;
+    }
+
+    public void setAtpId(String atpId) {
+        this.atpId = atpId;
+    }
+    
+    
 
     public List<LprTransactionItemEntity> getLprTransactionItems() {
         return lprTransactionItems;
