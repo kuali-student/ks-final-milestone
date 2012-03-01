@@ -305,8 +305,8 @@ public interface LuiPersonRelationService {
      * @throws OperationFailedException
      * @throws PermissionDeniedException
      */
-    public List<LuiPersonRelationInfo> getLprsByTypeAndLui(@WebParam(name = "typeKey") String typeKey,
-            @WebParam(name = "luiId") String luiId,
+    public List<LuiPersonRelationInfo> getLprsByLuiAndType (@WebParam(name = "luiId") String luiId,
+            @WebParam(name = "typeKey") String typeKey,
             @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException;
