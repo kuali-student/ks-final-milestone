@@ -27,7 +27,7 @@ import java.util.Map;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.data.AssemblyException;
-import org.kuali.student.r1.common.assembly.util.R1R2ConverterUtil;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
 import org.kuali.student.r1.common.dto.RichTextInfo;
