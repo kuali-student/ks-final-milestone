@@ -2,7 +2,6 @@ package org.kuali.student.conversion.util;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.common.util.R1R2ConverterUtil;
 import org.kuali.student.r2.common.dto.AmountInfo;
 
 public class CommonConverterTest {
