@@ -3,27 +3,18 @@
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 
 import org.apache.commons.lang.StringUtils;
+import org.kuali.rice.core.api.util.xml.XmlJotter;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
-import org.kuali.rice.kew.util.KEWConstants;
-import org.kuali.rice.kew.util.XmlHelper;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
 import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.core.organization.dto.OrgInfo;
 import org.w3c.dom.Document;
@@ -90,8 +81,8 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
      * @see org.kuali.rice.kew.role.QualifierResolver#resolve(org.kuali.rice.kew.engine.RouteContext)
      */
     @Override
-    public List<AttributeSet> resolve(RouteContext context) {
-        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+    public List<Map<String,String>> resolve(RouteContext context) {
+        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
               attributeSets.addAll(cocAttributeSetsFromAncestors(orgId, getOrganizationTypeCode(context), getNodeSpecificOrganizationIdAttributeSetKey(context)));
         }
@@ -145,15 +136,14 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
      *         KS code)
      */
     protected Set<String> getOrganizationIdsFromDocumentContent(RouteContext context) {
-        String baseXpathExpression = "/" + KEWConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KEWConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
+        String baseXpathExpression = "/" + KewApiConstants.DOCUMENT_CONTENT_ELEMENT + "/" + KewApiConstants.APPLICATION_CONTENT_ELEMENT + "/" + DOCUMENT_CONTENT_XML_ROOT_ELEMENT_NAME;
         String orgXpathExpression = "./" + getOrganizationIdDocumentContentFieldKey(context);
         Document xmlContent = context.getDocumentContent().getDocument();
         XPath xPath = XPathHelper.newXPath();
         try {
             NodeList baseElements = (NodeList) xPath.evaluate(baseXpathExpression, xmlContent, XPathConstants.NODESET);
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:");
-                XmlHelper.printDocumentStructure(xmlContent);
+                LOG.debug("Found " + baseElements.getLength() + " baseElements to parse for AttributeSets using document XML:" + XmlJotter.jotDocument(xmlContent));
             }
             Set<String> distinctiveOrganizationIds = new HashSet<String>();
             for (int i = 0; i < baseElements.getLength(); i++) {
@@ -170,17 +160,17 @@ public class CocOrgTypeQualifierResolver extends AbstractOrganizationServiceQual
         }
     }
 
-    protected List<AttributeSet> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
-        
-        List<AttributeSet> returnAttributeSets = new ArrayList<AttributeSet>();
+    protected List<Map<String,String>> cocAttributeSetsFromAncestors(String orgId, String orgType, String orgIdKey) {
+
+        List<Map<String,String>> returnAttributeSets = new ArrayList<Map<String,String>>();
         List<OrgInfo> orgsForRouting = null;
         if (orgId != null) {
             try {
                 List<String> orgIds = new ArrayList<String>();
                 // add the existing org in to the list to check for the given type
                 orgIds.add(orgId);
-                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode()));
-                orgsForRouting = getOrganizationService().getOrganizationsByIdList(orgIds);
+                orgIds.addAll(getOrganizationService().getAllAncestors(orgId, getOrganizationHierarchyTypeCode(), null));		// TODO KSCM-267
+                orgsForRouting = getOrganizationService().getOrganizationsByIdList(orgIds, null);		// TODO KSCM-267
             } catch (Exception e) {
                 LOG.error("Error calling org service");
                 throw new RuntimeException(e);

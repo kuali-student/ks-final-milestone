@@ -40,6 +40,7 @@ import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
+import org.kuali.student.common.util.ContextUtils;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.common.client.widgets.*;
 
@@ -86,7 +87,8 @@ public class ClusetView extends VerticalSectionView {
                     cluSetType, false);
         }
         viewEnum = clusetViewEnum;
-        cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, new KSAsyncCallback<Metadata>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        cluSetManagementRpcServiceAsync.getMetadata("courseSet", null, ContextUtils.getContextInfo(), new KSAsyncCallback<Metadata>() {
             @Override
             public void handleFailure(Throwable caught) {
                 Window.alert("Failed to retrieve cluset definition");
@@ -96,7 +98,8 @@ public class ClusetView extends VerticalSectionView {
             public void onSuccess(Metadata result) {
                 DataModelDefinition def = new DataModelDefinition(result);
                 setModelDefinition(def);
-                cluSetManagementRpcServiceAsync.getMetadata("search", null, new AsyncCallback<Metadata>() {
+                //TODO KSCM - Correct ContextInfo parameter?
+                cluSetManagementRpcServiceAsync.getMetadata("search", null, ContextUtils.getContextInfo(), new AsyncCallback<Metadata>() {
                     @Override
                     public void onFailure(Throwable caught) {
                         Window.alert("Failed to retrieve searchDefinition");

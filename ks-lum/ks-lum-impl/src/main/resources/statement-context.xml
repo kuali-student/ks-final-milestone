@@ -21,7 +21,7 @@
        xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+                           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                            http://www.springframework.org/schema/tx
                            http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
                            http://www.springframework.org/schema/aop
@@ -41,9 +41,9 @@
     
     <bean id="basicContext" class="org.kuali.student.lum.statement.config.context.BasicContextImpl">
     </bean>
-    <bean id="luContext" class="org.kuali.student.lum.statement.config.context.LuContextImpl">
-        <property name="luService" ref="luServiceImpl" />
-    </bean>
+<!--     <bean id="luContext" class="org.kuali.student.lum.statement.config.context.LuContextImpl"> -->
+<!--         <property name="luService" ref="luServiceImpl" /> -->
+<!--     </bean> -->
     <bean id="lrcContext" class="org.kuali.student.lum.statement.config.context.LrcContextImpl">
         <property name="lrcService" ref="lrcServiceImpl"/>
     </bean>
@@ -333,11 +333,11 @@
         <property name="language" value="en" />
     </bean>
 
-    <bean id="naturalLanguageTranslator"
-        class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl">
-        <property name="reqComponentTranslator" ref="reqComponentTranslator" />
-        <property name="statementTranslator" ref="statementTranslator" />
-    </bean>
+<!--     <bean id="naturalLanguageTranslator" -->
+<!--         class="org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl"> -->
+<!--         <property name="reqComponentTranslator" ref="reqComponentTranslator" /> -->
+<!--         <property name="statementTranslator" ref="statementTranslator" /> -->
+<!--     </bean> -->
 <!--     
     <bean id="statementService" autowire="byName"
         class="org.kuali.student.core.statement.service.impl.StatementServiceImpl">
