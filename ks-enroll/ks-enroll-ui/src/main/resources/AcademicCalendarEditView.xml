@@ -238,7 +238,7 @@
 
     <!-- Academic terms -->
 
-   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term">
+   <bean id="KS-AcademicTerm-EditSection" parent="Uif-Disclosure-StackedCollectionSection" p:id="acal-term" p:style="min-width:70em;">
      <property name="title" value="Terms" />
      <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper" />
      <property name="layoutManager.lineGroupPrototype.disclosure.render" value="true"/>
@@ -254,7 +254,6 @@
      <property name="layoutManager.addLineGroup.style" value="margin-top:1em;"/>
      <property name="header.group">
          <bean parent="Uif-VerticalBoxGroup">
-             <property name="layoutManager.orientation" value="VERTICAL"/>
              <property name="items">
                 <list>
                    <bean parent="Uif-ActionLink" p:methodToCall="cancelAddingTerm" p:actionLabel="Cancel Adding Term" p:clientSideJs="performCollectionAction('acal-term');"/>
