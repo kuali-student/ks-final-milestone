@@ -139,7 +139,7 @@ public class GradingServiceImpl implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<GradeRosterInfo> gradeRosterInfos = new ArrayList<GradeRosterInfo>();
 
-        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
         for (LprRosterInfo lprRoster : lprRosters) {
             GradeRosterInfo gradeRosterInfo = assembleGradeRoster(lprRoster, context);
             gradeRosterInfos.add(gradeRosterInfo);
@@ -309,7 +309,7 @@ public class GradingServiceImpl implements GradingService {
         }
 
         //Update LRR State
-        List<LprRosterEntryInfo> rosterEntryInfoList = lprService.getEntriesForLprRoster(lprRosterInfo.getId(),context);
+        List<LprRosterEntryInfo> rosterEntryInfoList = lprService.getLprRosterEntriesForRoster(lprRosterInfo.getId(),context);
         List<String> lprIds = new ArrayList();
         for (LprRosterEntryInfo entryInfo : rosterEntryInfoList) {
             lprIds.add(entryInfo.getLprId());
@@ -416,7 +416,7 @@ public class GradingServiceImpl implements GradingService {
             @WebParam(name = "gradeRosterId") String gradeRosterId, @WebParam(name = "context") ContextInfo context)
             throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<LprRosterEntryInfo> entries = lprService.getEntriesForLprRoster(gradeRosterId, context);
+        List<LprRosterEntryInfo> entries = lprService.getLprRosterEntriesForRoster(gradeRosterId, context);
         return assembleGradeRosterEntries(entries, context);
     }
 
@@ -443,18 +443,18 @@ public class GradingServiceImpl implements GradingService {
             MissingParameterException, OperationFailedException, PermissionDeniedException, DisabledIdentifierException {
 
 
-        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+        List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
         Map<String, LprRosterEntryInfo> lprIdToRosterEntryMap = new HashMap<String, LprRosterEntryInfo>();
         for (LprRosterInfo lprRoster : lprRosters) {
             String rosterId = lprRoster.getId();
-            List<LprRosterEntryInfo> rosterEntries = lprService.getEntriesForLprRoster(rosterId, context);
+            List<LprRosterEntryInfo> rosterEntries = lprService.getLprRosterEntriesForRoster(rosterId, context);
             for (LprRosterEntryInfo rosterEntry : rosterEntries) {
                 String lprId = rosterEntry.getLprId();
                 lprIdToRosterEntryMap.put(lprId, rosterEntry);
             }
         }
 
-        List<LuiPersonRelationInfo> lprs = lprService.getLprsByLuiAndPerson(studentId, courseOfferingId, context);
+        List<LuiPersonRelationInfo> lprs = lprService.getLprsByPersonAndLui(studentId, courseOfferingId, context);
         LuiPersonRelationInfo lpr = lprs.get(0); // TODO throw exception if null?
         LprRosterEntryInfo entry = lprIdToRosterEntryMap.get(lpr.getId());
 
@@ -672,7 +672,7 @@ public class GradingServiceImpl implements GradingService {
         List<String> graderIds = new ArrayList<String>();
         List<String> lprRosterEntryIds = new ArrayList<String>();
 
-        List<LprRosterEntryInfo> lprRosterEntries = lprService.getEntriesForLprRoster(lprRosterInfo.getId(), context);
+        List<LprRosterEntryInfo> lprRosterEntries = lprService.getLprRosterEntriesForRoster(lprRosterInfo.getId(), context);
         for (LprRosterEntryInfo lprRosterEntry : lprRosterEntries) {
             String lprId = lprRosterEntry.getLprId();
             lprIdToRosterEntriesMap.put(lprId, lprRosterEntry);

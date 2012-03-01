@@ -423,7 +423,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 		throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, 
 		PermissionDeniedException, DataValidationErrorException, VersionMismatchException{
 		
-		List<String> currrentInstructors = lprService.getPersonIdsByLui(courseOfferingId, LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, context);
+		List<String> currrentInstructors = lprService.getPersonIdsByLuiAndTypeAndState(courseOfferingId, LuiPersonRelationServiceConstants.INSTRUCTOR_MAIN_TYPE_KEY, LuiPersonRelationServiceConstants.ASSIGNED_STATE_KEY, context);
 		
 		if(instructors != null && !instructors.isEmpty()){
 			for(OfferingInstructorInfo instructor : instructors){
@@ -465,7 +465,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
            InvalidParameterException, MissingParameterException,
            DoesNotExistException, PermissionDeniedException,
            OperationFailedException, VersionMismatchException {
-        List<LprRosterInfo> rosters = lprService.getLprRostersByLuiAndRosterType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
+        List<LprRosterInfo> rosters = lprService.getLprRostersByLuiAndType(courseOfferingId, LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY, context);
         if(rosters != null && !rosters.isEmpty()){
             for(LprRosterInfo roster : rosters){
                 roster.setMaximumCapacity(null != maxEnrollment ? maxEnrollment : TEMP_MAX_ENROLLMENT_DEFAULT );
@@ -493,7 +493,7 @@ public class CourseOfferingServiceImpl implements CourseOfferingService{
 			InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
 		LuiPersonRelationInfo lpr = null;
 		try {
-			List<LuiPersonRelationInfo> lprs = lprService.getLprsByLuiAndPerson(instructor, courseOfferingId, context);
+			List<LuiPersonRelationInfo> lprs = lprService.getLprsByPersonAndLui(instructor, courseOfferingId, context);
 			
 			if(lprs != null && !lprs.isEmpty()){
 				for(LuiPersonRelationInfo lpri : lprs){

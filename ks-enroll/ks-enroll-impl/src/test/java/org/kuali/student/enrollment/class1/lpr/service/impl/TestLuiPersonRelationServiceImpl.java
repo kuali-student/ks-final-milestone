@@ -229,7 +229,7 @@ public class TestLuiPersonRelationServiceImpl {
     @Test
     public void testGetLuiPersonRelations() throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LuiPersonRelationInfo> lprList = lprServiceValidationDecorator.getLprsByLuiAndPerson(PERSONID1, LUIID1, callContext);
+        List<LuiPersonRelationInfo> lprList = lprServiceValidationDecorator.getLprsByPersonAndLui(PERSONID1, LUIID1, callContext);
         assertNotNull(lprList);
         assertEquals(1, lprList.size());
         // TODO add asserts
@@ -340,7 +340,7 @@ public class TestLuiPersonRelationServiceImpl {
         try {
             LprRosterInfo lprRosterInfo = createLprRosterInfo();
             String lprRosterId = lprServiceValidationDecorator.createLprRoster(lprRosterInfo, callContext);
-            infoList = lprServiceValidationDecorator.getLprRostersByLuiAndRosterType(LUI_ID, TYPE_KEY, callContext);
+            infoList = lprServiceValidationDecorator.getLprRostersByLuiAndType(LUI_ID, TYPE_KEY, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -415,7 +415,8 @@ public class TestLuiPersonRelationServiceImpl {
     public void testCreateLprTransaction() {
         LprTransactionInfo lprTransactionInfo = createLprTransaction();
         try {
-            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo, callContext);
+            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo.getTypeKey(), 
+                    lprTransactionInfo, callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -430,7 +431,7 @@ public class TestLuiPersonRelationServiceImpl {
     public void testGetLprIdsByLuiAndPerson() {
         List<String> lprIds = null;
         try {
-            lprIds = lprServiceValidationDecorator.getLprIdsByLuiAndPerson("testPersonId1", "testLuiId1", callContext);
+            lprIds = lprServiceValidationDecorator.getLprIdsByPersonAndLui("testPersonId1", "testLuiId1", callContext);
         } catch (Exception e) {
             fail(e.getMessage());
         }
@@ -443,7 +444,8 @@ public class TestLuiPersonRelationServiceImpl {
         String updateName = "NEW TRANSACTION TEST 1";
         LprTransactionInfo lprTransactionInfo = createLprTransaction();
         try {
-            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo, callContext);
+            lprTransactionInfo = lprServiceValidationDecorator.createLprTransaction(lprTransactionInfo.getTypeKey(), 
+                    lprTransactionInfo, callContext);
             lprTransactionInfo = lprServiceValidationDecorator.getLprTransaction(lprTransactionInfo.getId(), callContext);
             lprTransactionInfo.setName(updateName);
             lprTransactionInfo.setStateKey(LuiPersonRelationServiceConstants.ACTIVE_STATE_KEY);
@@ -497,7 +499,7 @@ public class TestLuiPersonRelationServiceImpl {
 
         String lprEntryId = lprServiceValidationDecorator.createLprRosterEntry(info, callContext);
 
-        List<LprRosterEntryInfo> entryInfoList = lprServiceValidationDecorator.getEntriesForLprRoster(lprRosterId, callContext);
+        List<LprRosterEntryInfo> entryInfoList = lprServiceValidationDecorator.getLprRosterEntriesForRoster(lprRosterId, callContext);
 
         assertEquals(1, entryInfoList.size());
         assertEquals(entryInfoList.get(0).getLprId(), lprId);
@@ -544,7 +546,7 @@ public class TestLuiPersonRelationServiceImpl {
         assertEquals(status.getIsSuccess(), true);
 
         // Make sure it's really deleted
-        List<LprRosterEntryInfo> entries = lprServiceValidationDecorator.getEntriesForLprRoster(lprRosterId, callContext);
+        List<LprRosterEntryInfo> entries = lprServiceValidationDecorator.getLprRosterEntriesForRoster(lprRosterId, callContext);
         assertEquals(0, entries.size());
 
     }

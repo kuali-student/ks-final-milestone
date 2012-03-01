@@ -125,16 +125,16 @@ public class LuiPersonRelationServiceValidationDecorator extends LuiPersonRelati
     }
 
     @Override
-    public LprTransactionInfo createLprTransaction(
-            @WebParam(name = "lprTransactionInfo") LprTransactionInfo lprTransactionInfo,
-            @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException,
+    public LprTransactionInfo createLprTransaction(String lprTransactionTypeKey,
+        LprTransactionInfo lprTransactionInfo,
+            ContextInfo context) throws DataValidationErrorException,
             AlreadyExistsException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         if (lprTransactionInfo.getId() != null) {
             throw new DataValidationErrorException("Id is not allowed to be supplied on a create");
         }
 
-        return getNextDecorator().createLprTransaction(lprTransactionInfo, context);
+        return getNextDecorator().createLprTransaction(lprTransactionTypeKey, lprTransactionInfo, context);
     }
 
     @Override

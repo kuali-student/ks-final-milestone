@@ -31,6 +31,7 @@ import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.kuali.student.enrollment.lpr.service.LuiPersonRelationServiceDecorator;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 
@@ -39,7 +40,8 @@ import org.kuali.student.r2.core.state.service.StateService;
  */
 @WebService(name = "LuiPersonRelationService", serviceName = "LuiPersonRelationService", portName = "LuiPersonRelationService", targetNamespace = "http://student.kuali.org/wsdl/lpr")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
-public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
+public class LuiPersonRelationServiceImpl 
+implements LuiPersonRelationService {
 
     private LprDao lprDao;
     private LuiDao luiDao;
@@ -203,14 +205,14 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> getLuiIdsByPerson(String personId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
+    public List<String> getLuiIdsByPersonAndTypeAndState(String personId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO Kamal - THIS METHOD NEEDS JAVADOCS
         return null;
     }
 
     @Override
-    public List<String> getPersonIdsByLui(String luiId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<String> getPersonIdsByLuiAndTypeAndState(String luiId, String luiPersonRelationType, String relationState, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> returnVals = new ArrayList<String>();
 
@@ -220,7 +222,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByLuiAndPerson(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+    public List<LuiPersonRelationInfo> getLprsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<LuiPersonRelationEntity> entityList = lprDao.getLprByLuiAndPerson(personId, luiId);
 
@@ -236,7 +238,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> getLprIdsByLuiAndPerson(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
+    public List<String> getLprIdsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, DisabledIdentifierException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<String> returnVals = new ArrayList<String>();
 
@@ -515,7 +517,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprRosterEntryInfo> getEntriesForLprRoster(String lprRosterId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<LprRosterEntryInfo> getLprRosterEntriesForRoster(String lprRosterId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
         List<LprRosterEntryEntity> entities = lprRosterEntryDao.getLprRosterEntriesForLprRoster(lprRosterId);
@@ -548,7 +550,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprRosterInfo> getLprRostersByLuiAndRosterType(String luiId, String lprRosterTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<LprRosterInfo> getLprRostersByLuiAndType(String luiId, String lprRosterTypeKey, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<LprRosterEntity> entities = lprRosterDao.getLprRostersByLuiAndRosterType(luiId, lprRosterTypeKey);
@@ -662,7 +664,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
 
     @Override
     @Transactional(readOnly = false)
-    public LprTransactionInfo createLprTransaction(LprTransactionInfo lprTransactionInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException,
+    public LprTransactionInfo createLprTransaction(String lprTransactionType, LprTransactionInfo lprTransactionInfo, ContextInfo context) throws DataValidationErrorException, AlreadyExistsException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         LprTransactionEntity lprTransactionEntity = new LprTransactionEntity(lprTransactionInfo);
@@ -751,7 +753,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsForPersonByLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<LprTransactionInfo> getLprTransactionsWithItemsByPersonAndLui(String personId, String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
@@ -857,7 +859,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<String> getLprTransactionIdsForPerson(String personId, List<String> lprTypes, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<String> getLprTransactionIdsByStateWithItemsByPerson(String personId, List<String> lprTypes, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
@@ -871,7 +873,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsForPersonByAtp(String atpId, String personId, List<String> lprTransactionStates, ContextInfo context) throws DoesNotExistException,
+    public List<LprTransactionInfo> getLprTransactionsWithItemsByPersonAndAtp(String personId, String atpId, List<String> lprTransactionStates, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemByPerson(personId);
@@ -900,7 +902,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsForLpr(String lprId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<LprTransactionInfo> getLprTransactionsWithItemsByResultingLpr(String lprId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
 
 
@@ -919,7 +921,7 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsForLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
+    public List<LprTransactionInfo> getLprTransactionsWithItemsByLui(String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;
@@ -1086,13 +1088,6 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LuiPersonRelationInfo> getLprsByPersonForAtpAndPersonType(String personId, String atpId, String personTypeKey, ContextInfo context) throws DoesNotExistException,
-            InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
-    }
-
-    @Override
     public List<LuiPersonRelationInfo> getLprsByTypeAndLui(String typeKey, String luiId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
@@ -1115,4 +1110,11 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
         return infoList;
     }
 
+    @Override
+    public LprRosterInfo updateLprRosterEntry(String lprRosterEntryId, LprRosterEntryInfo lprRosterEntryInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    
+    
 }

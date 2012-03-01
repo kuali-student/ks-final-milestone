@@ -469,7 +469,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
             throw new OperationFailedException("AssemblyException in disassembling: " + e.getMessage());
         }
 
-        LprTransactionInfo newLprTransaction = lprService.createLprTransaction(lprTransaction, context);
+        LprTransactionInfo newLprTransaction = lprService.createLprTransaction(lprTransaction.getTypeKey(), lprTransaction, context);
         try {
             newLprTransaction = lprService.getLprTransaction(newLprTransaction.getId(), context);
         } catch (DoesNotExistException e) {
@@ -590,7 +590,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 newLprRosterEntry.setTypeKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADE_TYPE_KEY);
                 newLprRosterEntry.setStateKey(LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_READY_STATE_KEY);
 
-                List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndRosterType(lprItem.getNewLuiId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY,
+                List<LprRosterInfo> lprRosters = lprService.getLprRostersByLuiAndType(lprItem.getNewLuiId(), LuiPersonRelationServiceConstants.LPRROSTER_COURSE_FINAL_GRADEROSTER_TYPE_KEY,
                         context);
                 if (lprRosters.size() == 1) {
                     newLprRosterEntry.setLprRosterId(lprRosters.get(0).getId());
@@ -620,7 +620,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey, List<String> requestStates, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LprTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsForPersonByAtp(termKey, studentId, requestStates, context);
+        List<LprTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsWithItemsByPersonAndAtp(studentId, termKey, requestStates, context);
         List<RegRequestInfo> regRequestInfos = new ArrayList<RegRequestInfo>();
         for (LprTransactionInfo retrievedLprTransaction : retrievedLprTransactions) {
             try {
@@ -807,7 +807,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
                                 for (String activityOfferingId : regGroup.getActivityOfferingIds()) {
 
-                                    List<LuiPersonRelationInfo> lprsForActivity = lprService.getLprsByLuiAndPerson(studentId, activityOfferingId, context);
+                                    List<LuiPersonRelationInfo> lprsForActivity = lprService.getLprsByPersonAndLui(studentId, activityOfferingId, context);
 
                                     for (LuiPersonRelationInfo activityLpr : lprsForActivity) {
 
@@ -844,7 +844,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     public List<RegRequestInfo> getRegRequestsForCourseRegistration(String courseRegistrationId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         List<RegRequestInfo> regrequests = new ArrayList<RegRequestInfo>();
-        List<LprTransactionInfo> lprTransactions = lprService.getLprTransactionsForLpr(courseRegistrationId, context);
+        List<LprTransactionInfo> lprTransactions = lprService.getLprTransactionsWithItemsByResultingLpr(courseRegistrationId, context);
         for (LprTransactionInfo lprTransaction : lprTransactions) {
 
             try {
@@ -861,14 +861,14 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOffering(String courseOfferingId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        return regRequestAssembler.assembleList(lprService.getLprTransactionsForLui(courseOfferingId, context), context);
+        return regRequestAssembler.assembleList(lprService.getLprTransactionsWithItemsByLui(courseOfferingId, context), context);
 
     }
 
     @Override
     public List<RegRequestInfo> getRegRequestsForCourseOfferingByStudent(String courseOfferingId, String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return regRequestAssembler.assembleList(lprService.getLprTransactionsForPersonByLui(studentId, courseOfferingId, context), context);
+        return regRequestAssembler.assembleList(lprService.getLprTransactionsWithItemsByPersonAndLui(studentId, courseOfferingId, context), context);
     }
 
     @Override
