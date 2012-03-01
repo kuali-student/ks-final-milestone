@@ -1,16 +1,24 @@
 package org.kuali.student.enrollment.class1.lrc.model;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
-
-import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
 @Entity
 @Table(name = "KSEN_LRC_RES_VALUE")
@@ -47,13 +55,12 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<ResultValueAttributeEntity> attributes;
 
-    public ResultValueEntity(){
-    }
+    public ResultValueEntity() {}
 
-    public ResultValueEntity(ResultValueInfo dto){
+    public ResultValueEntity(ResultValueInfo dto) {
         super(dto);
         setName(dto.getName());
-        if (dto.getDescr() != null){
+        if (dto.getDescr() != null) {
             ResultValueRichTextEntity entityDesc = new ResultValueRichTextEntity(dto.getDescr());
             this.setDescr(entityDesc);
         }
@@ -63,6 +70,7 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         setNumericValue(dto.getNumericValue());
         setResultScaleId(dto.getResultScaleKey());
         setValue(dto.getValue());
+        this.setState(dto.getStateKey());
 
         this.setAttributes(new ArrayList<ResultValueAttributeEntity>());
         if (null != dto.getAttributes()) {
@@ -114,21 +122,21 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         this.expirationDate = expirationDate;
     }
 
-     public String getName() {
+    public String getName() {
         return name;
-     }
+    }
 
-     public void setName(String name) {
+    public void setName(String name) {
         this.name = name;
-     }
+    }
 
-     public ResultValueRichTextEntity getDescr() {
+    public ResultValueRichTextEntity getDescr() {
         return descr;
-     }
+    }
 
-     public void setDescr(ResultValueRichTextEntity descr) {
+    public void setDescr(ResultValueRichTextEntity descr) {
         this.descr = descr;
-     }
+    }
 
     public String getLrcType() {
         return lrcType;
@@ -163,8 +171,8 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         info.setExpirationDate(getExpirationDate());
         info.setMeta(super.toDTO());
 
-        if (descr != null) {
-            info.setDescr(descr.toDto());
+        if (this.getDescr() != null) {
+            info.setDescr(this.getDescr().toDto());
         }
 
         info.setName(getName());
@@ -172,10 +180,10 @@ public class ResultValueEntity extends MetaEntity implements AttributeOwner<Resu
         info.setValue(getValue());
         info.setScaleKey(getResultScaleId());
 
-        if (getState() != null){
+        if (getState() != null) {
             info.setStateKey(getState());
         }
-        if (getLrcType() != null){
+        if (getLrcType() != null) {
             info.setTypeKey(getLrcType());
         }
 

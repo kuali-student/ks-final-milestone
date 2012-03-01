@@ -4,7 +4,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity;
 import org.kuali.student.enrollment.lpr.dto.LuiPersonRelationInfo;
@@ -13,8 +22,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 
 /**
  * @author Igor
@@ -66,6 +73,7 @@ public class LuiPersonRelationEntity extends MetaEntity implements AttributeOwne
         this.setExpirationDate(dto.getExpirationDate());
         this.setEffectiveDate(dto.getEffectiveDate());
         this.setPersonRelationType(dto.getTypeKey());
+        this.setPersonRelationState(dto.getStateKey());
         // TODO - need to retrieve the LuiPersonRelationState based on the
         // return of dto.getState()?
         // this.setPersonRelationState(new

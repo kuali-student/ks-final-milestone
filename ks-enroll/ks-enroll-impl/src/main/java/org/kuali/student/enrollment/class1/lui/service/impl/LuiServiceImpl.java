@@ -31,8 +31,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.service.AtpService;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
-import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.state.service.StateService;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.springframework.transaction.annotation.Transactional;
@@ -224,19 +222,20 @@ public class LuiServiceImpl implements LuiService {
         return new ArrayList<ValidationResultInfo>();
     }
 
-    private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        StateEntity state = null;
-        try {
-            StateInfo stInfo = stateService.getState(stateKey, context);
-            if (stInfo != null) {
-                state = new StateEntity(stInfo);
-                return state;
-            } else
-                throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
-        } catch (DoesNotExistException e) {
-            throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
-        }
-    }
+    // private StateEntity findState(String stateKey, ContextInfo context) throws InvalidParameterException,
+    // MissingParameterException, OperationFailedException, PermissionDeniedException {
+    // StateEntity state = null;
+    // try {
+    // StateInfo stInfo = stateService.getState(stateKey, context);
+    // if (stInfo != null) {
+    // state = new StateEntity(stInfo);
+    // return state;
+    // } else
+    // throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
+    // } catch (DoesNotExistException e) {
+    // throw new OperationFailedException("The state does not exist. stateKey: " + stateKey);
+    // }
+    // }
 
     // TODO:call LuService
     private boolean checkExistenceForClu(String cluId, ContextInfo context) {
@@ -365,7 +364,7 @@ public class LuiServiceImpl implements LuiService {
      * @param entity
      */
     private void addUnitsDeployment(final List<String> orgIds, final List<LuiUnitsDeploymentEntity> existingUnitsDeployments, LuiEntity entity) {
-        
+
         if (orgIds == null)
             return;
 
@@ -376,7 +375,7 @@ public class LuiServiceImpl implements LuiService {
                     continue orgs;
                 }
             }
-            
+
             entity.getUnitsDeployments().add(new LuiUnitsDeploymentEntity(entity, orgId));
         }
 
@@ -394,7 +393,7 @@ public class LuiServiceImpl implements LuiService {
      * @param entity
      */
     private void setUnitsContentOwner(final List<String> orgIds, final List<LuiUnitsContentOwnerEntity> existingUnitsContentOwners, LuiEntity entity) {
-        
+
         if (orgIds == null)
             return;
 
@@ -405,7 +404,7 @@ public class LuiServiceImpl implements LuiService {
                     continue orgs;
                 }
             }
-            
+
             entity.getUnitsContentOwners().add(new LuiUnitsContentOwnerEntity(entity, orgId));
         }
 
@@ -423,7 +422,7 @@ public class LuiServiceImpl implements LuiService {
      * @param entity
      */
     private void setLuiCluCluRelations(final List<String> cluCluRelationdIds, List<LuiCluCluRelationEntity> existingCluCluReltns, LuiEntity entity) {
-        
+
         if (cluCluRelationdIds == null)
             return;
 
@@ -434,7 +433,7 @@ public class LuiServiceImpl implements LuiService {
                     continue reltns;
                 }
             }
-            
+
             entity.getCluCluReltns().add(new LuiCluCluRelationEntity(entity, cluCluRelationId));
         }
 

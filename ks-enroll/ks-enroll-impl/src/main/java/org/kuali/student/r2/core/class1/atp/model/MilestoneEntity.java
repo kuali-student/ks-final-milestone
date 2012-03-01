@@ -1,6 +1,5 @@
 package org.kuali.student.r2.core.class1.atp.model;
 
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +18,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.atp.infc.Milestone;
 
@@ -33,7 +31,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "RT_DESCR_ID")
     private AtpRichTextEntity descr;
-    
+
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "START_DT")
     private Date startDate;
@@ -41,32 +39,30 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "END_DT")
     private Date endDate;
-    
 
     @Column(name = "MILESTONE_TYPE")
     private String milestoneType;
 
     @Column(name = "MILESTONE_STATE")
     private String milestoneState;
-    
-    @Column(name="IS_ALL_DAY")
+
+    @Column(name = "IS_ALL_DAY")
     private boolean isAllDay;
-    
-    @Column(name="IS_DATE_RANGE")
+
+    @Column(name = "IS_DATE_RANGE")
     private boolean isDateRange;
 
-    @Column(name="IS_RELATIVE")
+    @Column(name = "IS_RELATIVE")
     private boolean isRelative;
 
     @ManyToOne
-    @JoinColumn(name="RELATIVE_MILESTONE_ID")
+    @JoinColumn(name = "RELATIVE_MILESTONE_ID")
     private MilestoneEntity relativeAnchorMilestone;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<MilestoneAttributeEntity> attributes;
 
-    public MilestoneEntity() {
-    }
+    public MilestoneEntity() {}
 
     public MilestoneEntity(Milestone milestone) {
         super(milestone);
@@ -74,8 +70,6 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         this.setAllDay(milestone.getIsAllDay());
         this.setDateRange(milestone.getIsDateRange());
         this.setDescr(new AtpRichTextEntity(milestone.getDescr()));
-        StateEntity state = new StateEntity();
-        state.setId(milestone.getStateKey());
         this.setMilestoneState(milestone.getStateKey());
         this.setMilestoneType(milestone.getTypeKey());
         this.name = milestone.getName();
@@ -91,7 +85,7 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
             }
         }
     }
-    
+
     public String getName() {
         return name;
     }
@@ -174,18 +168,18 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
 
     @Override
     public void setAttributes(List<MilestoneAttributeEntity> attributes) {
-       this.attributes = attributes;
-        
+        this.attributes = attributes;
+
     }
 
     @Override
     public List<MilestoneAttributeEntity> getAttributes() {
         return attributes;
     }
-    
+
     public MilestoneInfo toDto() {
         MilestoneInfo info = new MilestoneInfo();
-        
+
         info.setId(getId());
         info.setName(getName());
         info.setTypeKey(milestoneType);
@@ -197,18 +191,18 @@ public class MilestoneEntity extends MetaEntity implements AttributeOwner<Milest
         info.setIsRelative(isRelative);
         info.setRelativeAnchorMilestoneId(null != relativeAnchorMilestone ? relativeAnchorMilestone.getId() : null);
         info.setMeta(super.toDTO());
-        info.setDescr((getDescr()!= null) ? getDescr().toDto() : null);
-        
-        if(getAttributes() != null) {
+        info.setDescr((getDescr() != null) ? getDescr().toDto() : null);
+
+        if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>(getAttributes().size());
             for (MilestoneAttributeEntity att : getAttributes()) {
                 AttributeInfo attInfo = att.toDto();
                 atts.add(attInfo);
             }
-            
+
             info.setAttributes(atts);
         }
-        
+
         return info;
     }
 

@@ -20,7 +20,6 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LPR_ROSTER")
@@ -46,9 +45,8 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
     @Column(name = "LPR_ROSTER_TYPE")
     private String lprRosterType;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "STATE_ID")
-    private StateEntity lprRosterState;
+    @Column(name = "STATE_ID")
+    private String lprRosterState;
 
     @Column(name = "ATP_DUR_TYP_KEY")
     private String atpDurationTypeKey;
@@ -68,6 +66,10 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.setCheckInRequired(dto.getCheckInRequired());
         this.setMaximumCapacity(dto.getMaximumCapacity());
         this.setId(dto.getId());
+        if (dto.getStateKey() != null) {
+            this.setLprRosterState(dto.getStateKey());
+        }
+
         if (dto.getCheckInFrequency() != null) {
             this.setAtpDurationTypeKey(dto.getCheckInFrequency().getAtpDurationTypeKey());
             this.setTimeQuantity(dto.getCheckInFrequency().getTimeQuantity());
@@ -123,11 +125,11 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         this.lprRosterType = lprRosterType;
     }
 
-    public StateEntity getLprRosterState() {
+    public String getLprRosterState() {
         return lprRosterState;
     }
 
-    public void setLprRosterState(StateEntity lprRosterState) {
+    public void setLprRosterState(String lprRosterState) {
         this.lprRosterState = lprRosterState;
     }
 
@@ -183,7 +185,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         info.setCheckInRequired(this.getCheckInRequired());
         info.setMaximumCapacity(this.getMaximumCapacity());
         info.setName(this.getName());
-        info.setStateKey(getLprRosterState().getId());
+        info.setStateKey(getLprRosterState());
         info.setTypeKey(getLprRosterType());
         if (getAssociatedLuis() != null) {
             List<String> associatedLuiIds = new ArrayList();

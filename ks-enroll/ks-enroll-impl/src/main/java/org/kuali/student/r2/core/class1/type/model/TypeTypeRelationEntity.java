@@ -63,7 +63,7 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
         this.setRank(typeTypeRel.getRank());
         this.setOwnerTypeId(typeTypeRel.getOwnerTypeKey());
         this.setRelatedTypeId(typeTypeRel.getRelatedTypeKey());
-        
+        this.setState(typeTypeRel.getStateKey());
         this.setAttributes(new ArrayList<TypeTypeRelationAttributeEntity>());
         if (null != typeTypeRel.getAttributes()) {
             for (Attribute att : typeTypeRel.getAttributes()) {
@@ -113,7 +113,8 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     }
 
     /**
-     * @param effectiveDate the effectiveDate to set
+     * @param effectiveDate
+     *            the effectiveDate to set
      */
     public void setEffectiveDate(Date effectiveDate) {
         this.effectiveDate = effectiveDate;
@@ -127,7 +128,8 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     }
 
     /**
-     * @param expirationDate the expirationDate to set
+     * @param expirationDate
+     *            the expirationDate to set
      */
     public void setExpirationDate(Date expirationDate) {
         this.expirationDate = expirationDate;
@@ -141,7 +143,8 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
     }
 
     /**
-     * @param rank the rank to set
+     * @param rank
+     *            the rank to set
      */
     public void setRank(Integer rank) {
         this.rank = rank;
@@ -155,7 +158,6 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
         return name;
     }
 
-  
     public void setAttributes(List<TypeTypeRelationAttributeEntity> attributes) {
         this.attributes = attributes;
     }
@@ -174,7 +176,7 @@ public class TypeTypeRelationEntity extends MetaEntity implements AttributeOwner
         typeTypeRel.setOwnerTypeKey(ownerTypeId);
         typeTypeRel.setRelatedTypeKey(relatedTypeId);
         typeTypeRel.setMeta(super.toDTO());
-
+        typeTypeRel.setStateKey(this.getState());
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (TypeTypeRelationAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();

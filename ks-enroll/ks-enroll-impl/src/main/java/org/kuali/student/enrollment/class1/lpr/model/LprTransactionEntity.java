@@ -19,7 +19,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS")
@@ -52,13 +51,13 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
 
     public LprTransactionEntity(LprTransaction lprTransaction) {
         super(lprTransaction);
-        this.name = lprTransaction.getName();
-        this.requestingPersonId = lprTransaction.getRequestingPersonId();
+        this.setName(lprTransaction.getName());
+        this.setRequestingPersonId(lprTransaction.getRequestingPersonId());
         this.lprTransactionItems = new ArrayList<LprTransactionItemEntity>();
-        this.lprTransState = lprTransaction.getStateKey();
-        this.lprTransType = lprTransaction.getTypeKey();
+        this.setLprTransState(lprTransaction.getStateKey());
+        this.setLprTransType(lprTransaction.getTypeKey());
         this.setId(lprTransaction.getId());
-        this.descr = new LprRichTextEntity(lprTransaction.getDescr());
+        this.setDescr(new LprRichTextEntity(lprTransaction.getDescr()));
         // this.setAttributes(new ArrayList<LprTransAttributeEntity>());
         if (null != lprTransaction.getAttributes()) {
             for (Attribute att : lprTransaction.getAttributes()) {
@@ -74,13 +73,13 @@ public class LprTransactionEntity extends MetaEntity implements AttributeOwner<L
         LprTransactionInfo lpr = new LprTransactionInfo();
         lpr.setId(getId());
 
-        if (lprTransType != null)
-            lpr.setTypeKey(lprTransType);
-        if (lprTransState != null)
-            lpr.setStateKey(lprTransState);
+        if (this.getLprTransType() != null)
+            lpr.setTypeKey(this.getLprTransType());
+        if (this.getLprTransState() != null)
+            lpr.setStateKey(this.getLprTransState());
         lpr.setMeta(super.toDTO());
-        if (descr != null)
-            lpr.setDescr(descr.toDto());
+        if (this.getDescr() != null)
+            lpr.setDescr(this.getDescr().toDto());
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
             for (LprTransAttributeEntity att : getAttributes()) {

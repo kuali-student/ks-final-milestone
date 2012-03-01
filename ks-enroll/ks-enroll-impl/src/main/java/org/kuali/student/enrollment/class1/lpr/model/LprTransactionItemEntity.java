@@ -18,7 +18,6 @@ import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
-import org.kuali.student.r2.core.class1.state.model.StateEntity;
 
 @Entity
 @Table(name = "KSEN_LPR_TRANS_ITEMS")
@@ -62,10 +61,11 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         super(lprTransactionItem);
         if (lprTransactionItem != null) {
             this.setId(lprTransactionItem.getId());
-            this.newLuiId = lprTransactionItem.getNewLuiId();
-            this.existingLuiId = lprTransactionItem.getExistingLuiId();
-            this.personId = lprTransactionItem.getPersonId();
-            this.groupId = lprTransactionItem.getGroupId();
+            this.setNewLuiId(lprTransactionItem.getNewLuiId());
+            this.setExistingLuiId(lprTransactionItem.getExistingLuiId());
+            this.setPersonId(lprTransactionItem.getPersonId());
+            this.setGroupId(lprTransactionItem.getGroupId());
+            this.setLprTransactionItemState(lprTransactionItem.getStateKey());
             this.setAttributes(new ArrayList<LprTransItemAttributeEntity>());
             if (null != lprTransactionItem.getAttributes()) {
                 for (Attribute att : lprTransactionItem.getAttributes()) {
@@ -74,8 +74,8 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
                 }
             }
             if (lprTransactionItem.getLprTransactionItemResult() != null) {
-                this.resultingLprId = lprTransactionItem.getLprTransactionItemResult().getResultingLprId();
-                this.status = lprTransactionItem.getLprTransactionItemResult().getStatus();
+                this.setResultingLprId(lprTransactionItem.getLprTransactionItemResult().getResultingLprId());
+                this.setStatus(lprTransactionItem.getLprTransactionItemResult().getStatus());
             }
         }
 
@@ -86,14 +86,14 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         LprTransactionItemInfo lprTransItemInfo = new LprTransactionItemInfo();
         lprTransItemInfo.setId(getId());
 
-        lprTransItemInfo.setTypeKey(lprTransactionItemType);
-        lprTransItemInfo.setStateKey(lprTransactionItemState);
-        lprTransItemInfo.setExistingLuiId(existingLuiId);
-        lprTransItemInfo.setNewLuiId(newLuiId);
-        lprTransItemInfo.setPersonId(personId);
+        lprTransItemInfo.setTypeKey(this.getLprTransactionItemType());
+        lprTransItemInfo.setStateKey(this.getLprTransactionItemState());
+        lprTransItemInfo.setExistingLuiId(this.getExistingLuiId());
+        lprTransItemInfo.setNewLuiId(this.getNewLuiId());
+        lprTransItemInfo.setPersonId(this.getPersonId());
         lprTransItemInfo.setMeta(super.toDTO());
-        if (descr != null)
-            lprTransItemInfo.setDescr(descr.toDto());
+        if (this.getDescr() != null)
+            lprTransItemInfo.setDescr(this.getDescr().toDto());
         if (getAttributes() != null) {
             List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
             for (LprTransItemAttributeEntity att : getAttributes()) {
@@ -104,9 +104,9 @@ public class LprTransactionItemEntity extends MetaEntity implements AttributeOwn
         }
 
         LprTransactionItemResultInfo lprItemResult = new LprTransactionItemResultInfo();
-        lprItemResult.setResultingLprId(resultingLprId);
-        lprItemResult.setStatus(status);
-        lprTransItemInfo.setGroupId(groupId);
+        lprItemResult.setResultingLprId(this.getResultingLprId());
+        lprItemResult.setStatus(this.getStatus());
+        lprTransItemInfo.setGroupId(this.getGroupId());
         lprTransItemInfo.setLprTransactionItemResult(lprItemResult);
         return lprTransItemInfo;
 
