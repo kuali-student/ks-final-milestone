@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
@@ -116,7 +117,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -146,7 +147,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -169,7 +170,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -194,7 +195,7 @@ public class ProgramServiceImpl implements ProgramService{
 		CluInfo newVersionClu = cluService.createNewCluVersion(majorDisciplineId, versionComment,contextInfo);
 
 		try {
-	        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results;
+	        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
 			majorDisciplineAssembler.assemble(R1R2ConverterUtil.convert(newVersionClu, new org.kuali.student.r1.lum.lu.dto.CluInfo()) , R1R2ConverterUtil.convert(originalMajorDiscipline, new org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo()), true,contextInfo);
@@ -208,12 +209,12 @@ public class ProgramServiceImpl implements ProgramService{
             updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT,contextInfo);
             
 			//Disassemble the new major discipline
-			results = R1R2ConverterUtil.convertBOasm( majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOperation.UPDATE,contextInfo),new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>());
+			results =  majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOperation.UPDATE,contextInfo);
 			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
 
-			return results.getBusinessDTORef();
+			return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new MajorDisciplineInfo()) ;
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -256,7 +257,7 @@ public class ProgramServiceImpl implements ProgramService{
             ProgramRequirementInfo programRequirementInfo = getProgramRequirement(programRequirementId, null, null,contextInfo);
 
             // Look in the requirement for the statement tree
-            StatementTreeViewInfo statementTree = programRequirementInfo.getStatement();
+            StatementTreeViewInfo statementTree = R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()) ;
 
             // And recursively update the entire tree with the new state
             updateStatementTreeViewInfoState(newState, statementTree);
@@ -511,7 +512,7 @@ public class ProgramServiceImpl implements ProgramService{
 			
 			programRequirementInfo.setState(state);
 			//Clear statement tree ids
-			clearStatementTreeViewIdsRecursively(programRequirementInfo.getStatement(),contextInfo);
+			clearStatementTreeViewIdsRecursively(R1R2ConverterUtil.convert(programRequirementInfo.getStatement(), new StatementTreeViewInfo()),contextInfo);
 			//Clear learning objectives
 			for(LoDisplayInfo lo:programRequirementInfo.getLearningObjectives()){
 				resetLoRecursively(lo);
@@ -827,7 +828,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateCredentialProgram("OBJECT", credentialProgramInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -866,7 +867,7 @@ public class ProgramServiceImpl implements ProgramService{
 
         // Validate
         List<ValidationResultInfo> validationResults = validateMajorDiscipline("OBJECT", majorDisciplineInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -902,7 +903,7 @@ public class ProgramServiceImpl implements ProgramService{
     	checkForMissingParameter(programRequirementInfo, "programRequirementInfo");
         // Validate
         List<ValidationResultInfo> validationResults = validateProgramRequirement("OBJECT", programRequirementInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
         	throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1074,25 +1075,26 @@ public class ProgramServiceImpl implements ProgramService{
 
     private MajorDisciplineInfo processMajorDisciplineInfo(MajorDisciplineInfo majorDisciplineInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 
-        BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo> results = majorDisciplineAssembler.disassemble(majorDisciplineInfo, operation,contextInfo);
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert(majorDisciplineInfo, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo()) , operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert( results.getBusinessDTORef(), new org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo());
     }
 
     private CredentialProgramInfo processCredentialProgramInfo(CredentialProgramInfo credentialProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 
-        BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results = credentialProgramAssembler.disassemble(credentialProgramInfo, operation,contextInfo);
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CredentialProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = credentialProgramAssembler.disassemble(R1R2ConverterUtil.convert(credentialProgramInfo, new org.kuali.student.r1.lum.program.dto.CredentialProgramInfo()), operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new CredentialProgramInfo());
     }
 
     private ProgramRequirementInfo processProgramRequirement(ProgramRequirementInfo programRequirementInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
-        BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> results = programRequirementAssembler.disassemble(programRequirementInfo, operation,contextInfo);
+    	BOAssembler< org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo, CluInfo> passAlong;
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = programRequirementAssembler.disassemble(R1R2ConverterUtil.convert(programRequirementInfo, new org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo() ), operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert( results.getBusinessDTORef(),new ProgramRequirementInfo());
     }
 
-	private void invokeServiceCalls(BaseDTOAssemblyNode<?, CluInfo> results) throws AssemblyException{
+	private void invokeServiceCalls(BaseDTOAssemblyNode<?, org.kuali.student.r1.lum.lu.dto.CluInfo> results) throws AssemblyException{
         // Use the results to make the appropriate service calls here
         try {
             programServiceMethodInvoker.invokeServiceCalls(results);
@@ -1186,9 +1188,9 @@ public class ProgramServiceImpl implements ProgramService{
 
     private CoreProgramInfo processCoreProgramInfo(CoreProgramInfo coreProgramInfo, NodeOperation operation,ContextInfo contextInfo) throws AssemblyException {
 
-        BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results = coreProgramAssembler.disassemble(coreProgramInfo, operation,contextInfo);
+        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CoreProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results = coreProgramAssembler.disassemble(R1R2ConverterUtil.convert(coreProgramInfo, new org.kuali.student.r1.lum.program.dto.CoreProgramInfo()) , operation,contextInfo);
         invokeServiceCalls(results);
-        return results.getBusinessDTORef();
+        return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
     }
 
     @Override
@@ -1199,7 +1201,7 @@ public class ProgramServiceImpl implements ProgramService{
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo, contextInfo );
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1227,7 +1229,7 @@ public class ProgramServiceImpl implements ProgramService{
 		CluInfo newVersionClu = cluService.createNewCluVersion(coreProgramId, versionComment,contextInfo);
 
 		try {
-	        BaseDTOAssemblyNode<CoreProgramInfo, CluInfo> results;
+	        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CoreProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
 			coreProgramAssembler.assemble(R1R2ConverterUtil.convert( newVersionClu,new org.kuali.student.r1.lum.lu.dto.CluInfo()), R1R2ConverterUtil.convert(originalCoreProgram,new org.kuali.student.r1.lum.program.dto.CoreProgramInfo()), true,contextInfo);
@@ -1236,12 +1238,12 @@ public class ProgramServiceImpl implements ProgramService{
 			processCopy(originalCoreProgram, currentVersion.getId(),contextInfo);
 
 			//Disassemble the new
-			results = coreProgramAssembler.disassemble(originalCoreProgram, NodeOperation.UPDATE,contextInfo);
+			results = coreProgramAssembler.disassemble(R1R2ConverterUtil.convert( originalCoreProgram, new org.kuali.student.r1.lum.program.dto.CoreProgramInfo() ), NodeOperation.UPDATE,contextInfo);
 
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
 
-			return results.getBusinessDTORef();
+			return R1R2ConverterUtil.convert(results.getBusinessDTORef(),new CoreProgramInfo());
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
@@ -1311,7 +1313,7 @@ public class ProgramServiceImpl implements ProgramService{
         
         // Validate
         List<ValidationResultInfo> validationResults = validateCoreProgram("OBJECT", coreProgramInfo,contextInfo);
-        if (ValidatorUtils.hasErrors(R1R2ConverterUtil.convert( validationResults, new ArrayList<org.kuali.student.r1.common.validation.dto.ValidationResultInfo>() ))) {
+        if (ValidatorUtils.hasErrors(validationResults)) {
             throw new DataValidationErrorException("Validation error!", validationResults);
         }
 
@@ -1330,7 +1332,7 @@ public class ProgramServiceImpl implements ProgramService{
                                                            ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException{
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 //        if ( ! ProgramAssemblerConstants.DRAFT.equals(coreProgramInfo.getState()) ) {
-	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName(),contextInfo);
+	        ObjectStructureDefinition objStructure = this.getObjectStructure(CoreProgramInfo.class.getName());
 	        Validator validator = validatorFactory.getValidator();
             validationResults.addAll(validator.validateObject(coreProgramInfo, objStructure,contextInfo));
 //        }
@@ -1352,7 +1354,10 @@ public class ProgramServiceImpl implements ProgramService{
 		CluInfo newVersionClu = cluService.createNewCluVersion(credentialProgramId, versionComment,contextInfo);
 
 		try {
-	        BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> results;
+			 // TODO KSCM - Review this code and instruction set  
+			//  Always specify R1 object in the BaseDTOAssemblyNode, do not use R2 objects
+			//
+	        BaseDTOAssemblyNode<org.kuali.student.r1.lum.program.dto.CredentialProgramInfo, org.kuali.student.r1.lum.lu.dto.CluInfo> results;
 
 	        //Integrate changes into the original. (should this just be just the id?)
 	        
@@ -1362,13 +1367,14 @@ public class ProgramServiceImpl implements ProgramService{
 
 			processCopy(originaCredentialProgram, currentVersion.getId(),contextInfo);
 
-			//Disassemble the new
-			results = credentialProgramAssembler.disassemble(originaCredentialProgram, NodeOperation.UPDATE,contextInfo);
+			//Disassemble the new -- Convert the R2 to R1 before it is passed....
+			results = credentialProgramAssembler.disassemble(R1R2ConverterUtil.convert(originaCredentialProgram, new org.kuali.student.r1.lum.program.dto.CredentialProgramInfo()) , NodeOperation.UPDATE,contextInfo);
 
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
-
-			return results.getBusinessDTORef();
+			
+			//Here we get a R1 object that is then convert to and R2 object and then returned via the return statement below.
+			return R1R2ConverterUtil.convert(results.getBusinessDTORef(), new org.kuali.student.r2.lum.program.dto.CredentialProgramInfo()) ;
 		} catch(AssemblyException e) {
 			throw new OperationFailedException("Error creating new MajorDiscipline version",e);
 		} catch (AlreadyExistsException e) {
