@@ -133,22 +133,22 @@ public interface AppointmentService {
     public List<String> getAppointmentIdsByPerson(@WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Retrieves all Appointments to the given Person and Period
+     * Retrieves all Appointments to the given Person and Slot
      *
      * @param personId          the identifier for the Person
-     * @param periodMilestoneId the identifier of the Period milestone
+     * @param appointmentSlotId the identifier for the AppointmentSlot
      * @param contextInfo       Context information containing the principalId
      *                          and locale information about the caller of
      *                          service operation
-     * @return a list of Appointments to the given Person and Period or an empty
+     * @return a list of Appointments to the given Person and Slot or an empty
      *         list if none found
      * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException personId or contextInfo is missing or
+     * @throws MissingParameterException personId, appointmentSlotId or contextInfo is missing or
      *                                   null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
      */
-    public List<AppointmentInfo> getAppointmentsByPersonAndPeriod(@WebParam(name = "personId") String personId, @WebParam(name = "periodMilestoneId") String periodMilestoneId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public List<AppointmentInfo> getAppointmentsByPersonAndSlot(@WebParam(name = "personId") String personId, @WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Searches for Appointments based on the criteria and returns a list of
@@ -581,27 +581,8 @@ public interface AppointmentService {
      */
     public StatusInfo deleteAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
-
     /**
-     * Retrieves all AppointmentWindows belonging to the person
-     *
-     * @param personId    the identifier for the Person
-     * @param contextInfo Context information containing the principalId and
-     *                    locale information about the caller of service
-     *                    operation
-     * @return AppointmentSlots belonging to the Person or an empty list if none
-     *         found
-     * @throws InvalidParameterException contextInfo is not valid
-     * @throws MissingParameterException personId or contextInfo is missing or
-     *                                   null
-     * @throws OperationFailedException  unable to complete request
-     * @throws PermissionDeniedException an authorization failure occurred
-     * @impl Use getAppointmentsByPerson()
-     */
-    public List<AppointmentSlotInfo> getAppointmentSlotsByPerson(@WebParam(name = "personId") String personId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
-
-    /**
-     * Retrieves all AppointmentWindows belonging to the person
+     * Retrieves all AppointmentWindows belonging to the person and period
      *
      * @param personId          the identifier for the Person
      * @param periodMilestoneId the identifier of the Period milestone
