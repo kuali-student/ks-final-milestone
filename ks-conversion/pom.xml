@@ -34,6 +34,26 @@
   	</dependency>
   	
   	<dependency>
+  		<groupId>org.kuali.student.common</groupId>
+  		<artifactId>ks-common-impl</artifactId>
+  		<version>0.0.6-SNAPSHOT</version>
+  		<exclusions>
+  			<exclusion>
+  				<groupId>org.kuali.student.common</groupId>
+	  			<artifactId>ks-common-util</artifactId>
+  			</exclusion>
+  			<exclusion>
+  				<groupId>org.kuali.rice</groupId>
+  				<artifactId>rice-kim-api</artifactId>
+  			</exclusion>
+  			<exclusion>
+  				<groupId>backport-util-concurrent</groupId>
+    			<artifactId>backport-util-concurrent</artifactId>
+  			</exclusion>
+  		</exclusions>
+  	</dependency>
+  	
+  	<dependency>
 	    <groupId>net.sf.dozer</groupId>
 	    <artifactId>dozer</artifactId>
 	</dependency>
