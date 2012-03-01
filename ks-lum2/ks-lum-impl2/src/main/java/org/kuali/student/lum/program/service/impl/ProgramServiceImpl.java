@@ -85,7 +85,7 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 import javax.jws.WebParam;
 
-import org.kuali.student.r1.common.assembly.util.R1R2ConverterUtil;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 
 // TODO KSCM-253
 public class ProgramServiceImpl implements ProgramService{
@@ -208,7 +208,7 @@ public class ProgramServiceImpl implements ProgramService{
             updateRequirementsState(programRequirementIds, DtoConstants.STATE_DRAFT,contextInfo);
             
 			//Disassemble the new major discipline
-			results = R1R2ConverterUtil. .convertBOasm( majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOperation.UPDATE,contextInfo),new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>());
+			results = R1R2ConverterUtil.convertBOasm( majorDisciplineAssembler.disassemble(R1R2ConverterUtil.convert( originalMajorDiscipline, new  org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo() ), NodeOperation.UPDATE,contextInfo),new BaseDTOAssemblyNode<MajorDisciplineInfo, CluInfo>());
 			
 			// Use the results to make the appropriate service calls here
 			programServiceMethodInvoker.invokeServiceCalls(results);
