@@ -149,7 +149,7 @@ import org.kuali.student.r2.lum.util.constants.CluServiceConstants;
 import org.springframework.beans.BeanUtils;
 import org.springframework.transaction.annotation.Transactional;
 
-import org.kuali.student.r1.core.util.R1R2ConverterUtil;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 
 @WebService(endpointInterface = "org.kuali.student.r2.lum.clu.service.CluService", serviceName = "LuService", portName = "LuService", targetNamespace = "http://student.kuali.org/wsdl/lu")
 @Transactional(readOnly=true,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
