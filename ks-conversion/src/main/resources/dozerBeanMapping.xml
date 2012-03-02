@@ -405,6 +405,10 @@
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.ActivityInfo</class-a>
 		<class-b>org.kuali.student.r2.lum.course.dto.ActivityInfo</class-b>
+		<field>
+			<a>activityType</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.lum.course.dto.CourseCrossListingInfo
@@ -488,6 +492,10 @@
 		<field>
 			<a>versionInfo</a>
 			<b get-method="getVersion" set-method="setVersion">version</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b set-method="setDescr" get-method="getDescr">descr</b>
 		</field>
 	</mapping>
 	<mapping>
