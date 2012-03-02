@@ -209,6 +209,7 @@ public class HolidayCalendarController extends UifControllerBase {
         else {
             form.setHolidayCalendarInfo(newHCInfo);
             form.setOfficial(newHCInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
+            form.setDelete(true);
             return getUIFModelAndView(form, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
     }
@@ -218,6 +219,8 @@ public class HolidayCalendarController extends UifControllerBase {
                                               HttpServletRequest request, HttpServletResponse response){
         hcForm.setHolidayCalendarInfo( new HolidayCalendarInfo());
         hcForm.setHolidays(new ArrayList<HolidayWrapper>());
+        hcForm.setOfficial(false);
+        hcForm.setDelete(false);
         return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
     }
 
@@ -281,6 +284,7 @@ public class HolidayCalendarController extends UifControllerBase {
             hcForm.setAdminOrgName(getAdminOrgNameById(hc.getAdminOrgId()));
             hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hc.getStateKey()));
             hcForm.setOfficial(hc.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
+            hcForm.setDelete(true);
             GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hc.getName());
             return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
         }
@@ -317,6 +321,7 @@ public class HolidayCalendarController extends UifControllerBase {
         hcForm.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
         hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hcInfo.getStateKey()));
         hcForm.setOfficial(hcInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
+        hcForm.setDelete(true);
         List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
         hcForm.setHolidays(holidays);
     }

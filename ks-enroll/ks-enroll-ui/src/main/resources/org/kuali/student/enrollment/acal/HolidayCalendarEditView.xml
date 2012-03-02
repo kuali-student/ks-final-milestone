@@ -28,7 +28,7 @@
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Save" p:clientSideJs="saveForm();" />
                         <bean parent="Uif-PrimaryActionButton" p:actionLabel="Set as Official" p:methodToCall="setOfficial" p:clientSideJs="submitForm();" p:render="@{official eq true}"/>
                         <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
-                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete"/>
+                        <bean parent="Uif-ActionLink" p:actionLabel="Delete" p:methodToCall="delete" p:render="@{delete eq true}"/>
                     </list>
                 </property>
             </bean>

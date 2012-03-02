@@ -40,12 +40,14 @@ public class HolidayCalendarForm  extends UifFormBase {
     private Date newCalendarEndDate;
     private String hcId;
     private boolean official;
+    private boolean delete;
 
     public HolidayCalendarForm() {
         super();
         holidayCalendarInfo = new HolidayCalendarInfo();
         holidays = new ArrayList<HolidayWrapper>();
         official = false;
+        delete = false;
     }
 
     public HolidayCalendarInfo getHolidayCalendarInfo() {
@@ -113,5 +115,13 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     public void setOfficial(boolean official) {
         this.official = official;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
     }
 }
