@@ -6,6 +6,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.assembly.data.Data.DataValue;
+import org.kuali.student.common.assembly.data.Data.Value;
+import org.kuali.student.common.search.dto.SearchParam;
+import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.HasDataValueBinding;
@@ -30,17 +39,9 @@ import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.assembly.data.Data.DataValue;
-import org.kuali.student.core.assembly.data.Data.Value;
-import org.kuali.student.core.search.dto.SearchParam;
-import org.kuali.student.core.search.dto.SearchRequest;
 import org.kuali.student.lum.lu.dto.MembershipQueryInfo;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Style;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -60,11 +61,11 @@ public class CluSetEditorWidget extends VerticalSectionView {
 //    private final List<HandlerRegistration> showClusetDetailsHandlerRegs = new ArrayList<HandlerRegistration>(); 
     private final Map<String, HandlerRegistration> showCluRangeDetailsHandlerRegs = new HashMap<String, HandlerRegistration>();
     private List<KSItemLabelPanelPair> itemLabelPanelPairs = new ArrayList<KSItemLabelPanelPair>();
-    private String cluSetType;
+    protected static String cluSetType;
     private String metadataId;
     private static Map<String, DataModelDefinition> modelDefinitionCache = new HashMap<String, DataModelDefinition>();
     private BlockingTask initializeTask = new BlockingTask("Initializing");
-    private boolean singularCluOnly;
+    protected static boolean singularCluOnly;
     private KSSelectedList approvedClusSelection;
     
     private enum CluSetManagementField {
@@ -75,8 +76,8 @@ public class CluSetEditorWidget extends VerticalSectionView {
             String name, String modelId, boolean showTitle,
             final Callback<Boolean> onReady, String cluSetType, boolean singularCluOnly) {
         super(viewEnum, name, modelId, showTitle);
-        this.cluSetType = cluSetType;
-        this.singularCluOnly = singularCluOnly;
+        CluSetEditorWidget.cluSetType = cluSetType;
+        CluSetEditorWidget.singularCluOnly = singularCluOnly;
         if (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) {
             this.metadataId = "programSet";
         } else {
@@ -119,7 +120,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
         } else {
             labelType = "Program";
         }
-        final CluSetEditOptionDropdown chooser = new CluSetEditOptionDropdown();
+        final CluSetEditOptionDropdown chooser = GWT.create(CluSetEditOptionDropdown.class);
         SwitchSection clusetDetails = new SwitchSection(
                 chooser,
                 null);
@@ -287,8 +288,17 @@ public class CluSetEditorWidget extends VerticalSectionView {
         }
         
         final VerticalSection choosingSection = new VerticalSection();
-        choosingSection.addWidget(
-                new HTML("<b>Add a course, course set, or course range</b>"));
+        HTML prompt;
+        if(cluSetType.equals("kuali.cluSet.type.Program")){
+            choosingSection.addWidget(new HTML("<b>Add a program or program set</b>"));
+            prompt = new HTML("Add program or program sets. You may  <br/>"
+                    + "add any combination of programs or program sets.");
+        }
+        else{
+            choosingSection.addWidget(new HTML("<b>Add a course, course set, or course range</b>"));
+            prompt = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
+                "add any combination of courses, dynamic course ranges, or Course sets.");
+        }
         choosingSection.addWidget(chooser);
         choosingSection.addSection(clusetDetails);
         chooser.addSelectionChangeHandler(new SelectionChangeHandler() {
@@ -303,9 +313,7 @@ public class CluSetEditorWidget extends VerticalSectionView {
             }
         });
         
-        HTML html = new HTML("Add courses, course sets, or course ranges to your course set. You may <br/>" +
-            "add any combination of courses, dynamic course ranges, or Course sets. ");
-        this.addWidget(html);
+        this.addWidget(prompt);
         this.addSection(choosingSection);
         this.addWidget(selectedValuesPanel);
     }
@@ -532,20 +540,20 @@ public class CluSetEditorWidget extends VerticalSectionView {
 
 
 
-    public class CluSetEditOptionDropdown extends KSDropDown {
+    public static class CluSetEditOptionDropdown extends KSDropDown {
         public CluSetEditOptionDropdown(){
             SimpleListItems editOptions = new SimpleListItems();
 
             if (cluSetType != null && cluSetType.equals("kuali.cluSet.type.Program")) {
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Programs");
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Programs");
-                if (!CluSetEditorWidget.this.singularCluOnly) {
+                if (!singularCluOnly) {
                     editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Program Sets");
                 }
             } else {
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_APPROVED_CLUS, "Approved Courses");
                 editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_PROPOSED_CLUS, "Proposed Courses");
-                if (!CluSetEditorWidget.this.singularCluOnly) {
+                if (!singularCluOnly) {
                     editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SETS, "Course Sets");
                     editOptions.addItem(CommonWidgetConstants.CLU_SET_SWAP_CLU_SET_RANGE, "Course Ranges (Course numbers, common learning objectives, etc)");
                 }

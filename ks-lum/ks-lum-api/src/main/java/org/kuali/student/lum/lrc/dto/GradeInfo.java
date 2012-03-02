@@ -24,10 +24,11 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.Idable;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
@@ -39,6 +40,8 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/gradeInfo+Structure">GradeInfo</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "GradeInfo", propOrder = {"id", "name", "value", "scaleKey", "rank", "effectiveDate", "expirationDate", "attributes", "type"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GradeInfo implements Serializable, Idable, HasAttributes {
 

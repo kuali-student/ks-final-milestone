@@ -38,7 +38,7 @@ public class RecentlyViewedHelper{
 		}
 		recentlyViewedDocs.add(0, info);
 		if(recentlyViewedDocs.size() > MAX_RECENT_HISTORY){
-			recentlyViewedDocs.remove(MAX_RECENT_HISTORY + 1);
+            recentlyViewedDocs.remove(MAX_RECENT_HISTORY);
 		}
 		for(int i =0; i < dependants.size(); i++){
 			dependants.get(i).update();

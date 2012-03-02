@@ -18,5 +18,7 @@
 <module>
     <inherits name='com.google.gwt.user.User'/>
     <inherits name="com.googlecode.gwtx.Java"/>
+    <source path='' includes='LUConstants.java' />
     <source path='dto'/>
+    <source path='infc' />
 </module>

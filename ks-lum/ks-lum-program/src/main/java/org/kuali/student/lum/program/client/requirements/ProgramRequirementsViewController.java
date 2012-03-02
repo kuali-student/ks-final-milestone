@@ -1,5 +1,6 @@
 package org.kuali.student.lum.program.client.requirements;
 
+import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.mvc.*;
@@ -8,7 +9,7 @@ import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.lum.program.client.ProgramConstants;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 import com.google.gwt.event.shared.HandlerManager;
@@ -22,6 +23,12 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
     public static final String PROGRAM_RULES_MODEL_ID = "programRulesModelId";
     private ProgramRequirementsSummaryView preview;
+    boolean reloadFlag;
+
+    public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly, EditableHeader header, boolean reloadFlag){
+        this(controller, eventBus, name, viewType, isReadOnly, header);
+        this.reloadFlag = reloadFlag;
+    }
 
     public ProgramRequirementsViewController(Controller controller, HandlerManager eventBus, String name, Enum<?> viewType, boolean isReadOnly, EditableHeader header) {
         super(ProgramRequirementsViewController.class.getName());
@@ -42,7 +49,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
         });
 
         //no name for the view so that breadcrumbs do not extra link
-        String previewTitle = ProgramProperties.get().program_menu_sections_requirements();
+        String previewTitle = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_REQUIREMENTS);
         if (isReadOnly && (header != null)) {
             preview = new ProgramRequirementsSummaryView(this, eventBus, ProgramRequirementsViews.PREVIEW, "", ProgramConstants.PROGRAM_MODEL_ID, isReadOnly, header);                                                            
         } else {
@@ -94,7 +101,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
                 //moving from other page to PREVIEW page
                 if (viewChangingTo.name().equals(ProgramRequirementsViews.PREVIEW.name())) {
-                    preview.getRules().setupRules(ProgramRequirementsViewController.this, new Callback<Boolean>() {
+                    preview.getRules().setupRules(ProgramRequirementsViewController.this, ProgramConstants.PROGRAM_MODEL_ID, new Callback<Boolean>() {
                         @Override
                         public void exec(Boolean result) {
                             okToChange.exec(result);
@@ -126,7 +133,7 @@ public class ProgramRequirementsViewController extends BasicLayout {
                                 preview.storeRules(new Callback<Boolean>() {
                                     @Override
                                     public void exec(Boolean result) {
-                                        okToChange.exec(true);                                        
+                                        okToChange.exec(true);
                                     }
                                 });
                                 break;
@@ -154,5 +161,9 @@ public class ProgramRequirementsViewController extends BasicLayout {
 
     public ProgramRequirementsSummaryView getProgramRequirementsView() {
         return preview;
+    }
+    
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
     }
 }

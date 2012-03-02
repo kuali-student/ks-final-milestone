@@ -53,20 +53,20 @@ public class EnumeratedValue extends KsInactivatableFromToBase {
     transient Enumeration enumeration;
     
     
-    @Override
-    protected LinkedHashMap<String, Object> toStringMapper() {
-        LinkedHashMap<String, Object> map = super.toStringMapper();
-        
-        map.put("enumerationId", enumerationId);
-        map.put("code", code);
-        map.put("abbrevValue", abbrevValue);
-        map.put("value", value);
-        map.put("activeFromDate", activeFromDate);
-        map.put("activeToDate", activeToDate);
-        map.put("sortKey", sortKey);
-        
-        return map;
-    }
+//    @Override
+//    protected LinkedHashMap<String, Object> toStringMapper() {
+//        LinkedHashMap<String, Object> map = super.toStringMapper();
+//
+//        map.put("enumerationId", enumerationId);
+//        map.put("code", code);
+//        map.put("abbrevValue", abbrevValue);
+//        map.put("value", value);
+//        map.put("activeFromDate", activeFromDate);
+//        map.put("activeToDate", activeToDate);
+//        map.put("sortKey", sortKey);
+//
+//        return map;
+//    }
     
 
     public String getCode() {

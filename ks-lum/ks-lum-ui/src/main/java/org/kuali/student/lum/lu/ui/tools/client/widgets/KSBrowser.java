@@ -21,15 +21,15 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.LookupMetadata;
+import org.kuali.student.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.WidgetConfigInfo;
+import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.Controller;
-import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.LookupMetadata;
-import org.kuali.student.core.assembly.data.LookupParamMetadata;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
@@ -76,7 +76,10 @@ public class KSBrowser extends Composite {
 		browsePanels.get (browsePanels.size () - 1).setOnSelectectedCallback (new ViewCourseCallback (controller));
 
 		this.initWidget (layout);
-		browsePanels.get (0).executeSearch ();
+		browsePanels.get (0).executeSearch (new Callback<Boolean>(){
+			public void exec(Boolean result) {
+			}
+		});
 	}
 
 	private class ExecuteNextSearchCallback implements BrowsePanel.OnSelectedCallback {
@@ -99,7 +102,10 @@ public class KSBrowser extends Composite {
 			Map<String, Object> parameters = new LinkedHashMap<String, Object> ();
 			parameters.put (nextParamMetadata.getKey (), selectedIds.get (0));
 			nextBrowsePanel.setParameters (parameters);
-			nextBrowsePanel.executeSearch ();
+			nextBrowsePanel.executeSearch (new Callback<Boolean>(){
+				public void exec(Boolean result) {
+				}
+			});
 		}
 	}
 

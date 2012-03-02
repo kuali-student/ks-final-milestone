@@ -17,10 +17,10 @@ package org.kuali.student.lum.statement.config.context;
 
 import java.util.Map;
 
+import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.core.atp.dto.AtpDurationTypeInfo;
 import org.kuali.student.core.atp.service.AtpService;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
@@ -42,7 +42,8 @@ public class AtpContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			AtpDurationTypeInfo atpDurationType = this.atpService.getAtpDurationType(atpDurationTypeKey);
+			AtpDurationTypeInfo atpDurationType = null;
+			// TODO KSCM			this.atpService.getAtpDurationType(atpDurationTypeKey);
 			return atpDurationType;
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
