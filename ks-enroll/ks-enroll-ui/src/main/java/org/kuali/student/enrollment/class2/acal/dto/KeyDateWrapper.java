@@ -1,6 +1,7 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
+import org.kuali.student.r2.core.type.dto.TypeInfo;
 
 import java.util.Date;
 
@@ -16,7 +17,10 @@ public class KeyDateWrapper {
     private boolean allDay = false;
     private boolean dateRange = true;
 
+    private String keyDateNameUI;
+
     private KeyDateInfo keyDateInfo;
+    private TypeInfo typeInfo;
 
     public KeyDateWrapper(){
     }
@@ -99,5 +103,21 @@ public class KeyDateWrapper {
 
     public void setDateRange(boolean dateRange) {
         this.dateRange = dateRange;
+    }
+
+    public String getKeyDateNameUI() {
+        return keyDateNameUI;
+    }
+
+    public void setKeyDateNameUI(String keyDateNameUI) {
+        this.keyDateNameUI = keyDateNameUI;
+    }
+
+    public TypeInfo getTypeInfo() {
+        return typeInfo;
+    }
+
+    public void setTypeInfo(TypeInfo typeInfo) {
+        this.typeInfo = typeInfo;
     }
 }

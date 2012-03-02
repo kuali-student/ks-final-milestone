@@ -132,6 +132,12 @@ public class AcademicCalendarController extends UifControllerBase {
            return getUIFModelAndView(academicCalendarForm);
         }
 
+
+        //Calculate instructional days (if HC exists)
+        if (academicCalendarForm.getHolidayCalendarList() != null && !academicCalendarForm.getHolidayCalendarList().isEmpty()) {
+           ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).populateInstructionalDays(academicCalendarForm.getTermWrapperList(),context);
+        }
+
         //Save Term and keydates
         for(AcademicTermWrapper termWrapper : academicCalendarForm.getTermWrapperList()){
             ((AcademicCalendarViewHelperService)academicCalendarForm.getView().getViewHelperService()).saveTerm(termWrapper, academicCalendarForm.getAcademicCalendarInfo().getId(), context);

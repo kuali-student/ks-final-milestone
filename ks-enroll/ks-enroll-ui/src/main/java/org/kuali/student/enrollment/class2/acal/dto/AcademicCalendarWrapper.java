@@ -53,5 +53,5 @@ public class AcademicCalendarWrapper implements Serializable {
 	public void setTermWrapperList(List<TermWrapper> termWrapperList) {
 		this.termWrapperList = termWrapperList;
 	}
-	
+
 }

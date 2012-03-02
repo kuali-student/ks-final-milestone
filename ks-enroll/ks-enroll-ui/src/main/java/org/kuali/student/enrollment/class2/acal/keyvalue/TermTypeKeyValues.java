@@ -7,6 +7,7 @@ import org.kuali.rice.krad.uif.control.UifKeyValuesFinderBase;
 import org.kuali.rice.krad.uif.view.ViewModel;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -37,17 +38,26 @@ public class TermTypeKeyValues  extends UifKeyValuesFinderBase implements Serial
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
 
+        AcademicCalendarForm acalForm = (AcademicCalendarForm)model;
+        List<String> availableTermTypes = new ArrayList();
+        for (AcademicTermWrapper termWrapper : acalForm.getTermWrapperList()) {
+             availableTermTypes.add(termWrapper.getTermType());
+        }
+
         //TODO:Build real context.
         ContextInfo context = TestHelper.getContext1();
         List<TypeInfo> types = null;
         try {
+            //FIXME: Should not call services for each collection row. Get all the available types once at the start.. not sure the init method to do that...
             types = getAcalService().getTermTypesForAcademicCalendarType(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY,context);
 
             for (TypeInfo type : types) {
-                ConcreteKeyValue keyValue = new ConcreteKeyValue();
-                keyValue.setKey(type.getKey());
-                keyValue.setValue(type.getName());
-                keyValues.add(keyValue);
+                if (!availableTermTypes.contains(type.getKey())){
+                    ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                    keyValue.setKey(type.getKey());
+                    keyValue.setValue(type.getName());
+                    keyValues.add(keyValue);
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

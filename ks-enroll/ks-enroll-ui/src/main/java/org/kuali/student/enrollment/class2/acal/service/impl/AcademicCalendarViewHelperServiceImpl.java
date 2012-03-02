@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Date;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
@@ -48,6 +49,7 @@ import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelp
 import org.kuali.student.enrollment.class2.acal.util.CommonUtils;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.*;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.state.dto.StateInfo;
@@ -335,17 +337,32 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     }
 
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
+
+        //As the keydate type select wont display for all the colletion lines, skip if it's not add row.
+        boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
+        if (!isAddLine) {
+            return;
+        }
+
         List keyValues = new ArrayList();
         keyValues.add(new ConcreteKeyValue("", ""));
 
         CollectionGroup collectionGroup = (CollectionGroup)field.getContext().get(UifConstants.ContextVariableNames.PARENT);
         KeyDatesGroupWrapper groupWrapper = ObjectPropertyUtils.getPropertyValue(acalForm,collectionGroup.getBindingInfo().getBindByNamePrefix());
+
+        List<String> existingKeyDateTypes = new ArrayList();
+        for(KeyDateWrapper keyDateWrapper : groupWrapper.getKeydates()){
+            existingKeyDateTypes.add(keyDateWrapper.getKeyDateType());
+        }
+
         if (groupWrapper != null && StringUtils.isNotBlank(groupWrapper.getKeyDateGroupType())){
             try {
                 List<TypeTypeRelationInfo> types = getTypeService().getTypeTypeRelationsByOwnerType(groupWrapper.getKeyDateGroupType(),"kuali.atp.atp.relation.associated",getContextInfo());
                 for (TypeTypeRelationInfo relationInfo : types) {
                     TypeInfo type = getTypeService().getType(relationInfo.getRelatedTypeKey(),contextInfo);
-                    keyValues.add(new ConcreteKeyValue(relationInfo.getRelatedTypeKey(), type.getName()));
+                    if (!existingKeyDateTypes.contains(type.getKey())){
+                        keyValues.add(new ConcreteKeyValue(relationInfo.getRelatedTypeKey(), type.getName()));
+                    }
                 }
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -389,6 +406,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
                 for(KeyDatesGroupWrapper keyDatesGroupWrapper : wrapper.getKeyDatesGroupWrappers()){
                     for(KeyDateWrapper keyDateWrapper : keyDatesGroupWrapper.getKeydates()){
+
+                        //Check keydates start/end date/time filled out based on the flag
                         if (keyDateWrapper.isDateRange() && keyDateWrapper.getEndDate() == null){
                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",wrapper.getTermNameForUI(),keyDatesGroupWrapper.getKeyDateGroupType());
                         }
@@ -399,10 +418,32 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                                  StringUtils.isBlank(keyDateWrapper.getEndTimeAmPm()))){
                              GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",wrapper.getTermNameForUI(),keyDatesGroupWrapper.getKeyDateGroupType());
                         }
+
                     }
                 }
             }
 
+        }
+    }
+
+    public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context){
+         for (AcademicTermWrapper termWrapper : termWrapperList) {
+            if (termWrapper.getKeyDatesGroupWrappers() != null){
+                for (KeyDatesGroupWrapper keyDatesGroupWrapper : termWrapper.getKeyDatesGroupWrappers()) {
+                     if (keyDatesGroupWrapper.getKeydates() != null){
+                         if (StringUtils.equals(keyDatesGroupWrapper.getKeyDateGroupType(),AtpServiceConstants.MILESTONE_INSTRUCTIONAL_PERIOD_TYPE_KEY)){
+                             try {
+                                 int instructionalDays = getAcalService().getInstructionalDaysForTerm(termWrapper.getTermInfo().getId(),context);
+                                 termWrapper.setInstructionalDays(instructionalDays);
+                             } catch (Exception e) {
+                                 throw new RuntimeException(e);
+                             }
+                             break;
+                         }
+                     }
+
+                }
+            }
         }
     }
 
@@ -600,6 +641,15 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 TypeInfo termType = getTypeService().getType(group.getKeyDateGroupType(),TestHelper.getContext1());
                 group.setKeyDateGroupNameUI(termType.getName());
                 group.setTypeInfo(termType);
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        }else if (addLine instanceof KeyDateWrapper){
+            KeyDateWrapper keydate = (KeyDateWrapper)addLine;
+            try {
+                TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),TestHelper.getContext1());
+                keydate.setKeyDateNameUI(type.getName());
+                keydate.setTypeInfo(type);
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
