@@ -31,6 +31,10 @@ import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntit
 import java.util.List;
 import javax.jws.WebParam;
 import javax.jws.WebService;
+
+import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
+import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -120,7 +124,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentWindowInfo getAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;
+        AppointmentWindowEntity apptWin = apptWinDao.find(appointmentWindowId);
+        if (null == apptWin) {
+            throw new DoesNotExistException(appointmentWindowId);
+        }
+        return apptWin.toDto();
     }
 
     @Override
@@ -181,8 +189,18 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public StatusInfo deleteAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public StatusInfo deleteAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        AppointmentWindowEntity apptWin = apptWinDao.find(appointmentWindowId);
+        if (null != apptWin) {
+            apptWinDao.remove(apptWin);
+        } else {
+            status.setSuccess(Boolean.FALSE);
+        }
+        // TODO Handle removal of orphan RichTextEntities
+        return status;
     }
 
     @Override
