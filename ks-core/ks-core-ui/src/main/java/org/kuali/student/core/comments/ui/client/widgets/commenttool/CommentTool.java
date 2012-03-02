@@ -78,9 +78,7 @@ public class CommentTool implements HasReferenceId {
     private String title;
     protected HTML htmlLabel;
     protected SectionTitle leaveACommentTitle;
-    protected HorizontalPanel commentSectionPanel;
-    private KSButton editButton;
-    private KSButton deleteButton;
+    protected HorizontalPanel commentSectionPanel;    
     protected Map<Integer, KSButton> editButtonMap = new HashMap<Integer, KSButton>();
     protected Map<Integer, KSButton> deleteButtonMap = new HashMap<Integer, KSButton>();
 
@@ -309,9 +307,9 @@ public class CommentTool implements HasReferenceId {
             int rowIndex = 0;
             int commentCounter = 0;
             for (final CommentInfo commentInfo : commentInfos) {
-                int columnIndex = 0;
-                editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
-                deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
+                int columnIndex = 0;                
+                final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
+                final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
                 if (commentInfo.getType() != null && 
                         commentInfo.getType().startsWith("kuali.comment.type.workflowDecisionRationale")) {
                     // do not display comments for workflow decision rationale.
