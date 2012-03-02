@@ -56,15 +56,15 @@ public interface AppointmentSlotRule {
      * Interval between start times of two consecutive appointment slots ("30 mins")
      *
      * @name Slot Start Interval
-     * @impl If the slot is open ended, then slotStartInterval is null
+     * @impl For the one-slot Appointment Window the slotStartInterval is null
      */
     TimeAmount getSlotStartInterval();
 
     /**
-     * Duration of the appointment slot ("20 mins") - advertised duration of the slot. (slotStartInterval - slotDuration) = some grace period complete activity
+     * Duration of the appointment slot ("20 mins") - advertised duration of the slot. The slot duration is not constrained by the window end date/time
      *
      * @name Slot Duration
-     * @impl If the slot is open ended, then slotDuration is null and actual duration is the time between window start and end dates
+     * @impl For the one-slot Appointment Window the slotDuration is null
      */
     TimeAmount getSlotDuration();
 }
