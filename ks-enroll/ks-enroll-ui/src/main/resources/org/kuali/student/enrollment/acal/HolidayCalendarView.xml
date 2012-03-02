@@ -96,6 +96,16 @@
                                     <bean parent="Uif-TextControl"/>
                                 </property>
                             </bean>
+                            <bean parent="Uif-InputField"
+                                  p:propertyName="stateName"
+                                  p:label="State"
+                                  p:id="KS-HolidayCalendar-View-Meta-endDate"
+                                  p:readOnly="true"
+                                  p:labelField.renderColon="false">
+                                <property name="control">
+                                    <bean parent="Uif-TextControl"/>
+                                </property>
+                            </bean>
                         </list>
                     </property>
                 </bean>

@@ -50,6 +50,7 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
+import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
@@ -181,6 +182,25 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         getAcalService().deleteHoliday(holidayId, getContextInfo());
     }
 
+    public String getHolidayCalendarState(String holidayCalendarStateKey) throws Exception{
+        StateInfo hcState = getAcalService().getHolidayCalendarState(holidayCalendarStateKey, getContextInfo());
+        return hcState.getName();
+    }
+
+    public void deleteHolidayCalendar(String holidayCalendarId) throws Exception{
+        List<HolidayInfo> holidayInfos = getAcalService().getHolidaysForHolidayCalendar(holidayCalendarId, getContextInfo());
+
+        //delete hc
+        getAcalService().deleteHolidayCalendar(holidayCalendarId, getContextInfo());
+
+        //delete holidays
+         if(holidayInfos != null &&  !holidayInfos.isEmpty()){
+            for(HolidayInfo holiday : holidayInfos){
+                deleteHoliday(holiday.getId());
+            }
+        }
+    }
+
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
         AcademicCalendarInfo acalInfo = acalForm.getAcademicCalendarInfo();
         acalInfo.setStateKey(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_DRAFT_STATE_KEY);
@@ -205,7 +225,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     }
 
     public AcalEventWrapper createEvent(String acalId, AcalEventWrapper event) throws Exception{
-        AcalEventInfo eventInfo = assembleEventInfoFromWrapper (event);
+        AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
         AcalEventInfo createdEventInfo = getAcalService().createAcalEvent(acalId, eventInfo.getTypeKey(), eventInfo, getContextInfo());
         event.setAcalEventInfo(createdEventInfo);
         return event;
@@ -214,7 +234,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
     public AcalEventWrapper updateEvent(String eventId, AcalEventWrapper event) throws Exception {
         AcalEventInfo eventInfo = assembleEventInfoFromWrapper(event);
         getAcalService().updateAcalEvent(eventId, eventInfo, getContextInfo());
-        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId,getContextInfo());
+        AcalEventInfo updatedEventInfo = getAcalService().getAcalEvent(eventId, getContextInfo());
         event.setAcalEventInfo(updatedEventInfo);
         return event;
     }

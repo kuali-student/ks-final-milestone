@@ -29,6 +29,7 @@ import org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper;
 import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -127,8 +128,7 @@ public class HolidayCalendarController extends UifControllerBase {
     }
 
     private boolean isDuplicateHoliday(HolidayWrapper newHoliday, HolidayWrapper sourceHoliday){
-        return (newHoliday.getHolidayInfo().getTypeKey().equals(sourceHoliday.getHolidayInfo().getTypeKey()) &&
-                       newHoliday.getStartDate().equals(sourceHoliday.getStartDate()));
+        return (newHoliday.getHolidayInfo().getTypeKey().equals(sourceHoliday.getHolidayInfo().getTypeKey()));
     }
 
     @Override
@@ -208,6 +208,7 @@ public class HolidayCalendarController extends UifControllerBase {
         }
         else {
             form.setHolidayCalendarInfo(newHCInfo);
+            form.setOfficial(newHCInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
             return getUIFModelAndView(form, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
         }
     }
@@ -238,6 +239,33 @@ public class HolidayCalendarController extends UifControllerBase {
     @RequestMapping(params = "methodToCall=save")
     public ModelAndView save(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+        return updateHolidayCalendarForm(hcForm, "info.enroll.holidaycalendar.saved");
+    }
+
+     /**
+     * Method used to delete HC
+     */
+    @RequestMapping(params = "methodToCall=delete")
+    public ModelAndView delete(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
+                                              HttpServletRequest request, HttpServletResponse response) throws Exception {
+        getHolidayCalendarFormHelper(hcForm).deleteHolidayCalendar(hcForm.getHolidayCalendarInfo().getId());
+        Properties urlParameters = new  Properties();
+        urlParameters.put("viewId", "enrollmentHomeView");
+        urlParameters.put("methodToCall", "start");
+        return performRedirect(hcForm, request.getRequestURL().toString(), urlParameters);
+    }
+
+     /**
+     * Method used to set HC official
+     */
+     @RequestMapping(params = "methodToCall=setOfficial")
+     public ModelAndView setOfficial(@ModelAttribute("KualiForm") HolidayCalendarForm hcForm, BindingResult result,
+                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
+         hcForm.getHolidayCalendarInfo().setStateKey(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY);
+         return updateHolidayCalendarForm(hcForm, "info.enroll.holidaycalendar.official");
+     }
+
+    private ModelAndView updateHolidayCalendarForm(HolidayCalendarForm hcForm, String updateMsg) throws Exception {
         HolidayCalendarInfo hc = hcForm.getHolidayCalendarInfo();
 
         if(isValidHolidayCalendar(hc)){
@@ -251,7 +279,9 @@ public class HolidayCalendarController extends UifControllerBase {
             }
 
             hcForm.setAdminOrgName(getAdminOrgNameById(hc.getAdminOrgId()));
-            GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name","info.enroll.holidaycalendar.saved", hc.getName());
+            hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hc.getStateKey()));
+            hcForm.setOfficial(hc.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
+            GlobalVariables.getMessageMap().putInfo("holidayCalendarInfo.name", updateMsg, hc.getName());
             return getUIFModelAndView(hcForm, CalendarConstants.HOLIDAYCALENDAR_VIEWPAGE);
         }
         else {
@@ -285,7 +315,8 @@ public class HolidayCalendarController extends UifControllerBase {
         HolidayCalendarInfo hcInfo = getHolidayCalendarFormHelper(hcForm).getHolidayCalendar(hcId);
         hcForm.setHolidayCalendarInfo(hcInfo);
         hcForm.setAdminOrgName(getAdminOrgNameById(hcInfo.getAdminOrgId()));
-
+        hcForm.setStateName(getHolidayCalendarFormHelper(hcForm).getHolidayCalendarState(hcInfo.getStateKey()));
+        hcForm.setOfficial(hcInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
         List<HolidayWrapper> holidays = getHolidayCalendarFormHelper(hcForm).getHolidaysForHolidayCalendar(hcForm);
         hcForm.setHolidays(holidays);
     }

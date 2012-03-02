@@ -39,11 +39,13 @@ public class HolidayCalendarForm  extends UifFormBase {
     private Date newCalendarStartDate;
     private Date newCalendarEndDate;
     private String hcId;
+    private boolean official;
 
     public HolidayCalendarForm() {
         super();
         holidayCalendarInfo = new HolidayCalendarInfo();
         holidays = new ArrayList<HolidayWrapper>();
+        official = false;
     }
 
     public HolidayCalendarInfo getHolidayCalendarInfo() {
@@ -103,5 +105,13 @@ public class HolidayCalendarForm  extends UifFormBase {
 
     public void setHcId(String hcId) {
         this.hcId = hcId;
+    }
+
+    public boolean isOfficial() {
+        return official;
+    }
+
+    public void setOfficial(boolean official) {
+        this.official = official;
     }
 }
