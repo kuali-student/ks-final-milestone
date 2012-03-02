@@ -82,19 +82,20 @@
 		<property name="title" value="Holidays" />
         <property name="collectionObjectClass" value="org.kuali.student.enrollment.class2.acal.dto.HolidayWrapper" />
 		<property name="propertyName" value="holidays" />
-		<property name="layoutManager.sequencePropertyName" value="startDate" />
 		<property name="layoutManager.renderSequenceField" value="false" />
         <property name="layoutManager.separateAddLine" value="false" />
         <property name="layoutManager.richTable.render" value="false" />
         <property name="layoutManager.applyDefaultCellWidths" value="false" />
 		<property name="items">
 			<list>
-                <bean parent="Uif-InputField-LabelTop" p:label="Holiday Type" p:propertyName="holidayInfo.typeKey"  p:required="true">
+                <bean parent="Uif-InputField-LabelTop" p:label="Holiday Type" p:propertyName="holidayInfo.typeKey"  p:required="true" p:render="@{#isAddLine}" p:finalizeMethodToCall="populateHolidayTypes">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
-                    <property name="optionsFinder">
-                        <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.HolidayTypeKeyValues" />
+                </bean>
+                <bean parent="Uif-InputField" p:propertyName="typeName" p:label="Holiday Type"  p:readOnly="true" p:render="@{!#isAddLine}" p:required="true">
+                    <property name="control">
+                        <bean parent="Uif-TextControl" p:size="30" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField-LabelTop" p:label="Start Date" p:propertyName="startDate" p:required="true"  p:width="130px">

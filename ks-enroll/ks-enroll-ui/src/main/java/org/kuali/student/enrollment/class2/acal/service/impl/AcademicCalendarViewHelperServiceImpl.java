@@ -28,6 +28,7 @@ import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
 import org.kuali.rice.core.api.resourceloader.GlobalResourceLoader;
 import org.kuali.rice.core.api.util.ConcreteKeyValue;
+import org.kuali.rice.core.api.util.KeyValue;
 import org.kuali.rice.core.api.util.RiceKeyConstants;
 import org.kuali.rice.krad.uif.UifConstants;
 import org.kuali.rice.krad.uif.container.CollectionGroup;
@@ -201,6 +202,35 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 deleteHoliday(holiday.getId());
             }
         }
+    }
+
+    public void populateHolidayTypes(InputField field, HolidayCalendarForm hcForm){
+        boolean isAddLine = BooleanUtils.toBoolean((Boolean)field.getContext().get(UifConstants.ContextVariableNames.IS_ADD_LINE));
+        if (!isAddLine) {
+            return;
+        }
+
+        List<KeyValue> keyValues = new ArrayList<KeyValue>();
+
+        //Hard code "Select holiday type"
+        ConcreteKeyValue topKeyValue = new ConcreteKeyValue();
+        topKeyValue.setKey("");
+        topKeyValue.setValue("Select holiday type");
+        keyValues.add(topKeyValue);
+
+        try {
+            List<TypeInfo> types = getAcalService().getHolidayTypes(getContextInfo());
+            for (TypeInfo type : types) {
+                ConcreteKeyValue keyValue = new ConcreteKeyValue();
+                keyValue.setKey(type.getKey());
+                keyValue.setValue(type.getName());
+                keyValues.add(keyValue);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        ((SelectControl) field.getControl()).setOptions(keyValues);
     }
 
     public AcademicCalendarInfo createAcademicCalendar(AcademicCalendarForm acalForm) throws Exception{
@@ -650,6 +680,13 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 TypeInfo type = getTypeService().getType(keydate.getKeyDateType(),TestHelper.getContext1());
                 keydate.setKeyDateNameUI(type.getName());
                 keydate.setTypeInfo(type);
+            } catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+        } else if (addLine instanceof HolidayWrapper){
+            HolidayWrapper holiday = (HolidayWrapper)addLine;
+            try {
+                holiday.setTypeName(getHolidayTypeName(holiday.getHolidayInfo().getTypeKey()));
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
