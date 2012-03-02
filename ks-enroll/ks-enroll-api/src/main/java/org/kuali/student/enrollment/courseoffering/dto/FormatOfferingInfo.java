@@ -27,22 +27,37 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 
 import org.w3c.dom.Element;
 
 /**
+ * DTO for the FormatOffering.
+ *
+ * @author tom
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FormatOfferingInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr", 
+                "courseOfferingId", "formatId", "activityOfferingTypeKeys",
                 "meta", "attributes", "_futureElements"})
 
 public class FormatOfferingInfo 
-    extends IdEntityInfo  {
+    extends IdEntityInfo
+    implements FormatOffering {
 
     private static final long serialVersionUID = 1L;
+
+    @XmlElement
+    private String courseOfferingId;
+
+    @XmlElement
+    private String formatId;
+
+    @XmlElement
+    private List<String> activityOfferingTypeKeys;
 
     @XmlAnyElement
     private List<Element> _futureElements;
@@ -53,4 +68,56 @@ public class FormatOfferingInfo
      */
     public FormatOfferingInfo() {
     }
+
+    /**
+     * Constructs a new FormatOfferingInfo from another
+     * FormatOffering.
+     *
+     * @param offering the activity offering to copy
+     */
+    public FormatOfferingInfo(FormatOffering offering) {
+        super(offering); 
+        
+        if (offering == null) {
+            return;
+        }
+
+        this.courseOfferingId = offering.getCourseOfferingId();
+        this.formatId = offering.getFormatId(); 
+        
+        if (offering.getActivityOfferingTypeKeys() != null) {
+            this.activityOfferingTypeKeys = new ArrayList<String>(offering.getActivityOfferingTypeKeys());
+        }
+    }
+
+    @Override
+    public String getCourseOfferingId() {
+        return courseOfferingId;
+    }
+
+    public void setCourseOfferingId(String courseOfferingId) {
+        this.courseOfferingId = courseOfferingId;
+    }
+
+    @Override
+    public String getFormatId() {
+        return formatId;
+    }
+
+    public void setFormatId(String formatId) {
+        this.formatId = formatId;
+    }
+    
+    @Override
+    public List<String> getActivityOfferingTypeKeys() {
+        if (activityOfferingTypeKeys == null) {
+            activityOfferingTypeKeys = new ArrayList<String>();
+        }
+
+        return activityOfferingTypeKeys;
+    }
+
+    public void setActivityOfferingTypeKeys(List<String> activityOfferingTypeKeys) {
+        this.activityOfferingTypeKeys = activityOfferingTypeKeys;
+    }        
 }
