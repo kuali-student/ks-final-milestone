@@ -36,7 +36,7 @@ public interface AppointmentWindow extends IdEntity {
     public Date getStartDate();
 
     /**
-     * Window end date ("Aug 07, 2012"). Window end date does not constrain the slot end time. It is to ensure that the slot start time is not after the window end date.
+     * Window end date ("Aug 07, 2012"). Window end date does not constrain a slot duration. It is to ensure that the slot start time is not after the window end date.
      *
      * @name End Date
      * @impl Choosing this field expands number_of_persons_per_slot so all the persons in a population are assigned to the available slots.
