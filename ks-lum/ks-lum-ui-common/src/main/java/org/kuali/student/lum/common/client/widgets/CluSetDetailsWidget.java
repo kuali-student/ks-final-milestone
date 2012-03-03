@@ -269,31 +269,31 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
                 String url =  "http://" + Window.Location.getHost() + Window.Location.getPath();
                 if("kuali.lu.type.Variation".equals(clu.getType())){
                     url += "?view=" + AppLocations.Locations.VIEW_VARIATION;
-                    url += "&docId=" + clu.getParentCluId() + "&variationId=" + clu.getVerIndependentId();
+                    url += "&docId=" + URL.encodeQueryString(clu.getParentCluId()) + "&variationId=" + URL.encodeQueryString(clu.getVerIndependentId());
                     url += "&idType=" + IdType.OBJECT_ID;
                 }else if("kuali.lu.type.MajorDiscipline".equals(clu.getType())){
                 	url += "?view=" + AppLocations.Locations.VIEW_PROGRAM;
-                    url += "&docId=" + clu.getVerIndependentId();
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
                     url += "&idType=" + IdType.OBJECT_ID;                    
                 }else if("kuali.lu.type.CreditCourse".equals(clu.getType())){
                 	url += "?view=" + AppLocations.Locations.VIEW_COURSE;
-                    url += "&docId=" + clu.getVerIndependentId();
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
                     url += "&idType=" + IdType.OBJECT_ID;
                 }else if("kuali.lu.type.CoreProgram".equals(clu.getType())){
                 	url += "?view=" + AppLocations.Locations.VIEW_CORE_PROGRAM;
-                    url += "&docId=" + clu.getVerIndependentId();
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
                     url += "&idType=" + IdType.OBJECT_ID;
                 }else if("kuali.lu.type.credential.Baccalaureate".equals(clu.getType())){
                 	url += "?view=" + AppLocations.Locations.VIEW_BACC_PROGRAM;
-                    url += "&docId=" + clu.getVerIndependentId();
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
                     url += "&idType=" + IdType.OBJECT_ID;
                 }else if("kuali.lu.type.credential.Doctoral".equals(clu.getType())){
                 	url += "?view=" + AppLocations.Locations.VIEW_BACC_PROGRAM;
-                    url += "&docId=" + clu.getVerIndependentId();
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
                     url += "&idType=" + IdType.OBJECT_ID;
                 }else if("kuali.lu.type.credential.Masters".equals(clu.getType())){
                 	url += "?view=" + AppLocations.Locations.VIEW_BACC_PROGRAM;
-                    url += "&docId=" + clu.getVerIndependentId();
+                    url += "&docId=" + URL.encodeQueryString(clu.getVerIndependentId());
                     url += "&idType=" + IdType.OBJECT_ID;
                 }else{
                 	//show error, don't know how to handle Clu type
@@ -301,7 +301,6 @@ public class CluSetDetailsWidget extends Composite implements ReportExportWidget
                 	return;
                 }
                
-                url = URL.encode(url);
                 String features = "height=600,width=960,dependent=0,directories=1," + "fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
                 Window.open(url, HTMLPanel.createUniqueId().replace("-", "_"), features);
             }
