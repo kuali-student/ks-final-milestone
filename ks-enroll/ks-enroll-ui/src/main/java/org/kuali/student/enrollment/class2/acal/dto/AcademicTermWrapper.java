@@ -22,12 +22,22 @@ public class AcademicTermWrapper {
     private Date endDate;
 
     private String termNameForUI;
-    private List<KeyDatesGroupWrapper> keyDatesGroupWrappers = new ArrayList();
+    private List<KeyDatesGroupWrapper> keyDatesGroupWrappers;
     private boolean readOnly = false;
 
     private TypeInfo typeInfo;
 
     public AcademicTermWrapper(){
+        keyDatesGroupWrappers = new ArrayList();
+    }
+
+    public AcademicTermWrapper(TermInfo termInfo){
+        this.name = termInfo.getName();
+        this.startDate = termInfo.getStartDate();
+        this.endDate = termInfo.getEndDate();
+        this.termInfo = termInfo;
+        this.termType = termInfo.getTypeKey();
+        keyDatesGroupWrappers = new ArrayList();
     }
 
     public String getName() {

@@ -2154,7 +2154,7 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         for (AtpAtpRelationInfo atpRelationForTerm : atpAtpRelationsForTerm) {
             if (atpRelationForTerm.getTypeKey().equals(AtpServiceConstants.ATP_ATP_RELATION_INCLUDES_TYPE_KEY)) {
                 try {
-                    AtpInfo acalAtp = this.atpService.getAtp(atpRelationForTerm.getRelatedAtpId(), contextInfo);
+                    AtpInfo acalAtp = this.atpService.getAtp(atpRelationForTerm.getAtpId(), contextInfo);
                     if (acalAtp.getTypeKey().equals(AtpServiceConstants.ATP_ACADEMIC_CALENDAR_TYPE_KEY))
                         academicCalendars.add(this.acalAssembler.assemble(acalAtp, contextInfo));
                 } catch (AssemblyException e) {

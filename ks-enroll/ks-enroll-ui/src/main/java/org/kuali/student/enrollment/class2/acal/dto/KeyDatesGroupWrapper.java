@@ -9,12 +9,18 @@ public class KeyDatesGroupWrapper {
 
     private String keyDateGroupType;
     private String keyDateGroupNameUI;
-    private List<KeyDateWrapper> keydates = new ArrayList<KeyDateWrapper>();
+    private List<KeyDateWrapper> keydates;
 
     private TypeInfo typeInfo;
 
     public KeyDatesGroupWrapper(){
+        keydates = new ArrayList<KeyDateWrapper>();
+    }
 
+    public KeyDatesGroupWrapper(String keydateGroupType,String nameUI){
+        keydates = new ArrayList<KeyDateWrapper>();
+        this.keyDateGroupType = keydateGroupType;
+        this.keyDateGroupNameUI = nameUI;
     }
 
     public String getKeyDateGroupNameUI() {

@@ -36,7 +36,7 @@
 
     <strong>Academic Term</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Edit Academic Term" url="${ConfigProperties.application.url}/kr-krad/academicTerm?viewId=academicTermEditView&methodToCall=editTerm&termId=testTermId1" /></li>
+        <li><portal:portalLink displayTitle="true" title="Edit Academic Term" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.TermInfo&viewId=academicTermLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
     </ul>
 
 </div>

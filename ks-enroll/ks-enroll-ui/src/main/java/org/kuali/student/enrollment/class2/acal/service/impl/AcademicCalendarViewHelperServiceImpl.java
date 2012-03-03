@@ -16,10 +16,7 @@
 package org.kuali.student.enrollment.class2.acal.service.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Date;
+import java.util.*;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.BooleanUtils;
@@ -439,14 +436,14 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
                         //Check keydates start/end date/time filled out based on the flag
                         if (keyDateWrapper.isDateRange() && keyDateWrapper.getEndDate() == null){
-                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",wrapper.getTermNameForUI(),keyDatesGroupWrapper.getKeyDateGroupType());
+                            GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.endDate.empty",wrapper.getTermNameForUI(),keyDateWrapper.getKeyDateNameUI());
                         }
                         if (!keyDateWrapper.isAllDay() &&
                                 (StringUtils.isBlank(keyDateWrapper.getStartTime()) ||
                                  StringUtils.isBlank(keyDateWrapper.getEndTime()) ||
                                  StringUtils.isBlank(keyDateWrapper.getStartTimeAmPm()) ||
                                  StringUtils.isBlank(keyDateWrapper.getEndTimeAmPm()))){
-                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",wrapper.getTermNameForUI(),keyDatesGroupWrapper.getKeyDateGroupType());
+                             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, "error.enroll.keydate.time.empty",wrapper.getTermNameForUI(),keyDateWrapper.getKeyDateNameUI());
                         }
 
                     }
@@ -691,6 +688,66 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
         }
+    }
+
+    public List<AcademicTermWrapper> loadTerms(String acalId,ContextInfo context){
+
+        List<AcademicTermWrapper> termWrappers = new ArrayList();
+
+        try {
+            List<TermInfo> termInfos = getAcalService().getTermsForAcademicCalendar(acalId, context);
+            for (TermInfo termInfo : termInfos) {
+                TypeInfo type = getAcalService().getTermType(termInfo.getTypeKey(),context);
+                AcademicTermWrapper termWrapper = new AcademicTermWrapper(termInfo);
+                termWrapper.setTypeInfo(type);
+                termWrapper.setTermNameForUI(type.getName());
+
+                //Populate keydates
+                List<KeyDateInfo> keydateList = getAcalService().getKeyDatesForTerm(termInfo.getId(),context);
+
+                TypeInfo registrationGroup = getTypeService().getType("kuali.milestone.type.group.keydate",context);
+                TypeInfo curriculumGroup = getTypeService().getType("kuali.milestone.type.group.curriculum",context);
+
+                KeyDatesGroupWrapper registrationWrapper = new KeyDatesGroupWrapper("kuali.milestone.type.group.keydate",registrationGroup.getName());
+                KeyDatesGroupWrapper curriculumWrapper = new KeyDatesGroupWrapper("kuali.milestone.type.group.curriculum",curriculumGroup.getName());
+
+                termWrapper.getKeyDatesGroupWrappers().add(registrationWrapper);
+                termWrapper.getKeyDatesGroupWrappers().add(curriculumWrapper);
+
+                for (KeyDateInfo keyDateInfo : keydateList) {
+                    KeyDateWrapper keyDateWrapper = new KeyDateWrapper(keyDateInfo);
+                    type = getTypeService().getType(keyDateInfo.getTypeKey(),context);
+                    keyDateWrapper.setTypeInfo(type);
+                    keyDateWrapper.setKeyDateNameUI(type.getName());
+
+                    List<TypeTypeRelationInfo> registrationRelations = getTypeService().getTypeTypeRelationsByOwnerType("kuali.milestone.type.group.keydate",null,context);
+                    List<TypeTypeRelationInfo> curriculumRelations = getTypeService().getTypeTypeRelationsByOwnerType("kuali.milestone.type.group.curriculum",null,context);
+
+                    if (isRelationExists(registrationRelations,keyDateInfo.getTypeKey())){
+                        registrationWrapper.getKeydates().add(keyDateWrapper);
+                    }else if (isRelationExists(curriculumRelations,keyDateInfo.getTypeKey())){
+                        curriculumWrapper.getKeydates().add(keyDateWrapper);
+                    }
+                }
+                termWrappers.add(termWrapper);
+            }
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        return termWrappers;
+
+
+    }
+
+    private boolean isRelationExists(List<TypeTypeRelationInfo> registrationRelations,String keyDateType){
+        for (TypeTypeRelationInfo registrationRelation : registrationRelations) {
+            if (StringUtils.equals(registrationRelation.getRelatedTypeKey(), keyDateType)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public AcademicCalendarService getAcalService() {

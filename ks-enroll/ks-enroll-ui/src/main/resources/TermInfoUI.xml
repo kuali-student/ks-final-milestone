@@ -97,7 +97,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <property name="summary"  value="Official end date of the Term"/>
     </bean>
 
-  <bean id="TermInfo-LookupView" parent="KSLookupView">
+  <!--<bean id="TermInfo-LookupView" parent="KSLookupView">
     <property name="title" value="Term Info Lookup (by ID)" />
     <property name="dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.TermInfo" />
     <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.TermInfoLookupableImpl" />
@@ -105,7 +105,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="id" />
-<!--    <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/> -->
+&lt;!&ndash;    <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/> &ndash;&gt;
       </list>
     </property>
     <property name="resultFields">
@@ -116,7 +116,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
         <bean parent="Uif-InputField" p:propertyName="endDate" />
       </list>
     </property>
-  </bean>
+  </bean>-->
 
   <bean id="TermInfo-InquiryView" parent="KSInquiryView">
      <property name="title" value="Term Info Inquiry"/>

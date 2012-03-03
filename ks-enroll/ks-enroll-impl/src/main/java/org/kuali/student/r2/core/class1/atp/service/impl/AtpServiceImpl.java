@@ -29,6 +29,7 @@ import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.class1.atp.dao.AtpAtpRelationDao;
 import org.kuali.student.r2.core.class1.atp.dao.AtpDao;
@@ -749,7 +750,12 @@ public class AtpServiceImpl implements AtpService {
     public List<AtpAtpRelationInfo> getAtpAtpRelationsByAtps(@WebParam(name = "atpId") String atpId,
             @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null; //To change body of implemented methods use File | Settings | File Templates.
+        List<AtpAtpRelationEntity> relations = atpRelDao.getAtpAtpRelationsByAtp(atpId);
+        List<AtpAtpRelationInfo> relationsDTO = new ArrayList();
+        for (AtpAtpRelationEntity relation : relations) {
+            relationsDTO.add(relation.toDto());
+        }
+        return relationsDTO;
     }
 
     @Override

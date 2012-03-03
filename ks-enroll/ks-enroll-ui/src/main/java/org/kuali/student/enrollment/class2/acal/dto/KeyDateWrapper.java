@@ -1,8 +1,12 @@
 package org.kuali.student.enrollment.class2.acal.dto;
 
+import org.joda.time.DateTime;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 public class KeyDateWrapper {
@@ -23,6 +27,24 @@ public class KeyDateWrapper {
     private TypeInfo typeInfo;
 
     public KeyDateWrapper(){
+    }
+
+    public KeyDateWrapper(KeyDateInfo keydate){
+        this.setKeyDateInfo(keydate);
+        this.setStartDate(keydate.getStartDate());
+        this.setEndDate(keydate.getEndDate());
+        this.setAllDay(keydate.getIsAllDay());
+        this.setDateRange(keydate.getIsDateRange());
+        this.setKeyDateType(keydate.getTypeKey());
+
+        DateFormat dfm = new SimpleDateFormat("hh:mm");
+
+        startTime = dfm.format(keydate.getStartDate());
+        endTime = dfm.format(keydate.getEndDate());
+
+        dfm = new SimpleDateFormat("a");
+        startTimeAmPm = dfm.format(keydate.getStartDate());
+        endTimeAmPm = dfm.format(keydate.getEndDate());
     }
 
     public String getKeyDateType() {

@@ -89,6 +89,18 @@ public class AcademicCalendarController extends UifControllerBase {
             } catch (Exception ex) {
                 //TODO: handle exception properly
             }
+        }else{
+            acalId = request.getParameter("id");
+            if (StringUtils.isNotBlank(acalId)){
+                try {
+                     getAcademicCalendar(acalId, acalForm);
+                    List<AcademicTermWrapper> termWrappers = ((AcademicCalendarViewHelperService)acalForm.getView().getViewHelperService()).loadTerms(acalId,getContextInfo());
+                    acalForm.setTermWrapperList(termWrappers);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    //TODO: handle exception properly
+                }
+            }
         }
 
         return super.start(form, result, request, response);

@@ -60,5 +60,7 @@ public interface AcademicCalendarViewHelperService extends ViewHelperService {
 
     public void populateInstructionalDays(List<AcademicTermWrapper> termWrapperList,ContextInfo context);
 
+    public List<AcademicTermWrapper> loadTerms(String acalId,ContextInfo context);
+
     public AcademicCalendarService getAcalService();
 }
