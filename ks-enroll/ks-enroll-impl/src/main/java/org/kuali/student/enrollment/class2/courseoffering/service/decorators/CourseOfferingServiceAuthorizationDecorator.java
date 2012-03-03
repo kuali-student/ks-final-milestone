@@ -542,43 +542,8 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
         }
 	}
 
-	@Override
-	public List<RegistrationGroupInfo> getRegistrationGroupsByActvityOfferingTemplate(
-            String activityOfferingTemplateId, ContextInfo context)
-			throws DoesNotExistException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationGroupsByActvityOfferingTemplate", null, null)) {
-	        return getNextDecorator().getRegistrationGroupsByActvityOfferingTemplate(activityOfferingTemplateId, context);
-        }
-        else {
-           throw new PermissionDeniedException();
-        }
-	}
 
-	@Override
-	public RegistrationGroupInfo createRegistrationGroup(
-			String courseOfferingId,
-			RegistrationGroupInfo registrationGroupInfo, ContextInfo context)
-			throws  DoesNotExistException,
-			DataValidationErrorException, InvalidParameterException,
-			MissingParameterException, OperationFailedException,
-			PermissionDeniedException {
-        if (null == context) {
-            throw new MissingParameterException();
-        }
-           
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createRegistrationGroup", null, null)) {
-	        return getNextDecorator().createRegistrationGroup(courseOfferingId, registrationGroupInfo, context);
-        }
-        else {
-           throw new PermissionDeniedException();
-        }
-	}
+
 
 	@Override
 	public RegistrationGroupInfo updateRegistrationGroup(

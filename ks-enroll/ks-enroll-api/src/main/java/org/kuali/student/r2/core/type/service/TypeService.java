@@ -129,6 +129,25 @@ public interface TypeService {
      */
     public List<TypeInfo> getTypesByRefObjectUri(@WebParam(name = "refObjectUri") String refObjectUri, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+
+      /**
+     * This method returns a list of TypeInfo that belong to a
+     * groupTypeKey.
+     *
+     * @param groupTypeKey
+     * @param contextInfo Context information containing the principalId
+     *        and locale information about the caller of service
+     *        operation
+     * @return a list of TypeInfo objects associated with the object
+     * @throws DoesNotExistException refObjectURI not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException refObjectURI or contextInfo
+     *         is missing or null
+     * @throws OperationFailedException unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<TypeInfo> getTypesForGroupType(@WebParam(name = "groupTypeKey") String groupTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
     /**
      * This method returns a list of TypeInfo objects that are allowed
      * for another typeKey. This is a convenience method to retrieve

@@ -1373,7 +1373,7 @@ public interface AcademicCalendarService {
      * may not be changed.
      *
      * @param keyDateId   the identifier for the KeyDate to be updated
-     * @param keyDateInfo the new data for the KeyDate
+     * @param keyDateInfo the new data for the Key`Date
      * @param contextInfo information containing the principalId and locale
      *                    information about the caller of service operation
      * @return the updated KeyDate

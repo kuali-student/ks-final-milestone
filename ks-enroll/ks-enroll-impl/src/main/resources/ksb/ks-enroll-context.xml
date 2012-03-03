@@ -137,7 +137,7 @@
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceImpl"/>
 
 
   <tx:annotation-driven transaction-manager="JtaTxManager" order="1000" />

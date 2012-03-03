@@ -60,7 +60,7 @@ http://www.springframework.org/schema/aop http://www.springframework.org/schema/
     <property name="sprDao" ref="stateProcessRelationDao" />
   </bean>
 
-  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceMockImpl"/>
+  <bean id="typeService" class="org.kuali.student.r2.common.service.impl.TypeServiceImpl"/>
 
 
   <bean id="acalService" class="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarServiceImpl">

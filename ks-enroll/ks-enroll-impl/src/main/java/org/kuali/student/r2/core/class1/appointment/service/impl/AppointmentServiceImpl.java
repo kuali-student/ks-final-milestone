@@ -45,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(name = "AppointmentWindowService", serviceName = "AppointmentWindowService", portName = "AppointmentWindowService", targetNamespace = "http://student.kuali.org/wsdl/appointmentwindow")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AppointmentServiceImpl implements AppointmentService {
+
     private AppointmentWindowDao apptWinDao;
 
     @Override

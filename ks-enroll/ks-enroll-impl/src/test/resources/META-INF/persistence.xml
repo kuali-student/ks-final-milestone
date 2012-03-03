@@ -92,6 +92,11 @@
 		<class>org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity</class>
 		<class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgEntity</class>
 		<class>org.kuali.student.enrollment.class1.lui.model.LuiAffiliatedOrgAttributeEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiCluCluRelationEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsDeploymentEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiUnitsContentOwnerEntity</class>
+        <class>org.kuali.student.enrollment.class1.lui.model.LuiResultValuesGroupRelationEntity</class>
+
 
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprRosterEntity</class>
 		<class>org.kuali.student.enrollment.class1.lpr.model.LprRosterAttributeEntity</class>
