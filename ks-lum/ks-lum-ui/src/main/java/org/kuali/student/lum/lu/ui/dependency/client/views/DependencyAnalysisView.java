@@ -482,11 +482,10 @@ public class DependencyAnalysisView extends ViewComposite{
 					String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
 						"?view=" + viewLinkUrl;
 					if("kuali.lu.type.Variation".equals(cluType)){
-						url += "&docId=" + parentCluId + "&variationId=" + cluId;
+						url += "&docId=" + URL.encodeQueryString(parentCluId) + "&variationId=" + URL.encodeQueryString(cluId);
 					}else {
-						url += "&docId=" + cluId;
+						url += "&docId=" + URL.encodeQueryString(cluId);
 					}
-					url = URL.encode(url);
 					String features = "height=600,width=960,dependent=0,directories=1," +
 							"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";
 					Window.open(url, HTMLPanel.createUniqueId(), features);				
