@@ -23,10 +23,10 @@ import org.kuali.student.r2.core.state.infc.Lifecycle;
 @Entity
 @Table(name = "KSEN_STATE_PROCESS")
 public class LifecycleEntity extends MetaEntity implements AttributeOwner<StateAttributeEntity> {
-	@Column(name="NAME")
+    @Column(name = "NAME")
     private String name;
 
-    @Column(name="DESCR")
+    @Column(name = "DESCR")
     private String description;
 
     @Temporal(TemporalType.TIMESTAMP)
@@ -36,90 +36,102 @@ public class LifecycleEntity extends MetaEntity implements AttributeOwner<StateA
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "EXPIR_DT")
     private Date expirationDate;
-    
+
+    @Column(name = "REF_OBJECT_URI")
+    private String refUri;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<StateAttributeEntity> attributes;
-    
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public Date getEffectiveDate() {
-		return effectiveDate;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public void setEffectiveDate(Date effectiveDate) {
-		this.effectiveDate = effectiveDate;
-	}
+    public Date getEffectiveDate() {
+        return effectiveDate;
+    }
 
-	public Date getExpirationDate() {
-		return expirationDate;
-	}
+    public void setEffectiveDate(Date effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
 
-	public void setExpirationDate(Date expirationDate) {
-		this.expirationDate = expirationDate;
-	}
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
 
-	public List<StateAttributeEntity> getAttributes() {
-		return attributes;
-	}
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
 
-	public void setAttributes(List<StateAttributeEntity> attributes) {
-		this.attributes = attributes;
-	}
-	
-	public LifecycleEntity(){}
+    public String getRefObjectUri() {
+        return refUri;
+    }
 
-	public LifecycleEntity(Lifecycle lifecycle){
-		super();
-		try{
-			this.setId(lifecycle.getKey());
-			this.setName(lifecycle.getName());
-                        // TODO: change this entity to handle a rich text description
-//			this.setDescription(lifecycle.getDescr());
-			this.setVersionNumber((long) 0);
-//			this.setEffectiveDate(lifecycle.getEffectiveDate());
-//	                this.setExpirationDate(lifecycle.getExpirationDate());
-			this.setAttributes(new ArrayList<StateAttributeEntity>());
-			if(null != lifecycle.getAttributes()){
-				for (Attribute att : lifecycle.getAttributes()) {
-					StateAttributeEntity attEntity = new StateAttributeEntity(att);
-		            this.getAttributes().add(attEntity);
-		        }				
-			}
-		} catch (Exception e){
+    public void setRefObjectUri(String refObjectUri) {
+        this.refUri = refObjectUri;
+    }
+
+    public List<StateAttributeEntity> getAttributes() {
+        return attributes;
+    }
+
+    public void setAttributes(List<StateAttributeEntity> attributes) {
+        this.attributes = attributes;
+    }
+
+    public LifecycleEntity() {}
+
+    public LifecycleEntity(Lifecycle lifecycle) {
+        super();
+        try {
+            this.setId(lifecycle.getKey());
+            this.setName(lifecycle.getName());
+            this.setRefObjectUri(lifecycle.getRefObjectUri());
+            // TODO: change this entity to handle a rich text description
+            // this.setDescription(lifecycle.getDescr());
+            this.setVersionNumber((long) 0);
+            // this.setEffectiveDate(lifecycle.getEffectiveDate());
+            // this.setExpirationDate(lifecycle.getExpirationDate());
+            this.setAttributes(new ArrayList<StateAttributeEntity>());
+            if (null != lifecycle.getAttributes()) {
+                for (Attribute att : lifecycle.getAttributes()) {
+                    StateAttributeEntity attEntity = new StateAttributeEntity(att);
+                    this.getAttributes().add(attEntity);
+                }
+            }
+        } catch (Exception e) {
             e.printStackTrace();
-        }		
-	}
-	
-	public LifecycleInfo toDto(){
-		LifecycleInfo lifecycle = new LifecycleInfo ();
-		lifecycle.setKey(getId());
-		lifecycle.setName(name);
-                // TODO: make this entity handle rich text descriptions
-		lifecycle.setDescr(new RichTextHelper ().fromPlain(description));
-//		lifecycle.setEffectiveDate(effectiveDate);
-//		lifecycle.setExpirationDate(expirationDate);
-		
+        }
+    }
+
+    public LifecycleInfo toDto() {
+        LifecycleInfo lifecycle = new LifecycleInfo();
+        lifecycle.setKey(getId());
+        lifecycle.setName(name);
+        // TODO: make this entity handle rich text descriptions
+        lifecycle.setDescr(new RichTextHelper().fromPlain(description));
+        // lifecycle.setEffectiveDate(effectiveDate);
+        // lifecycle.setExpirationDate(expirationDate);
+        lifecycle.setRefObjectUri(this.getRefObjectUri());
         List<AttributeInfo> atts = new ArrayList<AttributeInfo>();
         for (StateAttributeEntity att : getAttributes()) {
             AttributeInfo attInfo = att.toDto();
             atts.add(attInfo);
         }
         lifecycle.setAttributes(atts);
-        
+
         return lifecycle;
-	}
+    }
 }

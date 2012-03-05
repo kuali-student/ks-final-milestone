@@ -168,8 +168,14 @@ public class StateServiceImpl implements StateService {
 
     @Override
     public List<String> getLifecyclesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<LifecycleEntity> lifecycles = spDao.getLifecyclesByRefObjectUri(refObjectUri);
+        List<String> result = new ArrayList<String>();
+        for (LifecycleEntity entity : lifecycles) {
+            if (entity != null) {
+                result.add(entity.getId());
+            }
+        }
+        return result;
     }
 
     @Override
