@@ -11,23 +11,17 @@
 
 package org.kuali.student.enrollment.class2.acal.service.decorators;
 
-import java.util.Date;
-import java.util.List;
-
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
-
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
-import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayInfo;
 import org.kuali.student.enrollment.acal.dto.KeyDateInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
-
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -40,6 +34,9 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.state.dto.StateInfo;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
+
+import java.util.Date;
+import java.util.List;
 
 public class AcademicCalendarServiceDecorator implements AcademicCalendarService {
 
@@ -421,6 +418,11 @@ public class AcademicCalendarServiceDecorator implements AcademicCalendarService
     public List<String> getKeyDateIdsByType(String keyDateTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
         return (getNextDecorator().getKeyDateIdsByType(keyDateTypeKey, contextInfo));
+    }
+
+    @Override
+    public List<String> getKeyDateIdsByTypeForTerm(String keyDateTypeKey, String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return (getNextDecorator().getKeyDateIdsByTypeForTerm(keyDateTypeKey, termId, contextInfo));
     }
 
     @Override
