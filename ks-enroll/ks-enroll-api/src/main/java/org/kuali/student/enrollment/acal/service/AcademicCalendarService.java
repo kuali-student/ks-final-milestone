@@ -1225,6 +1225,23 @@ public interface AcademicCalendarService {
     public List<String> getKeyDateIdsByType(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves a list of KeyDate Ids by Type and for a specific Term
+     *
+     * @param keyDateTypeKey an identifier for a KeyDate Type
+     * @param termId      an identifier for a term
+     * @param contextInfo    information containing the principalId and locale
+     *                       information about the caller of service operation
+     * @return a list of KeyDates matching keyDateTypeKey and for termId or an empty list if none found
+     * @throws DoesNotExistException     a keyDateTypeKey is not found
+     * @throws InvalidParameterException contextInfo is not valid
+     * @throws MissingParameterException keyDateTypeKey or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public List<String> getKeyDateIdsByTypeForTerm(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves a list of KeyDates immediately mapped to a Term ordered by
      * date.
      *
