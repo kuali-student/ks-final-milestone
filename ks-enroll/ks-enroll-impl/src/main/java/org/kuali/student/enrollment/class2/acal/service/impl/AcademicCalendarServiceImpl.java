@@ -51,7 +51,6 @@ import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.jws.WebParam;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -1557,8 +1556,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<String> getKeyDateIdsByTypeForTerm(@WebParam(name = "keyDateTypeKey") String keyDateTypeKey, @WebParam(name = "termId") String termId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  
+    public List<String> getKeyDateIdsByTypeForTerm(String keyDateTypeKey, String termId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return null;
     }
 
     @Override
