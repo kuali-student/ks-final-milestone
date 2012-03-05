@@ -89,6 +89,9 @@
                 <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
                       p:labelField.renderColon="false" p:labelField.style="display:block;"
                       p:propertyName="academicCalendarInfo.startDate">
+                    <property name="validCharactersConstraint">
+						<bean parent="DatePatternConstraint" />
+					</property>
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
                     </property>
@@ -96,6 +99,9 @@
                 <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
                       p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
                       p:propertyName="academicCalendarInfo.endDate">
+                    <property name="validCharactersConstraint">
+						<bean parent="DatePatternConstraint" />
+					</property>
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
