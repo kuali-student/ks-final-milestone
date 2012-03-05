@@ -10,7 +10,7 @@ import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
-import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r1.common.dao.SearchableDao;
 import org.kuali.student.r1.common.dictionary.dto.DataType;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;

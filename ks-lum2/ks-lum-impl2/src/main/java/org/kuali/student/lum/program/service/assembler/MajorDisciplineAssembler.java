@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
 import org.kuali.student.r1.common.assembly.BOAssembler;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.r1.common.assembly.data.AssemblyException;
+import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r1.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r1.common.dto.DtoConstants;
