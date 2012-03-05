@@ -250,8 +250,9 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         AttributeSet qualification = new AttributeSet();
         qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
         qualification.put(idType, id);
+        qualification.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, id);
         //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
-        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());
+        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());        
         return qualification;
     }
 

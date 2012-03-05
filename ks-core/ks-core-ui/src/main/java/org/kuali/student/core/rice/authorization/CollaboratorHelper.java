@@ -126,7 +126,7 @@ public class CollaboratorHelper implements Serializable {
         }
     }
     
-    public List<WorkflowPersonInfo> getCollaborators(String docId) throws OperationFailedException{
+    public List<WorkflowPersonInfo> getCollaborators(String docId, String dataId, String docType) throws OperationFailedException{
 		//Check if there is no doc id
     	if(docId==null){
 			return Collections.<WorkflowPersonInfo>emptyList();
@@ -140,9 +140,11 @@ public class CollaboratorHelper implements Serializable {
 	        }
 			
 			List<WorkflowPersonInfo> people = new ArrayList<WorkflowPersonInfo>();
-			
+
 			AttributeSet qualification = new AttributeSet();
 			qualification.put("documentNumber", docId);
+			qualification.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, dataId);
+			qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
 	
 			ActionRequestDTO[] items = getWorkflowUtilityService().getAllActionRequests(Long.parseLong(docId));
 	        if(items!=null){

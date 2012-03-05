@@ -104,7 +104,7 @@ public class CollaboratorsFilter extends AbstractDataFilter implements MetadataF
         }
 
         // Retrieve updated collaborator info for this workflow
-        List<WorkflowPersonInfo> collaborators = collaboratorHelper.getCollaborators(proposalInfo.getWorkflowId());
+        List<WorkflowPersonInfo> collaborators = collaboratorHelper.getCollaborators(proposalInfo.getWorkflowId(), proposalInfo.getId(), proposalInfo.getType());
 
         // Add the author notation to retrieved collaborators
         for (WorkflowPersonInfo wfPerson : collaborators) {
