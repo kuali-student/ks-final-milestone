@@ -363,6 +363,84 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         return eventInfo;
     }
 
+    protected boolean performAddLineValidation(View view, CollectionGroup collectionGroup, Object model,
+                                               Object addLine) {
+        boolean isValid = true;
+        if (addLine instanceof AcalEventWrapper){
+            AcalEventWrapper newEvent = (AcalEventWrapper)addLine;
+            if (!checkEvent(newEvent))
+                return false;
+
+            if (model instanceof AcademicCalendarForm){
+                AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
+                List<AcalEventWrapper> events = acalForm.getEvents();
+                if(events != null && !events.isEmpty()){
+                    for(AcalEventWrapper event : events){
+                        if(isDuplicateEvent(newEvent, event)){
+                            //TODO:change to  putError, when error reload fixed
+                            GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: The adding event is already in the collection.");
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        else{
+            isValid = super.performAddLineValidation(view, collectionGroup, model, addLine);
+        }
+        return isValid;
+    }
+
+
+
+    /**
+     * Make sure the start date is later than the end date
+     * Set IsDateRange and IsAllDay based on the input
+     */
+    private boolean checkEvent(AcalEventWrapper event) {
+        boolean valid = true;
+        Date startDate = event.getStartDate();
+        Date endDate = event.getEndDate();
+        String startTime = event.getStartTime();
+        String endTime = event.getEndTime();
+        AcalEventInfo acalEventInfo = event.getAcalEventInfo();
+
+        if (endDate == null)  {
+            acalEventInfo.setIsDateRange(false);
+
+            if(StringUtils.isBlank(startTime)){
+                acalEventInfo.setIsAllDay(true);
+            }
+        }
+        else {
+            int timeDiff = startDate.compareTo(endDate);
+            if(timeDiff > 0) {
+                //TODO:change to  putError, when error reload fixed
+                GlobalVariables.getMessageMap().putInfo(KRADConstants.GLOBAL_ERRORS,
+                        RiceKeyConstants.ERROR_CUSTOM, "ERROR: The adding event start date should not be later than the end date.");
+                return false;
+            }else if (timeDiff == 0 ) {
+                acalEventInfo.setIsDateRange(false);
+            }else {
+                acalEventInfo.setIsDateRange(true);
+            }
+
+            if (StringUtils.isBlank(startTime) & StringUtils.isBlank(endTime)) {
+                acalEventInfo.setIsAllDay(true);
+            }else if(StringUtils.isNotEmpty(startTime)){
+                acalEventInfo.setIsAllDay(false);
+            }
+        }
+
+        return valid;
+    }
+
+    private boolean isDuplicateEvent(AcalEventWrapper newEvent, AcalEventWrapper sourceEvent){
+//        return (newEvent.getAcalEventInfo().getTypeKey().equals(sourceEvent.getAcalEventInfo().getTypeKey()) &&
+//                newEvent.getStartDate().equals(sourceEvent.getStartDate()));
+        return (newEvent.getAcalEventInfo().getTypeKey().equals(sourceEvent.getAcalEventInfo().getTypeKey()));
+    }
+
     public void populateKeyDateTypes(InputField field, AcademicCalendarForm acalForm) {
 
         //As the keydate type select wont display for all the colletion lines, skip if it's not add row.
@@ -671,6 +749,16 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+        }else if (addLine instanceof HolidayCalendarInfo) {
+            HolidayCalendarInfo inputLine = (HolidayCalendarInfo)addLine;
+            try {
+                System.out.println("HC id =" +inputLine.getId());
+                inputLine = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
+
+            }catch (Exception e) {
+                e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            }
+
         }else if (addLine instanceof KeyDateWrapper){
             KeyDateWrapper keydate = (KeyDateWrapper)addLine;
             try {
@@ -687,6 +775,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             } catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
+        } else {
+            super.processBeforeAddLine(view, collectionGroup, model, addLine);
         }
     }
 
