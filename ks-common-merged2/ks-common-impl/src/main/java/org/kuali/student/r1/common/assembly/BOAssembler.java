@@ -18,6 +18,7 @@ package org.kuali.student.r1.common.assembly;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 
 /**
@@ -70,7 +71,8 @@ public interface BOAssembler<E, T> {
 	 *         order. The key (Integer) is the sequence in which the nodes have
 	 *         to be processed
 	 * @throws AssemblyException 
+	 * @throws PermissionDeniedException 
 	 */
 	public BaseDTOAssemblyNode<E,	T> disassemble(
-			E businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException;
+			E businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException, PermissionDeniedException;
 }

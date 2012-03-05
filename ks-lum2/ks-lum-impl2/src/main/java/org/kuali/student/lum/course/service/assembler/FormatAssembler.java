@@ -31,6 +31,7 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;
 import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.lum.course.dto.ActivityInfo;
 import org.kuali.student.r1.lum.course.dto.CourseInfo;
@@ -171,10 +172,11 @@ public class FormatAssembler implements BOAssembler<FormatInfo, CluInfo> {
 	 * @throws MissingParameterException 
 	 * @throws InvalidParameterException 
 	 * @throws DoesNotExistException 
+	 * @throws PermissionDeniedException 
 	 */
 	private List<BaseDTOAssemblyNode<?, ?>> disassembleActivities(String nodeId,
 			FormatInfo format, NodeOperation operation,ContextInfo contextInfo)
-			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
+			throws AssemblyException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 		List<BaseDTOAssemblyNode<?, ?>> results = new ArrayList<BaseDTOAssemblyNode<?, ?>>();
 
 		// Get the current activities and put them in a map of activity
