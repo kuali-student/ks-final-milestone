@@ -45,6 +45,8 @@ public class LumConverterTest {
         ActivityInfo r2 = R1R2ConverterUtil.convert(r1, ActivityInfo.class);
         Assert.assertEquals(r1.getState(), r2.getStateKey());
         Assert.assertEquals(r1.getActivityType(), r2.getTypeKey());
-        
+        org.kuali.student.r1.lum.course.dto.ActivityInfo r1a = R1R2ConverterUtil.convert(r2, org.kuali.student.r1.lum.course.dto.ActivityInfo.class);
+        Assert.assertEquals(r2.getStateKey(), r1a.getState());
+        Assert.assertEquals(r2.getTypeKey(), r1a.getActivityType());
     }
 }

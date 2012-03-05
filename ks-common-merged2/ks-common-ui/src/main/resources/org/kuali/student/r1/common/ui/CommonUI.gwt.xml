@@ -22,26 +22,26 @@
 	
 	
 	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.common.ui.client.CommonUI"/>
+	<entry-point class="org.kuali.student.r1.common.ui.client.CommonUI"/>
 	
-	<inherits name="org.kuali.student.common.CommonUtil" />
+	<inherits name="org.kuali.student.r1.common.CommonUtil" />
 	
 	<!-- Theme                  -->
-	<inherits name="org.kuali.student.common.ui.theme.standard.StandardTheme" />
+	<inherits name="org.kuali.student.r1.common.ui.theme.standard.StandardTheme" />
 	
 	<!-- Common DTO Inherits -->
-	<inherits name="org.kuali.student.common.Core" />
-	<inherits name="org.kuali.student.common.CoreRice" />
-	<inherits name="org.kuali.student.common.dictionary.Dictionary" />
-	<inherits name="org.kuali.student.common.search.Search" />
-	<inherits name="org.kuali.student.common.validation.Validation" />
-	<inherits name='org.kuali.student.common.assembly.Assembly'/>
-	<inherits name="org.kuali.student.common.messages.Message"/>	
+	<inherits name="org.kuali.student.r1.common.Core" />
+	<inherits name="org.kuali.student.r1.common.CoreRice" />
+	<inherits name="org.kuali.student.r1.common.dictionary.Dictionary" />
+	<inherits name="org.kuali.student.r1.common.search.Search" />
+	<inherits name="org.kuali.student.r1.common.validation.Validation" />
+	<inherits name='org.kuali.student.r1.common.assembly.Assembly'/>
+	<inherits name="org.kuali.student.r1.common.messages.Message"/>
 
 	<!-- Core Inherits -->
-	<inherits name="org.kuali.student.core.comment.Comment" />
-	<inherits name="org.kuali.student.core.document.Document" />
-	<inherits name="org.kuali.student.core.statement.Statement" />
+	<inherits name="org.kuali.student.r1.core.comment.Comment" />
+	<inherits name="org.kuali.student.r1.core.document.Document" />
+	<inherits name="org.kuali.student.r1.core.statement.Statement" />
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
@@ -55,12 +55,12 @@
  
 	<script src="http://www.google.com/jsapi"/>
     
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>
+    <replace-with class="org.kuali.student.r1.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
+        <when-type-is class="org.kuali.student.r1.common.ui.client.widgets.KSCollapsableFloatPanel"/>
     </replace-with>
 
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
+    <replace-with class="org.kuali.student.r1.common.ui.client.widgets.impl.KSFloatPanelImpl">
+        <when-type-is class="org.kuali.student.r1.common.ui.client.widgets.KSFloatPanel"/>
     </replace-with>
 
 	<!-- This can be used to swap the session timeout handler 
