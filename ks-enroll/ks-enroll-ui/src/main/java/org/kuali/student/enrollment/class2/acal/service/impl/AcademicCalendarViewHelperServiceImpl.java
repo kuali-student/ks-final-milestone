@@ -754,7 +754,8 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             try {
                 System.out.println("HC id =" +inputLine.getId());
                 inputLine = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
-
+                System.out.println("HC name = "+inputLine.getName()+", HC Admin Org = "+inputLine.getAdminOrgId());
+                addLine = inputLine;
             }catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
