@@ -1,4 +1,4 @@
-package org.kuali.student.conversion.util;
+package org.kuali.student.conversion.util.converter;
 
 import java.util.ArrayList;
 import java.util.HashMap;

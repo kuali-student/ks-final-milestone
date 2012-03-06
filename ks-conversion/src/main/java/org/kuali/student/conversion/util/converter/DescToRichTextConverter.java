@@ -1,4 +1,4 @@
-package org.kuali.student.conversion.util;
+package org.kuali.student.conversion.util.converter;
 
 import org.dozer.DozerConverter;
 import org.kuali.student.r2.common.dto.RichTextInfo;
