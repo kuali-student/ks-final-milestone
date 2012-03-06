@@ -443,6 +443,16 @@
 		</class-a>
 		<class-b>org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo
 		</class-b>
+		<field custom-converter="org.kuali.student.conversion.util.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
 	</mapping>
 	<mapping>
 		<class-a>org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo
