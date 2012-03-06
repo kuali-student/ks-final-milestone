@@ -16,8 +16,10 @@
 package org.kuali.student.lum.common.client.lo.rpc;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
+
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
 import org.kuali.student.lum.lo.dto.LoInfo;
@@ -29,14 +31,15 @@ import java.util.List;
  * 
  * @author Kuali Student Team
  */
+// TODO KSCM-245
 @RemoteServiceRelativePath("rpcservices/LoCategoryRpcService")
 public interface LoCategoryRpcService extends BaseDataOrchestrationRpcService {
 
-    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey);
-    public StatusInfo deleteLoCategory(String loCategoryId);
+    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey, ContextInfo contextInfo);
+    public StatusInfo deleteLoCategory(String loCategoryId, ContextInfo contextInfo);
 
     public List<LoCategoryTypeInfo> getLoCategoryTypes();
 
-    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey);
+    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey, ContextInfo contextInfo);
 
 }

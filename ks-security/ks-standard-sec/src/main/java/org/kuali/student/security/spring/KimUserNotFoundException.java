@@ -15,7 +15,7 @@
 
 package org.kuali.student.security.spring;
 
-import org.springframework.security.AccountStatusException;
+import org.springframework.security.authentication.AccountStatusException;
 
 
 /**

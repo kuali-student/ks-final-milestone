@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import org.kuali.student.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.common.dto.ContextInfo;
 import org.kuali.student.common.util.MessageUtils;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.BeanConstraintDataProvider;
 import org.kuali.student.common.validator.ConstraintDataProvider;
 import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.core.dictionary.dto.FieldDefinition;
-import org.kuali.student.core.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.course.dto.CourseExpenditureInfo;
 import org.kuali.student.lum.lu.dto.AffiliatedOrgInfo;
 
@@ -19,17 +20,17 @@ public class ExpenditurePercentValidator extends DefaultValidatorImpl {
     private static final String COURSE_EXPENDITURE_FIELD = "expenditure";
 
     @Override
-    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure) {
+    public List<ValidationResultInfo> validateObject(Object data, ObjectStructureDefinition objStructure, ContextInfo contextInfo) {
         // Custom validators are required to only override the other validateObject method
         return null;
     }
 
     /***
-     * @see org.kuali.student.common.validator.Validator#validateObject(org.kuali.student.core.dictionary.dto.FieldDefinition,
-     *      java.lang.Object, org.kuali.student.core.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
+     * @see org.kuali.student.common.validator.Validator#validateObject(org.kuali.student.common.dictionary.dto.FieldDefinition,
+     *      java.lang.Object, org.kuali.student.common.dictionary.dto.ObjectStructureDefinition, java.util.Stack)
      */
     @Override
-    public List<ValidationResultInfo> validateObject(FieldDefinition field, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack) {
+    public List<ValidationResultInfo> validateObject(FieldDefinition field, Object data, ObjectStructureDefinition objStructure, Stack<String> elementStack,  ContextInfo contextInfo) {
 
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
 
@@ -65,7 +66,7 @@ public class ExpenditurePercentValidator extends DefaultValidatorImpl {
         if (courseExpInfo.getAffiliatedOrgs().size() > 0 && totalOrgPercent != 100l) {
             ValidationResultInfo valRes = new ValidationResultInfo(getElementXpath(elementStack));
             valRes.setElement("/expenditure/affiliatedOrgs");
-            valRes.setError(MessageUtils.interpolate(getMessage("validation.expenditureTotal"), toMap(field)));
+            valRes.setError(MessageUtils.interpolate(getMessage("validation.expenditureTotal", contextInfo), toMap(field)));
             results.add(valRes);
         }
 
