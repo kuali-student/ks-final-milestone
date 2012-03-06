@@ -11,15 +11,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.assembly.BOAssembler;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.common.assembly.data.AssemblyException;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.util.UUIDHelper;
-import org.kuali.student.core.assembly.BOAssembler;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.core.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.core.assembly.data.AssemblyException;
-import org.kuali.student.core.exceptions.DoesNotExistException;
-import org.kuali.student.core.exceptions.InvalidParameterException;
-import org.kuali.student.core.exceptions.MissingParameterException;
-import org.kuali.student.core.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.RefStatementRelationInfo;
 import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.service.StatementService;
@@ -40,6 +39,7 @@ import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
  * @author glindholm
  *
  */
+// TODO KSCM-252
 public class ProgramRequirementAssembler implements BOAssembler<ProgramRequirementInfo, CluInfo> {
     final static Logger LOG = Logger.getLogger(ProgramRequirementAssembler.class);
 
@@ -54,7 +54,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	@Override
 	public ProgramRequirementInfo assemble(CluInfo clu,
-			ProgramRequirementInfo progReqInfo, boolean shallowBuild)
+			ProgramRequirementInfo progReqInfo, boolean shallowBuild,ContextInfo contextInfo)
 			throws AssemblyException {
 		ProgramRequirementInfo progReq = (progReqInfo != null ? progReqInfo : new ProgramRequirementInfo());
 
@@ -69,16 +69,17 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 		if (progReq.getStatement() == null) {
 			try {
-				List<RefStatementRelationInfo> relations = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId());
+				List<RefStatementRelationInfo> relations = null;
+				// TODO KSCM				statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId());
 
 
 				StatementTreeViewInfo statementTree = new StatementTreeViewInfo();
 				if (relations != null) {
-					statementTreeViewAssembler.assemble(statementService.getStatementTreeView(relations.get(0).getStatementId()), statementTree, shallowBuild);
+					// TODO KSCM					statementTreeViewAssembler.assemble(statementService.getStatementTreeView(relations.get(0).getStatementId()), statementTree, shallowBuild);
 				}
 				progReq.setStatement(statementTree);
-			} catch (AssemblyException e) {
-				throw e;
+				// TODO KSCM			} catch (AssemblyException e) {
+				// TODO KSCM				throw e;
 			} catch (Exception e) {
 				throw new AssemblyException(e);
 			}
@@ -98,7 +99,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	@Override
 	public BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> disassemble(
-			ProgramRequirementInfo progReq, NodeOperation operation)
+			ProgramRequirementInfo progReq, NodeOperation operation,ContextInfo contextInfo)
 			throws AssemblyException {
 
 		if (progReq == null) {
@@ -109,13 +110,13 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 		}
 
 		BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo>(null);
-
+		
 		// Create the Statement Tree
         StatementTreeViewInfo statement = progReq.getStatement();
         statement.setId(UUIDHelper.genStringUUID(statement.getId()));
         BaseDTOAssemblyNode<StatementTreeViewInfo, StatementTreeViewInfo> statementTree;
 		try {
-			statementTree = statementTreeViewAssembler.disassemble(statement, operation);
+			statementTree = statementTreeViewAssembler.disassemble(statement, operation,contextInfo);
 		} catch (AssemblyException e) {
 			throw e;
 		} catch (Exception e) {
@@ -125,14 +126,16 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 		CluInfo clu;
 		try {
-			clu = (NodeOperation.UPDATE == operation) ?  luService.getClu(progReq.getId()) : new CluInfo();
+			clu = null;
+			// TODO KSCM			clu = (NodeOperation.UPDATE == operation) ?  luService.getClu(progReq.getId()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during program requirement update", e);
         }
 
         if (operation.equals(NodeOperation.DELETE)) {
             try {
-				final List<CluCluRelationInfo> relations = luService.getCluCluRelationsByClu(progReq.getId());
+				final List<CluCluRelationInfo> relations = null;
+				// TODO KSCM				luService.getCluCluRelationsByClu(progReq.getId());
 	            final BaseDTOAssemblyNode<ProgramRequirementInfo, CluCluRelationInfo> cluRelation = new BaseDTOAssemblyNode<ProgramRequirementInfo, CluCluRelationInfo>(null);
 	            if (relations.size() > 1) {
 	            	throw new AssemblyException("Unable to dissamble ProgramRequirement, more than one CluCluRelation found");
@@ -153,24 +156,27 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         cluResult.setOperation(operation);
         result.getChildNodes().add(cluResult);
 
-        programAssemblerUtils.disassembleBasics(clu, progReq);
+     // TODO KSCM        programAssemblerUtils.disassembleBasics(clu, progReq);
 
 		//disassembling minCredits & maxCredits
-        disassembleCredits(clu, progReq);
+        disassembleCredits(clu, progReq,contextInfo);
 
         progReq.setId(clu.getId());
         CluIdentifierInfo official = null != clu.getOfficialIdentifier() ? clu.getOfficialIdentifier() : new CluIdentifierInfo();
         official.setLongName(progReq.getLongTitle());
         official.setShortName(progReq.getShortTitle());
-        official.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
+        
+        // We decided not to do null checks in the disassembler.  Instead we will just 
+        // set state to whatever is passed into the method (I missed this change when working on 1834)      
+        official.setState(progReq.getState());
+        
         // gotta be this type
         official.setType(ProgramAssemblerConstants.OFFICIAL);
         clu.setOfficialIdentifier(official);
 
         clu.setDescr(progReq.getDescr());
-        clu.setState(!isEmpty(clu.getState()) ? clu.getState() : ProgramAssemblerConstants.ACTIVE);
         if (progReq.getLearningObjectives() != null) {
-            disassembleLearningObjectives(progReq, operation, result);
+            disassembleLearningObjectives(progReq, operation, result,contextInfo);
         }
 
         RefStatementRelationInfo relation;
@@ -179,17 +185,20 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
             relation.setId(UUIDHelper.genStringUUID(null));
         } else {
         	try {
-        		relation = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId()).get(0);
+        		relation = null;
+        		// TODO KSCM        		relation = statementService.getRefStatementRelationsByRef(ProgramAssemblerConstants.PROGRAM_REQUIREMENT, clu.getId()).get(0);
 			} catch (Exception e) {
 				throw new AssemblyException("Unable to find RefStatementRelation", e);
 			}
         }
         //relation.setType("clu.prerequisites"); // FIXME Derive from statement and rule types
-        relation.setType(ProgramAssemblerConstants.PROGRAM_REFERENCE_TYPE);
+     // TODO KSCMrelation.setType(ProgramAssemblerConstants.PROGRAM_REFERENCE_TYPE);
         relation.setRefObjectId(clu.getId());
         relation.setRefObjectTypeKey(ProgramAssemblerConstants.PROGRAM_REQUIREMENT);
         relation.setStatementId(statement.getId());
-        relation.setState(ProgramAssemblerConstants.ACTIVE);
+        // Relations can be either Active or Suspended
+        // For now, we always use Active (never use draft, etc for relations)
+     // TODO KSCMrelation.setState(DtoConstants.STATE_ACTIVE);
 
         BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo> relationNode = new BaseDTOAssemblyNode<ProgramRequirementInfo, RefStatementRelationInfo>(null);
         relationNode.setNodeData(relation);
@@ -203,7 +212,7 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 
 	private void disassembleLearningObjectives(ProgramRequirementInfo progReq,
 			NodeOperation operation,
-			BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result) throws AssemblyException {
+			BaseDTOAssemblyNode<ProgramRequirementInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
         try {
             List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(progReq.getId(), progReq.getState(),  progReq.getLearningObjectives(), operation);
             if (loResults != null) {
@@ -215,21 +224,30 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
         }
 	}
 
-	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
+	private void disassembleCredits(CluInfo clu, ProgramRequirementInfo progReq,ContextInfo contextInfo){
 		Map<String,String> attributes = null != clu.getAttributes() ? clu.getAttributes() : new HashMap<String,String>();
 
-		if(progReq.getMinCredits() != null) attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
-		if(progReq.getMaxCredits() != null) attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+		if(progReq.getMinCredits() != null){
+			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, Integer.toString(progReq.getMinCredits()));
+		}else{
+			attributes.put(ProgramAssemblerConstants.MIN_CREDITS, null);
+		}
+		if(progReq.getMaxCredits() != null) {
+			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, Integer.toString(progReq.getMaxCredits()));
+		}else{
+			attributes.put(ProgramAssemblerConstants.MAX_CREDITS, null);
+		}
+			
 		clu.setAttributes(attributes);
 	}
 
 	private void assembleCredits(CluInfo clu, ProgramRequirementInfo progReq){
 		Map<String,String> attributes = clu.getAttributes();
 		if(attributes != null){
-			if(attributes.containsKey(ProgramAssemblerConstants.MIN_CREDITS))
-				progReq.setMinCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MIN_CREDITS)));
-			if(attributes.containsKey(ProgramAssemblerConstants.MAX_CREDITS))
-				progReq.setMaxCredits(Integer.parseInt(attributes.get(ProgramAssemblerConstants.MAX_CREDITS)));
+			String minCredits = attributes.get(ProgramAssemblerConstants.MIN_CREDITS);
+			String maxCredits = attributes.get(ProgramAssemblerConstants.MAX_CREDITS);
+			progReq.setMinCredits(isEmpty(minCredits)?null:Integer.parseInt(minCredits));
+			progReq.setMaxCredits(isEmpty(maxCredits)?null:Integer.parseInt(maxCredits));
 		}
 	}
 
@@ -289,4 +307,5 @@ public class ProgramRequirementAssembler implements BOAssembler<ProgramRequireme
 	public void setProgramAssemblerUtils(ProgramAssemblerUtils programAssemblerUtils) {
 		this.programAssemblerUtils = programAssemblerUtils;
 	}
+	
 }

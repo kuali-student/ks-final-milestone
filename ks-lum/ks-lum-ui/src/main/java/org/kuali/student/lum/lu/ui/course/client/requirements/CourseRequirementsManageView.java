@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
@@ -30,14 +31,23 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
-import org.kuali.student.common.ui.client.widgets.rules.ReqCompEditWidget;
-import org.kuali.student.common.ui.client.widgets.rules.ReqComponentInfoUi;
-import org.kuali.student.common.ui.client.widgets.rules.RuleManageWidget;
-import org.kuali.student.common.ui.client.widgets.rules.RulesUtil;
-import org.kuali.student.core.assembly.data.Metadata;
-import org.kuali.student.core.statement.dto.*;
-import org.kuali.student.core.versionmanagement.dto.VersionDisplayInfo;
-import org.kuali.student.lum.common.client.widgets.*;
+import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.core.statement.dto.ReqCompFieldTypeInfo;
+import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.core.statement.dto.ReqComponentTypeInfo;
+import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.core.statement.ui.client.widgets.rules.ReqCompEditWidget;
+import org.kuali.student.core.statement.ui.client.widgets.rules.ReqComponentInfoUi;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RuleManageWidget;
+import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
+import org.kuali.student.lum.common.client.widgets.BuildCluSetWidget;
+import org.kuali.student.lum.common.client.widgets.CluSetRetrieverImpl;
+import org.kuali.student.lum.common.client.widgets.CourseWidget;
+import org.kuali.student.lum.common.client.widgets.GradeWidget;
+import org.kuali.student.lum.common.client.widgets.ProgramWidget;
 import org.kuali.student.lum.lu.dto.CluInfo;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcServiceAsync;
@@ -67,10 +77,10 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     private CourseRequirementsViewController parentController;
 
     //view's widgets
-    private VerticalPanel layout = new VerticalPanel();
-    private ReqCompEditWidget editReqCompWidget;
-    private RuleManageWidget ruleManageWidget;
-    private SimplePanel twiddlerPanel = new SimplePanel();
+    protected VerticalPanel layout = new VerticalPanel();
+    protected ReqCompEditWidget editReqCompWidget;
+    protected RuleManageWidget ruleManageWidget;
+    protected SimplePanel twiddlerPanel = new SimplePanel();
     private ActionCancelGroup actionCancelButtons = new ActionCancelGroup(ButtonEnumerations.SaveCancelEnum.SAVE, ButtonEnumerations.SaveCancelEnum.CANCEL);
 
     //view's data
@@ -87,8 +97,18 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     private boolean userClickedSaveButton = false;
 	private BlockingTask creatingRuleTask = new BlockingTask("Creating Rule");
 
-    public CourseRequirementsManageView(CourseRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId) {
+    public CourseRequirementsManageView() {
+        super();
+    }
+
+    public CourseRequirementsManageView(CourseRequirementsViewController parentController, Enum<?> viewEnum,
+            String name, String modelId) {
         super(viewEnum, name, modelId);
+        this.parentController = parentController;
+    }
+
+    public void init(CourseRequirementsViewController parentController, Enum<?> viewEnum, String name, String modelId) {
+        super.init(viewEnum, name, modelId, true);
         this.parentController = parentController;
     }
 
@@ -113,7 +133,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         editReqCompWidget.setRetrieveCustomWidgetCallback(retrieveCustomWidgetCallback);
     }
 
-    private void draw() {
+    protected void draw() {
 
         remove(layout);
         layout.clear();
@@ -143,7 +163,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
         displaySaveButton();
     }
 
-    private void displaySaveButton() {
+    protected void displaySaveButton() {
         actionCancelButtons.addStyleName("KS-Course-Requisites-Save-Button");
         actionCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>(){
              @Override
@@ -255,7 +275,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
             KSBlockingProgressIndicator.addTask(creatingRuleTask);
 
             //1. update NL for the req. component
-            statementRpcServiceAsync.translateReqComponentToNLs(reqComp, new String[]{RULEEDIT_TEMLATE, RULEPREVIEW_TEMLATE}, TEMLATE_LANGUAGE, new KSAsyncCallback<List<String>>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            statementRpcServiceAsync.translateReqComponentToNLs(reqComp, new String[]{RULEEDIT_TEMLATE, RULEPREVIEW_TEMLATE}, TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<List<String>>() {
                 public void handleFailure(Throwable caught) {
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                     Window.alert(caught.getMessage());
@@ -274,8 +295,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                         if (rule.getStatements() != null && !rule.getStatements().isEmpty()) {
                             StatementTreeViewInfo newStatementTreeViewInfo = new StatementTreeViewInfo();
                             newStatementTreeViewInfo.setId(CourseRequirementsSummaryView.NEW_STMT_TREE_ID + Integer.toString(tempStmtTreeViewInfoID++));
-                            newStatementTreeViewInfo.setOperator(rule.getStatements().get(0).getOperator());
+                            newStatementTreeViewInfo.setOperator(rule.getOperator());
                             newStatementTreeViewInfo.getReqComponents().add(reqComp);
+                            newStatementTreeViewInfo.setTypeKey(rule.getTypeKey());
                             rule.getStatements().add(newStatementTreeViewInfo);
                         } else {
                             rule.getReqComponents().add(reqComp);
@@ -306,8 +328,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     };
 
     private void retrieveAndSetupReqCompTypes() {
-
-        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
+        //TODO KSCM - Correct ContextInfo parameter?
+        statementRpcServiceAsync.getReqComponentTypesForStatementType(rule.getType(), ContextUtils.getContextInfo(), new KSAsyncCallback<List<ReqComponentTypeInfo>>() {
             public void handleFailure(Throwable cause) {
             	GWT.log("Failed to get req. component types for statement of type:" + rule.getType(), cause);
             	Window.alert("Failed to get req. component types for statement of type:" + rule.getType());
@@ -334,14 +356,14 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     customWidgets.put("kuali.reqComponent.field.type.grade.id", new GradeWidget());
                 } else if (RulesUtil.isCourseWidget(fieldTypeInfo.getId())) {
 
-                    final CourseWidget courseWidget = new CourseWidget();
+                    final CourseWidget courseWidget = GWT.create(CourseWidget.class);
                     
                     courseWidget.addGetCluNameCallback(new Callback() {
 
                         @Override
                         public void exec(Object id) {
-
-                            luRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                            //TODO KSCM - Correct ContextInfo parameter?
+                            luRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, ContextUtils.getContextInfo(), new AsyncCallback<VersionDisplayInfo>() {
                                 @Override
                                 public void onFailure(Throwable throwable) {
                                     Window.alert(throwable.getMessage());
@@ -350,7 +372,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                                 @Override
                                 public void onSuccess(final VersionDisplayInfo versionInfo) {
-                                    luRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                    //TODO KSCM - Correct ContextInfo parameter?
+                                    luRpcServiceAsync.getClu(versionInfo.getId(), ContextUtils.getContextInfo(), new AsyncCallback<CluInfo>() {
                                         @Override
                                         public void onFailure(Throwable throwable) {
                                             Window.alert(throwable.getMessage());
@@ -364,8 +387,6 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                     });
                                 }
                             });
-
-
                         }
                     });
 
@@ -377,8 +398,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                         @Override
                         public void exec(Object id) {
-
-                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, new AsyncCallback<VersionDisplayInfo>() {
+                            //TODO KSCM - Correct ContextInfo parameter?
+                            statementRpcServiceAsync.getCurrentVersion(CLU_NAMESPACE_URI, (String)id, ContextUtils.getContextInfo(), new AsyncCallback<VersionDisplayInfo>() {
                                 @Override
                                 public void onFailure(Throwable throwable) {
                                     Window.alert(throwable.getMessage());
@@ -387,7 +408,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
 
                                 @Override
                                 public void onSuccess(final VersionDisplayInfo versionInfo) {
-                                    statementRpcServiceAsync.getClu(versionInfo.getId(), new AsyncCallback<CluInfo>() {
+                                    //TODO KSCM - Correct ContextInfo parameter?
+                                    statementRpcServiceAsync.getClu(versionInfo.getId(), ContextUtils.getContextInfo(), new AsyncCallback<CluInfo>() {
                                         @Override
                                         public void onFailure(Throwable throwable) {
                                             Window.alert(throwable.getMessage());
@@ -414,7 +436,8 @@ public class CourseRequirementsManageView extends VerticalSectionView {
     //called when user selects a rule type in the rule editor
     protected Callback<ReqComponentInfo> retrieveCompositionTemplateCallback = new Callback<ReqComponentInfo>(){
         public void exec(final ReqComponentInfo reqComp) {
-            statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, new KSAsyncCallback<String>() {
+            //TODO KSCM - Correct ContextInfo parameter?
+            statementRpcServiceAsync.translateReqComponentToNL(reqComp, COMPOSITION_TEMLATE, TEMLATE_LANGUAGE, ContextUtils.getContextInfo(), new KSAsyncCallback<String>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("translateReqComponentToNL failed for req. comp. type: '" + reqComp.getType() + "'",caught);
@@ -434,7 +457,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 fieldTypes.add("kuali.reqComponent.field.type.gradeType.id");
             }
 
-            metadataServiceAsync.getMetadataList("org.kuali.student.core.statement.dto.ReqCompFieldInfo", fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
+            metadataServiceAsync.getMetadataList(ReqCompFieldInfo.class.getName(), fieldTypes, null, new KSAsyncCallback<List<Metadata>>() {
                 public void handleFailure(Throwable caught) {
                     Window.alert(caught.getMessage());
                     GWT.log("getMetadataList failed for req. comp. types: '" + fieldTypes.toString() + "'",caught);

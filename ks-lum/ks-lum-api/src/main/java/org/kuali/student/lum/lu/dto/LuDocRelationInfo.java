@@ -24,18 +24,21 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.HasTypeState;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.HasTypeState;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  *Information about the LU to document relation.
  */ 
+//KSCM-130:  Add @XmlType
+@XmlType(name = "LuDocRelationInfo", propOrder = {"id", "type", "state", "cluId", "documentId", "title", "desc", "effectiveDate", "expirationDate", "attributes", "metaInfo"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LuDocRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

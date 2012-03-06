@@ -21,8 +21,9 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 
-import org.kuali.student.core.dto.Idable;
+import org.kuali.student.common.dto.Idable;
 
 /**
  * Key/value pair, typically used for information which may vary from the common set of information provided about an object.
@@ -33,6 +34,8 @@ import org.kuali.student.core.dto.Idable;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/fieldInfo+Structure+v1.0-rc1">FieldInfo v1.0-rc1</>
  *
  */
+//KSCM-130:  Add @XmlType
+@XmlType(name = "FieldInfo", propOrder = {"id", "value"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FieldInfo implements Serializable, Idable {
 
