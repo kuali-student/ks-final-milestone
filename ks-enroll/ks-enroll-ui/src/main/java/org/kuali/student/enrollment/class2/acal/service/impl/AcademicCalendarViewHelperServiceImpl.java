@@ -753,14 +753,15 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             HolidayCalendarInfo inputLine = (HolidayCalendarInfo)addLine;
             try {
                 System.out.println("HC id =" +inputLine.getId());
-                inputLine = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
-                System.out.println("HC name = "+inputLine.getName()+", HC Admin Org = "+inputLine.getAdminOrgId());
-                addLine = inputLine;
-                if (model instanceof AcademicCalendarForm){
-                    AcademicCalendarForm acalForm = (AcademicCalendarForm) model;
-                    List<HolidayCalendarInfo> holidayCalendarInfoList = acalForm.getHolidayCalendarList();
-                    holidayCalendarInfoList.add(inputLine);
-                }
+
+                HolidayCalendarInfo exists = getAcalService().getHolidayCalendar(inputLine.getId(), getContextInfo());
+
+                inputLine.setName(exists.getName());
+                inputLine.setId(exists.getId());
+                inputLine.setTypeKey(exists.getTypeKey());
+                inputLine.setAdminOrgId(exists.getAdminOrgId());
+                inputLine.setStartDate(exists.getStartDate());
+                inputLine.setEndDate(exists.getEndDate());
             }catch (Exception e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
