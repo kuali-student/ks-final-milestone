@@ -3,7 +3,6 @@ package org.kuali.student.r2.core.class1.type.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.enrollment.class1.lpr.model.LuiPersonRelationEntity;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -16,8 +15,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.ReadOnlyException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
-import org.kuali.student.r2.common.util.constants.TypeServiceConstants;
 import org.kuali.student.r2.core.class1.type.dao.TypeDao;
 import org.kuali.student.r2.core.class1.type.dao.TypeTypeRelationDao;
 import org.kuali.student.r2.core.class1.type.model.TypeEntity;
@@ -25,8 +22,6 @@ import org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity;
 import org.kuali.student.r2.core.type.dto.TypeInfo;
 import org.kuali.student.r2.core.type.dto.TypeTypeRelationInfo;
 import org.kuali.student.r2.core.type.service.TypeService;
-
-import javax.jws.WebParam;
 
 public class TypeServiceImpl implements TypeService {
     private TypeDao typeDao;
@@ -72,7 +67,7 @@ public class TypeServiceImpl implements TypeService {
     public List<TypeInfo> getAllowedTypesForType(String ownerTypeKey, String relatedRefObjectURI, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
 
-        List<TypeTypeRelationEntity> typeTypeRelationEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerType(ownerTypeKey, relatedRefObjectURI);
+        List<TypeTypeRelationEntity> typeTypeRelationEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerTypeForRefObjectUri(ownerTypeKey, relatedRefObjectURI);
         List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>();
         for (TypeTypeRelationEntity typeTypeEntity : typeTypeRelationEntities) {
             typeInfoList.add(typeDao.find(typeTypeEntity.getRelatedTypeId()).toDto());
@@ -196,8 +191,8 @@ public class TypeServiceImpl implements TypeService {
 
     @Override
     public List<String> getRefObjectUris(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-//        TODO: waiting for Sambit to implemnet
-        throw new UnsupportedOperationException("Not supported yet.");
+           return typeDao.getAllRefObjectUris();
+
     }
 
     
@@ -205,7 +200,7 @@ public class TypeServiceImpl implements TypeService {
     @Override
     public List<TypeInfo> getTypesByRefObjectUri(String refObjectUri, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException,
             OperationFailedException, PermissionDeniedException {
-        List<TypeInfo>  typDTOs =  new ArrayList<TypeInfo>();
+       List<TypeInfo>  typDTOs =  new ArrayList<TypeInfo>();
        List<TypeEntity>  typeEntities =  typeDao.getTypesByRefObjectUri(refObjectUri);
        for( TypeEntity typeEntity : typeEntities ){
            typDTOs.add(typeEntity.toDto());
@@ -215,16 +210,28 @@ public class TypeServiceImpl implements TypeService {
     }
 
     @Override
-    public List<org.kuali.student.r2.core.type.dto.TypeInfo> getTypesForGroupType(@WebParam(name = "groupTypeKey") String groupTypeKey, @WebParam(name = "contextInfo") org.kuali.student.r2.common.dto.ContextInfo contextInfo) throws org.kuali.student.r2.common.exceptions.DoesNotExistException, org.kuali.student.r2.common.exceptions.InvalidParameterException, org.kuali.student.r2.common.exceptions.MissingParameterException, org.kuali.student.r2.common.exceptions.OperationFailedException, org.kuali.student.r2.common.exceptions.PermissionDeniedException
-        {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<TypeInfo> getTypesForGroupType(String groupTypeKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+     {
+        List<TypeTypeRelationEntity> typeTypeRelationEntities = typeTypeRelationDao.getTypeTypeRelationsByOwnerTypeAndRelationType(groupTypeKey, org.kuali.student.r2.common.util.constants.TypeServiceConstants.TYPE_TYPE_RELATION_GROUP_TYPE_KEY);
+        List<TypeInfo> typeInfoList = new ArrayList<TypeInfo>();
+        for (TypeTypeRelationEntity typeTypeEntity : typeTypeRelationEntities) {
+            typeInfoList.add(typeDao.find(typeTypeEntity.getRelatedTypeId()).toDto());
         }
+
+        return typeInfoList;
+     }
 
     @Override
     public List<TypeTypeRelationInfo> getTypeTypeRelationsByIds(List<String> typeTypeRelationIds, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+        List<TypeTypeRelationInfo>   typeRelationInfos = new ArrayList<TypeTypeRelationInfo>();
+        for(String typeRelationId: typeTypeRelationIds)   {
+          typeRelationInfos.add(typeTypeRelationDao.find(typeRelationId).toDto());
+
+        }
+
+        return typeRelationInfos;
+
     }
 
 }

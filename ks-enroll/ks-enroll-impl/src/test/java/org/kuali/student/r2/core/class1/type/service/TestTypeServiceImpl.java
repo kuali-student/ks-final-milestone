@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
 
@@ -29,15 +30,9 @@ import static junit.framework.Assert.*;
 @TransactionConfiguration(transactionManager = "JtaTxManager", defaultRollback = true)
 @Transactional
 public class TestTypeServiceImpl {
-     private TypeService typeService;
+    @Resource
+    private TypeService typeService;
 
-    public TypeService getTypeService() {
-        return typeService;
-    }
-
-    public void setTypeService(TypeService typeService) {
-        this.typeService = typeService;
-    }
 
     @Test
     public void testGetType() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
@@ -77,7 +72,7 @@ public class TestTypeServiceImpl {
             }
 
     }
-
+    @Test
     public void testCreateType() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
 
         TypeInfo typeToCreate = new TypeInfo();
@@ -90,20 +85,8 @@ public class TestTypeServiceImpl {
 
         assertNotNull(createdType);
 
-        try{
-                    TypeInfo typeToCreateFail = new TypeInfo();
-                    typeToCreateFail.setKey("kuali.atp.type.TestAtp");
-                    typeToCreateFail.setEffectiveDate(new Date());
-                    typeToCreateFail.setName("ATP test create");
-                    typeToCreateFail.setRefObjectUri(AtpServiceConstants.REF_OBJECT_URI_ATP);
-                    TypeInfo noType = typeService.createType("kuali.atp.type.TestAtp", typeToCreate, new ContextInfo());
-
-        } catch (MissingParameterException ex){
-                 assertNotNull(ex);
-        }
-
     }
-
+    @Test
     public void testDeleteType() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
             TypeInfo typeToCreate = new TypeInfo();
             typeToCreate.setKey("kuali.atp.type.TestAtp");
@@ -123,5 +106,7 @@ public class TestTypeServiceImpl {
                 }
 
     }
+
+
 
 }

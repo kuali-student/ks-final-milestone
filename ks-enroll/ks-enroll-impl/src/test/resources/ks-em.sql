@@ -31,21 +31,19 @@ insert into KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) values ('kua
 insert into KSEN_COMM_STATE (ID, NAME, PROCESS_KEY, DESCR, VER_NBR) values ('kuali.enumeration.state.inactive', 'Inactive', 'kuali.enumeration.process', 'Indicates that this Enumeration is inactive', 0)
 
 -- Enumeration Types
-insert into KSEM_ENUM_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.enumeration.type.One', 'One', 'One', 'http://student.kuali.org/wsdl/enumeration/EnumerationInfo', 0)
-insert into KSEM_ENUM_TYPE(TYPE_KEY, NAME, TYPE_DESC, REF_OBJECT_URI, VER_NBR) values ('kuali.enumeration.type.Two', 'Two', 'Two', 'http://student.kuali.org/wsdl/enumeration/EnumerationInfo', 0)
 
 -- Enumerations 
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.lu.subjectArea', 'Subject Area Enumeration', 'subjectArea.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.lu.campusLocation', 'Campus Location Enumeration', 'campusLocation.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.atptype.duration', 'ATP Durations', 'duration.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.state', 'KS Data States', 'state.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.lu.fee.feeType', 'Learning Unit Fee Type', 'feeType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.lu.fee.rateType', 'Learning Unit Rate Type', 'rateType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.enum.type.cip2010', 'CIP 2010', 'cip2010.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.enum.type.cip2000', 'CIP 2000', 'cip2000.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.enum.lu.program.level', 'Program Level', 'level.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.lu.code.UniversityClassification', 'University Classification', 'classification.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
-insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE_ID, ENUM_TYPE_ID) values ('kuali.lu.finalExam.status', 'Final Exam Status', 'status.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.subjectArea', 'Subject Area Enumeration', 'subjectArea.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.campusLocation', 'Campus Location Enumeration', 'campusLocation.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.atptype.duration', 'ATP Durations', 'duration.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.state', 'KS Data States', 'state.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.fee.feeType', 'Learning Unit Fee Type', 'feeType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.fee.rateType', 'Learning Unit Rate Type', 'rateType.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.type.cip2010', 'CIP 2010', 'cip2010.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.type.cip2000', 'CIP 2000', 'cip2000.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.enum.lu.program.level', 'Program Level', 'level.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.Two');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.code.UniversityClassification', 'University Classification', 'classification.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
+insert into KSEM_ENUM_T (ID, NAME, RT_DESCR_ID, ENUM_STATE, ENUM_TYPE) values ('kuali.lu.finalExam.status', 'Final Exam Status', 'status.descr', 'kuali.enumeration.state.active', 'kuali.enumeration.type.One');
 
 --Enumerated Values
 insert into KSEM_ENUM_VAL_T (ID, ABBREV_VAL, CD, EFF_DT, ENUM_KEY, EXPIR_DT, SORT_KEY, VAL) values ('1', 'ROBT', 'ROBT', {ts '2000-01-01 00:00:00.0'}, 'kuali.lu.subjectArea', {ts '2000-01-01 00:00:00.0'}, '1', 'Robotics');

@@ -26,6 +26,11 @@
 		<class>org.kuali.student.r2.core.class1.atp.model.MilestoneAttributeEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity</class>
 		<class>org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
+
+
 
 		<!-- Statement Persistence -->
 		<class>org.kuali.student.core.statement.entity.RefStatementRelation</class>

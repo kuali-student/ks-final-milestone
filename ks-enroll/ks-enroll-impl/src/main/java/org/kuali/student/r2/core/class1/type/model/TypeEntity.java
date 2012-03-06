@@ -14,11 +14,7 @@ package org.kuali.student.r2.core.class1.type.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -30,6 +26,7 @@ import org.kuali.student.r2.core.type.infc.Type;
 
 @Entity
 @Table(name = "KSEN_TYPE")
+@NamedQueries({@NamedQuery(name = "Type.GetByRefObjectUri", query = "select type.refObjectURI from TypeEntity type where type.refObjectURI=:refObjectURI"),@NamedQuery(name = "Type.GetAllRefObjectUris", query = "select refObjectURI from TypeEntity")})
 public class TypeEntity extends MetaEntity implements AttributeOwner<TypeAttributeEntity> {
 
     @Column(name = "NAME")

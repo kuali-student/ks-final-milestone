@@ -16,4 +16,12 @@ public class TypeDao extends GenericEntityDao<TypeEntity> {
         return typesByRefObjectUri;
 
     }
+
+    public List<String> getAllRefObjectUris()
+        {
+            Query query = em.createNamedQuery("Type.GetAllRefObjectUris");
+            List<String> allRefObjectUris = query.getResultList();
+            return allRefObjectUris;
+
+        }
 }
