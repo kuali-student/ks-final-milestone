@@ -22,6 +22,7 @@
 	<source path='dto' />
 	<source path='util'>
 		<include name="**/*ContextUtils.java"/>
+		<include name="**/*DataDictionaryServiceConstants.java"/>
 	</source>
 	<source path = 'exceptions'>
 		<include name="**/*DoesNotExistException.java"/>
