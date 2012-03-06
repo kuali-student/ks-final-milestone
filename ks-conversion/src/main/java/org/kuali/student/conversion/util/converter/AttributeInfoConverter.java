@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.dozer.DozerConverter;
-import org.dozer.Mapper;
-import org.dozer.MapperAware;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 
+@SuppressWarnings("rawtypes")
 public class AttributeInfoConverter extends DozerConverter<Map, List> {
 
     public AttributeInfoConverter() {
