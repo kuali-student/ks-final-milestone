@@ -19,7 +19,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TermTypeKeyValues  extends UifKeyValuesFinderBase implements Serializable {
+public class AcademicTermTypeKeyValues extends UifKeyValuesFinderBase implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -37,11 +37,14 @@ public class TermTypeKeyValues  extends UifKeyValuesFinderBase implements Serial
     public List<KeyValue> getKeyValues(ViewModel model) {
 
         List<KeyValue> keyValues = new ArrayList<KeyValue>();
-
-        AcademicCalendarForm acalForm = (AcademicCalendarForm)model;
         List<String> availableTermTypes = new ArrayList();
-        for (AcademicTermWrapper termWrapper : acalForm.getTermWrapperList()) {
-             availableTermTypes.add(termWrapper.getTermType());
+
+        if (model instanceof AcademicCalendarForm){
+            AcademicCalendarForm acalForm = (AcademicCalendarForm)model;
+
+            for (AcademicTermWrapper termWrapper : acalForm.getTermWrapperList()) {
+                 availableTermTypes.add(termWrapper.getTermType());
+            }
         }
 
         //TODO:Build real context.

@@ -164,4 +164,8 @@
         <property name="em" ref="enrollEntityManager"/>
     </bean>
 
+    <bean id="criterialookupDaoJpa" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupDaoJpaImpl">
+    	<property name="entityManager" ref="enrollEntityManager"/>
+  	</bean>
+
 </beans>

@@ -74,6 +74,10 @@
     </property>
   </bean>
 
+    <bean id="criteriaLookupService" class="org.kuali.student.r2.common.criteria.impl.CriteriaLookupServiceImpl">
+    	<property name="criteriaLookupDao" ref="criterialookupDaoJpa"/>
+  	</bean>
+
   <bean id="atpEnrService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpEnrDao" />
     <property name="atpRelDao" ref="atpAtpRelationDao" />
@@ -84,6 +88,7 @@
     <!-- <property name="atpMilestoneRelationTypeDao" ref="atpMilestoneRelationTypeDao"/> -->
     <property name="stateService" ref="stateService" />
     <property name="typeService" ref="typeService" />
+    <property name="criteriaLookupService" ref="criteriaLookupService"/>
   </bean>
 
   <!-- necessary to use ACSCalculationDecorator's copyHolidayCalendar()

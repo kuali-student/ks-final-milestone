@@ -30,13 +30,39 @@
     <property name="criteriaFields">
       <list>
         <bean parent="Uif-LookupCriteriaInputField" p:propertyName="name" />
-        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey"/>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="startDate">
+            <property name="control">
+                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            </property>
+        </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="endDate">
+            <property name="control">
+                <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            </property>
+        </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="typeKey" p:label="Type">
+            <property name="control">
+                <bean parent="Uif-DropdownControl"/>
+             </property>
+            <property name="optionsFinder">
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermTypeKeyValues"/>
+             </property>
+        </bean>
+        <bean parent="Uif-LookupCriteriaInputField" p:propertyName="stateKey" p:label="State">
+            <property name="control">
+                <bean parent="Uif-DropdownControl"/>
+             </property>
+            <property name="optionsFinder">
+                <bean class="org.kuali.student.enrollment.class2.acal.keyvalue.AcademicTermStateKeyValues"/>
+             </property>
+        </bean>
       </list>
     </property>
     <property name="resultFields">
       <list>
         <bean parent="Uif-InputField" p:propertyName="name" />
         <bean parent="Uif-InputField" p:propertyName="typeKey" />
+        <bean parent="Uif-InputField" p:propertyName="stateKey" />
         <bean parent="Uif-InputField" p:propertyName="startDate" />
         <bean parent="Uif-InputField" p:propertyName="endDate" />
       </list>

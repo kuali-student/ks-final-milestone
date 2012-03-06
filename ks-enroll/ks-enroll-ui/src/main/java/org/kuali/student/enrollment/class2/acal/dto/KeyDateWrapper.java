@@ -37,14 +37,20 @@ public class KeyDateWrapper {
         this.setDateRange(keydate.getIsDateRange());
         this.setKeyDateType(keydate.getTypeKey());
 
-        DateFormat dfm = new SimpleDateFormat("hh:mm");
+        if (!this.isAllDay()){
+            DateFormat dfm = new SimpleDateFormat("hh:mm");
 
-        startTime = dfm.format(keydate.getStartDate());
-        endTime = dfm.format(keydate.getEndDate());
+            startTime = dfm.format(keydate.getStartDate());
+            if (this.isDateRange()){
+                endTime = dfm.format(keydate.getEndDate());
+            }
 
-        dfm = new SimpleDateFormat("a");
-        startTimeAmPm = dfm.format(keydate.getStartDate());
-        endTimeAmPm = dfm.format(keydate.getEndDate());
+            dfm = new SimpleDateFormat("a");
+            startTimeAmPm = dfm.format(keydate.getStartDate());
+            if (this.isDateRange()){
+                endTimeAmPm = dfm.format(keydate.getEndDate());
+            }
+        }
     }
 
     public String getKeyDateType() {
