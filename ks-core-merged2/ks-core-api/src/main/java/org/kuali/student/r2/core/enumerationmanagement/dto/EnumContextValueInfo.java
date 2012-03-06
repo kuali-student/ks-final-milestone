@@ -30,7 +30,7 @@ import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "EnumContextValueInfo", propOrder = {"key", "value", "_futureElements"})
+@XmlType(name = "EnumContextValueInfo", propOrder = {"key", "value"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class EnumContextValueInfo implements EnumContextValue, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,10 +39,11 @@ public class EnumContextValueInfo implements EnumContextValue, Serializable {
     private String key;
     @XmlElement
     private String value;
-    @XmlAnyElement
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
     @XmlElement
     private MetaInfo meta;
-    private List<Element> _futureElements;
+//    private List<Element> _futureElements;
 
     public EnumContextValueInfo() {
     }

@@ -27,13 +27,13 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.atp.infc.Atp;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpInfo", propOrder = {
                 "id", "typeKey", "stateKey", "name", "descr",
                 "code", "startDate", "endDate", "adminOrgId", 
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class AtpInfo 
     extends IdEntityInfo 
@@ -53,8 +53,9 @@ public class AtpInfo
     @XmlElement
     private String adminOrgId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
     
     /**

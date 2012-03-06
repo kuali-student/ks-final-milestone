@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.TimeAmount;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information about a time amount.
@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeAmountInfo", propOrder = {
-                 "atpDurationTypeKey", "timeQuantity", "_futureElements"})
+                 "atpDurationTypeKey", "timeQuantity" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class TimeAmountInfo 
     implements TimeAmount, Serializable {
@@ -49,8 +49,9 @@ public class TimeAmountInfo
     @XmlElement
     private Integer timeQuantity; 
     
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;    
     
     
     /**

@@ -25,7 +25,7 @@ import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.CoreProgram;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlType(name = "CoreProgramInfo", propOrder = {"id",
     "typeKey",
@@ -50,8 +50,8 @@ import org.w3c.dom.Element;
     "catalogDescr",
     "catalogPublicationTargets",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CoreProgramInfo extends CommonWithCoreProgramInfo
         implements CoreProgram,
@@ -64,8 +64,9 @@ public class CoreProgramInfo extends CommonWithCoreProgramInfo
         Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CoreProgramInfo() {
     }

@@ -12,7 +12,7 @@ package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.clu.infc.AdminOrg;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -27,7 +27,7 @@ import java.util.Map;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "isPrimary", "orgId", "meta", "attributes", "_futureElements"})
+@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "isPrimary", "orgId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -35,8 +35,9 @@ public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable
     private String orgId;
     @XmlElement
     private Boolean isPrimary;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public AdminOrgInfo() {
     }

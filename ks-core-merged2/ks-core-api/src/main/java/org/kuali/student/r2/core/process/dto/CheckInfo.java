@@ -27,13 +27,12 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.process.infc.Check;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CheckInfo", propOrder = { "key", "typeKey", "stateKey", "name",
                 "descr", "issueKey", "milestoneTypeKey", 
-                "agendaId", "processKey", "meta", "attributes",
-		"_futureElements" })
+                "agendaId", "processKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class CheckInfo extends KeyEntityInfo 
     implements Check, Serializable {
@@ -52,8 +51,9 @@ public class CheckInfo extends KeyEntityInfo
     @XmlElement 
     private String processKey;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

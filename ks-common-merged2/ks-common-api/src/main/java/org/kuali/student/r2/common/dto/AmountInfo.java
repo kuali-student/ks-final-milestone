@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import org.kuali.student.r2.common.infc.Amount;
 
@@ -38,7 +38,7 @@ import org.kuali.student.r2.common.infc.Amount;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AmountInfo", propOrder = {
-                "unitTypeKey", "unitQuantity", "_futureElements" })
+                "unitTypeKey", "unitQuantity" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class AmountInfo 
     implements Amount, Serializable {
@@ -51,8 +51,9 @@ public class AmountInfo
     @XmlElement
     private String unitQuantity;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

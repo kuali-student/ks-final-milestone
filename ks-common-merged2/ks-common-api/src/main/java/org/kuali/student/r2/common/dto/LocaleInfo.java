@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Locale;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 
 /**
@@ -39,8 +39,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LocaleInfo", propOrder = {
                 "localeLanguage", "localeVariant",
-                "localeRegion", "localeScript", 
-                "_futureElements"})
+                "localeRegion", "localeScript" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class LocaleInfo 
     implements Locale, Serializable {
@@ -59,8 +58,9 @@ public class LocaleInfo
     @XmlElement
     private String localeScript;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

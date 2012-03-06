@@ -19,7 +19,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.room.infc.Room;
 import org.kuali.student.r2.core.room.infc.RoomUsage;
 import org.kuali.student.r2.core.room.infc.RoomFixedResource;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -38,7 +38,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RoomInfo", propOrder = {"id", "typeKey", "stateKey",
         "name", "descr", "roomCode", "buildingId", "floor", "roomFixedResources", "roomUsages", "accessibilityTypeKeys",
-        "meta", "attributes", "_futureElements"})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 
@@ -62,8 +62,9 @@ public class RoomInfo extends IdEntityInfo implements Room, Serializable {
     @XmlElement
     List<String> accessibilityTypeKeys;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public RoomInfo() {
     }

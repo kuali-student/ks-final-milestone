@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.DateRange;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * A DTO for a date range.
@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DateRangeInfo", propOrder = {
-                "start", "end", "_futureElements"})
+                "start", "end" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class DateRangeInfo 
     implements DateRange, Serializable {
@@ -50,8 +50,9 @@ public class DateRangeInfo
     @XmlElement
     private Date end;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;    
     
 
     /**

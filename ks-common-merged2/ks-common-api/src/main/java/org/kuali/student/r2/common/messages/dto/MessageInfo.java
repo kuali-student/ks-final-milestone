@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.LocaleInfo;
 import org.kuali.student.r2.common.messages.infc.Message;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  *
@@ -40,8 +40,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MessageInfo", propOrder = { 
-                "key", "locale", "groupName", "value", 
-                "_futureElements" })
+                "key", "locale", "groupName", "value" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class MessageInfo 
     implements Message, Serializable {
@@ -60,8 +59,9 @@ public class MessageInfo
     @XmlElement
     private String value;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

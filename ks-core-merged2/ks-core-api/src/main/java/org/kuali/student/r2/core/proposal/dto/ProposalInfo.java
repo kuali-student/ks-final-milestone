@@ -26,7 +26,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 
 import org.kuali.student.r2.core.proposal.infc.Proposal;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlType(name = "ProposalInfo", propOrder = {"id", "typeKey", "stateKey", 
     "name", "descr",
@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
     "proposalReference", "rationale", "detailDesc", "effectiveDate",
         "expirationDate", 
         "workflowId",
-        "meta", "attributes", "_futureElements"})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 
@@ -67,8 +67,9 @@ public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable
     @XmlElement
     private String workflowId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ProposalInfo() {
 

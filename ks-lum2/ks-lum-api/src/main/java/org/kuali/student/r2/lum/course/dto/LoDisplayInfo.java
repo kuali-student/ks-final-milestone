@@ -14,7 +14,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r2.lum.lo.dto.LoInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,7 +37,7 @@ import java.util.List;
  *      >LoDisplayInfo</>
  */
 @XmlType(name = "LoDisplayInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loInfo", "loDisplayInfoList", "parentRelType", "parentLoRelationid", "loCategoryInfoList", "meta",
-        "attributes", "_futureElements"})
+        "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializable {
 
@@ -58,8 +58,9 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
     @XmlElement
     private List<LoCategoryInfo> loCategoryInfoList;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public LoDisplayInfo() {
 

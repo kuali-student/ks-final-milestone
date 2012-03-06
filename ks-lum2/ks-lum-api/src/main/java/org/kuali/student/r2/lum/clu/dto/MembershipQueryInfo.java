@@ -32,7 +32,7 @@ import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.core.search.infc.SearchParam;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValues", "_futureElements"})
+@XmlType(name = "MembershipQueryInfo", propOrder = {"id", "searchTypeKey", "queryParamValues" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class MembershipQueryInfo implements Serializable, MembershipQuery {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +46,9 @@ public class MembershipQueryInfo implements Serializable, MembershipQuery {
     @XmlElement
     private List<SearchParamInfo> queryParamValues;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public MembershipQueryInfo() {
 

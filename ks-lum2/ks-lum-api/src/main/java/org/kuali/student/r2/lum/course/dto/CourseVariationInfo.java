@@ -22,9 +22,9 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseVariation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
-@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "variationTitle", "subjectArea", "courseNumberSuffix", "variationCode", "meta", "attributes", "_futureElements"})
+@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "variationTitle", "subjectArea", "courseNumberSuffix", "variationCode", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseVariation, Serializable {
 
@@ -42,8 +42,9 @@ public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseV
     @XmlElement
     private String variationCode;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CourseVariationInfo() {
 

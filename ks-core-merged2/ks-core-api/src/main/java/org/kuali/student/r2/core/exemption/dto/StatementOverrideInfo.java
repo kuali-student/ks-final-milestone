@@ -24,11 +24,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.exemption.infc.StatementOverride;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatementOverrideInfo", propOrder = { "statementId", "anchorId", 
-                 "_futureElements" })
+@XmlType(name = "StatementOverrideInfo", propOrder = { "statementId", "anchorId"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class StatementOverrideInfo implements StatementOverride, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -39,14 +38,17 @@ public class StatementOverrideInfo implements StatementOverride, Serializable {
 	@XmlElement
 	private String anchorId;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+//  TODO KSCM Non-GWT translatable code
+//	@XmlAnyElement
+//	private List<Element> _futureElements;
 
 	public StatementOverrideInfo() {
 		super();
 		statementId = null;
 		anchorId = null;
-		_futureElements = null;
+		
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	/**
@@ -62,7 +64,8 @@ public class StatementOverrideInfo implements StatementOverride, Serializable {
 			this.anchorId = statementOverride.getAnchorId();
 		}
 
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	@Override

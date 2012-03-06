@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.document.dto;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.document.infc.RefDocRelation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 @XmlType(name = "RefDocRelationInfo", propOrder = { "id", "typeKey",
 		"stateKey", "refObjectTypeKey", "refObjectId", "documentId", "title", "descr", 
         "effectiveDate", "expirationDate", 
-        "meta", "attributes", "_futureElements" })
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -57,8 +57,9 @@ public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelati
     @XmlElement
     private RichTextInfo descr;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public RefDocRelationInfo() {
     }

@@ -26,14 +26,14 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.atp.infc.AtpAtpRelation;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AtpAtpRelationInfo", propOrder = { 
                 "id", "typeKey", "stateKey", 
                 "atpId", "relatedAtpId", 
                 "effectiveDate", "expirationDate", 
-                "meta", "attributes", "_futureElements" })
+                "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class AtpAtpRelationInfo 
     extends RelationshipInfo 
@@ -47,8 +47,9 @@ public class AtpAtpRelationInfo
     @XmlElement
     private String relatedAtpId;
 	
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     
     /**

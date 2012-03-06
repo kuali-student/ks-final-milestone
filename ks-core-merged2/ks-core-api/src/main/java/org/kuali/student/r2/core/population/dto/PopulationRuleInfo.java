@@ -31,13 +31,12 @@ import org.kuali.student.r2.core.population.infc.PopulationRule;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
                 "stateKey", "name", "descr", "searchCriteria", "statementIds", 
-                "groupIds", "personIds", "populationKeys", "meta", "attributes",
-		"_futureElements" })
+                "groupIds", "personIds", "populationKeys", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class PopulationRuleInfo extends IdEntityInfo 
     implements PopulationRule, Serializable {
@@ -59,8 +58,9 @@ public class PopulationRuleInfo extends IdEntityInfo
     @XmlElement
     private List<String> populationKeys;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
 
     /**

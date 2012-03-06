@@ -18,7 +18,7 @@ package org.kuali.student.r2.core.comment.dto;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.comment.infc.Comment;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -34,7 +34,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CommentInfo", propOrder = {"id", "typeKey", "stateKey",
         "commentText", "referenceTypeKey", "referenceId", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+        "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -54,8 +54,9 @@ public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serial
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CommentInfo() {
     }
@@ -68,7 +69,8 @@ public class CommentInfo extends IdNamelessEntityInfo implements Comment, Serial
             this.referenceId = comment.getReferenceId();
             this.effectiveDate = (null != comment.getEffectiveDate()) ? new Date(comment.getEffectiveDate().getTime()) : null;
             this.expirationDate = (null != comment.getExpirationDate()) ? new Date(comment.getExpirationDate().getTime()) : null;
-            this._futureElements = null;
+//          TODO KSCM Non-GWT translatable code
+//            this._futureElements = null;
         }
     }
 

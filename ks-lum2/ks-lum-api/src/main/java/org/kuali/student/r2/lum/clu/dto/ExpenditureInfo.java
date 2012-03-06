@@ -18,7 +18,7 @@ package org.kuali.student.r2.lum.clu.dto;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
 import org.kuali.student.r2.lum.clu.infc.Expenditure;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,7 +32,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExpenditureInfo", propOrder = {"id", "affiliatedOrgs",
-        "attributes", "meta", "_futureElements"})
+        "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class ExpenditureInfo extends HasAttributesAndMetaInfo implements Expenditure, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -41,8 +41,9 @@ public class ExpenditureInfo extends HasAttributesAndMetaInfo implements Expendi
     private String id;
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ExpenditureInfo() {
         this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();

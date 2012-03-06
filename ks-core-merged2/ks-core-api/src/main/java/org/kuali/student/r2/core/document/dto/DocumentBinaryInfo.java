@@ -16,7 +16,7 @@
 package org.kuali.student.r2.core.document.dto;
 
 import org.kuali.student.r2.core.document.infc.DocumentBinary;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -30,7 +30,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "DocumentBinaryInfo", propOrder = {"binary", "_futureElements"})
+@XmlType(name = "DocumentBinaryInfo", propOrder = {"binary"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class DocumentBinaryInfo implements DocumentBinary, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,8 +38,9 @@ public class DocumentBinaryInfo implements DocumentBinary, Serializable {
     @XmlElement
     private String binary;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public DocumentBinaryInfo() {
     }

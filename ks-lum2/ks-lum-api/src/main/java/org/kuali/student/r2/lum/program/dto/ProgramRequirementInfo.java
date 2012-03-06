@@ -25,7 +25,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.infc.ProgramRequirement;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a program requirement
@@ -43,8 +43,8 @@ import org.w3c.dom.Element;
     "minCredits",
     "maxCredits",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramRequirementInfo extends IdNamelessEntityInfo implements ProgramRequirement, Serializable {
 
@@ -63,8 +63,9 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
     private Integer minCredits;
     @XmlElement
     private Integer maxCredits;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ProgramRequirementInfo() {
     }

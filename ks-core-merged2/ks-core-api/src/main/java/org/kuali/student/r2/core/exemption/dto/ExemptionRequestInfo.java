@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.exemption.infc.ExemptionRequest;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionRequestInfo", propOrder = {"id", "typeKey",
@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
     "requesterId", "requestDate",
     "approvedByPersonId", "approvedDate",
     "dateOverride", "milestoneOverride",
-    "learningResultOverride", "meta", "attributes", "_futureElements"})
+    "learningResultOverride", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -60,8 +60,9 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
     private MilestoneOverrideInfo milestoneOverride;
     @XmlElement
     private LearningResultOverrideInfo learningResultOverride;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ExemptionRequestInfo() {
         super();
@@ -97,7 +98,8 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
             }
         }
 
-        _futureElements = null;
+//      TODO KSCM Non-GWT translatable code
+//        _futureElements = null;
     }
 
     @Override

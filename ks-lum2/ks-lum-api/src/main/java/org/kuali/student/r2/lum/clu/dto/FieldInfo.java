@@ -28,7 +28,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "FieldInfo", propOrder = {"id", "value", "_futureElements"})
+@XmlType(name = "FieldInfo", propOrder = {"id", "value" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class FieldInfo implements Serializable, Field {
 
     private static final long serialVersionUID = 1L;
@@ -39,8 +39,9 @@ public class FieldInfo implements Serializable, Field {
     @XmlElement
     private String value;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public FieldInfo() {
 

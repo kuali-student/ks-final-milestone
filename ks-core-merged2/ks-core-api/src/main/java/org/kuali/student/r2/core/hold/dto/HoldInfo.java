@@ -26,13 +26,13 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.hold.infc.Hold;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
     "descr", "issueKey", "personId", "isWarning", "isOverridable",
-    "effectiveDate", "releasedDate", "meta", "attributes",
-    "_futureElements"})
+    "effectiveDate", "releasedDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,8 +48,9 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private Date effectiveDate;
     @XmlElement
     private Date releasedDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public HoldInfo() {
         super();
@@ -59,7 +60,9 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         issueKey = null;
         effectiveDate = null;
         releasedDate = null;
-        _futureElements = null;
+        
+//      TODO KSCM Non-GWT translatable code
+//        _futureElements = null;
     }
 
     public HoldInfo(Hold hold) {
@@ -77,7 +80,8 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
             }
         }
 
-        _futureElements = null;
+//      TODO KSCM Non-GWT translatable code
+//        _futureElements = null;
     }
 
     @Override

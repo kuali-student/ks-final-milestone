@@ -26,20 +26,20 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.population.infc.Population;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationInfo", propOrder = { "key", "typeKey", "stateKey", 
-                "name", "descr", "meta", "attributes",
-                "_futureElements" })
+                "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class PopulationInfo extends KeyEntityInfo 
     implements Population, Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
 
     /**

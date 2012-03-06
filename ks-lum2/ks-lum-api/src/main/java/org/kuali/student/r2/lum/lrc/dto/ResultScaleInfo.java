@@ -29,13 +29,13 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultScale;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultScaleInfo", propOrder = {
         "key", "typeKey", "stateKey", "name", "descr", 
         "resultValueRange", "effectiveDate", "expirationDate", 
-        "meta", "attributes", "_futureElements"})
+        "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class ResultScaleInfo 
         extends KeyEntityInfo 
@@ -52,8 +52,9 @@ public class ResultScaleInfo
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ResultScaleInfo() {
         super();

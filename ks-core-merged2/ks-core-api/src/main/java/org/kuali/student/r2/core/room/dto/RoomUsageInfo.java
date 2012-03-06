@@ -2,7 +2,7 @@ package org.kuali.student.r2.core.room.dto;
 
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.core.room.infc.RoomUsage;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -13,7 +13,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomUsageInfo", propOrder = {"id", "usageTypeKey", "layoutTypeKey", "preferredCapacity", "hardCapacity", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RoomUsageInfo", propOrder = {"id", "usageTypeKey", "layoutTypeKey", "preferredCapacity", "hardCapacity", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage, Serializable {
 
     @XmlElement
@@ -26,8 +26,9 @@ public class RoomUsageInfo extends HasAttributesAndMetaInfo implements RoomUsage
     private Integer preferredCapacity;
     @XmlElement
     private Integer hardCapacity;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     public RoomUsageInfo() {

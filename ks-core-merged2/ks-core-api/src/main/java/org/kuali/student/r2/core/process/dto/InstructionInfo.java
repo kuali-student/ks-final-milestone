@@ -29,7 +29,7 @@ import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.process.infc.Instruction;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "InstructionInfo", propOrder = { "id", "typeKey", "stateKey", 
@@ -38,8 +38,7 @@ import org.w3c.dom.Element;
                 "appliedPopulationKeys", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptable", 
-                "meta", "attributes",
-		"_futureElements" })
+                "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class InstructionInfo extends RelationshipInfo 
     implements Instruction, Serializable {
@@ -73,8 +72,9 @@ public class InstructionInfo extends RelationshipInfo
     @XmlElement 
     private Boolean isExemptable;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
 
     /**

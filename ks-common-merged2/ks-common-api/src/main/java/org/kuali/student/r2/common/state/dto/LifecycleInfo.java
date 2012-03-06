@@ -31,12 +31,12 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.state.infc.Lifecycle;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LifecycleInfo", propOrder = {
                 "key", "name", "descr", "refObjectUri",
-                "meta", "attributes", "_futureElements"})
+                "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class LifecycleInfo 
     extends HasAttributesAndMetaInfo
@@ -56,8 +56,9 @@ public class LifecycleInfo
     @XmlElement
     private String refObjectUri;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;    
     
 
     /**

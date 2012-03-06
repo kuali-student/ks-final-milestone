@@ -22,10 +22,10 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.EntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseJoint;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
-@XmlType(name = "CourseJointInfo", propOrder = {"typeKey", "stateKey", "descr", "courseNumberSuffix", "courseTitle", "subjectArea", "courseId", "relationId", "meta", "attributes",
-        "_futureElements"})
+@XmlType(name = "CourseJointInfo", propOrder = {"typeKey", "stateKey", "descr", "courseNumberSuffix", "courseTitle", "subjectArea", "courseId", "relationId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseJointInfo extends EntityInfo implements CourseJoint, Serializable {
 
@@ -46,8 +46,9 @@ public class CourseJointInfo extends EntityInfo implements CourseJoint, Serializ
     @XmlAttribute
     private String relationId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CourseJointInfo() {
 

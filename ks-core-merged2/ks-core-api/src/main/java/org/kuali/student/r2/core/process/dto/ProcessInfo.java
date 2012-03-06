@@ -27,12 +27,11 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.process.infc.Process;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessInfo", propOrder = { "key", "typeKey", "stateKey",
-                "name", "descr", "ownerOrgId", "meta", "attributes",
-                "_futureElements" })
+                "name", "descr", "ownerOrgId", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class ProcessInfo extends KeyEntityInfo 
     implements Process, Serializable {
@@ -42,8 +41,9 @@ public class ProcessInfo extends KeyEntityInfo
     @XmlElement 
     private String ownerOrgId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
 
     /**

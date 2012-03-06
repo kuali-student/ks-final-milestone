@@ -34,7 +34,7 @@ import org.kuali.student.r2.lum.program.dto.assembly.ProgramPublicationAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.MajorDiscipline;
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlType(name = "MajorDisciplineInfo", propOrder = {"id",
     "typeKey",
@@ -81,8 +81,8 @@ import org.w3c.dom.Element;
     "variations",
     "orgCoreProgram",
     "attributes",
-    "meta",
-    "_futureElements"})
+    "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implements MajorDiscipline,
         ProgramCommonAssembly,
@@ -108,8 +108,9 @@ public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implemen
     private List<ProgramVariationInfo> variations;
     @XmlElement
     private CoreProgramInfo orgCoreProgram;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public MajorDisciplineInfo() {
     }

@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Comparison;
 import org.kuali.student.r2.common.infc.Criteria;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Query to return some information regarding LUI to person
@@ -42,8 +42,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CriteriaInfo", propOrder = { 
-                "comparisons", "maxResults",
-		"_futureElements" })
+                "comparisons", "maxResults" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class CriteriaInfo 
     implements Criteria, Serializable {
@@ -57,8 +56,9 @@ public class CriteriaInfo
     @XmlElement
     private Integer maxResults;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

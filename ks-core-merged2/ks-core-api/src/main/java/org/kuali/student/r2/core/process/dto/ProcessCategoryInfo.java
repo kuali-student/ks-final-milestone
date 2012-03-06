@@ -27,20 +27,20 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.process.infc.ProcessCategory;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "meta", "attributes",
-                "_futureElements" })
+                "stateKey", "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class ProcessCategoryInfo extends IdEntityInfo 
     implements ProcessCategory, Serializable {
 
     private static final long serialVersionUID = 1L;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
 
     /**
