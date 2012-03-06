@@ -468,7 +468,8 @@ public class SearchPanel extends Composite{
 
             KSLabel instrLabel = new KSLabel();
             panel.add(instrLabel);
-            this.meta = meta;            
+            this.meta = meta;     
+            String searchId = meta.getId();
 
             //add widget for each search criteria to the advanced tab
             boolean allFieldsRequired = true;
@@ -480,14 +481,14 @@ public class SearchPanel extends Composite{
                 }
 
                 if ((param.getWriteAccess() == WriteAccess.ALWAYS) || (param.getWriteAccess() == WriteAccess.REQUIRED)){
-                    SearchField paramField = new SearchField(param);
+                    SearchField paramField = new SearchField(param, searchId);
                     searchFields.add(paramField);
                     panel.add(paramField);
                     searchParams.add(paramField);
                 }
                 else if (param.getWriteAccess() == WriteAccess.WHEN_NULL){
                     if(param.getDefaultValueString() == null && param.getDefaultValueList() == null){
-                        SearchField paramField = new SearchField(param);
+                        SearchField paramField = new SearchField(param, searchId);
                         searchFields.add(paramField);
                         panel.add(paramField);
                         searchParams.add(paramField); 
@@ -601,13 +602,18 @@ public class SearchPanel extends Composite{
             return SearchPanel.getSearchParam(widget, meta.getKey());
         }
 
-        public SearchField(LookupParamMetadata param){
+        public SearchField(LookupParamMetadata param, String searchId){
             meta = param;
             //TODO use message call here
-            if(getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY)!=null)
+            // KSCM-1326 This is where we implemented several options to override
+            // Search Field names. Loads custom overridden messages from KSMG_MESSAGE table.
+            if(getMessage(searchId + ":" + param.getKey()+ FieldLayoutComponent.NAME_MESSAGE_KEY)!=null)
+            	fieldName = getMessage(searchId + ":" + param.getKey()+ FieldLayoutComponent.NAME_MESSAGE_KEY);
+            else if(getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY)!=null)
             	fieldName = getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY);
             else
                 fieldName = param.getName();
+
             
             widget = DefaultWidgetFactory.getInstance().getWidget(param);
             if(param.getDefaultValueString() != null){
@@ -855,8 +861,10 @@ public class SearchPanel extends Composite{
                 actionCancelButtons.setButtonText(ButtonEnumerations.SearchCancelEnum.SEARCH, getMessage("select"));
                 resultsSelected = true;
                 
-                SearchRequest sr = getSearchRequest();
-                table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey(), activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey(), true);
+                SearchRequest sr = getSearchRequest();  
+                // KSLAB2571 KSCM1326 - adding searchId for better message overriding.
+                String searchId = activeSearchParametersWidget.getLookupMetadata().getId();
+                table.performSearch(searchId, sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey(), activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey(), true);
                 resultsTablePanel.setVisible(true);
                 List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
                 List<HasSearchParam> searchParams = activeSearchParametersWidget.getSearchParams();

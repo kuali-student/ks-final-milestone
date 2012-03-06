@@ -96,9 +96,15 @@ public class SearchResultsTable extends Composite{
 		this.withMslable = withMslable;
 	}
 
-	//FIXME do we really need to recreate the table for every refresh?
-    public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){ 
-    	
+
+	
+	public void initializeTable(List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){
+			 initializeTable("", listResultMetadata, resultIdKey, resultDisplayKey);
+	}
+	    
+	//FIXME do we really need to recreate the table for every refresh?	
+	public void initializeTable(String searchId, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey){ 
+	    	
     	//creating a new table because stale data was corrupting new searches
     	table = new Table();
     	table.removeAllRows();
@@ -114,11 +120,15 @@ public class SearchResultsTable extends Composite{
                 Column col1 = new Column();
                 col1.setId(r.getKey());                
                 String header = "";                
-                if (Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
+                // KSLAB2571 KSCM1326 - adds SerachID to message override hierarchy
+                if (Application.getApplicationContext().getMessage(searchId + ":"+ r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
+                    header = Application.getApplicationContext().getMessage(searchId + ":"+ r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY);
+                } else if (Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY) != null) {
                     header = Application.getApplicationContext().getMessage(r.getKey() + FieldLayoutComponent.NAME_MESSAGE_KEY);
                 } else {
                     header = Application.getApplicationContext().getUILabel("", null, null, r.getName());
-                }                
+                }     
+                
                 col1.setName(header);
                 col1.setId(r.getKey());
                 col1.setWidth("100px");                    
@@ -155,6 +165,24 @@ public class SearchResultsTable extends Composite{
     public void performSearch(SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
         this.searchRequest = searchRequest;
         initializeTable(listResultMetadata, resultIdKey, resultDisplayKey);
+        if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
+            //FIXME Do we still need this if condition?
+            // Added an else to the if(pagedResults) line to prevent searches being executed
+            // twice if the search name includes cross
+            performOnDemandSearch(0, 0);
+        }
+        else if(pagedResults){
+        	performOnDemandSearch(0, PAGE_SIZE);
+        }
+        else{
+        	performOnDemandSearch(0, 0);
+        }
+    }
+    
+    // KSLAB2571 KSCM1326 - Overloaded method to add SerachID to message override hierarchy 
+    public void performSearch(String searchId, SearchRequest searchRequest, List<LookupResultMetadata> listResultMetadata, String resultIdKey, String resultDisplayKey, boolean pagedResults) {
+        this.searchRequest = searchRequest;
+        initializeTable(searchId, listResultMetadata, resultIdKey, resultDisplayKey);
         if (this.searchRequest.getSearchKey().toLowerCase().contains("cross")) {
             //FIXME Do we still need this if condition?
             // Added an else to the if(pagedResults) line to prevent searches being executed
