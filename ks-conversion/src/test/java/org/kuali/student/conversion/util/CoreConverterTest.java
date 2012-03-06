@@ -18,6 +18,7 @@ import org.kuali.student.r2.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo;
 import org.kuali.student.r2.core.organization.dto.OrgCodeInfo;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 
 public class CoreConverterTest {
     
@@ -163,6 +164,22 @@ public class CoreConverterTest {
     }
     
     @Test
+    public void testOrgCodeInfo() {
+        org.kuali.student.r1.core.organization.dto.OrgCodeInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgCodeInfo();
+        Map<String, String> r1Attributes = new HashMap<String, String>();
+        r1Attributes.put("R1-Key", "R1-Value");
+        r1.setAttributes(r1Attributes);
+        r1.setDesc("R1 Desc");
+        org.kuali.student.r1.common.dto.MetaInfo r1MetaInfo = new org.kuali.student.r1.common.dto.MetaInfo();
+        r1MetaInfo.setVersionInd("R1 Version Id");
+        r1.setMetaInfo(r1MetaInfo);
+        OrgCodeInfo r2 = R1R2ConverterUtil.convert(r1, OrgCodeInfo.class);
+        Assert.assertEquals(r1.getDesc(), r2.getDescr().getPlain());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals("R1 Version Id", r2.getMeta().getVersionInd());
+    }
+    
+    @Test
     public void testOrgHierarchyInfo() {
         org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo();
         Map<String, String> r1Attributes = new HashMap<String, String>();
@@ -172,6 +189,43 @@ public class CoreConverterTest {
         OrgHierarchyInfo r2 = R1R2ConverterUtil.convert(r1, OrgHierarchyInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         Assert.assertEquals(r1.getDescr(), r2.getDescr().getPlain());
+    }
+    
+    @Test
+    public void testOrgInfo() {
+        org.kuali.student.r1.core.organization.dto.OrgInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgInfo();
+        r1.setLongDesc("R1 Long Desc");
+        r1.setLongName("R1 Long Name");
+        List<org.kuali.student.r1.core.organization.dto.OrgCodeInfo> r1OrgCodeList = new ArrayList<org.kuali.student.r1.core.organization.dto.OrgCodeInfo>();
+        org.kuali.student.r1.core.organization.dto.OrgCodeInfo r1OrgCodeInfo = new org.kuali.student.r1.core.organization.dto.OrgCodeInfo();
+        Map<String, String> r1OrgCodeAttributes = new HashMap<String, String>();
+        r1OrgCodeAttributes.put("R1-Key", "R1-Value");
+        r1OrgCodeInfo.setAttributes(r1OrgCodeAttributes);
+        r1OrgCodeInfo.setDesc("R1 Org Code Info");
+        org.kuali.student.r1.common.dto.MetaInfo r1OrgCodeMetaInfo = new org.kuali.student.r1.common.dto.MetaInfo();
+        r1OrgCodeMetaInfo.setVersionInd("R1 Org Code Version Id");
+        r1OrgCodeInfo.setMetaInfo(r1OrgCodeMetaInfo);
+        r1OrgCodeInfo.setValue("R1 Org Code Value");
+        r1OrgCodeList.add(r1OrgCodeInfo);
+        r1.setOrgCodes(r1OrgCodeList);
+        r1.setShortDesc("R1 Short Desc");
+        r1.setShortName("R1 Short Name");
+        Map<String, String> r1Attributes = new HashMap<String, String>();
+        r1Attributes.put("R1-Key", "R1-Value");
+        r1.setAttributes(r1Attributes);
+        org.kuali.student.r1.common.dto.MetaInfo r1MetaInfo = new org.kuali.student.r1.common.dto.MetaInfo();
+        r1MetaInfo.setVersionInd("R1 Version Id");
+        r1.setMetaInfo(r1MetaInfo);
+        OrgInfo r2 = R1R2ConverterUtil.convert(r1, OrgInfo.class);
+        Assert.assertEquals(r1.getLongDesc(), r2.getLongDescr().getPlain());
+        Assert.assertEquals(r1.getLongName(), r2.getLongName());
+        Assert.assertEquals("R1-Value", r2.getOrgCodes().get(0).getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getOrgCodes().get(0).getDesc(), r2.getOrgCodes().get(0).getDescr().getPlain());
+        Assert.assertEquals(r1.getOrgCodes().get(0).getMetaInfo().getVersionInd(), r2.getOrgCodes().get(0).getMeta().getVersionInd());
+        Assert.assertEquals(r1.getShortDesc(), r2.getShortDescr().getPlain());
+        Assert.assertEquals(r1.getShortName(), r2.getShortName());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
     }
 
 }

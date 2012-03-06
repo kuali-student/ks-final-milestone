@@ -391,9 +391,9 @@
 			<a-hint>java.util.HashMap</a-hint>
 			<b-hint>java.util.ArrayList</b-hint>
 		</field>
-		<field>
-			<a>desc</a>
-			<b get-method="getDescr" set-method="setDescr">descr</b>
+		<field custom-converter="org.kuali.student.conversion.util.DescToRichTextConverter">
+			<a>desc</a><!-- This is a String -->
+			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
 		</field>
 		<field>
 			<a>metaInfo</a>
@@ -419,13 +419,23 @@
 	<mapping>
 		<class-a>org.kuali.student.r1.core.organization.dto.OrgInfo</class-a>
 		<class-b>org.kuali.student.r2.core.organization.dto.OrgInfo</class-b>
-		<field>
+		<field custom-converter="org.kuali.student.conversion.util.DescToRichTextConverter">
 			<a>shortDesc</a>
-			<b>shortDescr</b>
+			<b get-method="getShortDescr" set-method="setShortDescr">shortDescr</b>
+		</field>
+		<field custom-converter="org.kuali.student.conversion.util.DescToRichTextConverter">
+			<a>longDesc</a>
+			<b set-method="setLongDescr" get-method="getLongDescr">longDescr</b>
+		</field>
+		<field custom-converter="org.kuali.student.conversion.util.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
 		</field>
 		<field>
-			<a>longDesc</a>
-			<b>longDescr</b>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
 		</field>
 	</mapping>
 	<mapping>
