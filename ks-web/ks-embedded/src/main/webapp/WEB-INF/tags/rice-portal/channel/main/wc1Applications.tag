@@ -27,6 +27,10 @@
         <li><portal:portalLink displayTitle="true" title="Edit Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarEditPage&methodToCall=start&hcId=testAtpId2" /></li>
         <li><portal:portalLink displayTitle="true" title="View Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarViewPage&methodToCall=start&hcId=testAtpId2" /></li>
         <li><portal:portalLink displayTitle="true" title="Copy Holiday Calendar" url="${ConfigProperties.application.url}/kr-krad/holidayCalendar?viewId=holidayCalendarFlowView&pageId=holidayCalendarCopyPage&methodToCall=startNew" /></li>
+<!--        <li><portal:portalLink displayTitle="true" title="Holiday Calendar Lookup 1 based on viewId" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&viewId=holidayCalendarLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>  -->
+<br>    <li><portal:portalLink displayTitle="true" title="Holiday Calendar Lookup " url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>
+<!--        <li><portal:portalLink displayTitle="true" title="Holiday Calendar (with Holidays) Lookup " url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true" /></li>-->
+
     </ul>
     <strong>Academic Calendar</strong>
     <ul class="chan">
@@ -36,7 +40,7 @@
 
     <strong>Academic Term</strong>
     <ul class="chan">
-        <li><portal:portalLink displayTitle="true" title="Edit Academic Term" url="${ConfigProperties.application.url}/kr-krad/lookup?methodToCall=start&dataObjectClassName=org.kuali.student.enrollment.acal.dto.TermInfo&viewId=academicTermLookupView&returnLocation=${ConfigProperties.application.url}/portal.do&hideReturnLink=true"/></li>
+        <li><portal:portalLink displayTitle="true" title="Edit Academic Term" url="${ConfigProperties.application.url}/kr-krad/academicTerm?viewId=academicTermEditView&methodToCall=editTerm&termId=testTermId1" /></li>
     </ul>
 
 </div>
