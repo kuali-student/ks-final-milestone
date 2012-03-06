@@ -2,6 +2,7 @@ package org.kuali.student.lum.program.client.major.edit;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
@@ -13,13 +14,12 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.widgets.KSCharCount;
-import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
 import org.kuali.student.common.ui.client.widgets.search.SearchPanel;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Widget;
@@ -29,8 +29,9 @@ import com.google.gwt.user.client.ui.Widget;
  */
 public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfiguration {
 
-    public MajorKeyProgramInfoEditConfiguration() {
-        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, ProgramProperties.get().program_menu_sections_programInformation(), ProgramConstants.PROGRAM_MODEL_ID);
+    public MajorKeyProgramInfoEditConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_DETAILS_EDIT, getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_PROGRAMINFORMATION), ProgramConstants.PROGRAM_MODEL_ID);
     }
 
     @Override
@@ -50,15 +51,15 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
     }
 
     protected VerticalSection createKeyProgramInformationSection() {
-        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_identifyingDetails()));
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_IDENTIFYINGDETAILS)));
         //KSLAB-2175 - it makes this readOnlySelection box shift under the line drawn by this section heading... Nice  to have JIRA
         VerticalSection s1 = new VerticalSection();
         HorizontalSection s2 = new HorizontalSection();
         
-        configurer.addField(s1, ProgramConstants.CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_code()));
-        configurer.addField(s1, ProgramConstants.CREDENTIAL_PROGRAM_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_credentialProgram()));
-        configurer.addField(s1, ProgramConstants.PROGRAM_CLASSIFICATION, new MessageKeyInfo(ProgramProperties.get().programInformation_classification()));
-        configurer.addField(s1, ProgramConstants.DEGREE_TYPE, new MessageKeyInfo(ProgramProperties.get().programInformation_degreeType()));
+        configurer.addField(s1, ProgramConstants.CODE, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_CODE));
+        configurer.addField(s1, ProgramConstants.CREDENTIAL_PROGRAM_ID, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_CREDENTIALPROGRAM));
+        configurer.addField(s1, ProgramConstants.PROGRAM_CLASSIFICATION, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_CLASSIFICATION));
+        configurer.addField(s1, ProgramConstants.DEGREE_TYPE, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_DEGREETYPE));
         s2.addSection(s1);
         s2.addSection(createReadOnlySection());
         section.addSection(s2);
@@ -69,45 +70,45 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
         VerticalSection section = new VerticalSection();
         section.addStyleName("readOnlySection");
         section.addStyleName("readOnlyNeedsToBeOnTheRight");
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, new MessageKeyInfo(ProgramProperties.get().programInformation_institution()));
-        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, new MessageKeyInfo(ProgramProperties.get().programInformation_level()));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_INSTITUTION_ID, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_INSTITUTION));
+        configurer.addReadOnlyField(section, ProgramConstants.CREDENTIAL_PROGRAM_LEVEL, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_LEVEL));
         return section;
     }
     
     private VerticalSection createProgramTitleSection() {
-        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_programTitle()));
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_PROGRAMTITLE)));
 
 
-        configurer.addField(section, ProgramConstants.LONG_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleFull()));
-        configurer.addField(section, ProgramConstants.SHORT_TITLE, new MessageKeyInfo(ProgramProperties.get().programInformation_titleShort()), new KSCharCount(configurer.getModelDefinition().getMetadata(QueryPath.parse(ProgramConstants.SHORT_TITLE))));
-        configurer.addField(section, ProgramConstants.TRANSCRIPT, new MessageKeyInfo(ProgramProperties.get().programInformation_titleTranscript()), new KSCharCount(configurer.getModelDefinition().getMetadata(QueryPath.parse(ProgramConstants.TRANSCRIPT))));
-        configurer.addField(section, ProgramConstants.DIPLOMA, new MessageKeyInfo(ProgramProperties.get().programInformation_titleDiploma())).setWidgetBinding(new DiplomaBinding());
+        configurer.addField(section, ProgramConstants.LONG_TITLE, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_TITLEFULL));
+        configurer.addField(section, ProgramConstants.SHORT_TITLE, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_TITLESHORT), new KSCharCount(configurer.getModelDefinition().getMetadata(QueryPath.parse(ProgramConstants.SHORT_TITLE))));
+        configurer.addField(section, ProgramConstants.TRANSCRIPT, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_TITLETRANSCRIPT), new KSCharCount(configurer.getModelDefinition().getMetadata(QueryPath.parse(ProgramConstants.TRANSCRIPT))));
+        configurer.addField(section, ProgramConstants.DIPLOMA, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_TITLEDIPLOMA)).setWidgetBinding(new DiplomaBinding());
 
         return section;
     }
 
     private VerticalSection createDatesSection() {
-        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_dates()));
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_DATES)));
         //Add this field and hide it so it is available for cross field validation 
-        FieldDescriptor fd = configurer.addField(section,ProgramConstants.PROPOSAL_PREV_START_TERM_PATH, new MessageKeyInfo(ProgramProperties.get().majorDiscipline_prevStartTerm()));
+        FieldDescriptor fd = configurer.addField(section,ProgramConstants.PROPOSAL_PREV_START_TERM_PATH, generateMessageInfo(ProgramMsgConstants.MAJORDISCIPLINE_PREVSTARTTERM));
         fd.getFieldWidget().setVisible(false);
         fd.hideLabel();
         
-        configurer.addField(section, ProgramConstants.START_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_startTerm()));
-        configurer.addField(section, ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_admitTerm()));
-        configurer.addField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_entryTerm()));
-        configurer.addField(section, ProgramConstants.END_PROGRAM_ENROLL_TERM, new MessageKeyInfo(ProgramProperties.get().programInformation_enrollTerm()));
+        configurer.addField(section, ProgramConstants.START_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_STARTTERM));
+        configurer.addField(section, ProgramConstants.END_INSTITUTIONAL_ADMIT_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ADMITTERM));
+        configurer.addField(section, ProgramConstants.END_PROGRAM_ENTRY_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENTRYTERM));
+        configurer.addField(section, ProgramConstants.END_PROGRAM_ENROLL_TERM, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_ENROLLTERM));
         return section;
     }
 
     private VerticalSection createOtherInformationSection() {
-        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(ProgramProperties.get().programInformation_otherInformation()));
-        configurer.addField(section, ProgramConstants.LOCATION, new MessageKeyInfo(ProgramProperties.get().programInformation_location()));
+        VerticalSection section = new VerticalSection(SectionTitle.generateH3Title(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_OTHERINFORMATION)));
+        configurer.addField(section, ProgramConstants.LOCATION, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_LOCATION));
         Widget cip2000Picker = configureSearch(ProgramConstants.CIP_2000);
-        configurer.addField(section, ProgramConstants.CIP_2000, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2000()), cip2000Picker);
+        configurer.addField(section, ProgramConstants.CIP_2000, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_CIP2000), cip2000Picker);
         Widget cip2010Picker = configureSearch(ProgramConstants.CIP_2010);
-        configurer.addField(section, ProgramConstants.CIP_2010, new MessageKeyInfo(ProgramProperties.get().programInformation_cip2010()), cip2010Picker);
-        configurer.addField(section, ProgramConstants.HEGIS_CODE, new MessageKeyInfo(ProgramProperties.get().programInformation_hegis()));
+        configurer.addField(section, ProgramConstants.CIP_2010, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_CIP2010), cip2010Picker);
+        configurer.addField(section, ProgramConstants.HEGIS_CODE, generateMessageInfo(ProgramMsgConstants.PROGRAMINFORMATION_HEGIS));
         section.addSection(createAccreditingAgenciesSection());
         return section;
     }
@@ -116,11 +117,11 @@ public class MajorKeyProgramInfoEditConfiguration extends AbstractSectionConfigu
 
         Metadata metadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY));
         MultiplicityConfiguration config = new MultiplicityConfiguration(MultiplicityConfiguration.MultiplicityType.GROUP, MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP, metadata);
-        config.setAddItemLabel(ProgramProperties.get().programInformation_addAccreditation());
+        config.setAddItemLabel(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_ADDACCREDITATION));
         config.setUpdateable(true);
-        config.setItemLabel(ProgramProperties.get().programInformation_accreditation());
+        config.setItemLabel(getLabel(ProgramMsgConstants.PROGRAMINFORMATION_ACCREDITATION));
 
-        config.setParent(ProgramConstants.ACCREDITING_AGENCY, ProgramProperties.get().programInformation_accreditations(), null, metadata);
+        config.setParent(ProgramConstants.ACCREDITING_AGENCY, getLabel(ProgramMsgConstants.PROGRAMINFORMATION_ACCREDITATIONS), null, metadata);
 
         Metadata orgMetadata = configurer.getModelDefinition().getMetadata(QueryPath.concat(ProgramConstants.ACCREDITING_AGENCY, QueryPath.getWildCard(), ProgramConstants.ORG_ID));
         config.addField(ProgramConstants.ORG_ID, null, ProgramConstants.ACCREDITING_AGENCY, orgMetadata);
