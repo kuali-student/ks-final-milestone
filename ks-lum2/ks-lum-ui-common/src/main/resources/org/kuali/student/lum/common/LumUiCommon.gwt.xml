@@ -17,7 +17,9 @@
 
     -->
 
+	<inherits name="org.kuali.student.common.ui.CommonUI"/>
     <inherits name="org.kuali.student.r1.common.ui.CommonUI"/>
     <inherits name="org.kuali.student.core.organization.ui.OrgUI"/>
     <inherits name="org.kuali.student.core.proposal.ui.ProposalUI"/>
+    <inherits name="org.kuali.student.r2.common.Core"/>
 </module>
