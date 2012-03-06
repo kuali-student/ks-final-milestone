@@ -25,7 +25,7 @@ public class CurriculumHomeView extends ViewComposite{
 	private final SpanPanel container = new SpanPanel();
 	MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	CreditCourseProposalRpcServiceAsync cluProposalRpcServiceAsync = GWT.create(CreditCourseProposalRpcService.class);
-	CurriculumHomeConfigurer configurer = GWT.create(CurriculumHomeConfigurer.class);
+	protected CurriculumHomeConfigurer configurer = GWT.create(CurriculumHomeConfigurer.class);
 	
 	public CurriculumHomeView(Controller controller, Enum<?> viewType) {
 		super(controller, "", viewType);

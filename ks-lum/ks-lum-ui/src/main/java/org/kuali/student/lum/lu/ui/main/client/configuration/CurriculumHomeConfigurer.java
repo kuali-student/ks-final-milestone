@@ -46,6 +46,10 @@ public class CurriculumHomeConfigurer implements CurriculumHomeConstants {
 
 	protected Metadata searchMetadata;
 	protected final KSCheckBox useCurricReviewCheckbox = new KSCheckBox(getMessage("useCurriculumReview"));
+	
+	public CurriculumHomeConfigurer(){
+		
+	}
 
     public Widget configure(Metadata searchMeta) {
         this.searchMetadata = searchMeta;
