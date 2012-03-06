@@ -15,7 +15,9 @@
 
 package org.kuali.student.r2.core.scheduling.dto;
 
-import org.kuali.student.r2.common.dto.IdEntityInfo;
+import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.infc.Status;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleResponse;
 import org.w3c.dom.Element;
 
@@ -24,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -31,13 +34,19 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleResponseInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "scheduleRequestId",
+@XmlType(name = "ScheduleResponseInfo", propOrder = {"id", "typeKey", "stateKey",
+        "batchResponseId", "scheduleRequestId", "scheduleId", "status",
         "meta", "attributes", "_futureElements"})
-public class ScheduleResponseInfo extends IdEntityInfo implements ScheduleResponse{
+public class ScheduleResponseInfo extends IdNamelessEntityInfo implements ScheduleResponse, Serializable {
 
     @XmlElement
+    private String batchResponseId;
+    @XmlElement
     private String scheduleRequestId;
+    @XmlElement
+    private String scheduleId;
+    @XmlElement
+    private StatusInfo status;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -46,8 +55,20 @@ public class ScheduleResponseInfo extends IdEntityInfo implements ScheduleRespon
 
     public ScheduleResponseInfo(ScheduleResponse scheduleResponse) {
         if (null != scheduleResponse) {
+            this.batchResponseId = scheduleResponse.getBatchResponseId();
             this.scheduleRequestId = scheduleResponse.getScheduleRequestId();
+            this.scheduleId = scheduleResponse.getScheduleId();
+            this.status = new StatusInfo(scheduleResponse.getStatus());
         }
+    }
+
+    @Override
+    public String getBatchResponseId() {
+        return this.batchResponseId;
+    }
+
+    public void setBatchResponseId(String batchResponseId) {
+        this.batchResponseId = batchResponseId;
     }
 
     @Override
@@ -57,5 +78,23 @@ public class ScheduleResponseInfo extends IdEntityInfo implements ScheduleRespon
 
     public void setScheduleRequestId(String scheduleRequestId) {
         this.scheduleRequestId = scheduleRequestId;
+    }
+
+    @Override
+    public String getScheduleId() {
+        return this.scheduleId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    @Override
+    public Status getStatus() {
+        return this.status;
+    }
+
+    public void setStatus(StatusInfo status) {
+        this.status = status;
     }
 }

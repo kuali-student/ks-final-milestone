@@ -26,6 +26,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,7 +38,7 @@ import java.util.List;
 @XmlType(name = "TimeSlotInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
         "weekdays", "startTime", "duration",
         "meta", "attributes", "_futureElements"})
-public class TimeSlotInfo extends IdEntityInfo implements TimeSlot {
+public class TimeSlotInfo extends IdEntityInfo implements TimeSlot, Serializable {
 
     @XmlElement
     private List<Integer> weekdays;

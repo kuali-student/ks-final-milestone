@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,7 +33,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestItemInfo", propOrder = {"id", "buildingIds", "campusIds", "isRequirement", "orgIds", "referenceId", "referenceTypeKey", "resourceTypeKeys", "roomIds", "scheduleRequestId", "timeSlotIds", "_futureElements"})
-public class ScheduleRequestItemInfo implements ScheduleRequestItem {
+public class ScheduleRequestItemInfo implements ScheduleRequestItem, Serializable {
 
     @XmlElement
     private String id;
