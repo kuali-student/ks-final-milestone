@@ -237,9 +237,6 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
     
     private void init(final Callback<Boolean> onReadyCallback) {
 
-        if (initialized) {
-            onReadyCallback.exec(true);
-        } else {
         	KSBlockingProgressIndicator.addTask(loadDataTask);
     		
         	rpcServiceAsync.getMetadata("", null, new KSAsyncCallback<Metadata>(){
@@ -256,9 +253,7 @@ public class VersionsController extends BasicLayoutWithContentHeader implements 
                     KSBlockingProgressIndicator.removeTask(loadDataTask);
                     configureScreens(onReadyCallback);
                 }
-	          });
-            
-        }
+	          });          
     }
 
     private void configureScreens(final Callback<Boolean> onReadyCallback) {
