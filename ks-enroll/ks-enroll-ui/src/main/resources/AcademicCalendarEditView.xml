@@ -106,7 +106,7 @@
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
                     </property>
                 </bean>
-                <bean parent="Uif-InputField" p:label="Holiday Calendar"
+                <!--<bean parent="Uif-InputField" p:label="Holiday Calendar"
                                          p:instructionalText="click the button to perform a lookup on Holiday Calendar"
                                          p:propertyName="holidayCalendarName">
                     <property name="fieldLookup.dataObjectClassName" value="org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo" />
@@ -115,7 +115,7 @@
                             <entry key="id" value="holidayCalendarName" />
                         </map>
                     </property>
-                </bean>
+                </bean>-->
             </list>
         </property>
     </bean>
