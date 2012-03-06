@@ -48,7 +48,7 @@ public class HolidayCalendarViewHelperServiceInquirableImpl extends InquirableIm
         HolidayCalendarInfo holidayCalendarInfo = null;
 
         //String academicCalendarKey = parameters.get(ACADEMIC_CALENDAR_KEY);
-        String hcId = parameters.get("hcId");
+        String hcId = parameters.get("id");
         try{
             holidayCalendarInfo = getAcademicCalendarService().getHolidayCalendar(hcId, getContextInfo());
             return holidayCalendarInfo;
