@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
 import org.kuali.student.r2.core.atp.dto.AtpInfo;
 import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.core.comment.dto.CommentInfo;
@@ -20,6 +21,15 @@ import org.kuali.student.r2.core.organization.dto.OrgCodeInfo;
 import org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo;
 import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo;
+import org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo;
+import org.kuali.student.r2.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalDocRelationInfo;
+import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 
 public class CoreConverterTest {
     
@@ -186,6 +196,125 @@ public class CoreConverterTest {
         r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
         OrgOrgRelationInfo r2 = R1R2ConverterUtil.convert(r1, OrgOrgRelationInfo.class);
         Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+    }
+    
+    @Test
+    public void testOrgPersonRelationInfo() {
+        org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setState("R1 State");
+        r1.setType("R1 Type");
+        OrgPersonRelationInfo r2 = R1R2ConverterUtil.convert(r1, OrgPersonRelationInfo.class);
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getState(), r2.getStateKey());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
+    }
+    
+    @Test
+    public void testOrgPositionRestrictionInfo() {
+        org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        org.kuali.student.r1.common.dto.TimeAmountInfo r1TimeAmountInfo = new org.kuali.student.r1.common.dto.TimeAmountInfo();
+        r1TimeAmountInfo.setAtpDurationTypeKey("R1 Duration Key");
+        r1TimeAmountInfo.setTimeQuantity(1);
+        r1.setStdDuration(r1TimeAmountInfo);
+        r1.setDesc("R1 desc");
+        OrgPositionRestrictionInfo r2 = R1R2ConverterUtil.convert(r1, OrgPositionRestrictionInfo.class);
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getStdDuration().getAtpDurationTypeKey(), r2.getStdDuration().getAtpDurationTypeKey());
+        Assert.assertEquals(r1.getStdDuration().getTimeQuantity(), r2.getStdDuration().getTimeQuantity());
+        Assert.assertEquals(r1.getDesc(), r2.getDescr().getPlain());
+    }
+    
+    @Test
+    public void testOrgTreeInfo() {
+        org.kuali.student.r1.core.organization.dto.OrgTreeInfo r1 = new org.kuali.student.r1.core.organization.dto.OrgTreeInfo();
+        r1.setRelationType("R1 Type");
+        OrgTreeInfo r2 = R1R2ConverterUtil.convert(r1, OrgTreeInfo.class);
+        Assert.assertEquals(r1.getRelationType(), r2.getRelationTypeKey());
+    }
+    
+    @Test
+    public void testProposalDocRelationInfo() {
+        org.kuali.student.r1.core.proposal.dto.ProposalDocRelationInfo r1 = new org.kuali.student.r1.core.proposal.dto.ProposalDocRelationInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setDesc(R1TestDataUtil.getRichTextInfoData());
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setType("R1 Type");
+        ProposalDocRelationInfo r2 = R1R2ConverterUtil.convert(r1, ProposalDocRelationInfo.class);
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getType(), r2.getTypeKey());
+    }
+    
+    @Test
+    public void testProposalInfo() {
+        org.kuali.student.r1.core.proposal.dto.ProposalInfo r1 = new org.kuali.student.r1.core.proposal.dto.ProposalInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        List<String> r1PropRefList = new ArrayList<String>();
+        r1PropRefList.add("R1 Ref");
+        r1.setProposalReference(r1PropRefList);
+        List<String> r1PropOrgList = new ArrayList<String>();
+        r1PropOrgList.add("R1 Org");
+        r1.setProposerOrg(r1PropOrgList);
+        List<String> r1PropPersonList = new ArrayList<String>();
+        r1PropPersonList.add("R1 Prop Person");
+        r1.setProposerPerson(r1PropPersonList);
+        r1.setDetailDesc("R1 Desc");
+        ProposalInfo r2 = R1R2ConverterUtil.convert(r1, ProposalInfo.class);
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getProposalReference().get(0), r2.getProposalReference().get(0));
+        Assert.assertEquals(r1.getProposerOrg().get(0), r2.getProposerOrg().get(0));
+        Assert.assertEquals(r1.getProposerPerson().get(0), r2.getProposerPerson().get(0));
+        Assert.assertEquals(r1.getDetailDesc(), r2.getDetailDesc().getPlain());
+    }
+    
+    @Test
+    public void testReqComponentInfo() {
+        org.kuali.student.r1.core.statement.dto.ReqComponentInfo r1 = new org.kuali.student.r1.core.statement.dto.ReqComponentInfo();
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        List<org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo> r1ReqCompList = new ArrayList<org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo>();
+        org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo r1ReqComFieldInfo = new org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo();
+        r1ReqComFieldInfo.setId("R1 Id");
+        r1ReqComFieldInfo.setType("R1 Type");
+        r1ReqComFieldInfo.setValue("R1 Value");
+        r1ReqCompList.add(r1ReqComFieldInfo);
+        r1.setReqCompFields(r1ReqCompList);
+        ReqComponentInfo r2 = R1R2ConverterUtil.convert(r1, ReqComponentInfo.class);
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals("R1 Value", r2.getReqCompFields().get(0).getValue());
+    }
+    
+    @Test
+    public void testStatementInfo() {
+        org.kuali.student.r1.core.statement.dto.StatementInfo r1 = new org.kuali.student.r1.core.statement.dto.StatementInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setDesc(R1TestDataUtil.getRichTextInfoData());
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        r1.setOperator(StatementOperatorTypeKey.AND);
+        StatementInfo r2 = R1R2ConverterUtil.convert(r1, StatementInfo.class);
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
+        Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
+        Assert.assertEquals(r1.getOperator().name(), r2.getOperator().name());
+    }
+    
+    @Test
+    public void testStatementTreeViewInfo() {
+        org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo r1 = new org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo();
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
+        r1.setDesc(R1TestDataUtil.getRichTextInfoData());
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
+        StatementTreeViewInfo r2 = R1R2ConverterUtil.convert(r1, StatementTreeViewInfo.class);
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
+        Assert.assertEquals(r1.getDesc().getPlain(), r2.getDescr().getPlain());
         Assert.assertEquals(r1.getMetaInfo().getVersionInd(), r2.getMeta().getVersionInd());
     }
 
