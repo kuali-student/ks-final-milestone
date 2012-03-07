@@ -26,15 +26,16 @@ public class InvalidParameterException
 
 
     public InvalidParameterException() {
+        super();
     }
 
     public InvalidParameterException(String message) {
         super(message);
     }
 
-    // TODO KSCM Compare with R1 and implement accordingly
     @Deprecated
-	public InvalidParameterException(String message, Exception e) {
-		super(message);
+	public InvalidParameterException(String message, Throwable cause) {
+		super(message, cause);
+		
 	}
 }
