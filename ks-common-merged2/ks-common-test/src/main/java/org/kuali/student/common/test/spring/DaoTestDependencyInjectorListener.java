@@ -25,7 +25,6 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestContext;
 import org.springframework.test.context.support.DependencyInjectionTestExecutionListener;
 
-@Deprecated
 public class DaoTestDependencyInjectorListener extends
 		DependencyInjectionTestExecutionListener {
 
