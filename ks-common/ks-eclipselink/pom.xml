@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-eclipselink</artifactId>
   <packaging>pom</packaging>
-  <name>KS Eclipselink Pom 2</name>
-  <description>KS Eclipselink dependencies 2</description>
+  <name>KS Eclipselink Pom</name>
+  <description>KS Eclipselink dependencies</description>
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>

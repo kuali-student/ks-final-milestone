@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-core-sql</artifactId>
   <packaging>jar</packaging>
-  <name>KS Core SQL files 2</name>
+  <name>KS Core SQL files</name>
   <description>
-	This pom contains base data to run the ks-core services 2
+	This pom contains base data to run the ks-core services
   </description>
   <parent>
     <groupId>org.kuali.student.core</groupId>

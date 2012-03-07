@@ -2,8 +2,8 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>ks-core-web</artifactId>
   <packaging>war</packaging>
-  <name>KS Core Web 2</name>
-  <description>KS Core Web 2</description>
+  <name>KS Core Web</name>
+  <description>KS Core Web</description>
   <parent>
     <groupId>org.kuali.student.core</groupId>
     <artifactId>ks-core</artifactId>

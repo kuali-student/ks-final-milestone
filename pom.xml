@@ -52,11 +52,11 @@
       </activation>
       <modules>
         <module>ks-cfg-dbs</module>
-        <module>ks-common-merged2</module>
+        <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
-        <module>ks-core-merged2</module>
-        <module>ks-lum2</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
         <module>ks-web</module>
         <module>ks-conversion</module>
       </modules>
@@ -64,11 +64,11 @@
     <profile>
       <id>skip-ui</id>
       <modules>
-        <module>ks-common-merged2</module>
+        <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
-        <module>ks-core-merged2</module>
-        <module>ks-lum2</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
         <module>ks-conversion</module>
       </modules>
       <properties>
@@ -78,11 +78,11 @@
     <profile>
       <id>skip-all-wars</id>
       <modules>
-        <module>ks-common-merged2</module>
+        <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
-        <module>ks-core-merged2</module>
-        <module>ks-lum2</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
         <module>ks-conversion</module>
       </modules>
     </profile>
@@ -95,8 +95,8 @@
     <profile>
       <id>sql-only</id>
       <modules>
-        <module>ks-core-merged2</module>
-        <module>ks-lum2</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
       </modules>
       <properties>
         <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
@@ -105,11 +105,11 @@
     <profile>
       <id>merged</id>
       <modules>
-        <module>ks-common-merged2</module>
+        <module>ks-common</module>
         <module>ks-security</module>
         <module>ks-admin</module>
-        <module>ks-core-merged2</module>
-        <module>ks-lum2</module>
+        <module>ks-core</module>
+        <module>ks-lum</module>
         <module>ks-conversion</module>
       </modules>
     </profile>

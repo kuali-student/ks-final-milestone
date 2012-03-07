@@ -6,9 +6,9 @@
     <version>0.0.6-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.lum</groupId>
-  <artifactId>ks-lum-impl2</artifactId>
-  <name>ks-lum-impl2</name>
-  <description>ks-lum-impl2</description>
+  <artifactId>ks-lum-impl</artifactId>
+  <name>ks-lum-impl</name>
+  <description>ks-lum-impl</description>
   <build>
     <plugins>
       <plugin>

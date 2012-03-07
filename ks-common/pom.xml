@@ -9,8 +9,8 @@
   <artifactId>ks-common</artifactId>
   <packaging>pom</packaging>
   <version>0.0.6-SNAPSHOT</version>
-  <name>KS Common Merged2</name>
-  <description>Kuali Student Common Merged2</description>
+  <name>KS Common</name>
+  <description>Kuali Student Common</description>
   <issueManagement>
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
