@@ -1,10 +1,10 @@
 package org.kuali.student.lum.lu.ui.course.client.controllers;
 
-import org.kuali.student.r1.common.ui.client.application.ViewContext;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.BasicLayout;
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
-import org.kuali.student.r1.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 
 public class ViewCourseParentController extends BasicLayout{
 	

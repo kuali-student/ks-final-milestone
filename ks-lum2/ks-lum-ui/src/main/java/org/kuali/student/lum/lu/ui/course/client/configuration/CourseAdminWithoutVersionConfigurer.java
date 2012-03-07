@@ -1,15 +1,15 @@
 package org.kuali.student.lum.lu.ui.course.client.configuration;
 
 import org.kuali.student.common.dto.DtoConstants;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.RequiredContainer;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.mvc.View;
-import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.RequiredContainer;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.common.client.lu.LUUIConstants;
 import org.kuali.student.lum.lu.assembly.data.client.constants.base.RichTextInfoConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseAdminController;

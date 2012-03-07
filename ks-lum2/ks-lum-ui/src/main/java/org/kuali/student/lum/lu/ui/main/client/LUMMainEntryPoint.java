@@ -17,17 +17,17 @@ package org.kuali.student.lum.lu.ui.main.client;
 
 
 import org.kuali.student.common.messages.dto.MessageList;
-import org.kuali.student.r1.common.ui.client.application.Application;
-import org.kuali.student.r1.common.ui.client.application.ApplicationContext;
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.mvc.Controller;
-import org.kuali.student.r1.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
-import org.kuali.student.r1.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.r1.common.ui.client.service.MessagesRpcService;
-import org.kuali.student.r1.common.ui.client.util.BrowserUtils;
-import org.kuali.student.r1.common.ui.client.util.WindowTitleUtils;
-import org.kuali.student.r1.common.ui.client.widgets.ApplicationPanel;
-import org.kuali.student.r1.common.ui.client.widgets.KSFooter;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ApplicationContext;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.breadcrumb.BreadcrumbManager;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.service.MessagesRpcService;
+import org.kuali.student.common.ui.client.util.BrowserUtils;
+import org.kuali.student.common.ui.client.util.WindowTitleUtils;
+import org.kuali.student.common.ui.client.widgets.ApplicationPanel;
+import org.kuali.student.common.ui.client.widgets.KSFooter;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;

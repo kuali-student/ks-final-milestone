@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.ui.server.gwt.BaseRpcGwtServletAbstract;
+import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;

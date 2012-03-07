@@ -1,16 +1,16 @@
 package org.kuali.student.lum.lu.ui.course.client.requirements;
 
-import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.BasicLayout;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.mvc.Controller;
-import org.kuali.student.r1.common.ui.client.mvc.DataModel;
-import org.kuali.student.r1.common.ui.client.mvc.ModelProvider;
-import org.kuali.student.r1.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.r1.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.r1.common.ui.client.widgets.dialog.ButtonMessageDialog;
-import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ButtonGroup;
-import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.ModelProvider;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 
 import com.google.gwt.core.client.GWT;
 

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.log4j.Logger;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.server.gwt.DataService;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
@@ -19,8 +21,6 @@ import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
-import org.kuali.student.r1.common.ui.server.gwt.DataService;
 import org.kuali.student.r2.core.proposal.dto.ProposalInfo;
 import org.kuali.student.r2.core.proposal.service.ProposalService;
 import org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo;

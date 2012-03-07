@@ -9,9 +9,9 @@ import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.assembly.data.Data.DataValue;
 import org.kuali.student.r1.common.assembly.data.Data.Value;
 import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.mvc.HasDataValue;
-import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.HasDataValue;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.common.client.widgets.CluSetRangeModelUtil;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 

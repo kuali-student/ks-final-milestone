@@ -19,7 +19,7 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 import org.apache.log4j.Logger;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r1.common.ui.server.gwt.DataGwtServlet;
+import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;

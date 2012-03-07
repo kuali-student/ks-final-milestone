@@ -3,10 +3,10 @@ package org.kuali.student.lum.lu.ui.tools.client.widgets.itemlist;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.widgets.KSButton;
-import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
-import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
