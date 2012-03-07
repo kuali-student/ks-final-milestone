@@ -53,7 +53,7 @@ import java.util.List;
  */
 @WebService(name = "DocumentService", targetNamespace = DocumentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface DocumentService extends DictionaryService{
+public interface DocumentService extends DictionaryService {
 
     /**
      * Retrieves information about a document
