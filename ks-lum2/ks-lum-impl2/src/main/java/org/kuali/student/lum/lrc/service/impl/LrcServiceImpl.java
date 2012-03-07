@@ -33,9 +33,9 @@ import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.search.service.SearchService;
-import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.r1.common.validator.Validator;
-import org.kuali.student.r1.common.validator.ValidatorFactory;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.Validator;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
@@ -84,7 +84,7 @@ public class LrcServiceImpl implements LRCService {
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo createResultComponent(
 			String resultComponentTypeKey,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
@@ -95,12 +95,10 @@ public class LrcServiceImpl implements LRCService {
 	    // Validate Result component
         ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, contextInfo);
 
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+        	throw new DataValidationErrorException("Validation error!", validationResults);
         }
                 
 	    ResultComponent rc = LrcServiceAssembler.toResultComponent(resultComponentTypeKey, resultComponentInfo, lrcDao);
@@ -390,7 +388,7 @@ public class LrcServiceImpl implements LRCService {
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
 	public ResultComponentInfo updateResultComponent(String resultComponentId,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -401,12 +399,10 @@ public class LrcServiceImpl implements LRCService {
         // Validate Result component
         ObjectStructureDefinition objStructure = this.getObjectStructure(ResultComponentInfo.class.getName());
         Validator defaultValidator = validatorFactory.getValidator();
-        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure);
+        List<ValidationResultInfo> validationResults = defaultValidator.validateObject(resultComponentInfo, objStructure, null);
 
         if (null != validationResults && validationResults.size() > 0) {
-        	// Convert R1 to R2
-        	List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResult = ValidationResultInfo.convertValidationResultInfoToR2(validationResults);
-            throw new DataValidationErrorException("Validation error!", r2ValidationResult);
+        	throw new DataValidationErrorException("Validation error!", validationResults);
         }
         
         ResultComponent entity = lrcDao.fetch(ResultComponent.class, resultComponentId);
@@ -470,15 +466,13 @@ public class LrcServiceImpl implements LRCService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-		// TODO KSCM return searchManager.getSearchResultType(searchResultTypeKey);
-		return null;
+		return searchManager.getSearchResultType(searchResultTypeKey);
 	}
 
 	@Override
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		// TODO KSCM return searchManager.getSearchResultTypes();
-		return null;
+	    return searchManager.getSearchResultTypes();
 	}
 
 	@Override
@@ -486,15 +480,13 @@ public class LrcServiceImpl implements LRCService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
 		checkForMissingParameter(searchTypeKey, "searchTypeKey");
-		// TODO KSCM return searchManager.getSearchType(searchTypeKey);
-		return null;
+		return searchManager.getSearchType(searchTypeKey);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		// TODO KSCM return searchManager.getSearchTypes();
-		return null;
+		return searchManager.getSearchTypes();
 	}
 
 	@Override
@@ -503,8 +495,7 @@ public class LrcServiceImpl implements LRCService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchCriteriaTypeKey, "searchCriteriaTypeKey");
-		// TODO KSCM return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
-		return null;
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
 	}
 
 	@Override
@@ -513,17 +504,15 @@ public class LrcServiceImpl implements LRCService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 		checkForMissingParameter(searchResultTypeKey, "searchResultTypeKey");
-	//	 TODO KSCM return searchManager.getSearchTypesByResult(searchResultTypeKey);
-		return null;
+		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
 	public SearchManager getSearchManager() {
-		// TODO KSCM return searchManager;
-		return null;
+		return searchManager;
 	}
 
 	public void setSearchManager(SearchManager searchManager) {
-		// TODO KSCM this.searchManager = searchManager;
+		this.searchManager = searchManager;
 	}
 
 

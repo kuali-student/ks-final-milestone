@@ -397,7 +397,7 @@ public interface LRCService  extends SearchService {
 
 	@Deprecated
 	public ResultComponentInfo updateResultComponent(String resultComponentId,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
 			throws DataValidationErrorException, DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
@@ -417,7 +417,7 @@ public interface LRCService  extends SearchService {
 
 	@Deprecated
 	public ResultComponentInfo createResultComponent(String resultComponentTypeKey,
-			ResultComponentInfo resultComponentInfo)
+			ResultComponentInfo resultComponentInfo, ContextInfo contextInfo)
 			throws AlreadyExistsException, DataValidationErrorException,
 			DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
