@@ -17,9 +17,9 @@
 -->
 
 	<!-- Inherit common-ui.                  -->
-  	<inherits name="org.kuali.student.r1.common.ui.CommonUI"/>
+  	<inherits name="org.kuali.student.common.ui.CommonUI"/>
 
 	<!-- Specify the app entry point class.                   -->
-	<entry-point class="org.kuali.student.r1.common.ui.client.CommonUITest"/>
+	<entry-point class="org.kuali.student.common.ui.client.CommonUITest"/>
     	
 </module>
