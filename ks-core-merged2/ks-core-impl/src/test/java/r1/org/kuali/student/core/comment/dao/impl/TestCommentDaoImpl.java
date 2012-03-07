@@ -32,7 +32,7 @@ import org.kuali.student.r1.core.comment.dao.CommentDao;
 @Deprecated
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentDaoImpl extends AbstractTransactionalDaoTest {
-    @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl", testSqlFile = "classpath:ks-comment.sql")
+    @Dao(value = "org.kuali.student.r1.core.comment.dao.impl.CommentDaoImpl", testSqlFile = "classpath:ks-comment.sql")
     public CommentDao dao;
 
     @Test
