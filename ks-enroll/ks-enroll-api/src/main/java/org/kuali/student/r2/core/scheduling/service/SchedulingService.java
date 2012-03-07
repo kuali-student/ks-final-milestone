@@ -52,7 +52,7 @@ public interface SchedulingService {
     /**
      * Retrieves a Schedule
      *
-     * @param scheduleId  a unique Id of an Schedule
+     * @param scheduleId  unique Id of a Schedule
      * @param contextInfo Context information containing the principalId and
      *                    locale information about the caller of service
      *                    operation
@@ -228,7 +228,7 @@ public interface SchedulingService {
     /**
      * Retrieves a ScheduleBatch
      *
-     * @param scheduleBatchId a unique Id of an ScheduleBatch
+     * @param scheduleBatchId a unique Id of a ScheduleBatch
      * @param contextInfo     Context information containing the principalId and
      *                        locale information about the caller of service
      *                        operation
@@ -461,7 +461,7 @@ public interface SchedulingService {
     /**
      * Retrieves a ScheduleBatchResponse
      *
-     * @param scheduleBatchResponseId a unique Id of an ScheduleBatchResponse
+     * @param scheduleBatchResponseId a unique Id of a ScheduleBatchResponse
      * @param contextInfo     Context information containing the principalId and
      *                        locale information about the caller of service
      *                        operation
@@ -529,7 +529,7 @@ public interface SchedulingService {
     /**
      * Retrieves a ScheduleRequest
      *
-     * @param scheduleRequestId a unique Id of an ScheduleRequest
+     * @param scheduleRequestId a unique Id of a ScheduleRequest
      * @param contextInfo       Context information containing the principalId
      *                          and locale information about the caller of
      *                          service operation
@@ -733,7 +733,7 @@ public interface SchedulingService {
     /**
      * Retrieves a ScheduleComponent
      *
-     * @param scheduleComponentId a unique Id of an ScheduleComponent
+     * @param scheduleComponentId a unique Id of a ScheduleComponent
      * @param contextInfo         Context information containing the principalId
      *                            and locale information about the caller of
      *                            service operation
@@ -921,7 +921,7 @@ public interface SchedulingService {
     /**
      * Retrieves a TimeSlot
      *
-     * @param timeSlotId  a unique Id of an TimeSlot
+     * @param timeSlotId  a unique Id of a TimeSlot
      * @param contextInfo Context information containing the principalId and
      *                    locale information about the caller of service
      *                    operation
@@ -1098,7 +1098,7 @@ public interface SchedulingService {
     /**
      * Retrieves a ScheduleResponse
      *
-     * @param scheduleResponseId  a unique Id of an ScheduleResponse
+     * @param scheduleResponseId  a unique Id of a ScheduleResponse
      * @param contextInfo Context information containing the principalId and
      *                    locale information about the caller of service
      *                    operation

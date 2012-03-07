@@ -27,7 +27,7 @@ import java.util.List;
  * @since Thu Nov 3 14:22:34 EDT 2011
  */ 
 
-public interface ScheduleRequestComponents extends HasId {
+public interface ScheduleRequestComponent extends HasId {
 
     /**
      * The Campus Id to specify a Campus.

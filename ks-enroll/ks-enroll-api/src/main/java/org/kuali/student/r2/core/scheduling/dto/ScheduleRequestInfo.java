@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
-import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponents;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -44,7 +44,7 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     @XmlElement
     private String refObjectTypeKey;
     @XmlElement
-    private List<ScheduleRequestComponentsInfo> scheduleRequestComponents;
+    private List<ScheduleRequestComponentInfo> scheduleRequestComponents;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -55,9 +55,9 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
         if (null != scheduleRequest) {
             this.refObjectId = scheduleRequest.getRefObjectId();
             this.refObjectTypeKey = scheduleRequest.getRefObjectTypeKey();
-            this.scheduleRequestComponents = new ArrayList<ScheduleRequestComponentsInfo>();
-            for(ScheduleRequestComponents component : scheduleRequest.getScheduleRequestComponents()) {
-                this.scheduleRequestComponents.add(new ScheduleRequestComponentsInfo(component));
+            this.scheduleRequestComponents = new ArrayList<ScheduleRequestComponentInfo>();
+            for(ScheduleRequestComponent component : scheduleRequest.getScheduleRequestComponents()) {
+                this.scheduleRequestComponents.add(new ScheduleRequestComponentInfo(component));
             }
         }
     }
@@ -81,11 +81,11 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     }
 
     @Override
-    public List<ScheduleRequestComponentsInfo> getScheduleRequestComponents() {
+    public List<ScheduleRequestComponentInfo> getScheduleRequestComponents() {
         return this.scheduleRequestComponents;
     }
 
-    public void setScheduleRequestComponents(List<ScheduleRequestComponentsInfo> scheduleRequestComponents) {
+    public void setScheduleRequestComponents(List<ScheduleRequestComponentInfo> scheduleRequestComponents) {
         this.scheduleRequestComponents = scheduleRequestComponents;
     }
 }

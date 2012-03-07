@@ -15,7 +15,7 @@
 
 package org.kuali.student.r2.core.scheduling.dto;
 
-import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponents;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponent;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -32,8 +32,8 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleRequestComponentsInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds", "_futureElements"})
-public class ScheduleRequestComponentsInfo implements ScheduleRequestComponents, Serializable {
+@XmlType(name = "ScheduleRequestComponentInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds", "_futureElements"})
+public class ScheduleRequestComponentInfo implements ScheduleRequestComponent, Serializable {
 
     @XmlElement
     private String id;
@@ -52,18 +52,18 @@ public class ScheduleRequestComponentsInfo implements ScheduleRequestComponents,
     @XmlAnyElement
     private List<Element> _futureElements;
 
-    public ScheduleRequestComponentsInfo() {
+    public ScheduleRequestComponentInfo() {
     }
 
-    public ScheduleRequestComponentsInfo(ScheduleRequestComponents scheduleRequestComponents) {
-        if (null != scheduleRequestComponents) {
-            this.id = scheduleRequestComponents.getId();
-            this.buildingIds = new ArrayList<String>(scheduleRequestComponents.getBuildingIds());
-            this.campusIds = new ArrayList<String>(scheduleRequestComponents.getCampusIds());
-            this.orgIds = new ArrayList<String>(scheduleRequestComponents.getOrgIds());
-            this.resourceTypeKeys = scheduleRequestComponents.getResourceTypeKeys();
-            this.roomIds = scheduleRequestComponents.getRoomIds();
-            this.timeSlotIds = new ArrayList<String>(scheduleRequestComponents.getTimeSlotIds());
+    public ScheduleRequestComponentInfo(ScheduleRequestComponent scheduleRequestComponent) {
+        if (null != scheduleRequestComponent) {
+            this.id = scheduleRequestComponent.getId();
+            this.buildingIds = new ArrayList<String>(scheduleRequestComponent.getBuildingIds());
+            this.campusIds = new ArrayList<String>(scheduleRequestComponent.getCampusIds());
+            this.orgIds = new ArrayList<String>(scheduleRequestComponent.getOrgIds());
+            this.resourceTypeKeys = scheduleRequestComponent.getResourceTypeKeys();
+            this.roomIds = scheduleRequestComponent.getRoomIds();
+            this.timeSlotIds = new ArrayList<String>(scheduleRequestComponent.getTimeSlotIds());
         }
     }
 
