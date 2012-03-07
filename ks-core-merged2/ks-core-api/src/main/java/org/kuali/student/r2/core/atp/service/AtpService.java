@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -52,7 +54,7 @@ import javax.jws.soap.SOAPBinding;
 
 @WebService(name = "AtpService", serviceName = "AtpService", portName = "AtpService", targetNamespace = "http://student.kuali.org/wsdl/atp")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface AtpService {
+public interface AtpService extends DictionaryService {
 
     //
     // Lookup Methods for ATP Id Entity Pattern.
@@ -954,4 +956,10 @@ public interface AtpService {
      * @throws PermissionDeniedException an authorization failure occurred
      */
     public StatusInfo removeMilestoneFromAtp(@WebParam(name = "milestoneId") String milestoneId, @WebParam(name = "atpId") String atpId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    @Deprecated
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
+
+    @Deprecated
+    public List<String> getObjectTypes();
 }
