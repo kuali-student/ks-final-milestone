@@ -17,7 +17,6 @@ package org.kuali.student.r1.common.validator;
 
 import java.util.List;
 
-@Deprecated
 public class ConstraintMockAddress {
 
 	protected String line1;

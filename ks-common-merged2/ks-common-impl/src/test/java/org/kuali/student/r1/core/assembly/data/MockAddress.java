@@ -3,7 +3,6 @@ package org.kuali.student.r1.core.assembly.data;
 import java.util.List;
 import java.util.Map;
 
-@Deprecated
 public class MockAddress {
 	protected String line1;
 
