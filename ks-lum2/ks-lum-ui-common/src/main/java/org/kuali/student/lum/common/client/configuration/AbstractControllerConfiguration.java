@@ -1,6 +1,6 @@
 package org.kuali.student.lum.common.client.configuration;
 
-import org.kuali.student.r1.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.Controller;
 
 /**
  * @author Igor

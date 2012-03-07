@@ -15,8 +15,8 @@
 
 package org.kuali.student.lum.common.client.widgets;
 
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.r1.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

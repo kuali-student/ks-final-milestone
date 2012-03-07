@@ -17,9 +17,9 @@ package org.kuali.student.lum.common.client.lo.rpc;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
-import org.kuali.student.r1.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
 

@@ -1,6 +1,6 @@
 package org.kuali.student.lum.common.client.lo;
 
-import org.kuali.student.r1.common.ui.client.util.DebugIdUtils;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

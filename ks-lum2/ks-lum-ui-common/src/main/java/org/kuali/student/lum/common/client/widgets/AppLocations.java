@@ -1,6 +1,6 @@
 package org.kuali.student.lum.common.client.widgets;
 
-import org.kuali.student.r1.common.ui.client.mvc.history.Locations;
+import org.kuali.student.common.ui.client.mvc.history.Locations;
 
 
 public class AppLocations implements Locations {

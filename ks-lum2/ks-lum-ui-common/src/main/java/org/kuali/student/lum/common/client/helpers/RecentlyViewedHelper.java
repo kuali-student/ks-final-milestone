@@ -3,7 +3,7 @@ package org.kuali.student.lum.common.client.helpers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.r1.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
 
 public class RecentlyViewedHelper{
 	

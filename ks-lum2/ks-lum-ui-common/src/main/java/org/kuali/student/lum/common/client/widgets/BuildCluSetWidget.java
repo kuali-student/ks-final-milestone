@@ -19,14 +19,14 @@ import java.util.List;
 
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.BasicLayout;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.r1.common.ui.client.mvc.*;
-import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
-import org.kuali.student.r1.common.ui.client.widgets.progress.BlockingTask;
-import org.kuali.student.r1.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
+import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.core.statement.ui.client.widgets.rules.AccessWidgetValue;
 
 import com.google.gwt.core.client.GWT;

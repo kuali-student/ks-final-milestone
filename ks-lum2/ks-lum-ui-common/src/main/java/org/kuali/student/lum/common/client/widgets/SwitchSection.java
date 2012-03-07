@@ -5,16 +5,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.kuali.student.r1.common.ui.client.application.Application;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.BaseSection;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.SwapSection;
-import org.kuali.student.r1.common.ui.client.event.SectionUpdateEvent;
-import org.kuali.student.r1.common.ui.client.widgets.dialog.ConfirmationDialog;
-import org.kuali.student.r1.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
-import org.kuali.student.r1.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
-import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeEvent;
-import org.kuali.student.r1.common.ui.client.widgets.list.SelectionChangeHandler;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.SwapSection;
+import org.kuali.student.common.ui.client.event.SectionUpdateEvent;
+import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
+import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

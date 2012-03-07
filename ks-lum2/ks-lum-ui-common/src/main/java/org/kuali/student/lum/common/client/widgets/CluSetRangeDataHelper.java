@@ -2,11 +2,11 @@ package org.kuali.student.lum.common.client.widgets;
 
 import java.util.List;
 
+import org.kuali.student.common.ui.client.widgets.DataHelper;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.LookupMetadata;
 import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
 import org.kuali.student.r1.common.search.dto.SearchParam;
-import org.kuali.student.r1.common.ui.client.widgets.DataHelper;
 import org.kuali.student.r2.lum.clu.dto.MembershipQueryInfo;
 
 public class CluSetRangeDataHelper implements DataHelper {
