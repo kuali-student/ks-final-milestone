@@ -17,8 +17,9 @@ package org.kuali.student.lum.lu.ui.course.server.gwt;
 
 
 import org.apache.log4j.Logger;
+import org.kuali.student.common.dto.ContextInfo;
+import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.server.gwt.DataGwtServlet;
-import org.kuali.student.core.dto.StatusInfo;
 import org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService;
 import org.kuali.student.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.lum.lo.dto.LoCategoryTypeInfo;
@@ -61,9 +62,9 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
      * @see org.kuali.student.lum.common.client.lo.rpc.LoCategoryRpcService#getLoCategoryType(java.lang.String)
      */
     @Override
-    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey) {
+    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey, ContextInfo contextInfo) {
         try {
-            return loService.getLoCategoryType(loCategoryTypeKey);
+            return loService.getLoCategoryType(loCategoryTypeKey, contextInfo);
 
         } catch (Exception e) {
             LOG.error(e);
@@ -72,9 +73,9 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     }
 
     @Override
-    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey) {
+    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey, ContextInfo contextInfo) {
         try {
-            return loService.getLoCategories(loRepositoryKey);
+            return loService.getLoCategories(loRepositoryKey, contextInfo);
 
         } catch (Exception e) {
             LOG.error(e);
@@ -83,9 +84,9 @@ public class LoCategoryRpcGwtServlet extends DataGwtServlet implements LoCategor
     }
 
     @Override
-    public StatusInfo deleteLoCategory(String loCategoryId) {
+    public StatusInfo deleteLoCategory(String loCategoryId, ContextInfo contextInfo) {
         try {
-            return loService.deleteLoCategory(loCategoryId);
+            return loService.deleteLoCategory(loCategoryId, contextInfo);
         } catch (Exception e) {
             LOG.error(e);
         }

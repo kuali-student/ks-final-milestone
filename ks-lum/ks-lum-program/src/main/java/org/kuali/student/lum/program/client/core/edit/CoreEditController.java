@@ -1,42 +1,56 @@
 package org.kuali.student.lum.program.client.core.edit;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
+import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.validator.ValidatorClientUtils;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
+import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.common.util.ContextUtils;
+import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.lum.common.client.widgets.AppLocations;
+import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
+import org.kuali.student.lum.program.client.ProgramRegistry;
+import org.kuali.student.lum.program.client.ProgramSections;
+import org.kuali.student.lum.program.client.ProgramUtils;
+import org.kuali.student.lum.program.client.core.CoreController;
+import org.kuali.student.lum.program.client.events.AfterSaveEvent;
+import org.kuali.student.lum.program.client.events.ChangeViewEvent;
+import org.kuali.student.lum.program.client.events.MetadataLoadedEvent;
+import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
+import org.kuali.student.lum.program.client.events.StateChangeEvent;
+import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
+import org.kuali.student.lum.program.client.events.UpdateEvent;
+import org.kuali.student.lum.program.client.rpc.AbstractCallback;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.Window;
-import org.kuali.student.common.ui.client.application.ViewContext;
-import org.kuali.student.common.ui.client.mvc.Callback;
-import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.common.ui.client.service.DataSaveResult;
-import org.kuali.student.common.ui.client.widgets.KSButton;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.assembly.data.Data;
-import org.kuali.student.core.assembly.data.QueryPath;
-import org.kuali.student.core.validation.dto.ValidationResultInfo;
-import org.kuali.student.lum.common.client.widgets.AppLocations;
-import org.kuali.student.lum.program.client.*;
-import org.kuali.student.lum.program.client.core.CoreController;
-import org.kuali.student.lum.program.client.events.*;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.rpc.AbstractCallback;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author Igor
  */
 public class CoreEditController extends CoreController {
 
-    private final KSButton saveButton = new KSButton(ProgramProperties.get().common_save());
-    private final KSButton cancelButton = new KSButton(ProgramProperties.get().common_cancel(), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
+    private final KSButton saveButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_SAVE));
+    private final KSButton cancelButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_CANCEL), KSButtonAbstract.ButtonStyle.ANCHOR_LARGE_CENTERED);
 
-    private ProgramStatus previousState;
 
     /**
      * Constructor.
@@ -58,8 +72,8 @@ public class CoreEditController extends CoreController {
             excludedViews.add(ProgramSections.PROGRAM_REQUIREMENTS_EDIT);
             excludedViews.add(ProgramSections.SUPPORTING_DOCUMENTS_EDIT);
             excludedViews.add(ProgramSections.SUMMARY);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), saveButton, excludedViews);
-            addCommonButton(ProgramProperties.get().program_menu_sections(), cancelButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), saveButton, excludedViews);
+            addCommonButton(getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS), cancelButton, excludedViews);
             initialized = true;
         }
     }
@@ -85,7 +99,7 @@ public class CoreEditController extends CoreController {
                 List<String> ids = event.getProgramRequirementIds();
 
                 programModel.set(QueryPath.parse(ProgramConstants.PROGRAM_REQUIREMENTS), new Data());
-                Data programRequirements = programModel.get(ProgramConstants.PROGRAM_REQUIREMENTS);
+                Data programRequirements = getDataProperty(ProgramConstants.PROGRAM_REQUIREMENTS);
 
                 if (programRequirements == null) {
                     Window.alert("Cannot find program requirements in data model.");
@@ -136,11 +150,9 @@ public class CoreEditController extends CoreController {
                                     }
                                 }
                             };
-                            previousState = ProgramStatus.of(programModel.<String>get(ProgramConstants.STATE));
-                            ProgramUtils.setStatus(programModel, event.getProgramStatus().getValue());
-                            saveData(callback);
-                        } else {
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            updateState(event.getProgramStatus().getValue(), callback);
+                         } else {
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });
@@ -173,16 +185,14 @@ public class CoreEditController extends CoreController {
         versionData.set(new Data.StringKey("versionIndId"), getViewContext().getId());
         versionData.set(new Data.StringKey("versionComment"), "Core Program Version");
         data.set(new Data.StringKey("versionInfo"), versionData);
-
-        programRemoteService.saveData(data, new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_retrievingData()) {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.saveData(data, ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_RETRIEVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                programModel.setRoot(result.getValue());
                 viewContext.setIdType(IdType.OBJECT_ID);
-                viewContext.setId((String) programModel.get(ProgramConstants.ID));
-                setHeaderTitle();
-                setStatus();
+                viewContext.setId(getStringProperty(ProgramConstants.ID));
+                refreshModelAndView(result);
                 callback.onModelReady(programModel);
                 eventBus.fireEvent(new ModelLoadedEvent(programModel));
             }
@@ -209,7 +219,7 @@ public class CoreEditController extends CoreController {
                             saveData(okCallback);
                         } else {
                             okCallback.exec(false);
-                            Window.alert("Save failed.  Please check fields for errors.");
+                            KSNotifier.add(new KSNotification("Unable to save, please check fields for errors.", false, true, 5000));
                         }
                     }
                 });
@@ -224,32 +234,45 @@ public class CoreEditController extends CoreController {
     }
 
     private void saveData(final Callback<Boolean> okCallback) {
-        programRemoteService.saveData(programModel.getRoot(), new AbstractCallback<DataSaveResult>(ProgramProperties.get().common_savingData()) {
+        //TODO KSCM - Correct ContextInfo parameter?
+        programRemoteService.saveData(programModel.getRoot(), ContextUtils.getContextInfo(), new AbstractCallback<DataSaveResult>(getLabel(ProgramMsgConstants.COMMON_SAVINGDATA)) {
             @Override
             public void onSuccess(DataSaveResult result) {
                 super.onSuccess(result);
-                if (result.getValidationResults() != null && !result.getValidationResults().isEmpty()) {
-                    if (previousState != null) {
-                        ProgramUtils.setStatus(programModel, previousState.getValue());
-                    }
+                //Clear warning states on field and any warnings stored in ApplicationContext;
+                clearAllWarnings();
+                Application.getApplicationContext().clearValidationWarnings();
+                
+                List<ValidationResultInfo> validationResults = result.getValidationResults();
+                Application.getApplicationContext().addValidationWarnings(validationResults);
+
+                if (ValidatorClientUtils.hasErrors(validationResults)) {
                     isValid(result.getValidationResults(), false, true);
                     StringBuilder msg = new StringBuilder();
                     for (ValidationResultInfo vri : result.getValidationResults()) {
-                        msg.append(vri.getMessage());
+                    	if(!msg.toString().contains(vri.getMessage()))
+                    		msg.append(vri.getMessage() + " ");
                     }
+                    if (msg.length() > 0)
+                    	KSNotifier.add(new KSNotification(msg.toString(), false, true, 5000));
                     okCallback.exec(false);
                 } else {
-                    previousState = null;
-                    programModel.setRoot(result.getValue());
-                    setHeaderTitle();
-                    setStatus();
+                    refreshModelAndView(result);
                     if (ProgramSections.getViewForUpdate().contains(getCurrentViewEnum().name())) {
+                        processBeforeShow = false;
                         showView(getCurrentViewEnum());
                     }
                     resetFieldInteractionFlag();
                     throwAfterSaveEvent();
                     HistoryManager.logHistoryChange();
-                    KSNotifier.show(ProgramProperties.get().common_successfulSave());
+
+                    if (ValidatorClientUtils.hasWarnings(validationResults)){
+	    				isValid(result.getValidationResults(), false, true);	    				
+    					KSNotifier.show("Saved with Warnings");
+    				} else {
+                        KSNotifier.show(getLabel(ProgramMsgConstants.COMMON_SUCCESSFULSAVE));
+    				}  				
+
                     okCallback.exec(true);
                 }
             }
@@ -275,4 +298,31 @@ public class CoreEditController extends CoreController {
             }
         }
     }
+	@Override
+	public void beforeShow(final Callback<Boolean> onReadyCallback) {
+		if(!initialized){
+			Application.getApplicationContext().clearCrossConstraintMap(null);
+			Application.getApplicationContext().clearPathToFieldMapping(null);
+		}
+		//Clear the parent path again
+		Application.getApplicationContext().setParentPath("");
+		super.beforeShow(onReadyCallback);
+	}
+	
+	//Before show is called before the model is bound to the widgets. We need to update cross constraints after widget binding
+	//This gets called twice which is not optimal
+	@Override
+	public <V extends Enum<?>> void showView(V viewType,
+			final Callback<Boolean> onReadyCallback) {
+		Callback<Boolean> updateCrossConstraintsCallback = new Callback<Boolean>(){
+			public void exec(Boolean result) {
+				onReadyCallback.exec(result);
+		        for(HasCrossConstraints crossConstraint:Application.getApplicationContext().getCrossConstraints(null)){
+		        	crossConstraint.reprocessWithUpdatedConstraints();
+		        }
+		        showWarnings();	
+			}
+        };
+		super.showView(viewType, updateCrossConstraintsCallback);
+	}
 }

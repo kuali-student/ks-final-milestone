@@ -26,17 +26,21 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-import org.kuali.student.core.dto.HasAttributes;
-import org.kuali.student.core.dto.Idable;
-import org.kuali.student.core.dto.MetaInfo;
-import org.kuali.student.core.dto.RichTextInfo;
+import org.kuali.student.common.dto.HasAttributes;
+import org.kuali.student.common.dto.Idable;
+import org.kuali.student.common.dto.MetaInfo;
+import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 
 /**
  *Detailed information about a single CLU Set.
  */ 
+//KSCM-130:  Add @XmlType
+@XmlType(name = "CluSetTreeViewInfo", propOrder = {"id", "type", "state", "name", "descr", "effectiveDate", "expirationDate", "adminOrg", "isReusable", "isReferenceable", "cluSets",
+		"clus", "attributes", "metaInfo"})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CluSetTreeViewInfo implements Serializable, Idable, HasAttributes {
 
