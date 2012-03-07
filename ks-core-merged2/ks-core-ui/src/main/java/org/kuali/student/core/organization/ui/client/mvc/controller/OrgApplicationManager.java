@@ -17,10 +17,10 @@ package org.kuali.student.core.organization.ui.client.mvc.controller;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.mvc.Controller;
-import org.kuali.student.r1.common.ui.client.mvc.DelegatingViewComposite;
-import org.kuali.student.r1.common.ui.client.mvc.View;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DelegatingViewComposite;
+import org.kuali.student.common.ui.client.mvc.View;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.SimplePanel;

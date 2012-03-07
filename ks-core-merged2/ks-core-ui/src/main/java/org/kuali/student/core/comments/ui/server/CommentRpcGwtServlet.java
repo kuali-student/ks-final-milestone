@@ -26,11 +26,11 @@ import org.kuali.rice.kim.api.identity.name.EntityNameContract;
 import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.r1.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;
 import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
 import org.kuali.student.r1.core.comment.service.CommentService;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 
 public class CommentRpcGwtServlet extends BaseRpcGwtServletAbstract<CommentService> implements CommentRpcService {

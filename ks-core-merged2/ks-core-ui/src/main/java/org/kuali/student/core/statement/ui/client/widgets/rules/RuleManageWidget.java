@@ -3,8 +3,8 @@ package org.kuali.student.core.statement.ui.client.widgets.rules;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.widgets.tabs.KSTabPanel;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.tabs.KSTabPanel;
 import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 
