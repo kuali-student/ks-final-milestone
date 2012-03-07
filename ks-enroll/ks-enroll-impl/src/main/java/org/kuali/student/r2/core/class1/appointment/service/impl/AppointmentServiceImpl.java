@@ -34,6 +34,7 @@ import javax.annotation.Resources;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
+import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
 import org.kuali.student.r2.core.class1.type.dao.TypeDao;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -117,7 +118,8 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public StatusInfo deleteAppointment(@WebParam(name = "appointmentId") String appointmentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+
+    public StatusInfo deleteAppointment(String appointmentId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -176,6 +178,7 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
+    @Transactional
     public AppointmentWindowInfo createAppointmentWindow(String appointmentWindowTypeKey, AppointmentWindowInfo appointmentWindowInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentWindowEntity apptWin = new AppointmentWindowEntity(appointmentWindowInfo);
 
@@ -186,18 +189,28 @@ public class AppointmentServiceImpl implements AppointmentService {
         if (retrieved != null) {
             info = retrieved.toDto();
         } else {
-            throw new OperationFailedException("ATP not found after persisted. atpId: " + apptWin.getId());
+            throw new OperationFailedException("Appointment Window not found after persisted. apptWinId: " + apptWin.getId());
         }
 
         return info;
     }
 
     @Override
-    public AppointmentWindowInfo updateAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentWindowInfo") AppointmentWindowInfo appointmentWindowInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    @Transactional
+    public AppointmentWindowInfo updateAppointmentWindow(String appointmentWindowId, AppointmentWindowInfo appointmentWindowInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
+
+        if (null != apptWin) {
+            AppointmentWindowEntity modifiedApptWin = new AppointmentWindowEntity(appointmentWindowInfo);
+            appointmentWindowDao.merge(modifiedApptWin);
+            return appointmentWindowDao.find(modifiedApptWin.getId()).toDto();
+        } else {
+            throw new DoesNotExistException(appointmentWindowId);
+        }
     }
 
     @Override
+    @Transactional
     public StatusInfo deleteAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);

@@ -50,32 +50,55 @@ import java.util.List;
 public class TestAppointmentServiceImpl {
     @Resource
     private AppointmentService appointmentService;
+    // ------------------------------------
+    private AppointmentWindowInfo apptWindowInfo;
+    private AppointmentSlotRuleInfo rule; // not a resource
+    private Long startInMillis; // start of appointment slot
+    private Long endInMillis; // end of appointment slot
     @Before
     public void before() {
+        makeAppointmentWindowInfo();
+    }
+
+    private void makeAppointmentWindowInfo() {
+        // Setup (id is not set up)
+        apptWindowInfo = new AppointmentWindowInfo();
+        makeSlotRule();
+        // Uses rule from makeSlotRule
+        apptWindowInfo.setSlotRule(rule);
+    }
+
+    private Long computeHoursInMillis(int hour) {
+        Long timeInMillis = hour * 60 * 60 * 1000L; // In milliseconds
+        return timeInMillis;
+    }
+
+    private TimeOfDayInfo makeTimeOfDayInfo(int hour) {
+        TimeOfDayInfo info = new TimeOfDayInfo();
+        info.setMilliSeconds(computeHoursInMillis(hour));
+        return info;
     }
     
-    @Test
-    public void testExists() {
-        // Setup
-        String id = "123";
-        AppointmentWindowInfo apptWindowInfo = new AppointmentWindowInfo();
-        apptWindowInfo.setId(id);
-        AppointmentSlotRuleInfo rule = new AppointmentSlotRuleInfo();
+    private void makeSlotRule() {
+        rule = new AppointmentSlotRuleInfo();
+        // According to DB definition, weekdays must be non-null, so add it
         List<Integer> weekdays = new ArrayList<Integer>();
         weekdays.add(1);
         weekdays.add(3);
         weekdays.add(5);
         rule.setWeekdays(weekdays);
-        Long start = 9 * 60 * 60 * 1000L; // 9 AM
-        Long end = 17 * 60 * 60 * 1000L; // 5 PM
-        TimeOfDayInfo startInfo = new TimeOfDayInfo();
-        startInfo.setMilliSeconds(start);
-        TimeOfDayInfo endInfo = new TimeOfDayInfo();
-        endInfo.setMilliSeconds(end);
+        TimeOfDayInfo startInfo = makeTimeOfDayInfo(9);
+        startInMillis = startInfo.getMilliSeconds();
+        TimeOfDayInfo endInfo = makeTimeOfDayInfo(17); // 5pm
+        endInMillis = endInfo.getMilliSeconds();
         rule.setStartTimeOfDay(startInfo);
         rule.setEndTimeOfDay(endInfo);
+    }
 
-        apptWindowInfo.setSlotRule(rule);
+    @Test
+    public void testExists() {
+        String id = "123";
+        apptWindowInfo.setId(id);
         try {
             appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL, 
                                                         apptWindowInfo, new ContextInfo());
@@ -84,9 +107,64 @@ public class TestAppointmentServiceImpl {
             assertNotNull(info);
             assertEquals(id, info.getId());
         } catch (Exception e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-            assert(false);
+            System.err.println("Exception caught ==========================");
+            e.printStackTrace();
+            assert(false); // If exception is thrown, make unit test fail
         }
+    }
 
+    @Test
+    public void testDelete() {
+        String id = "123";
+        boolean shouldExist = true;
+        apptWindowInfo.setId(id);
+        try {
+            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+                    apptWindowInfo, new ContextInfo());
+            // Fetch it
+            ContextInfo info = new ContextInfo();
+            AppointmentWindowInfo retrieved = appointmentService.getAppointmentWindow(id, info);
+            assertNotNull(retrieved);
+            // Then delete it
+            System.err.println("Getting ready to delete");
+            appointmentService.deleteAppointmentWindow(id, info);
+            shouldExist = false;
+            appointmentService.getAppointmentWindow(id, info); // should throw DoesNotExistException
+        } catch  (DoesNotExistException e) {
+            System.err.println("DoesNotExistException caught ==========================");
+            assert(!shouldExist); // We expect this exception if shouldExist is false
+        } catch (Exception e) {
+            System.err.println("Exception caught ==========================");
+            e.printStackTrace();
+            assert(false); // If exception is thrown, make unit test fail
+        }
+    }
+
+    @Test
+    public void testUpdate() {
+        String id = "123";
+        apptWindowInfo.setId(id);
+        try {
+            appointmentService.createAppointmentWindow(AppointmentServiceConstants.APPOINTMENT_WINDOW_TYPE_MANUAL,
+                    apptWindowInfo, new ContextInfo());
+            // Fetch it
+            ContextInfo info = new ContextInfo();
+            AppointmentWindowInfo retrieved = appointmentService.getAppointmentWindow(id, info);
+            assertNotNull(retrieved);
+            // First verify that we're getting the data we sent in
+            Long retrievedMillis = retrieved.getSlotRule().getStartTimeOfDay().getMilliSeconds();
+            assertEquals(startInMillis, retrievedMillis);
+            // Then, update the startInMillis (rule is already inside apptWindowInfo
+            rule.setStartTimeOfDay(makeTimeOfDayInfo(10)); // set to 10 AM
+            Long newStartInMillis = computeHoursInMillis(10);
+            appointmentService.updateAppointmentWindow(id, apptWindowInfo, info);
+            // Now retrieve it again
+            retrieved = appointmentService.getAppointmentWindow(id, info);
+            assertEquals(newStartInMillis, retrieved.getSlotRule().getStartTimeOfDay().getMilliSeconds());
+        } catch (Exception e) {
+            System.err.println("Exception caught ==========================");
+            e.printStackTrace();
+            assert(false); // If exception is thrown, make unit test fail
+        }
     }
 }

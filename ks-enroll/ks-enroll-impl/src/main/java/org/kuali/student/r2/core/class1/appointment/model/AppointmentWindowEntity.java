@@ -17,13 +17,17 @@
 package org.kuali.student.r2.core.class1.appointment.model;
 
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
 import org.kuali.student.r2.common.entity.MetaEntity;
 import org.kuali.student.r2.common.infc.Attribute;
+import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRule;
 import org.kuali.student.r2.core.appointment.infc.AppointmentWindow;
 import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
+import org.omg.CORBA.StringHolder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -305,16 +309,72 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         return attributes;
     }
 
+    private TimeOfDayInfo convertToTimeOfDayInfo(Long time) {
+        TimeOfDayInfo info = new TimeOfDayInfo();
+        info.setMilliSeconds(time);
+        return info;
+    }
+    
+    private TimeAmountInfo convertToTimeAmountInfo(String typeKey, Integer quantity) {
+        TimeAmountInfo info = new TimeAmountInfo();
+        info.setAtpDurationTypeKey(typeKey);
+        info.setTimeQuantity(quantity);
+        return info;
+    }
+
     public AppointmentWindowInfo toDto() {
         AppointmentWindowInfo info = new AppointmentWindowInfo();
+        // AppointmentWindow-specific updates
+        AppointmentSlotRuleInfo rule = new AppointmentSlotRuleInfo();
+        info.setSlotRule(rule);
+        // Set weekdays which takes comma delimited string of numbers and creates List<Integer>
+        String[] numArr = getWeekdays().split(",");
+        List<Integer> weekdays = new ArrayList<Integer>();
+        for (String s: numArr) {
+            weekdays.add(Integer.parseInt(s));
+        }
+        rule.setWeekdays(weekdays);
+        // Start time (could be null)
+        Long startTime = getStartTime();
+        if (startTime != null) {
+            rule.setStartTimeOfDay(convertToTimeOfDayInfo(startTime));
+        }
+        // End time (could be null)
+        Long endTime = getEndTime();
+        if (endTime != null) {
+            rule.setEndTimeOfDay(convertToTimeOfDayInfo(endTime));
+        }
+        // start interval duration (could be null)
+        String durType = getStartIntervalDurationType();
+        if (durType != null) {
+            // Assume duration also not null
+            Integer quantity = getStartIntervalTimeQuantity();
+            rule.setSlotStartInterval(convertToTimeAmountInfo(durType, quantity));
+        }
+        // slot interval duration (could be null)
+        durType = getDurationType();
+        if (durType != null) {
+            // Assume duration also not null
+            Integer quantity = getDurationTimeQuantity();
+            rule.setSlotStartInterval(convertToTimeAmountInfo(durType, quantity));
+        }
+        info.setPeriodMilestoneId(getPeriodMilestoneId());
+        info.setAssignedPopulationId(getAssignedPopulationId());
+        info.setAssignedOrderTypeKey(getAssignedOrderType());
+        info.setMaxAppointmentsPerSlot(getMaxAppointmentsPerSlot()); // could be null
+        // -------------------------------------------------
+        // Stuff that is updated for nearly all entities
         info.setId(getId());
-        if (apptWinType != null)
+        if (apptWinType != null) {
             info.setTypeKey(apptWinType);
-        if (apptWinState != null)
+        }
+        if (apptWinState != null) {
             info.setStateKey(apptWinState);
+        }
         info.setMeta(super.toDTO());
-        if (descr != null)
+        if (descr != null) {
             info.setDescr(descr.toDto());
+        }
 
         List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();
         for (AppointmentWindowAttributeEntity att : getAttributes()) {
