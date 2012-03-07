@@ -1192,7 +1192,7 @@ public interface SchedulingService {
      * @param contextInfo       context information containing the principalId
      *                          and locale information about the caller of
      *                          service operation
-     * @return status of the operation (success, failed)
+     * @return ScheduleResponse after submitting the Batch
      * @throws DoesNotExistException     scheduleRequestId not found
      * @throws InvalidParameterException invalid contextInfo
      * @throws MissingParameterException scheduleRequestId or contextInfo is
