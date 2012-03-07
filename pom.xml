@@ -200,6 +200,7 @@
     <ks.dictionarydoc.phase>site</ks.dictionarydoc.phase>
     <ks.dictionarycreate.phase>none</ks.dictionarycreate.phase>
     <ks-temp-project.version>0.0.1-SNAPSHOT</ks-temp-project.version>
+    <ks.service.version>0.0.6-SNAPSHOT</ks.service.version>
   </properties>
   
   <build>
@@ -901,31 +902,31 @@
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-jta</artifactId>
-          <version>${ks-temp-project.version}</version>
+          <version>${ks.service.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-cxf</artifactId>
-          <version>${ks-temp-project.version}</version>
+          <version>${ks.service.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-metro</artifactId>
-          <version>${ks-temp-project.version}</version>
+          <version>${ks.service.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-eclipselink</artifactId>
-          <version>${ks-temp-project.version}</version>
+          <version>${ks.service.version}</version>
         <type>pom</type>
       </dependency>
       <dependency>
         <groupId>org.kuali.student.common</groupId>
         <artifactId>ks-hibernate</artifactId>
-          <version>${ks-temp-project.version}</version>
+          <version>${ks.service.version}</version>
         <type>pom</type>
       </dependency>
 

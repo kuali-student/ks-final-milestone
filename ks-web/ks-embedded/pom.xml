@@ -145,12 +145,12 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.security</groupId>
@@ -163,48 +163,48 @@
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-ui</artifactId>
       <classifier>sources</classifier>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-rice</artifactId>
       <classifier>sources</classifier>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-ui</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>

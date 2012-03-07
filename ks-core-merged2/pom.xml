@@ -15,9 +15,6 @@
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
   </issueManagement>
-   <properties>
-  	<ks.service.version>0.0.6-SNAPSHOT</ks.service.version>
-  </properties>
   <profiles>
     <profile>
       <id>default</id>
@@ -27,7 +24,7 @@
             <module>ks-core-impl</module>
             <module>ks-core-sql</module>
             <module>ks-core-ui</module>
-<!-- TODO KSCM Temporiraly             <module>ks-core-web</module> -->
+			<module>ks-core-web</module>
         </modules>
 
       <activation>

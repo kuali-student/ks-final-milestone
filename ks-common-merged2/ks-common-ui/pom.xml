@@ -120,7 +120,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <type>pom</type>
       <scope>test</scope>
     </dependency>
@@ -245,7 +245,7 @@
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-impl</artifactId>
-            <version>${ks-temp-project.version}</version>
+          <version>${ks.service.version}</version>
         </dependency>
         <dependency>
           <groupId>org.springframework</groupId>

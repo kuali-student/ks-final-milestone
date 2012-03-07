@@ -8,12 +8,9 @@
   <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum</artifactId>
   <packaging>pom</packaging>
-  <version>0.0.6-cm-SNAPSHOT</version>
+  <version>0.0.6-SNAPSHOT</version>
   <name>KS LUM</name>
   <description>KS Learning Unit Management</description>
-  <properties>
-  	<ks.service.version>0.0.6-SNAPSHOT</ks.service.version>
-  </properties>
   <profiles>
     <profile>
       <id>default</id>

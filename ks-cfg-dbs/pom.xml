@@ -646,7 +646,7 @@
                     <artifactItem>
                       <groupId>org.kuali.student.core</groupId>
                       <artifactId>ks-core-sql</artifactId>
-                        <version>${ks-temp-project.version}</version>
+                       <version>${ks.service.version}</version>
                       <includes>**\/*.sql</includes>
                       <outputDirectory>${project.build.directory}/gen/data</outputDirectory>
                     </artifactItem>
@@ -672,7 +672,7 @@
               <dependency>
                 <groupId>org.kuali.student.core</groupId>
                 <artifactId>ks-core-sql</artifactId>
-                  <version>${ks-temp-project.version}</version>
+                <version>${ks.service.version}</version>
               </dependency>
               <dependency>
                 <groupId>org.kuali.student.lum</groupId>

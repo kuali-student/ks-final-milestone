@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>0.0.6-cm-SNAPSHOT</version>
+        <version>0.0.6-SNAPSHOT</version>
     </parent>
     <properties>
       <selenium.pattern>**/selenium/**/*Test.java</selenium.pattern>
@@ -111,7 +111,7 @@
                 <dependency>
                     <groupId>org.kuali.student.core</groupId>
                     <artifactId>ks-core-impl</artifactId>
-                    <version>${ks-temp-project.version}</version>
+                    <version>${ks.service.version}</version>
                 </dependency>
                 <dependency>
                     <groupId>org.apache.derby</groupId>

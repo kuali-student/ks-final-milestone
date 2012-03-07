@@ -116,28 +116,28 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-        <version>${ks-temp-project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
 
     <!-- required to compile the test case -->

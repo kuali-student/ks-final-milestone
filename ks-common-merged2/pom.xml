@@ -15,9 +15,6 @@
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
   </issueManagement>
-  <properties>
-  	<ks.service.version>0.0.6-SNAPSHOT</ks.service.version>
-  </properties>
   <profiles>
     <profile>
       <id>default</id>
