@@ -834,6 +834,13 @@ public interface LearningObjectiveService extends  SearchService // ,DictionaryS
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException,
 			ReadOnlyException;
+
+	@Deprecated
+	LoInfo createLo(String repositoryId, String loType, String loTypeKey, LoInfo loInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException;
 	
 	
 

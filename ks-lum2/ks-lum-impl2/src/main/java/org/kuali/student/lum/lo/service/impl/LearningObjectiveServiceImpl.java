@@ -44,6 +44,7 @@ import org.kuali.student.r1.common.search.service.SearchManager;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.validator.Validator;
 import org.kuali.student.common.validator.ValidatorFactory;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.lum.lo.dao.LoDao;
 import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 import org.kuali.student.r1.lum.lo.dto.LoCategoryTypeInfo;
@@ -105,11 +106,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
             throws InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 	    List<LoRepository> repositories = loDao.find(LoRepository.class);
-	    																									  //* R2 DTO passed here,  R1 Enitity passed here		
-	    List<LoRepositoryInfo> info = LearningObjectiveServiceAssembler.convertEntity_To_Dto_LoRepositoryInfos(new  LoRepositoryInfo(),repositories);
-	    return info;
-		//TODO KSCM : Here we need R2 DTO from R1 Entity. Above is my solution.
-	    // return LearningObjectiveServiceAssembler.toLoRepositoryInfos(repositories);
+  	
+	   return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoRepositoryInfos(repositories),LoRepositoryInfo.class);
 	}
 
 
@@ -157,13 +155,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
     @Transactional(readOnly=true)
 	public LoRepositoryInfo getLoRepository (String loRepositoryKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
-		// TO DOreturn LearningObjectiveServiceAssembler.toLoRepositoryInfo(loDao.fetch(LoRepository.class, loRepositoryKey));
-	    
-			  //* R2 DTO passed here,  R1 Enitity passed here		
-	    LoRepositoryInfo info = LearningObjectiveServiceAssembler.convertEntity_To_Dto_LoRepositoryInfos(new  LoRepositoryInfo(),loDao.fetch(LoRepository.class, loRepositoryKey));
-	    return info;
-//TODO KSCM : Here we need R2 DTO from R1 Entity. Above is my solution.
-// return LearningObjectiveServiceAssembler.toLoRepositoryInfos(repositories);
+	    return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoRepositoryInfo(loDao.fetch(LoRepository.class, loRepositoryKey)),LoRepositoryInfo.class);
 		
 	}
 
@@ -282,10 +274,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
       */
 	@Override
 	@Transactional(readOnly=false,noRollbackFor={DoesNotExistException.class},rollbackFor={Throwable.class})
-	public LoInfo createLo ( String loTypeKey,  LoInfo loInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+	public LoInfo createLo (String repositoryId, String loType, String loTypeKey,  LoInfo loInfo,  ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
 	    //TODO KSCM 
-        //checkForMissingParameter(repositoryId, "repositoryId");
-	    //checkForMissingParameter(loType, "loType");
+        checkForMissingParameter(repositoryId, "repositoryId");
+	    checkForMissingParameter(loType, "loType");
 	    checkForMissingParameter(loInfo, "loInfo");
 	    
 	    
@@ -303,21 +295,21 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    // if checkForMissingParameter above did its job, we don't have to null-check these id's
 	    LoType type = null;
 	    LoRepository repository = null;
-	    //try {
+	   try {
             //TODO KSCM
-		    //type = loDao.fetch(LoType.class, loType);
-		    //repository = loDao.fetch(LoRepository.class, repositoryId);
-	    //} catch (DoesNotExistException dnee) {
-	    //	throw new DoesNotExistException("Specified " + (null == type ? "LoType" : "LoRepository") + " does not exist", dnee);
-	    //}
+		   type = loDao.fetch(LoType.class, loType);
+		   repository = loDao.fetch(LoRepository.class, repositoryId);
+	    } catch (DoesNotExistException dnee) {
+	    	throw new DoesNotExistException("Specified " + (null == type ? "LoType" : "LoRepository") + " does not exist", dnee);
+	    }
 
-        //TODO KSCM
-	    //loInfo.setLoRepositoryKey(repositoryId);
-	    //loInfo.setType(loType);
+       
+	   loInfo.setLoRepositoryKey(repositoryId);
+	   loInfo.setType(loType);
 
 	    Lo lo = null;
 	    try {
-		    lo = LearningObjectiveServiceAssembler.toLo(false, loInfo, loDao);
+        lo = LearningObjectiveServiceAssembler.toLo(false, R1R2ConverterUtil.convert(loInfo,org.kuali.student.r1.lum.lo.dto.LoInfo.class), loDao);
 	    } catch (VersionMismatchException vme) {
 	    	// should never happen in a create call, but
 	    	throw new OperationFailedException("VersionMismatchException caught during Learning Objective creation");
@@ -325,8 +317,10 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    lo.setLoType(type);
 	    lo.setLoRepository(repository);
 	    loDao.create(lo);
-	    
-		return LearningObjectiveServiceAssembler.toLoInfo(new LoInfo(),lo);
+	   
+		
+	    return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoInfo(lo), LoInfo.class);
+	   
 	}
 
 	/* (non-Javadoc)
@@ -370,8 +364,8 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
-	    
-		return LearningObjectiveServiceAssembler.toLoInfo(new LoInfo(),loDao.fetch(Lo.class, loId));
+	    return R1R2ConverterUtil.convert(LearningObjectiveServiceAssembler.toLoInfo(loDao.fetch(Lo.class, loId)), LoInfo.class);
+		
 	}
 
 	// TODO replaced implementation to old method
@@ -402,7 +396,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 	    checkForMissingParameter(loIds, "loId");
 	    checkForEmptyList(loIds, "loId");
 	    List<Lo> los = loDao.getLoByIdList(loIds);
-		return LearningObjectiveServiceAssembler.toLoInfos(new LoInfo(),los);
+	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(los), LoInfo.class);
 	}
 
 	/* (non-Javadoc)
@@ -415,7 +409,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loRepositoryKey, "loRepositoryKey");
 	    List<LoCategory> categories = loDao.getLoCategories(loRepositoryKey);
-        return  null; //TODO KSCM : LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
+	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoCategoryInfos(categories),LoCategoryInfo.class);
 	}
 
 	/* (non-Javadoc)
@@ -428,7 +422,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loId, "loId");
 	    List<LoCategory> categories = loDao.getLoCategoriesForLo(loId);
-		return null; //TODO KSCM :LearningObjectiveServiceAssembler.toLoCategoryInfos(categories);
+		return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoCategoryInfos(categories), LoCategoryInfo.class);
 	}
 
 	/* (non-Javadoc)
@@ -492,7 +486,7 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 			MissingParameterException, OperationFailedException {
 	    checkForMissingParameter(loCategoryId, "loCategoryId");
 	    List<Lo> los = loDao.getLosByLoCategory(loCategoryId);
-		return LearningObjectiveServiceAssembler.toLoInfos(new LoInfo(), los);
+	    return R1R2ConverterUtil.convertLists(LearningObjectiveServiceAssembler.toLoInfos(los),LoInfo.class);
 	}
 
     @Override
@@ -1269,6 +1263,17 @@ public class LearningObjectiveServiceImpl implements LearningObjectiveService {
 				}
 			}
 		}
+	}
+
+	@Override
+	public LoInfo createLo(String loTypeKey, LoInfo loInfo,
+			ContextInfo contextInfo) throws DataValidationErrorException,
+			DoesNotExistException, InvalidParameterException,
+			MissingParameterException, OperationFailedException,
+			PermissionDeniedException, ReadOnlyException {
+		
+		throw new UnsupportedOperationException("R2 Contract Method not yet implemented!");
+
 	}
 	
 }
