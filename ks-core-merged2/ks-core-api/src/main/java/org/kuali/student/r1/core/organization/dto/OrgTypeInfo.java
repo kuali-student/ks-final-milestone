@@ -24,7 +24,6 @@ import org.kuali.student.r1.common.dto.TypeInfo;
 /**
  *Information for an organization type.
  */ 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgTypeInfo extends TypeInfo {
 

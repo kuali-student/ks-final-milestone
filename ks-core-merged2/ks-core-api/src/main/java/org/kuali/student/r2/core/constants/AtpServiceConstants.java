@@ -16,8 +16,8 @@
 
 package org.kuali.student.r2.core.constants;
 
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r1.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.dto.MilestoneInfo;
 import org.kuali.student.r2.common.constants.CommonServiceConstants;
 import org.kuali.student.r2.core.atp.dto.AtpAtpRelationInfo;
 

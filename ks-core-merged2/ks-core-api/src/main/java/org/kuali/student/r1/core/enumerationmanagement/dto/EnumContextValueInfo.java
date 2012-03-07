@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  *Provides information about a supported type/value pair for a context.
  */ 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EnumContextValueInfo implements Serializable {
 

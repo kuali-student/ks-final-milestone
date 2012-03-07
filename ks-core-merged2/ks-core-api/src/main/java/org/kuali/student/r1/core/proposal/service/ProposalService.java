@@ -47,10 +47,9 @@ import org.kuali.student.r1.core.proposal.dto.ProposalTypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/Proposal+Service">ProposalService</>
  *
  */
-@Deprecated
 @WebService(name = "ProposalService", targetNamespace = "http://student.kuali.org/wsdl/proposal") 
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-@XmlSeeAlso({org.kuali.student.common.dto.ReferenceTypeInfo.class})
+@XmlSeeAlso({org.kuali.student.r1.common.dto.ReferenceTypeInfo.class})
 public interface ProposalService extends DictionaryService, SearchService{
     /**
      * Retrieves the list of proposal types known by this service

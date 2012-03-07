@@ -28,7 +28,6 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  *Value associated with a particular enumeration.
  */ 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EnumeratedValueInfo implements Serializable {
 

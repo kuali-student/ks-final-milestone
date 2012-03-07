@@ -30,7 +30,6 @@ import org.kuali.student.r1.common.dto.TypeInfo;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/documentTypeInfo+Structure">DocumentTypeInfo</>
  *
  */
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DocumentTypeInfo extends TypeInfo {
     private static final long serialVersionUID = 1L;

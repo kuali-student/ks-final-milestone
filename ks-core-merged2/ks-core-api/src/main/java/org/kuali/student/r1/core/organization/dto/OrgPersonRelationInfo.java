@@ -35,7 +35,6 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 /**
  *Information about an organization to person relationship.
  */ 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OrgPersonRelationInfo implements Serializable, Idable, HasTypeState, HasAttributes {
 

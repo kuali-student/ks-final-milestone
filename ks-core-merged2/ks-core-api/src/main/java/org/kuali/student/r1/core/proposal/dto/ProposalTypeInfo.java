@@ -39,7 +39,6 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/proposalTypeInfo+Structure">ProposalTypeInfo</>
  *
  */
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalTypeInfo implements Serializable, Idable, HasAttributes {
 
