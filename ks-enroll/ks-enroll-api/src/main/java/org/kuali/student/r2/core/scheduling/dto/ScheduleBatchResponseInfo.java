@@ -34,7 +34,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleInfo", propOrder = {"id", "typeKey", "stateKey", "descr",
+@XmlType(name = "ScheduleBatchResponseInfo", propOrder = {"id", "typeKey", "stateKey",
         "submittedDate", "inProgressStatus", "finalStatus",
         "meta", "attributes", "_futureElements"})
 public class ScheduleBatchResponseInfo extends IdNamelessEntityInfo implements ScheduleBatchResponse, Serializable {

@@ -32,7 +32,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ScheduleRequestComponentsInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "referenceId", "referenceTypeKey", "resourceTypeKeys", "roomIds", "scheduleRequestId", "timeSlotIds", "_futureElements"})
+@XmlType(name = "ScheduleRequestComponentsInfo", propOrder = {"id", "buildingIds", "campusIds", "orgIds", "resourceTypeKeys", "roomIds", "timeSlotIds", "_futureElements"})
 public class ScheduleRequestComponentsInfo implements ScheduleRequestComponents, Serializable {
 
     @XmlElement
@@ -44,15 +44,9 @@ public class ScheduleRequestComponentsInfo implements ScheduleRequestComponents,
     @XmlElement
     private List<String> orgIds;
     @XmlElement
-    private String referenceId;
-    @XmlElement
-    private String referenceTypeKey;
-    @XmlElement
     private List<String> resourceTypeKeys;
     @XmlElement
     private List<String> roomIds;
-    @XmlElement
-    private String scheduleRequestId;
     @XmlElement
     private List<String> timeSlotIds;
     @XmlAnyElement
