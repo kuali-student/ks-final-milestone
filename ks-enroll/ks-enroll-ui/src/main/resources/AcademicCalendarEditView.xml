@@ -89,21 +89,21 @@
                 <bean parent="Uif-InputField" p:label="Start Date" p:labelPlacement="TOP"
                       p:labelField.renderColon="false" p:labelField.style="display:block;"
                       p:propertyName="academicCalendarInfo.startDate">
-                    <property name="validCharactersConstraint">
-						<bean parent="DatePatternConstraint" />
-					</property>
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="End Date" p:labelPlacement="TOP" p:labelField.style="display:block;"
                       p:labelField.styleClasses="labelTop" p:labelField.renderColon="false"
                       p:propertyName="academicCalendarInfo.endDate">
-                    <property name="validCharactersConstraint">
-						<bean parent="DatePatternConstraint" />
-					</property>
                     <property name="control">
                         <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+                    </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="BasicDatePatternConstraint" />
                     </property>
                 </bean>
                 <!--<bean parent="Uif-InputField" p:label="Holiday Calendar"
@@ -148,30 +148,42 @@
                     <property name="control">
 						<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
 					</property>
+                    <property name="validCharactersConstraint">
+						<bean parent="BasicDatePatternConstraint" />
+					</property>
 				</bean>
                 <bean parent="Uif-InputField"  p:label="Start Time" p:propertyName="startTime" p:required="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
                     </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="" p:propertyName="startTimeAmPm"  p:required="false" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options" />
                     </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="End Date" p:propertyName="endDate" p:required="false">
                    <property name="control">
 						<bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy" />
 					</property>
+                    <property name="validCharactersConstraint">
+						<bean parent="BasicDatePatternConstraint" />
+					</property>
 				</bean>
                 <bean parent="Uif-InputField"  p:label="End Time" p:propertyName="endTime" p:required="false">
                     <property name="control">
                         <bean parent="Uif-TextControl" p:size="5" p:watermarkText="hh:mm"/>
                     </property>
+                    <property name="validCharactersConstraint">
+                        <bean parent="TimePatternConstraint" />
+                    </property>
                 </bean>
                 <bean parent="Uif-InputField" p:label="" p:propertyName="endTimeAmPm"  p:required="false" >
                     <property name="control">
-                        <bean parent="Uif-DropdownControl" p:options-ref="time-options" />
+                        <bean parent="Uif-DropdownControl" p:options-ref="hctime-options" />
                     </property>
                 </bean>
                 <!--
@@ -531,10 +543,16 @@
             <property name="control">
                 <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
+            <property name="validCharactersConstraint">
+                <bean parent="BasicDatePatternConstraint" />
+            </property>
         </bean>
         <bean parent="Uif-InputField" p:propertyName="endDate" p:label="End Date" p:required="true">
             <property name="control">
                 <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
+            </property>
+            <property name="validCharactersConstraint">
+                <bean parent="BasicDatePatternConstraint" />
             </property>
         </bean>
         <bean parent="Uif-InputField" p:propertyName="instructionalDays" p:label="Instructional Days" p:readOnly="true" p:render="@{!#isAddLine}">
@@ -622,7 +640,10 @@
             <property name="control">
                 <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
-        </bean>
+             <property name="validCharactersConstraint">
+                 <bean parent="BasicDatePatternConstraint" />
+             </property>
+         </bean>
         <bean parent="Uif-HorizontalFieldGroup" p:label="Start Time">
             <property name="items">
                 <list>
@@ -631,11 +652,14 @@
                         <property name="control">
                             <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                         </property>
+                        <property name="validCharactersConstraint">
+                            <bean parent="TimePatternConstraint" />
+                        </property>
                     </bean>
                     <bean parent="Uif-InputField-LabelTop" p:propertyName="startTimeAmPm" p:refreshWhenChanged="#lp.allDay"
 					p:readOnly="@{#lp.allDay eq true}">
                          <property name="control">
-                            <bean parent="Uif-DropdownControl" p:options-ref="time-options"/>
+                            <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                          </property>
                      </bean>
                 </list>
@@ -646,6 +670,9 @@
             <property name="control">
                 <bean parent="Uif-DateControl" p:size="10" p:watermarkText="mm/dd/yyyy"/>
             </property>
+            <property name="validCharactersConstraint">
+                <bean parent="BasicDatePatternConstraint" />
+            </property>
         </bean>
         <bean parent="Uif-HorizontalFieldGroup" p:label="End Time" p:style="width: 160px"> <!--p:refreshDiscloseMethodToCall=""-->
             <property name="items">
@@ -655,11 +682,14 @@
                         <property name="control">
                             <bean parent="Uif-TextControl" p:size="5"  p:watermarkText="HH:mm"/>
                         </property>
+                        <property name="validCharactersConstraint">
+                            <bean parent="TimePatternConstraint" />
+                        </property>
                     </bean>
                     <bean parent="Uif-InputField-LabelTop" p:propertyName="endTimeAmPm" p:refreshWhenChanged="#lp.allDay"
 					p:readOnly="@{#lp.allDay eq true}">
                          <property name="control">
-                            <bean parent="Uif-DropdownControl" p:options-ref="time-options"/>
+                            <bean parent="Uif-DropdownControl" p:options-ref="hctime-options"/>
                          </property>
                      </bean>
                 </list>
@@ -684,10 +714,8 @@
     </property>
    </bean>
 
-    <util:list id="time-options">
-       <bean parent="Uif-KeyLabelPair" p:key="" p:value=""/>
+   <util:list id="hctime-options">
        <bean parent="Uif-KeyLabelPair" p:key="AM" p:value="am"/>
        <bean parent="Uif-KeyLabelPair" p:key="PM" p:value="pm"/>
-    </util:list>
-
+   </util:list>
 </beans>
