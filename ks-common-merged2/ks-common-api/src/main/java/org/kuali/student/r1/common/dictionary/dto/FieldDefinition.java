@@ -5,7 +5,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlIDREF;
 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class FieldDefinition extends Constraint {
 	// name (used in the path to identify this field within an object structure)

@@ -25,7 +25,6 @@ import javax.xml.bind.annotation.XmlElement;
 
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ValidationResultInfo implements Serializable {
 

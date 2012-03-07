@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlID;
 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ObjectStructureDefinition {
 	@XmlElement(required = true)

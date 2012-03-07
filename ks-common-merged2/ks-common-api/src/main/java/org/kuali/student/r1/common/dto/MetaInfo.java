@@ -26,7 +26,6 @@ import javax.xml.bind.annotation.XmlElement;
 /**
  *Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations.
  */ 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MetaInfo implements Serializable {
 

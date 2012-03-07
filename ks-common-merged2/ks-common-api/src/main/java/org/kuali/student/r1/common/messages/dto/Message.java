@@ -29,7 +29,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 </message>
  */
 
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlRootElement(name = "message")
 public class Message implements Serializable{

@@ -37,7 +37,6 @@ import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
  * @See <a href="https://test.kuali.org/confluence/display/KULSTU/referenceTypeInfo+Structure+v1.0-rc1">ReferenceTypeInfo</>
  *
  */
-@Deprecated
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ReferenceTypeInfo implements Serializable, Idable, HasAttributes {
 

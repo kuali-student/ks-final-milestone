@@ -22,7 +22,6 @@ import java.util.Set;
  * @author delyea
  * 
  */
-@Deprecated
 public class StudentIdentityConstants {
 
     public static final String SYSTEM_USER_PRINCIPAL_NAME = "ks";

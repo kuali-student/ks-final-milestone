@@ -21,7 +21,6 @@ package org.kuali.student.r1.common.rice.authorization;
  * When using permission types, permission checks will be performed using template names. 
  *
  */
-@Deprecated
 public enum PermissionType {
 	INITIATE("Initiate","KR-SYS","Initiate Document"),
 	OPEN("View","KS-SYS","Open Document"),
