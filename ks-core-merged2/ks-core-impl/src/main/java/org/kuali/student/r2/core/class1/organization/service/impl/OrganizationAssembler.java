@@ -21,26 +21,26 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dao.CrudDao;
-import org.kuali.student.common.entity.Attribute;
-import org.kuali.student.common.entity.AttributeOwner;
-import org.kuali.student.common.entity.Meta;
-import org.kuali.student.common.entity.TimeAmount;
-import org.kuali.student.common.entity.Type;
-import org.kuali.student.common.service.impl.BaseAssembler;
-import org.kuali.student.core.organization.dao.OrganizationDao;
-import org.kuali.student.core.organization.entity.Org;
-import org.kuali.student.core.organization.entity.OrgAttribute;
-import org.kuali.student.core.organization.entity.OrgHierarchy;
-import org.kuali.student.core.organization.entity.OrgOrgRelation;
-import org.kuali.student.core.organization.entity.OrgOrgRelationAttribute;
-import org.kuali.student.core.organization.entity.OrgOrgRelationType;
-import org.kuali.student.core.organization.entity.OrgPersonRelation;
-import org.kuali.student.core.organization.entity.OrgPersonRelationAttribute;
-import org.kuali.student.core.organization.entity.OrgPersonRelationType;
-import org.kuali.student.core.organization.entity.OrgPositionRestriction;
-import org.kuali.student.core.organization.entity.OrgPositionRestrictionAttribute;
-import org.kuali.student.core.organization.entity.OrgType;
+import org.kuali.student.r1.common.dao.CrudDao;
+import org.kuali.student.r1.common.entity.Attribute;
+import org.kuali.student.r1.common.entity.AttributeOwner;
+import org.kuali.student.r1.common.entity.Meta;
+import org.kuali.student.r1.common.entity.TimeAmount;
+import org.kuali.student.r1.common.entity.Type;
+import org.kuali.student.r1.common.service.impl.BaseAssembler;
+import org.kuali.student.r1.core.organization.dao.OrganizationDao;
+import org.kuali.student.r1.core.organization.entity.Org;
+import org.kuali.student.r1.core.organization.entity.OrgAttribute;
+import org.kuali.student.r1.core.organization.entity.OrgHierarchy;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelationAttribute;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelationType;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelationAttribute;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
+import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.r1.core.organization.entity.OrgPositionRestrictionAttribute;
+import org.kuali.student.r1.core.organization.entity.OrgType;
 import org.kuali.student.r2.common.dto.AttributeInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
@@ -77,7 +77,7 @@ public class OrganizationAssembler {
 		OrgHierarchyInfo orgHierarchyInfo = new OrgHierarchyInfo();
 
 		BeanUtils.copyProperties(orgHierarchy, orgHierarchyInfo, new String[] { "rootOrgId",
-				"attributes" });
+				"attributes", "descr" });
 
 		// copy attributes and RootOrg
 		orgHierarchyInfo.setAttributes(toAttributeList(orgHierarchy.getAttributes()));
@@ -105,12 +105,22 @@ public class OrganizationAssembler {
 		OrgInfo orgInfo = new OrgInfo();
 
 		BeanUtils.copyProperties(org, orgInfo, new String[] { "type",
-				"attributes", "metaInfo" });
+				"attributes", "meta", "shortDesc", "longDesc" });
 
 		// copy attributes, metadata, and Type
 		orgInfo.setAttributes(toAttributeList(org.getAttributes()));
 		orgInfo.setMeta(toMetaInfo(org.getMeta(), org.getVersionNumber()));
 		orgInfo.setTypeKey(org.getType().getId());
+		
+		RichTextInfo shortDescr = new RichTextInfo();
+		shortDescr.setFormatted(org.getShortDesc());
+		shortDescr.setPlain(org.getShortDesc());
+		orgInfo.setShortDescr(shortDescr);
+		
+		RichTextInfo longDescr = new RichTextInfo();
+		longDescr.setFormatted(org.getLongDesc());
+		longDescr.setPlain(org.getLongDesc());
+		orgInfo.setLongDescr(longDescr);
 
 		return orgInfo;
 	}
@@ -127,7 +137,7 @@ public class OrganizationAssembler {
 		OrgPersonRelationInfo relationInfo = new OrgPersonRelationInfo();
 
 		BeanUtils.copyProperties(relation, relationInfo, new String[] { "type",
-				"attributes", "metaInfo", "orgId"});
+				"attributes", "meta", "orgId"});
 
 		relationInfo.setOrgId(relation.getOrg().getId());
 		relationInfo.setAttributes(toAttributeList(relation.getAttributes()));
@@ -154,7 +164,7 @@ public class OrganizationAssembler {
 		OrgOrgRelationInfo orgOrgRelationInfo = new OrgOrgRelationInfo();
 
 		BeanUtils.copyProperties(orgOrgRelation, orgOrgRelationInfo, new String[] { "type",
-				"attributes", "metaInfo","orgId","relatedOrgId" });
+				"attributes", "meta","orgId","relatedOrgId" });
 
 		// copy attributes, metadata, Type, and related orgs
 		orgOrgRelationInfo.setAttributes(toAttributeList(orgOrgRelation.getAttributes()));
@@ -169,7 +179,7 @@ public class OrganizationAssembler {
 	public static OrgPositionRestrictionInfo toOrgPositionRestrictionInfo(OrgPositionRestriction restriction) {
 		OrgPositionRestrictionInfo restrictionInfo = new OrgPositionRestrictionInfo();
 
-		BeanUtils.copyProperties(restriction, restrictionInfo, new String[] { "attributes", "metaInfo","orgId","personRelationType","stdDuration" });
+		BeanUtils.copyProperties(restriction, restrictionInfo, new String[] { "attributes", "meta", "orgId","personRelationType","stdDuration", "descr" });
 		
 		if(restriction.getStdDuration()!=null){
 			restrictionInfo.setStdDuration(new TimeAmountInfo());
@@ -208,11 +218,7 @@ public class OrganizationAssembler {
 	}
 
 	public static TypeInfo toOrgPersonRelationTypeInfo(OrgPersonRelationType orgPersonRelationType) {
-		TypeInfo orgPersonRelationTypeInfo = new TypeInfo();
-		BeanUtils.copyProperties(orgPersonRelationType, orgPersonRelationTypeInfo, new String[] { "attributes", "orgHierarchy"});
-
-		orgPersonRelationTypeInfo.setAttributes(toAttributeList(orgPersonRelationType.getAttributes()));
-		return orgPersonRelationTypeInfo;
+	    return toGenericTypeInfo(orgPersonRelationType);
 	}
 
 	public static List<TypeInfo> toOrgPersonRelationTypeInfos(List<OrgPersonRelationType> orgPersonRelationTypes) {
@@ -224,16 +230,7 @@ public class OrganizationAssembler {
 	}
 
 	public static TypeInfo toOrgOrgRelationTypeInfo(OrgOrgRelationType orgOrgRelationType) {
-		if (orgOrgRelationType == null) {
-			return null;
-		}
-		
-		TypeInfo orgOrgRelationTypeInfo = new TypeInfo();
-		BeanUtils.copyProperties(orgOrgRelationType, orgOrgRelationTypeInfo, new String[] { "attributes", "orgHierarchy"});
-
-		orgOrgRelationTypeInfo.setAttributes(toAttributeList(orgOrgRelationType.getAttributes()));
-		orgOrgRelationTypeInfo.setKey(orgOrgRelationType.getOrgHierarchy().getId());
-		return orgOrgRelationTypeInfo;
+	    return toGenericTypeInfo(orgOrgRelationType);
 	}
 
 	public static List<TypeInfo> toOrgOrgRelationTypeInfos(List<OrgOrgRelationType> orgOrgRelationTypes) {
@@ -251,7 +248,7 @@ public class OrganizationAssembler {
 		if (isUpdate) {
 			try {
                 org = dao.fetch(Org.class, orgInfo.getId());
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
                 throw new DoesNotExistException("Org does not exist for id: " + orgInfo.getId());
             }
 			if (org == null) {
@@ -266,7 +263,11 @@ public class OrganizationAssembler {
 
 		// Copy all basic properties
 		BeanUtils.copyProperties(orgInfo, org, new String[] { "type",
-				"attributes", "metaInfo", "orgPersonRelationTypes" });
+				"attributes", "meta", "orgPersonRelationTypes", "longDesc", "shortDesc" });
+		
+		// Copy Description
+		org.setLongDesc(orgInfo.getLongDescr().getPlain());
+		org.setShortDesc(orgInfo.getShortDescr().getPlain());
 
 		// Copy Attributes
 		org.setAttributes(toGenericAttributes(OrgAttribute.class, orgInfo.getAttributes(), org, dao));
@@ -275,7 +276,7 @@ public class OrganizationAssembler {
 		OrgType orgType = null;
         try {
             orgType = dao.fetch(OrgType.class, orgInfo.getTypeKey());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("OrgType does not exist for id: " + orgInfo.getTypeKey());
         }
 		if (orgType == null) {
@@ -294,7 +295,7 @@ public class OrganizationAssembler {
 		if (isUpdate) {
 			try {
                 orgOrgRelation = dao.fetch(OrgOrgRelation.class, orgOrgRelationInfo.getId());
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
                 throw new DoesNotExistException("OrgOrgRelation does not exist for id: " + orgOrgRelationInfo.getId());
             }
 			if (orgOrgRelation == null) {
@@ -309,7 +310,7 @@ public class OrganizationAssembler {
 
 		// Copy all basic properties
 		BeanUtils.copyProperties(orgOrgRelationInfo, orgOrgRelation, new String[] { "type",
-				"attributes", "metaInfo", "org", "relatedOrg" });
+				"attributes", "meta", "org", "relatedOrg" });
 
 		// Copy Attributes
 		orgOrgRelation.setAttributes(toGenericAttributes(OrgOrgRelationAttribute.class, orgOrgRelationInfo.getAttributes(), orgOrgRelation, dao));
@@ -318,7 +319,7 @@ public class OrganizationAssembler {
 		Org org = null;
         try {
             org = dao.fetch(Org.class, orgOrgRelationInfo.getOrgId());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("Org does not exist for id: " + orgOrgRelationInfo.getOrgId());
         }
 		if (org == null) {
@@ -331,7 +332,7 @@ public class OrganizationAssembler {
 		Org relatedOrg = null;
         try {
             relatedOrg = dao.fetch(Org.class, orgOrgRelationInfo.getRelatedOrgId());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("RelatedOrg does not exist for id: " + orgOrgRelationInfo.getRelatedOrgId());
         }
 		if (relatedOrg == null) {
@@ -344,7 +345,7 @@ public class OrganizationAssembler {
 		OrgOrgRelationType orgOrgRelationType = null;
         try {
             orgOrgRelationType = dao.fetch(OrgOrgRelationType.class, orgOrgRelationInfo.getTypeKey());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("OrgOrgRelationType does not exist for id: " + orgOrgRelationInfo.getTypeKey());
         }
 		if (orgOrgRelationType == null) {
@@ -363,7 +364,7 @@ public class OrganizationAssembler {
 		if (isUpdate) {
 			try {
                 orgPersonRelation = dao.fetch(OrgPersonRelation.class, orgPersonRelationInfo.getId());
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
                 throw new DoesNotExistException("OrgOrgRelation does not exist for id: " + orgPersonRelationInfo.getId());
             }
 			if (orgPersonRelation == null) {
@@ -378,7 +379,7 @@ public class OrganizationAssembler {
 
 		// Copy all basic properties
 		BeanUtils.copyProperties(orgPersonRelationInfo, orgPersonRelation, new String[] { "type",
-				"attributes", "metaInfo", "org", "personId" });
+				"attributes", "meta", "org", "personId" });
 
 		// Copy Attributes
 		orgPersonRelation.setAttributes(toGenericAttributes(OrgPersonRelationAttribute.class, orgPersonRelationInfo.getAttributes(), orgPersonRelation, dao));
@@ -387,7 +388,7 @@ public class OrganizationAssembler {
 		Org org = null;
         try {
             org = dao.fetch(Org.class, orgPersonRelationInfo.getOrgId());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("Org does not exist for id: " + orgPersonRelationInfo.getOrgId());
         }
 		if (org == null) {
@@ -410,7 +411,7 @@ public class OrganizationAssembler {
 		OrgPersonRelationType orgPersonRelationType = null;
         try {
             orgPersonRelationType = dao.fetch(OrgPersonRelationType.class, orgPersonRelationInfo.getTypeKey());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("OrgPersonRelationType does not exist for id: " + orgPersonRelationInfo.getTypeKey());
         }
 		if (orgPersonRelationType == null) {
@@ -429,7 +430,7 @@ public class OrganizationAssembler {
 		if (isUpdate) {
 			try {
                 orgPositionRestriction = dao.fetch(OrgPositionRestriction.class, orgPositionRestrictionInfo.getId());
-            } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+            } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
                 throw new DoesNotExistException("OrgPositionRestriction does not exist for id: " + orgPositionRestrictionInfo.getId());
             }
 			if (orgPositionRestriction == null) {
@@ -444,7 +445,12 @@ public class OrganizationAssembler {
 
 		// Copy all basic properties
 		BeanUtils.copyProperties(orgPositionRestrictionInfo, orgPositionRestriction, new String[] { "personRelationType",
-				"attributes", "metaInfo", "org", "stdDuration" });
+				"attributes", "meta", "org", "stdDuration", "descr" });
+		
+		//Copy Description
+		orgPositionRestriction.setDescr(orgPositionRestrictionInfo.getDescr().getPlain());
+		
+		//Copy std duration
 		if(orgPositionRestrictionInfo.getStdDuration()!=null){
 			orgPositionRestriction.setStdDuration(new TimeAmount());
 			BeanUtils.copyProperties(orgPositionRestrictionInfo.getStdDuration(), orgPositionRestriction.getStdDuration());
@@ -456,7 +462,7 @@ public class OrganizationAssembler {
 		Org org = null;
         try {
             org = dao.fetch(Org.class, orgPositionRestrictionInfo.getOrgId());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("Org does not exist for id: " + orgPositionRestrictionInfo.getOrgId());
         }
 		if (org == null) {
@@ -469,7 +475,7 @@ public class OrganizationAssembler {
 		OrgPersonRelationType orgPersonRelationType = null;
         try {
             orgPersonRelationType = dao.fetch(OrgPersonRelationType.class, orgPositionRestrictionInfo.getOrgPersonRelationTypeKey());
-        } catch (org.kuali.student.common.exceptions.DoesNotExistException e) {
+        } catch (org.kuali.student.r2.common.exceptions.DoesNotExistException e) {
             throw new DoesNotExistException("OrgPersonRelationType does not exist for id: " + orgPositionRestrictionInfo.getOrgPersonRelationTypeKey());
         }
 		if (orgPersonRelationType == null) {
@@ -486,8 +492,9 @@ public class OrganizationAssembler {
 	public static <A extends Attribute<O>, O extends AttributeOwner<A>> List<A> toGenericAttributes(
             Class<A> attributeClass, List<AttributeInfo> attributeList, O owner,
             CrudDao dao) throws InvalidParameterException {
+	    
         List<A> attributes = new ArrayList<A>();
-
+        
         if(owner.getAttributes()==null){
             owner.setAttributes(new ArrayList<A>());
         }
@@ -497,12 +504,15 @@ public class OrganizationAssembler {
         // Find all the old attributes(if the owner is not null)
         for (A attribute : owner.getAttributes()) {
             currentAttributes.put(attribute.getName(), attribute);
-            
         }
         
         //Clear out the attributes
         owner.getAttributes().clear();
-    
+
+        if(attributeList==null){
+            return attributes;
+        }
+        
         //Update anything that exists, or create a new attribute if it doesn't
         for (AttributeInfo attributeEntry : attributeList) {
             
@@ -569,7 +579,9 @@ public class OrganizationAssembler {
             // properties
             typeInfo = new TypeInfo();
             BeanUtils.copyProperties(typeEntity, typeInfo,
-                    new String[] { "attributes" });
+                    new String[] { "attributes", "descr" });
+            
+            typeInfo.setKey(typeEntity.getId());
 
             // Copy the attributes
             typeInfo.setAttributes(toAttributeList(typeEntity.getAttributes()));

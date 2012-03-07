@@ -17,7 +17,6 @@ package org.kuali.student.r1.common.entity;
 
 import javax.persistence.MappedSuperclass;
 
-@Deprecated
 @MappedSuperclass
 public abstract class Type<T extends Attribute<?>> extends BaseType implements AttributeOwner<T> {
 

@@ -19,7 +19,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.statement.infc.ReqCompField;
 import org.kuali.student.r2.core.statement.infc.ReqComponent;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -37,7 +37,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReqComponentInfo", propOrder = {"id", "typeKey", "stateKey",
-        "reqCompFields", "naturalLanguageTranslation", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+        "reqCompFields", "naturalLanguageTranslation", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqComponent, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,8 +50,9 @@ public class ReqComponentInfo extends IdNamelessEntityInfo implements ReqCompone
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     public ReqComponentInfo() {

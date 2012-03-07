@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.program.infc.HonorsProgram;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 
 @XmlType(name = "HonorsProgramInfo", propOrder = {"id",
@@ -32,8 +32,8 @@ import org.w3c.dom.Element;
     "credentialProgramId",
     "programRequirements",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 @XmlAccessorType(XmlAccessType.FIELD)
 public class HonorsProgramInfo extends IdNamelessEntityInfo implements HonorsProgram, Serializable {
     
@@ -42,8 +42,9 @@ public class HonorsProgramInfo extends IdNamelessEntityInfo implements HonorsPro
     private String credentialProgramId;
     @XmlElement
     private List<String> programRequirements;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
     public HonorsProgramInfo() {
         this.programRequirements = new ArrayList<String>();

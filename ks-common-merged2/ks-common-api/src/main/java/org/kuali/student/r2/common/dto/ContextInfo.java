@@ -29,7 +29,7 @@ import org.kuali.rice.krad.UserSession;
 import org.kuali.rice.krad.util.GlobalVariables;
 import org.kuali.student.r2.common.infc.Context;
 import org.kuali.student.r2.common.infc.Locale;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * The DTO for a Context.
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
 @XmlType(name = "ContextInfo", propOrder = {
                 "authenticatedPrincipalId", "principalId",
                 "currentDate", "locale", "timeZone",
-                "attributes", "_futureElements"})
+                "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class ContextInfo
         extends HasAttributesInfo
@@ -63,8 +63,9 @@ public class ContextInfo
     @XmlElement
     private String timeZone;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

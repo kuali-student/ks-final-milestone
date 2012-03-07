@@ -20,7 +20,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.core.statement.infc.ReqComponent;
 import org.kuali.student.r2.core.statement.infc.StatementTreeView;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,7 +32,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatementTreeViewInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "operator", "statements", "reqComponents", "meta", "attributes", "_futureElements"})
+        "name", "descr", "operator", "statements", "reqComponents", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class StatementTreeViewInfo extends IdEntityInfo implements StatementTreeView {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +43,9 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
     private List<StatementTreeViewInfo> statements;
     @XmlElement
     private List<ReqComponentInfo> reqComponents;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public StatementTreeViewInfo() {
     }

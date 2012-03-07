@@ -32,7 +32,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluSetTreeViewInfo", propOrder = {"id", "descr", "stateKey", "typeKey", "name", "adminOrg", "isReusable", "isReferenceable", "cluSets", "clus",
-        "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+        "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CluSetTreeViewInfo extends IdEntityInfo implements CluSetTreeView, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -58,8 +58,9 @@ public class CluSetTreeViewInfo extends IdEntityInfo implements CluSetTreeView, 
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CluSetTreeViewInfo() {
 

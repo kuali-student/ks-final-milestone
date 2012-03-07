@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.room.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.room.infc.Building;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,7 +34,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "BuildingInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "buildingCode", "campusKey", "meta", "attributes", "_futureElements"})
+        "name", "descr", "buildingCode", "campusKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class BuildingInfo extends IdEntityInfo implements Building, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,8 +45,9 @@ public class BuildingInfo extends IdEntityInfo implements Building, Serializable
     @XmlElement
     private String campusKey;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public BuildingInfo() {
     }

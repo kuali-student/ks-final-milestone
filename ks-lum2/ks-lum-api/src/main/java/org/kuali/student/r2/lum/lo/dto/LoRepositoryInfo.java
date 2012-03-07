@@ -25,7 +25,7 @@ import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.Date;
 
-@XmlType(name = "LoInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LoInfo", propOrder = {"key", "typeKey", "stateKey", "name", "descr", "rootLoId", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoRepositoryInfo extends KeyEntityInfo implements LoRepository, Serializable {
 

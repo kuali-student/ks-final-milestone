@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluFeeInfo", propOrder = {"id", "descr", "cluFeeRecords", "attributes", "meta", "_futureElements"})
+@XmlType(name = "CluFeeInfo", propOrder = {"id", "descr", "cluFeeRecords", "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CluFeeInfo extends HasAttributesAndMetaInfo implements CluFee, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -48,8 +48,9 @@ public class CluFeeInfo extends HasAttributesAndMetaInfo implements CluFee, Seri
     @XmlElement
     private List<CluFeeRecordInfo> cluFeeRecords;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CluFeeInfo() {
 

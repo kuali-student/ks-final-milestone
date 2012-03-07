@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Meta;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information about meta data for entities.
@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MetaInfo", propOrder = {
                 "versionInd", "createTime", "createId", 
-                "updateTime", "updateId", "_futureElements"})
+                "updateTime", "updateId" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class MetaInfo 
     implements Meta, Serializable {
@@ -60,8 +60,9 @@ public class MetaInfo
     @XmlElement
     private String updateId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.statement.dto;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.statement.infc.RefStatementRelation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -28,7 +28,7 @@ import java.io.Serializable;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RefStatementRelationInfo", propOrder = {"id", "typeKey", "stateKey", "refObjectTypeKey", "refObjectId", "statementId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RefStatementRelationInfo", propOrder = {"id", "typeKey", "stateKey", "refObjectTypeKey", "refObjectId", "statementId", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class RefStatementRelationInfo extends RelationshipInfo implements RefStatementRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -38,8 +38,9 @@ public class RefStatementRelationInfo extends RelationshipInfo implements RefSta
     private String refObjectId;
     @XmlElement
     private String statementId;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public RefStatementRelationInfo() {
     }

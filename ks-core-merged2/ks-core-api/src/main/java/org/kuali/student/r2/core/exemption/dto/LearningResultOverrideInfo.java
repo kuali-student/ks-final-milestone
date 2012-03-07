@@ -25,11 +25,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.exemption.infc.LearningResultOverride;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "LearningResultOverrideInfo", propOrder = { "lrrIds",
-                "_futureElements" })
+@XmlType(name = "LearningResultOverrideInfo", propOrder = { "lrrIds"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class LearningResultOverrideInfo implements LearningResultOverride, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -37,13 +36,16 @@ public class LearningResultOverrideInfo implements LearningResultOverride, Seria
 	@XmlElement
 	private List<String> lrrIds;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+//  TODO KSCM Non-GWT translatable code
+//	@XmlAnyElement
+//	private List<Element> _futureElements;
 
 	public LearningResultOverrideInfo() {
 		super();
 		lrrIds = null;
-		_futureElements = null;
+		
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	/**
@@ -58,7 +60,8 @@ public class LearningResultOverrideInfo implements LearningResultOverride, Seria
 		    this.lrrIds = new ArrayList(learningResultOverride.getLrrIds());
 		}
 
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	@Override

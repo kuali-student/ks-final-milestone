@@ -20,7 +20,7 @@ import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.lum.clu.infc.Fee;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -35,7 +35,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FeeInfo", propOrder = {"feeType", "rateType", "feeAmounts",
-        "descr", "key", "meta", "attributes", "_futureElements"})
+        "descr", "key", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -50,8 +50,9 @@ public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializab
     private RichTextInfo descr;
     @XmlAttribute
     private String key;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public FeeInfo() {
         this.feeAmounts = new ArrayList<CurrencyAmountInfo>();

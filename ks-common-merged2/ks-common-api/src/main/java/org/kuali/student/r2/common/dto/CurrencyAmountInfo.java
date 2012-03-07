@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.CurrencyAmount;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about an amount of currency including both the
@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CurrencyAmountInfo", propOrder = {
                 "id", "currencyTypeKey", "currencyQuantity",
-                "meta", "_futureElements"})
+                "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class CurrencyAmountInfo 
     implements CurrencyAmount, Serializable {
@@ -59,8 +59,9 @@ public class CurrencyAmountInfo
     @XmlElement
     private MetaInfo meta;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     /**
      * Constructs a new CurrencyAmount.

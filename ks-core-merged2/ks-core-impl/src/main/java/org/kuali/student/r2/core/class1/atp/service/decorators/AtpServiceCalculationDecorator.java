@@ -1,6 +1,6 @@
 package org.kuali.student.r2.core.class1.atp.service.decorators;
 
-import org.kuali.student.core.atp.entity.Milestone;
+import org.kuali.student.r1.core.atp.entity.Milestone;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r2.common.exceptions.InvalidParameterException;

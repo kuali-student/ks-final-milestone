@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.room.dto;
 
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.core.room.infc.RoomFixedResource;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -29,7 +29,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomFixedResourceInfo", propOrder = {"id", "quantity", "resourceTypeKey", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RoomFixedResourceInfo", propOrder = {"id", "quantity", "resourceTypeKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class RoomFixedResourceInfo 
     extends HasAttributesAndMetaInfo 
@@ -44,8 +44,9 @@ public class RoomFixedResourceInfo
     @XmlElement
     private String resourceTypeKey;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public RoomFixedResourceInfo() {
     }

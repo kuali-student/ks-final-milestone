@@ -18,7 +18,7 @@ package org.kuali.student.r2.lum.clu.dto;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
 import org.kuali.student.r2.lum.clu.infc.Revenue;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,7 +33,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RevenueInfo", propOrder = {"id", "feeType", "affiliatedOrgs",
-        "attributes", "meta", "_futureElements"})
+        "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -45,8 +45,9 @@ public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Se
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public RevenueInfo() {
         this.affiliatedOrgs = new ArrayList<AffiliatedOrgInfo>();

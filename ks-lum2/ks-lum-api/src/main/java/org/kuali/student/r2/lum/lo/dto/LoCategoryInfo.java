@@ -15,7 +15,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.MetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.lum.lo.infc.LoCategory;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -32,7 +32,7 @@ import java.util.List;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "LoCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "LoCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializable {
 
@@ -47,8 +47,9 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public LoCategoryInfo() {
 

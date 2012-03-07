@@ -32,7 +32,7 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluCluRelationInfo", propOrder = {"id", "typeKey",
         "stateKey", "cluId", "relatedCluId", "isCluRelationRequired", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CluCluRelationInfo extends RelationshipInfo implements CluCluRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +43,9 @@ public class CluCluRelationInfo extends RelationshipInfo implements CluCluRelati
     private String relatedCluId;
     @XmlElement
     private Boolean isCluRelationRequired;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CluCluRelationInfo() {
 

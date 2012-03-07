@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.TypeTypeRelation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
                 "id", "typeKey", "stateKey",
                 "effectiveDate", "expirationDate", "ownerTypeKey", 
                 "relatedTypeKey", "rank", 
-                "attributes", "meta", "_futureElements"})
+                "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class TypeTypeRelationInfo 
     extends RelationshipInfo
@@ -52,8 +52,9 @@ public class TypeTypeRelationInfo
     @XmlElement
     private Integer rank;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;    
 	
     /**
      * Constructs a new TypeTypeRelationInfo.

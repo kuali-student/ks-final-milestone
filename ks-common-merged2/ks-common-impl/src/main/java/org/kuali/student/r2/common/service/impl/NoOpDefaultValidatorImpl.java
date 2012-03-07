@@ -1,9 +1,9 @@
 package org.kuali.student.r2.common.service.impl;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validator.DefaultValidatorImpl;
 
 import java.util.ArrayList;
 import java.util.List;

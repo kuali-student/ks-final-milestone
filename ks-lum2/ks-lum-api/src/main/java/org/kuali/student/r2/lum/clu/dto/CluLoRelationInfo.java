@@ -32,7 +32,7 @@ import java.util.Map;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluLoRelationInfo", propOrder = {"id", "typeKey",
         "stateKey", "cluId", "loId", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CluLoRelationInfo extends RelationshipInfo implements CluLoRelation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +43,9 @@ public class CluLoRelationInfo extends RelationshipInfo implements CluLoRelation
     @XmlElement
     private String loId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CluLoRelationInfo() {
 

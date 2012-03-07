@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.statement.dto;
 
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.core.statement.infc.ReqCompField;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -29,15 +29,16 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReqCompFieldInfo", propOrder = {"id", "typeKey", "stateKey",
-        "value", "meta", "attributes", "_futureElements"})
+        "value", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class ReqCompFieldInfo extends IdNamelessEntityInfo implements ReqCompField, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String value;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ReqCompFieldInfo() {
     }

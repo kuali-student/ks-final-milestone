@@ -40,10 +40,7 @@ public class CommonConverterTest {
     @Test
     public void testCurrencyAmountInfo() {
         org.kuali.student.r1.common.dto.CurrencyAmountInfo r1 = new org.kuali.student.r1.common.dto.CurrencyAmountInfo();
-        org.kuali.student.r1.common.dto.MetaInfo r1MetaInfo = new org.kuali.student.r1.common.dto.MetaInfo();
-        r1MetaInfo.setVersionInd("R1 Version Ind");
-        r1MetaInfo.setCreateTime(new Date());
-        r1.setMetaInfo(r1MetaInfo);
+        r1.setMetaInfo(R1TestDataUtil.getMetadataInfoData());
         r1.setCurrencyQuantity(1);
         r1.setCurrencyTypeKey("R1 Currency Type Key");
         CurrencyAmountInfo r2 = R1R2ConverterUtil.convert(r1, CurrencyAmountInfo.class);
@@ -55,12 +52,7 @@ public class CommonConverterTest {
 
     @Test
     public void testMetaInfo() {
-        org.kuali.student.r1.common.dto.MetaInfo r1 = new org.kuali.student.r1.common.dto.MetaInfo();
-        r1.setCreateId("R1 Meta Create Id");
-        r1.setCreateTime(new Date());
-        r1.setUpdateId("R1 Update Id");
-        r1.setUpdateTime(new Date());
-        r1.setVersionInd("R1 Version Id");
+        org.kuali.student.r1.common.dto.MetaInfo r1 = R1TestDataUtil.getMetadataInfoData();
         MetaInfo r2 = R1R2ConverterUtil.convert(r1, MetaInfo.class);
         Assert.assertEquals(r1.getCreateId(), r2.getCreateId());
         Assert.assertEquals(r1.getCreateTime(), r2.getCreateTime());
@@ -71,9 +63,7 @@ public class CommonConverterTest {
 
     @Test
     public void testRichTextInfo() {
-        org.kuali.student.r1.common.dto.RichTextInfo r1 = new org.kuali.student.r1.common.dto.RichTextInfo();
-        r1.setFormatted("R1 Formatted Text");
-        r1.setPlain("R1 Plain Text");
+        org.kuali.student.r1.common.dto.RichTextInfo r1 = R1TestDataUtil.getRichTextInfoData();
         RichTextInfo r2 = R1R2ConverterUtil.convert(r1, RichTextInfo.class);
         Assert.assertEquals(r1.getFormatted(), r2.getFormatted());
         Assert.assertEquals(r1.getPlain(), r2.getPlain());
@@ -108,15 +98,13 @@ public class CommonConverterTest {
         r1.setDescr("R1 Descr");
         r1.setEffectiveDate(new Date());
         r1.setExpirationDate(new Date());
-        Map<String, String> r1Attributes = new HashMap<String, String>();
-        r1Attributes.put("R1 Key", "R1 Value");
-        r1.setAttributes(r1Attributes);
+        r1.setAttributes(R1TestDataUtil.getAttributeData());
         TypeInfo r2 = R1R2ConverterUtil.convert(r1, TypeInfo.class);
         Assert.assertEquals(r1.getId(), r2.getKey());
         Assert.assertEquals(r1.getName(), r2.getName());
         Assert.assertEquals(r1.getEffectiveDate(), r2.getEffectiveDate());
         Assert.assertEquals(r1.getExpirationDate(), r2.getExpirationDate());
-        Assert.assertEquals(r1.getAttributes().get("R1 Key"), r2.getAttributes().get(0).getValue());
+        Assert.assertEquals("R1-Value", r2.getAttributes().get(0).getValue());
         //R1 Object has no matching properties for these:
         //r2.setRefObjectUri(refObjectUri)
         //r2.setMeta(metaInfo)

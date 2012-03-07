@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.document.dto;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.core.document.infc.DocumentCategory;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -35,7 +35,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DocumentCategoryInfo", propOrder = { "key", "typeKey", "stateKey",
-        "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements" })
+        "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 public class DocumentCategoryInfo extends KeyEntityInfo implements DocumentCategory, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -46,8 +46,9 @@ public class DocumentCategoryInfo extends KeyEntityInfo implements DocumentCateg
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public DocumentCategoryInfo() {
     }

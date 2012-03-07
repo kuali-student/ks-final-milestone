@@ -26,7 +26,6 @@ import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class MockDictionaryService implements DictionaryService{
 
     private DictionaryService dictionaryServiceDelegate;

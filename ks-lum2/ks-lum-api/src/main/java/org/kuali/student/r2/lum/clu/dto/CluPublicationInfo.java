@@ -34,7 +34,7 @@ import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluPublicationInfo", propOrder = {"id", "typeKey", "stateKey", "cluId", "variants", "startCycle", "endCycle", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CluPublicationInfo extends IdNamelessEntityInfo implements Serializable, CluPublication {
 
     private static final long serialVersionUID = 1L;
@@ -57,8 +57,9 @@ public class CluPublicationInfo extends IdNamelessEntityInfo implements Serializ
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CluPublicationInfo() {
 

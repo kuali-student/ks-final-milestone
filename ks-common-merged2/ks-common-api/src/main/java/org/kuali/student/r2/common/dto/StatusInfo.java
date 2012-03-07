@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Status;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information about the state of an object
@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  */
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message", "_futureElements"})
+@XmlType(name = "StatusInfo", propOrder = {"isSuccess", "message" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class StatusInfo 
     implements Status, Serializable {
@@ -48,8 +48,9 @@ public class StatusInfo
     @XmlElement
     private String message;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;	
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;	
 
     
     /**

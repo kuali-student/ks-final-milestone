@@ -33,7 +33,7 @@ import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.core.ws.binding.JaxbAttributeMapListAdapter;
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.proposal.infc.ProposalDocRelation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -41,7 +41,7 @@ import org.w3c.dom.Element;
  * 
  * @author KS Team(sambitpa@kuali.org)
  */
-@XmlType(name = "ProposalDocRelationInfo", propOrder = {"id", "typeKey", "stateKey", "proposalId", "documentId", "title", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "ProposalDocRelationInfo", propOrder = {"id", "typeKey", "stateKey", "proposalId", "documentId", "title", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalDocRelationInfo extends RelationshipInfo implements ProposalDocRelation, Serializable {
 
@@ -56,8 +56,9 @@ public class ProposalDocRelationInfo extends RelationshipInfo implements Proposa
     @XmlElement
     private String title;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ProposalDocRelationInfo() {
 

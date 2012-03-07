@@ -27,12 +27,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.OperationStatus;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OperationStatusInfo", propOrder = {
-                "status", "messages", "warnings", "errors", 
-                "_futureElements"})
+                "status", "messages", "warnings", "errors" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class OperationStatusInfo 
     implements OperationStatus, Serializable {
@@ -51,8 +50,9 @@ public class OperationStatusInfo
     @XmlElement
     private List<String> errors;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

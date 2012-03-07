@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.exemption.infc.RestrictionOverride;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RestrictionOverrideInfo", propOrder = { "restrictionKey",  "_futureElements" })
+@XmlType(name = "RestrictionOverrideInfo", propOrder = { "restrictionKey"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class RestrictionOverrideInfo implements RestrictionOverride, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -35,13 +35,16 @@ public class RestrictionOverrideInfo implements RestrictionOverride, Serializabl
 	@XmlElement
 	private String restrictionKey;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+//  TODO KSCM Non-GWT translatable code
+//	@XmlAnyElement
+//	private List<Element> _futureElements;
 
 	public RestrictionOverrideInfo() {
 		super();
 		restrictionKey = null;
-		_futureElements = null;
+		
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	/**
@@ -56,7 +59,8 @@ public class RestrictionOverrideInfo implements RestrictionOverride, Serializabl
 			this.restrictionKey = restrictionOverride.getRestrictionKey();
 		}
 
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	@Override

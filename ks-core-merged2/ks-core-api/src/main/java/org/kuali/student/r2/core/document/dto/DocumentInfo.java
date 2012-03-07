@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.document.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.document.infc.Document;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.*;
 import java.io.Serializable;
@@ -36,7 +36,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DocumentInfo", propOrder = { "id", "typeKey", "stateKey",
         "name", "descr", "fileName", "documentBinary", "effectiveDate", "expirationDate",
-        "meta", "attributes", "_futureElements" })
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 public class DocumentInfo extends IdEntityInfo implements Document, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,8 +53,9 @@ public class DocumentInfo extends IdEntityInfo implements Document, Serializable
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     @Override
     public String getFileName() {

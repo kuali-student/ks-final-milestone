@@ -28,7 +28,6 @@ import org.kuali.student.r1.common.service.impl.BaseAssembler;
 import org.kuali.student.lum.lrc.dao.LrcDao;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
-// TODO KSCM import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
 import org.kuali.student.lum.lrc.entity.LrcRichText;
 import org.kuali.student.lum.lrc.entity.ResultComponent;

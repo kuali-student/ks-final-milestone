@@ -22,13 +22,8 @@ public class LumConverterTest {
         org.kuali.student.r1.lum.program.dto.CredentialProgramInfo r1 = new org.kuali.student.r1.lum.program.dto.CredentialProgramInfo();
         r1.setType("R1 Type");
         r1.setCredentialProgramType("R1 Credential Program Type");
-        org.kuali.student.r1.common.dto.RichTextInfo r1RichText = new org.kuali.student.r1.common.dto.RichTextInfo();
-        r1RichText.setPlain("R1 Plain");
-        r1RichText.setFormatted("R1 Formatted");
-        r1.setDescr(r1RichText);
-        org.kuali.student.common.versionmanagement.dto.VersionInfo r1VersionInfo = new org.kuali.student.common.versionmanagement.dto.VersionInfo();
-        r1VersionInfo.setVersionIndId("R1 Version Identifier");
-        r1.setVersionInfo(r1VersionInfo);
+        r1.setDescr(R1TestDataUtil.getRichTextInfoData());
+        r1.setVersionInfo(R1TestDataUtil.getVersionInfoData());
         CredentialProgramInfo r2 = R1R2ConverterUtil.convert(r1, CredentialProgramInfo.class);
         Assert.assertEquals(r1.getType(), r2.getTypeKey());
         Assert.assertEquals(r1.getCredentialProgramType(), r2.getCredentialProgramType());

@@ -29,7 +29,7 @@ import org.kuali.student.r2.lum.program.dto.assembly.ProgramCommonAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramIdentifierAssembly;
 import org.kuali.student.r2.lum.program.dto.assembly.ProgramRequirementAssembly;
 import org.kuali.student.r2.lum.program.infc.CredentialProgram;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a single credential program, e.g. Baccalaureate,
@@ -61,8 +61,8 @@ import org.w3c.dom.Element;
     "programLevel",
     "coreProgramIds",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends CommonWithCredentialProgramInfo implements CredentialProgram,
         ProgramCommonAssembly,
@@ -81,8 +81,9 @@ public class CredentialProgramInfo extends CommonWithCredentialProgramInfo imple
     private String programLevel;
     @XmlElement
     private List<String> coreProgramIds;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
     
     public CredentialProgramInfo() {
     }

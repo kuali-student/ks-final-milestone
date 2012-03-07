@@ -31,13 +31,13 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Type;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeInfo", propOrder = {
                  "key", "name", "descr", "effectiveDate", "expirationDate", 
-                 "refObjectUri", "meta", "attributes", "_futureElements"})
+                 "refObjectUri", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class TypeInfo 
     extends HasAttributesAndMetaInfo 
@@ -61,8 +61,9 @@ public class TypeInfo
     @XmlElement
     private String refObjectUri;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;    
 	
     
     /**

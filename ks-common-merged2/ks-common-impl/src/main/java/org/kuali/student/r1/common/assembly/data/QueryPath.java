@@ -29,7 +29,6 @@ import org.kuali.student.r1.common.assembly.data.Data.Key;
  * @author Kuali Student Team
  *
  */
-@Deprecated
 public class QueryPath extends ArrayList<Key> {
 	//private static final PathParser parser = GWT.create(PathParser.class);
 	private static final PathParser parser = new DefaultPathParser();

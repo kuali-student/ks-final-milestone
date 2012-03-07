@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.exemption.infc.Exemption;
 
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ExemptionInfo", propOrder = {"id", "typeKey", "stateKey", 
@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
                 "personId", "effectiveDate", "expirationDate", 
                 "useLimit", "useCount", "dateOverride", 
                 "milestoneOverride", "learningResultOverride", 
-                "meta", "attributes", "_futureElements"})
+                "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class ExemptionInfo 
     extends IdEntityInfo 
@@ -71,8 +71,9 @@ public class ExemptionInfo
     @XmlElement
     private LearningResultOverrideInfo learningResultOverride;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ExemptionInfo() {
         super();
@@ -110,7 +111,8 @@ public class ExemptionInfo
             }
         }
 
-        _futureElements = null;
+//      TODO KSCM Non-GWT translatable code
+//        _futureElements = null;
     }
 
     @Override

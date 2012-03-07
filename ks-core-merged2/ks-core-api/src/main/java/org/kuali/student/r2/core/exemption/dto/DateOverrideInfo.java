@@ -25,11 +25,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.exemption.infc.DateOverride;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DateOverrideInfo", propOrder = { "milestoneId", "effectiveStartDate", 
-                 "effectiveEndDate", "_futureElements" })
+                 "effectiveEndDate"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class DateOverrideInfo implements DateOverride, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -43,15 +43,17 @@ public class DateOverrideInfo implements DateOverride, Serializable {
 	@XmlElement
 	private Date effectiveEndDate;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+//  TODO KSCM Non-GWT translatable code
+//	@XmlAnyElement
+//	private List<Element> _futureElements;
 
 	public DateOverrideInfo() {
 		super();
 		milestoneId = null;
 		effectiveStartDate = null;
 		effectiveEndDate = null;
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	/**
@@ -67,7 +69,8 @@ public class DateOverrideInfo implements DateOverride, Serializable {
 		    this.effectiveEndDate = dateOverride.getEffectiveEndDate();
 		}
 
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	@Override

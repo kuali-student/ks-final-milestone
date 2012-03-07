@@ -32,7 +32,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultOptionInfo", propOrder = {"id", "descr", "typeKey", "stateKey", "resultUsageTypeKey", "resultComponentId", "effectiveDate",
-        "expirationDate", "meta", "attributes", "_futureElements"})
+        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class ResultOptionInfo extends IdNamelessEntityInfo implements ResultOption, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -52,8 +52,9 @@ public class ResultOptionInfo extends IdNamelessEntityInfo implements ResultOpti
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ResultOptionInfo() {
 

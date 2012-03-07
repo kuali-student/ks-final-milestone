@@ -16,7 +16,7 @@ package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r2.lum.clu.infc.LuCode;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -40,8 +40,8 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
     "descr",
     "value",
     "meta",
-    "attributes",
-    "_futureElements"})
+    "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -53,8 +53,9 @@ public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Seri
     private String value;
     @XmlElement
     private RichTextInfo descr;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public LuCodeInfo() {
     }

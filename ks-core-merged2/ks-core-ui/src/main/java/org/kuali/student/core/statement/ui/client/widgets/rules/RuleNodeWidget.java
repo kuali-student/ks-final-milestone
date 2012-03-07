@@ -15,8 +15,8 @@
 
 package org.kuali.student.core.statement.ui.client.widgets.rules;
 
-import org.kuali.student.r1.common.ui.client.util.DebugIdUtils;
-import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.util.DebugIdUtils;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 import com.google.gwt.event.dom.client.ClickHandler;

@@ -17,7 +17,7 @@ package org.kuali.student.r2.core.room.dto;
 
 import org.kuali.student.r2.common.dto.RelationshipInfo;
 import org.kuali.student.r2.core.room.infc.RoomResponsibleOrg;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,7 +33,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomResponsibleOrgInfo", propOrder = {"id", "typeKey", "stateKey", "roomId", "orgId", "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+@XmlType(name = "RoomResponsibleOrgInfo", propOrder = {"id", "typeKey", "stateKey", "roomId", "orgId", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class RoomResponsibleOrgInfo extends RelationshipInfo implements RoomResponsibleOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,8 +43,9 @@ public class RoomResponsibleOrgInfo extends RelationshipInfo implements RoomResp
     @XmlElement
     private String orgId;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public RoomResponsibleOrgInfo() {
 

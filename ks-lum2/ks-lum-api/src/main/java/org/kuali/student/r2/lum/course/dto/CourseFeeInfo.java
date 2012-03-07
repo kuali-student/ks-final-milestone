@@ -24,12 +24,12 @@ import org.kuali.student.r2.common.dto.CurrencyAmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.infc.CurrencyAmount;
 import org.kuali.student.r2.lum.course.infc.CourseFee;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlType(name = "CourseFeeInfo", propOrder = {"id",
     "typeKey", "stateKey", 
     "name", "descr",
-    "feeType", "rateType", "feeAmounts", "meta", "attributes", "_futureElements"})
+    "feeType", "rateType", "feeAmounts", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializable {
 
@@ -44,8 +44,9 @@ public class CourseFeeInfo extends IdEntityInfo implements CourseFee, Serializab
     @XmlElement
     private List<CurrencyAmountInfo> feeAmounts;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CourseFeeInfo() {
 

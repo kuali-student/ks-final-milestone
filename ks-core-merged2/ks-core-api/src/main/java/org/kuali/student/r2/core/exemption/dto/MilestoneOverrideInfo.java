@@ -24,11 +24,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.exemption.infc.MilestoneOverride;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MilestoneOverrideInfo", propOrder = { "milestoneId", 
-                 "effectiveMilestoneId", "_futureElements" })
+                 "effectiveMilestoneId"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -39,14 +39,17 @@ public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 	@XmlElement
 	private String effectiveMilestoneId;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+//  TODO KSCM Non-GWT translatable code
+//	@XmlAnyElement
+//	private List<Element> _futureElements;
 
 	public MilestoneOverrideInfo() {
 		super();
 		milestoneId = null;
 		effectiveMilestoneId = null;
-		_futureElements = null;
+		
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	/**
@@ -62,7 +65,8 @@ public class MilestoneOverrideInfo implements MilestoneOverride, Serializable {
 		    this.effectiveMilestoneId = milestoneOverride.getEffectiveMilestoneId();
 		}
 
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	@Override

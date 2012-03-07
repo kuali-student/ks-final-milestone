@@ -17,7 +17,7 @@ package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.lum.clu.infc.Accreditation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -36,7 +36,7 @@ import java.util.Map;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AccreditationInfo", propOrder = {"id", "orgId", "effectiveDate", "expirationDate", "attributes", "meta", "_futureElements"})
+@XmlType(name = "AccreditationInfo", propOrder = {"id", "orgId", "effectiveDate", "expirationDate", "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class AccreditationInfo extends HasAttributesAndMetaInfo implements Accreditation, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -49,8 +49,9 @@ public class AccreditationInfo extends HasAttributesAndMetaInfo implements Accre
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public AccreditationInfo() {
     }

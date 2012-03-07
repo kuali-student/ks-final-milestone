@@ -24,11 +24,11 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.StateProcess;
 import org.kuali.student.r2.common.infc.Type;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StateProcessInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "attributes", "_futureElements"})
+@XmlType(name = "StateProcessInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class StateProcessInfo extends HasAttributesInfo implements StateProcess, Serializable {
 
     @XmlAttribute
@@ -46,8 +46,9 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public static StateProcessInfo getInstance(StateProcess process) {
         return new StateProcessInfo((Type) process);
@@ -63,7 +64,8 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
         descr = null;
         effectiveDate = null;
         expirationDate = null;
-        _futureElements = null;
+//      TODO KSCM Non-GWT translatable code
+//        _futureElements = null;
     }
 
     public StateProcessInfo(Type type) {
@@ -73,7 +75,8 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
         this.descr = new RichTextInfo(type.getDescr());
         this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
         this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
-        this._futureElements = null;
+//      TODO KSCM Non-GWT translatable code
+//        this._futureElements = null;
     }
 
     @Override

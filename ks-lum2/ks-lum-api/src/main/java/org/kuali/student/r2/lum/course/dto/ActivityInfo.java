@@ -25,10 +25,10 @@ import org.kuali.student.r2.common.dto.AmountInfo;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.course.infc.Activity;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
-@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes",
-        "_futureElements"})
+@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ActivityInfo extends IdEntityInfo implements Activity, Serializable {
 
@@ -46,8 +46,9 @@ public class ActivityInfo extends IdEntityInfo implements Activity, Serializable
     @XmlElement
     private AmountInfo contactHours;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ActivityInfo() {}
 

@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.Attribute;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * The DTO for an Attribute.
@@ -36,7 +36,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeInfo", propOrder = {
-                "id", "key", "value", "_futureElements"})
+                "id", "key", "value" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public final class AttributeInfo 
     implements Attribute, Serializable {
@@ -52,8 +52,9 @@ public final class AttributeInfo
     @XmlElement
     private String value;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

@@ -17,7 +17,7 @@ import javax.xml.bind.annotation.*;
 
 
 import org.kuali.student.r2.lum.program.infc.ProgramVariation;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a variation to a major discipline
@@ -65,14 +65,15 @@ import org.w3c.dom.Element;
     "unitsFinancialResources",
     "unitsFinancialControl",
     "attributes",
-    "meta",
-    "_futureElements"})
+    "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProgramVariationInfo extends CommonWithProgramVariationInfo implements ProgramVariation, Serializable {
 
     private static final long serialVersionUID = 1L;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ProgramVariationInfo() {
         super();

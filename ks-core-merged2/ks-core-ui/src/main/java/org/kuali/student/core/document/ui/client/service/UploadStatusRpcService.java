@@ -15,7 +15,7 @@
 
 package org.kuali.student.core.document.ui.client.service;
 
-import org.kuali.student.r1.common.ui.client.dto.UploadStatus;
+import org.kuali.student.common.ui.client.dto.UploadStatus;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;

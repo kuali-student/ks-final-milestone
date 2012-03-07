@@ -17,7 +17,6 @@ import org.kuali.student.r1.common.assembly.transform.DataBeanMapper;
 import org.kuali.student.r1.common.assembly.transform.DefaultDataBeanMapper;
 
 
-@Deprecated
 public class TestDataMapper {
 
 	MockPerson person;

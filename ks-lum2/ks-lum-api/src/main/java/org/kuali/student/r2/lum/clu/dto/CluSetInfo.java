@@ -33,7 +33,7 @@ import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluSetInfo", propOrder = {"id", "descr", "stateKey", "typeKey", "name", "membershipQuery", "adminOrg", "isReusable", "isReferenceable", "cluSetIds", "cluIds",
-        "effectiveDate", "expirationDate", "meta", "attributes", "_futureElements"})
+        "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CluSetInfo extends IdEntityInfo implements Serializable, CluSet {
 
     private static final long serialVersionUID = 1L;
@@ -62,8 +62,9 @@ public class CluSetInfo extends IdEntityInfo implements Serializable, CluSet {
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CluSetInfo() {
 

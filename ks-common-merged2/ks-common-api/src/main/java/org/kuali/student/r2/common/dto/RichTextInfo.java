@@ -26,11 +26,11 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.RichText;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RichTextInfo", propOrder = { 
-                "plain", "formatted", "_futureElements" })
+                "plain", "formatted" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class RichTextInfo 
     implements RichText, Serializable {
@@ -43,8 +43,9 @@ public class RichTextInfo
     @XmlElement
     private String formatted;
     
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     
     /**

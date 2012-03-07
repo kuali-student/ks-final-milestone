@@ -16,7 +16,7 @@
 package org.kuali.student.r2.lum.clu.dto;
 
 import org.kuali.student.r2.lum.clu.infc.AcademicSubjectOrg;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -33,15 +33,17 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AcademicSubjectOrgInfo", propOrder = {"orgId", "_futureElements"})
+@XmlType(name = "AcademicSubjectOrgInfo", propOrder = {"orgId" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class AcademicSubjectOrgInfo implements AcademicSubjectOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @XmlElement
     private String orgId;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+    
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public AcademicSubjectOrgInfo() {
     }

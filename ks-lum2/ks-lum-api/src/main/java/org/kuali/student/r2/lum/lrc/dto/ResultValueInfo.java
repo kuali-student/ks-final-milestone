@@ -22,13 +22,13 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
 import org.kuali.student.r2.lum.lrc.infc.ResultValue;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultValueInfo", propOrder = {"key", "typeKey", "stateKey",
         "name", "descr", "resultScaleKey", "numericValue", "value",
-        "effectiveDate", "expirationDate", "meta", "attributes",
-        "_futureElements"})
+        "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+        
 public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
         Serializable {
 
@@ -49,8 +49,9 @@ public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public ResultValueInfo() {
         super();

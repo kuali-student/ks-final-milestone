@@ -35,7 +35,7 @@ import org.kuali.student.r2.lum.course.infc.Format;
 import org.kuali.student.r2.lum.course.infc.LoDisplay;
 import org.kuali.student.r2.lum.clu.dto.CluInstructorInfo;
 import org.kuali.student.r2.lum.clu.infc.CluInstructor;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * This is a description of what this class does - sambit don't forget to fill
@@ -82,8 +82,8 @@ import org.w3c.dom.Element;
     "versionInfo",
     "meta",
     "attributes",
-    "versionInfo",
-    "_futureElements"})
+    "versionInfo"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseInfo extends IdEntityInfo implements Course, Serializable {
 
@@ -151,8 +151,9 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     private Date expirationDate;
     @XmlElement
     private VersionInfo versionInfo;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CourseInfo(Course courseInfo) {
         super(courseInfo);

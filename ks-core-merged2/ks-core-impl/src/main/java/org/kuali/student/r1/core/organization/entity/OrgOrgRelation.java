@@ -34,7 +34,7 @@ import javax.persistence.TemporalType;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.r1.common.entity.AttributeOwner;
 import org.kuali.student.r1.common.entity.MetaEntity;
-@Deprecated
+
 @Entity
 @Table(name = "KSOR_ORG_ORG_RELTN")
 @NamedQueries( {

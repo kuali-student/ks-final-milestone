@@ -23,11 +23,11 @@ import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
-import org.kuali.student.r1.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.r1.core.document.dto.DocumentInfo;
 import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
 import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.r1.core.document.service.DocumentService;
+import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 
 public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentService> implements DocumentRpcService{

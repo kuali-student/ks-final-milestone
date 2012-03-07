@@ -31,13 +31,13 @@ import javax.xml.bind.annotation.XmlType;
 import org.kuali.student.r2.common.dto.HasAttributesAndMetaInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.state.infc.State;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StateInfo", propOrder = {
                 "key", "name", "descr", "lifecycleKey",
                 "effectiveDate", "expirationDate", 
-                "meta", "attributes", "_futureElements"})
+                "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 
 public class StateInfo 
     extends HasAttributesAndMetaInfo 
@@ -63,8 +63,9 @@ public class StateInfo
     @XmlElement
     private Date expirationDate;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

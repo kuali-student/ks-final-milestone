@@ -65,9 +65,9 @@ public class ValidationResultInfo implements Serializable {
             }
         }
         
-        // TODO KSCM This method was added to maintain some of the R1 packages which are old and 
+        // This method was added to maintain some of the R1 packages which are old and 
         // should be replaced, but still need to compile
-		
+		@Deprecated
 		public static ErrorLevel convertR2toR1(org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel errorLevelR2){	    
 		    return ErrorLevel.fromInt(errorLevelR2.getLevel());
 		}

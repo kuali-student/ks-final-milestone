@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.atp.infc.Milestone;
 import org.kuali.student.r2.common.dto.IdEntityInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MilestoneInfo", propOrder = { 
@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
                 "isAllDay", "isInstructionalDay", 
                 "isRelative", "relativeAnchorMilestoneId",
                 "isDateRange", "startDate", "endDate",
-		"meta", "attributes", "_futureElements" })
+		"meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class MilestoneInfo 
     extends IdEntityInfo 
@@ -63,8 +63,9 @@ public class MilestoneInfo
     @XmlElement
     private Date endDate;
 	
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     /**

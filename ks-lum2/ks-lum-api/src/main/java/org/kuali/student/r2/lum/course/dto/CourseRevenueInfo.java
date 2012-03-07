@@ -24,7 +24,7 @@ import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.lum.course.infc.CourseRevenue;
 import org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo;
 import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Detailed information about revenue collected from the course.
@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
  *      >CourseReenueInfo</>
  */
 
-@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "affiliatedOrgs", "feeType", "meta", "attributes", "_futureElements"})
+@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "affiliatedOrgs", "feeType", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRevenue, Serializable {
 
@@ -49,8 +49,9 @@ public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRev
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public CourseRevenueInfo() {
 

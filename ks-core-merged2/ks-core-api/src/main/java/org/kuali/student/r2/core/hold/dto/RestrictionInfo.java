@@ -24,20 +24,22 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.hold.infc.Restriction;
 import org.kuali.student.r2.common.dto.KeyEntityInfo;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RestrictionInfo", propOrder = { "key", "typeKey", "stateKey",
-		"name", "descr", "meta", "attributes", "_futureElements" })
+		"name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 public class RestrictionInfo extends KeyEntityInfo implements Restriction,
 		Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@XmlAnyElement
-	private final List<Element> _futureElements;
+//  TODO KSCM Non-GWT translatable code
+//	@XmlAnyElement
+//	private final List<Element> _futureElements;
 
 	public RestrictionInfo() {
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	/**
@@ -48,6 +50,7 @@ public class RestrictionInfo extends KeyEntityInfo implements Restriction,
 	 */
 	public RestrictionInfo(Restriction restriction) {
 		super(restriction);
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 }

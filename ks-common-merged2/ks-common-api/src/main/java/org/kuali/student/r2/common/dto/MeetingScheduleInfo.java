@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.MeetingSchedule;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information about a MeetingSchedule. This will move into the
@@ -37,8 +37,7 @@ import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MeetingScheduleInfo", propOrder = {
-                "id", "spaceId", "timePeriods",
-                "_futureElements"})
+                "id", "spaceId", "timePeriods" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
 
 public class MeetingScheduleInfo 
     implements MeetingSchedule, Serializable {
@@ -54,8 +53,9 @@ public class MeetingScheduleInfo
     @XmlElement
     private String timePeriods;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;    
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;    
 
 
     /**

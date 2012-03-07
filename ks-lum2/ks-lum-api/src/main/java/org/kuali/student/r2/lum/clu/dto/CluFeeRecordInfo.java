@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluFeeRecordInfo", propOrder = {"id", "feeType", "rateType", "feeAmounts", "affiliatedOrgs", "descr", "attributes", "meta", "_futureElements"})
+@XmlType(name = "CluFeeRecordInfo", propOrder = {"id", "feeType", "rateType", "feeAmounts", "affiliatedOrgs", "descr", "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class CluFeeRecordInfo extends HasAttributesAndMetaInfo implements CluFeeRecord, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,8 +59,9 @@ public class CluFeeRecordInfo extends HasAttributesAndMetaInfo implements CluFee
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
 
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
 
     public CluFeeRecordInfo() {

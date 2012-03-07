@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 
-@Deprecated
 public interface CrudDao {
 	public <T> T fetch(Class<T> clazz, String key) throws DoesNotExistException;
 

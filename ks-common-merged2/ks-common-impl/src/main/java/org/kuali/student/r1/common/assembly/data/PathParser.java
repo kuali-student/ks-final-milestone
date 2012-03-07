@@ -22,7 +22,6 @@ package org.kuali.student.r1.common.assembly.data;
  * @author wilj
  *
  */
-@Deprecated
 public interface PathParser {
 	String format(QueryPath path);
 

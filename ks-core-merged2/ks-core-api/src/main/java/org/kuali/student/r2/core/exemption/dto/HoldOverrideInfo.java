@@ -24,10 +24,10 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.core.exemption.infc.HoldOverride;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "HoldOverrideInfo", propOrder = { "holdId", "_futureElements" })
+@XmlType(name = "HoldOverrideInfo", propOrder = { "holdId"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
 
 public class HoldOverrideInfo implements HoldOverride, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -35,13 +35,15 @@ public class HoldOverrideInfo implements HoldOverride, Serializable {
 	@XmlElement
 	private String holdId;
 
-	@XmlAnyElement
-	private List<Element> _futureElements;
+//  TODO KSCM Non-GWT translatable code
+//	@XmlAnyElement
+//	private List<Element> _futureElements;
 
 	public HoldOverrideInfo() {
 		super();
 		holdId = null;
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	/**
@@ -55,7 +57,8 @@ public class HoldOverrideInfo implements HoldOverride, Serializable {
 			this.holdId = holdOverride.getHoldId();
 		}
 
-		_futureElements = null;
+//	    TODO KSCM Non-GWT translatable code
+//		_futureElements = null;
 	}
 
 	@Override

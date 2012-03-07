@@ -34,7 +34,7 @@ import java.util.List;
     "contextDescriptors", 
     "effectiveDate", 
     "expirationDate", 
-    "meta", "attributes", "_futureElements"})
+    "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
 public class EnumerationInfo extends KeyEntityInfo implements Enumeration, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -44,8 +44,9 @@ public class EnumerationInfo extends KeyEntityInfo implements Enumeration, Seria
     private Date effectiveDate;
     @XmlElement
     private Date expirationDate;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     public EnumerationInfo() {
     }

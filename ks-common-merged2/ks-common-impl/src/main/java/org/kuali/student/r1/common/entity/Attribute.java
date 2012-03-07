@@ -20,10 +20,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Deprecated
 @MappedSuperclass
 @Table(uniqueConstraints={@UniqueConstraint(columnNames={"NAME", "OWNER"})})
-
 public abstract class Attribute<T extends AttributeOwner<?>> extends BaseEntity{
 	@Column(name="ATTR_NAME")
 	private String name;

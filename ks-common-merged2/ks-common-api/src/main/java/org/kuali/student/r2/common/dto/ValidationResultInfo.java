@@ -26,7 +26,7 @@ import javax.xml.bind.annotation.XmlType;
 
 import org.kuali.student.r2.common.infc.ValidationResult;
 import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
-import org.w3c.dom.Element;
+//import org.w3c.dom.Element;
 
 /**
  * Information about the results of a data validation.
@@ -35,8 +35,8 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidationResultInfo", propOrder = {
-    "element", "level", "message",
-    "_futureElements"})
+    "element", "level", "message" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    
 public class ValidationResultInfo
         implements ValidationResult, Serializable {
 
@@ -50,8 +50,9 @@ public class ValidationResultInfo
 //  used to hold debugging information 
 //  not intended to be sent over the wire          
     private transient Object invalidData;
-    @XmlAnyElement
-    private List<Element> _futureElements;
+//    TODO KSCM Non-GWT translatable code
+//    @XmlAnyElement
+//    private List<Element> _futureElements;
 
     /**
      * Constructs a new ValidationResultInfo.
