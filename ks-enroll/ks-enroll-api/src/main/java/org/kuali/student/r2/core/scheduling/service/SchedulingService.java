@@ -81,13 +81,13 @@ public interface SchedulingService {
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
-     */
+     */b
     public List<ScheduleInfo> getSchedulesByIds(@WebParam(name = "scheduleIds") List<String> scheduleIds, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Retrieves a list of Schedule Ids by Schedule Type.
      *
-     * @param scheduleTypeKey an identifier for an Schedule Type
+     * @param scheduleTypeKey an identifier for a Schedule Type
      * @param contextInfo     Context information containing the principalId and
      *                        locale information about the caller of service
      *                        operation
@@ -134,7 +134,7 @@ public interface SchedulingService {
     public List<ScheduleInfo> searchForSchedules(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates an Schedule. Depending on the value of validationType, this
+     * Validates a Schedule. Depending on the value of validationType, this
      * validation could be limited to tests on just the current Schedule and its
      * directly contained sub-objects or expanded to perform all tests related
      * to this Schedule. If an identifier is present for the Schedule (and/or
@@ -263,7 +263,7 @@ public interface SchedulingService {
     /**
      * Retrieves a list of ScheduleBatch Ids by ScheduleBatch Type.
      *
-     * @param scheduleBatchTypeKey an identifier for an ScheduleBatch Type
+     * @param scheduleBatchTypeKey an identifier for a ScheduleBatch Type
      * @param contextInfo          Context information containing the
      *                             principalId and locale information about the
      *                             caller of service operation
@@ -280,7 +280,7 @@ public interface SchedulingService {
     /**
      * Retrieves a list of ScheduleBatches associated with a ScheduleRequest
      *
-     * @param scheduleRequestId an identifier for an ScheduleBatch
+     * @param scheduleRequestId an identifier for a ScheduleBatch
      * @param contextInfo       Context information containing the principalId
      *                          and locale information about the caller of
      *                          service operation
@@ -327,7 +327,7 @@ public interface SchedulingService {
     public List<ScheduleBatchInfo> searchForScheduleBatches(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates an ScheduleBatch. Depending on the value of validationType,
+     * Validates a ScheduleBatch. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
      * ScheduleBatch and its directly contained sub-objects or expanded to
      * perform all tests related to this ScheduleBatch. If an identifier is
@@ -496,7 +496,7 @@ public interface SchedulingService {
     /**
      * Retrieves a list of ScheduleBatchResponse Ids by ScheduleBatchResponse Type.
      *
-     * @param scheduleBatchResponseTypeKey an identifier for an ScheduleBatchResponse Type
+     * @param scheduleBatchResponseTypeKey an identifier for a ScheduleBatchResponse Type
      * @param contextInfo          Context information containing the
      *                             principalId and locale information about the
      *                             caller of service operation
@@ -564,7 +564,7 @@ public interface SchedulingService {
     /**
      * Retrieves a list of ScheduleRequest Ids by ScheduleRequest Type.
      *
-     * @param scheduleRequestTypeKey an identifier for an ScheduleRequest Type
+     * @param scheduleRequestTypeKey an identifier for a ScheduleRequest Type
      * @param contextInfo            Context information containing the
      *                               principalId and locale information about
      *                               the caller of service operation
@@ -581,7 +581,7 @@ public interface SchedulingService {
     /**
      * Retrieves a list of ScheduleRequests associated with a ScheduleBatch
      *
-     * @param scheduleBatchId an identifier for an ScheduleBatch
+     * @param scheduleBatchId an identifier for a ScheduleBatch
      * @param contextInfo     Context information containing the principalId and
      *                        locale information about the caller of service
      *                        operation
@@ -629,7 +629,7 @@ public interface SchedulingService {
     public List<ScheduleRequestInfo> searchForScheduleRequests(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates an ScheduleRequest. Depending on the value of validationType,
+     * Validates a ScheduleRequest. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
      * ScheduleRequest and its directly contained sub-objects or expanded to
      * perform all tests related to this ScheduleRequest. If an identifier is
@@ -769,7 +769,7 @@ public interface SchedulingService {
     /**
      * Retrieves a list of ScheduleComponent Ids by ScheduleComponent Type.
      *
-     * @param scheduleComponentTypeKey an identifier for an ScheduleComponent
+     * @param scheduleComponentTypeKey an identifier for a ScheduleComponent
      *                                 Type
      * @param contextInfo              Context information containing the
      *                                 principalId and locale information about
@@ -817,7 +817,7 @@ public interface SchedulingService {
     public List<ScheduleComponentInfo> searchForScheduleComponents(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Validates an ScheduleComponent. Depending on the value of validationType,
+     * Validates a ScheduleComponent. Depending on the value of validationType,
      * this validation could be limited to tests on just the current
      * ScheduleComponent and its directly contained sub-objects or expanded to
      * perform all tests related to this ScheduleComponent. If an identifier is
@@ -1133,7 +1133,7 @@ public interface SchedulingService {
     /**
      * Retrieves a list of ScheduleResponse Ids by ScheduleResponse Type.
      *
-     * @param scheduleResponseTypeKey an identifier for an ScheduleResponse Type
+     * @param scheduleResponseTypeKey an identifier for a ScheduleResponse Type
      * @param contextInfo     Context information containing the principalId and
      *                        locale information about the caller of service
      *                        operation
