@@ -162,7 +162,7 @@ public interface SchedulingService {
     public List<ValidationResultInfo> validateSchedule(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleTypeKey") String scheduleTypeKey, @WebParam(name = "scheduleInfo") ScheduleInfo scheduleInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates an Schedule
+     * Creates a Schedule
      *
      * @param scheduleTypeKey the identifier for the schedule Type
      * @param scheduleInfo    detailed information about the schedule
@@ -357,7 +357,7 @@ public interface SchedulingService {
     public List<ValidationResultInfo> validateScheduleBatch(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleBatchTypeKey") String scheduleBatchTypeKey, @WebParam(name = "scheduleBatchInfo") ScheduleBatchInfo scheduleBatchInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates an ScheduleBatch
+     * Creates a ScheduleBatch
      *
      * @param scheduleBatchTypeKey the identifier for the scheduleBatch Type
      * @param scheduleBatchInfo    detailed information about the scheduleBatch
@@ -661,7 +661,7 @@ public interface SchedulingService {
     public List<ValidationResultInfo> validateScheduleRequest(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleRequestTypeKey") String scheduleRequestTypeKey, @WebParam(name = "scheduleRequestInfo") ScheduleRequestInfo scheduleRequestInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates an ScheduleRequest
+     * Creates a ScheduleRequest
      *
      * @param scheduleRequestTypeKey the identifier for the scheduleRequest
      *                               Type
@@ -849,7 +849,7 @@ public interface SchedulingService {
     public List<ValidationResultInfo> validateScheduleComponent(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "scheduleComponentTypeKey") String scheduleComponentTypeKey, @WebParam(name = "scheduleComponentInfo") ScheduleComponentInfo scheduleComponentInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates an ScheduleComponent
+     * Creates a ScheduleComponent
      *
      * @param scheduleComponentTypeKey the identifier for the scheduleComponent
      *                                 Type
@@ -1031,7 +1031,7 @@ public interface SchedulingService {
     public List<ValidationResultInfo> validateTimeSlot(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "timeSlotTypeKey") String timeSlotTypeKey, @WebParam(name = "timeSlotInfo") TimeSlotInfo timeSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
-     * Creates an TimeSlot
+     * Creates a TimeSlot
      *
      * @param timeSlotTypeKey the identifier for the timeSlot Type
      * @param timeSlotInfo    detailed information about the timeSlot
