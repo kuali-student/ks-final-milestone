@@ -26,7 +26,6 @@ public class HolidayCalendarLookupableImpl  extends LookupableImpl {
         List<HolidayCalendarInfo> holidayCalendarInfoList = new ArrayList<HolidayCalendarInfo>();
 
         Integer academicCalendarYear = new Integer("2011");
-        System.out.println(">>search year = "+academicCalendarYear.toString());
         ContextInfo context = new ContextInfo();
         try{
             holidayCalendarInfoList = getAcademicCalendarService().getHolidayCalendarsByStartYear(academicCalendarYear, context);
