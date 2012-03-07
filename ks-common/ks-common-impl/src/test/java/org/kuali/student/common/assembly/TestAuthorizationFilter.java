@@ -20,7 +20,7 @@ import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.r1.common.assembly.dictionary.MetadataServiceImpl;
-import org.kuali.student.r1.common.assembly.dictionary.MockDictionaryService;
+import org.kuali.student.common.assembly.dictionary.MockDictionaryService;
 import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter;
 import org.kuali.student.r1.common.assembly.transform.MetadataFilter;
 import org.kuali.student.r1.common.assembly.transform.AuthorizationFilter.PermissionEnum;
