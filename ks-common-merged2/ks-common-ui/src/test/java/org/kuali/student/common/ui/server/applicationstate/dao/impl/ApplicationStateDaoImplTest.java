@@ -27,9 +27,9 @@ import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.r1.common.ui.server.applicationstate.dao.ApplicationStateDao;
-import org.kuali.student.r1.common.ui.server.applicationstate.entity.ApplicationState;
-import org.kuali.student.r1.common.ui.server.applicationstate.entity.KeyValuePair;
+import org.kuali.student.common.ui.server.applicationstate.dao.ApplicationStateDao;
+import org.kuali.student.common.ui.server.applicationstate.entity.ApplicationState;
+import org.kuali.student.common.ui.server.applicationstate.entity.KeyValuePair;
 
 @Deprecated
 @PersistenceFileLocation("classpath:META-INF/application-state-persistence.xml")
