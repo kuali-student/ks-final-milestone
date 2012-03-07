@@ -27,42 +27,7 @@ import java.util.List;
  * @since Thu Nov 3 14:22:34 EDT 2011
  */ 
 
-public interface ScheduleRequestItem extends HasId {
-
-    /**
-     * The Schedule Request Id.
-     *
-     * @name Schedule Request Id
-     * @required
-     * @readonly
-     */
-    public String getScheduleRequestId();
-
-    /**
-     * A reference Id for relating the request to an external object
-     * to be scheduled.
-     *
-     * @name Reference Id
-     * @required
-     */
-    public String getReferenceId();
-
-    /**
-     * A reference Type key for relating the request to an external
-     * object to be scheduled.
-     *
-     * @name Reference Type Key
-     * @required
-     */
-    public String getReferenceTypeKey();
-
-    /**
-     * Tests if the data in this request item are requirements or
-     * preferences. A requirement fails scheduling if not available.
-     *
-     * @name Is Requirement
-     */
-    public Boolean getIsRequirement();
+public interface ScheduleRequestComponents extends HasId {
 
     /**
      * The Campus Id to specify a Campus.
