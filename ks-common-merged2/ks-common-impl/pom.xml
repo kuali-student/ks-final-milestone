@@ -71,6 +71,7 @@
         <dependency>
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-hibernate</artifactId>
+          <version>${ks.service.version}</version>
           <type>pom</type>
           <scope>test</scope>
         </dependency>
@@ -96,6 +97,7 @@
         <dependency>
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-cxf</artifactId>
+          <version>${ks.service.version}</version>
           <type>pom</type>
           <scope>test</scope>
         </dependency>
@@ -107,6 +109,7 @@
         <dependency>
           <groupId>org.kuali.student.common</groupId>
           <artifactId>ks-metro</artifactId>
+          <version>${ks.service.version}</version>
           <type>pom</type>
           <scope>test</scope>
         </dependency>
