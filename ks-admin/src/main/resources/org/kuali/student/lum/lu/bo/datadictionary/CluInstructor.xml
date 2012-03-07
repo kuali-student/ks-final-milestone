@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="CluInstructor" parent="CluInstructor-parentBean" />
+  <bean id="CluInstructor-parentBean" abstract="true" parent="BusinessObjectEntry">
+    <property name="businessObjectClass" value="org.kuali.student.lum.lu.bo.CluInstructor" />
+    <property name="titleAttribute" value="id" />
+    <property name="objectLabel" value="CLU Instructor" />
+    <property name="lookupDefinition">
+      <ref bean="CluInstructor-lookupDefinition" />
+    </property>
+    <property name="inquiryDefinition">
+      <ref bean="CluInstructor-inquiryDefinition" />
+    </property>
+    <property name="attributes">
+      <list>
+        <ref bean="CluInstructor-id" />
+        <ref bean="CluInstructor-orgId" />
+        <ref bean="CluInstructor-personId" />
+      </list>
+    </property>
+  </bean>
+
+  <alias alias="CluInstructor-id" name="CoreAttributeReference-id" />
+  <alias alias="CluInstructor-orgId" name="CoreAttributeReference-orgId" />
+  
+  <bean id="CluInstructor-personId" parent="CluInstructor-personId-parentBean" />
+  <bean id="CluInstructor-personId-parentBean" abstract="true" parent="CoreAttributeReference-principalId">
+    <property name="name" value="personId" />
+  </bean>
+
+
+  <bean id="CluInstructor-lookupDefinition" parent="CluInstructor-lookupDefinition-parentBean" />
+  <bean id="CluInstructor-lookupDefinition-parentBean" abstract="true" parent="LookupDefinition">
+    <property name="title" value="CLU Instructor Lookup" />
+    <property name="lookupFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="orgId" />
+        <bean parent="FieldDefinition" p:attributeName="personId" />
+      </list>
+    </property>
+    <property name="resultFields">
+      <list>
+        <bean parent="FieldDefinition" p:attributeName="id" />
+        <bean parent="FieldDefinition" p:attributeName="orgId" />
+        <bean parent="FieldDefinition" p:attributeName="personId" />
+      </list>
+    </property>
+  </bean>
+
+  <bean id="CluInstructor-inquiryDefinition" parent="CluInstructor-inquiryDefinition-parentBean" />
+  <bean id="CluInstructor-inquiryDefinition-parentBean" abstract="true" parent="InquiryDefinition">
+    <property name="title" value="CLU Instructor Inquiry" />
+    <property name="inquirySections">
+      <list>
+        <bean parent="InquirySectionDefinition">
+          <property name="title" value="CLU Instructor" />
+          <property name="numberOfColumns" value="1" />
+          <property name="inquiryFields">
+            <list>
+              <bean parent="FieldDefinition" p:attributeName="id" />
+              <bean parent="FieldDefinition" p:attributeName="orgId" />
+              <bean parent="FieldDefinition" p:attributeName="personId" />
+            </list>
+          </property>
+        </bean>
+      </list>
+    </property>
+  </bean>
+
+</beans>
