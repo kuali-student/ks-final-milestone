@@ -16,6 +16,8 @@
 package org.kuali.student.r2.core.comment.service;
 
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -47,7 +49,7 @@ import java.util.List;
 
 @WebService(name = "CommentService", targetNamespace = org.kuali.student.r2.core.constants.CommentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CommentService {
+public interface CommentService extends DictionaryService{
 
     /**
      * Retrieves information about a comment.
@@ -382,4 +384,9 @@ public interface CommentService {
      */
     public StatusInfo deleteTag(@WebParam(name = "tagId") String tagId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    @Deprecated
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
+
+    @Deprecated
+    public List<String> getObjectTypes();
 }
