@@ -49,7 +49,7 @@ import java.util.List;
 
 @WebService(name = "CommentService", targetNamespace = org.kuali.student.r2.core.constants.CommentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface CommentService extends DictionaryService{
+public interface CommentService extends DictionaryService {
 
     /**
      * Retrieves information about a comment.
