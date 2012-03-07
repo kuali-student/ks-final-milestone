@@ -1,6 +1,5 @@
 package org.kuali.student.r1.common.entity;
 
-@Deprecated
 public class KSEntityConstants {
 
 	// Default Length for long text columns 
@@ -12,5 +11,7 @@ public class KSEntityConstants {
 	public static final int ATTRIBUTE_TEXT_LENGTH = 2000;
 
 	public static final int OBJ_ID_LENGTH = 36;
+
+    public static final int EXTRA_LONG_TEXT_LENGTH = 4000;
 	
 }

@@ -22,7 +22,6 @@ import javax.persistence.MappedSuperclass;
 
 import org.kuali.student.common.util.security.SecurityUtils;
 
-@Deprecated
 @MappedSuperclass
 public abstract class MetaEntity extends BaseEntity{
 	
