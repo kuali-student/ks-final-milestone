@@ -20,11 +20,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import r1.org.kuali.student.core.statement.config.context.lu.MockCluInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.naturallanguage.AbstractContext;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.naturallanguage.AbstractContext;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
 import r1.org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 @Deprecated

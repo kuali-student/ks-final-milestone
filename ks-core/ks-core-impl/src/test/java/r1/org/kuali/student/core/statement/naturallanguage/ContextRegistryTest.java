@@ -24,9 +24,8 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
 import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
 //import org.kuali.student.common.dictionary.old.dto.Context;;
 
 @Deprecated

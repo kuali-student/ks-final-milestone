@@ -18,8 +18,9 @@ package r1.org.kuali.student.core.statement.config.context.lu;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
 import r1.org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 /**
@@ -34,8 +35,8 @@ public class CreditContextImpl extends AbstractLuContext<ReqComponentInfo> {
      * Creates the context map (template data) for the requirement component.
      * 
      * @param reqComponent Requirement component
-     * @throws DoesNotExistException
-     * @throws DoesNotExistException If CLU, CluSet or relation does not exist
+     * @throws OperationFailedException
+     * 
      */
     public Map<String, Object> createContextMap(ReqComponentInfo reqComponent) throws OperationFailedException {
         Map<String, Object> contextMap = new HashMap<String, Object>();

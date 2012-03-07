@@ -29,27 +29,27 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Test;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.document.dto.DocumentBinaryInfo;
-import org.kuali.student.core.document.dto.DocumentCategoryInfo;
-import org.kuali.student.core.document.dto.DocumentInfo;
-import org.kuali.student.core.document.dto.DocumentTypeInfo;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.core.document.dto.RefDocRelationTypeInfo;
-import org.kuali.student.core.document.service.DocumentService;
+import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.core.document.dto.DocumentBinaryInfo;
+import org.kuali.student.r1.core.document.dto.DocumentCategoryInfo;
+import org.kuali.student.r1.core.document.dto.DocumentInfo;
+import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationTypeInfo;
+import org.kuali.student.r1.core.document.service.DocumentService;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.

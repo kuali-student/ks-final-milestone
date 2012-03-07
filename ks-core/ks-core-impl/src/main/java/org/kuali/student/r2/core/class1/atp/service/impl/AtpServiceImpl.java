@@ -11,6 +11,7 @@ import javax.jws.WebService;
 import org.kuali.rice.core.api.criteria.GenericQueryResults;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.criteria.CriteriaLookupService;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -888,6 +889,18 @@ public class AtpServiceImpl implements AtpService {
             status.setSuccess(Boolean.FALSE);
 
         return status;
+    }
+
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getObjectTypes() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
     //    // TypeService methods

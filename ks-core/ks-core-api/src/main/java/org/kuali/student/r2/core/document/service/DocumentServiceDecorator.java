@@ -15,6 +15,7 @@
 
 package org.kuali.student.r2.core.document.service;
 
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -143,6 +144,18 @@ public class DocumentServiceDecorator implements DocumentService {
     @Override
     public StatusInfo deleteRefDocRelation(@WebParam(name = "refDocRelationId") String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return getNextDecorator().deleteRefDocRelation(refDocRelationId, contextInfo);
+    }
+
+    @Override
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public List<String> getObjectTypes() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

@@ -15,34 +15,34 @@
 
 package r1.org.kuali.student.core.statement.dao.impl;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.List;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import org.junit.Test;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.statement.dao.StatementDao;
-import org.kuali.student.core.statement.entity.NlUsageType;
-import org.kuali.student.core.statement.entity.ObjectSubType;
-import org.kuali.student.core.statement.entity.ObjectType;
-import org.kuali.student.core.statement.entity.RefStatementRelation;
-import org.kuali.student.core.statement.entity.RefStatementRelationType;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentType;
-import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.entity.StatementType;
+import org.kuali.student.r1.core.statement.dao.StatementDao;
+import org.kuali.student.r1.core.statement.entity.NlUsageType;
+import org.kuali.student.r1.core.statement.entity.ObjectSubType;
+import org.kuali.student.r1.core.statement.entity.ObjectType;
+import org.kuali.student.r1.core.statement.entity.RefStatementRelation;
+import org.kuali.student.r1.core.statement.entity.RefStatementRelationType;
+import org.kuali.student.r1.core.statement.entity.ReqComponent;
+import org.kuali.student.r1.core.statement.entity.ReqComponentType;
+import org.kuali.student.r1.core.statement.entity.ReqComponentTypeNLTemplate;
+import org.kuali.student.r1.core.statement.entity.Statement;
+import org.kuali.student.r1.core.statement.entity.StatementType;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 
 @Deprecated
 @PersistenceFileLocation("classpath:META-INF/statement-persistence.xml")

@@ -3,11 +3,11 @@ package r1.org.kuali.student.core.dictionary.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.service.SearchDispatcher;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.service.SearchDispatcher;
 
 @Deprecated
 public class MockSearchDispatcher implements SearchDispatcher

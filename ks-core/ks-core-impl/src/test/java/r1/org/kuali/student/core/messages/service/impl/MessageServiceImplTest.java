@@ -22,9 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.service.MessageService;
+import org.kuali.student.r1.common.messages.dto.Message;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.service.MessageService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;

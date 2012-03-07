@@ -20,11 +20,11 @@ import java.util.List;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.naturallanguage.translators.StatementParser;
-import org.kuali.student.core.statement.naturallanguage.util.ReqComponentReference;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.entity.ReqComponent;
+import org.kuali.student.r1.core.statement.entity.Statement;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.StatementParser;
+import org.kuali.student.r1.core.statement.naturallanguage.util.ReqComponentReference;
 
 @Deprecated
 public class StatementParserTest {
