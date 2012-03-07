@@ -18,25 +18,27 @@ package org.kuali.student.common.ui.client.widgets.suggestbox;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
 import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.KSErrorDialog;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SortDirection;
 
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.PopupPanel.PositionCallback;
+import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SearchSuggestOracle extends IdableSuggestOracle{
     
     private String searchTypeKey;
@@ -49,6 +51,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     private HasText textWidget;
     private String resultDisplayKey;
     private String resultSortKey;
+    private SortDirection sortDirection;
     private List<SearchParam> additionalParams = new ArrayList<SearchParam>();
     private List<IdableSuggestion> lastSuggestions = new ArrayList<IdableSuggestion>();
     
@@ -105,6 +108,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
         this.resultIdKey = lookupMetadata.getResultReturnKey();
         this.resultDisplayKey = lookupMetadata.getResultDisplayKey();
         this.resultSortKey = lookupMetadata.getResultSortKey();
+        this.sortDirection = lookupMetadata.getSortDirection();
     }
 
     public void setAdditionalSearchParams(List<SearchParam> params){
@@ -163,6 +167,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
     	sr.setSortColumn(this.resultSortKey);
+        sr.setSortDirection(this.sortDirection);
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
 		SearchParam param1 = createParam(this.searchTextKey, query);
@@ -180,6 +185,7 @@ public class SearchSuggestOracle extends IdableSuggestOracle{
     	sr.setNeededTotalResults(false);
     	sr.setSearchKey(this.searchTypeKey);
     	sr.setSortColumn(this.resultSortKey);
+        sr.setSortDirection(this.sortDirection);
 
 		List<SearchParam> searchParams = new ArrayList<SearchParam>();
 		SearchParam param2 = createParam(this.searchIdKey, searchId);

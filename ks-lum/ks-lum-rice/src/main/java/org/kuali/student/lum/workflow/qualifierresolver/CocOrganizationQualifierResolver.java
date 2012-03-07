@@ -5,12 +5,12 @@ package org.kuali.student.lum.workflow.qualifierresolver;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
-import org.kuali.rice.kim.bo.types.dto.AttributeSet;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 /**
  * A QualifierResolver class that will use configuration elements from the Route Node xml configuration to get a list of
@@ -48,7 +48,6 @@ import org.kuali.student.common.search.dto.SearchResultRow;
  * 
  */
 public class CocOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CocOrganizationQualifierResolver.class);
 
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";
     protected static final String ROUTE_NODE_XML_USE_NON_DERIVED_ROLES = "useNonDerivedRoles";
@@ -61,8 +60,8 @@ public class CocOrganizationQualifierResolver extends AbstractOrganizationServic
      * @see org.kuali.rice.kew.role.QualifierResolver#resolve(org.kuali.rice.kew.engine.RouteContext)
      */
     @Override
-    public List<AttributeSet> resolve(RouteContext context) {
-        List<AttributeSet> attributeSets = new ArrayList<AttributeSet>();
+    public List<Map<String,String>> resolve(RouteContext context) {
+        List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         String orgIdKey = getNodeSpecificOrganizationIdAttributeSetKey(context);
         for (String orgId : getOrganizationIdsFromDocumentContent(context)) {
             List<SearchResultRow> results = relatedOrgsFromOrgId(orgId, getOrganizationRelationTypeCode(), getRelatedOrganizationTypeCode());

@@ -17,10 +17,10 @@ package org.kuali.student.core.comments.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcService;
-import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -34,6 +34,8 @@ public interface CommentRpcService extends BaseRpcService {
      * @return detailed information about the comment
      * @throws Exception 
      */
+	
+	
     public CommentInfo addComment(String referenceId, String referenceTypeKey, CommentInfo commentInfo) throws Exception;
     /**
      * Retrieves comment information for a reference. The expected behavior is that if the caller is not authorized to invoke the getComments operation, a PERMISSION_DENIED error is returned. Assuming that the caller is authorized to invoke getComments, only comments that the caller is authorized to view are included in the returned commentInfoList; comments that the caller is unauthorized to view are filtered out of the return parameter.
@@ -84,9 +86,4 @@ public interface CommentRpcService extends BaseRpcService {
      */
     public Boolean isAuthorizedAddComment(String id, String referenceTypeKey);
     
-    /**
-     * user IdentityService to get user name
-     * @param userId
-     */
-    public String getUserRealName(String userId);
 }

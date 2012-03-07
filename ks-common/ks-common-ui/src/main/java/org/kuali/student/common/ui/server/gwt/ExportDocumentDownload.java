@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.client.util.ExportUtils;
 
+@Deprecated
 public class ExportDocumentDownload extends HttpServlet {
 
     final Logger LOG = Logger.getLogger(ExportDocumentDownload.class);

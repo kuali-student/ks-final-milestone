@@ -3,11 +3,12 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.2-m1-perf-SNAPSHOT</version>
+    <version>2.0.0-cm-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.lum</groupId>
   <artifactId>ks-lum</artifactId>
   <packaging>pom</packaging>
+  <version>0.0.6-SNAPSHOT</version>
   <name>KS LUM</name>
   <description>KS Learning Unit Management</description>
   <profiles>
@@ -83,6 +84,18 @@
     </profile>
     <profile>
       <id>skip-all-wars</id>
+      <modules>
+        <module>ks-lum-sql</module>
+        <module>ks-lum-api</module>
+        <module>ks-lum-impl</module>
+        <module>ks-lum-rice</module>
+        <module>ks-lum-ui</module>
+        <module>ks-lum-program</module>
+        <module>ks-lum-ui-common</module>
+      </modules>
+    </profile>
+    <profile>
+      <id>merged</id>
       <modules>
         <module>ks-lum-sql</module>
         <module>ks-lum-api</module>

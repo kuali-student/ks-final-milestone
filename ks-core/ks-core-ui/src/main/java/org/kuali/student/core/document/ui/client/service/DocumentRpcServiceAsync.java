@@ -17,14 +17,18 @@ package org.kuali.student.core.document.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.dto.StatusInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.core.document.dto.DocumentInfo;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r1.core.document.dto.DocumentInfo;
+import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface DocumentRpcServiceAsync extends BaseRpcServiceAsync{
+    
+    public void getDocumentTypes(AsyncCallback<List<DocumentTypeInfo>> callback) throws Exception;  //KSLAB-2115
+    
 	public void getDocument(String documentId, AsyncCallback<DocumentInfo> callback) throws Exception;
 	
 	public void getDocumentsByIdList(List<String> documentIdList, AsyncCallback<List<DocumentInfo>> callback) throws Exception;

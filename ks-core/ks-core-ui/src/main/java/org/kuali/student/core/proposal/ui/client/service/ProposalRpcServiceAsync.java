@@ -16,7 +16,7 @@
 package org.kuali.student.core.proposal.ui.client.service;
 
 import org.kuali.student.common.ui.client.service.BaseRpcServiceAsync;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

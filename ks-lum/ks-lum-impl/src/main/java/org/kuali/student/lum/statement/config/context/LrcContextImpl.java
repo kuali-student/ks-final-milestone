@@ -21,10 +21,9 @@ import java.util.Map;
 
 import org.kuali.student.common.exceptions.OperationFailedException;
 import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentTypeInfo;
-import org.kuali.student.lum.lrc.service.LrcService;
-import org.kuali.student.lum.statement.typekey.ReqComponentFieldTypes;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.service.LrcService;
+import org.kuali.student.r1.lum.statement.typekey.ReqComponentFieldTypes;
 
 /**
  * This class creates the template context for grade condition type.
@@ -46,7 +45,8 @@ public class LrcContextImpl extends BasicContextImpl {
 			return null;
 		}
 		try {
-			return lrcService.getResultComponent(resultComponentId);
+			return null;
+			// TODO KSCM			return lrcService.getResultComponent(resultComponentId);
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}
@@ -70,16 +70,17 @@ public class LrcContextImpl extends BasicContextImpl {
 		}
 		
 		try {
-			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
-			for(ResultComponentTypeInfo type : typeList) {
-				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
-				for(String resultComponentId : resultComponentIdList) {
-					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
-					if(resultComponent.getResultValues().contains(resultValueId)) {
-						return resultComponent;
-					}
-				}
-			}
+			// TODO KSCM
+//			List<ResultComponentTypeInfo> typeList = lrcService.getResultComponentTypes();
+//			for(ResultComponentTypeInfo type : typeList) {
+//				List<String> resultComponentIdList = lrcService.getResultComponentIdsByResultComponentType(type.getId());
+//				for(String resultComponentId : resultComponentIdList) {
+//					ResultComponentInfo resultComponent = lrcService.getResultComponent(resultComponentId);
+//					if(resultComponent.getResultValues().contains(resultValueId)) {
+//						return resultComponent;
+//					}
+//				}
+//			}
 		} catch (Exception e) {
 			throw new OperationFailedException(e.getMessage(), e);
 		}

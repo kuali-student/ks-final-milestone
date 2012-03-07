@@ -1,13 +1,12 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.TableSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -16,11 +15,11 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFiel
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,42 +30,45 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
 
 	private Controller controller = null;
 
-    public static CatalogInformationViewConfiguration create() {
-        return new CatalogInformationViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, ProgramProperties.get().program_menu_sections_catalogInfo(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static CatalogInformationViewConfiguration create(Configurer configurer) {
+        return new CatalogInformationViewConfiguration(configurer);
     }
 
-    public static CatalogInformationViewConfiguration createSpecial(Controller controller) {
-        String title = ProgramProperties.get().program_menu_sections_catalogInfo();
-        return new CatalogInformationViewConfiguration(new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.CATALOG_INFO_EDIT)), controller);
+    public static CatalogInformationViewConfiguration createSpecial(Configurer configurer, Controller controller) {
+        return new CatalogInformationViewConfiguration(configurer, controller);
     }
 
-    private CatalogInformationViewConfiguration(SectionView sectionView) {
-        rootSection = sectionView;
+    private CatalogInformationViewConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_CATALOGINFO);
+        rootSection = new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID);
     }
 
-    private CatalogInformationViewConfiguration(SectionView sectionView, Controller controller) {
-        rootSection = sectionView;
+    private CatalogInformationViewConfiguration(Configurer configurer, Controller controller) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_CATALOGINFO);
+        rootSection = new VerticalSectionView(ProgramSections.CATALOG_INFO_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.CATALOG_INFO_EDIT));
         this.controller = controller;
     }
 
     @Override
     protected void buildLayout() {
-		TableSection section = new TableSection(SectionTitle.generateEmptyTitle());
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
-    		section.addSection(createCatalogInformationSectionEdit());
+    		rootSection.addSection(createCatalogInformationSectionEdit());
     	else
     	{
-       		configurer.addReadOnlyField(section, ProgramConstants.DESCRIPTION + "/plain", new MessageKeyInfo(ProgramProperties.get().catalogInformation_descr()));
-       		configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION + "/" + ProgramConstants.PLAIN_TEXT, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr()));
-       		configurer.addReadOnlyField(section, ProgramConstants.CORE_FACULTY_MEMBERS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_publishedInstructors()));
-       		configurer.addReadOnlyField(section, ProgramConstants.PUBLICATION_TARGETS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogPublicationTargets()));
-       		configurer.addReadOnlyField(section, ProgramConstants.FULL_PART_TIME, new MessageKeyInfo(ProgramProperties.get().catalogInformation_intensity()));
-       		configurer.addReadOnlyField(section, ProgramConstants.DURATION + "/atpDurationTypeKey", new MessageKeyInfo(ProgramProperties.get().catalogInformation_stdDuration()));
-       		configurer.addReadOnlyField(section, ProgramConstants.DURATION + "/timeQuantity", new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationCount()));
-       		configurer.addReadOnlyField(section, ProgramConstants.DURATION_NOTES, new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationNotes()));
-       		configurer.addReadOnlyField(section, ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_referenceUrl()));
+    		TableSection section = new TableSection(SectionTitle.generateEmptyTitle());
+       		configurer.addReadOnlyField(section, ProgramConstants.DESCRIPTION + "/plain", generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_DESCR));
+       		configurer.addReadOnlyField(section, ProgramConstants.CATALOG_DESCRIPTION + "/" + ProgramConstants.PLAIN_TEXT, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_CATALOGDESCR));
+       		configurer.addReadOnlyField(section, ProgramConstants.CORE_FACULTY_MEMBERS, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_PUBLISHEDINSTRUCTORS));
+       		configurer.addReadOnlyField(section, ProgramConstants.PUBLICATION_TARGETS, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_CATALOGPUBLICATIONTARGETS));
+       		configurer.addReadOnlyField(section, ProgramConstants.FULL_PART_TIME, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_INTENSITY));
+       		configurer.addReadOnlyField(section, ProgramConstants.DURATION + "/atpDurationTypeKey", generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_STDDURATION));
+       		configurer.addReadOnlyField(section, ProgramConstants.DURATION + "/timeQuantity", generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_DURATIONCOUNT));
+       		configurer.addReadOnlyField(section, ProgramConstants.DURATION_NOTES, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_DURATIONNOTES));
+       		configurer.addReadOnlyField(section, ProgramConstants.MORE_INFORMATION, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_REFERENCEURL));
+            rootSection.addSection(section);
     	}
-        rootSection.addSection(section);
     }
     
     // Side-by-side comparison (when controller is not null)  
@@ -78,18 +80,17 @@ public class CatalogInformationViewConfiguration extends AbstractSectionConfigur
         return section;
     }
 
-  	@SuppressWarnings("unchecked")
   	public SummaryTableFieldBlock createCatalogInformationSectionEditBlock() {
   		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DESCRIPTION + "/plain", new MessageKeyInfo(ProgramProperties.get().catalogInformation_descr())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CATALOG_DESCRIPTION + "/" + ProgramConstants.PLAIN_TEXT, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogDescr())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CORE_FACULTY_MEMBERS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_publishedInstructors())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PUBLICATION_TARGETS, new MessageKeyInfo(ProgramProperties.get().catalogInformation_catalogPublicationTargets())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FULL_PART_TIME, new MessageKeyInfo(ProgramProperties.get().catalogInformation_intensity())));
- 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DURATION + "/atpDurationTypeKey", new MessageKeyInfo(ProgramProperties.get().catalogInformation_stdDuration())));
- 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DURATION + "/timeQuantity", new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationCount())));
- 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DURATION_NOTES, new MessageKeyInfo(ProgramProperties.get().catalogInformation_durationNotes())));
- 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.MORE_INFORMATION, new MessageKeyInfo(ProgramProperties.get().catalogInformation_referenceUrl())));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DESCRIPTION + "/plain", generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_DESCR)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CATALOG_DESCRIPTION + "/" + ProgramConstants.PLAIN_TEXT, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_CATALOGDESCR)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CORE_FACULTY_MEMBERS, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_PUBLISHEDINSTRUCTORS)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PUBLICATION_TARGETS, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_CATALOGPUBLICATIONTARGETS)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FULL_PART_TIME, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_INTENSITY)));
+ 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DURATION + "/atpDurationTypeKey", generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_STDDURATION)));
+ 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DURATION + "/timeQuantity", generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_DURATIONCOUNT)));
+ 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DURATION_NOTES, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_DURATIONNOTES)));
+ 		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.MORE_INFORMATION, generateMessageInfo(ProgramMsgConstants.CATALOGINFORMATION_REFERENCEURL)));
 
   		return block;
   	}

@@ -6,22 +6,27 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchDispatcher;
-import org.kuali.student.common.search.service.SearchService;
-import org.kuali.student.common.search.service.impl.SearchDispatcherImpl;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchDispatcher;
+import org.kuali.student.r1.common.search.service.SearchService;
+import org.kuali.student.r1.common.search.service.impl.SearchDispatcherImpl;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.common.validator.ValidatorFactory;
 
 public class TestValidator {
 	DefaultValidatorImpl val = null;
@@ -42,7 +47,7 @@ public class TestValidator {
 	@Test
 	public void testRequired() {
 
-		List<ValidationResultInfo> results = val.validateObject(buildTestPerson1(), getSimpleStudentObjectStructure());
+		List<ValidationResultInfo> results = val.validateObject(buildTestPerson1(), getSimpleStudentObjectStructure(), ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(results.size(), 1);
 
 		assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -55,7 +60,7 @@ public class TestValidator {
 		ConstraintMockPerson p = buildTestPerson1();
 		p.setFirstName("thisisaveryveryverylo");
 
-		List<ValidationResultInfo> results = val.validateObject(p, getSimpleStudentObjectStructure());
+		List<ValidationResultInfo> results = val.validateObject(p, getSimpleStudentObjectStructure(), ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(results.size(), 2);
 
 		assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -71,7 +76,7 @@ public class TestValidator {
 		ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
 		o1.getAttributes().get(0).setMaxLength(null);
 
-		List<ValidationResultInfo> results = val.validateObject(p, o1);
+		List<ValidationResultInfo> results = val.validateObject(p, o1, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(results.size(), 2);
 
 		assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -85,7 +90,7 @@ public class TestValidator {
 		p.setDob(sp.parseDate("1960-01-01"));
 		ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
 
-		List<ValidationResultInfo> results = val.validateObject(p, o1);
+		List<ValidationResultInfo> results = val.validateObject(p, o1, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(results.size(), 1);
 
 		assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -101,7 +106,7 @@ public class TestValidator {
 		ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
 		o1.getAttributes().get(0).setMinLength(0);
 
-		List<ValidationResultInfo> results = val.validateObject(p, o1);
+		List<ValidationResultInfo> results = val.validateObject(p, o1, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(results.size(), 2);
 
 		assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -116,7 +121,7 @@ public class TestValidator {
 
 		ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
 
-		List<ValidationResultInfo> results = val.validateObject(p, o1);
+		List<ValidationResultInfo> results = val.validateObject(p, o1, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(results.size(), 2);
 
 		assertEquals(results.get(0).getErrorLevel(),
@@ -132,7 +137,7 @@ public class TestValidator {
 
 		ObjectStructureDefinition o1 = getSimpleStudentObjectStructure();
 
-		List<ValidationResultInfo> results = val.validateObject(p, o1);
+		List<ValidationResultInfo> results = val.validateObject(p, o1, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(results.size(), 1);
 
 		assertEquals(results.get(0).getErrorLevel(), ValidationResultInfo.ErrorLevel.ERROR);
@@ -146,11 +151,11 @@ public class TestValidator {
 
 		ObjectStructureDefinition o1 = getStudentWithAddressObjectStructure();
 
-		List<ValidationResultInfo> results = val.validateObject(p, o1);
+		List<ValidationResultInfo> results = val.validateObject(p, o1, ContextInfoTestUtility.getEnglishContextInfo());
 		assertEquals(2, results.size());				
 	
 		p.getAddress().get(0).setState("ACTIVE");
-		results = val.validateObject(p, o1);
+		results = val.validateObject(p, o1, ContextInfoTestUtility.getEnglishContextInfo());
 		
 		assertEquals(4, results.size());
 	}
@@ -162,7 +167,7 @@ public class TestValidator {
 
 		ObjectStructureDefinition o = getStudentWithAddressObjectStructure();
 
-		List<ValidationResultInfo> results = val.validateObject(p, o);
+		List<ValidationResultInfo> results = val.validateObject(p, o, ContextInfoTestUtility.getEnglishContextInfo());
 		// ERROR address/0/line1 validation.required
 		// ERROR address/0/line2 validation.validCharsFailed
 		// ERROR address/0/line2 validation.requiresField
@@ -187,7 +192,7 @@ public class TestValidator {
 
 		val.setSearchDispatcher(searchDispatcher);
 		p.getAddress().get(0).setLine1("something");
-		results = val.validateObject(p, o);
+		results = val.validateObject(p, o, ContextInfoTestUtility.getEnglishContextInfo());
 		System.out.println(results.size() + " errors found");
 		for (ValidationResultInfo vri : results) {
 			System.out.println(vri.getErrorLevel() + " " + vri.getElement()
@@ -196,7 +201,7 @@ public class TestValidator {
 		assertEquals(3, results.size());
 
 		p.getAddress().get(0).setLine2("notrightlookupvalue");
-		results = val.validateObject(p, o);
+		results = val.validateObject(p, o, ContextInfoTestUtility.getEnglishContextInfo());
 		System.out.println(results.size() + " errors found");
 		for (ValidationResultInfo vri : results) {
 			System.out.println(vri.getErrorLevel() + " " + vri.getElement()

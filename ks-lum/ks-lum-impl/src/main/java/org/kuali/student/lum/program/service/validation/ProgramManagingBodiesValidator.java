@@ -5,19 +5,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.lum.program.dto.MajorDisciplineInfo;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+//import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo;
 
 public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
 
     @Override
+    // TODO KSCM-254
     public List<ValidationResultInfo> validateObject(FieldDefinition field,
             Object o, ObjectStructureDefinition objStructure,
             Stack<String> elementStack) {
@@ -94,7 +97,7 @@ public class ProgramManagingBodiesValidator extends DefaultValidatorImpl {
     private List<ValidationResultInfo> getValidationResultInfo(String element, String collegeId, List<String> departmentIds) {
         List<ValidationResultInfo> validationResults = new ArrayList<ValidationResultInfo>();
 
-        String message = getMessage("validation.programManagingBodiesMatch");
+        String message = getMessage("validation.programManagingBodiesMatch" );
         String collegeName = getCollegeName(collegeId);
         List<String> departments = getDepartments(departmentIds);
 

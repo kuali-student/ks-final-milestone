@@ -17,7 +17,7 @@
 
 <module>
 	<inherits name="com.googlecode.gwtx.Java" />
-	<inherits name="org.kuali.student.common.CommonValidator"/>
+	<inherits name="org.kuali.student.r1.common.CommonValidator"/>
 	<source path='util' >
 		<include name="MessageUtils.java"/>
 	</source>

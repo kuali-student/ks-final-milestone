@@ -21,8 +21,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.common.dto.Idable;
 import org.kuali.student.common.ui.client.mvc.ModelChangeEvent.Action;
+import org.kuali.student.r1.common.dto.Idable;
 
 import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.event.shared.HandlerRegistration;
@@ -34,6 +34,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
  * @param <T>
  *            the type of model object to be contained within the model
  */
+@Deprecated
 public class CollectionModel<T> implements Model {
     private Map<String, T> data = new HashMap<String, T>();
     private HandlerManager handlers = new HandlerManager(this);

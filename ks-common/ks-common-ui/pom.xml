@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
-    <version>1.2-m1-perf-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
   <dependencies>
     <!--
@@ -52,6 +52,12 @@
       <classifier>sources</classifier>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+			<groupId>org.apache.openjpa</groupId>
+			<artifactId>openjpa</artifactId>
+      <version>2.0.1</version>
+      <scope>test</scope>
+    </dependency>
 
     <!-- KS core & common dependencies -->
 	<!--
@@ -83,36 +89,44 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+              <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+              <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+             <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${project.version}</version>
+              <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <type>pom</type>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
-      <artifactId>rice-api</artifactId>
+      <artifactId>rice-kim-api</artifactId>
       <scope>provided</scope>
     </dependency>
     <dependency>
@@ -137,12 +151,11 @@
 		<artifactId>jasperreports</artifactId>
 		<scope>compile</scope>
 	</dependency>
-	<dependency>
+	<!-- dependency>
 		<groupId>net.sf.jasperreports</groupId>
 		<artifactId>jasperreports-fonts</artifactId>
-		<scope>runtime</scope>
-		<version>4.0.0</version>
-	</dependency>
+		<version>4.0.1</version>
+	</dependency -->
     <dependency>
 		<groupId>com.lowagie</groupId>
 		<artifactId>itext</artifactId>
@@ -232,7 +245,7 @@
         <dependency>
           <groupId>org.kuali.student.core</groupId>
           <artifactId>ks-core-impl</artifactId>
-          <version>${project.version}</version>
+          <version>${ks.service.version}</version>
         </dependency>
         <dependency>
           <groupId>org.springframework</groupId>
@@ -251,6 +264,12 @@
           <artifactId>ks-hibernate</artifactId>
           <type>pom</type>
           <scope>test</scope>
+        </dependency>
+        <dependency>
+          <groupId>org.hibernate</groupId>
+          <artifactId>hibernate-commons-annotations</artifactId>
+          <scope>test</scope>
+					<version>3.2.0.Final</version>
         </dependency>
       </dependencies>
     </profile>

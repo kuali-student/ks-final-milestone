@@ -20,6 +20,7 @@ import javax.jws.WebService;
 import org.apache.log4j.Logger;
 import org.springframework.transaction.annotation.Transactional;
 
+@Deprecated
 @WebService(endpointInterface = "org.kuali.student.common_test_tester.support.MyService", serviceName = "MyService", portName = "MyService", targetNamespace = "http://student.kuali.org/poc/wsdl/test/my")
 @Transactional
 public class MyServiceImpl implements MyService {

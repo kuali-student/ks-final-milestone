@@ -1,13 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>ks-lum-impl</artifactId>
-  <name>KS LUM Impl</name>
-  <description>KS Learning Unit Management Impl</description>
   <parent>
-    <groupId>org.kuali.student.lum</groupId>
     <artifactId>ks-lum</artifactId>
-    <version>1.2-m1-perf-SNAPSHOT</version>
+    <groupId>org.kuali.student.lum</groupId>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
+  <groupId>org.kuali.student.lum</groupId>
+  <artifactId>ks-lum-impl</artifactId>
+  <name>ks-lum-impl</name>
+  <description>ks-lum-impl</description>
   <build>
     <plugins>
       <plugin>
@@ -33,12 +34,12 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-impl</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
@@ -54,18 +55,29 @@
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${project.version}</version>
+        <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-impl</artifactId>
-      <version>${project.version}</version>
+        <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+    	<groupId>org.kuali.student</groupId>
+    	<artifactId>ks-conversion</artifactId>
+    	<version>0.0.6-SNAPSHOT</version>
+    	<exclusions>
+    		<exclusion>
+    			<groupId>org.kuali.student.lum</groupId>
+  				<artifactId>ks-lum-api</artifactId>
+  			</exclusion>
+    	</exclusions>
     </dependency>
     <!-- This is a temp fix for SecurityContextHolder -->
     <dependency>
@@ -73,7 +85,20 @@
     	<artifactId>spring-security-core</artifactId>
     	<scope>test</scope>
     </dependency>
+	<dependency>
+		<groupId>org.apache.openjpa</groupId>
+		<artifactId>openjpa</artifactId>
+		<version>2.0.1</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>antlr</groupId>
+		<artifactId>antlr</artifactId>
+		<version>2.7.7</version>
+		<scope>test</scope>
+	</dependency>
   </dependencies>
+  
   <profiles>
     <profile>
       <id>ks-hibernate</id>

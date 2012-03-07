@@ -15,6 +15,7 @@
 
 package org.kuali.student.common_test_tester.support;
 
+@Deprecated
 public interface MyDao {
 	public String findValue(String id);
 	public String createValue(Value value);

@@ -11,10 +11,10 @@ import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.transform.DataBeanMapper;
-import org.kuali.student.common.assembly.transform.DefaultDataBeanMapper;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.transform.DataBeanMapper;
+import org.kuali.student.r1.common.assembly.transform.DefaultDataBeanMapper;
 
 
 public class TestDataMapper {

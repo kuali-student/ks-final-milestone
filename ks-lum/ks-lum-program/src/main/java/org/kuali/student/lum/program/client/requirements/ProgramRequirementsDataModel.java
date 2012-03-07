@@ -16,13 +16,12 @@ package org.kuali.student.lum.program.client.requirements;
 
 import java.util.*;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.util.ContextUtils;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.*;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;
@@ -31,7 +30,7 @@ import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService;
 import org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcServiceAsync;
 import org.kuali.student.lum.program.client.rpc.StatementRpcService;
 import org.kuali.student.lum.program.client.rpc.StatementRpcServiceAsync;
-import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
+import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.shared.HandlerManager;
@@ -131,7 +130,7 @@ public class ProgramRequirementsDataModel {
                 //now retrieve the actual rules
                 retrieveRules(programRequirementIds, onReadyCallback);
             }
-        });
+        },ContextUtils.getContextInfo());
     }
 
     private void retrieveRules(List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {
@@ -175,9 +174,11 @@ public class ProgramRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        });     
+        },ContextUtils.getContextInfo());     
     }
 
+    
+    
     public ProgramRequirementInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalProgReqID, boolean isNewRule) {
 
         ProgramRequirementInfo affectedRule = progReqInfos.get(internalProgReqID);
@@ -193,7 +194,14 @@ public class ProgramRequirementsDataModel {
         }
 
         //if we don't have top level req. components wrapped in statement, do so before we add another statement
-        StatementTreeViewInfo affectedTopTree = affectedRule.getStatement();
+        //TODO KSCM : Jacobus, Paul's dicussion regarding conversion
+        StatementTreeViewInfo temp1 = affectedRule.getStatement();
+        StatementTreeViewInfo affectedTopTree = new StatementTreeViewInfo();
+        
+        //affectedTopTree.getDesc(temp1.getDesc());
+        //affectedTopTree.getAttributes( temp1.getAttributes())
+        //TODO KSCM This here was the original statement before we started to changes it.... look below :P
+        //StatementTreeViewInfo affectedTopTree = affectedRule.getStatement();
         if ((affectedTopTree.getReqComponents() != null) && !affectedTopTree.getReqComponents().isEmpty()) {
             StatementTreeViewInfo stmtTree = new StatementTreeViewInfo();
             stmtTree.setId(ProgramRequirementsSummaryView.generateStatementTreeId());
@@ -277,7 +285,7 @@ public class ProgramRequirementsDataModel {
 
                 saveRequirementIds(referencedProgReqIds, storedRules, callback);
             }
-        });        
+        },ContextUtils.getContextInfo());        
     }
 
     private void saveRequirementIds(final List<String> referencedProgReqIds, final Map<Integer, ProgramRequirementInfo> storedRules, final Callback<List<ProgramRequirementInfo>> callback) {

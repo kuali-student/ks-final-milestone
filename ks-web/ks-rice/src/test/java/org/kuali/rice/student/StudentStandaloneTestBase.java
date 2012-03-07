@@ -14,7 +14,7 @@
  */
 
 /**
- * 
+ *
  */
 package org.kuali.rice.student;
 
@@ -25,12 +25,12 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.kuali.rice.core.lifecycle.BaseLifecycle;
-import org.kuali.rice.core.lifecycle.Lifecycle;
-import org.kuali.rice.core.resourceloader.SpringResourceLoader;
+import org.kuali.rice.core.api.lifecycle.BaseLifecycle;
+import org.kuali.rice.core.api.lifecycle.Lifecycle;
+import org.kuali.rice.core.impl.resourceloader.SpringResourceLoader;
+import org.kuali.rice.kew.api.WorkflowRuntimeException;
 import org.kuali.rice.kew.batch.KEWXmlDataLoader;
-import org.kuali.rice.kew.exception.WorkflowRuntimeException;
-import org.kuali.rice.kim.service.KIMServiceLocator;
+import org.kuali.rice.kim.api.services.KimApiServiceLocator;
 import org.kuali.rice.test.BaselineTestCase;
 import org.kuali.rice.test.SQLDataLoader;
 
@@ -51,7 +51,7 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
      */
     @Override
     protected Lifecycle getLoadApplicationLifecycle() {
-        SpringResourceLoader springResourceLoader = new SpringResourceLoader(new QName("StudentStandaloneTestResourceLoader"), "classpath:StandaloneTestSpringBeans.xml");
+        SpringResourceLoader springResourceLoader = new SpringResourceLoader(new QName("StudentStandaloneTestResourceLoader"), "classpath:StandaloneTestSpringBeans.xml", null);
         springResourceLoader.setParentSpringResourceLoader(getTestHarnessSpringResourceLoader());
         return springResourceLoader;
     }
@@ -68,15 +68,16 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 		lifecycles.add(new ClearCacheLifecycle());
 		return lifecycles;
 	}
-	
+
 	public class ClearCacheLifecycle extends BaseLifecycle {
 		public void stop() throws Exception {
-			KIMServiceLocator.getIdentityManagementService().flushAllCaches();
-			KIMServiceLocator.getRoleManagementService().flushRoleCaches();
+            // TODO: RICE-R2.0 UPGRADE - caching disabled in M7 will be revisited prior to 2.0 release
+//			KimApiServiceLocator.getIdentityService().flushAllCaches();
+//			KimApiServiceLocator.getRoleService().flushRoleCaches();
 			super.stop();
 		}
 	}
-	
+
 	// below method to be removed when moving to Rice 1.0.1
 	@Override
 	protected void loadSuiteTestData() throws Exception {
@@ -90,7 +91,7 @@ public class StudentStandaloneTestBase extends BaselineTestCase {
 		}
 		new SQLDataLoader("file:" + getBaseDir() + "/../src/main/config/sql/kim.sql", ";").runSql();
 	}
-	
+
     protected String getKNSDefaultSuiteTestData() {
         return "file:" + getBaseDir() + "/../src/test/config/data/DefaultSuiteTestDataKNS.sql";
     }

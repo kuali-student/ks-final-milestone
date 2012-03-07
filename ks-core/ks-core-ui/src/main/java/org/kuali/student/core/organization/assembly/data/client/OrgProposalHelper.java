@@ -16,8 +16,8 @@
 package org.kuali.student.core.organization.assembly.data.client;
 
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.helper.PropertyEnum;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.helper.PropertyEnum;
 
 
 public class OrgProposalHelper

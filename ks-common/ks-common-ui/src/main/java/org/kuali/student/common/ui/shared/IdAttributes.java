@@ -1,7 +1,8 @@
 package org.kuali.student.common.ui.shared;
 
-import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
 
+@Deprecated
 public class IdAttributes {
 	
 	public static final String ID_TYPE = "ID_TYPE";

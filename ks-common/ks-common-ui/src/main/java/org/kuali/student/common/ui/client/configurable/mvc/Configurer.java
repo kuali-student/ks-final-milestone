@@ -1,11 +1,11 @@
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.ModelDefinition;
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.ModelDefinition;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -45,7 +45,7 @@ public abstract class Configurer {
      * @param labelKey key of the message - must match a message in your messages (stored in the db)
      * @return
      */
-    protected MessageKeyInfo generateMessageInfo(String labelKey) {
+    public MessageKeyInfo generateMessageInfo(String labelKey) {
         return new MessageKeyInfo(groupName, type, state, labelKey);
     }
     
@@ -54,8 +54,16 @@ public abstract class Configurer {
      * @param labelKey
      * @return
      */
-    protected String getLabel(String labelKey) {
+    public String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey);
+    }
+    
+    public String getLabel(String labelKey, String fieldKey) {
+        String parentPath = Application.getApplicationContext().getParentPath();
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        Metadata metadata = modelDefinition.getMetadata(path);
+        
+        return Application.getApplicationContext().getUILabel(groupName, type, state, labelKey, metadata);
     }
 
     /**

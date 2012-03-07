@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.kuali.student.lum</groupId>
         <artifactId>ks-lum</artifactId>
-        <version>1.2-m1-perf-SNAPSHOT</version>
+        <version>0.0.6-SNAPSHOT</version>
     </parent>
     <properties>
      <kuali.clover.generate.info.phase>none</kuali.clover.generate.info.phase>
@@ -19,6 +19,7 @@
             <classifier>sources</classifier>
             <scope>provided</scope>
         </dependency>
+        <!-- TODO NINA CONFIRM -->
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
             <artifactId>ks-lum-ui-common</artifactId>

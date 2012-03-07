@@ -1,12 +1,12 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.CollapsableSection;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -15,12 +15,11 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFiel
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.edit.MajorEditController;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
-import org.kuali.student.lum.program.client.widgets.EditableHeader;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -31,29 +30,36 @@ public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguratio
 
 	private Controller controller = null;
 
-    public static ManagingBodiesViewConfiguration create() {
-        return new ManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, ProgramProperties.get().program_menu_sections_managingBodies(), ProgramConstants.PROGRAM_MODEL_ID));
+    public static ManagingBodiesViewConfiguration create(Configurer configurer) {
+        return new ManagingBodiesViewConfiguration(configurer);
     }
 
-    public static ManagingBodiesViewConfiguration createSpecial(Controller controller) {
-        String title = ProgramProperties.get().program_menu_sections_managingBodies();
-        return new ManagingBodiesViewConfiguration(new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, title, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.MANAGE_BODIES_EDIT)), controller);
+    public static ManagingBodiesViewConfiguration createSpecial(Configurer configurer, Controller controller) {
+        return new ManagingBodiesViewConfiguration(configurer, controller);
     }
 
-    private ManagingBodiesViewConfiguration(SectionView sectionView) {
-        rootSection = sectionView;
+    private ManagingBodiesViewConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_MANAGINGBODIES);
+        this.rootSection = new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, title, 
+                ProgramConstants.PROGRAM_MODEL_ID);
+        
     }
 
-    private ManagingBodiesViewConfiguration(SectionView sectionView, Controller controller) {
-        rootSection = sectionView;
+    private ManagingBodiesViewConfiguration(Configurer configurer, Controller controller) {
+        this.setConfigurer(configurer);
+        String title = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_MANAGINGBODIES);
+        this.rootSection = new VerticalSectionView(ProgramSections.MANAGE_BODIES_VIEW, title, 
+                ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(title, ProgramSections.MANAGE_BODIES_EDIT));
     	this.controller = controller;
+    	
     }
 
     @Override
     protected void buildLayout() {
     	if (controller instanceof MajorProposalController || controller instanceof MajorEditController) 
     	{
-    		VerticalSection section = createMainSectionEdit(); 
+    		SummaryTableSection section = createMainSectionEdit(); 
     		CollapsableSection collapsableSection = createAdditionalSectionEdit();
             rootSection.addSection(section);
             rootSection.addSection(collapsableSection);
@@ -68,21 +74,21 @@ public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguratio
 
     private VerticalSection createMainSection() {
         VerticalSection section = new VerticalSection();
-        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_curriculumOversightDivision()));
-        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_curriculumOversightUnit()));
-        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_studentOversightDivision()));
-        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_studentOversightUnit()));
+        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTDIVISION));
+        configurer.addReadOnlyField(section, ProgramConstants.CURRICULUM_OVERSIGHT_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTUNIT));
+        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTDIVISION));
+        configurer.addReadOnlyField(section, ProgramConstants.STUDENT_OVERSIGHT_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTUNIT));
         return section;
     }
 
     private CollapsableSection createAdditionalSection() {
-        CollapsableSection section = new CollapsableSection(ProgramProperties.get().managingBodies_seeAll());
-        configurer.addReadOnlyField(section, ProgramConstants.DEPLOYMENT_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_deploymentDivision()));
-        configurer.addReadOnlyField(section, ProgramConstants.DEPLOYMENT_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_deploymentUnit()));
-        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_RESOURCES_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialResourcesDivision()));
-        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_RESOURCES_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialResourcesUnit()));
-        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_CONTROL_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialControlDivision()));
-        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_CONTROL_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialControlUnit()));
+        CollapsableSection section = new CollapsableSection(getLabel(ProgramMsgConstants.MANAGINGBODIES_SEEALL));
+        configurer.addReadOnlyField(section, ProgramConstants.DEPLOYMENT_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_DEPLOYMENTDIVISION));
+        configurer.addReadOnlyField(section, ProgramConstants.DEPLOYMENT_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_DEPLOYMENTUNIT));
+        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_RESOURCES_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALRESOURCESDIVISION));
+        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_RESOURCES_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALRESOURCESUNIT));
+        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_CONTROL_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALCONTROLDIVISION));
+        configurer.addReadOnlyField(section, ProgramConstants.FINANCIAL_CONTROL_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALCONTROLUNIT));
         return section;
     }
     
@@ -96,13 +102,12 @@ public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguratio
         return section;
     }
 
-  	@SuppressWarnings("unchecked")
   	public SummaryTableFieldBlock createMainSectionEditBlock() {
   		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_curriculumOversightDivision())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CURRICULUM_OVERSIGHT_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_curriculumOversightUnit())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.STUDENT_OVERSIGHT_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_studentOversightDivision())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.STUDENT_OVERSIGHT_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_studentOversightUnit())));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CURRICULUM_OVERSIGHT_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTDIVISION)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.CURRICULUM_OVERSIGHT_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_CURRICULUMOVERSIGHTUNIT)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.STUDENT_OVERSIGHT_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTDIVISION)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.STUDENT_OVERSIGHT_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_STUDENTOVERSIGHTUNIT)));
 
   		return block;
   	}
@@ -112,21 +117,20 @@ public class ManagingBodiesViewConfiguration extends AbstractSectionConfiguratio
       	section.setEditable(false);
       	section.addSummaryTableFieldBlock(createAdditionalSectionEditBlock());
       	
-      	CollapsableSection collapsableSection = new CollapsableSection(ProgramProperties.get().managingBodies_seeAll());
+      	CollapsableSection collapsableSection = new CollapsableSection(getLabel(ProgramMsgConstants.MANAGINGBODIES_SEEALL));
       	collapsableSection.addSection(section);
       	
         return collapsableSection;
     }
 
-  	@SuppressWarnings("unchecked")
   	public SummaryTableFieldBlock createAdditionalSectionEditBlock() {
   		SummaryTableFieldBlock block = new SummaryTableFieldBlock();
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DEPLOYMENT_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_deploymentDivision())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DEPLOYMENT_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_deploymentUnit())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_RESOURCES_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialResourcesDivision())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_RESOURCES_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialResourcesUnit())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_CONTROL_DIVISION, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialControlDivision())));
-  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_CONTROL_UNIT, new MessageKeyInfo(ProgramProperties.get().managingBodies_financialControlUnit())));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DEPLOYMENT_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_DEPLOYMENTDIVISION)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.DEPLOYMENT_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_DEPLOYMENTUNIT)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_RESOURCES_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALRESOURCESDIVISION)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_RESOURCES_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALRESOURCESUNIT)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_CONTROL_DIVISION, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALCONTROLDIVISION)));
+  		block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.FINANCIAL_CONTROL_UNIT, generateMessageInfo(ProgramMsgConstants.MANAGINGBODIES_FINANCIALCONTROLUNIT)));
 
   		return block;
   	}

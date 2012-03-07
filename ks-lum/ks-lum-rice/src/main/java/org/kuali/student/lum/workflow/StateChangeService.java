@@ -1,5 +1,7 @@
 package org.kuali.student.lum.workflow;
 
+import org.kuali.student.r2.common.dto.ContextInfo;
+
 /**
  * This interface allows us to inject a different StateChangeService implementation for each of
  * the program types (credential, core, major discipline) using the spring configuration. 
@@ -20,7 +22,7 @@ public interface StateChangeService {
      * @param newState
      * @throws Exception
      */
-    public void changeState(String programId, String newState) throws Exception;
+    public void changeState(String programId, String newState, ContextInfo contextInfo) throws Exception;
 
     /**
      * 
@@ -33,5 +35,5 @@ public interface StateChangeService {
      * @param newState
      * @throws Exception
      */
-    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String programId, String newState) throws Exception;
+    public void changeState(String endEntryTerm, String endEnrollTerm, String endInstAdmitTerm, String programId, String newState, ContextInfo contextInfo) throws Exception;
 }
