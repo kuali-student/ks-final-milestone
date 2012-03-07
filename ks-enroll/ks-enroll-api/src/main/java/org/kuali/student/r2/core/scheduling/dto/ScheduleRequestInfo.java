@@ -17,6 +17,7 @@ package org.kuali.student.r2.core.scheduling.dto;
 
 import org.kuali.student.r2.common.dto.IdEntityInfo;
 import org.kuali.student.r2.core.scheduling.infc.ScheduleRequest;
+import org.kuali.student.r2.core.scheduling.infc.ScheduleRequestComponents;
 import org.w3c.dom.Element;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -34,7 +35,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleRequestInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr",
-        "refObjectId", "refObjectTypeKey", "scheduleRequestComponentIds",
+        "refObjectId", "refObjectTypeKey", "scheduleRequestComponents",
         "meta", "attributes", "_futureElements"})
 public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest, Serializable {
 
@@ -43,7 +44,7 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     @XmlElement
     private String refObjectTypeKey;
     @XmlElement
-    private List<String> scheduleRequestComponentIds;
+    private List<ScheduleRequestComponentsInfo> scheduleRequestComponents;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -54,7 +55,10 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
         if (null != scheduleRequest) {
             this.refObjectId = scheduleRequest.getRefObjectId();
             this.refObjectTypeKey = scheduleRequest.getRefObjectTypeKey();
-            this.scheduleRequestComponentIds = new ArrayList<String>(scheduleRequest.getScheduleRequestComponentIds());
+            this.scheduleRequestComponents = new ArrayList<ScheduleRequestComponentsInfo>();
+            for(ScheduleRequestComponents component : scheduleRequest.getScheduleRequestComponents()) {
+                this.scheduleRequestComponents.add(new ScheduleRequestComponentsInfo(component));
+            }
         }
     }
 
@@ -77,11 +81,11 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
     }
 
     @Override
-    public List<String> getScheduleRequestComponentIds() {
-        return this.scheduleRequestComponentIds;
+    public List<ScheduleRequestComponentsInfo> getScheduleRequestComponents() {
+        return this.scheduleRequestComponents;
     }
 
-    public void setScheduleRequestComponentIds(List<String> scheduleRequestComponentIds) {
-        this.scheduleRequestComponentIds = scheduleRequestComponentIds;
+    public void setScheduleRequestComponents(List<ScheduleRequestComponentsInfo> scheduleRequestComponents) {
+        this.scheduleRequestComponents = scheduleRequestComponents;
     }
 }

@@ -53,6 +53,6 @@ public interface ScheduleRequest extends IdEntity {
      *
      * @name Schedule Request Component Ids
      */
-    public List<String> getScheduleRequestComponentIds();
+    public List<? extends ScheduleRequestComponents> getScheduleRequestComponents();
 
 }
