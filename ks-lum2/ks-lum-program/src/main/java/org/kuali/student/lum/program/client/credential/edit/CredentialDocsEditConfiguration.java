@@ -1,8 +1,8 @@
 package org.kuali.student.lum.program.client.credential.edit;
 
-import org.kuali.student.r1.common.ui.client.configurable.mvc.Configurer;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.r1.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.AbstractProgramConfigurer;
 import org.kuali.student.lum.program.client.ProgramConstants;

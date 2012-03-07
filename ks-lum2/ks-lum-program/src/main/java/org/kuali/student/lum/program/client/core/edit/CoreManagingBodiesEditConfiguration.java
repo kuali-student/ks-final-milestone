@@ -2,15 +2,15 @@ package org.kuali.student.lum.program.client.core.edit;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.ui.client.configurable.mvc.Configurer;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.HorizontalSection;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.widgets.KSCheckBox;
-import org.kuali.student.r1.common.ui.client.widgets.KSItemLabel;
-import org.kuali.student.r1.common.ui.client.widgets.list.KSSelectedList;
-import org.kuali.student.r1.common.ui.client.widgets.search.SelectedResults;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.widgets.KSCheckBox;
+import org.kuali.student.common.ui.client.widgets.KSItemLabel;
+import org.kuali.student.common.ui.client.widgets.list.KSSelectedList;
+import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;

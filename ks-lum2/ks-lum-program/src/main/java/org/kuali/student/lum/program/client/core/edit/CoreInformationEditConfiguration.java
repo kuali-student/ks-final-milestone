@@ -2,13 +2,13 @@ package org.kuali.student.lum.program.client.core.edit;
 
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import org.kuali.student.r1.common.ui.client.configurable.mvc.Configurer;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.FieldDescriptor;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.SectionTitle;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.BaseSection;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.HorizontalSection;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
+import org.kuali.student.common.ui.client.configurable.mvc.SectionTitle;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.BaseSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.HorizontalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;

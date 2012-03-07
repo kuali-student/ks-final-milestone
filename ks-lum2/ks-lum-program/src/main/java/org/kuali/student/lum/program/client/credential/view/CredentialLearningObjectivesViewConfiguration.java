@@ -1,9 +1,9 @@
 package org.kuali.student.lum.program.client.credential.view;
 
-import org.kuali.student.r1.common.ui.client.configurable.mvc.Configurer;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.r1.common.ui.client.widgets.menus.KSListPanel;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.menus.KSListPanel;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.common.client.lo.TreeStringBinding;
 import org.kuali.student.lum.program.client.ProgramConstants;

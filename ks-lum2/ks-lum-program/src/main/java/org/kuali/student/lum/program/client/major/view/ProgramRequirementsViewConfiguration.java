@@ -2,17 +2,17 @@ package org.kuali.student.lum.program.client.major.view;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.ui.client.configurable.mvc.Configurer;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.VerticalSectionView;
-import org.kuali.student.r1.common.ui.client.mvc.Controller;
-import org.kuali.student.r1.common.ui.client.mvc.DataModel;
-import org.kuali.student.r1.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
-import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
-import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
-import org.kuali.student.r1.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
+import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
+import org.kuali.student.common.ui.client.mvc.Controller;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldBlock;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFieldRow;
+import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulePreviewWidget;
 import org.kuali.student.lum.common.client.configuration.AbstractControllerConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;

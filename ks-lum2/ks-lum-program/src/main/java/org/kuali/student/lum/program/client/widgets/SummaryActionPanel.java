@@ -2,17 +2,16 @@ package org.kuali.student.lum.program.client.widgets;
 
 import java.util.List;
 
-import org.kuali.student.r1.common.ui.client.application.Application;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.sections.Section;
-import org.kuali.student.r1.common.ui.client.mvc.Callback;
-import org.kuali.student.r1.common.ui.client.mvc.DataModel;
-import org.kuali.student.r1.common.ui.client.mvc.history.HistoryManager;
-import org.kuali.student.r1.common.ui.client.widgets.KSButton;
-import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotification;
-import org.kuali.student.r1.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.r1.common.ui.client.widgets.KSLightBox;
-import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
+import org.kuali.student.common.ui.client.mvc.Callback;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.history.HistoryManager;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
+import org.kuali.student.common.ui.client.widgets.KSLightBox;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
+import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
@@ -21,6 +20,7 @@ import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.StateChangeEvent;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;

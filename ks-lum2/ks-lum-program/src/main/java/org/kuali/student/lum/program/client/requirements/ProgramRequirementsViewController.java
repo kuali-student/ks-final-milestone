@@ -1,13 +1,13 @@
 package org.kuali.student.lum.program.client.requirements;
 
-import org.kuali.student.r1.common.ui.client.application.Application;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.layouts.BasicLayout;
-import org.kuali.student.r1.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.r1.common.ui.client.mvc.*;
-import org.kuali.student.r1.common.ui.client.widgets.buttongroups.ButtonEnumerations;
-import org.kuali.student.r1.common.ui.client.widgets.dialog.ButtonMessageDialog;
-import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.ButtonGroup;
-import org.kuali.student.r1.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.mvc.*;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.common.ui.client.widgets.dialog.ButtonMessageDialog;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
+import org.kuali.student.common.ui.client.widgets.field.layout.button.YesNoCancelGroup;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.widgets.EditableHeader;

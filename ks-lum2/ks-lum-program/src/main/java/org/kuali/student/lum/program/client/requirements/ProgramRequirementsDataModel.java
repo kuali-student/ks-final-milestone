@@ -17,11 +17,11 @@ package org.kuali.student.lum.program.client.requirements;
 import java.util.*;
 
 import org.kuali.student.r1.common.assembly.data.Data;
-import org.kuali.student.r1.common.ui.client.application.KSAsyncCallback;
-import org.kuali.student.r1.common.ui.client.mvc.*;
 import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
+import org.kuali.student.common.ui.client.application.KSAsyncCallback;
+import org.kuali.student.common.ui.client.mvc.*;
 import org.kuali.student.core.statement.ui.client.widgets.rules.RulesUtil;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.events.StoreRequirementIDsEvent;

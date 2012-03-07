@@ -1,6 +1,6 @@
 package org.kuali.student.lum.program.client.permissions;
 
-import org.kuali.student.r1.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 
 /**
  * @author Igor

@@ -6,10 +6,10 @@ import com.google.gwt.event.shared.HandlerManager;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
-import org.kuali.student.r1.common.ui.client.application.Application;
-import org.kuali.student.r1.common.ui.client.widgets.KSButton;
-import org.kuali.student.r1.common.ui.client.widgets.KSButtonAbstract;
-import org.kuali.student.r1.common.ui.client.widgets.KSLabel;
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract;
+import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.events.ChangeViewEvent;
 

@@ -1,8 +1,8 @@
 package org.kuali.student.lum.program.client.core;
 
 import com.google.gwt.event.shared.HandlerManager;
-import org.kuali.student.r1.common.ui.client.application.ViewContext;
-import org.kuali.student.r1.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.lum.program.client.core.edit.CoreEditController;
 import org.kuali.student.lum.program.client.core.view.CoreViewController;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;

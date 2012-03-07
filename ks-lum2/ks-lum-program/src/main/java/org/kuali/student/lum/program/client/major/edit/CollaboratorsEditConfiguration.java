@@ -1,6 +1,6 @@
 package org.kuali.student.lum.program.client.major.edit;
 
-import org.kuali.student.r1.common.ui.client.configurable.mvc.Configurer;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.core.workflow.ui.client.views.CollaboratorSectionView;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;

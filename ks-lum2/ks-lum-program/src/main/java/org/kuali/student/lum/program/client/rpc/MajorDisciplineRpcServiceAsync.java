@@ -5,8 +5,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import org.kuali.student.r1.common.assembly.data.Data;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.r1.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
-import org.kuali.student.r1.common.ui.client.service.DataSaveResult;
+import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.DataSaveResult;
 import org.kuali.student.lum.program.client.requirements.ProgramRequirementsDataModel;
 import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 

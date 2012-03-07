@@ -1,8 +1,8 @@
 package org.kuali.student.lum.program.client.major;
 
-import org.kuali.student.r1.common.ui.client.application.ViewContext;
-import org.kuali.student.r1.common.ui.client.mvc.DataModel;
-import org.kuali.student.r1.common.ui.client.mvc.DataModelDefinition;
+import org.kuali.student.common.ui.client.application.ViewContext;
+import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.common.ui.client.mvc.DataModelDefinition;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.ProgramViewEvent;
