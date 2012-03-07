@@ -153,7 +153,7 @@
         </dependency>
         <dependency>
             <groupId>org.kuali.student.lum</groupId>
-            <artifactId>ks-lum-impl2</artifactId>
+            <artifactId>ks-lum-impl</artifactId>
             <version>${project.version}</version>
         </dependency>
 
