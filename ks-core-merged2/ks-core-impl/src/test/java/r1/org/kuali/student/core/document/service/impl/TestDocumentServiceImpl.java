@@ -57,7 +57,6 @@ import org.kuali.student.core.document.service.DocumentService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@Deprecated
 @Daos( { @Dao(value = "org.kuali.student.core.document.dao.impl.DocumentDaoImpl",testSqlFile="classpath:ks-document.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/document-persistence.xml")
 public class TestDocumentServiceImpl extends AbstractServiceTest {

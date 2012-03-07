@@ -11,11 +11,11 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.DataType;
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.common.dictionary.service.jaxws.GetObjectStructureResponse;
+import org.kuali.student.r1.common.dictionary.dto.DataType;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.r1.common.dictionary.service.jaxws.GetObjectStructureResponse;
 
 @Deprecated
 public class DictionaryServiceImplTest {

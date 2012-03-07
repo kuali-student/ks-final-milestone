@@ -27,28 +27,28 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.ReferenceTypeInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
+import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.comment.dto.TagInfo;
-import org.kuali.student.core.comment.dto.TagTypeInfo;
-import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
+import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.r1.core.comment.dto.TagInfo;
+import org.kuali.student.r1.core.comment.dto.TagTypeInfo;
+import org.kuali.student.r1.core.comment.service.CommentService;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
