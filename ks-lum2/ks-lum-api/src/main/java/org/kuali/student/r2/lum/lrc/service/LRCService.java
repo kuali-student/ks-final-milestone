@@ -22,6 +22,7 @@ import javax.jws.soap.SOAPBinding;
 
 import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
 import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
@@ -55,7 +56,7 @@ import org.kuali.student.r2.lum.lrc.dto.ResultValueInfo;
 @WebService(name = "LrcService", targetNamespace = LrcServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 
-public interface LRCService  extends SearchService {
+public interface LRCService  extends SearchService, DictionaryService {
 
     /**
      * Retrieves existing result component by an identifier.
