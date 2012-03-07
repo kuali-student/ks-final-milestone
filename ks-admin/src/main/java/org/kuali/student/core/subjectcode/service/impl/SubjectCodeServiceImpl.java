@@ -21,24 +21,24 @@ import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.rice.krad.service.KRADServiceLocatorWeb;
 import org.kuali.rice.krad.service.LookupService;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.core.subjectcode.bo.SubjectCode;
 import org.kuali.student.core.subjectcode.bo.SubjectCodeJoinOrg;
-import org.kuali.student.core.subjectcode.service.SubjectCodeService;
+import org.kuali.student.r1.core.subjectcode.service.SubjectCodeService;
 import org.springframework.beans.factory.InitializingBean;
 import org.kuali.student.common.util.DateFormatThread;
 
@@ -58,63 +58,63 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	//protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
 	protected Map<String,SearchResult> searchCache;
 	@Override
-	public List<SearchTypeInfo> getSearchTypes(ContextInfo context)
+	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchTypes(context);
+		return searchManager.getSearchTypes();
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context)
+	public SearchTypeInfo getSearchType(String searchTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return searchManager.getSearchType(searchTypeKey, context);
+		return searchManager.getSearchType(searchTypeKey);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey, ContextInfo context) throws DoesNotExistException,
+			String searchResultTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchTypesByResult(searchResultTypeKey, context);
+		return searchManager.getSearchTypesByResult(searchResultTypeKey);
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
+			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey, context);
+		return searchManager.getSearchTypesByCriteria(searchCriteriaTypeKey);
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context)
+	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchResultTypes(context);
+		return searchManager.getSearchResultTypes();
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context)
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		return searchManager.getSearchResultType(searchResultTypeKey, context);
+		return searchManager.getSearchResultType(searchResultTypeKey);
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context)
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		return searchManager.getSearchCriteriaTypes(context);
+		return searchManager.getSearchCriteriaTypes();
 	}
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey, ContextInfo context) throws DoesNotExistException,
+			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey, context);
+		return searchManager.getSearchCriteriaType(searchCriteriaTypeKey);
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest, ContextInfo context)
+	public SearchResult search(SearchRequest searchRequest)
 			throws MissingParameterException {
 		String searchKey = searchRequest.getSearchKey();
 		//Check Params

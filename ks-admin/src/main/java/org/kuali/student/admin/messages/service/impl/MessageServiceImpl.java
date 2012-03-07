@@ -15,12 +15,21 @@ import javax.jws.soap.SOAPBinding;
 import com.google.common.collect.MapMaker;
 import org.kuali.rice.krad.service.BusinessObjectService;
 import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.student.common.dto.ContextInfo;
-import org.kuali.student.common.dto.LocaleInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.*;
-import org.kuali.student.common.messages.dto.*;
-import org.kuali.student.common.messages.service.MessageService;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.infc.Message;
+import org.kuali.student.r2.common.messages.service.MessageService;
 import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
 import org.kuali.student.core.messages.bo.MessageEntity;
 import org.springframework.beans.factory.InitializingBean;
@@ -151,7 +160,8 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
         }
 
         MessageList messageList = new MessageList();
-        messageList.setMessages(messages);
+     // TODO fix this merge.
+        //messageList.setMessages(messages);
 
         if(cachingEnabled){
             msgsCache.put("localeKey="+localeInfo.getLocaleLanguage()+", messageGroupKey="+messageGroupKey, messageList );
@@ -170,7 +180,8 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     	}
     	
     	MessageList messageList = new MessageList();
-    	messageList.setMessages(messages);
+    	// TODO fix this merge.
+    	//messageList.setMessages(messages);
     	
     	return (List<MessageInfo>) messageList;
 
@@ -191,8 +202,9 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     	
     	MessageEntity entity = (MessageEntity) getBusinessObjectService().findByPrimaryKey(MessageEntity.class, primaryKeys);
     	
-    	entity.setMessageId(messageInfo.getId());
-    	entity.setLocale(messageInfo.getLocale());
+    	// TODO fix this merge.
+    	//entity.setMessageId(messageInfo.getId());
+    	//entity.setLocale(messageInfo.getLocale());
     	entity.setGroupName(messageInfo.getGroupName());
     	entity.setValue(messageInfo.getValue());
     	
@@ -205,8 +217,9 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     protected MessageEntity toMessageEntity(Message message) {
         MessageEntity result = new MessageEntity();
 
-        result.setMessageId(message.getId());
-        result.setLocale(message.getLocale());
+        // TODO fix this merge.
+        //result.setMessageId(message.getId());
+        //result.setLocale(message.getLocale());
         result.setGroupName(message.getGroupName());
         result.setValue(message.getValue());
 
@@ -218,7 +231,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 
         result.setGroupName(entity.getGroupName());
         result.setKey(entity.getId());
-        result.setLocale(entity.getLocale());
+     // TODO fix this merge. result.setLocale(entity.getLocale());
         result.setValue(entity.getValue());
 
         return result;
