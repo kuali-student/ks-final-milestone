@@ -29,12 +29,12 @@ import org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
 
 import java.util.List;
+import javax.annotation.Resource;
+import javax.annotation.Resources;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 
-import org.kuali.student.r2.core.class1.atp.model.AtpAtpRelationEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpEntity;
-import org.kuali.student.r2.core.class1.atp.model.AtpMilestoneRelationEntity;
+import org.kuali.student.r2.core.class1.type.dao.TypeDao;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -45,8 +45,16 @@ import org.springframework.transaction.annotation.Transactional;
 @WebService(name = "AppointmentWindowService", serviceName = "AppointmentWindowService", portName = "AppointmentWindowService", targetNamespace = "http://student.kuali.org/wsdl/appointmentwindow")
 @Transactional(readOnly = true, noRollbackFor = {DoesNotExistException.class}, rollbackFor = {Throwable.class})
 public class AppointmentServiceImpl implements AppointmentService {
+    @Resource
+    private AppointmentWindowDao appointmentWindowDao;
+    public AppointmentWindowDao getAppointmentWindowDao() {
+        return appointmentWindowDao;
+    }
 
-    private AppointmentWindowDao apptWinDao;
+    public void setAppointmentWindowDao(AppointmentWindowDao appointmentWindowDao) {
+        this.appointmentWindowDao = appointmentWindowDao;
+        this.appointmentWindowDao = appointmentWindowDao;
+    }
 
     @Override
     public AppointmentInfo getAppointment(@WebParam(name = "appointmentId") String appointmentId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
@@ -125,7 +133,7 @@ public class AppointmentServiceImpl implements AppointmentService {
 
     @Override
     public AppointmentWindowInfo getAppointmentWindow(String appointmentWindowId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        AppointmentWindowEntity apptWin = apptWinDao.find(appointmentWindowId);
+        AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
         if (null == apptWin) {
             throw new DoesNotExistException(appointmentWindowId);
         }
@@ -171,9 +179,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     public AppointmentWindowInfo createAppointmentWindow(String appointmentWindowTypeKey, AppointmentWindowInfo appointmentWindowInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
         AppointmentWindowEntity apptWin = new AppointmentWindowEntity(appointmentWindowInfo);
 
-        apptWinDao.persist(apptWin);
+        appointmentWindowDao.persist(apptWin);
 
-        AppointmentWindowEntity retrieved = apptWinDao.find(apptWin.getId());
+        AppointmentWindowEntity retrieved = appointmentWindowDao.find(apptWin.getId());
         AppointmentWindowInfo info = null;
         if (retrieved != null) {
             info = retrieved.toDto();
@@ -194,9 +202,9 @@ public class AppointmentServiceImpl implements AppointmentService {
         StatusInfo status = new StatusInfo();
         status.setSuccess(Boolean.TRUE);
 
-        AppointmentWindowEntity apptWin = apptWinDao.find(appointmentWindowId);
+        AppointmentWindowEntity apptWin = appointmentWindowDao.find(appointmentWindowId);
         if (null != apptWin) {
-            apptWinDao.remove(apptWin);
+            appointmentWindowDao.remove(apptWin);
         } else {
             status.setSuccess(Boolean.FALSE);
         }

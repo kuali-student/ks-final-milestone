@@ -117,7 +117,7 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         this.setMaxAppointmentsPerSlot(apptWin.getMaxAppointmentsPerSlot());
 
         // Generate comma delimited days of week to save (max length is 13 characters)
-        List<Integer> weekdays = apptWin.getSlotRule().getWeekdays();
+        List<Integer> weekdays = apptWin.getSlotRule().getWeekdays(); // not null
         StringBuilder weekdaysStr = new StringBuilder();
         for (Integer day: weekdays) {
             if (weekdaysStr.length() > 0) {
@@ -127,12 +127,19 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         }
         this.setWeekdays(weekdaysStr.toString());
         AppointmentSlotRule slotRule = apptWin.getSlotRule();
+        // start time not null, end time not null
         this.setStartTime(slotRule.getStartTimeOfDay().getMilliSeconds());
         this.setEndTime(slotRule.getEndTimeOfDay().getMilliSeconds());
-        this.setStartIntervalDurationType(slotRule.getSlotStartInterval().getAtpDurationTypeKey());
-        this.setStartIntervalTimeQuantity(slotRule.getSlotStartInterval().getTimeQuantity());
-        this.setDurationType(slotRule.getSlotDuration().getAtpDurationTypeKey());
-        this.setDurationTimeQuantity(slotRule.getSlotDuration().getTimeQuantity());
+        // start interval could be null, duration
+        if (slotRule.getSlotStartInterval() != null) {
+            this.setStartIntervalDurationType(slotRule.getSlotStartInterval().getAtpDurationTypeKey());
+            this.setStartIntervalTimeQuantity(slotRule.getSlotStartInterval().getTimeQuantity());
+        }
+        // slot duration could be null
+        if (slotRule.getSlotDuration() != null) {
+            this.setDurationType(slotRule.getSlotDuration().getAtpDurationTypeKey());
+            this.setDurationTimeQuantity(slotRule.getSlotDuration().getTimeQuantity());
+        }
         // --- These getters/setters are for inherited fields
         this.setName(apptWin.getName());
         if (apptWin.getDescr() != null) {

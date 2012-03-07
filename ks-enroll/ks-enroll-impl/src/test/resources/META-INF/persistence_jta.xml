@@ -30,7 +30,9 @@
         <class>org.kuali.student.r2.core.class1.state.model.StateEntity</class>
         <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
 
-
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity</class>
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowAttributeEntity</class>
+        <class>org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowRichTextEntity</class>
 
 		<!-- Statement Persistence -->
 		<class>org.kuali.student.core.statement.entity.RefStatementRelation</class>
