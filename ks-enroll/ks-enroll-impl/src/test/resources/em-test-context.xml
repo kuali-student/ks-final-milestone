@@ -129,7 +129,6 @@
         <property name="appointmentWindowDao" ref="appointmentWindowDao"/>
     </bean>
 
-
     <bean id="enumServiceValidationDecorator"
           class="org.kuali.student.r2.core.class1.enumerationmanagement.service.decorators.EnumerationManagementServiceValidationDecorator">
       <property name="nextDecorator" ref="enumServiceImpl"/>

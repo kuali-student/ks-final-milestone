@@ -34,25 +34,7 @@ public class TestTypeServiceImpl {
     private TypeService typeService;
 
 
-    @Test
-    public void testGetType() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
 
-        TypeInfo exitingType = null;
-        try {
-            exitingType = typeService.getType("kuali.atp.type.FallSpring", new ContextInfo());
-            assertNotNull(exitingType);
-
-            TypeInfo nonExistingType =  typeService.getType("kuali.atp.type.FallSpring1", new ContextInfo());
-
-            assertNotNull(nonExistingType);
-
-        } catch (DoesNotExistException e) {
-                fail("Failed with exception");
-        }
-
-
-
-    }
 
     @Test
     public void  testGetTypesByRefObjectUri() throws InvalidParameterException,  PermissionDeniedException, OperationFailedException {
@@ -86,6 +68,23 @@ public class TestTypeServiceImpl {
         assertNotNull(createdType);
 
     }
+
+    @Test
+    public void testGetType() throws InvalidParameterException, MissingParameterException, PermissionDeniedException, OperationFailedException {
+
+        TypeInfo exitingType = null;
+        try {
+            exitingType = typeService.getType("kuali.atp.type.TestAtp", new ContextInfo());
+            assertNotNull(exitingType);
+
+
+        } catch (DoesNotExistException e) {
+                fail("Failed with exception");
+        }
+
+    }
+
+
     @Test
     public void testDeleteType() throws InvalidParameterException, DataValidationErrorException, MissingParameterException, AlreadyExistsException, ReadOnlyException, PermissionDeniedException, OperationFailedException {
             TypeInfo typeToCreate = new TypeInfo();
