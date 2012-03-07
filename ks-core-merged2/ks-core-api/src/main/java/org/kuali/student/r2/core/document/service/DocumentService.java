@@ -15,6 +15,8 @@
  */
 package org.kuali.student.r2.core.document.service;
 
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.DictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
@@ -51,7 +53,7 @@ import java.util.List;
  */
 @WebService(name = "DocumentService", targetNamespace = DocumentServiceConstants.NAMESPACE)
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
-public interface DocumentService {
+public interface DocumentService extends DictionaryService{
 
     /**
      * Retrieves information about a document
@@ -365,4 +367,9 @@ public interface DocumentService {
      */
     public StatusInfo deleteRefDocRelation(@WebParam(name="refDocRelationId")String refDocRelationId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
+    @Deprecated
+    public ObjectStructureDefinition getObjectStructure(String objectTypeKey);
+
+    @Deprecated
+    public List<String> getObjectTypes();
 }
