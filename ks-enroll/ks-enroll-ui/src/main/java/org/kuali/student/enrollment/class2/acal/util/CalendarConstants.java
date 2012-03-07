@@ -21,8 +21,13 @@ package org.kuali.student.enrollment.class2.acal.util;
  * @author Kuali Student Team
  */
 public class CalendarConstants {
-    public static final String CALENDERSEARCH_RESULTPAGE = "calenderSearchResultPage";
+    //pages
     public static final String HOLIDAYCALENDAR_COPYPAGE = "holidayCalendarCopyPage";
     public static final String HOLIDAYCALENDAR_EDITPAGE = "holidayCalendarEditPage";
     public static final String HOLIDAYCALENDAR_VIEWPAGE = "holidayCalendarViewPage";
+
+    //calender types for search
+    public static final String ACADEMICCALENDER= "AcademicCalendar";
+    public static final String HOLIDAYCALENDER= "HolidayCalendar";
+    public static final String TERM= "AcademicTerm";
 }

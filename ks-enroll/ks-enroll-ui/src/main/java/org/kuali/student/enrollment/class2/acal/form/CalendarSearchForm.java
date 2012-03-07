@@ -16,6 +16,15 @@
 package org.kuali.student.enrollment.class2.acal.form;
 
 import org.kuali.rice.krad.web.form.UifFormBase;
+import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.TermInfo;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
+import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class //TODO ...
@@ -26,7 +35,16 @@ public class CalendarSearchForm extends UifFormBase {
     private String calendarType;
     private String name;
     private String year;
+    private List<HolidayCalendarInfo> holidayCalendars;
+    private List<AcademicCalendarInfo> academicCalendars;
+    private List<TermInfo> terms;
 
+    public CalendarSearchForm(){
+        super();
+        holidayCalendars =  new ArrayList<HolidayCalendarInfo>();
+        academicCalendars = new ArrayList<AcademicCalendarInfo>();
+        terms =  new ArrayList<TermInfo>();
+    }
     public String getCalendarType() {
         return calendarType;
     }
@@ -49,5 +67,29 @@ public class CalendarSearchForm extends UifFormBase {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public List<HolidayCalendarInfo> getHolidayCalendars() {
+        return holidayCalendars;
+    }
+
+    public void setHolidayCalendars(List<HolidayCalendarInfo> holidayCalendars) {
+        this.holidayCalendars = holidayCalendars;
+    }
+
+    public List<AcademicCalendarInfo> getAcademicCalendars() {
+        return academicCalendars;
+    }
+
+    public void setAcademicCalendars(List<AcademicCalendarInfo> academicCalendars) {
+        this.academicCalendars = academicCalendars;
+    }
+
+    public List<TermInfo> getTerms() {
+        return terms;
+    }
+
+    public void setTerms(List<TermInfo> terms) {
+        this.terms = terms;
     }
 }

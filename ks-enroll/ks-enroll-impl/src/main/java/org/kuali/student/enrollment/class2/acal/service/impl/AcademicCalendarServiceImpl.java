@@ -149,10 +149,20 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
         return null;
     }
 
+    private List<StateInfo> getAtpStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<StateInfo> results;
+        try {
+            results = stateService.getStatesByLifecycle(AtpServiceConstants.ATP_PROCESS_KEY, context);
+        } catch (DoesNotExistException ex) {
+            throw new OperationFailedException(AtpServiceConstants.ATP_PROCESS_KEY, ex);
+        }
+
+        return results;
+    }
+
     @Override
-    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO Li Pan - THIS METHOD NEEDS JAVADOCS
-        return new ArrayList<StateInfo>();
+    public List<StateInfo> getAcademicCalendarStates(ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getAtpStates(context);
     }
 
     @Override
@@ -1485,9 +1495,8 @@ public class AcademicCalendarServiceImpl implements AcademicCalendarService {
     }
 
     @Override
-    public List<StateInfo> getHolidayCalendarStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException {
-        // TODO sambit - THIS METHOD NEEDS JAVADOCS
-        return null;
+    public List<StateInfo> getHolidayCalendarStates(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return getAtpStates(contextInfo);
     }
 
     @Override
