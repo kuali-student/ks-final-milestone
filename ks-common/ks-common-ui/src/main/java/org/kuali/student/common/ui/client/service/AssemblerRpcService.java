@@ -27,12 +27,12 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 
 public interface AssemblerRpcService {
 	//Data operations
-	public Data getData(String dataId, ContextInfo contextInfo) throws OperationFailedException;
+	public Data getData(String dataId) throws OperationFailedException;
 	
-	public Metadata getMetadata(String id, Map<String,String> idAttributes, ContextInfo contextInfo) throws OperationFailedException;
+	public Metadata getMetadata(String id, Map<String,String> idAttributes) throws OperationFailedException;
 
-	public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException, VersionMismatchClientException;
+	public DataSaveResult saveData(Data data) throws OperationFailedException, VersionMismatchClientException;
 	
-	public List<ValidationResultInfo> validate(Data data, ContextInfo contextInfo) throws OperationFailedException;
+	public List<ValidationResultInfo> validate(Data data) throws OperationFailedException;
 
 }
