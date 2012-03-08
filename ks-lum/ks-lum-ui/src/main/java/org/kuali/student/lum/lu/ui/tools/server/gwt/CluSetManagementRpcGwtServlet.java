@@ -71,10 +71,10 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     }
     
     @Override
-    public Data getData(String id, ContextInfo contextInfo) throws OperationFailedException {
+    public Data getData(String id) throws OperationFailedException {
         try{
             //TODO KSCM - Correct ContextInfo parameter?
-            return getDataService().getData(id, contextInfo);
+            return getDataService().getData(id, ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error("Could not get Data ", e);
             throw new OperationFailedException("Failed to get data");
@@ -82,10 +82,10 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     }
 
     @Override
-    public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException {
+    public DataSaveResult saveData(Data data) throws OperationFailedException {
         try{
             //TODO KSCM - Correct ContextInfo parameter?
-            return getDataService().saveData(data, contextInfo);
+            return getDataService().saveData(data, ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error("Could not save data ", e);
             throw new OperationFailedException("Failed to save data");
@@ -100,7 +100,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             //       that are the result of query parameter search.  Set to null here and
             //       retrieve the clus that are direct members.
             //TODO KSCM - Correct ContextInfo parameter?
-            cluSetInfo = cluService.getCluSet(cluSetId, contextInfo);
+            cluSetInfo = cluService.getCluSet(cluSetId, ContextUtils.getContextInfo());
             cluSetInfo.setCluIds(null);
             //TODO KSCM - Correct ContextInfo parameter?
             cluIds = cluService.getCluIdsFromCluSet(cluSetId, contextInfo);
