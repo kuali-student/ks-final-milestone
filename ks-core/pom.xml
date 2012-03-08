@@ -9,8 +9,8 @@
   <artifactId>ks-core</artifactId>
   <packaging>pom</packaging>
   <version>0.0.6-SNAPSHOT</version>
-  <name>KS Core Merged</name>
-  <description>Kuali Student Core Merged</description>
+  <name>KS Core</name>
+  <description>Kuali Student Core</description>
   <issueManagement>
     <system>Jira</system>
     <url>https://test.kuali.org/jira/browse/KSCOR</url>
