@@ -130,6 +130,15 @@ public interface Lui extends IdEntity, HasEffectiveDates {
      * @name: Result Values Group Ids
      */
     public List<String> getResultValuesGroupKeys();
+
+    /**
+     *  These are the related lui types which may be related to this lui, e.g., activty
+     *  offering types to format offering
+     *
+      * @name Related Lui Types
+     */
+    public List<String> getRelatedLuiTypes();
+
     
     /**
      * The fees associated with the course offering. 

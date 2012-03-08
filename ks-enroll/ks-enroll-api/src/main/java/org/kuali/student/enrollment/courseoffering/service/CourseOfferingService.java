@@ -390,6 +390,7 @@ public interface CourseOfferingService {
      * Creates an activity offering template for a course offering
      *
      * @param courseOfferingId  Course offering that the activity offering template belongs to
+     * @param formatId
      * @param formatOfferingType  the type key of the activity offering template
      * @param formatOfferingInfo  The activity offering template info object
      * @return
@@ -399,7 +400,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException
      */
-    public FormatOfferingInfo createFormatOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "formatOfferingType")String formatOfferingType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws  DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public FormatOfferingInfo createFormatOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "formatId") String formatId,  @WebParam(name = "formatOfferingType")String formatOfferingType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws  DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
      * Update an activity offering template.
@@ -429,7 +430,7 @@ public interface CourseOfferingService {
      * @throws OperationFailedException    unable to complete request
      * @throws PermissionDeniedException   authorization failure
      */
-    public StatusInfo deleteFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId,@WebParam(name = "context") ContextInfo context ) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+    public StatusInfo deleteFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId,@WebParam(name = "context") ContextInfo context ) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException;
 
     /**
      * This method returns the TypeInfo for a given activity offering type key.

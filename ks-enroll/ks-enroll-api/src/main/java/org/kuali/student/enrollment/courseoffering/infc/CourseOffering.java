@@ -57,18 +57,6 @@ public interface CourseOffering
      */
     public String getTermId();
 
-    /**
-     * Identifiers for formats from the canonical course that will be offered as
-     * part of the course offering This is not updatable once initialized.
-     * 
-     * @name Format Ids
-     * @readOnly on updates
-     * @required
-     * @impl this maps to the version dependent id of the format as this must
-     *       point to one and only one version of the course. Maps to
-     *       cluRelationIds in Lui
-     */
-    public List<String> getFormatIds();
 
     /**
      * Identifies the number of a course as reflected in the course catalog.

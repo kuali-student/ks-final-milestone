@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.ActivityOfferingAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.CourseOfferingAssembler;
+import org.kuali.student.enrollment.class2.courseoffering.service.assembler.FormatOfferingAssembler;
 import org.kuali.student.enrollment.class2.courseoffering.service.assembler.RegistrationGroupAssembler;
 import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
@@ -16,6 +17,7 @@ import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
 import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupTemplateInfo;
 import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.enrollment.lpr.dto.LprRosterInfo;
@@ -570,28 +572,64 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
         }
 
     @Override
-    public List<org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo> getFormatOfferingByCourseOfferingId(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public List<FormatOfferingInfo> getFormatOfferingByCourseOfferingId(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
 
 
     @Override
-    public StatusInfo deleteFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public StatusInfo deleteFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, DependentObjectsExistException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+         List<LuiLuiRelationInfo> formatOfferingRelations =  luiService.getLuiLuiRelationsByLui(formatOfferingId, context);
+         for(LuiLuiRelationInfo luiLuiRelation : formatOfferingRelations) {
+                 luiService.deleteLuiLuiRelation(luiLuiRelation.getId(),context);
+         }
+         return luiService.deleteLui(formatOfferingId, context);
+
         }
 
     @Override
-    public org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo updateFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "formatOfferingInfo") org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public FormatOfferingInfo updateFormatOffering( String formatOfferingId, FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+            LuiInfo formatOfferingLui =  FormatOfferingAssembler.disassemble(formatOfferingInfo);
+
+            try {
+               LuiInfo updatedLui = luiService.updateLui(formatOfferingId,formatOfferingLui, context );
+                return FormatOfferingAssembler.assemble(updatedLui);
+
+            } catch (VersionMismatchException e) {
+                throw new OperationFailedException(e.getMessage());
+            }
+
         }
 
     @Override
-    public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+          LuiInfo lui =  FormatOfferingAssembler.disassemble(formatOfferingInfo);
+            try{
+                 LuiInfo newFormatOfferingLui = luiService.createLui(formatId, null, lui, context);
+                 LuiLuiRelationInfo relationInfo = new LuiLuiRelationInfo();
+                 relationInfo.setLuiId(courseOfferingId);
+                 relationInfo.setRelatedLuiId(newFormatOfferingLui.getId());
+                 relationInfo.setStateKey(LuiServiceConstants.LUI_LUI_RELATION_ACTIVE_STATE_KEY);
+                 luiService.createLuiLuiRelation(courseOfferingId, newFormatOfferingLui.getId(), LuiServiceConstants.LUI_LUI_RELATION_ASSOCIATED_TYPE_KEY,relationInfo,context);
+
+                 FormatOfferingInfo formatOffering = FormatOfferingAssembler.assemble(newFormatOfferingLui);
+                 return formatOffering;
+
+
+            }catch (CircularRelationshipException cre) {
+                throw new  OperationFailedException (cre.getMessage());
+            } catch (AlreadyExistsException aee) {
+                throw new  OperationFailedException (aee.getMessage());
+            } catch (DoesNotExistException dnee) {
+                throw new  OperationFailedException (dnee.getMessage());
+            }
+
         }
 
     @Override

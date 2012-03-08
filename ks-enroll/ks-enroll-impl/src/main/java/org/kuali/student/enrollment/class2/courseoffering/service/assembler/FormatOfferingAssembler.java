@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.assembler;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
 import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 
 import org.kuali.student.enrollment.lui.dto.LuiInfo;
@@ -20,8 +21,8 @@ public class FormatOfferingAssembler{
         }
 
 
-    public static LuiInfo disassemble(CourseOfferingInfo businessDTO, org.kuali.student.r2.common.dto.ContextInfo context)
+    public static LuiInfo disassemble(FormatOfferingInfo businessDTO)
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            return new LuiInfo();  //To change body of implemented methods use File | Settings | File Templates.
         }
 }

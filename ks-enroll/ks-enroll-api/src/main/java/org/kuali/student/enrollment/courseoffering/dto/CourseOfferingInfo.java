@@ -40,7 +40,7 @@ import org.w3c.dom.Element;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CourseOfferingInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "courseId",
-        "formatIds", "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
+        "termId", "courseOfferingCode", "courseNumberSuffix", "courseTitle", "isHonorsOffering",
         "instructors", "subjectArea", "unitsDeployment", "unitsContentOwner", "hasFinalExam", "maximumEnrollment",
         "minimumEnrollment", "jointOfferingIds", "creditOptions", "gradingOptionKeys", "gradeRosterLevelTypeKey",
         "hasWaitlist", "waitlistTypeKey", "waitlistMaximum", "isWaitlistCheckinRequired", "waitlistCheckinFrequency",
@@ -58,9 +58,6 @@ public class CourseOfferingInfo
 
     @XmlElement
     private String termId;
-
-    @XmlElement
-    private List<String> formatIds;
 
     @XmlElement
     private String courseTitle;
@@ -164,9 +161,6 @@ public class CourseOfferingInfo
         this.courseId = offering.getCourseId();
         this.termId = offering.getTermId();
         
-        if (offering.getFormatIds() == null) {
-            this.formatIds = new ArrayList<String>(offering.getFormatIds());
-        }
 
         this.courseTitle = offering.getCourseTitle();
         this.courseOfferingCode = offering.getCourseOfferingCode();
@@ -214,10 +208,7 @@ public class CourseOfferingInfo
         return this.courseId;
     }
 
-    @Override
-    public List<String> getFormatIds() {
-        return formatIds;
-    }
+
 
     @Override
     public String getSubjectArea() {
@@ -373,10 +364,6 @@ public class CourseOfferingInfo
 
     public void setCourseId(String courseId) {
         this.courseId = courseId;
-    }
-
-    public void setFormatIds(List<String> formatIds) {
-        this.formatIds = formatIds;
     }
 
     public void setSubjectArea(String subjectArea) {

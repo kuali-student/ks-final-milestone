@@ -47,6 +47,7 @@ import org.w3c.dom.Element;
     "cluCluRelationIds", "atpId", "luiCodes",
     "maximumEnrollment", "minimumEnrollment", "referenceURL",
     "unitsContentOwner", "unitsDeployment", "resultValuesGroupKeys",
+        "relatedLuiTypes",
     "fees", "revenues", "expenditure",
     "meta", "attributes", "meetingSchedules", "_futureElements"})
 public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
@@ -81,6 +82,8 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
     @XmlElement
     private List<String> resultValuesGroupKeys;
     @XmlElement
+    private List<String> relatedLuiTypes;
+    @XmlElement
     private List<FeeInfo> fees;
     @XmlElement
     private List<RevenueInfo> revenues;
@@ -110,7 +113,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         unitsDeployment = new ArrayList<String>();
         unitsContentOwner = new ArrayList<String>();
         resultValuesGroupKeys = new ArrayList<String>();
-
+        relatedLuiTypes = new ArrayList<String>();
         fees = new ArrayList<FeeInfo>();
         revenues = new ArrayList<RevenueInfo>();
         expenditure = null;
@@ -159,6 +162,7 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
         }
         this.unitsDeployment = new ArrayList<String>(lui.getUnitsDeployment());
         this.resultValuesGroupKeys = new ArrayList<String>(lui.getResultValuesGroupKeys());
+        this.relatedLuiTypes = new ArrayList<String>(lui.getRelatedLuiTypes());
 
         this.fees = new ArrayList<FeeInfo>();
         if (lui.getFees() != null) {
@@ -312,6 +316,14 @@ public class LuiInfo extends IdEntityInfo implements Serializable, Lui {
 
     public void setResultValuesGroupKeys(List<String> resultValueGroupKeys) {
         this.resultValuesGroupKeys = resultValueGroupKeys;
+    }
+
+    public List<String> getRelatedLuiTypes(){
+            return relatedLuiTypes;
+    }
+
+    public void setRelatedLuiTypes(List<String> relatedLuiTypes){
+            this.relatedLuiTypes = relatedLuiTypes;
     }
 
     @Override

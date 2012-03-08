@@ -87,8 +87,7 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
              * After the above issue is fixed, we can revisit about   co.setExpenditure(lui.getExpenditure());
              */
 //			co.setExpenditure(lui.getExpenditure());
-			co.setFormatIds(lui.getCluCluRelationIds());
-			
+
 			assembleIdentifier(lui, co);
 			
 			//TODO: lui.getResultOptionIds() -- co.setCreditOptions & co.setGradingOptionKeys --- call LRCService.getResultValuesByIds
@@ -215,7 +214,6 @@ public class CourseOfferingAssembler implements DTOAssembler<CourseOfferingInfo,
 			//lui.setWaitlistTypeKey(co.getWaitlistTypeKey());
 			
 			lui.setCluId(co.getCourseId());
-			lui.setCluCluRelationIds(co.getFormatIds());
 			lui.setAtpId(co.getTermId());
 			lui.setUnitsContentOwner(co.getUnitsContentOwner());
 			lui.setUnitsDeployment(co.getUnitsDeployment());
