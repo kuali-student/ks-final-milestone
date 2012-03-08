@@ -25,7 +25,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface MessagesRpcServiceAsync {
     public void getLocales(AsyncCallback<LocaleKeyList> callback);
 
-    public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);
+ // TODO fix merge
+    //public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);
 
     public void getMessage(
             String localeKey, 

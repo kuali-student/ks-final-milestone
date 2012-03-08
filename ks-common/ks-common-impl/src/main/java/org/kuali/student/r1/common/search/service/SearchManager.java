@@ -28,7 +28,6 @@ import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
 
-@Deprecated
 public interface SearchManager {
 
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
