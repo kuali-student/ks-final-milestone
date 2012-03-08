@@ -63,7 +63,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	private IdentityService identityService;
 
 	@Override
-	public Data getData(String dataId, ContextInfo contextInfo) {
+	public Data getData(String dataId) {
 		try {
 			return assembler.get(dataId);
 		} catch (AssemblyException e) {
@@ -73,7 +73,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
-	public Metadata getMetadata(String id, Map<String,String> idAttributes, ContextInfo contextInfo) {
+	public Metadata getMetadata(String id, Map<String,String> idAttributes) {
 
 		try {
 		    //FIXME: should not pass empty id. What to do here?
@@ -89,7 +89,7 @@ public abstract class AbstractBaseDataOrchestrationRpcGwtServlet extends RemoteS
 	}
 
 	@Override
-	public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException {
+	public DataSaveResult saveData(Data data) throws OperationFailedException {
 		try {
 			SaveResult<Data> saveResult = assembler.save(data);
 			if (saveResult != null) {

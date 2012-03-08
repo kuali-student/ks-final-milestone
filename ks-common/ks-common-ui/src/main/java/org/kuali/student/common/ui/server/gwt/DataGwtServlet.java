@@ -28,6 +28,7 @@ import org.kuali.student.r1.common.assembly.data.Metadata;
 
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -48,9 +49,9 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	private DataService dataService;
 	
 	@Override
-	public Data getData(String id, ContextInfo contextInfo) throws OperationFailedException {
+	public Data getData(String id) throws OperationFailedException {
 		try{
-			return dataService.getData(id, contextInfo);
+			return dataService.getData(id, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Could not get Data ", e);
 			throw new OperationFailedException("Failed to get data");
@@ -58,9 +59,9 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public Metadata getMetadata(String id, Map<String, String> idAttributes, ContextInfo contextInfo) throws OperationFailedException {
+	public Metadata getMetadata(String id, Map<String, String> idAttributes) throws OperationFailedException {
 		try{
-			return dataService.getMetadata(id, idAttributes, contextInfo);
+			return dataService.getMetadata(id, idAttributes, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error("Could not get metadata ", e);
 			throw new OperationFailedException("Failed to get metadata");
@@ -68,9 +69,9 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public DataSaveResult saveData(Data data, ContextInfo contextInfo) throws OperationFailedException, VersionMismatchClientException {
+	public DataSaveResult saveData(Data data) throws OperationFailedException, VersionMismatchClientException {
 		try{
-			return dataService.saveData(data, contextInfo);
+			return dataService.saveData(data, ContextUtils.getContextInfo());
 		} catch (DataValidationErrorException dvee){
 			//This should only get thrown if service save call resulted in validation errors. These errors
 			//should be sent to the UI using DataSaveResult instead of throwing an exception.
@@ -87,9 +88,9 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public List<ValidationResultInfo> validate(Data data, ContextInfo contextInfo)throws OperationFailedException {
+	public List<ValidationResultInfo> validate(Data data)throws OperationFailedException {
 		try{
-		    List<ValidationResultInfo> result= dataService.validateData(data, contextInfo);    //result info loaded with info about conflicts [KSCM-250]
+		    List<ValidationResultInfo> result= dataService.validateData(data, ContextUtils.getContextInfo());    //result info loaded with info about conflicts [KSCM-250]
 		    return result;
 		} catch (Exception e) {
 			LOG.error("Could not validate data ", e);
@@ -98,8 +99,8 @@ public class DataGwtServlet extends RemoteServiceServlet implements BaseDataOrch
 	}
 
 	@Override
-	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes, ContextInfo contextInfo) {
-		return dataService.isAuthorized(type, attributes, contextInfo);
+	public Boolean isAuthorized(PermissionType type, Map<String,String> attributes) {
+		return dataService.isAuthorized(type, attributes, ContextUtils.getContextInfo());
 	}
 
 	public DataService getDataService() {
