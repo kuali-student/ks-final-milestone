@@ -17,11 +17,9 @@ package org.kuali.student.lum.statement.config.context.util;
 
 import java.util.List;
 
-import org.kuali.student.common.search.dto.SearchParam;
 import org.kuali.student.r2.core.search.dto.SearchParamInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluSetInfo;
-import org.kuali.student.r1.lum.lu.dto.MembershipQueryInfo;
 
 
 /**

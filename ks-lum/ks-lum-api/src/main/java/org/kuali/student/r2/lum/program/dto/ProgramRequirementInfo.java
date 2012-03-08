@@ -16,16 +16,14 @@ import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAnyElement;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.common.dto.IdNamelessEntityInfo;
 import org.kuali.student.r2.common.dto.RichTextInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.r2.lum.course.dto.LoDisplayInfo;
 import org.kuali.student.r2.lum.program.infc.ProgramRequirement;
-//import org.w3c.dom.Element;
 
 /**
  * Detailed information about a program requirement
@@ -157,12 +155,12 @@ public class ProgramRequirementInfo extends IdNamelessEntityInfo implements Prog
     }
 //TODO KSCM  Method was needed in ProgramRequirementsDataModel
 	public void setStatement(
-			org.kuali.student.core.statement.dto.StatementTreeViewInfo newSubRule) {
+			org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo newSubRule) {
 		// TODO Auto-generated method stub
 		
 	}
 //TODO KSCM This method was required in MajorDisciplineProposalRpcServlet
-	public void setDescr(org.kuali.student.common.dto.RichTextInfo richTextInfo) {
+	public void setDescr(org.kuali.student.r1.common.dto.RichTextInfo richTextInfo) {
 		// TODO Auto-generated method stub
 		
 	}

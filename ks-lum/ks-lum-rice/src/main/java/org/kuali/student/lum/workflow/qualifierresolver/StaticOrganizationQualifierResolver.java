@@ -18,7 +18,7 @@ import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
 import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

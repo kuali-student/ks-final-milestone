@@ -16,7 +16,6 @@
 package org.kuali.student.lum.lu.ui.main.client;
 
 
-import org.kuali.student.common.messages.dto.MessageList;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -32,6 +31,7 @@ import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.lu.ui.main.client.controllers.ApplicationController;
 import org.kuali.student.lum.lu.ui.main.client.theme.LumTheme;
 import org.kuali.student.lum.lu.ui.main.client.widgets.ApplicationHeader;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
