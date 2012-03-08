@@ -24,7 +24,7 @@ public class TestCluInfoDictionary
 {
 	
 	
-
+	ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 
  @Test
  public void testLoadCluInfoDictionary ()
@@ -72,7 +72,6 @@ public class TestCluInfoDictionary
   ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
     info.getClass ().getName ());
   
-  ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
   List<ValidationResultInfo> validationResults = val.validateObject (info, os, contextInfo);
   System.out.println ("h3. With just a blank CluInfo");
 //  for (ValidationResultInfo vr : validationResults)
