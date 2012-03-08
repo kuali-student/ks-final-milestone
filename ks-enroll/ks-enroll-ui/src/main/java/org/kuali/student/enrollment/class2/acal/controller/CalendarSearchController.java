@@ -67,8 +67,9 @@ public class CalendarSearchController  extends UifControllerBase {
     @RequestMapping(params = "methodToCall=searchCalendar")
     public ModelAndView searchCalendar(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
-       String calendarType = searchForm.getCalendarType();
+        String calendarType = searchForm.getCalendarType();
 
+        resetForm(searchForm);
         if(calendarType.equals(CalendarConstants.HOLIDAYCALENDER)){
                List<HolidayCalendarInfo> hCals = ((CalendarSearchViewHelperService)searchForm.getView().getViewHelperService()).searchForHolidayCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
                searchForm.setHolidayCalendars(hCals);
@@ -85,7 +86,12 @@ public class CalendarSearchController  extends UifControllerBase {
        return getUIFModelAndView(searchForm);
     }
 
-         /**
+    private void resetForm(CalendarSearchForm searchForm) {
+        searchForm.setHolidayCalendars(new ArrayList<HolidayCalendarInfo>());
+        searchForm.setAcademicCalendars(new ArrayList<AcademicCalendarInfo>());
+        searchForm.setTerms(new ArrayList<TermInfo>());
+    }
+     /**
      * Method used to view the atp
      */
     @RequestMapping(params = "methodToCall=view")
@@ -106,7 +112,7 @@ public class CalendarSearchController  extends UifControllerBase {
        return getUIFModelAndView(searchForm);
     }
 
-         /**
+     /**
      * Method used to edit the atp
      */
     @RequestMapping(params = "methodToCall=edit")
@@ -127,7 +133,7 @@ public class CalendarSearchController  extends UifControllerBase {
        return getUIFModelAndView(searchForm);
     }
 
-         /**
+     /**
      * Method used to copy the atp
      */
     @RequestMapping(params = "methodToCall=copy")

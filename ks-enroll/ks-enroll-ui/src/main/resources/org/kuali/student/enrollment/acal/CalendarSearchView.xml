@@ -116,7 +116,7 @@
                 <bean parent="Uif-DataField"
                   p:label="End Date"
                   p:propertyName="endDate"/>
-                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="false">
+                <bean parent="Uif-InputField" p:label="Status" p:propertyName="stateKey"  p:readOnly="true">
                     <property name="control">
                         <bean parent="Uif-DropdownControl" />
                     </property>
