@@ -13,13 +13,13 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.enumerationmanagement.dto.mock;
+package r1.org.kuali.student.core.enumerationmanagement.dto.mock;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r1.core.enumerationmanagement.dto.EnumeratedValueInfo;
 
 /**
  * Creates a List of EnumeratedValue DTOs, use to initialize database for testing

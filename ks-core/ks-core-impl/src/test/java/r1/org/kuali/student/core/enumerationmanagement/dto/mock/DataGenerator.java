@@ -13,17 +13,17 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.enumerationmanagement.dto.mock;
+package r1.org.kuali.student.core.enumerationmanagement.dto.mock;
 
 import java.util.List;
 
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r1.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl;
 
 public class DataGenerator{
 	
