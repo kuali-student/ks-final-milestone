@@ -21,13 +21,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.LookupMetadata.Usage;
-import org.kuali.student.common.assembly.data.Metadata.WriteAccess;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
 import org.kuali.student.common.ui.client.mvc.Callback;
@@ -41,6 +34,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ButtonGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.FieldElement;
+import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayoutComponent;
 import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.KSSelectItemWidgetAbstract;
@@ -48,6 +42,13 @@ import org.kuali.student.common.ui.client.widgets.list.ListItems;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeEvent;
 import org.kuali.student.common.ui.client.widgets.list.SelectionChangeHandler;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata.Usage;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.Metadata.WriteAccess;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -66,6 +67,7 @@ import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SearchPanel extends Composite{
 
     //Layout configuration
@@ -76,7 +78,7 @@ public class SearchPanel extends Composite{
     private CollapsablePanel modifySearchPanel;
     private String criteriaInstructions = getMessage("searchPanelEnterFields");
     private KSLabel enteredCriteriaHeading = new KSLabel(getMessage("searchPanelCriteria"));
-    private SearchResultsTable table;
+    protected SearchResultsTable table;
     private boolean isMultiSelect = true;
 
 	public static enum SearchStyle{ADVANCED, CUSTOM}; 
@@ -105,7 +107,7 @@ public class SearchPanel extends Composite{
 		@Override
         public void exec(ButtonEnum result) {
             if (result == ButtonEnumerations.SearchCancelEnum.SEARCH) {
-            	table.getContentTable().removeContent();
+                table.removeContent();
                 getActionCompleteCallback().exec(true);                                 
             }
        }
@@ -143,7 +145,7 @@ public class SearchPanel extends Composite{
         }    	
     }
     
-    public void setupSearch() {                
+    public void setupSearch() {
         resultsTablePanel.clear();
         layout.clear();
         resultsShown = false;
@@ -198,9 +200,12 @@ public class SearchPanel extends Composite{
         }
         
         //Search Results table
-        table = new SearchResultsTable();
+        table = GWT.create(SearchResultsTable.class);
         table.setMutipleSelect(isMultiSelect);
         table.addStyleName("KS-Advanced-Search-Results-Table");
+        for (Callback<List<SelectedResults>> selectionCompleteCallback : selectedCompleteCallbacks) {
+            table.addSelectionCompleteCallback(selectionCompleteCallback);
+        }
         resultsTablePanel.add(table);
         layout.add(resultsTablePanel); 
         
@@ -401,6 +406,14 @@ public class SearchPanel extends Composite{
                 } 
             }
             
+            for(LookupParamMetadata param:customParams){
+               String id = param.getKey()+"-name";
+               if(Application.getApplicationContext().getMessage(id)!=null)
+               {
+            	param.setName(Application.getApplicationContext().getMessage(id));  
+               }
+              }
+            
             ParamListItems customParamList = new ParamListItems(customParams);
             
             this.listItems = customParamList;
@@ -592,7 +605,11 @@ public class SearchPanel extends Composite{
         public SearchField(LookupParamMetadata param){
             meta = param;
             //TODO use message call here
-            fieldName = param.getName();
+            if(getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY)!=null)
+            	fieldName = getMessage(param.getKey()+FieldLayoutComponent.NAME_MESSAGE_KEY);
+            else
+                fieldName = param.getName();
+            
             widget = DefaultWidgetFactory.getInstance().getWidget(param);
             if(param.getDefaultValueString() != null){
                 //TODO Add handling of default value lists here
@@ -840,7 +857,7 @@ public class SearchPanel extends Composite{
                 resultsSelected = true;
                 
                 SearchRequest sr = getSearchRequest();
-                table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey());
+                table.performSearch(sr, activeSearchParametersWidget.getLookupMetadata().getResults(), activeSearchParametersWidget.getLookupMetadata().getResultReturnKey(), activeSearchParametersWidget.getLookupMetadata().getResultDisplayKey(), true);
                 resultsTablePanel.setVisible(true);
                 List<HasSearchParam> userCriteria = new ArrayList<HasSearchParam>();
                 List<HasSearchParam> searchParams = activeSearchParametersWidget.getSearchParams();

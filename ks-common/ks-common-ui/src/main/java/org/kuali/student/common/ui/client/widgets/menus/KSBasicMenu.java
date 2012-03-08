@@ -21,6 +21,7 @@ import org.kuali.student.common.ui.client.widgets.menus.impl.KSBasicMenuImpl;
 
 import com.google.gwt.core.client.GWT;
 
+@Deprecated
 public class KSBasicMenu extends KSBasicMenuAbstract{
     
     private KSBasicMenuAbstract basicMenu = GWT.create(KSBasicMenuImpl.class);

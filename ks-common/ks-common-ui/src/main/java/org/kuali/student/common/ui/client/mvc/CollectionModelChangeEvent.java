@@ -22,6 +22,7 @@ package org.kuali.student.common.ui.client.mvc;
  * @author Kuali Student Team
  * @param <T>
  */
+@Deprecated
 public class CollectionModelChangeEvent<T> extends ModelChangeEvent {
     private final T value;
     

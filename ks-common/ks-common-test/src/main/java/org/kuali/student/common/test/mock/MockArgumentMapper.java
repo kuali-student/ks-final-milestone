@@ -24,6 +24,7 @@ import java.util.Map;
  *  
  *  NOTE: Currently only supports single argument methods.
  */
+@Deprecated
 public class MockArgumentMapper {
     private Map<Object,Object> argumentMapper;
 

@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.kuali.student.common.ui.client.widgets.list.ListItems;
 
+@Deprecated
 public class SimpleListItems implements ListItems {
 	HashMap<String,String> items = new HashMap<String,String>();
 	HashMap<String,HashMap<String,String>> attributes = new HashMap<String,HashMap<String,String>>();

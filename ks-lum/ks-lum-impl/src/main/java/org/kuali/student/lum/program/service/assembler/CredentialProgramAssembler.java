@@ -1,16 +1,19 @@
 package org.kuali.student.lum.program.service.assembler;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.assembly.BOAssembler;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.common.assembly.BaseDTOAssemblyNode.NodeOperation;
-import org.kuali.student.common.assembly.data.AssemblyException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.lum.lu.dto.AdminOrgInfo;
-import org.kuali.student.lum.lu.dto.CluCluRelationInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
-import org.kuali.student.lum.lu.service.LuService;
-import org.kuali.student.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r1.common.assembly.BOAssembler;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
+import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r2.common.assembler.AssemblyException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.lum.course.dto.LoDisplayInfo;
+import org.kuali.student.r1.lum.lu.dto.AdminOrgInfo;
+import org.kuali.student.r1.lum.lu.dto.CluCluRelationInfo;
+import org.kuali.student.r1.lum.lu.dto.CluInfo;
+import org.kuali.student.r1.lum.lu.service.LuService;
+import org.kuali.student.r1.lum.program.dto.CredentialProgramInfo;
+import org.kuali.student.r1.lum.program.dto.assembly.*;
 import org.kuali.student.lum.service.assembler.CluAssemblerUtils;
 
 import java.util.List;
@@ -23,44 +26,44 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     private CluAssemblerUtils cluAssemblerUtils;
     private LuService luService;
 
-    @Override
-    public CredentialProgramInfo assemble(CluInfo clu,
-                                          CredentialProgramInfo credentialProgram,
-                                          boolean shallowBuild)
-            throws AssemblyException {
 
-        CredentialProgramInfo cpInfo = (null != credentialProgram) ? credentialProgram : new CredentialProgramInfo();
+    @Override
+    public CredentialProgramInfo assemble(CluInfo baseDTO, CredentialProgramInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
+
+        CredentialProgramInfo cpInfo = (null != businessDTO) ? businessDTO : new CredentialProgramInfo();
 
         // Copy all the data from the clu to the credential program
-        if (!ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(clu.getType())) {
-            throw new AssemblyException("CredentialProgramAssembler.assemble() called for Clu of incorrect type: " + clu.getType());
+        if (!ProgramAssemblerConstants.CREDENTIAL_PROGRAM_TYPES.contains(baseDTO.getType())) {
+            throw new AssemblyException("CredentialProgramAssembler.assemble() called for Clu of incorrect type: " + baseDTO.getType());
         }
-        cpInfo.setCredentialProgramType(clu.getType());
-        cpInfo.setDescr(clu.getDescr());
-        cpInfo.setVersionInfo(clu.getVersionInfo());
+        cpInfo.setCredentialProgramType(baseDTO.getType());
+        cpInfo.setDescr(baseDTO.getDescr());
+        cpInfo.setVersionInfo(baseDTO.getVersionInfo());
 
-        programAssemblerUtils.assembleBasics(clu, cpInfo);
-        programAssemblerUtils.assembleIdentifiers(clu, cpInfo);
-        if (null != clu.getOfficialIdentifier().getLevel()) {
-            cpInfo.setProgramLevel(clu.getOfficialIdentifier().getLevel());
+        programAssemblerUtils.assembleBasics(baseDTO, (ProgramCommonAssembly) cpInfo, contextInfo);
+        programAssemblerUtils.assembleIdentifiers(baseDTO, (ProgramIdentifierAssembly) cpInfo);
+        if (null != baseDTO.getOfficialIdentifier().getLevel()) {
+            cpInfo.setProgramLevel(baseDTO.getOfficialIdentifier().getLevel());
         }
-        programAssemblerUtils.assembleBasicAdminOrgs(clu, cpInfo);
-        for (AdminOrgInfo org : clu.getAdminOrgs()) {
+        programAssemblerUtils.assembleBasicAdminOrgs(baseDTO, (ProgramBasicOrgAssembly) cpInfo);
+        for (AdminOrgInfo org : baseDTO.getAdminOrgs()) {
             if (ProgramAssemblerConstants.INSTITUTION.equals(org.getType())) {
                 cpInfo.setInstitution(org);
             }
         }
-        programAssemblerUtils.assembleAtps(clu, cpInfo);
-        programAssemblerUtils.assembleLuCodes(clu, cpInfo);
+        programAssemblerUtils.assembleAtps(baseDTO, (ProgramAtpAssembly) cpInfo);
+        programAssemblerUtils.assembleLuCodes(baseDTO, (ProgramCodeAssembly) cpInfo);
         
         if (!shallowBuild) {
-	        programAssemblerUtils.assembleRequirements(clu, cpInfo);
-	        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(clu.getId(), shallowBuild));
-	        cpInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(clu.getId()));
+	        programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
+	        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
+	        cpInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(),contextInfo));
         }
         
         try {
-            cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(clu.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM));
+
+        	//TODO cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM,contextInfo));
+        	 cpInfo.setCoreProgramIds(luService.getRelatedCluIdsByCluId(baseDTO.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM));
         } catch (Exception e) {
             throw new AssemblyException(e);
         }
@@ -68,14 +71,13 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         return cpInfo;
     }
 
+
     @Override
-    public BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> disassemble(
-            CredentialProgramInfo credential, NodeOperation operation)
-            throws AssemblyException {
+    public BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> disassemble(CredentialProgramInfo businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
 
         BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result = new BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo>(this);
 
-        if (credential == null) {
+        if (businessDTO == null) {
             // FIXME Unsure now if this is an exception or just return null or
             // empty assemblyNode
             LOG.error("credentialProgram to disassemble is null!");
@@ -84,46 +86,47 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
 
         CluInfo clu;
         try {
-            clu = (NodeOperation.UPDATE == operation) ? luService.getClu(credential.getId()) : new CluInfo();
+            //TODO KSCM clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId(), contextInfo) : new CluInfo();
+        	clu = (NodeOperation.UPDATE == operation) ? luService.getClu(businessDTO.getId()) : new CluInfo();
         } catch (Exception e) {
 			throw new AssemblyException("Error getting existing learning unit during CoreProgram update", e);
         } 
         
-        boolean stateChanged = NodeOperation.UPDATE == operation && credential.getState() != null && !credential.getState().equals(clu.getState());
+        boolean stateChanged = NodeOperation.UPDATE == operation && businessDTO.getState() != null && !businessDTO.getState().equals(clu.getState());
         
-        programAssemblerUtils.disassembleBasics(clu, credential);
-        if (credential.getId() == null)
-            credential.setId(clu.getId());
-        programAssemblerUtils.disassembleIdentifiers(clu, credential, operation);
-        programAssemblerUtils.disassembleAdminOrgs(clu, credential, operation);     
-        programAssemblerUtils.disassembleAtps(clu, credential, operation);
-        programAssemblerUtils.disassembleLuCodes(clu, credential, operation);
+        programAssemblerUtils.disassembleBasics(clu, (ProgramCommonAssembly) businessDTO);
+        if (businessDTO.getId() == null)
+            businessDTO.setId(clu.getId());
+        programAssemblerUtils.disassembleIdentifiers(clu, (ProgramIdentifierAssembly) businessDTO, operation);
+        programAssemblerUtils.disassembleAdminOrgs(clu, (ProgramBasicOrgAssembly) businessDTO, operation);
+        programAssemblerUtils.disassembleAtps(clu, (ProgramAtpAssembly) businessDTO, operation);
+        programAssemblerUtils.disassembleLuCodes(clu, (ProgramCodeAssembly) businessDTO, operation);
 
-        if (credential.getProgramRequirements() != null && !credential.getProgramRequirements().isEmpty()) {
-            programAssemblerUtils.disassembleRequirements(clu, credential, operation, result, stateChanged);
+        if (businessDTO.getProgramRequirements() != null && !businessDTO.getProgramRequirements().isEmpty()) {
+            programAssemblerUtils.disassembleRequirements(clu, (ProgramRequirementAssembly) businessDTO, operation, result, stateChanged, contextInfo);
         }
 
-        if (credential.getResultOptions() != null) {
-            disassembleResultOptions(credential, operation, result);
+        if (businessDTO.getResultOptions() != null) {
+            disassembleResultOptions(businessDTO, operation, result);
         }
 
-        if (credential.getLearningObjectives() != null) {
-            disassembleLearningObjectives(credential, operation, result);
+        if (businessDTO.getLearningObjectives() != null) {
+            disassembleLearningObjectives(businessDTO, operation, result,contextInfo);
         }
 
-        clu.setDescr(credential.getDescr());
-        clu.setType(credential.getCredentialProgramType());
+        clu.setDescr(businessDTO.getDescr());
+        clu.setType(businessDTO.getCredentialProgramType());
 
 
 
-        if (credential.getCoreProgramIds() != null && credential.getCoreProgramIds().size() > 0) {
-            disassembleCorePrograms(credential, operation, result);
+        if (businessDTO.getCoreProgramIds() != null && businessDTO.getCoreProgramIds().size() > 0) {
+            disassembleCorePrograms(businessDTO, operation, result, contextInfo);
         }
 
         // Add the Clu to the result
         result.setNodeData(clu);
         result.setOperation(operation);
-        result.setBusinessDTORef(credential);
+        result.setBusinessDTORef(businessDTO);
         return result;
     }
 
@@ -135,9 +138,9 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         }
     }
 
-    private void disassembleLearningObjectives(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException {
+    private void disassembleLearningObjectives(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
         try {
-            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(credential.getId(), credential.getState(), credential.getLearningObjectives(), operation);
+            List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(credential.getId(), credential.getState(), (List<LoDisplayInfo>) credential.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
             }
@@ -147,14 +150,14 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         }
     }
 
-    private void disassembleCorePrograms(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result) throws AssemblyException {
+    private void disassembleCorePrograms(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
         List<BaseDTOAssemblyNode<?, ?>> coreResults;
 
         try {
             Map<String, String> currentRelations = null;
 
             if (!NodeOperation.CREATE.equals(operation)) {
-                currentRelations = programAssemblerUtils.getCluCluRelations(credential.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM);
+                currentRelations = programAssemblerUtils.getCluCluRelations(credential.getId(), ProgramAssemblerConstants.HAS_CORE_PROGRAM, contextInfo );
             }
 
             for (String coreProgramId : credential.getCoreProgramIds()) {
@@ -193,5 +196,6 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     public void setCluAssemblerUtils(CluAssemblerUtils cluAssemblerUtils) {
         this.cluAssemblerUtils = cluAssemblerUtils;
     }
+
 
 }

@@ -22,19 +22,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.assembly.transform.IdTranslatorFilter;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
-import org.kuali.student.common.search.service.SearchDispatcher;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
+import org.kuali.student.r1.common.assembly.transform.IdTranslatorFilter;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.service.SearchDispatcher;
 import org.springframework.beans.factory.InitializingBean;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
+@Deprecated
 public class SearchDispatchRpcGwtServlet extends RemoteServiceServlet implements SearchRpcService, InitializingBean {
 
     private static final long serialVersionUID = 1L;

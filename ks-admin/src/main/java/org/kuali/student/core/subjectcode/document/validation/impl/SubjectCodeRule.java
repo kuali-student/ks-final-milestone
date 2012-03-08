@@ -6,8 +6,8 @@ import java.util.Map;
 
 import org.kuali.rice.kns.document.MaintenanceDocument;
 import org.kuali.rice.kns.maintenance.rules.MaintenanceDocumentRuleBase;
-import org.kuali.rice.kns.service.BusinessObjectService;
-import org.kuali.rice.kns.service.KNSServiceLocator;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
 import org.kuali.student.core.subjectcode.bo.SubjectCode;
 
 public class SubjectCodeRule extends MaintenanceDocumentRuleBase{
@@ -15,7 +15,7 @@ public class SubjectCodeRule extends MaintenanceDocumentRuleBase{
 	
 	protected BusinessObjectService getBusinessObjectService() {
         if (businessObjectService == null) {
-            businessObjectService = KNSServiceLocator.getBusinessObjectService();
+            businessObjectService = KRADServiceLocator.getBusinessObjectService();
         }
         return  businessObjectService;
     }

@@ -11,8 +11,17 @@ import com.google.gwt.user.client.Window;
  * @author Kuali Student Team
  *
  */
-public class SpringSecurityLoginRedirectHandler implements
-		SessionTimeoutHandler {
+@Deprecated
+public class SpringSecurityLoginRedirectHandler implements SessionTimeoutHandler {
+
+	/**
+	 * This assumes the login mechanism is the standard spring security.
+	 * 
+	 */
+	@Override
+	public boolean isSessionTimeout(Throwable error) {
+    	return error.toString().contains("Login");
+	}
 
 	@Override
 	public void handleSessionTimeout() {

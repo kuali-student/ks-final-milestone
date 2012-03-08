@@ -23,6 +23,7 @@ import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common_test_tester.support.MyService;
 
 
+@Deprecated
 public class ServiceNoDaoTest extends AbstractServiceTest {
 
 	@Client(value="org.kuali.student.common_test_tester.support.MyServiceImpl",additionalContextFile="classpath:test-my-additional-context.xml")

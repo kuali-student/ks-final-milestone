@@ -19,6 +19,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SpanPanel extends ComplexPanel implements ReportExportWidget {
 
     private boolean exportElement = true;

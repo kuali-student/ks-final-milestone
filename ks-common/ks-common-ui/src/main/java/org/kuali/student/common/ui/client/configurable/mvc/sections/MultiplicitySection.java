@@ -72,6 +72,7 @@ import com.google.gwt.user.client.ui.Widget;
  *   - For read-only multiplicities, set contained widgets to be read only too
  *   
  */
+@Deprecated
     public class MultiplicitySection extends BaseSection {
 
     private MultiplicityConfiguration config;

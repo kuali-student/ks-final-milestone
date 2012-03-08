@@ -17,12 +17,13 @@ package org.kuali.student.common.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
@@ -42,22 +43,22 @@ public interface BaseRpcService extends RemoteService{
     public ObjectStructure getObjectStructure(String objectTypeKey);    
     
     /* Search Operations */
-    public List<SearchTypeInfo> getSearchTypes();
+    public List<SearchTypeInfo> getSearchTypes(ContextInfo context);
 
-    public SearchTypeInfo getSearchType(String searchTypeKey);
+    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context);
 
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey);
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo context);
 
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey);
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo context);
 
-    public List<SearchResultTypeInfo> getSearchResultTypes();
+    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context);
 
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey);
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context);
 
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes();
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context);
 
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey);
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey, ContextInfo context);
 
-    public SearchResult search(SearchRequest searchRequest);
+    public SearchResult search(SearchRequest searchRequest, ContextInfo context);
 
 }

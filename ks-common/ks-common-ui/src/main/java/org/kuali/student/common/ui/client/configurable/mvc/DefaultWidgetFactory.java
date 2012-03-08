@@ -15,11 +15,11 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc;
 
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.common.assembly.data.MetadataInterrogator.ConstraintIds;
 import org.kuali.student.common.ui.client.configurable.mvc.impl.DefaultWidgetFactoryImpl;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator.ConstraintIds;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -50,6 +50,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public abstract class DefaultWidgetFactory {
 	private static final DefaultWidgetFactory instance = GWT.create(DefaultWidgetFactoryImpl.class);
 	public static DefaultWidgetFactory getInstance() {

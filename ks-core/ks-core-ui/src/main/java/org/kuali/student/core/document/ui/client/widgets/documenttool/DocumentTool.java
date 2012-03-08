@@ -18,9 +18,9 @@ package org.kuali.student.core.document.ui.client.widgets.documenttool;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.ConstraintMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.ConstraintMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.DelayedToolView;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -34,8 +34,8 @@ import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapComp
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.SwapCompositeConditionFieldConfig;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.InfoMessage;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.MultiplicitySection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.sections.WarnContainer;
+import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
+import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.dto.FileStatus;
 import org.kuali.student.common.ui.client.dto.UploadStatus;
 import org.kuali.student.common.ui.client.dto.FileStatus.FileTransferStatus;
@@ -52,7 +52,8 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcServiceAsync;
 import org.kuali.student.core.document.ui.client.service.UploadStatusRpcService;
@@ -71,19 +72,21 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.widgetideas.client.ProgressBar;
 import com.google.gwt.widgetideas.client.ProgressBar.TextFormatter;
 
+/*
+ * Messages hard-coded throughout since this can't access KSMG-MESSAGE
+ */
 public class DocumentTool extends DelayedToolView implements HasReferenceId{
+    private String referenceId;
+    private String referenceTypeKey;
+    private String referenceType;
+    private String referenceState;
+    private String refObjectTypeKey;
+    private final String refDocRelationTypeKey = "kuali.org.DocRelation.allObjectTypes";
+    
+    private static final int POLL_INTERVAL = 2000;
 
-	private String referenceId;
-	private String referenceTypeKey;
-	private String referenceType;
-	private String referenceState;
-	private String refObjectTypeKey;
-	private final String refDocRelationTypeKey = "kuali.org.DocRelation.allObjectTypes";
-	
-	private static final int POLL_INTERVAL = 2000;
-
-	private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
-	private VerticalFlowPanel layout = new VerticalFlowPanel();
+    private DocumentRpcServiceAsync documentServiceAsync = GWT.create(DocumentRpcService.class);
+    private VerticalFlowPanel layout = new VerticalFlowPanel();
     private VerticalFlowPanel documentList = new VerticalFlowPanel();
     private VerticalFlowPanel uploadList = new VerticalFlowPanel();
 //    private KSButton addMore = new KSButton("Add Another");
@@ -91,10 +94,10 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private FormPanel form = new FormPanel();
     private Callback<String> deleteCallback = new Callback<String>(){
 
-		@Override
-		public void exec(String result) {
-			refreshDocuments();
-		}
+        @Override
+        public void exec(String result) {
+            refreshDocuments();
+        }
 
     };
 
@@ -109,196 +112,196 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     private DataModelDefinition modelDefinition;
 
     private OkGroup progressButtons = new OkGroup(new Callback<OkEnum>(){
-		@Override
-		public void exec(OkEnum result) {
-			  if(result == OkEnum.Ok){
-				  progressWindow.hide();
-			  }
-		}
+        @Override
+        public void exec(OkEnum result) {
+              if(result == OkEnum.Ok){
+                  progressWindow.hide();
+              }
+        }
     });
     private UploadStatusRpcServiceAsync uploadStatusRpc = GWT.create(UploadStatusRpcService.class);
 
-	private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
+    private OkGroup buttonPanel = new OkGroup(new Callback<OkEnum>(){
 
-		@Override
-		public void exec(OkEnum result) {
-			  if(result == OkEnum.Ok){
-				  progressButtons.getButton(OkEnum.Ok).setEnabled(false);
-				  progressLabel.setText("Starting upload...");
-				  //progressBar.setMin
-				  progressBar.setProgress(0);
-				  progressBar.setMaxProgress(0);
-				  fileProgressTable.clear();
-				  progressWindow.show();
-				  uploadStatusRpc.getUploadId(new KSAsyncCallback<String>(){
+        @Override
+        public void exec(OkEnum result) {
+              if(result == OkEnum.Ok){
+                  progressButtons.getButton(OkEnum.Ok).setEnabled(false);
+                  progressLabel.setText("Starting upload...");
+                  //progressBar.setMin
+                  progressBar.setProgress(0);
+                  progressBar.setMaxProgress(0);
+                  fileProgressTable.clear();
+                  progressWindow.show();
+                  uploadStatusRpc.getUploadId(new KSAsyncCallback<String>(){
 
-					@Override
-					public void handleFailure(Throwable caught) {
-						progressLabel.setText("Could not contact server.");
-						progressButtons.getButton(OkEnum.Ok).setEnabled(true);
-					}
+                    @Override
+                    public void handleFailure(Throwable caught) {
+                        progressLabel.setText("Could not contact server.");
+                        progressButtons.getButton(OkEnum.Ok).setEnabled(true);
+                    }
 
-					@Override
-					public void onSuccess(final String result) {
-						form.setAction(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?uploadId=" + result + "&referenceId=" + referenceId +"&refObjectTypeKey=" + refObjectTypeKey + "&refDocRelationTypeKey=" + refDocRelationTypeKey);
-						form.submit();
+                    @Override
+                    public void onSuccess(final String result) {
+                        form.setAction(GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?uploadId=" + result + "&referenceId=" + referenceId +"&refObjectTypeKey=" + refObjectTypeKey + "&refDocRelationTypeKey=" + refDocRelationTypeKey);
+                        form.submit();
 
-						progressLabel.setText("Uploading...");
-						Timer progressTimer = new Timer(){
-							private boolean maxSet = false;
-							@Override
-							public void run() {
-								uploadStatusRpc.getUploadStatus(result, new KSAsyncCallback<UploadStatus>(){
+                        progressLabel.setText("Uploading...");
+                        Timer progressTimer = new Timer(){
+                            private boolean maxSet = false;
+                            @Override
+                            public void run() {
+                                uploadStatusRpc.getUploadStatus(result, new KSAsyncCallback<UploadStatus>(){
 
-									@Override
-									public void handleFailure(Throwable caught) {
-										progressLabel.setText("Unable to query upload status.");
-										progressButtons.getButton(OkEnum.Ok).setEnabled(true);
-										refreshDocuments();
-										cancel();
-									}
+                                    @Override
+                                    public void handleFailure(Throwable caught) {
+                                        progressLabel.setText("Unable to query upload status.");
+                                        progressButtons.getButton(OkEnum.Ok).setEnabled(true);
+                                        refreshDocuments();
+                                        cancel();
+                                    }
 
-									private int currentFile = 0;
+                                    private int currentFile = 0;
 
-									@Override
-									public void onSuccess(UploadStatus result) {
-										if(!maxSet && result.getTotalSize() != null && result.getTotalSize() != 0){
-											progressBar.setMaxProgress(((double)result.getTotalSize())/1024);
-											maxSet = true;
-										}
+                                    @Override
+                                    public void onSuccess(UploadStatus result) {
+                                        if(!maxSet && result.getTotalSize() != null && result.getTotalSize() != 0){
+                                            progressBar.setMaxProgress(((double)result.getTotalSize())/1024);
+                                            maxSet = true;
+                                        }
 
-										//Individual file status
-										fileProgressTable.clear();
-										currentFile = 0;
-										for(FileStatus fs: result.getFileStatusList()){
-											addFileProgress(fs);
-											currentFile++;
-										}
+                                        //Individual file status
+                                        fileProgressTable.clear();
+                                        currentFile = 0;
+                                        for(FileStatus fs: result.getFileStatusList()){
+                                            addFileProgress(fs);
+                                            currentFile++;
+                                        }
 
-										if(result.getProgress() != null){
-											progressBar.setProgress(((double)result.getProgress())/1024);
-										}
+                                        if(result.getProgress() != null){
+                                            progressBar.setProgress(((double)result.getProgress())/1024);
+                                        }
 
-										if(result.getStatus() == UploadTransferStatus.UPLOAD_FINISHED){
-											progressLabel.setText("Processing...");
-											progressBar.setProgress(progressBar.getMaxProgress());
-										}
-										else if(result.getStatus() == UploadTransferStatus.COMMIT_FINISHED){
-											progressLabel.setText("File upload successful!");
-											progressBar.setProgress(progressBar.getMaxProgress());
-											progressButtons.getButton(OkEnum.Ok).setEnabled(true);
-											resetUploadFormPanel();
+                                        if(result.getStatus() == UploadTransferStatus.UPLOAD_FINISHED){
+                                            progressLabel.setText("Processing...");
+                                            progressBar.setProgress(progressBar.getMaxProgress());
+                                        }
+                                        else if(result.getStatus() == UploadTransferStatus.COMMIT_FINISHED){
+                                            progressLabel.setText("File upload successful!");
+                                            progressBar.setProgress(progressBar.getMaxProgress());
+                                            progressButtons.getButton(OkEnum.Ok).setEnabled(true);
+                                            resetUploadFormPanel();
 
-											cancel();
-											refreshDocuments();
+                                            cancel();
+                                            refreshDocuments();
 
-										}
-										else if(result.getStatus() == UploadTransferStatus.ERROR){
-											progressLabel.setText("Error uploading!");
-											progressButtons.getButton(OkEnum.Ok).setEnabled(true);
-											refreshDocuments();
-											cancel();
-										}
+                                        }
+                                        else if(result.getStatus() == UploadTransferStatus.ERROR){
+                                            progressLabel.setText("Error uploading!");
+                                            progressButtons.getButton(OkEnum.Ok).setEnabled(true);
+                                            refreshDocuments();
+                                            cancel();
+                                        }
 
-									}
+                                    }
 
-									NumberFormat nf = NumberFormat.getFormat("#.##");
+                                    NumberFormat nf = NumberFormat.getFormat("#.##");
 
-									private void addFileProgress(FileStatus fs) {
+                                    private void addFileProgress(FileStatus fs) {
 
-										HTML fileNameLabel;
-										//Name
-										if(fs.getStatus() == FileTransferStatus.COMMIT_FINISHED){
-											fileNameLabel = new HTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + fs.getDocId() + "\"><b>" + fs.getFileName() + "</b></a>");
-										}
-										else{
-											fileNameLabel = new HTML("<b>" + fs.getFileName() + "</b>");
-										}
+                                        HTML fileNameLabel;
+                                        //Name
+                                        if(fs.getStatus() == FileTransferStatus.COMMIT_FINISHED){
+                                            fileNameLabel = new HTML("<a href=\"" + GWT.getModuleBaseURL()+"rpcservices/DocumentUpload?docId=" + fs.getDocId() + "\"><b>" + fs.getFileName() + "</b></a>");
+                                        }
+                                        else{
+                                            fileNameLabel = new HTML("<b>" + fs.getFileName() + "</b>");
+                                        }
 
-										fileProgressTable.setWidget(currentFile, 0, fileNameLabel);
+                                        fileProgressTable.setWidget(currentFile, 0, fileNameLabel);
 
-										//Progress
-										Long curProgress = (fs.getProgress())/1024;
-										String curProgressString = "";
-										if(curProgress < 1024){
-											curProgressString = nf.format(curProgress) + "kb";
-										}
-										else{
-											curProgressString = nf.format(curProgress/1024) + "mb";
-										}
-										fileProgressTable.setWidget(currentFile, 1,  new KSLabel(curProgressString));
+                                        //Progress
+                                        Long curProgress = (fs.getProgress())/1024;
+                                        String curProgressString = "";
+                                        if(curProgress < 1024){
+                                            curProgressString = nf.format(curProgress) + "kb";
+                                        }
+                                        else{
+                                            curProgressString = nf.format(curProgress/1024) + "mb";
+                                        }
+                                        fileProgressTable.setWidget(currentFile, 1,  new KSLabel(curProgressString));
 
-										//Status
-										String statusString = "";
-										switch(fs.getStatus()){
-											case ERROR:
-												statusString = "Error!";
-												break;
-											case COMMIT_FINISHED:
-												statusString = "Finished";
-												break;
-											case FILE_ERROR:
-												//Not used
-												break;
-											case IN_PROGRESS:
-												statusString = "Uploading...";
-												break;
-											case UPLOAD_FINISHED:
-												statusString = "Processing...";
-												break;
-										}
-										fileProgressTable.setWidget(currentFile, 2, new KSLabel(statusString));
+                                        //Status
+                                        String statusString = "";
+                                        switch(fs.getStatus()){
+                                            case ERROR:
+                                                statusString = "Error!";
+                                                break;
+                                            case COMMIT_FINISHED:
+                                                statusString = "Finished";
+                                                break;
+                                            case FILE_ERROR:
+                                                //Not used
+                                                break;
+                                            case IN_PROGRESS:
+                                                statusString = "Uploading...";
+                                                break;
+                                            case UPLOAD_FINISHED:
+                                                statusString = "Processing...";
+                                                break;
+                                        }
+                                        fileProgressTable.setWidget(currentFile, 2, new KSLabel(statusString));
 
-									}
+                                    }
 
 
-								});
-							}
-						};
-						progressTimer.scheduleRepeating(POLL_INTERVAL);
-					}
-				  });
-			  }
-		}
-	});
+                                });
+                            }
+                        };
+                        progressTimer.scheduleRepeating(POLL_INTERVAL);
+                    }
+                  });
+              }
+        }
+    });
 
-	public DocumentTool(String refObjectTypeKey, Enum<?> viewEnum, String viewName) {
-		super(viewEnum, viewName);
-		this.refObjectTypeKey = refObjectTypeKey;
-	}
+    public DocumentTool(String refObjectTypeKey, Enum<?> viewEnum, String viewName) {
+        super(viewEnum, viewName);
+        this.refObjectTypeKey = refObjectTypeKey;
+    }
 
-	protected void isAuthorizedUploadDocuments() {
+    protected void isAuthorizedUploadDocuments() {
         documentServiceAsync.isAuthorizedUploadDocuments(referenceId, referenceTypeKey, new KSAsyncCallback<Boolean>() {
 
-			@Override
+            @Override
             public void handleFailure(Throwable caught) {
-				GWT.log("Error checking permission for adding comments: ", caught);
-				throw new RuntimeException("Error checking Permissions: ", caught);
+                GWT.log("Error checking permission for adding comments: ", caught);
+                throw new RuntimeException("Error checking Permissions: ", caught);
             }
 
-			@Override
+            @Override
             public void onSuccess(Boolean result) {
-				GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
-				if(referenceId != null && !(referenceId.isEmpty())){
-					//buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
-		        	processUi(result);
-				}
-				else{
-					saveWarning.setVisible(true);
-					buttonPanel.setVisible(false);
-					documentList.setVisible(false);
-					//buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
-				}
+                GWT.log("User is " + ((result) ? "" : "not ") + "authorized to add comment.", null);
+                if(referenceId != null && !(referenceId.isEmpty())){
+                    //buttonPanel.getButton(OkEnum.Ok).setEnabled(true);
+                    processUi(result);
+                }
+                else{
+                    saveWarning.setVisible(true);
+                    buttonPanel.setVisible(false);
+                    documentList.setVisible(false);
+                    //buttonPanel.getButton(OkEnum.Ok).setEnabled(false);
+                }
             }
 
-		});
-	}
+        });
+    }
 
     protected void processUi(Boolean result){
        saveWarning.setVisible(false);
-	   buttonPanel.setVisible(result);
-	   documentList.setVisible(true);
-	   refreshDocuments();
+       buttonPanel.setVisible(result);
+       documentList.setVisible(true);
+       refreshDocuments();
     }
 
     private Metadata getMetaData(String fieldKey) {
@@ -311,53 +314,59 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         return labelKey;
     }
 
-    private MultiplicityConfiguration setupMultiplicityConfig(
-            MultiplicityConfiguration.MultiplicityType multiplicityType,
-            MultiplicityConfiguration.StyleType styleType,
-            String path, String addItemlabelMessageKey,
-            String itemLabelMessageKey,
-            Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition,
-            List<String> deletionParentKeys) {
+    private MultiplicityConfiguration setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType multiplicityType
+                                                              , MultiplicityConfiguration.StyleType styleType
+                                                              , String path, String addItemlabelMessageKey
+                                                              , String itemLabelMessageKey
+                                                              , Map<SwapCompositeCondition, List<SwapCompositeConditionFieldConfig>> swappableFieldsDefinition
+                                                              , List<String> deletionParentKeys){
         QueryPath parentPath = QueryPath.concat(path);
-        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType,
-                styleType, getMetaData(parentPath.toString()));
-        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
-        config.setItemLabel(getLabel(itemLabelMessageKey));
-        config.setUpdateable(true);
-
-        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, getLabel(itemLabelMessageKey), null);
-        config.setParent(parentFd);
-
-        MultiplicityFieldConfiguration fc = buildMultiplicityFD("fieldKey",
-                "", parentPath.toString());
+        MultiplicityConfiguration config = new MultiplicityConfiguration(multiplicityType, styleType, getMetaData(parentPath.toString()));
+        FieldDescriptor parentFd = buildMuliplicityParentFieldDescriptor(path, null, null);
+        
+        MultiplicityFieldConfiguration fc = buildMultiplicityFD("fieldKey", "", parentPath.toString());
         MultiplicityFieldWidgetInitializer fieldWidgetInitializer = new MultiplicityFieldWidgetInitializer() {
+            
             @Override
             public ModelWidgetBinding getModelWidgetBindingInstance() {
+                
                 return new ModelWidgetBinding<DocumentForm>() {
+                    
                     public void setModelValue(DocumentForm widget, DataModel model, String path) {
 
                     }
                     public void setWidgetValue(DocumentForm widget, DataModel model, String path){
+                        
 
                     }
                 };
             }
+            
             @Override
             public Widget getNewWidget() {
+                
                 return new DocumentForm();
             }
         };
+        
+        ConstraintMetadata min1 = new ConstraintMetadata();
+        Metadata metadata = new Metadata();
+        
+        config.setAddItemLabel(getLabel(addItemlabelMessageKey));
+        config.setItemLabel(getLabel(itemLabelMessageKey));
+        config.setUpdateable(true);
+        config.setParent(parentFd);
+        
         fc.setFieldWidgetInitializer(fieldWidgetInitializer);
 
         // make the initial number of item equal to 1
-        ConstraintMetadata min1 = new ConstraintMetadata();
         min1.setMinOccurs(1);
-        Metadata metadata = new Metadata();
-        metadata = new Metadata();
         metadata.getConstraints().add(min1);
+        
         config.setMetaData(metadata);
         config.addFieldConfiguration(fc);
         config.nextLine();
+        
         return config;
     }
 
@@ -387,28 +396,64 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
     }
 
     private Widget createUploadForm() {
-	    VerticalSection verticalSection = new VerticalSection();
-	    MultiplicityConfiguration uploadFileMultiplicityConfig = setupMultiplicityConfig(
-	            MultiplicityConfiguration.MultiplicityType.GROUP,
-	            MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP,
-	            "path", "Include More Files",
-	            "File Name",
-	            null,
-	            null);
-        MultiplicitySection ms = null;
-        ms = new MultiplicitySection(uploadFileMultiplicityConfig);
-        verticalSection.addSection(ms);
-        verticalSection.getLayout().setWidth("350");
+        final VerticalSectionView verticalSectionView= new VerticalSectionView(this.getViewEnum(), this.getName(), this.getController().getDefaultModelId());
+        MultiplicitySection ms= new MultiplicitySection(setupMultiplicityConfig(  MultiplicityConfiguration.MultiplicityType.GROUP
+                                                                                , MultiplicityConfiguration.StyleType.TOP_LEVEL_GROUP
+                                                                                , "path", "Include More Files", "File", null, null));
+        
+        verticalSectionView.addSection(ms);
 
-        return verticalSection;
-	}
+        try {
+            
+            documentServiceAsync.getDocumentTypes(new KSAsyncCallback<List<DocumentTypeInfo>>(){
+                
+                @Override
+                public void onSuccess(List<DocumentTypeInfo> supportedDocumentTypeInfoResults){
+                    String acceptableDocumentTypesString;
+                    String maxFileSizeString= "10000000";   //from ks-document-dictionary-context.xml, inaccessible here (in a different service-loaded module?)
+                    int maxFileSizeInt= Integer.parseInt(maxFileSizeString)/1048576;
+                    
+                    if(supportedDocumentTypeInfoResults.isEmpty()){
+                        
+                        acceptableDocumentTypesString= "Sorry, no documents supported for upload now!";       
+                        
+                    }else{
+                        
+                        acceptableDocumentTypesString= "." + supportedDocumentTypeInfoResults.get(0).getName();
+                        for(int i= 1; i < supportedDocumentTypeInfoResults.size(); i++){
+                            
+                            acceptableDocumentTypesString+= ", ." + supportedDocumentTypeInfoResults.get(i).getName();
+                        }                 
+                    }
+                    
+                    if(verticalSectionView instanceof SectionView){
+                        
+                        ((SectionView) verticalSectionView).setInstructions(  "Multiple supporting documents associated with this course can be uploaded.<br>"
+                                                                            + "&nbsp;&nbsp;&nbsp;<b>Acceptable file types:</b>&nbsp;&nbsp;" + "<i>" + acceptableDocumentTypesString + "</i><br>"
+                                                                            + "&nbsp;&nbsp;&nbsp;<b>Max file size:</b>&nbsp;&nbsp;" + "<i>~" + maxFileSizeInt + "MB </i>");
+                    }
+               }
+            }); 
+            
+        } catch (Exception e) {
+
+            throw new RuntimeException(e);
+        }
+        
+        verticalSectionView.getLayout().setWidth("700");
+
+        return verticalSectionView;
+    }
 
     @Override
     protected Widget createWidget() {
-        SectionTitle viewTitle = SectionTitle.generateH2Title(getTitle());
+        //This section title code does not seem consistent with other sections (i.e: of CourseProposal)
+        //  section title is now instead displayed based on verticalSectionView in createUploadForm()
+        /*SectionTitle viewTitle = SectionTitle.generateH2Title(getTitle());
+          
         viewTitle.addStyleName("ks-layout-header");
-
-        layout.add(viewTitle);
+        layout.add(viewTitle);*/
+        
         layout.add(saveWarning);
         saveWarning.setVisible(false);
         buttonPanel.setButtonText(OkEnum.Ok, "Upload");
@@ -429,7 +474,7 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         buttonPanel.setVisible(false);
 
         SectionTitle sectionTitle = SectionTitle.generateH2Title("Upload Status");
-        progressPanel.add(sectionTitle);
+        progressWindow.setNonCaptionHeader(sectionTitle);
         progressPanel.add(progressLabel);
         progressPanel.add(progressBar);
         progressPanel.add(fileProgressTable);
@@ -478,55 +523,58 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         uploadList.add(createUploadForm());
     }
 
-	private static class DocumentForm extends Composite{
-		private KSLabel file = new KSLabel("File Name");
-		private KSLabel description = new KSLabel("Description");
-		private FileUpload upload = new FileUpload();
-		private KSTextArea documentDescription = new KSTextArea();
-		private FlexTable tableLayout = new FlexTable();
+    private static class DocumentForm extends Composite{
+        private KSLabel file = new KSLabel("* File Location");
+        private KSLabel description = new KSLabel("Description");
+        private FileUpload upload = new FileUpload();
+        private KSTextArea documentDescription = new KSTextArea();
+        private FlexTable tableLayout = new FlexTable();
 
-		public DocumentForm(){
-			tableLayout.setWidget(0, 0, file);
-			tableLayout.setWidget(0, 1, upload);
-			upload.setName("uploadFile");
-			tableLayout.setWidget(1, 0, description);
-			tableLayout.setWidget(1, 1, documentDescription);
-			documentDescription.setName("documentDescription");
-			this.initWidget(tableLayout);
-		}
-	}
+        /*
+         * A "File Name n" widget box for choosing a file to upload, and adding a description to it.
+         */
+        public DocumentForm(){
+            tableLayout.setWidget(0, 0, file);
+            tableLayout.setWidget(0, 1, upload);
+            upload.setName("uploadFile");
+            tableLayout.setWidget(1, 0, description);
+            tableLayout.setWidget(1, 1, documentDescription);
+            documentDescription.setName("documentDescription");
+            this.initWidget(tableLayout);
+        }
+    }
+    
+    public String getReferenceId() {
+        return referenceId;
+    }
 
-	public String getReferenceId() {
-		return referenceId;
-	}
+    public void setReferenceId(String referenceId) {
+        this.referenceId = referenceId;
+    }
 
-	public void setReferenceId(String referenceId) {
-		this.referenceId = referenceId;
-	}
+    public String getReferenceTypeKey() {
+        return referenceTypeKey;
+    }
 
-	public String getReferenceTypeKey() {
-		return referenceTypeKey;
-	}
+    public void setReferenceTypeKey(String referenceTypeKey) {
+        this.referenceTypeKey = referenceTypeKey;
+    }
 
-	public void setReferenceTypeKey(String referenceTypeKey) {
-		this.referenceTypeKey = referenceTypeKey;
-	}
+    public String getReferenceType() {
+        return referenceType;
+    }
 
-	public String getReferenceType() {
-		return referenceType;
-	}
+    public void setReferenceType(String referenceType) {
+        this.referenceType = referenceType;
+    }
 
-	public void setReferenceType(String referenceType) {
-		this.referenceType = referenceType;
-	}
+    public String getReferenceState() {
+        return referenceState;
+    }
 
-	public String getReferenceState() {
-		return referenceState;
-	}
-
-	public void setReferenceState(String referenceState) {
-		this.referenceState = referenceState;
-	}
+    public void setReferenceState(String referenceState) {
+        this.referenceState = referenceState;
+    }
 
     @Override
     public void setVisible(boolean visible) {
@@ -536,39 +584,39 @@ public class DocumentTool extends DelayedToolView implements HasReferenceId{
         }
     }
 
-	private void refreshDocuments(){
-		documentList.clear();
+    private void refreshDocuments(){
+        documentList.clear();
         if(referenceId != null && !(referenceId.isEmpty())){
-        	documentList.add(loadingDocuments);
-	        try {
-	        	documentServiceAsync.getRefDocIdsForRef(refObjectTypeKey, referenceId, new KSAsyncCallback<List<RefDocRelationInfo>>(){
+            documentList.add(loadingDocuments);
+            try {
+                documentServiceAsync.getRefDocIdsForRef(refObjectTypeKey, referenceId, new KSAsyncCallback<List<RefDocRelationInfo>>(){
 
-					@Override
-					public void handleFailure(Throwable caught) {
-						GWT.log("getRefDocIdsForRef failed", caught);
-						documentList.remove(loadingDocuments);
+                    @Override
+                    public void handleFailure(Throwable caught) {
+                        GWT.log("getRefDocIdsForRef failed", caught);
+                        documentList.remove(loadingDocuments);
 
-					}
+                    }
 
-					@Override
-					public void onSuccess(List<RefDocRelationInfo> result) {
-						documentList.clear();
-						if(result != null && !(result.isEmpty())){
-						    documentList.add(new DocumentList(refObjectTypeKey, result, deleteCallback));
-						}
-						documentList.remove(loadingDocuments);
-					}
-				});
-			} catch (Exception e) {
-				GWT.log("getRefDocIdsForRef failed", e);
-			}
+                    @Override
+                    public void onSuccess(List<RefDocRelationInfo> result) {
+                        documentList.clear();
+                        if(result != null && !(result.isEmpty())){
+                            documentList.add(new DocumentList(refObjectTypeKey, result, deleteCallback));
+                        }
+                        documentList.remove(loadingDocuments);
+                    }
+                });
+            } catch (Exception e) {
+                GWT.log("getRefDocIdsForRef failed", e);
+            }
         }
-	}
+    }
 
-	@Override
-	public Image getImage() {
-		return Theme.INSTANCE.getCommonImages().getDocumentIcon();
-	}
+    @Override
+    public Image getImage() {
+        return Theme.INSTANCE.getCommonImages().getDocumentIcon();
+    }
 
     public DataModelDefinition getModelDefinition() {
         return modelDefinition;

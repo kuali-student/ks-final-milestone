@@ -23,9 +23,9 @@
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
 
 	<replace-with
-		class="org.kuali.student.common.ui.theme.standard.client.ThemeImpl">
+		class="org.kuali.student.r1.common.ui.theme.standard.client.ThemeImpl">
 		<when-type-is
-			class="org.kuali.student.common.ui.client.theme.Theme" />
+			class="org.kuali.student.r1.common.ui.client.theme.Theme" />
 	</replace-with>
 
 </module>

@@ -15,11 +15,11 @@
 
 package org.kuali.student.common.ui.client.configurable.mvc.binding;
 
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.multiplicity.MultiplicityGroupItem;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.SectionBinding;
 import org.kuali.student.common.ui.client.mvc.DataModel;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
  *
  * @author Kuali Student Team
  */
+@Deprecated
 public class MultiplicityGroupItemBinding extends ModelWidgetBindingSupport<MultiplicityGroupItem> {
     public static MultiplicityGroupItemBinding INSTANCE = new MultiplicityGroupItemBinding();
 

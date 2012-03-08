@@ -19,6 +19,7 @@ import org.kuali.student.common.ui.client.theme.CommonImages;
 
 import com.google.gwt.user.client.ui.Image;
 
+@Deprecated
 public class CommonImagesImpl implements CommonImages{
 	@Override
 	public Image getAsterisk() {

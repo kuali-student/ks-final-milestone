@@ -14,6 +14,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class WarnContainer extends Composite{
 	private Image icon = Theme.INSTANCE.getCommonImages().getWarningDiamondIcon();
 	private FlowPanel layout = new FlowPanel();

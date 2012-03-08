@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team 
  *
  */
+@Deprecated
 public class KSLabelList extends KSSelectItemWidgetAbstract {
     private KSSelectItemWidgetAbstract selectItemWidget = GWT.create(KSLabelListImpl.class);
 

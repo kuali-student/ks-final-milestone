@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 
 import org.springframework.transaction.annotation.Transactional;
 
+@Deprecated
 @Transactional
 public class PersistObjectsBean {
 

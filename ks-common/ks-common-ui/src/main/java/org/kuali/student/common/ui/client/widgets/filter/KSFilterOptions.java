@@ -5,9 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
 import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
@@ -21,6 +18,9 @@ import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.common.ui.client.widgets.list.SearchResultListItems;
 import org.kuali.student.common.ui.client.widgets.notification.LoadingDiv;
 import org.kuali.student.common.ui.client.widgets.search.CollapsablePanel;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Composite;
  * be inspected to update a results widget to reflect the filter option selected.
  * 
  */
+@Deprecated
 public class KSFilterOptions extends Composite{
     private VerticalFlowPanel filterPanel = new VerticalFlowPanel();
     private VerticalFlowPanel filterTitlePanel = new VerticalFlowPanel();

@@ -19,12 +19,13 @@
 	<!-- Inherit the core Web Toolkit stuff.                  -->
 	<inherits name="com.google.gwt.user.User"/>
 	
-	<inherits name="org.kuali.student.common.CommonUtil" />
+	<inherits name="org.kuali.student.r1.common.CommonUtil" />
 	
-	<inherits name="org.kuali.student.common.Core" />
-	<inherits name="org.kuali.student.common.dictionary.Dictionary" />
-	<inherits name="org.kuali.student.common.validation.Validation" />
-	<inherits name="org.kuali.student.common.messages.Message"/>
+	<inherits name="org.kuali.student.r1.common.Core" />
+	<inherits name="org.kuali.student.r1.common.dictionary.Dictionary" />
+	<inherits name="org.kuali.student.r1.common.validation.Validation" />
+	<inherits name="org.kuali.student.r1.common.messages.Message"/>
+	<inherits name="org.kuali.student.r2.common.messages.Message"/>
  
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
   	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>
@@ -40,11 +41,11 @@
 	<set-property name="CssResource.enableMerge" value="false" />
 	<set-property name="CssResource.globalPrefix" value="empty" />
     
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSCollapsableFloatPanel"/>
+    <replace-with class="org.kuali.student.r1.common.ui.client.widgets.impl.KSCollapsableFloatPanelImpl">
+        <when-type-is class="org.kuali.student.r1.common.ui.client.widgets.KSCollapsableFloatPanel"/>
     </replace-with>
 
-    <replace-with class="org.kuali.student.common.ui.client.widgets.impl.KSFloatPanelImpl">
-        <when-type-is class="org.kuali.student.common.ui.client.widgets.KSFloatPanel"/>
+    <replace-with class="org.kuali.student.r1.common.ui.client.widgets.impl.KSFloatPanelImpl">
+        <when-type-is class="org.kuali.student.r1.common.ui.client.widgets.KSFloatPanel"/>
     </replace-with>
 </module>

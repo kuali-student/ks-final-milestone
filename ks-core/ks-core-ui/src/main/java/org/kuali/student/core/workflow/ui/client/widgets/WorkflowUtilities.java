@@ -18,12 +18,15 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.common.assembly.data.ModelDefinition;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
-import org.kuali.student.common.dto.RichTextInfo;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.r1.common.assembly.data.ModelDefinition;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.dto.DtoConstants.DtoState;
+import org.kuali.student.r1.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -40,19 +43,19 @@ import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.HasCrossConstraints;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.util.SearchUtils;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSDropDown;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSRichEditor;
 import org.kuali.student.common.ui.client.widgets.StylishDropDown;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.buttongroups.AcknowledgeCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations;
+import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
+import org.kuali.student.common.ui.client.widgets.buttongroups.RejectCancelGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.AcknowledgeCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.ConfirmCancelEnum;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.RejectCancelEnum;
-import org.kuali.student.common.ui.client.widgets.buttongroups.ConfirmCancelGroup;
-import org.kuali.student.common.ui.client.widgets.buttongroups.RejectCancelGroup;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.field.layout.button.ActionCancelGroup;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.AbbrPanel;
@@ -65,12 +68,9 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
 import org.kuali.student.common.ui.client.widgets.search.KSPicker;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
-import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
-import org.kuali.student.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcServiceAsync;
 import org.kuali.student.core.workflow.ui.client.WorkflowConstants;
@@ -90,10 +90,10 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class WorkflowUtilities{
 
-	//TODO: This should come from the ReferenceModel like it does in CommentTool
+    //TODO: This should come from the ReferenceModel like it does in CommentTool
     public static final String PROPOSAL_REF_TYPE_KEY = "referenceType.clu.proposal";
     
-	public static enum DecisionRationaleDetail {
+    public static enum DecisionRationaleDetail {
         APPROVE("kuali.comment.type.workflowDecisionRationale.approve", "Approved"),
         REJECT("kuali.comment.type.workflowDecisionRationale.reject", "Rejected"),
         RETURN_TO_PREVIOUS("kuali.comment.type.workflowDecisionRationale.return", "Sent for Revisions"),
@@ -133,28 +133,28 @@ public class WorkflowUtilities{
 
     }
 
-	DataModel dataModel=null;
-	
+    DataModel dataModel=null;
+    
 
-	
-	boolean loaded=false;
+    
+    boolean loaded=false;
     
     private boolean workflowWidgetsEnabled = true;
-	
-	private KSMenuItemData wfApproveItem;
-	private KSMenuItemData wfDisApproveItem;
-	private KSMenuItemData wfAcknowledgeItem;
-	private KSMenuItemData wfStartWorkflowItem;
+    
+    private KSMenuItemData wfApproveItem;
+    private KSMenuItemData wfDisApproveItem;
+    private KSMenuItemData wfAcknowledgeItem;
+    private KSMenuItemData wfStartWorkflowItem;
     private KSMenuItemData wfCancelWorkflowItem;
-	private KSMenuItemData wfFYIWorkflowItem;
-	private KSMenuItemData wfWithdrawItem;
+    private KSMenuItemData wfFYIWorkflowItem;
+    private KSMenuItemData wfWithdrawItem;
     private KSMenuItemData wfReturnToPreviousItem;
     private KSMenuItemData wfBlanketApproveItem;
-	
-	private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
-	private final List<KSMenuItemData> additionalItems = new ArrayList<KSMenuItemData>();
+    
+    private final List<KSMenuItemData> items = new ArrayList<KSMenuItemData>();
+    private final List<KSMenuItemData> additionalItems = new ArrayList<KSMenuItemData>();
 
-	
+    
     SaveActionEvent approveSaveActionEvent;
     SaveActionEvent startWorkflowSaveActionEvent;
     
@@ -169,15 +169,15 @@ public class WorkflowUtilities{
     private String proposalName="";
     private String workflowActions="";
         
-	private final List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
-	private Callback<Boolean> submitCallback;
-	private final ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
-	private AbbrPanel required; 
-	private KSLightBox submitSuccessDialog;
-	private VerticalPanel dialogPanel;
-	private VerticalSectionView approveDialogView;
-	private VerticalSectionView blanketApproveDialogView;
-	private HashSet<String> ignoredApproveDialogFields = new HashSet<String>();
+    private final List<StylishDropDown> workflowWidgets = new ArrayList<StylishDropDown>();
+    private Callback<Boolean> submitCallback;
+    private final ConfirmationDialog dialog = new ConfirmationDialog("Submit Proposal", "Are you sure you want to submit the proposal to workflow?", "Submit");
+    private AbbrPanel required; 
+    private KSLightBox submitSuccessDialog;
+    private VerticalPanel dialogPanel;
+    private VerticalSectionView approveDialogView;
+    private VerticalSectionView blanketApproveDialogView;
+    private HashSet<String> ignoredApproveDialogFields = new HashSet<String>();
     
     private final KSLabel workflowStatusLabel = new KSLabel("");
     
@@ -185,60 +185,60 @@ public class WorkflowUtilities{
 
     private final LayoutController parentController;
 
-	private String dropDownLabel = "Workflow Actions";
-	
-	ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL); 
-	
-	public WorkflowUtilities(LayoutController parentController, String proposalPath) {
-		this.parentController = parentController;
-		this.proposalPath = proposalPath;
-		setupWFButtons();
-		setupDialog();
-	}
-	
-	public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel) {
-		this.dropDownLabel = dropDownLabel;
-		this.parentController = parentController;
-		this.proposalPath = proposalPath;
-		setupWFButtons();
-		setupDialog();
-	}
-	
-	public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel, Enum<?> viewEnum, String name, String modelId) {
-		this.dropDownLabel = dropDownLabel;
-		this.parentController = parentController;
-		this.proposalPath = proposalPath;
+    private String dropDownLabel = "Workflow Actions";
+    
+    ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL); 
+    
+    public WorkflowUtilities(LayoutController parentController, String proposalPath) {
+        this.parentController = parentController;
+        this.proposalPath = proposalPath;
+        setupWFButtons();
+        setupDialog();
+    }
+    
+    public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel) {
+        this.dropDownLabel = dropDownLabel;
+        this.parentController = parentController;
+        this.proposalPath = proposalPath;
+        setupWFButtons();
+        setupDialog();
+    }
+    
+    public WorkflowUtilities(LayoutController parentController, String proposalPath, String dropDownLabel, Enum<?> viewEnum, String name, String modelId) {
+        this.dropDownLabel = dropDownLabel;
+        this.parentController = parentController;
+        this.proposalPath = proposalPath;
 
-		approveDialogView = new VerticalSectionView(viewEnum, name, modelId);
-		approveDialogView.setController(parentController);
-		
-		blanketApproveDialogView = new VerticalSectionView(viewEnum, name, modelId);
-		blanketApproveDialogView.setController(parentController);
-		
-		setupWFButtons();
-		setupDialog();
-	}
-	
-	public void addApproveDialogMsg(String messageText) {
-	    KSLabel textArea = new KSLabel();
-	    textArea.setText(messageText);
-	    
-	    approveDialogView.addWidget(textArea);
-	}
-	
-	public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd){
-	    return addApproveDialogField(parentPath, fieldKey, messageKey, modelDefinition, forceAdd, false, null);
+        approveDialogView = new VerticalSectionView(viewEnum, name, modelId);
+        approveDialogView.setController(parentController);
+        
+        blanketApproveDialogView = new VerticalSectionView(viewEnum, name, modelId);
+        blanketApproveDialogView.setController(parentController);
+        
+        setupWFButtons();
+        setupDialog();
+    }
+    
+    public void addApproveDialogMsg(String messageText) {
+        KSLabel textArea = new KSLabel();
+        textArea.setText(messageText);
+        
+        approveDialogView.addWidget(textArea);
+    }
+    
+    public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd){
+        return addApproveDialogField(parentPath, fieldKey, messageKey, modelDefinition, forceAdd, false, null);
 
-	}
-	
-	   public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd, boolean readOnly){
-	        return addApproveDialogField(parentPath, fieldKey, messageKey, modelDefinition, forceAdd, readOnly, null);
+    }
+    
+       public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd, boolean readOnly){
+            return addApproveDialogField(parentPath, fieldKey, messageKey, modelDefinition, forceAdd, readOnly, null);
 
-	    }
+        }
 
-	public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd, boolean readOnly, Widget widget){
+    public FieldDescriptor addApproveDialogField(String parentPath, String fieldKey, MessageKeyInfo messageKey, ModelDefinition modelDefinition, boolean forceAdd, boolean readOnly, Widget widget){
 
-		QueryPath path = QueryPath.concat(parentPath, fieldKey);
+        QueryPath path = QueryPath.concat(parentPath, fieldKey);
         Metadata meta = modelDefinition.getMetadata(path);
         
         FieldDescriptor blanketApproveFd;
@@ -252,61 +252,61 @@ public class WorkflowUtilities{
                 blanketApproveFd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
             }
             blanketApproveFd.setHasHadFocus(true);
-        	blanketApproveDialogView.addField(blanketApproveFd);
+            blanketApproveDialogView.addField(blanketApproveFd);
         }
         
-		//Add a new field to the workflow widget
-		if(approveDialogView != null){
-	        if(forceAdd || 
-	        		(meta.isCanEdit() && 
-	        				(MetadataInterrogator.isRequiredForNextState(meta) || 
-	        						(meta.getConstraints() != null && meta.getConstraints().get(0)!=null && meta.getConstraints().get(0).getMinOccurs()!= null && meta.getConstraints().get(0).getMinOccurs()>0)))){
-	            if(!readOnly){
-	                approveFd = new FieldDescriptor(path.toString(), messageKey, meta);
-	            } else {
-	                approveFd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
-	            }
-	            approveFd.setHasHadFocus(true);
-	    	    approveDialogView.addField(approveFd);
-	            return approveFd;
-	        }
-		}
-		return null;
-	}
-	
-	public void updateApproveFields(){
-		parentController.requestModel(new ModelRequestCallback<DataModel>(){
-			public void onModelReady(final DataModel model) {
-				if(approveDialogView!=null){
-					approveDialogView.updateView(model);
-					for (final FieldDescriptor fd:approveDialogView.getFields()){
-						updateCrossField(fd,model);
-					}
-				}
-				if(blanketApproveDialogView!=null){
-					blanketApproveDialogView.updateView(model);
-					for (final FieldDescriptor fd:blanketApproveDialogView.getFields()){
-						updateCrossField(fd,model);
-					}
-				}
-			}
-			public void onRequestFail(Throwable cause) {
-			}
-			
-		});
-	}
-	
-	/**
-	 * Updates and binds all of the dependent fields for the field passed in as a parameter. 
-	 * Then reprocesses constraints on the field passed in so it is correctly constrained.
-	 * This is needed since the data values won't be bound to the fields until those sections are displayed
-	 *
-	 * TODO This static class should be moved to a utility at some point
-	 *   
-	 * @param fd the field with cross constraints that needs updating
-	 * @param dataModel
-	 */
-	public static void updateCrossField(final FieldDescriptor fd, final DataModel dataModel){
+        //Add a new field to the workflow widget
+        if(approveDialogView != null){
+            if(forceAdd || 
+                    (meta.isCanEdit() && 
+                            (MetadataInterrogator.isRequiredForNextState(meta) || 
+                                    (meta.getConstraints() != null && meta.getConstraints().get(0)!=null && meta.getConstraints().get(0).getMinOccurs()!= null && meta.getConstraints().get(0).getMinOccurs()>0)))){
+                if(!readOnly){
+                    approveFd = new FieldDescriptor(path.toString(), messageKey, meta);
+                } else {
+                    approveFd = new FieldDescriptorReadOnly(path.toString(), messageKey, meta);
+                }
+                approveFd.setHasHadFocus(true);
+                approveDialogView.addField(approveFd);
+                return approveFd;
+            }
+        }
+        return null;
+    }
+    
+    public void updateApproveFields(){
+        parentController.requestModel(new ModelRequestCallback<DataModel>(){
+            public void onModelReady(final DataModel model) {
+                if(approveDialogView!=null){
+                    approveDialogView.updateView(model);
+                    for (final FieldDescriptor fd:approveDialogView.getFields()){
+                        updateCrossField(fd,model);
+                    }
+                }
+                if(blanketApproveDialogView!=null){
+                    blanketApproveDialogView.updateView(model);
+                    for (final FieldDescriptor fd:blanketApproveDialogView.getFields()){
+                        updateCrossField(fd,model);
+                    }
+                }
+            }
+            public void onRequestFail(Throwable cause) {
+            }
+            
+        });
+    }
+    
+    /**
+     * Updates and binds all of the dependent fields for the field passed in as a parameter. 
+     * Then reprocesses constraints on the field passed in so it is correctly constrained.
+     * This is needed since the data values won't be bound to the fields until those sections are displayed
+     *
+     * TODO This static class should be moved to a utility at some point
+     *   
+     * @param fd the field with cross constraints that needs updating
+     * @param dataModel
+     */
+    public static void updateCrossField(final FieldDescriptor fd, final DataModel dataModel){
         // Update the widgets of any cross constraints so the values are there and can be reprocessed.
         if (fd.getFieldWidget() instanceof KSPicker && ((KSPicker) fd.getFieldWidget()).getInputWidget() instanceof KSSelectItemWidgetAbstract) {
             if (fd.getFieldWidget() instanceof HasCrossConstraints) {
@@ -338,158 +338,159 @@ public class WorkflowUtilities{
             }
         }
     }
-	public void requestAndSetupModel(final Callback<Boolean> onModelReadyCallback) {
-		
-		if(null==dataModel){
-			//Get the Model from the controller and register a model change handler when the workflow model is updated
-			parentController.requestModel(modelName, new ModelRequestCallback<DataModel>() {
-			
-				@Override
-				public void onRequestFail(Throwable cause) {
-					Window.alert("Model Request Failed. "+cause.getMessage());
-				}
+    public void requestAndSetupModel(final Callback<Boolean> onModelReadyCallback) {
+        
+        if(null==dataModel){
+            //Get the Model from the controller and register a model change handler when the workflow model is updated
+            parentController.requestModel(modelName, new ModelRequestCallback<DataModel>() {
+            
+                @Override
+                public void onRequestFail(Throwable cause) {
+                    Window.alert("Model Request Failed. "+cause.getMessage());
+                }
 
-				@Override
-				public void onModelReady(DataModel model) {
-					//After we get the model update immediately
-					dataModel = model;
-					updateWorkflow(dataModel);
-					onModelReadyCallback.exec(true);
-				}
-			});
-		}else{
-			//If the model has been set don't waste time finding it again and don't register 
-			//another change listener, just update
-			updateWorkflow(dataModel);
-			onModelReadyCallback.exec(true);
-		}
-	}
-	
-	private void setupWFButtons() {
-		wfApproveItem = getApproveItem();
-		wfDisApproveItem = getDisApproveItem();
-		wfAcknowledgeItem = getAcknowledgeItem();
-		wfStartWorkflowItem = getStartItem();
-		wfCancelWorkflowItem = getCancelWorkflowItem();
-		wfFYIWorkflowItem = getFYIWorkflowItem();
-		wfWithdrawItem = getWithdrawItem();
-		wfReturnToPreviousItem = getReturnToPreviousItem();
-		wfBlanketApproveItem = getBlanketApproveItem();
-	}
-	
-	private void setupSubmitSuccessDialog(){
-		if(submitSuccessDialog==null){
-			submitSuccessDialog= new KSLightBox();
-			submitSuccessDialog.setSize(580, 480);
-			dialogPanel = new VerticalPanel();
-			submitSuccessDialog.setWidget(dialogPanel);
-			
-		}
+                @Override
+                public void onModelReady(DataModel model) {
+                    //After we get the model update immediately
+                    dataModel = model;
+                    updateWorkflow(dataModel);
+                    onModelReadyCallback.exec(true);
+                }
+            });
+        }else{
+            //If the model has been set don't waste time finding it again and don't register 
+            //another change listener, just update
+            updateWorkflow(dataModel);
+            onModelReadyCallback.exec(true);
+        }
+    }
+    
+    private void setupWFButtons() {
+        wfApproveItem = getApproveItem();
+        wfDisApproveItem = getDisApproveItem();
+        wfAcknowledgeItem = getAcknowledgeItem();
+        wfStartWorkflowItem = getStartItem();
+        wfCancelWorkflowItem = getCancelWorkflowItem();
+        wfFYIWorkflowItem = getFYIWorkflowItem();
+        wfWithdrawItem = getWithdrawItem();
+        wfReturnToPreviousItem = getReturnToPreviousItem();
+        wfBlanketApproveItem = getBlanketApproveItem();
+    }
+    
+    private void setupSubmitSuccessDialog(){
+        if(submitSuccessDialog==null){
+            submitSuccessDialog= new KSLightBox();
+            submitSuccessDialog.setSize(580, 480);
+            dialogPanel = new VerticalPanel();
+            submitSuccessDialog.setWidget(dialogPanel);
+            
+        }
 
-	}
-	
-	private void setupDialog(){
+    }
+    
+    private void setupDialog(){
 
-		dialog.getConfirmButton().addClickHandler(new ClickHandler(){
+        dialog.getConfirmButton().addClickHandler(new ClickHandler(){
 
-			@Override
-			public void onClick(ClickEvent event) {
-				dialog.getConfirmButton().setEnabled(false);
-				workflowRpcServiceAsync.submitDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-					@Override
+            @Override
+            public void onClick(ClickEvent event) {
+                dialog.getConfirmButton().setEnabled(false);
+                workflowRpcServiceAsync.submitDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+                    @Override
                     public void handleFailure(Throwable caught) {
-						Window.alert("Error starting Proposal workflow");
-						dialog.getConfirmButton().setEnabled(true);
-					}
-					public void onSuccess(Boolean result) {
-						if (result){
-							updateWorkflow(dataModel);						
-							dialog.hide();
-							dialog.getConfirmButton().setEnabled(true);
-							if(submitCallback != null){
-								submitCallback.exec(true);
-							}
-							//Notify the user that the document was submitted
-							KSNotifier.add(new KSNotification("Proposal has been routed to workflow", false));
-						} else {
-							Window.alert("Error starting Proposal workflow");
-						}
-					}
-				});
-				
-			}
-		});
-	}
-	
-	public Widget getWorkflowActionsWidget(){
-		//InfoMessage infoContainer = new InfoMessage();
-		StylishDropDown workflowActionsDropDown = new StylishDropDown(dropDownLabel );
-		workflowActionsDropDown.makeAButtonWhenOneItem(true);
-		workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
-		workflowWidgets.add(workflowActionsDropDown);
-		workflowActionsDropDown.setVisible(false);
-		updateWorkflow(dataModel);
-/*		infoContainer.add(workflowActionsDropDown);
-		infoContainer.showWarnStyling(false);
-		infoContainer.setVisible(true);*/
-		//workflowActionsDropDown
-		return workflowActionsDropDown;
-	}
-	
+                        Window.alert("Error starting Proposal workflow");
+                        dialog.getConfirmButton().setEnabled(true);
+                    }
+                    public void onSuccess(Boolean result) {
+                        if (result){
+                            updateWorkflow(dataModel);                      
+                            dialog.hide();
+                            dialog.getConfirmButton().setEnabled(true);
+                            if(submitCallback != null){
+                                submitCallback.exec(true);
+                            }
+                            //Notify the user that the document was submitted
+                            KSNotifier.add(new KSNotification("Proposal has been routed to workflow", false));
+                        } else {
+                            Window.alert("Error starting Proposal workflow");
+                        }
+                    }
+                });
+                
+            }
+        });
+    }
+    
+    public Widget getWorkflowActionsWidget(){
+        //InfoMessage infoContainer = new InfoMessage();
+        StylishDropDown workflowActionsDropDown = new StylishDropDown(dropDownLabel );
+        workflowActionsDropDown.makeAButtonWhenOneItem(true);
+        workflowActionsDropDown.addStyleName("KS-Workflow-DropDown");
+        workflowWidgets.add(workflowActionsDropDown);
+        workflowActionsDropDown.setVisible(false);
+        updateWorkflow(dataModel);
+/*      infoContainer.add(workflowActionsDropDown);
+        infoContainer.showWarnStyling(false);
+        infoContainer.setVisible(true);*/
+        //workflowActionsDropDown
+        return workflowActionsDropDown;
+    }
+    
     public void enableWorkflowActionsWidgets(boolean enable) {
         workflowWidgetsEnabled = enable;
-		updateWorkflowActionsWidget();
-	}
-	
-	public void doValidationCheck(Callback<List<ValidationResultInfo>> callback){
-		dataModel.validateNextState(callback);
-	}
-	
-	public KSLabel getWorkflowStatusLabel(){
-		return workflowStatusLabel;
-	}
-	
+        updateWorkflowActionsWidget();
+    }
+    
+    //callback is returned a List<ValidationResultInfo> result through the callback's exec
+    public void doValidationCheck(Callback<List<ValidationResultInfo>> callback){
+        dataModel.validateNextState(callback);
+    }
+    
+    public KSLabel getWorkflowStatusLabel(){
+        return workflowStatusLabel;
+    }
+    
     public KSLabel getProposalStatusLabel() {
         return proposalStatusLabel;
     }
 
     private void updateWorkflowIdFromModel(final DataModel model) {
-		if(model!=null){
-			String modelProposalId = model.get(QueryPath.parse(proposalPath + "/id"));
-			
-			//If proposalId in model has been set or changed, get new workflowId and update workfow widget
-			if (modelProposalId != null && !modelProposalId.isEmpty() && !modelProposalId.equals(proposalId)){
-				proposalId = modelProposalId;
-				workflowId = model.get(QueryPath.parse(proposalPath + "/workflowId"));
-				proposalName = model.get(QueryPath.parse(proposalPath + "/name"));
-			}
-		}
-	}
+        if(model!=null){
+            String modelProposalId = model.get(QueryPath.parse(proposalPath + "/id"));
+            
+            //If proposalId in model has been set or changed, get new workflowId and update workflow widget
+            if (modelProposalId != null && !modelProposalId.isEmpty() && !modelProposalId.equals(proposalId)){
+                proposalId = modelProposalId;
+                workflowId = model.get(QueryPath.parse(proposalPath + "/workflowId"));
+                proposalName = model.get(QueryPath.parse(proposalPath + "/name"));
+            }
+        }
+    }
 
-	private void updateWorkflow(DataModel model){
-		updateWorkflowIdFromModel(model);
-		
-		if (workflowId != null && !workflowId.isEmpty()){
-			//Determine which workflow actions are displayed in the drop down
-			workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
-		
-				public void onSuccess(String result) {
-					workflowActions = result;
-					updateWorkflowActionsWidget();
-				}
-			});
-		
-			workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
-				@Override
-				public void handleFailure(Throwable caught) {
+    private void updateWorkflow(DataModel model){
+        updateWorkflowIdFromModel(model);
+        
+        if (workflowId != null && !workflowId.isEmpty()){
+            //Determine which workflow actions are displayed in the drop down
+            workflowRpcServiceAsync.getActionsRequested(workflowId, new KSAsyncCallback<String>(){
+        
+                public void onSuccess(String result) {
+                    workflowActions = result;
+                    updateWorkflowActionsWidget();
+                }
+            });
+        
+            workflowRpcServiceAsync.getDocumentStatus(workflowId, new KSAsyncCallback<String>(){
+                @Override
+                public void handleFailure(Throwable caught) {
                     setWorkflowStatus("Unknown");
-				}
+                }
 
-				@Override
-				public void onSuccess(String result) {
-					setWorkflowStatus(result);
-				}						
-			});
+                @Override
+                public void onSuccess(String result) {
+                    setWorkflowStatus(result);
+                }                       
+            });
             proposalServiceAsync.getProposalByWorkflowId(workflowId, new KSAsyncCallback<ProposalInfo>() {
                 @Override
                 public void handleFailure(Throwable caught) {
@@ -501,53 +502,53 @@ public class WorkflowUtilities{
                     setProposalStatus(result.getState());
                 }
             });
-		} else {
+        } else {
             setWorkflowStatus("Draft");
             setProposalStatus("Draft");
-		}			
-	}
-	
-	private void updateWorkflowActionsWidget(){
-		items.clear();
+        }           
+    }
+    
+    private void updateWorkflowActionsWidget(){
+        items.clear();
 
-		//When workflow widgets enabled display all available actions, otherwise only
-		//display Cancel, Acknowledge, FYI and Withdraw actions.
-		if (workflowWidgetsEnabled){
-        	//Get the workflowNode from the proposal
-			String workflowNode = null;
-        	if(dataModel!=null){
-        		workflowNode = dataModel.get("proposal/workflowNode");
-        	}
-        	
-			if(workflowActions.contains("S")){
-				items.add(wfStartWorkflowItem);
-			}
+        //When workflow widgets enabled display all available actions, otherwise only
+        //display Cancel, Acknowledge, FYI and Withdraw actions.
+        if (workflowWidgetsEnabled){
+            //Get the workflowNode from the proposal
+            String workflowNode = null;
+            if(dataModel!=null){
+                workflowNode = dataModel.get("proposal/workflowNode");
+            }
+            
+            if(workflowActions.contains("S")){
+                items.add(wfStartWorkflowItem);
+            }
             if(workflowActions.contains("C")){
                 items.add(wfCancelWorkflowItem);
             }
-			if(workflowActions.contains("A")){
-				items.add(wfApproveItem);
-				//Change the approve label  to resubmit if it is the first node
-				if("PreRoute".equals(workflowNode)){
-    				wfApproveItem.setLabel("Resubmit Proposal");
-            	}else{
-    				wfApproveItem.setLabel("Approve Proposal");
-    				//Only add disapprove if it is not the first node
-    				items.add(wfDisApproveItem);
-            	}
-			}
-			if(workflowActions.contains("K")){
-				items.add(wfAcknowledgeItem);
-			}
-			if(workflowActions.contains("F")){
-				items.add(wfFYIWorkflowItem);
-			}
+            if(workflowActions.contains("A")){
+                items.add(wfApproveItem);
+                //Change the approve label  to resubmit if it is the first node
+                if("PreRoute".equals(workflowNode)){
+                    wfApproveItem.setLabel("Resubmit Proposal");
+                }else{
+                    wfApproveItem.setLabel("Approve Proposal");
+                    //Only add disapprove if it is not the first node
+                    items.add(wfDisApproveItem);
+                }
+            }
+            if(workflowActions.contains("K")){
+                items.add(wfAcknowledgeItem);
+            }
+            if(workflowActions.contains("F")){
+                items.add(wfFYIWorkflowItem);
+            }
             if(workflowActions.contains("R")){
-            	//Don't show the return to previous if this is already in preroute.
-            	//Why is this showing up in WF actions?
-            	if(!"PreRoute".equals(workflowNode)){
-            		items.add(wfReturnToPreviousItem);
-            	}
+                //Don't show the return to previous if this is already in preroute.
+                //Why is this showing up in WF actions?
+                if(!"PreRoute".equals(workflowNode)){
+                    items.add(wfReturnToPreviousItem);
+                }
             }
             if(workflowActions.contains("B")){
                 items.add(wfBlanketApproveItem);
@@ -555,111 +556,111 @@ public class WorkflowUtilities{
             if(workflowActions.contains("W")){
                 items.add(wfWithdrawItem);
             }
-		} else {			
+        } else {            
             if(workflowActions.contains("C")){
                 items.add(wfCancelWorkflowItem);
             }
-			if(workflowActions.contains("K")){
-				items.add(wfAcknowledgeItem);
-			}
-			if(workflowActions.contains("F")){
-				items.add(wfFYIWorkflowItem);
-			}            
+            if(workflowActions.contains("K")){
+                items.add(wfAcknowledgeItem);
+            }
+            if(workflowActions.contains("F")){
+                items.add(wfFYIWorkflowItem);
+            }            
             if(workflowActions.contains("W")){
                 items.add(wfWithdrawItem);
             }
             if(workflowActions.contains("A")){
                 items.add(wfDisApproveItem);               
             }
-		}
+        }
 
-		//Add in any other custom items you want in this dropdown.
-		items.addAll(additionalItems);
-		
-		for(StylishDropDown widget: workflowWidgets){
-			
-			widget.setItems(items);
-			widget.setEnabled(true);
-			if(items.isEmpty()){
-				widget.setVisible(false);
-			}
-			else{
-				widget.setVisible(true);
-			}
-		}		
-	}
-	
-	private KSMenuItemData getFYIWorkflowItem() {
-		KSMenuItemData wfFYIWorkflowItem;
-		final KSRichEditor rationaleEditor = new KSRichEditor();
-		wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
-	        public void onClick(ClickEvent event) {	   
-	        	addRationale(rationaleEditor,DecisionRationaleDetail.FYI.getType());
-				workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-					@Override
+        //Add in any other custom items you want in this dropdown.
+        items.addAll(additionalItems);
+        
+        for(StylishDropDown widget: workflowWidgets){
+            
+            widget.setItems(items);
+            widget.setEnabled(true);
+            if(items.isEmpty()){
+                widget.setVisible(false);
+            }
+            else{
+                widget.setVisible(true);
+            }
+        }       
+    }
+    
+    private KSMenuItemData getFYIWorkflowItem() {
+        KSMenuItemData wfFYIWorkflowItem;
+        final KSRichEditor rationaleEditor = new KSRichEditor();
+        wfFYIWorkflowItem = new KSMenuItemData("FYI Proposal", new ClickHandler(){
+            public void onClick(ClickEvent event) {    
+                addRationale(rationaleEditor,DecisionRationaleDetail.FYI.getType());
+                workflowRpcServiceAsync.fyiDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+                    @Override
                     public void handleFailure(Throwable caught) {
-						Window.alert("Error FYIing Proposal");
-					}
-					public void onSuccess(
-							Boolean result) {
-						if(result){
-							updateWorkflow(dataModel);
-							if(submitCallback != null){
-								submitCallback.exec(true);
-							}
-							//Notify the user that the document was FYIed
-							KSNotifier.add(new KSNotification("Proposal was FYIed", false));
-						}else{
-							Window.alert("Error FYIing Proposal");
-						}
-					}
-					
-				});
-	        }        
-	    });
-		return wfFYIWorkflowItem;
-	}
+                        Window.alert("Error FYIing Proposal");
+                    }
+                    public void onSuccess(
+                            Boolean result) {
+                        if(result){
+                            updateWorkflow(dataModel);
+                            if(submitCallback != null){
+                                submitCallback.exec(true);
+                            }
+                            //Notify the user that the document was FYIed
+                            KSNotifier.add(new KSNotification("Proposal was FYIed", false));
+                        }else{
+                            Window.alert("Error FYIing Proposal");
+                        }
+                    }
+                    
+                });
+            }        
+        });
+        return wfFYIWorkflowItem;
+    }
 
-	private KSMenuItemData getAcknowledgeItem() {
-		KSMenuItemData wfAcknowledgeItem;
-		wfAcknowledgeItem = new KSMenuItemData("Acknowledge Proposal", new ClickHandler(){
-	        public void onClick(ClickEvent event) {
-	        	setupSubmitSuccessDialog();
-				final KSRichEditor rationaleEditor = new KSRichEditor();
-				final AcknowledgeCancelGroup approvalButton = new AcknowledgeCancelGroup(new Callback<AcknowledgeCancelEnum>(){
+    private KSMenuItemData getAcknowledgeItem() {
+        KSMenuItemData wfAcknowledgeItem;
+        wfAcknowledgeItem = new KSMenuItemData("Acknowledge Proposal", new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                setupSubmitSuccessDialog();
+                final KSRichEditor rationaleEditor = new KSRichEditor();
+                final AcknowledgeCancelGroup approvalButton = new AcknowledgeCancelGroup(new Callback<AcknowledgeCancelEnum>(){
 
-					@Override
-					public void exec(AcknowledgeCancelEnum result) {
-						if(!result.name().equals("CANCEL")){
-							addRationale(rationaleEditor,DecisionRationaleDetail.ACKNOWLEDGE.getType());
-							workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-								@Override
+                    @Override
+                    public void exec(AcknowledgeCancelEnum result) {
+                        if(!result.name().equals("CANCEL")){
+                            addRationale(rationaleEditor,DecisionRationaleDetail.ACKNOWLEDGE.getType());
+                            workflowRpcServiceAsync.acknowledgeDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+                                @Override
                                 public void handleFailure(Throwable caught) {
-									submitSuccessDialog.hide();
-									Window.alert("Error acknowledging Proposal");
-								}
-								public void onSuccess(Boolean result) {
-									submitSuccessDialog.hide();
-									if(result){
-										updateWorkflow(dataModel);
-										if(submitCallback != null){
-											submitCallback.exec(true);
-										}
-										//Notify the user that the document was acknowledged
-										KSNotifier.add(new KSNotification("Proposal was acknowledged", false));
-									}else{
-										Window.alert("Error acknowledging Proposal");
-									}
-								}
-							});
-						}
-						else{
-							submitSuccessDialog.hide();
-						}
-					}
-				});
-				
-				approvalButton.getButton(ButtonEnumerations.AcknowledgeCancelEnum.ACKNOWLEDGE).setEnabled(false);
+                                    submitSuccessDialog.hide();
+                                    Window.alert("Error acknowledging Proposal");
+                                }
+                                public void onSuccess(Boolean result) {
+                                    submitSuccessDialog.hide();
+                                    if(result){
+                                        updateWorkflow(dataModel);
+                                        if(submitCallback != null){
+                                            submitCallback.exec(true);
+                                        }
+                                        //Notify the user that the document was acknowledged
+                                        KSNotifier.add(new KSNotification("Proposal was acknowledged", false));
+                                    }else{
+                                        Window.alert("Error acknowledging Proposal");
+                                    }
+                                }
+                            });
+                        }
+                        else{
+                            submitSuccessDialog.hide();
+                        }
+                    }
+                });
+                
+                approvalButton.getButton(ButtonEnumerations.AcknowledgeCancelEnum.ACKNOWLEDGE).setEnabled(false);
                 
                 rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
 
@@ -673,71 +674,72 @@ public class WorkflowUtilities{
                     }
                     
                 });
-				
-				SectionTitle headerTitle = SectionTitle.generateH3Title("Acknowledge Proposal");
-				SectionTitle dialogLabel = SectionTitle.generateH4Title("You are acknowledging the " + proposalName +" proposal");
-				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
-				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
-				dialogPanel.clear();
-				dialogPanel.add(headerTitle);	
-				dialogPanel.add(dialogLabel);
-				dialogPanel.add(fieldLabel);
-				dialogPanel.add(rationaleEditor);
-				dialogPanel.add(approvalButton);
-				submitSuccessDialog.show();
-	        }        
-	    });
-		return wfAcknowledgeItem;
-	}
+                
+                SectionTitle headerTitle = SectionTitle.generateH3Title("Acknowledge Proposal");
+                SectionTitle dialogLabel = SectionTitle.generateH4Title("You are acknowledging the " + proposalName +" proposal");
+                SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
+                rationaleEditor.addStyleName("KS-Comment-Create-Editor");
+                dialogPanel.clear();
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
+                dialogPanel.add(dialogLabel);
+                dialogPanel.add(fieldLabel);
+                dialogPanel.add(rationaleEditor);
+                submitSuccessDialog.addButtonGroup(approvalButton);
+                submitSuccessDialog.show();
+            }        
+        });
+        return wfAcknowledgeItem;
+    }
 
-	private KSMenuItemData getDisApproveItem() {
-		KSMenuItemData wfDisApproveItem;
-		wfDisApproveItem = new KSMenuItemData("Reject Proposal", new ClickHandler(){
-	        public void onClick(ClickEvent event) {   
-	        	setupSubmitSuccessDialog();
-				final KSRichEditor rationaleEditor = new KSRichEditor();
-				
-				final RejectCancelGroup disapprovalButton = new RejectCancelGroup(new Callback<RejectCancelEnum>(){
+    private KSMenuItemData getDisApproveItem() {
+        KSMenuItemData wfDisApproveItem;
+        wfDisApproveItem = new KSMenuItemData("Reject Proposal", new ClickHandler(){
+            public void onClick(ClickEvent event) {   
+                setupSubmitSuccessDialog();
+                final KSRichEditor rationaleEditor = new KSRichEditor();
+                
+                final RejectCancelGroup disapprovalButton = new RejectCancelGroup(new Callback<RejectCancelEnum>(){
 
-					@Override
-					public void exec(RejectCancelEnum result) {
-						if(!result.name().equals("CANCEL")){
-							if(rationaleEditor.getText().trim().equals("")){
-								required.setText("Please enter the decision rationale");
-							}
-							else{
-								addRationale(rationaleEditor,DecisionRationaleDetail.REJECT.getType());
-								workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
-									@Override
+                    @Override
+                    public void exec(RejectCancelEnum result) {
+                        if(!result.name().equals("CANCEL")){
+                            if(rationaleEditor.getText().trim().equals("")){
+                                required.setText("Please enter the decision rationale");
+                            }
+                            else{
+                                addRationale(rationaleEditor,DecisionRationaleDetail.REJECT.getType());
+                                workflowRpcServiceAsync.disapproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>(){
+                                    @Override
                                     public void handleFailure(Throwable caught) {
-										submitSuccessDialog.hide();
-										Window.alert("Error rejecting Proposal");
-									}
-									public void onSuccess(Boolean result) {
-										submitSuccessDialog.hide();
-										if(submitCallback != null){
-											submitCallback.exec(result);
-										}
-										if(result){
-											KSNotifier.add(new KSNotification("Proposal was rejected", false));
-											updateWorkflow(dataModel);
-										}else{
-											Window.alert("Error rejecting Proposal");
-										}
-									}
-									
-								});
-							}
+                                        submitSuccessDialog.hide();
+                                        Window.alert("Error rejecting Proposal");
+                                    }
+                                    public void onSuccess(Boolean result) {
+                                        submitSuccessDialog.hide();
+                                        if(submitCallback != null){
+                                            submitCallback.exec(result);
+                                        }
+                                        if(result){
+                                            KSNotifier.add(new KSNotification("Proposal was rejected", false));
+                                            updateWorkflow(dataModel);
+                                        }else{
+                                            Window.alert("Error rejecting Proposal");
+                                        }
+                                    }
+                                    
+                                });
+                            }
 
-					}
-					else{
-						submitSuccessDialog.hide();
-					}
-					}
-				});
-				
-				disapprovalButton.getButton(ButtonEnumerations.RejectCancelEnum.REJECT).setEnabled(false);
-				
+                    }
+                    else{
+                        submitSuccessDialog.hide();
+                    }
+                    }
+                });
+                
+                disapprovalButton.getButton(ButtonEnumerations.RejectCancelEnum.REJECT).setEnabled(false);
+                
                 rationaleEditor.getRichTextArea().addKeyUpHandler(new KeyUpHandler(){
 
                     @Override
@@ -750,43 +752,44 @@ public class WorkflowUtilities{
                     }
                     
                 });
-				
-				SectionTitle headerTitle = SectionTitle.generateH3Title("Reject Proposal");
-				SectionTitle dialogLabel = SectionTitle.generateH4Title("You are rejecting the " + proposalName +" proposal");
-				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
-				required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
-				required.setVisible(true);
-//				final KSRichEditor rationaleEditor = new KSRichEditor();
-//				rationaleEditor.addStyleName("ks-textarea-width");
-//				rationaleEditor.addStyleName("ks-textarea-large-height");
-				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
-				dialogPanel.clear();
-				dialogPanel.add(headerTitle);	
-				dialogPanel.add(dialogLabel);
-				dialogPanel.add(fieldLabel);
-				dialogPanel.add(required);
-				dialogPanel.add(rationaleEditor);
-				dialogPanel.add(disapprovalButton);
-				submitSuccessDialog.setWidget(dialogPanel);
-				submitSuccessDialog.show();
-	        }        
-	    });
-		return wfDisApproveItem;
-	}
+                
+                SectionTitle headerTitle = SectionTitle.generateH3Title("Reject Proposal");
+                SectionTitle dialogLabel = SectionTitle.generateH4Title("You are rejecting the " + proposalName +" proposal");
+                SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");
+                required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
+                required.setVisible(true);
+//              final KSRichEditor rationaleEditor = new KSRichEditor();
+//              rationaleEditor.addStyleName("ks-textarea-width");
+//              rationaleEditor.addStyleName("ks-textarea-large-height");
+                rationaleEditor.addStyleName("KS-Comment-Create-Editor");
+                dialogPanel.clear();
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
+                dialogPanel.add(dialogLabel);
+                dialogPanel.add(fieldLabel);
+                dialogPanel.add(required);
+                dialogPanel.add(rationaleEditor);
+                submitSuccessDialog.addButtonGroup(disapprovalButton);
+                submitSuccessDialog.setWidget(dialogPanel);
+                submitSuccessDialog.show();
+            }        
+        });
+        return wfDisApproveItem;
+    }
 
-	private KSMenuItemData getApproveItem() {
-		KSMenuItemData wfApproveItem;
-		
-		wfApproveItem= new KSMenuItemData("Approve Proposal", new ClickHandler(){
-			public void onClick(ClickEvent event) {
-				setupSubmitSuccessDialog();
-				final KSRichEditor rationaleEditor = new KSRichEditor();
-				
-//				final ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL);  				
-				                  
-				approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
-				
-				approveCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
+    private KSMenuItemData getApproveItem() {
+        KSMenuItemData wfApproveItem;
+        
+        wfApproveItem= new KSMenuItemData("Approve Proposal", new ClickHandler(){
+            public void onClick(ClickEvent event) {
+                setupSubmitSuccessDialog();
+                final KSRichEditor rationaleEditor = new KSRichEditor();
+                
+//              final ActionCancelGroup approveCancelButtons = new ActionCancelGroup(ButtonEnumerations.ApproveCancelEnum.APPROVE, ButtonEnumerations.ApproveCancelEnum.CANCEL);                
+                                  
+                approveCancelButtons.getButton(ButtonEnumerations.ApproveCancelEnum.APPROVE).setEnabled(false);
+                
+                approveCancelButtons.addCallback(new Callback<ButtonEnumerations.ButtonEnum>() {
                     @Override
                     public void exec(ButtonEnumerations.ButtonEnum result) {
                         if (result != ButtonEnumerations.ApproveCancelEnum.CANCEL) {
@@ -864,7 +867,7 @@ public class WorkflowUtilities{
                         });
 
                     }
-                });		                
+                });                     
 
                 if(approveDialogView.getField("proposal/prevEndTerm") != null){                    
                     
@@ -912,33 +915,33 @@ public class WorkflowUtilities{
                     }); 
                     
                 }
-				
-				SectionTitle headerTitle = SectionTitle.generateH3Title("Approve Proposal");
-				SectionTitle dialogLabel = SectionTitle.generateH4Title("You are approving the " + proposalName +" proposal");
-				SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");				
-				required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
-				required.setVisible(true);				
+                
+                SectionTitle headerTitle = SectionTitle.generateH3Title("Approve Proposal");
+                SectionTitle dialogLabel = SectionTitle.generateH4Title("You are approving the " + proposalName +" proposal");
+                SectionTitle fieldLabel = SectionTitle.generateH4Title("Decision Rationale");               
+                required = new AbbrPanel("Required", "ks-form-module-elements-required", " * ");
+                required.setVisible(true);              
                 HorizontalPanel rationalePanel = new HorizontalPanel();                
                 rationalePanel.add(fieldLabel);
-                rationalePanel.add(required);				
-				rationaleEditor.addStyleName("KS-Comment-Create-Editor");
-				dialogPanel.clear();
-				dialogPanel.add(headerTitle);	
-				dialogPanel.add(dialogLabel);
-				dialogPanel.add(rationalePanel);
-				dialogPanel.add(rationaleEditor);
+                rationalePanel.add(required);               
+                rationaleEditor.addStyleName("KS-Comment-Create-Editor");
+                dialogPanel.clear();
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
+                dialogPanel.add(dialogLabel);
+                dialogPanel.add(rationalePanel);
+                dialogPanel.add(rationaleEditor);
                 if(approveDialogView!=null && !approveDialogView.getFields().isEmpty()){
-                	dialogPanel.add(approveDialogView.asWidget());
+                    dialogPanel.add(approveDialogView.asWidget());
                 }
-				dialogPanel.add(approveCancelButtons);
-				dialogPanel.setSize("580px", "450px");
-				
-//				submitSuccessDialog.setWidget(dialogPanel);
-				submitSuccessDialog.show();
-			}        
-		});
-		return wfApproveItem;
-	}
+                submitSuccessDialog.addButtonGroup(approveCancelButtons);
+                //dialogPanel.setSize("580px", "450px");
+                dialogPanel.setHeight("380px");
+                submitSuccessDialog.show();
+            }        
+        });
+        return wfApproveItem;
+    }
 
     private KSMenuItemData getWithdrawItem() {
         KSMenuItemData wfWithdrawItem;
@@ -1009,13 +1012,15 @@ public class WorkflowUtilities{
                 required.setVisible(true);
                 rationaleEditor.addStyleName("KS-Comment-Create-Editor");
                 dialogPanel.clear();
-                dialogPanel.add(headerTitle);
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
                 dialogPanel.add(dialogLabel);
                 dialogPanel.add(fieldLabel);
                 dialogPanel.add(required);
                 dialogPanel.add(rationaleEditor);
-                dialogPanel.add(withdrawButton);
-                dialogPanel.setSize("580px", "400px");
+                submitSuccessDialog.addButtonGroup(withdrawButton);
+                //dialogPanel.setSize("580px", "400px");
+                dialogPanel.setHeight("380px");
                 // submitSuccessDialog.setWidget(dialogPanel);
                 submitSuccessDialog.show();
             }
@@ -1038,69 +1043,69 @@ public class WorkflowUtilities{
                             if (rationaleEditor.getText().trim().equals("")) {
                                 required.setText("Please enter the decision rationale");
                             } else {
-                            	
-								if(blanketApproveDialogView!=null){
-									//Validate all the fields on the current section (the additional required fields)
-									parentController.requestModel(new ModelRequestCallback<DataModel>(){
+                                
+                                if(blanketApproveDialogView!=null){
+                                    //Validate all the fields on the current section (the additional required fields)
+                                    parentController.requestModel(new ModelRequestCallback<DataModel>(){
 
-										@Override
-										public void onModelReady(final DataModel model) {
-											blanketApproveDialogView.updateModel();
-											if(parentController instanceof WorkflowEnhancedNavController){
-												((WorkflowEnhancedNavController)parentController).getMetadataForFinalState(new KSAsyncCallback<Metadata>(){
+                                        @Override
+                                        public void onModelReady(final DataModel model) {
+                                            blanketApproveDialogView.updateModel();
+                                            if(parentController instanceof WorkflowEnhancedNavController){
+                                                ((WorkflowEnhancedNavController)parentController).getMetadataForFinalState(new KSAsyncCallback<Metadata>(){
 
-													@Override
-													public void onSuccess(
-															Metadata metadata) {
-														model.validateForMetadata(metadata, new Callback<List<ValidationResultInfo>>() {
-										                    @Override
-										                    public void exec(List<ValidationResultInfo> results) {
-										                    	//first validate the dialog section
-										                    	
-										                    	//Process the results on the additional fields view
-										                    	
-										                    	if(ErrorLevel.OK.equals(blanketApproveDialogView.processValidationResults(results))){
-										                    		List<String> ignoreFields = new ArrayList<String>(ignoredApproveDialogFields);
-										                    		for(FieldDescriptor fd:blanketApproveDialogView.getFields()){
-										                    			ignoreFields.add(fd.getFieldKey());
-										                    		}
-											                    	if(!ValidationResultInfo.hasValidationErrors(results,ErrorLevel.WARN,ignoreFields)){
-																		//Save first and then do the workflow actions later
-																		SaveActionEvent saveActionEvent = new SaveActionEvent();
-														                saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
-														                    public void onActionComplete(ActionEvent action) {
-														                    	doBlanketApprove();
-														                    }
-														                });
-														                parentController.fireApplicationEvent(saveActionEvent);
-											                    	}else{
-											                    	    submitSuccessDialog.hide();
-											                    		KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
-											                    	}
-										                    	}else{
-										                    		KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
-										                    	}
-										                    }
-														});
-													}
-													
-												});
-											}
-										}
+                                                    @Override
+                                                    public void onSuccess(
+                                                            Metadata metadata) {
+                                                        model.validateForMetadata(metadata, new Callback<List<ValidationResultInfo>>() {
+                                                            @Override
+                                                            public void exec(List<ValidationResultInfo> results) {
+                                                                //first validate the dialog section
+                                                                
+                                                                //Process the results on the additional fields view
+                                                                
+                                                                if(ErrorLevel.OK.equals(blanketApproveDialogView.processValidationResults(results))){
+                                                                    List<String> ignoreFields = new ArrayList<String>(ignoredApproveDialogFields);
+                                                                    for(FieldDescriptor fd:blanketApproveDialogView.getFields()){
+                                                                        ignoreFields.add(fd.getFieldKey());
+                                                                    }
+                                                                    if(!ValidationResultInfo.hasValidationErrors(results,ErrorLevel.WARN,ignoreFields)){
+                                                                        //Save first and then do the workflow actions later
+                                                                        SaveActionEvent saveActionEvent = new SaveActionEvent();
+                                                                        saveActionEvent.setActionCompleteCallback(new ActionCompleteCallback(){
+                                                                            public void onActionComplete(ActionEvent action) {
+                                                                                doBlanketApprove();
+                                                                            }
+                                                                        });
+                                                                        parentController.fireApplicationEvent(saveActionEvent);
+                                                                    }else{
+                                                                        submitSuccessDialog.hide();
+                                                                        KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
+                                                                    }
+                                                                }else{
+                                                                    KSNotifier.add(new KSNotification("Unable to blanket approve, please enter all data required for final approval.", false, true, 5000));
+                                                                }
+                                                            }
+                                                        });
+                                                    }
+                                                    
+                                                });
+                                            }
+                                        }
 
-										@Override
-										public void onRequestFail(
-												Throwable cause) {
-											KSNotifier.add(new KSNotification("Error requesting data model.", false, true, 5000));
-										}
-										
-									});
+                                        @Override
+                                        public void onRequestFail(
+                                                Throwable cause) {
+                                            KSNotifier.add(new KSNotification("Error requesting data model.", false, true, 5000));
+                                        }
+                                        
+                                    });
 
-								}else{
-									doBlanketApprove();
-								}
-                            	
-   	
+                                }else{
+                                    doBlanketApprove();
+                                }
+                                
+    
                             }
                         } else {
                             submitSuccessDialog.hide();
@@ -1108,17 +1113,17 @@ public class WorkflowUtilities{
                         }
                     }
 
-					private void doBlanketApprove() {
+                    private void doBlanketApprove() {
                         addRationale(rationaleEditor, DecisionRationaleDetail.BLANKET_APPROVE.getType());
                         workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
                             @Override
                             public void handleFailure(Throwable caught) {
-                            		submitSuccessDialog.hide();
+                                    submitSuccessDialog.hide();
                                 Window.alert("Error blanket approving Proposal");
                             }
 
                             public void onSuccess(Boolean result) {
-                            		submitSuccessDialog.hide();
+                                    submitSuccessDialog.hide();
                                 if (result) {
                                     // KSLAB-1828; we get "B" back from workflowRpcServiceAsync.getActionsRequested()
                                     // even though we just successfully submitted blanket approval to workflow,
@@ -1136,7 +1141,7 @@ public class WorkflowUtilities{
                                 }
                             }
                         }); 
-					}
+                    }
                 });
                 
                 blanketApprovalButton.getButton(ButtonEnumerations.ConfirmCancelEnum.CONFIRM).setEnabled(false);
@@ -1161,16 +1166,18 @@ public class WorkflowUtilities{
                 required.setVisible(true);
                 rationaleEditor.addStyleName("KS-Comment-Create-Editor");
                 dialogPanel.clear();
-                dialogPanel.add(headerTitle);
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
                 dialogPanel.add(dialogLabel);
                 dialogPanel.add(fieldLabel);
                 dialogPanel.add(required);
                 dialogPanel.add(rationaleEditor);
                 if(blanketApproveDialogView!=null && !blanketApproveDialogView.getFields().isEmpty()){
-                	dialogPanel.add(blanketApproveDialogView.asWidget());
+                    dialogPanel.add(blanketApproveDialogView.asWidget());
                 }
-                dialogPanel.add(blanketApprovalButton);
-                dialogPanel.setSize("580px", "400px");
+                submitSuccessDialog.addButtonGroup(blanketApprovalButton);
+                //dialogPanel.setSize("580px", "400px");
+                dialogPanel.setHeight("380px");
                 // submitSuccessDialog.setWidget(dialogPanel);
                 submitSuccessDialog.show();
             }
@@ -1185,7 +1192,7 @@ public class WorkflowUtilities{
      * @param onSuccessCallback
      */
     public void blanketApprove(final Callback<Boolean> onSuccessCallback){
-   		updateWorkflowIdFromModel(dataModel);
+        updateWorkflowIdFromModel(dataModel);
         workflowRpcServiceAsync.blanketApproveDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
             @Override
             public void handleFailure(Throwable caught) {
@@ -1194,12 +1201,12 @@ public class WorkflowUtilities{
 
             public void onSuccess(Boolean result) {
                 if (result) {
-                	onSuccessCallback.exec(true);
+                    onSuccessCallback.exec(true);
                 } else {
                     Window.alert("Error blanket approving Proposal");
                 }
             }
-        });    	
+        });     
     }
 
     /**
@@ -1209,8 +1216,8 @@ public class WorkflowUtilities{
      * @param onSuccessCallback
      */
     public void cancel(final Callback<Boolean> onSuccessCallback){
-    	ConfirmationDialog confirmCancelDialog = getConfirmationCancelProposalDialog(onSuccessCallback);
-    	confirmCancelDialog.show();
+        ConfirmationDialog confirmCancelDialog = getConfirmationCancelProposalDialog(onSuccessCallback);
+        confirmCancelDialog.show();
     }
 
     
@@ -1323,21 +1330,23 @@ public class WorkflowUtilities{
                 required.setVisible(true);
                 rationaleEditor.addStyleName("KS-Comment-Create-Editor");
                 dialogPanel.clear();
-                dialogPanel.add(headerTitle);
+                submitSuccessDialog.clearButtons();
+                submitSuccessDialog.setNonCaptionHeader(headerTitle);
                 dialogPanel.add(dialogLabel);
                 dialogPanel.add(nnFieldLabel);
                 dialogPanel.add(nodeNameDropDown);
                 dialogPanel.add(drFieldLabel);
                 dialogPanel.add(required);
                 dialogPanel.add(rationaleEditor);
-                dialogPanel.add(returnButton);
-                dialogPanel.setSize("580px", "400px");
+                submitSuccessDialog.addButtonGroup(returnButton);
+                //dialogPanel.setSize("580px", "400px");
+                dialogPanel.setHeight("380px");
                 // submitSuccessDialog.setWidget(dialogPanel);
                 submitSuccessDialog.show();
             }
         });
         return wfReturnToPreviousItem;
-	}
+    }
 
     private void addRationale(KSRichEditor rationaleEditor, String rationaleType) {
         CommentInfo newDecisionRationale = new CommentInfo();
@@ -1370,109 +1379,109 @@ public class WorkflowUtilities{
 
     private KSMenuItemData getStartItem() {
         KSMenuItemData wfStartWorkflowItem;
-    	wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
-    		public void onClick(ClickEvent event) {
+        wfStartWorkflowItem = new KSMenuItemData("Submit Proposal", new ClickHandler(){
+            public void onClick(ClickEvent event) {
                 //Make sure the entire data model is valid before submit
-				dataModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
+                dataModel.validateNextState(new Callback<List<ValidationResultInfo>>() {
                     @Override
                     public void exec(List<ValidationResultInfo> result) {
-                    	
+                        
                         boolean isValid = parentController.isValid(result, false);
-                    	if(isValid){
-            				dialog.show();
-                    	}
-                    	else{
-                    		Window.alert("Unable to submit to workflow.  Please check sections for missing fields.");
-                    	}                            
+                        if(isValid){
+                            dialog.show();
+                        }
+                        else{
+                            Window.alert("Unable to submit to workflow.  Please check sections for missing fields.");
+                        }                            
                     }
                 });
-    		}
+            }
 
-    	});
-		return wfStartWorkflowItem;
-	}
+        });
+        return wfStartWorkflowItem;
+    }
 
     private KSMenuItemData getCancelWorkflowItem() {
         KSMenuItemData wfCancelWorkflowItem;
         wfCancelWorkflowItem = new KSMenuItemData("Cancel Proposal", new ClickHandler() {
-            public void onClick(ClickEvent event) {	
-            	ConfirmationDialog confirmationCancelProposal = getConfirmationCancelProposalDialog(null);
-            	confirmationCancelProposal.show();
+            public void onClick(ClickEvent event) { 
+                ConfirmationDialog confirmationCancelProposal = getConfirmationCancelProposalDialog(null);
+                confirmationCancelProposal.show();
             }
         });
         return wfCancelWorkflowItem;
     }
 
     protected ConfirmationDialog getConfirmationCancelProposalDialog (final Callback<Boolean> onSuccessCallback){
-    	final ConfirmationDialog confirmationCancelProposal = new ConfirmationDialog("Cancel Proposal","This action is not reversible and all data will be lost. Do you wish to cancel this proposal?");
+        final ConfirmationDialog confirmationCancelProposal = new ConfirmationDialog("Cancel Proposal","This action is not reversible and all data will be lost. Do you wish to cancel this proposal?");
         
-    	confirmationCancelProposal.getConfirmButton().setText("Yes, cancel proposal");
-    	confirmationCancelProposal.getCancelButton().setStyleName(ButtonStyle.PRIMARY_SMALL.getStyle());
+        confirmationCancelProposal.getConfirmButton().setText("Yes, cancel proposal");
+        confirmationCancelProposal.getCancelButton().setStyleName(ButtonStyle.PRIMARY_SMALL.getStyle());
         confirmationCancelProposal.getCancelButton().setText("No, return to proposal");
            
-    	confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
-    		@Override
-    		public void onClick(ClickEvent event) {
-    			workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
-    				@Override
+        confirmationCancelProposal.getConfirmButton().addClickHandler(new ClickHandler(){
+            @Override
+            public void onClick(ClickEvent event) {
+                workflowRpcServiceAsync.cancelDocumentWithId(workflowId, new KSAsyncCallback<Boolean>() {
+                    @Override
                     public void handleFailure(Throwable caught) {
-    					confirmationCancelProposal.hide();
-    					Window.alert("Error Cancelling Proposal");
-    				}
-    				public void onSuccess(Boolean result) {
-    					confirmationCancelProposal.hide();
-    					if (result) {
-    						updateWorkflow(dataModel);
-    						if (submitCallback != null) {
-    							submitCallback.exec(true);
-    						}
-    						if (onSuccessCallback != null){
-    							onSuccessCallback.exec(true);
-    						}
-    						// Notify the user that the document was canceled
-    						KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
-    					} else {
-    						Window.alert("Error Cancelling Proposal");
-    					}
-    				}
-    			});
-    		
-    		}
+                        confirmationCancelProposal.hide();
+                        Window.alert("Error Cancelling Proposal");
+                    }
+                    public void onSuccess(Boolean result) {
+                        confirmationCancelProposal.hide();
+                        if (result) {
+                            updateWorkflow(dataModel);
+                            if (submitCallback != null) {
+                                submitCallback.exec(true);
+                            }
+                            if (onSuccessCallback != null){
+                                onSuccessCallback.exec(true);
+                            }
+                            // Notify the user that the document was canceled
+                            KSNotifier.add(new KSNotification("Proposal will be Cancelled", false));
+                        } else {
+                            Window.alert("Error Cancelling Proposal");
+                        }
+                    }
+                });
+            
+            }
 
         });  
-    	
-    	return confirmationCancelProposal;
+        
+        return confirmationCancelProposal;
     }
     
     private void setWorkflowStatus(String statusCd){
-		String statusTranslation = "";
-		if (WorkflowConstants.ROUTE_HEADER_SAVED_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_SAVED_LABEL_KEY);
-		} else  if (WorkflowConstants.ROUTE_HEADER_INITIATED_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_INITIATED_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_ENROUTE_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_APPROVED_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_CANCEL_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_CANCEL_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_EXCEPTION_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_EXCEPTION_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVED_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_FINAL_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);//getLabel(WorkflowConstants.ROUTE_HEADER_FINAL_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_LABEL_KEY);
-		} else if (WorkflowConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusCd)){
-			statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);//getLabel(WorkflowConstants.ROUTE_HEADER_PROCESSED_LABEL_KEY);
-		} else {
-			statusTranslation = statusCd;
-		}
-		
-		workflowStatusLabel.setText("Status: " + statusTranslation);	
-	}
-	
+        String statusTranslation = "";
+        if (WorkflowConstants.ROUTE_HEADER_SAVED_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_SAVED_LABEL_KEY);
+        } else  if (WorkflowConstants.ROUTE_HEADER_INITIATED_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_INITIATED_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_ENROUTE_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_ENROUTE_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_APPROVED_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_CANCEL_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_CANCEL_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_EXCEPTION_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_EXCEPTION_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVED_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVED_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_FINAL_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);//getLabel(WorkflowConstants.ROUTE_HEADER_FINAL_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_DISAPPROVE_CANCEL_LABEL_KEY);
+        } else if (WorkflowConstants.ROUTE_HEADER_PROCESSED_CD.equals(statusCd)){
+            statusTranslation = getLabel(WorkflowConstants.ROUTE_HEADER_APPROVED_LABEL_KEY);//getLabel(WorkflowConstants.ROUTE_HEADER_PROCESSED_LABEL_KEY);
+        } else {
+            statusTranslation = statusCd;
+        }
+        
+        workflowStatusLabel.setText("Status: " + statusTranslation);    
+    }
+    
     private void setProposalStatus(String statusCode) {
         String statusLabel = Application.getApplicationContext()
                 .getUILabel("common", null, null, "proposalStatusLabel");
@@ -1486,53 +1495,53 @@ public class WorkflowUtilities{
      * 
      * @param modelName
      */
-	public void setModelName(String modelName) {
-		this.modelName = modelName;
-	}
-	
-	/**
-	 * Use to set the data model path to retrieve the propsal data to use for this workflow. 
-	 * @param idPath
-	 */
-	public void setProposalPath(String proposalPath) {
-		this.proposalPath = proposalPath;
-	}
-		
-	public void setWorkflowRpcService(WorkflowRpcServiceAsync workflowRpcServiceAsync){
-		this.workflowRpcServiceAsync = workflowRpcServiceAsync;
-	}
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
+    }
+    
+    /**
+     * Use to set the data model path to retrieve the propsal data to use for this workflow. 
+     * @param idPath
+     */
+    public void setProposalPath(String proposalPath) {
+        this.proposalPath = proposalPath;
+    }
+        
+    public void setWorkflowRpcService(WorkflowRpcServiceAsync workflowRpcServiceAsync){
+        this.workflowRpcServiceAsync = workflowRpcServiceAsync;
+    }
 
     //TODO: currently causing a lot of duplicate calls and has to be used carefully. Commented out for now.
-	public void refresh(){
-	    updateApproveFields();
-		updateWorkflow(dataModel);
-	}
-	
+    public void refresh(){
+        updateApproveFields();
+        updateWorkflow(dataModel);
+    }
+    
     private String getLabel(String labelKey) {
         return Application.getApplicationContext().getUILabel("common", null, null, labelKey);
     }
     
     public void getDataIdFromWorkflowId(String workflowId, AsyncCallback<String> callback){
-    	workflowRpcServiceAsync.getDataIdFromWorkflowId(workflowId, callback);
+        workflowRpcServiceAsync.getDataIdFromWorkflowId(workflowId, callback);
     }
 
-	public void addSubmitCallback(Callback<Boolean> callback) {
-		this.submitCallback = callback;
-		
-	}
+    public void addSubmitCallback(Callback<Boolean> callback) {
+        this.submitCallback = callback;
+        
+    }
 
-	public List<KSMenuItemData> getAdditionalItems() {
-		return additionalItems;
-	}
+    public List<KSMenuItemData> getAdditionalItems() {
+        return additionalItems;
+    }
 
-	public void addIgnoreDialogField(String string) {
-		ignoredApproveDialogFields.add(string);
-	}
-	
-	public VerticalSectionView getApproveDialogue() {
-	    return approveDialogView;
-	}
-	
+    public void addIgnoreDialogField(String string) {
+        ignoredApproveDialogFields.add(string);
+    }
+    
+    public VerticalSectionView getApproveDialogue() {
+        return approveDialogView;
+    }
+    
     public void progressiveEnableFields() {
         if (getApproveDialogue() != null) {
             

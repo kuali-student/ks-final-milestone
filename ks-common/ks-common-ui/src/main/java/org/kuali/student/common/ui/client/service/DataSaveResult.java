@@ -18,10 +18,11 @@ package org.kuali.student.common.ui.client.service;
 import java.io.Serializable;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 
+@Deprecated
 public class DataSaveResult implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private List<ValidationResultInfo> validationResults;

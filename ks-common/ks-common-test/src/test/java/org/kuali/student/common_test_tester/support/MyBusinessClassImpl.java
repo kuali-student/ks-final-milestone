@@ -17,6 +17,7 @@ package org.kuali.student.common_test_tester.support;
 
 import org.springframework.transaction.annotation.Transactional;
 
+@Deprecated
 @Transactional
 public class MyBusinessClassImpl implements MyBusinessClass{
 	private MyDao myDao;

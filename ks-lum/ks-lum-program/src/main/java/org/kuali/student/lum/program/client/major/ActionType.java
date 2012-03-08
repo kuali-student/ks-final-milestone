@@ -3,31 +3,30 @@ package org.kuali.student.lum.program.client.major;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
+
+import org.kuali.student.common.ui.client.application.Application;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 
 /**
  * @author Igor
  */
 public enum ActionType {
-    NO_ACTION(ProgramProperties.get().programAction_title()),
-    MODIFY(ProgramProperties.get().programAction_modify()),
-    RETIRE(ProgramProperties.get().programAction_retire()),
-    MODIFY_VERSION(ProgramProperties.get().programAction_modifyVersion()),
-    PROPOSED_PROGRAM_MODIFICATION(ProgramProperties.get().programAction_proposedProgramModification());
+    NO_ACTION(ProgramMsgConstants.PROGRAMACTION_TITLE),
+    MODIFY(ProgramMsgConstants.PROGRAMACTION_MODIFY),
+    RETIRE(ProgramMsgConstants.PROGRAMACTION_RETIRE),
+    MODIFY_VERSION(ProgramMsgConstants.PROGRAMACTION_MODIFYVERSION),
+    PROPOSED_PROGRAM_MODIFICATION(ProgramMsgConstants.PROGRAMACTION_PROPOSEDPROGRAMMODIFICATION);
 
     private final String value;
-
-    private static List<String> values;
 
     ActionType(String value) {
         this.value = value;
     }
 
     public String getValue() {
-        return value;
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, value);
     }
-
-   
+    
     /**
      * This method will send back a list of values to populate the action box
      * drop-down with.  
