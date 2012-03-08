@@ -339,7 +339,7 @@ public class CategoryManagementTable extends Composite {
        if(isHideInactiveCategories()) {
             List<LoCategoryInfo> filteredResult = new ArrayList<LoCategoryInfo>();
             for(LoCategoryInfo info : result) {
-                if (info.getState().equals("active") ) {
+                if ("Active".equals(info.getState())) {
                     filteredResult.add(info);
                 }
             }

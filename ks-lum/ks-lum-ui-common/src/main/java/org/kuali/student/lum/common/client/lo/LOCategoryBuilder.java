@@ -308,7 +308,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
 
                                 LoCategoryInfoHelper catHelper = new LoCategoryInfoHelper(new Data());
                                 catHelper.setName(nameTextBox.getText());
-                                catHelper.setState("active");
+                                catHelper.setState("Active");
                                 catHelper.setLoRepository(repoKey);
                                 catHelper.setType(typesDropDown.getSelectedItem());
 

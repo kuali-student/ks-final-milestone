@@ -19,7 +19,6 @@ import java.util.List;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.BasicLayout;
@@ -169,7 +168,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
         // the callback is used here to append widgets at the end of the view.
         // callback is needed here because there is an asynchronous call to retrieve
         // metadata during the construction of ClusetView
-        createClusetView = new ClusetView(ClusetView.CluSetsManagementViews.CREATE,
+        createClusetView = GWT.create(ClusetView.class);
+        createClusetView.init(ClusetView.CluSetsManagementViews.CREATE,
                 "Build Course Set", CLUSET_MGT_MODEL, new Callback<Boolean>() {
                     @Override
                     public void exec(Boolean result) {
@@ -180,7 +180,8 @@ public class CluSetsManagementController extends BasicLayout implements Requires
                         }
                     }
         });
-        editClusetView = new ClusetView(ClusetView.CluSetsManagementViews.EDIT,
+        editClusetView = GWT.create(ClusetView.class);
+        editClusetView.init(ClusetView.CluSetsManagementViews.EDIT,
                 "Edit Course Set", CLUSET_MGT_MODEL, new Callback<Boolean>() {
                     @Override
                     public void exec(Boolean result) {
@@ -191,10 +192,12 @@ public class CluSetsManagementController extends BasicLayout implements Requires
                         }
                     }
         });
-        viewClusetView = new ClusetView(ClusetView.CluSetsManagementViews.VIEW,
+        viewClusetView = GWT.create(ClusetView.class);
+        viewClusetView.init(ClusetView.CluSetsManagementViews.VIEW,
                 "View Course Set", CLUSET_MGT_MODEL, null);
         
-        mainView = new ClusetView(ClusetView.CluSetsManagementViews.MAIN,
+        mainView = GWT.create(ClusetView.class);
+        mainView.init(ClusetView.CluSetsManagementViews.MAIN,
                 "", CLUSET_MGT_MODEL, null);
         
         setDefaultView(ClusetView.CluSetsManagementViews.MAIN);
@@ -285,7 +288,6 @@ public class CluSetsManagementController extends BasicLayout implements Requires
 //        getNextButton("View CLU Sets").setVisible(false);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void requestModel(Class modelType, final ModelRequestCallback callback) {
         super.requestModel(modelType, callback);

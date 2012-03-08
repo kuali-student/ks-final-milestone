@@ -16,12 +16,15 @@
 package org.kuali.student.lum.lu.assembly;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.log4j.Logger;
 import org.kuali.rice.kim.bo.types.dto.AttributeSet;
 import org.kuali.student.common.assembly.data.AssemblyException;
 import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.dictionary.MetadataServiceImpl;
 import org.kuali.student.common.assembly.old.BaseAssembler;
@@ -414,6 +417,11 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
             result.setType(cluSetInfo.getType());
             result.setCluRangeParams(CluSetRangeModelUtil.INSTANCE.toData(
                     cluSetInfo.getMembershipQuery()));
+            
+            //Add all dynamic attributes
+            for(Entry<String,String> entry:cluSetInfo.getAttributes().entrySet()){
+            	result.getData().set(entry.getKey(), entry.getValue());
+            }
         }
         return result;
     }
@@ -470,11 +478,21 @@ public class CluSetManagementAssembler extends BaseAssembler<Data, Void> {
         cluSetInfo.setName(cluSetHelper.getName());
         cluSetInfo.setState(cluSetHelper.getState());
         if (cluSetInfo.getState() == null) {
-            cluSetInfo.setState("active");
+            cluSetInfo.setState("Active");
         }
         cluSetInfo.setType(cluSetHelper.getType());
         cluSetInfo.setIsReusable(cluSetHelper.getReusable());
         cluSetInfo.setIsReferenceable(cluSetHelper.getReferenceable());
+        
+        //Put in any additional properties
+        for(Iterator<Property> iter=cluSetHelper.getData().realPropertyIterator();iter.hasNext();){
+        	Property property = iter.next();
+        	if(property.getValue()!=null && !(property.getValue() instanceof Data ) && !CluSetHelper.getProperties().contains((String)property.getKey())){
+        		//Add this as a dynamic attribute
+        		cluSetInfo.getAttributes().put((String)property.getKey(), property.getValue().toString());
+        	}
+        }
+        
         return cluSetInfo;
     }
 

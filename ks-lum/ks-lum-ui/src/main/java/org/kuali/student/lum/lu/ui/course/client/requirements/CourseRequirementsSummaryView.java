@@ -14,7 +14,6 @@ import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.mvc.DataModel;
-import org.kuali.student.common.ui.client.mvc.Model;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.View;
 import org.kuali.student.common.ui.client.widgets.KSButton;
@@ -70,6 +69,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
 
     protected Map<String, SpanPanel> perCourseRequisiteTypePanel = new LinkedHashMap<String, SpanPanel>();
 
+	protected boolean displayInitialized = false;
+    
     public CourseRequirementsSummaryView() {
         super();
     }
@@ -128,7 +129,12 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
             onReadyCallback.exec(true);
             return;
         }
-
+        
+        //Check if the display was ever drawn (it's being set to false in ()
+        if(!displayInitialized){
+        	displayRules();
+        }
+        
         //see if we need to update a rule if user is returning from rule manage screen
         parentController.getView(CourseRequirementsViewController.CourseRequirementsViews.MANAGE, new Callback<View>(){
 			@Override
@@ -234,6 +240,8 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
         }
 
         addWidget(layout);
+        
+        displayInitialized = true;
     }
 
     protected void displayRequirementSectionForGivenType(final SpanPanel requirementsPanel,
@@ -422,7 +430,7 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
     }
 
     public void storeRules(final boolean storeRules, final Callback<Boolean> callback) {
-        parentController.requestModel(CourseRequirementsViewController.COURSE_PROPOSAL_MODEL, new ModelRequestCallback() {
+        parentController.requestModel(CourseRequirementsViewController.COURSE_PROPOSAL_MODEL, new ModelRequestCallback<DataModel>() {
             @Override
             public void onRequestFail(Throwable cause) {
                 Window.alert(cause.getMessage());
@@ -430,9 +438,9 @@ public class CourseRequirementsSummaryView extends VerticalSectionView {
                 callback.exec(false);
             }
             @Override
-            public void onModelReady(Model model) {
-                String courseId = ((DataModel)model).getRoot().get("id");
-                String courseState = ((DataModel)model).getRoot().get("state");
+            public void onModelReady(DataModel model) {
+                String courseId = model.getRoot().get("id");
+                String courseState = model.getRoot().get("state");
                 if (courseId == null) {
                     final ConfirmationDialog dialog = new ConfirmationDialog("Submit Course Title", "Before saving rules please submit course proposal title");
                     dialog.getConfirmButton().addClickHandler(new ClickHandler(){

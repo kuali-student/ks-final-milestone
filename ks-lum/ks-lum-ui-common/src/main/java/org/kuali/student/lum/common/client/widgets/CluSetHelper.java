@@ -15,7 +15,10 @@
 
 package org.kuali.student.lum.common.client.widgets;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.assembly.helper.PropertyEnum;
@@ -23,8 +26,12 @@ import org.kuali.student.lum.common.client.lo.MetaInfoHelper;
 
 public class CluSetHelper {
 
-    private static final long serialVersionUID = 1;
-
+    private final static Set<String> properties = new HashSet<String>();
+    
+    public static Set<String> getProperties(){
+    	return Collections.unmodifiableSet(properties);
+    }
+    
     public enum Properties implements PropertyEnum
     {
         ID ("id"),
@@ -48,14 +55,18 @@ public class CluSetHelper {
 
         private final String key;
 
+
         private Properties (final String key) {
             this.key = key;
+            properties.add(key);
         }
 
         @Override
         public String getKey() {
             return this.key;
         }
+        
+
     }
     private Data data;
 
