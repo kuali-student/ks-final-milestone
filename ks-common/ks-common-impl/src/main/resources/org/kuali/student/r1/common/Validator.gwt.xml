@@ -17,8 +17,8 @@
 -->
 
 	<source path='validator'>
-		<include name="**/*DateParser.java"/>
-		<include name="**/*DateParseException.java"/>
+		<include name="DateParser.java"/>
+		<include name="DateParseException.java"/>
 	</source>
 	
 </module>

@@ -18,12 +18,16 @@
 <module>
 	<inherits name='com.google.gwt.user.User' />
     <inherits name="com.googlecode.gwtx.Java" />
-    <source path='infc' />
+    <source path='infc'>
+    	<exclude name="**/*HoldsDataDictionaryService.java"/>
+    	<exclude name="**/*HoldsIdentityService.java"/>
+    	<exclude name="**/*HoldsPermissionService.java"/>
+    	<exclude name="**/*HoldsValidator.java"/>
+    </source>
 	<source path='dto' />
-	<source path='util'>
-		<include name="**/*ContextUtils.java"/>
-		<include name="**/*DataDictionaryServiceConstants.java"/>
-	</source>
+<!-- 	<source path='util'> -->
+<!-- 		<include name="**/*ContextUtils.java"/> -->
+<!-- 	</source> -->
 	<source path = 'exceptions'>
 		<include name="**/*DoesNotExistException.java"/>
 		<include name="**/*InvalidParameterException.java"/>

@@ -16,7 +16,7 @@
 -->
 
 <module>
-	<source path='dto' />
-	<source path='infc' />
-	<source path='service' />
+<!-- 	<source path='dto' /> -->
+<!-- 	<source path='infc' /> -->
+<!-- 	<source path='service' /> -->
 </module>
