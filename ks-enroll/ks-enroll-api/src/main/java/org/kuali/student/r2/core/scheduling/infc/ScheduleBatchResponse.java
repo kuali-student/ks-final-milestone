@@ -35,11 +35,11 @@ public interface ScheduleBatchResponse extends IdNamelessEntity{
     public Date getSubmittedDate();
 
     /**
-     * In-progress status of the scheduling transaction
+     * Status message
      *
-     * @name In Progress Status
+     * @name Status Message
      */
-    public Status getInProgressStatus();
+    public String getStatusMessage();
 
     /**
      * Overall status of the scheduling transaction

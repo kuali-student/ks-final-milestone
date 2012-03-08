@@ -60,7 +60,7 @@ public class ScheduleResponseItemInfo implements ScheduleResponseItem, Serializa
 
     @Override
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(String id) {
@@ -69,7 +69,12 @@ public class ScheduleResponseItemInfo implements ScheduleResponseItem, Serializa
 
     @Override
     public List<String> getScheduleIds() {
-        return scheduleIds;
+        if (null == this.scheduleIds) {
+            return new ArrayList<String>();
+        }
+        else {
+            return this.scheduleIds;
+        }
     }
 
     public void setScheduleIds(List<String> scheduleIds) {
@@ -78,7 +83,7 @@ public class ScheduleResponseItemInfo implements ScheduleResponseItem, Serializa
 
     @Override
     public String getScheduleRequestItemId() {
-        return scheduleRequestItemId;
+        return this.scheduleRequestItemId;
     }
 
     public void setScheduleRequestItemId(String scheduleRequestItemId) {
@@ -87,7 +92,7 @@ public class ScheduleResponseItemInfo implements ScheduleResponseItem, Serializa
 
     @Override
     public String getScheduleResponseId() {
-        return scheduleResponseId;
+        return this.scheduleResponseId;
     }
 
     public void setScheduleResponseId(String scheduleResponseId) {

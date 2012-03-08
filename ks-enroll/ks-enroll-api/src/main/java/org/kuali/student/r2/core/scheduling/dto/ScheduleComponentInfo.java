@@ -75,7 +75,12 @@ public class ScheduleComponentInfo implements ScheduleComponent, Serializable {
 
     @Override
     public List<String> getTimeSlotIds() {
-        return timeSlotIds;
+        if (null == timeSlotIds) {
+            return new ArrayList<String>();
+        }
+        else {
+            return timeSlotIds;
+        }
     }
 
     public void setTimeSlotIds(List<String> timeSlotIds) {

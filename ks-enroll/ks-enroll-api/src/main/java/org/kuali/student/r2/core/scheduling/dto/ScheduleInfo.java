@@ -84,7 +84,12 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
 
     @Override
     public List<String> getScheduleComponentIds() {
-        return this.scheduleComponentIds;
+        if (null == this.scheduleComponentIds) {
+            return new ArrayList<String>();
+        }
+        else {
+            return this.scheduleComponentIds;
+        }
     }
 
     public void setScheduleComponentIds(List<String> scheduleComponentIds) {
@@ -93,7 +98,12 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
 
     @Override
     public List<DateRangeInfo> getBlackoutDates() {
-        return this.blackoutDates;
+        if (null == this.blackoutDates) {
+            return new ArrayList<DateRangeInfo>();
+        }
+        else {
+            return this.blackoutDates;
+        }
     }
 
     public void setBlackoutDates(List<DateRangeInfo> blackoutDates) {
@@ -102,7 +112,12 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
 
     @Override
     public List<String> getBlackoutMilestoneIds() {
-        return this.blackoutMilestoneIds;
+        if (null == this.blackoutMilestoneIds) {
+            return new ArrayList<String>();
+        }
+        else {
+            return this.blackoutMilestoneIds;
+        }
     }
 
     public void setBlackoutMilestoneIds(List<String> blackoutMilestoneIds) {
@@ -111,7 +126,12 @@ public class ScheduleInfo extends IdEntityInfo implements Schedule, Serializable
 
     @Override
     public List<MeetingTimeInfo> getAdditionalMeetingTimes() {
-        return this.additionalMeetingTimes;
+        if (null == this.additionalMeetingTimes) {
+            return new ArrayList<MeetingTimeInfo>();
+        }
+        else {
+            return this.additionalMeetingTimes;
+        }
     }
 
     public void setAdditionalMeetingTimes(List<MeetingTimeInfo> additionalMeetingTimes) {

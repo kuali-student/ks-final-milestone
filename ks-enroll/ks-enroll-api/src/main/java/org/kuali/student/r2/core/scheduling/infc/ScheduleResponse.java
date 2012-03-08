@@ -16,7 +16,6 @@
 package org.kuali.student.r2.core.scheduling.infc;
 
 import org.kuali.student.r2.common.infc.IdNamelessEntity;
-import org.kuali.student.r2.common.infc.Status;
 
 
 /**
@@ -56,8 +55,8 @@ public interface ScheduleResponse extends IdNamelessEntity {
     /**
      * Status of the schedule request
      *
-     * @name Status
+     * @name Status Message
      *
      */
-    public Status getStatus();
+    public String getStatusMessage();
 }

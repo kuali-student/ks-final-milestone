@@ -35,7 +35,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleResponseInfo", propOrder = {"id", "typeKey", "stateKey",
-        "batchResponseId", "scheduleRequestId", "scheduleId", "status",
+        "batchResponseId", "scheduleRequestId", "scheduleId", "statusMessage",
         "meta", "attributes", "_futureElements"})
 public class ScheduleResponseInfo extends IdNamelessEntityInfo implements ScheduleResponse, Serializable {
 
@@ -46,7 +46,7 @@ public class ScheduleResponseInfo extends IdNamelessEntityInfo implements Schedu
     @XmlElement
     private String scheduleId;
     @XmlElement
-    private StatusInfo status;
+    private String statusMessage;
     @XmlAnyElement
     private List<Element> _futureElements;
 
@@ -58,7 +58,7 @@ public class ScheduleResponseInfo extends IdNamelessEntityInfo implements Schedu
             this.batchResponseId = scheduleResponse.getBatchResponseId();
             this.scheduleRequestId = scheduleResponse.getScheduleRequestId();
             this.scheduleId = scheduleResponse.getScheduleId();
-            this.status = new StatusInfo(scheduleResponse.getStatus());
+            this.statusMessage = scheduleResponse.getStatusMessage();
         }
     }
 
@@ -90,11 +90,11 @@ public class ScheduleResponseInfo extends IdNamelessEntityInfo implements Schedu
     }
 
     @Override
-    public Status getStatus() {
-        return this.status;
+    public String getStatusMessage() {
+        return this.statusMessage;
     }
 
-    public void setStatus(StatusInfo status) {
-        this.status = status;
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 }

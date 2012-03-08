@@ -64,7 +64,7 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
 
     @Override
     public String getRefObjectTypeKey() {
-        return refObjectTypeKey;
+        return this.refObjectTypeKey;
     }
 
     public void setRefObjectTypeKey(String refObjectTypeKey) {
@@ -73,7 +73,7 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
 
     @Override
     public String getRefObjectId() {
-        return refObjectId;
+        return this.refObjectId;
     }
 
     public void setRefObjectId(String refObjectId) {
@@ -82,7 +82,12 @@ public class ScheduleRequestInfo extends IdEntityInfo implements ScheduleRequest
 
     @Override
     public List<ScheduleRequestComponentInfo> getScheduleRequestComponents() {
-        return this.scheduleRequestComponents;
+        if (null == this.scheduleRequestComponents) {
+            return new ArrayList<ScheduleRequestComponentInfo>();
+        }
+        else {
+            return this.scheduleRequestComponents;
+        }
     }
 
     public void setScheduleRequestComponents(List<ScheduleRequestComponentInfo> scheduleRequestComponents) {

@@ -35,14 +35,14 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ScheduleBatchResponseInfo", propOrder = {"id", "typeKey", "stateKey",
-        "submittedDate", "inProgressStatus", "finalStatus",
+        "submittedDate", "statusMessage", "finalStatus",
         "meta", "attributes", "_futureElements"})
 public class ScheduleBatchResponseInfo extends IdNamelessEntityInfo implements ScheduleBatchResponse, Serializable {
     
     @XmlElement 
     private Date submittedDate;
     @XmlElement
-    private StatusInfo inProgressStatus;
+    private String statusMessage;
     @XmlElement
     private StatusInfo finalStatus;
     @XmlAnyElement
@@ -55,7 +55,7 @@ public class ScheduleBatchResponseInfo extends IdNamelessEntityInfo implements S
     public ScheduleBatchResponseInfo(ScheduleBatchResponse scheduleBatchResponse) {
         if (null != scheduleBatchResponse) {
             this.submittedDate = scheduleBatchResponse.getSubmittedDate();
-            this.inProgressStatus = new StatusInfo(scheduleBatchResponse.getInProgressStatus());
+            this.statusMessage = scheduleBatchResponse.getStatusMessage();
             this.finalStatus = new StatusInfo(scheduleBatchResponse.getFinalStatus());
         }
     }
@@ -70,12 +70,12 @@ public class ScheduleBatchResponseInfo extends IdNamelessEntityInfo implements S
     }
 
     @Override
-    public StatusInfo getInProgressStatus() {
-        return this.inProgressStatus;
+    public String getStatusMessage() {
+        return this.statusMessage;
     }
 
-    public void setInProgressStatus(StatusInfo inProgressStatus) {
-        this.inProgressStatus = inProgressStatus;
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
     }
 
     @Override

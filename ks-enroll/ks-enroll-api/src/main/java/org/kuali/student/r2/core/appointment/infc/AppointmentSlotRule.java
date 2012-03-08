@@ -28,7 +28,7 @@ import java.util.List;
  */
 public interface AppointmentSlotRule {
     /**
-     * The weekday codes ("MWF = 1,3,5")
+     * The weekday codes ("MWF = 2,4,6")
      *
      * @impl Java standard: Sunday=1 to Saturday=7
      * @name Weekdays
