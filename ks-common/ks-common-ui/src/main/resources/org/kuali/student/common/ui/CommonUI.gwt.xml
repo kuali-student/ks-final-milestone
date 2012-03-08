@@ -34,7 +34,6 @@
   	<inherits name='org.kuali.student.r2.common.Core'/>
 	<inherits name="org.kuali.student.r1.common.CoreRice" />
 	<inherits name="org.kuali.student.r1.common.dictionary.Dictionary" />
-	<inherits name="org.kuali.student.r2.common.datadictionary.DataDictionary" />
 	<inherits name="org.kuali.student.r1.common.search.Search" />
 	<inherits name="org.kuali.student.r1.common.validation.Validation" />
 	<inherits name='org.kuali.student.r1.common.assembly.Assembly'/>
