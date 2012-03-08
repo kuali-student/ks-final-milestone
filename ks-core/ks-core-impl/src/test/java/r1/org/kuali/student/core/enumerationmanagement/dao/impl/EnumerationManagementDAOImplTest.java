@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.enumerationmanagement.dao.impl;
+package r1.org.kuali.student.core.enumerationmanagement.dao.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -23,13 +23,14 @@ import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
-import org.kuali.student.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
-import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl;
+import org.kuali.student.r1.core.enumerationmanagement.entity.ContextEntity;
+import org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration;
 
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationManagementDAOImplTest extends AbstractTransactionalDaoTest{
