@@ -14,18 +14,18 @@
 	<classpathentry kind="src" path="ks-lum-program/src/main/java"/>
 	<classpathentry kind="src" path="ks-lum-rice/src/main/config"/>
 	<classpathentry kind="src" path="ks-lum-sql/src/main/resources"/>
-	<classpathentry kind="src" path="ks-lum-impl2/src/test/java"/>
+	<classpathentry kind="src" path="ks-lum-impl/src/test/java"/>
 	<classpathentry kind="src" path="ks-lum-ui/src/test/java"/>
 	<classpathentry kind="src" path="ks-lum-web/src/main/webapp"/>
 	<classpathentry kind="src" path="ks-lum-rice/src/main/resources"/>
 	<classpathentry kind="src" path="ks-lum-ui-common/src/main/java"/>
 	<classpathentry kind="src" path="ks-lum-rice/src/test/java"/>
-	<classpathentry kind="src" path="ks-lum-impl2/src/main/resources"/>
+	<classpathentry kind="src" path="ks-lum-impl/src/main/resources"/>
 	<classpathentry kind="src" path="ks-lum-api/src/main/resources"/>
 	<classpathentry kind="src" path="ks-lum-ui/src/main/webapp"/>
 	<classpathentry kind="src" path="ks-lum-program/src/main/resources"/>
-	<classpathentry kind="src" path="ks-lum-impl2/src/main/java"/>
-	<classpathentry kind="src" path="ks-lum-impl2/src/test/resources"/>
+	<classpathentry kind="src" path="ks-lum-impl/src/main/java"/>
+	<classpathentry kind="src" path="ks-lum-impl/src/test/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/classes"/>
