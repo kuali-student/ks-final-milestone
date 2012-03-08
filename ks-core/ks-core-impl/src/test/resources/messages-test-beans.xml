@@ -35,11 +35,11 @@
         </property>
     </bean>
 	
-	<bean id="msgUS" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+	<bean id="msgUS" abstract="true" class="org.kuali.student.r1.core.messages.entity.MessageEntity">
 		<property name="locale" value="US" />
 	</bean>
 
-	<bean id="msgCA" abstract="true" class="org.kuali.student.core.messages.entity.MessageEntity">
+	<bean id="msgCA" abstract="true" class="org.kuali.student.r1.core.messages.entity.MessageEntity">
 		<property name="locale" value="CA" />
 	</bean>
 	
