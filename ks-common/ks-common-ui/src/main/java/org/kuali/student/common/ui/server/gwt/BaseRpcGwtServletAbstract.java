@@ -91,7 +91,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaType(java.lang.String)
      */
     @Override
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey, ContextInfo context){
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey){
 //        try {
 // TODO KSCM            return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -112,7 +112,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchCriteriaTypes()
      */
     @Override
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context){
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(){
   // TODO KSCM
 //    	try {
 //            return ((SearchService)getService()).getSearchCriteriaTypes(context);
@@ -126,7 +126,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      * @see org.kuali.student.common.search.service.SearchService#getSearchResultType(java.lang.String)
      */
     @Override
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context){
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey){
         // TODO KSCM
 //    	try {
 //            return ((SearchService)getService()).getSearchResultType(searchResultTypeKey, context);
@@ -147,7 +147,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
 
     @Override
-    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context){
+    public List<SearchResultTypeInfo> getSearchResultTypes(){
     // TODO KSCM NINA to FIX
     //        try {
 //            return ((SearchService)getService()).getSearchResultTypes(context);
@@ -162,7 +162,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
  // TODO KSCM NINA to FIX
     @Override
-    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context){
+    public SearchTypeInfo getSearchType(String searchTypeKey){
 //        try {
 //            return ((SearchService)getService()).getSearchType(searchTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -182,7 +182,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
  // TODO KSCM NINA to FIX
     @Override
-    public List<SearchTypeInfo> getSearchTypes(ContextInfo context){
+    public List<SearchTypeInfo> getSearchTypes(){
 //        try {
 //            return ((SearchService)getService()).getSearchTypes(context);
 //        } catch (OperationFailedException e) {
@@ -196,7 +196,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
  // TODO KSCM NINA to FIX
     @Override
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo context){
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey){
 //        try {
 //            return ((SearchService)getService()).getSearchTypes(context);
 //        } catch (OperationFailedException e) {
@@ -210,7 +210,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
  // TODO KSCM NINA to FIX
     @Override
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo context){
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey){
 //        try {
 //            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -230,7 +230,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
  // TODO KSCM NINA to FIX
     @Override
-    public SearchResult search(SearchRequest searchRequest, ContextInfo context) {                
+    public SearchResult search(SearchRequest searchRequest) {                
 //        try {
 //			return ((SearchService)getService()).search(searchRequest, context);
 //		} catch (MissingParameterException e) {

@@ -43,22 +43,22 @@ public interface BaseRpcService extends RemoteService{
     public ObjectStructure getObjectStructure(String objectTypeKey);    
     
     /* Search Operations */
-    public List<SearchTypeInfo> getSearchTypes(ContextInfo context);
+    public List<SearchTypeInfo> getSearchTypes();
 
-    public SearchTypeInfo getSearchType(String searchTypeKey, ContextInfo context);
+    public SearchTypeInfo getSearchType(String searchTypeKey);
 
-    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey, ContextInfo context);
+    public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey);
 
-    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey, ContextInfo context);
+    public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey);
 
-    public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo context);
+    public List<SearchResultTypeInfo> getSearchResultTypes();
 
-    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey, ContextInfo context);
+    public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey);
 
-    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo context);
+    public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes();
 
-    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey, ContextInfo context);
+    public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey);
 
-    public SearchResult search(SearchRequest searchRequest, ContextInfo context);
+    public SearchResult search(SearchRequest searchRequest);
 
 }
