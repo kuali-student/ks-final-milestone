@@ -96,7 +96,7 @@ public class AcademicCalendarController extends UifControllerBase {
             acalId = request.getParameter("id");
             if (StringUtils.isNotBlank(acalId)){
                 try {
-                     getAcademicCalendar(acalId, acalForm);
+                    getAcademicCalendar(acalId, acalForm);
                     List<AcademicTermWrapper> termWrappers = ((AcademicCalendarViewHelperService)acalForm.getView().getViewHelperService()).loadTerms(acalId,getContextInfo());
                     acalForm.setTermWrapperList(termWrappers);
                 } catch (Exception ex) {
@@ -107,6 +107,18 @@ public class AcademicCalendarController extends UifControllerBase {
         }
 
         return super.start(form, result, request, response);
+    }
+
+    @RequestMapping(params = "methodToCall=toCreate")
+    public ModelAndView toCreate(@ModelAttribute("KualiForm") AcademicCalendarForm acalForm, BindingResult result,
+                                 HttpServletRequest request, HttpServletResponse response){
+        acalForm.setAcademicCalendarInfo(new AcademicCalendarInfo());
+        acalForm.setEvents(new ArrayList<AcalEventWrapper>());
+        acalForm.setHolidayCalendarList(new ArrayList<HolidayCalendarInfo>());
+        acalForm.setTermWrapperList(new ArrayList<AcademicTermWrapper>());
+        acalForm.setOfficial(false);
+        acalForm.setDelete(false);
+        return getUIFModelAndView(acalForm, CalendarConstants.ACAL_EDIT_VIEW);
     }
 
 //    @Override
@@ -138,7 +150,7 @@ public class AcademicCalendarController extends UifControllerBase {
                     //TODO: handle exception properly
                 }
             }
-            super.start(form, result, request, response);
+            return super.start(form, result, request, response);
         }
         else {
             try {
@@ -162,13 +174,10 @@ public class AcademicCalendarController extends UifControllerBase {
 
             return super.start(form, result, request, response);
         }
-
-        return super.start(form, result, request, response);
-
     }
 
 
-    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=copy")
+    @RequestMapping(method = RequestMethod.POST, params="methodToCall=copy")
     public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm form, BindingResult result,
                               HttpServletRequest request, HttpServletResponse response) {
         if ((null == form.getAcademicCalendarInfo()) || (null == form.getAcademicCalendarInfo().getId())) {

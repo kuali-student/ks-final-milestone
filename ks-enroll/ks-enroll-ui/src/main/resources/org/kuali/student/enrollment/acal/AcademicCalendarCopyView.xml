@@ -38,7 +38,7 @@
                             <bean parent="Uif-MessageField"
                                   p:messageText="Information from the existing calendar will copied over. Dates will recalculated to accurately reflect the new calendar's start date."
                                   p:id="KS-AcademicCalendar-CopyView-header-text" />
-                            <bean parent="Uif-ActionLink" p:methodToCall="start" p:actionLabel="Start a blank calendar instead?" p:style="text-align:center;"/>
+                            <bean parent="Uif-ActionLink" p:methodToCall="toCreate" p:actionLabel="Start a blank calendar instead?" p:style="text-align:center;"/>
                         </list>
                     </property>
                 </bean>
