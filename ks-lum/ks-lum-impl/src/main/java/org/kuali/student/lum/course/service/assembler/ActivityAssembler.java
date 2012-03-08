@@ -22,6 +22,7 @@ import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
 import org.kuali.student.common.util.UUIDHelper;
+import org.kuali.student.conversion.util.R1R2ConverterUtil;
 import org.kuali.student.r1.lum.course.dto.ActivityInfo;
 import org.kuali.student.r1.lum.lu.dto.CluInfo;
 
@@ -38,59 +39,66 @@ public class ActivityAssembler implements BOAssembler<ActivityInfo, CluInfo> {
 
     @Override
     public ActivityInfo assemble(CluInfo baseDTO, ActivityInfo businessDTO, boolean shallowBuild, ContextInfo contextInfo) throws AssemblyException {
-		if(baseDTO == null){
+    	if(baseDTO == null){
 			return null;
 		}
 		
 		ActivityInfo activityInfo = (null != businessDTO) ? businessDTO : new ActivityInfo();
 	    
 		activityInfo.setId(baseDTO.getId());
-		// TODO KSCM-322		activityInfo.setActivityType(clu.getType());
-		// TODO KSCM-322        activityInfo.setState(clu.getState());
+		activityInfo.setActivityType(baseDTO.getType());
+		activityInfo.setState(baseDTO.getState());
 		activityInfo.setDefaultEnrollmentEstimate(baseDTO.getDefaultEnrollmentEstimate());
 		activityInfo.setDuration(baseDTO.getStdDuration());
 		activityInfo.setContactHours(baseDTO.getIntensity());
 		activityInfo.setMetaInfo(baseDTO.getMetaInfo());
-		// TODO KSCM-322        activityInfo.setAttributes(clu.getAttributes());
+        activityInfo.setAttributes(baseDTO.getAttributes());
 		return activityInfo;
 	}
 
     @Override
     public BaseDTOAssemblyNode<ActivityInfo, CluInfo> disassemble(ActivityInfo businessDTO, NodeOperation operation, ContextInfo contextInfo) throws AssemblyException {
-		if (businessDTO==null) {
-			//FIXME Unsure now if this is an exception or just return null or empty assemblyNode 
+		
+    	if (businessDTO == null) {
+			// FIXME Unsure now if this is an exception or just return null or
+			// empty assemblyNode
 			throw new AssemblyException("Activity can not be null");
 		}
 		if (NodeOperation.CREATE != operation && null == businessDTO.getId()) {
 			throw new AssemblyException("Activity's id can not be null");
 		}
-		
-		BaseDTOAssemblyNode<ActivityInfo,CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo,CluInfo>(this);
-		
-		org.kuali.student.r2.lum.clu.dto.CluInfo clu = null;
-        try {
-        	clu = (NodeOperation.UPDATE == operation) ? cluService.getClu(businessDTO.getId(), contextInfo) : new org.kuali.student.r2.lum.clu.dto.CluInfo();
-        } catch (Exception e) {
-            throw new AssemblyException("Error retrieving activity learning unit during update", e);
-        }
-	
-		//Copy all fields 
-		clu.setId(UUIDHelper.genStringUUID(businessDTO.getId()));//Create the id if it's not there already(important for creating relations)
+
+		BaseDTOAssemblyNode<ActivityInfo, CluInfo> result = new BaseDTOAssemblyNode<ActivityInfo, CluInfo>(
+				this);
+
+		CluInfo clu;
+		try {
+			clu = R1R2ConverterUtil.convert(
+					(NodeOperation.UPDATE == operation) ? cluService.getClu(
+							businessDTO.getId(), contextInfo) : new CluInfo(),
+					CluInfo.class);
+		} catch (Exception e) {
+			throw new AssemblyException(
+					"Error retrieving activity learning unit during update", e);
+		}
+
+		// Copy all fields
+		clu.setId(UUIDHelper.genStringUUID(businessDTO.getId()));
 		clu.setType(businessDTO.getActivityType());
 		clu.setState(businessDTO.getState());
-		clu.setDefaultEnrollmentEstimate(businessDTO.getDefaultEnrollmentEstimate());
+		clu.setDefaultEnrollmentEstimate(businessDTO
+				.getDefaultEnrollmentEstimate());
+		clu.setStdDuration(businessDTO.getDuration());
+		clu.setIntensity(businessDTO.getContactHours());
+		clu.setMetaInfo(businessDTO.getMetaInfo());
+		clu.setAttributes(businessDTO.getAttributes());
 
-		// TODO KSCM-322 convert R2 to R1 clu.setStdDuration(businessDTO.getDuration());
-		// TODO KSCM-322 clu.setIntensity(businessDTO.getContactHours());
-		// TODO KSCM-322 clu.setMetaInfo(businessDTO.getMetaInfo());
-		// TODO KSCM-322 clu.setAttributes(businessDTO.getAttributes());
-				
-		//Add the Clu to the result 
-		// TODO KSCM-322 result.setNodeData(clu);
+		// Add the Clu to the result
+		result.setNodeData(clu);
 
 		// Add refernce to Activity
 		result.setBusinessDTORef(businessDTO);
-		
+
 		result.setOperation(operation);
 
 		return result;

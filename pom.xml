@@ -102,17 +102,6 @@
         <kuali.attach.sources.phase>none</kuali.attach.sources.phase>
       </properties>
     </profile>
-    <profile>
-      <id>merged</id>
-      <modules>
-        <module>ks-common</module>
-        <module>ks-security</module>
-        <module>ks-admin</module>
-        <module>ks-core</module>
-        <module>ks-lum</module>
-        <module>ks-conversion</module>
-      </modules>
-    </profile>
   </profiles>
   <scm>
     <connection>scm:svn:https://test.kuali.org/svn/student/tags/student-1.2.1</connection>

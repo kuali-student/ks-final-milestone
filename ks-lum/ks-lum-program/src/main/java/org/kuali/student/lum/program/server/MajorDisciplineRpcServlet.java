@@ -318,7 +318,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
 	@Override
 	
 	//TODO KSCM 
-	public org.kuali.student.common.dto.StatusInfo deleteProgramRequirement(String programRequirementId,
+	public org.kuali.student.r2.common.dto.StatusInfo deleteProgramRequirement(String programRequirementId,
 			ContextInfo contextInfo) throws Exception {
 		// TODO Auto-generated method stub
 		return null;

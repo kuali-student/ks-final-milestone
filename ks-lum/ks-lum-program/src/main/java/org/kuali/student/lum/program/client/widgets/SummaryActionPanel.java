@@ -12,7 +12,6 @@ import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotification;
 import org.kuali.student.common.ui.client.widgets.notification.KSNotifier;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.lum.common.client.widgets.AppLocations;
 import org.kuali.student.lum.program.client.ProgramConstants;
 import org.kuali.student.lum.program.client.ProgramMsgConstants;
@@ -20,6 +19,7 @@ import org.kuali.student.lum.program.client.ProgramStatus;
 import org.kuali.student.lum.program.client.events.AfterSaveEvent;
 import org.kuali.student.lum.program.client.events.ModelLoadedEvent;
 import org.kuali.student.lum.program.client.events.StateChangeEvent;
+import org.kuali.student.r1.common.validation.dto.ValidationResultInfo.ErrorLevel;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;

@@ -25,10 +25,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.Before;
 import org.junit.Test;
+import org.kuali.student.common.test.spring.AbstractServiceTest;
+import org.kuali.student.common.test.spring.Client;
+import org.kuali.student.common.test.spring.Dao;
+import org.kuali.student.common.test.spring.Daos;
+import org.kuali.student.common.test.spring.PersistenceFileLocation;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
 import org.kuali.student.r1.common.dto.MetaInfo;
 import org.kuali.student.r1.common.dto.RichTextInfo;
 import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
 import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
 import org.kuali.student.r2.common.exceptions.DoesNotExistException;
@@ -37,13 +47,6 @@ import org.kuali.student.r2.common.exceptions.MissingParameterException;
 import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
-import org.kuali.student.common.test.spring.AbstractServiceTest;
-import org.kuali.student.common.test.spring.Client;
-import org.kuali.student.common.test.spring.Dao;
-import org.kuali.student.common.test.spring.Daos;
-import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentTypeInfo;
 import org.kuali.student.r2.lum.lrc.service.LRCService;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
@@ -53,6 +56,13 @@ import edu.emory.mathcs.backport.java.util.Arrays;
 public class TestLrcServiceImpl extends AbstractServiceTest {
 	@Client(value = "org.kuali.student.lum.lrc.service.impl.LrcServiceImpl", additionalContextFile="classpath:lrc-additional-context.xml")
 	public LRCService client;
+	
+	private ContextInfo callContext;
+    
+    @Before
+    public void setUp() {
+        callContext = ContextInfoTestUtility.getEnglishContextInfo();
+    }
 
 	@Test
     public void testResultComponentCrud() throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException {
@@ -80,7 +90,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         rci.setType("resultComponentType.grade");
         rci.setState("Active");
         try {
-            ResultComponentInfo newRci = client.createResultComponent("resultComponentType.grade", rci);
+            ResultComponentInfo newRci = client.createResultComponent("resultComponentType.grade", rci, callContext);
             assertNotNull(newRci);
             String id = newRci.getId();
             assertNotNull(id);
@@ -106,7 +116,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             rci.getResultValues().add("LRC-RESULT_VALUE-GRADE-2");
             try {
             	
-                client.updateResultComponent(id, rci);
+                client.updateResultComponent(id, rci, callContext);
                 newRci = client.getResultComponent(newRci.getId());
                 assertNotNull(newRci);
                 assertNotNull(newRci.getId());
@@ -133,7 +143,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             
             //Updateing an out of date version should throw an exception
             try{
-            	client.updateResultComponent(id, rci);
+            	client.updateResultComponent(id, rci, callContext);
             	assertTrue(false);
             }catch(VersionMismatchException e){
             	assertTrue(true);
@@ -142,7 +152,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
             rci = client.getResultComponent(id);
             rci.getResultValues().add("LRC-RESULT_VALUE-CREDIT-1");
             try {
-                client.updateResultComponent(id, rci);
+                client.updateResultComponent(id, rci, callContext);
                 //assertTrue(false);
             } catch (DataValidationErrorException e) {
                 assertTrue(false);
@@ -166,7 +176,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
 
         ResultComponentInfo resultComponentInfo = new ResultComponentInfo();
         try {
-            client.createResultComponent(null, resultComponentInfo);
+            client.createResultComponent(null, resultComponentInfo, callContext);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -179,7 +189,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         }
 
         try {
-            client.createResultComponent("a", null);
+            client.createResultComponent("a", null, callContext);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -192,7 +202,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         }
 
         try {
-            client.updateResultComponent(null, resultComponentInfo);
+            client.updateResultComponent(null, resultComponentInfo, callContext);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -205,7 +215,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         }
 
         try {
-            client.updateResultComponent("a", null);
+            client.updateResultComponent("a", null, callContext);
             assertTrue(false);
         } catch (MissingParameterException e) {
             assertTrue(true);
@@ -335,7 +345,7 @@ public class TestLrcServiceImpl extends AbstractServiceTest {
         rc.setState("ACTIVE");
         rc.setType("resultComponentType.grade");
         
-        client.createResultComponent("resultComponentType.grade", rc);
+        client.createResultComponent("resultComponentType.grade", rc, callContext);
     	
     	
     }

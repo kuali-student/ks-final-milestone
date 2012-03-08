@@ -18,13 +18,17 @@
  */
 package org.kuali.student.lum.kim.permission.type;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.kuali.rice.kim.api.KimConstants;
 import org.kuali.rice.krad.service.impl.DocumentTypePermissionTypeServiceImpl;
-import org.kuali.student.r2.common.dto.ContextInfo;
-import org.kuali.student.common.rice.StudentIdentityConstants;
 import org.kuali.student.lum.kim.KimQualificationHelper;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 /**
  * Permission Type to be used for

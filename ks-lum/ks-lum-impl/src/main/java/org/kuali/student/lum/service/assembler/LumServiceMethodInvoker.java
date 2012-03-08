@@ -3,9 +3,17 @@ package org.kuali.student.lum.service.assembler;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.kuali.student.lum.course.service.assembler.LoCategoryRelationInfo;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode;
-import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
 import org.kuali.student.r1.common.assembly.BaseDTOAssemblyNode.NodeOperation;
+import org.kuali.student.r1.common.assembly.BusinessServiceMethodInvoker;
+import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementInfo;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.r1.core.statement.service.StatementService;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.service.LrcService;
 import org.kuali.student.r2.common.assembler.AssemblyException;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
@@ -23,23 +31,15 @@ import org.kuali.student.r2.common.exceptions.UnsupportedActionException;
 import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.core.atp.service.AtpService;
 import org.kuali.student.r2.core.organization.service.OrganizationService;
-import org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo;
-import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.r1.core.statement.dto.StatementInfo;
-import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
-import org.kuali.student.r1.core.statement.service.StatementService;
-import org.kuali.student.lum.course.service.assembler.LoCategoryRelationInfo;
-import org.kuali.student.r2.lum.lo.dto.LoInfo;
-import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
-import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
-import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.r1.lum.lrc.service.LrcService;
 import org.kuali.student.r2.lum.clu.dto.CluCluRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluPublicationInfo;
 import org.kuali.student.r2.lum.clu.dto.CluResultInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
+import org.kuali.student.r2.lum.lo.dto.LoInfo;
+import org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo;
+import org.kuali.student.r2.lum.lo.service.LearningObjectiveService;
 
 public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 	final Logger LOG = Logger.getLogger(LumServiceMethodInvoker.class);
@@ -57,7 +57,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException, VersionMismatchException,
 			DependentObjectsExistException, CircularRelationshipException,
-			AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, org.kuali.student.common.exceptions.VersionMismatchException, org.kuali.student.common.exceptions.AlreadyExistsException {
+			AssemblyException, UnsupportedActionException, UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.r1.common.exceptions.DataValidationErrorException, org.kuali.student.r1.common.exceptions.DoesNotExistException, org.kuali.student.r1.common.exceptions.InvalidParameterException, org.kuali.student.r1.common.exceptions.MissingParameterException, org.kuali.student.r1.common.exceptions.OperationFailedException, org.kuali.student.r1.common.exceptions.PermissionDeniedException, org.kuali.student.r1.common.exceptions.VersionMismatchException, org.kuali.student.r1.common.exceptions.AlreadyExistsException {
 
 	    // For Delete operation process the tree from bottom up
 	    if(NodeOperation.DELETE == results.getOperation()) {
@@ -109,7 +109,7 @@ public class LumServiceMethodInvoker implements BusinessServiceMethodInvoker {
 			PermissionDeniedException, AssemblyException,
 			VersionMismatchException, DependentObjectsExistException,
 			CircularRelationshipException, UnsupportedActionException,
-			UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.common.exceptions.DataValidationErrorException, org.kuali.student.common.exceptions.DoesNotExistException, org.kuali.student.common.exceptions.InvalidParameterException, org.kuali.student.common.exceptions.MissingParameterException, org.kuali.student.common.exceptions.OperationFailedException, org.kuali.student.common.exceptions.PermissionDeniedException, org.kuali.student.common.exceptions.VersionMismatchException, org.kuali.student.common.exceptions.AlreadyExistsException {
+			UnsupportedOperationException, CircularReferenceException, ReadOnlyException, org.kuali.student.r1.common.exceptions.DataValidationErrorException, org.kuali.student.r1.common.exceptions.DoesNotExistException, org.kuali.student.r1.common.exceptions.InvalidParameterException, org.kuali.student.r1.common.exceptions.MissingParameterException, org.kuali.student.r1.common.exceptions.OperationFailedException, org.kuali.student.r1.common.exceptions.PermissionDeniedException, org.kuali.student.r1.common.exceptions.VersionMismatchException, org.kuali.student.r1.common.exceptions.AlreadyExistsException {
 		Object nodeData = results.getNodeData();
 		if (nodeData == null) {
 			return;
