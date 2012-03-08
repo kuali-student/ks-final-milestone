@@ -127,7 +127,7 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         }
 
     @Override
-    public List<org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo> searchForRegistrationGroups(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") org.kuali.student.r2.common.dto.ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public List<RegistrationGroupInfo> searchForRegistrationGroups(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") org.kuali.student.r2.common.dto.ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }

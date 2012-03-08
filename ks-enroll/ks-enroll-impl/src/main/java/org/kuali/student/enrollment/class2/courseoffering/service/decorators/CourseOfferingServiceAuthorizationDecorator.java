@@ -778,7 +778,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	}
 
 	@Override
-	public List<CourseRegistrationInfo> searchForRegistrationGroups(
+	public List<RegistrationGroupInfo> searchForRegistrationGroups(
 			QueryByCriteria criteria, ContextInfo context)
 			throws InvalidParameterException, MissingParameterException,
 			OperationFailedException, PermissionDeniedException {
