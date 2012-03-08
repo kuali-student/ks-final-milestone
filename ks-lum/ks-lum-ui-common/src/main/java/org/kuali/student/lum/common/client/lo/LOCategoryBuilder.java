@@ -405,7 +405,7 @@ public class LOCategoryBuilder extends Composite implements HasValue<List<LoCate
             picker.reset();
         } else {
             //TODO KSCM - Correct contextInfo param?
-            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), ContextUtils.getContextInfo(), new KSAsyncCallback<LoCategoryTypeInfo>() {
+            loCatRpcServiceAsync.getLoCategoryType(category.getTypeKey(), new KSAsyncCallback<LoCategoryTypeInfo>() {
 
                 @Override
                 public void handleFailure(Throwable caught) {

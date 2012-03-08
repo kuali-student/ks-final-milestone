@@ -206,7 +206,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     }
     
     @Override
-	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber,ContextInfo contextInfo) throws Exception {
+	public Boolean isLatestVersion(String versionIndId, Long versionSequenceNumber) throws Exception {
     	//Perform a search to see if there are any new versions of the course that are approved, draft, etc.
     	//We don't want to version if there are
     	SearchRequest request = new SearchRequest("lu.search.isVersionable");
@@ -246,7 +246,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
      * @see org.kuali.student.lum.program.client.rpc.MajorDisciplineRpcService#isProposal(java.lang.String, java.lang.String)
      */
     @Override
-    public Boolean isProposal(String referenceTypeKey, String referenceId,ContextInfo contextInfo){
+    public Boolean isProposal(String referenceTypeKey, String referenceId){
         try {
         // Wire in proposal service from spring
         // Call method getProposalByReference().  
@@ -289,53 +289,6 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
     
 	public void setLuService(CluService cluService) {
 		this.cluService = cluService;
-	}
-	
-	//TODO KSCM - auto-generated these methods it needs logic
-	
-	@Override
-	public List<ProgramRequirementInfo> getProgramRequirements(
-			List<String> programRequirementIds, ContextInfo contextInfo)
-			throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public Map<Integer, ProgramRequirementInfo> storeProgramRequirements(
-			Map<Integer, requirementState> states,
-			Map<Integer, ProgramRequirementInfo> progReqs,
-			ContextInfo contextInfo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public ProgramRequirementInfo createProgramRequirement(
-			ProgramRequirementInfo programRequirementInfo,
-			ContextInfo contextInfo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	
-	//TODO KSCM 
-	public org.kuali.student.r2.common.dto.StatusInfo deleteProgramRequirement(String programRequirementId,
-			ContextInfo contextInfo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public ProgramRequirementInfo updateProgramRequirement(
-			ProgramRequirementInfo programRequirementInfo,
-			ContextInfo contextInfo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	@Override
-	public DataSaveResult updateState(Data data, String state,
-			ContextInfo contextInfo) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
- 
+	}	
 
 }

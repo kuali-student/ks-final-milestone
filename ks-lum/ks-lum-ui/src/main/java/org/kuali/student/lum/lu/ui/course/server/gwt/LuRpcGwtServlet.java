@@ -22,6 +22,7 @@ import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
 import org.kuali.student.lum.lu.ui.course.client.service.LuRpcService;
 import org.kuali.student.r1.common.versionmanagement.dto.VersionDisplayInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.ContextUtils;
 import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.kuali.student.r2.lum.clu.dto.CluLoRelationInfo;
 import org.kuali.student.r2.lum.clu.service.CluService;
@@ -43,9 +44,9 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 	 *      org.kuali.student.lum.lu.dto.CluInfo)
 	 */
 	@Override
-	public CluInfo createClu(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo) {
+	public CluInfo createClu(String luTypeKey, CluInfo cluInfo) {
 		try {
-			return service.createClu(luTypeKey, cluInfo, contextInfo);
+			return service.createClu(luTypeKey, cluInfo, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -57,9 +58,9 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 	 *      org.kuali.student.lum.lu.dto.CluInfo)
 	 */
 	@Override
-	public CluInfo updateClu(String cluId, CluInfo cluInfo, ContextInfo contextInfo) {
+	public CluInfo updateClu(String cluId, CluInfo cluInfo) {
 		try {
-			return service.updateClu(cluId, cluInfo, contextInfo);
+			return service.updateClu(cluId, cluInfo, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -67,9 +68,9 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 	}
 	
 	@Override
-	public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId, ContextInfo contextInfo) {
+	public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId) {
 		try {
-			return service.getCluLoRelationsByClu(cluId, contextInfo);
+			return service.getCluLoRelationsByClu(cluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -77,9 +78,9 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 	}
 
 	@Override
-	public CluInfo getClu(String cluId, ContextInfo contextInfo) {
+	public CluInfo getClu(String cluId) {
 		try {
-			return service.getClu(cluId, contextInfo);
+			return service.getClu(cluId, ContextUtils.getContextInfo());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
@@ -87,7 +88,7 @@ public class LuRpcGwtServlet extends BaseRpcGwtServletAbstract<CluService>
 	}
 
     @Override
-    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo) {
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) {
 		try {
 			// TODO KSCM Version return service.getCurrentVersion(refObjectTypeURI, refObjectId, contextInfo);
 			return null;

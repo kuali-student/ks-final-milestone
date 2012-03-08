@@ -717,7 +717,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 createNewCluProposalModel(callback, workCompleteCallback);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);
 			}
-		}, ContextUtils.getContextInfo());
+		});
     }
     
     @SuppressWarnings("unchecked")
@@ -750,7 +750,7 @@ public class CourseProposalController extends MenuEditableSectionController impl
                 createNewCluProposalModel(callback, workCompleteCallback);
                 KSBlockingProgressIndicator.removeTask(loadDataTask);
 			}
-		}, ContextUtils.getContextInfo());
+		});
     }
     
     public void doSaveAction(final SaveActionEvent saveActionEvent){

@@ -332,7 +332,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
                     KSNotifier.add(new KSNotification("Error creating new version for course, this course is currently under modification.", false, 5000));
                 }
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
     
     // TODO: add Retire and Inactivate Dialogs
@@ -366,7 +366,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
  	        		stateChangeCallback.exec(newState);
  	        	}
  	        }
-    	}, ContextUtils.getContextInfo());
+    	});
     	
     }
     
@@ -395,7 +395,7 @@ public class CourseWorkflowActionList extends StylishDropDown {
 					isCurrentVersion = result;
 					doUpdateCourseActionItems(cluModel);
 				}
-			}, ContextUtils.getContextInfo());
+			});
 		}
     }
     

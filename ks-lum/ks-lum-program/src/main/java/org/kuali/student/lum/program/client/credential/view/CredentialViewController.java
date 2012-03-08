@@ -99,7 +99,7 @@ public class CredentialViewController extends CredentialController implements Re
                 public void onSuccess(Boolean isLatest) {
                     actionBox.setList(ActionType.getValuesForCredentialProgram(isLatest));
                 }
-            }, ContextUtils.getContextInfo());
+            });
         } else {
             actionBox.setList(ActionType.getValuesForCredentialProgram(false));
         }

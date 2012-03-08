@@ -383,9 +383,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             courseWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    }, ContextUtils.getContextInfo());
+                                    });
                                 }
-                            }, ContextUtils.getContextInfo());
+                            });
 
 
                         }

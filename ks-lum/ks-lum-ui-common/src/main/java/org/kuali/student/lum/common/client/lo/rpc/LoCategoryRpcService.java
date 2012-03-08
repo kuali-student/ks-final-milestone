@@ -35,11 +35,11 @@ import java.util.List;
 @RemoteServiceRelativePath("rpcservices/LoCategoryRpcService")
 public interface LoCategoryRpcService extends BaseDataOrchestrationRpcService {
 
-    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey, ContextInfo contextInfo);
-    public StatusInfo deleteLoCategory(String loCategoryId, ContextInfo contextInfo);
+    public List<LoCategoryInfo> getLoCategories(String loRepositoryKey);
+    public StatusInfo deleteLoCategory(String loCategoryId);
 
     public List<LoCategoryTypeInfo> getLoCategoryTypes();
 
-    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey, ContextInfo contextInfo);
+    public LoCategoryTypeInfo getLoCategoryType(String loCategoryTypeKey);
 
 }

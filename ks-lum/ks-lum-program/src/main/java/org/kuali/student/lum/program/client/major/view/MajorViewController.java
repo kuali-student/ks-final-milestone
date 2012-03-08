@@ -373,7 +373,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
                 }
 
  			}        	
-        }, ContextUtils.getContextInfo());
+        });
     	
    	
     	// Get the reference ID of the proposal from the XML model
@@ -396,7 +396,7 @@ public class MajorViewController extends MajorController implements RequiresAuth
 	                }
 	              
 	            }           
-	        }, ContextUtils.getContextInfo());
+	        });
         }
     } 
   

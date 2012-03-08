@@ -33,13 +33,13 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/LuRpcService")
 public interface LuRpcService extends BaseRpcService {
 
-    public CluInfo createClu(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo);
+    public CluInfo createClu(String luTypeKey, CluInfo cluInfo);
 
-    public CluInfo updateClu(String luTypeKey, CluInfo cluInfo, ContextInfo contextInfo);
+    public CluInfo updateClu(String luTypeKey, CluInfo cluInfo);
 
-    public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId, ContextInfo contextInfo);
+    public List<CluLoRelationInfo> getCluLoRelationsByClu(String cluId);
 
-    public CluInfo getClu(String cluId, ContextInfo contextInfo);
+    public CluInfo getClu(String cluId);
 
-    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId, ContextInfo contextInfo);
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId);
 }

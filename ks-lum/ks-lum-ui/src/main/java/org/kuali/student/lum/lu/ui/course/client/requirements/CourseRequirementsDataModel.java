@@ -152,7 +152,7 @@ public class CourseRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     public StatementTreeViewInfo updateRules(StatementTreeViewInfo newSubRule, Integer internalCourseReqID, boolean isNewRule) {
@@ -235,7 +235,7 @@ public class CourseRequirementsDataModel {
                 //MajorManager.getEventBus().fireEvent(new StoreRequirementIDsEvent(referencedProgReqIds));
                 callback.exec(new ArrayList(storedRules.values()));  //update display widgets
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     public static void stripStatementIds(StatementTreeViewInfo tree) {

@@ -14,14 +14,14 @@ import org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface MajorDisciplineRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync {
-    public void getProgramRequirements(List<String> programRequirementIds, AsyncCallback<List<ProgramRequirementInfo>> callback, ContextInfo contextInfo);
-    public void storeProgramRequirements(Map<Integer, ProgramRequirementsDataModel.requirementState> states, Map<Integer, ProgramRequirementInfo> progReqs, AsyncCallback<Map<Integer, ProgramRequirementInfo>> async, ContextInfo contextInfo);    
-    public void createProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback, ContextInfo contextInfo);
-    public void deleteProgramRequirement(String programRequirementId, AsyncCallback<StatusInfo> callback, ContextInfo contextInfo);
-    public void updateProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback, ContextInfo contextInfo);
-    public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback, ContextInfo contextInfo);
-	public void updateState(Data data, String state, AsyncCallback<DataSaveResult> callback, ContextInfo contextInfo);
+    public void getProgramRequirements(List<String> programRequirementIds, AsyncCallback<List<ProgramRequirementInfo>> callback);
+    public void storeProgramRequirements(Map<Integer, ProgramRequirementsDataModel.requirementState> states, Map<Integer, ProgramRequirementInfo> progReqs, AsyncCallback<Map<Integer, ProgramRequirementInfo>> async);    
+    public void createProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
+    public void deleteProgramRequirement(String programRequirementId, AsyncCallback<StatusInfo> callback);
+    public void updateProgramRequirement(ProgramRequirementInfo programRequirementInfo, AsyncCallback<ProgramRequirementInfo> callback);
+    public void isLatestVersion(String versionIndId, Long versionSequenceNumber, AsyncCallback<Boolean> callback);
+	public void updateState(Data data, String state, AsyncCallback<DataSaveResult> callback);
 	
 	// Determine if this is a proposal
-	public void isProposal(String referenceTypeKey, String referenceId, AsyncCallback<Boolean> callback, ContextInfo contextInfo);
+	public void isProposal(String referenceTypeKey, String referenceId, AsyncCallback<Boolean> callback);
 }

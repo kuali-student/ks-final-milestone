@@ -466,7 +466,7 @@ public abstract class ProgramController extends MenuSectionController {
                 	}
                }
                 
-            }, ContextUtils.getContextInfo()); 
+            }); 
     	 
      }
      /**

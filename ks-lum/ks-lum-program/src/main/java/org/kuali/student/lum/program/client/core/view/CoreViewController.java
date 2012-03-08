@@ -100,7 +100,7 @@ public class CoreViewController extends CoreController implements RequiresAuthor
                 public void onSuccess(Boolean isLatest) {
                     actionBox.setList(ActionType.getValuesForCoreProgram(isLatest));
                 }
-            }, ContextUtils.getContextInfo());
+            });
         } else {
             actionBox.setList(ActionType.getValuesForCoreProgram(false));
         }

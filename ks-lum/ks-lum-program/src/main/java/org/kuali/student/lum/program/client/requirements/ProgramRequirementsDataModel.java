@@ -174,7 +174,7 @@ public class ProgramRequirementsDataModel {
                 isInitialized = true;
                 onReadyCallback.exec(true);
             }
-        },ContextUtils.getContextInfo());     
+        });     
     }
 
     
@@ -285,7 +285,7 @@ public class ProgramRequirementsDataModel {
 
                 saveRequirementIds(referencedProgReqIds, storedRules, callback);
             }
-        },ContextUtils.getContextInfo());        
+        });        
     }
 
     private void saveRequirementIds(final List<String> referencedProgReqIds, final Map<Integer, ProgramRequirementInfo> storedRules, final Callback<List<ProgramRequirementInfo>> callback) {
