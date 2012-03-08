@@ -1,11 +1,11 @@
-package org.kuali.student.core.dictionary.service;
+package r1.org.kuali.student.core.dictionary.service;
 
 import java.beans.IntrospectionException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
 
 public class Dictionary2DictionaryComparer
 {

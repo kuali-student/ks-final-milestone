@@ -1,4 +1,4 @@
-package org.kuali.student.core.dictionary.service;
+package r1.org.kuali.student.core.dictionary.service;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -11,11 +11,11 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.DataType;
-import org.kuali.student.common.dictionary.dto.FieldDefinition;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryServiceImpl;
-import org.kuali.student.common.dictionary.service.jaxws.GetObjectStructureResponse;
+import org.kuali.student.r1.common.dictionary.dto.DataType;
+import org.kuali.student.r1.common.dictionary.dto.FieldDefinition;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryServiceImpl;
+import org.kuali.student.r1.common.dictionary.service.jaxws.GetObjectStructureResponse;
 
 public class DictionaryServiceImplTest {
 	@Test
@@ -48,7 +48,7 @@ public class DictionaryServiceImplTest {
 		GetObjectStructureResponse out = (GetObjectStructureResponse) unmarshaller.unmarshal(new StringReader(writer.toString()));
 		
 		DictionaryServiceImpl dm = new DictionaryServiceImpl("classpath:ks-courseInfo-dictionary-test-context.xml");
-		ObjectStructureDefinition courseInfo = dm.getObjectStructure("org.kuali.student.lum.course.dto.CourseInfo");
+		ObjectStructureDefinition courseInfo = dm.getObjectStructure("org.kuali.student.r2.lum.course.dto.CourseInfo");
 		
 		courseInfo.getAttributes();
 		response = new GetObjectStructureResponse();
