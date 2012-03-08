@@ -30,4 +30,17 @@ public class CalendarConstants {
     public static final String ACADEMICCALENDER= "AcademicCalendar";
     public static final String HOLIDAYCALENDER= "HolidayCalendar";
     public static final String TERM= "AcademicTerm";
+
+    public static final String ACAL_EDIT_VIEW = "academicCalendarEditView";
+    public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
+
+    public static final String HCAL_CONTROLLER_PATH = "holidayCalendar";
+
+    public static final String ACAL_EDIT_METHOD = "";
+    public static final String ACAL_VIEW_METHOD = "";
+    public static final String TERM_EDIT_METHOD = "";
+    public static final String TERM_VIEW_METHOD = "";
+    public static final String HC_EDIT_METHOD = "";
+    public static final String HC_VIEW_METHOD = "";
+
 }

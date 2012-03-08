@@ -11,7 +11,7 @@
         <property name="id" value="calendarSearchView"/>
         <property name="title" value="Calendar Search"/>
         <property name="singlePageView" value="true"/>
-        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.AcademicCalendarViewHelperServiceImpl"/>
+        <property name="viewHelperServiceClassName" value="org.kuali.student.enrollment.class2.acal.service.impl.CalendarSearchViewHelperServiceImpl"/>
         <property name="page">
             <bean parent="Uif-Page"/>
         </property>
@@ -73,7 +73,7 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:label="actions" p:labelField.render="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="searchCalendar"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                         </list>
                     </property>

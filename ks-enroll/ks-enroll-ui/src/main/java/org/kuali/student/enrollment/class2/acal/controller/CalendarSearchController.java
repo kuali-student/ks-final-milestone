@@ -26,10 +26,8 @@ import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicCalendarWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
-import org.kuali.student.enrollment.class2.acal.dto.HolidayCalendarWrapper;
 import org.kuali.student.enrollment.class2.acal.form.CalendarSearchForm;
+import org.kuali.student.enrollment.class2.acal.service.CalendarSearchViewHelperService;
 import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.test.utilities.TestHelper;
@@ -54,6 +52,7 @@ import java.util.List;
 @Controller
 @RequestMapping(value = "/calendarSearch")
 public class CalendarSearchController  extends UifControllerBase {
+
     private transient AcademicCalendarService acalService;
     private ContextInfo contextInfo;
 
@@ -65,17 +64,20 @@ public class CalendarSearchController  extends UifControllerBase {
      /**
      * Method used to search atps
      */
-    @RequestMapping(params = "methodToCall=search")
-    public ModelAndView search(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
+    @RequestMapping(params = "methodToCall=searchCalendar")
+    public ModelAndView searchCalendar(@ModelAttribute("KualiForm") CalendarSearchForm searchForm, BindingResult result,
                                               HttpServletRequest request, HttpServletResponse response) throws Exception {
        String calendarType = searchForm.getCalendarType();
 
         if(calendarType.equals(CalendarConstants.HOLIDAYCALENDER)){
-
+               List<HolidayCalendarInfo> hCals = ((CalendarSearchViewHelperService)searchForm.getView().getViewHelperService()).searchForHolidayCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
+               searchForm.setHolidayCalendars(hCals);
         } else if(calendarType.equals(CalendarConstants.ACADEMICCALENDER)) {
-
+               List<AcademicCalendarInfo> aCals = ((CalendarSearchViewHelperService)searchForm.getView().getViewHelperService()).searchForAcademicCalendars(searchForm.getName(), searchForm.getYear(), getContextInfo());
+               searchForm.setAcademicCalendars(aCals);
         } else if(calendarType.equals(CalendarConstants.TERM)){
-
+               List<TermInfo> terms = ((CalendarSearchViewHelperService)searchForm.getView().getViewHelperService()).searchForTerms(searchForm.getName(),searchForm.getYear(),getContextInfo());
+               searchForm.setTerms(terms);
         } else {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
         }
@@ -136,8 +138,6 @@ public class CalendarSearchController  extends UifControllerBase {
         if(calendarType.equals(CalendarConstants.HOLIDAYCALENDER)){
 
         } else if(calendarType.equals(CalendarConstants.ACADEMICCALENDER)) {
-
-        } else if(calendarType.equals(CalendarConstants.TERM)){
 
         } else {
             GlobalVariables.getMessageMap().putError(KRADConstants.GLOBAL_ERRORS, RiceKeyConstants.ERROR_CUSTOM, "ERROR: invalid calendar type.");
