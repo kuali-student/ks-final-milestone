@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.comment.dao.impl;
+package r1.org.kuali.student.core.comment.dao.impl;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -21,7 +21,7 @@ import org.junit.Test;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.comment.dao.CommentDao;
+import org.kuali.student.r1.core.comment.dao.CommentDao;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -31,7 +31,7 @@ import org.kuali.student.core.comment.dao.CommentDao;
  */
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentDaoImpl extends AbstractTransactionalDaoTest {
-    @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl", testSqlFile = "classpath:ks-comment.sql")
+    @Dao(value = "org.kuali.student.r1.core.comment.dao.impl.CommentDaoImpl", testSqlFile = "classpath:ks-comment.sql")
     public CommentDao dao;
 
     @Test
