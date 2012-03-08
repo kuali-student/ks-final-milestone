@@ -4,12 +4,12 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.lum.lrc.dto.CredentialInfo;
-import org.kuali.student.lum.lrc.dto.CreditInfo;
-import org.kuali.student.lum.lrc.dto.GradeInfo;
-import org.kuali.student.lum.lrc.dto.ResultComponentInfo;
-import org.kuali.student.lum.lrc.dto.ScaleInfo;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r1.lum.lrc.dto.CredentialInfo;
+import org.kuali.student.r1.lum.lrc.dto.CreditInfo;
+import org.kuali.student.r1.lum.lrc.dto.GradeInfo;
+import org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo;
+import org.kuali.student.r1.lum.lrc.dto.ScaleInfo;
 import static org.junit.Assert.*;
 
 public class TestLrcDictionary
