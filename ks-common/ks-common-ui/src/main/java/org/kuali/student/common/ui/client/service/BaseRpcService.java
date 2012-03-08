@@ -23,7 +23,6 @@ import org.kuali.student.r1.common.search.dto.SearchRequest;
 import org.kuali.student.r1.common.search.dto.SearchResult;
 import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
 import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
-import org.kuali.student.r2.common.dto.ContextInfo;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 

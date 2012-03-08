@@ -22,6 +22,7 @@ import org.kuali.student.r1.common.dto.StatusInfo;
 import org.kuali.student.r1.core.comment.dto.CommentInfo;
 import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
 
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("rpcservices/CommentRpcService")
@@ -85,5 +86,7 @@ public interface CommentRpcService extends BaseRpcService {
      * @param referenceTypeKey reference type of the object
      */
     public Boolean isAuthorizedAddComment(String id, String referenceTypeKey);
+    
+    public String getUserRealName(String userId);
     
 }
