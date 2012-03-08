@@ -34,7 +34,7 @@
         </property>
     </bean>
 
-    <bean id="KS-CalendarSearch-Page" parent="Uif-Page" p:disclosure.render="false">
+    <bean id="KS-CalendarSearch-Page" parent="Uif-Page" p:disclosure.render="false" p:style="width: 110%">
         <property name="items">
             <list>
                 <ref bean="KS-CalendarSearch-CriteriaSection"/>
@@ -70,7 +70,7 @@
                         </list>
                     </property>
                 </bean>
-                <bean parent="Uif-HorizontalFieldGroup" p:label="actions" p:labelField.render="false" >
+                <bean parent="Uif-HorizontalFieldGroup" p:label="actions" p:labelField.render="false">
                     <property name="items">
                         <list>
                             <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
@@ -104,6 +104,7 @@
 		<property name="propertyName" value="holidayCalendars" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -141,6 +142,7 @@
 		<property name="propertyName" value="academicCalendars" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -178,6 +180,7 @@
 		<property name="propertyName" value="terms" />
         <property name="collectionLookup.quickfinderActionField.render" value="false" />
 		<property name="layoutManager.renderSequenceField" value="false" />
+        <property name="layoutManager.applyDefaultCellWidths" value="false" />
 		<property name="items">
 			<list>
                 <bean parent="Uif-DataField"
@@ -203,7 +206,6 @@
               <list>
                   <bean parent="Uif-ActionLink" p:methodToCall="view" p:actionLabel="View" />
                   <bean parent="Uif-ActionLink" p:methodToCall="edit" p:actionLabel="Edit" />
-                  <bean parent="Uif-ActionLink" p:methodToCall="copy" p:actionLabel="Copy" />
                   <bean parent="Uif-ActionLink" p:methodToCall="delete" p:actionLabel="Delete" />
               </list>
         </property>
