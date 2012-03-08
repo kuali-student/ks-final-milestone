@@ -18,10 +18,10 @@ package org.kuali.student.lum.lu.entity;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import org.kuali.student.r2.common.entity.RichTextEntity;
+import org.kuali.student.r1.common.entity.RichText;
 
 @Entity
 @Table(name = "KSLU_RICH_TEXT_T")
-public class LuRichText extends RichTextEntity {
+public class LuRichText extends RichText {
 
 }
