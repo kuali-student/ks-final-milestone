@@ -141,50 +141,50 @@ public class StatementDataService implements StatementRpcService{
 	}
 
 	@Override
-	public List<SearchTypeInfo> getSearchTypes(ContextInfo contextInfo) {
+	public List<SearchTypeInfo> getSearchTypes() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchTypeInfo getSearchType(String searchTypeKey,ContextInfo contextInfo) {
+	public SearchTypeInfo getSearchType(String searchTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByResult(
-			String searchResultTypeKey,ContextInfo contextInfo) {
+			String searchResultTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
-			String searchCriteriaTypeKey,ContextInfo contextInfo) {
+			String searchCriteriaTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchResultTypeInfo> getSearchResultTypes(ContextInfo contextInfo) {
+	public List<SearchResultTypeInfo> getSearchResultTypes() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey,ContextInfo contextInfo) {
+	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(ContextInfo contextInfo) {
+	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes() {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
-			String searchCriteriaTypeKey,ContextInfo contextInfo) {
+			String searchCriteriaTypeKey) {
 		throw new UnsupportedOperationException();
 	}
 
 	@Override
-	public SearchResult search(SearchRequest searchRequest,ContextInfo contextInfo) {
+	public SearchResult search(SearchRequest searchRequest) {
 		throw new UnsupportedOperationException();
 	}
 }
