@@ -130,14 +130,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         List<ValidationResultInfo> results = new ArrayList<ValidationResultInfo>();
         Stack<String> elementStack = new Stack<String>();
 
-        validateObject(results, data, objStructure, elementStack, data, objStructure, true);
+        validateObject(results, data, objStructure, elementStack, data, objStructure, true, contextInfo);
 
         return results;
     }
 
     private void validateObject(List<ValidationResultInfo> results, Object data,
             ObjectStructureDefinition objStructure, Stack<String> elementStack, Object rootData,
-            ObjectStructureDefinition rootObjStructure, boolean isRoot) {
+            ObjectStructureDefinition rootObjStructure, boolean isRoot, ContextInfo contextInfo) {
 
         ConstraintDataProvider dataProvider = new BeanConstraintDataProvider();
         dataProvider.initialize(data);
@@ -158,7 +158,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
 
         for (FieldDefinition f : objStructure.getAttributes()) {
-            validateField(results, f, objStructure, dataProvider, elementStack, rootData, rootObjStructure);
+            validateField(results, f, objStructure, dataProvider, elementStack, rootData, rootObjStructure, contextInfo);
 
             // Use Custom Validators
             if (f.getCustomValidatorClass() != null || f.isServerSide() && serverSide) {
@@ -188,14 +188,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     public void validateField(List<ValidationResultInfo> results, FieldDefinition field,
             ObjectStructureDefinition objStruct, ConstraintDataProvider dataProvider, Stack<String> elementStack,
-            Object rootData, ObjectStructureDefinition rootObjectStructure) {
+            Object rootData, ObjectStructureDefinition rootObjectStructure, ContextInfo contextInfo) {
 
         Object value = dataProvider.getValue(field.getName());
 
         // Handle null values in field
         if (value == null || "".equals(value.toString().trim())) {
             processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData,
-                    rootObjectStructure);
+                    rootObjectStructure, contextInfo);
             return; //no need to do further processing
         }
 
@@ -221,7 +221,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     elementStack.push(Integer.toString(i));
                     //                	beanPathStack.push(!beanPathStack.isEmpty()?beanPathStack.pop():""+"["+i+"]");
                     processNestedObjectStructure(results, o, nestedObjStruct, field, elementStack, rootData,
-                            rootObjectStructure);
+                            rootObjectStructure, contextInfo);
                     //                    beanPathStack.pop();
                     //                    beanPathStack.push(field.isDynamic()?"attributes("+field.getName()+")":field.getName());
                     elementStack.pop();
@@ -229,27 +229,27 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 }
                 if (field.getMinOccurs() != null && field.getMinOccurs() > ((Collection<?>) value).size()) {
                     ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection, value);
-                    valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
+                    valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs", contextInfo), toMap(field)));
                     results.add(valRes);
                 }
 
                 Integer maxOccurs = tryParse(field.getMaxOccurs());
                 if (maxOccurs != null && maxOccurs < ((Collection<?>) value).size()) {
                     ValidationResultInfo valRes = new ValidationResultInfo(xPathForCollection, value);
-                    valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), toMap(field)));
+                    valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs", contextInfo), toMap(field)));
                     results.add(valRes);
                 }
             } else {
                 if (null != value) {
                     processNestedObjectStructure(results, value, nestedObjStruct, field, elementStack, rootData,
-                            rootObjectStructure);
+                            rootObjectStructure, contextInfo);
                 } else {
                     if (field.getMinOccurs() != null && field.getMinOccurs() > 0) {
                         ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack), value);
                         if (field.getLabelKey() != null) {
-                            val.setError(getMessage(field.getLabelKey()));
+                            val.setError(getMessage(field.getLabelKey(), contextInfo));
                         } else {
-                            val.setError(getMessage("validation.required"));
+                            val.setError(getMessage("validation.required", contextInfo));
                         }
                         results.add(val);
                     }
@@ -265,7 +265,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
                 if (((Collection<?>) value).isEmpty()) {
                     processConstraint(results, field, objStruct, "", dataProvider, elementStack, rootData,
-                            rootObjectStructure);
+                            rootObjectStructure, contextInfo);
                 }
 
                 int i = 0;
@@ -276,7 +276,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     BeanUtils.copyProperties(field, tempField);
                     tempField.setName(Integer.toBinaryString(i));
                     processConstraint(results, tempField, objStruct, o, dataProvider, elementStack, rootData,
-                            rootObjectStructure);
+                            rootObjectStructure, contextInfo);
                     elementStack.pop();
                     i++;
                 }
@@ -284,19 +284,19 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 String xPath = getElementXpath(elementStack) + "/" + field.getName() + "/*";
                 if (field.getMinOccurs() != null && field.getMinOccurs() > ((Collection<?>) value).size()) {
                     ValidationResultInfo valRes = new ValidationResultInfo(xPath, value);
-                    valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs"), toMap(field)));
+                    valRes.setError(MessageUtils.interpolate(getMessage("validation.minOccurs", contextInfo), toMap(field)));
                     results.add(valRes);
                 }
 
                 Integer maxOccurs = tryParse(field.getMaxOccurs());
                 if (maxOccurs != null && maxOccurs < ((Collection<?>) value).size()) {
                     ValidationResultInfo valRes = new ValidationResultInfo(xPath, value);
-                    valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs"), toMap(field)));
+                    valRes.setError(MessageUtils.interpolate(getMessage("validation.maxOccurs", contextInfo), toMap(field)));
                     results.add(valRes);
                 }
             } else {
                 processConstraint(results, field, objStruct, value, dataProvider, elementStack, rootData,
-                        rootObjectStructure);
+                        rootObjectStructure, contextInfo);
             }
 
         }
@@ -316,22 +316,22 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
 
     protected void processNestedObjectStructure(List<ValidationResultInfo> results, Object value,
             ObjectStructureDefinition nestedObjStruct, FieldDefinition field, Stack<String> elementStack,
-            Object rootData, ObjectStructureDefinition rootObjStructure) {
-        validateObject(results, value, nestedObjStruct, elementStack, rootData, rootObjStructure, false);
+            Object rootData, ObjectStructureDefinition rootObjStructure, ContextInfo contextInfo) {
+        validateObject(results, value, nestedObjStruct, elementStack, rootData, rootObjStructure, false, contextInfo);
     }
 
     protected void processConstraint(List<ValidationResultInfo> valResults, FieldDefinition field,
             ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider,
-            Stack<String> elementStack, Object rootData, ObjectStructureDefinition rootObjStructure) {
+            Stack<String> elementStack, Object rootData, ObjectStructureDefinition rootObjStructure, ContextInfo contextInfo) {
 
         // Process Case Constraint
         // Case Constraint are only evaluated on the field. Nested case constraints are currently ignored
         Constraint caseConstraint = processCaseConstraint(valResults, field.getCaseConstraint(), objStructure, value,
-                dataProvider, elementStack, rootData, rootObjStructure);
+                dataProvider, elementStack, rootData, rootObjStructure, contextInfo);
 
         Constraint constraint = (null != caseConstraint) ? caseConstraint : field;
 
-        processBaseConstraints(valResults, constraint, field, value, elementStack);
+        processBaseConstraints(valResults, constraint, field, value, elementStack, contextInfo);
 
         // Stop other checks if value is null
         if (value == null || "".equals(value.toString().trim())) {
@@ -343,7 +343,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // Process Valid Chars
         if (null != constraint.getValidChars()) {
             ValidationResultInfo val = processValidCharConstraint(elementPath, constraint.getValidChars(),
-                    dataProvider, value);
+                    dataProvider, value, contextInfo);
             if (null != val) {
                 valResults.add(val);
             }
@@ -354,11 +354,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (null != constraint.getRequireConstraint() && constraint.getRequireConstraint().size() > 0) {
                 for (RequiredConstraint rc : constraint.getRequireConstraint()) {
                     ValidationResultInfo val = processRequireConstraint(elementPath, rc, field, objStructure,
-                            dataProvider);
+                            dataProvider, contextInfo);
                     if (null != val) {
                         valResults.add(val);
                         //FIXME: For clarity, might be better to handle this in the processRequireConstraint method instead.
-                        processCrossFieldWarning(valResults, rc, val.getErrorLevel(), field.getName());
+                        processCrossFieldWarning(valResults, rc, val.getErrorLevel(), field.getName(), contextInfo);
                     }
                 }
             }
@@ -367,7 +367,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // Process Occurs Constraint
         if (null != constraint.getOccursConstraint() && constraint.getOccursConstraint().size() > 0) {
             for (MustOccurConstraint oc : constraint.getOccursConstraint()) {
-                ValidationResultInfo val = processOccursConstraint(elementPath, oc, field, objStructure, dataProvider);
+                ValidationResultInfo val = processOccursConstraint(elementPath, oc, field, objStructure, dataProvider, contextInfo);
                 if (null != val) {
                     valResults.add(val);
                 }
@@ -377,12 +377,12 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         // Process lookup Constraint
         if (null != constraint.getLookupDefinition()) {
             processLookupConstraint(valResults, constraint.getLookupDefinition(), field, elementStack, dataProvider,
-                    objStructure, rootData, rootObjStructure, value);
+                    objStructure, rootData, rootObjStructure, value, contextInfo);
         }
     }
 
     protected ValidationResultInfo processRequireConstraint(String element, RequiredConstraint constraint,
-            FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider) {
+            FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider, ContextInfo contextInfo) {
 
         ValidationResultInfo val = null;
 
@@ -404,7 +404,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             rMap.put("field1", field.getName());
             rMap.put("field2", fieldName);
             val = new ValidationResultInfo(element, fieldValue);
-            val.setMessage(MessageUtils.interpolate(getMessage("validation.requiresField"), rMap));
+            val.setMessage(MessageUtils.interpolate(getMessage("validation.requiresField", contextInfo), rMap));
             val.setLevel(constraint.getErrorLevel());
         }
 
@@ -421,7 +421,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      */
     protected Constraint processCaseConstraint(List<ValidationResultInfo> valResults, CaseConstraint caseConstraint,
             ObjectStructureDefinition objStructure, Object value, ConstraintDataProvider dataProvider,
-            Stack<String> elementStack, Object rootData, ObjectStructureDefinition rootObjStructure) {
+            Stack<String> elementStack, Object rootData, ObjectStructureDefinition rootObjStructure, ContextInfo contextInfo) {
 
         if (null == caseConstraint) {
             return null;
@@ -487,10 +487,10 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                     Constraint constraint = wc.getConstraint();
                     if (constraint.getCaseConstraint() != null) {
                         return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure, value,
-                                dataProvider, elementStack, rootData, rootObjStructure);
+                                dataProvider, elementStack, rootData, rootObjStructure, contextInfo);
                     } else {
                         processCrossFieldWarning(valResults, caseConstraint, constraint, value,
-                                constraint.getErrorLevel());
+                                constraint.getErrorLevel(), contextInfo);
                         return constraint;
                     }
                 }
@@ -504,10 +504,10 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                         Constraint constraint = wc.getConstraint();
                         if (constraint.getCaseConstraint() != null) {
                             return processCaseConstraint(valResults, constraint.getCaseConstraint(), objStructure,
-                                    value, dataProvider, elementStack, rootData, rootObjStructure);
+                                    value, dataProvider, elementStack, rootData, rootObjStructure, contextInfo);
                         } else {
                             processCrossFieldWarning(valResults, caseConstraint, constraint, value,
-                                    constraint.getErrorLevel());
+                                    constraint.getErrorLevel(), contextInfo);
                             return constraint;
                         }
                     }
@@ -519,7 +519,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     public ValidationResultInfo processValidCharConstraint(String element, ValidCharsConstraint vcConstraint,
-            ConstraintDataProvider dataProvider, Object value) {
+            ConstraintDataProvider dataProvider, Object value, ContextInfo contextInfo) {
 
         ValidationResultInfo val = null;
 
@@ -541,9 +541,9 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (fieldValue == null || !fieldValue.toString().matches(validChars)) {
                 val = new ValidationResultInfo(element, fieldValue);
                 if (vcConstraint.getLabelKey() != null) {
-                    val.setError(getMessage(vcConstraint.getLabelKey()));
+                    val.setError(getMessage(vcConstraint.getLabelKey(), contextInfo));
                 } else {
-                    val.setError(getMessage("validation.validCharsFailed"));
+                    val.setError(getMessage("validation.validCharsFailed", contextInfo));
                 }
             }
         }
@@ -564,7 +564,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @return
      */
     protected ValidationResultInfo processOccursConstraint(String element, MustOccurConstraint constraint,
-            FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider) {
+            FieldDefinition field, ObjectStructureDefinition objStructure, ConstraintDataProvider dataProvider, ContextInfo contextInfo) {
 
         boolean result = false;
         int trueCount = 0;
@@ -572,11 +572,11 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         ValidationResultInfo val = null;
 
         for (RequiredConstraint rc : constraint.getRequiredFields()) {
-            trueCount += (processRequireConstraint("", rc, field, objStructure, dataProvider) != null) ? 1 : 0;
+            trueCount += (processRequireConstraint("", rc, field, objStructure, dataProvider, contextInfo) != null) ? 1 : 0;
         }
 
         for (MustOccurConstraint oc : constraint.getOccurs()) {
-            trueCount += (processOccursConstraint("", oc, field, objStructure, dataProvider) != null) ? 1 : 0;
+            trueCount += (processOccursConstraint("", oc, field, objStructure, dataProvider, contextInfo) != null) ? 1 : 0;
         }
 
         result = (trueCount >= constraint.getMin() && trueCount <= constraint.getMax()) ? true : false;
@@ -584,7 +584,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         if (!result) {
             // TODO: figure out what data should go here instead of null
             val = new ValidationResultInfo(element, null);
-            val.setMessage(getMessage("validation.occurs"));
+            val.setMessage(getMessage("validation.occurs", contextInfo));
             val.setLevel(constraint.getErrorLevel());
         }
 
@@ -595,7 +595,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     protected void processLookupConstraint(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint,
             FieldDefinition field, Stack<String> elementStack, ConstraintDataProvider dataProvider,
             ObjectStructureDefinition objStructure, Object rootData, ObjectStructureDefinition rootObjStructure,
-            Object value) {
+            Object value, ContextInfo contextInfo) {
         if (lookupConstraint == null) {
             return;
         }
@@ -693,14 +693,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + field.getName(),
                     value);
             val.setLevel(lookupConstraint.getErrorLevel());
-            val.setMessage(getMessage("validation.lookup"));
+            val.setMessage(getMessage("validation.lookup", contextInfo));
             valResults.add(val);
-            processCrossFieldWarning(valResults, lookupConstraint, lookupConstraint.getErrorLevel());
+            processCrossFieldWarning(valResults, lookupConstraint, lookupConstraint.getErrorLevel(), contextInfo);
         }
     }
 
     protected void processBaseConstraints(List<ValidationResultInfo> valResults, Constraint constraint,
-            FieldDefinition field, Object value, Stack<String> elementStack) {
+            FieldDefinition field, Object value, Stack<String> elementStack, ContextInfo contextInfo) {
         DataType dataType = field.getDataType();
         String name = field.getName();
 
@@ -708,9 +708,9 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
                 ValidationResultInfo val = new ValidationResultInfo(getElementXpath(elementStack) + "/" + name, value);
                 if (constraint.getLabelKey() != null) {
-                    val.setError(getMessage(constraint.getLabelKey()));
+                    val.setError(getMessage(constraint.getLabelKey(), contextInfo));
                 } else {
-                    val.setMessage(getMessage("validation.required"));
+                    val.setMessage(getMessage("validation.required", contextInfo));
                 }
                 val.setLevel(constraint.getErrorLevel());
                 valResults.add(val);
@@ -721,19 +721,19 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         String elementPath = getElementXpath(elementStack) + "/" + name;
 
         if (DataType.STRING.equals(dataType)) {
-            validateString(value, constraint, elementPath, valResults);
+            validateString(value, constraint, elementPath, valResults, contextInfo);
         } else if (DataType.INTEGER.equals(dataType)) {
-            validateInteger(value, constraint, elementPath, valResults);
+            validateInteger(value, constraint, elementPath, valResults, contextInfo);
         } else if (DataType.LONG.equals(dataType)) {
-            validateLong(value, constraint, elementPath, valResults);
+            validateLong(value, constraint, elementPath, valResults, contextInfo);
         } else if (DataType.DOUBLE.equals(dataType)) {
-            validateDouble(value, constraint, elementPath, valResults);
+            validateDouble(value, constraint, elementPath, valResults, contextInfo);
         } else if (DataType.FLOAT.equals(dataType)) {
-            validateFloat(value, constraint, elementPath, valResults);
+            validateFloat(value, constraint, elementPath, valResults, contextInfo);
         } else if (DataType.BOOLEAN.equals(dataType)) {
-            validateBoolean(value, constraint, elementPath, valResults);
+            validateBoolean(value, constraint, elementPath, valResults, contextInfo);
         } else if (DataType.DATE.equals(dataType)) {
-            validateDate(value, constraint, elementPath, valResults, dateParser);
+            validateDate(value, constraint, elementPath, valResults, dateParser, contextInfo);
         }
     }
 
@@ -746,7 +746,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param field
      */
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, CaseConstraint crossConstraint,
-            Constraint constraint, Object value, ErrorLevel errorLevel) {
+            Constraint constraint, Object value, ErrorLevel errorLevel, ContextInfo contextInfo) {
         if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel)
                 && (value == null || "".equals(value.toString().trim()))) {
             if (constraint.getMinOccurs() != null && constraint.getMinOccurs() > 0) {
@@ -754,7 +754,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
                 String crossFieldPath = crossConstraint.getFieldPath();
                 String crossFieldMessageId = crossConstraint.getFieldPathMessageId() == null ?
                         "validation.required" : crossConstraint.getFieldPathMessageId();
-                addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
+                addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId, contextInfo), errorLevel);
             }
         }
     }
@@ -768,12 +768,12 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param field
      */
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults,
-            RequiredConstraint requiredConstraint, ErrorLevel errorLevel, String field) {
+            RequiredConstraint requiredConstraint, ErrorLevel errorLevel, String field, ContextInfo contextInfo) {
         if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && requiredConstraint != null) {
             String crossFieldPath = requiredConstraint.getFieldPath();
             String crossFieldMessageId = requiredConstraint.getFieldPathMessageId() == null ?
                     "validation.required" : requiredConstraint.getFieldPathMessageId();
-            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
+            addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId, contextInfo), errorLevel);
         }
     }
 
@@ -785,14 +785,14 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
      * @param lookupConstraint
      */
     protected void processCrossFieldWarning(List<ValidationResultInfo> valResults, LookupConstraint lookupConstraint,
-            ErrorLevel errorLevel) {
+            ErrorLevel errorLevel, ContextInfo contextInfo) {
         if ((ErrorLevel.WARN == errorLevel || ErrorLevel.ERROR == errorLevel) && lookupConstraint != null) {
             for (CommonLookupParam param : lookupConstraint.getParams()) {
                 if (param.getFieldPath() != null && !param.getFieldPath().isEmpty()) {
                     String crossFieldPath = param.getFieldPath();
                     String crossFieldMessageId = param.getFieldPathMessageId() == null ?
                             "validation.lookup.cause" : param.getFieldPathMessageId();
-                    addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId), errorLevel);
+                    addCrossFieldWarning(valResults, crossFieldPath, getMessage(crossFieldMessageId, contextInfo), errorLevel);
                 }
             }
         }
@@ -818,20 +818,20 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void validateBoolean(Object value, Constraint constraint, String element,
-            List<ValidationResultInfo> results) {
+            List<ValidationResultInfo> results, ContextInfo contextInfo) {
         if (!(value instanceof Boolean)) {
             try {
                 Boolean.valueOf(value.toString());
             } catch (Exception e) {
                 ValidationResultInfo val = new ValidationResultInfo(element, value);
-                val.setError(getMessage("validation.mustBeBoolean"));
+                val.setError(getMessage("validation.mustBeBoolean", contextInfo));
                 results.add(val);
             }
         }
     }
 
     protected void validateDouble(Object value, Constraint constraint, String element,
-            List<ValidationResultInfo> results) {
+            List<ValidationResultInfo> results, ContextInfo contextInfo) {
         Double v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -842,7 +842,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             try {
                 v = Double.valueOf(value.toString());
             } catch (Exception e) {
-                val.setError(getMessage("validation.mustBeDouble"));
+                val.setError(getMessage("validation.mustBeDouble", contextInfo));
             }
         }
 
@@ -853,15 +853,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (maxValue != null && minValue != null) {
                 // validate range
                 if (v > maxValue || v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange", contextInfo), toMap(constraint)));
                 }
             } else if (maxValue != null) {
                 if (v > maxValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed", contextInfo), toMap(constraint)));
                 }
             } else if (minValue != null) {
                 if (v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed", contextInfo), toMap(constraint)));
                 }
             }
         }
@@ -871,7 +871,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateFloat(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateFloat(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo contextInfo) {
         Float v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -881,7 +881,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             try {
                 v = Float.valueOf(value.toString());
             } catch (Exception e) {
-                val.setError(getMessage("validation.mustBeFloat"));
+                val.setError(getMessage("validation.mustBeFloat", contextInfo));
             }
         }
 
@@ -892,15 +892,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (maxValue != null && minValue != null) {
                 // validate range
                 if (v > maxValue || v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange", contextInfo), toMap(constraint)));
                 }
             } else if (maxValue != null) {
                 if (v > maxValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed", contextInfo), toMap(constraint)));
                 }
             } else if (minValue != null) {
                 if (v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed", contextInfo), toMap(constraint)));
                 }
             }
         }
@@ -910,7 +910,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected void validateLong(Object value, Constraint constraint, String element, List<ValidationResultInfo> results) {
+    protected void validateLong(Object value, Constraint constraint, String element, List<ValidationResultInfo> results, ContextInfo contextInfo) {
         Long v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -920,7 +920,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             try {
                 v = Long.valueOf(value.toString());
             } catch (Exception e) {
-                val.setError(getMessage("validation.mustBeLong"));
+                val.setError(getMessage("validation.mustBeLong", contextInfo));
             }
         }
 
@@ -931,15 +931,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (maxValue != null && minValue != null) {
                 // validate range
                 if (v > maxValue || v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange", contextInfo), toMap(constraint)));
                 }
             } else if (maxValue != null) {
                 if (v > maxValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed", contextInfo), toMap(constraint)));
                 }
             } else if (minValue != null) {
                 if (v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed", contextInfo), toMap(constraint)));
                 }
             }
         }
@@ -951,7 +951,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void validateInteger(Object value, Constraint constraint, String element,
-            List<ValidationResultInfo> results) {
+            List<ValidationResultInfo> results, ContextInfo contextInfo) {
         Integer v = null;
 
         ValidationResultInfo val = new ValidationResultInfo(element, value);
@@ -962,7 +962,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             try {
                 v = Integer.valueOf(value.toString());
             } catch (Exception e) {
-                val.setError(getMessage("validation.mustBeInteger"));
+                val.setError(getMessage("validation.mustBeInteger", contextInfo));
             }
         }
 
@@ -973,15 +973,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (maxValue != null && minValue != null) {
                 // validate range
                 if (v > maxValue || v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange", contextInfo), toMap(constraint)));
                 }
             } else if (maxValue != null) {
                 if (v > maxValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed", contextInfo), toMap(constraint)));
                 }
             } else if (minValue != null) {
                 if (v < minValue) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed", contextInfo), toMap(constraint)));
                 }
             }
         }
@@ -992,7 +992,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void validateDate(Object value, Constraint constraint, String element,
-            List<ValidationResultInfo> results, DateParser dateParser) {
+            List<ValidationResultInfo> results, DateParser dateParser, ContextInfo contextInfo) {
         ValidationResultInfo val = new ValidationResultInfo(element, value);
 
         Date v = null;
@@ -1003,7 +1003,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             try {
                 v = dateParser.parseDate(value.toString());
             } catch (Exception e) {
-                val.setError(getMessage("validation.mustBeDate"));
+                val.setError(getMessage("validation.mustBeDate", contextInfo));
             }
         }
 
@@ -1014,15 +1014,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
             if (maxValue != null && minValue != null) {
                 // validate range
                 if (v.getTime() > maxValue.getTime() || v.getTime() < minValue.getTime()) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.outOfRange", contextInfo), toMap(constraint)));
                 }
             } else if (maxValue != null) {
                 if (v.getTime() > maxValue.getTime()) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.maxValueFailed", contextInfo), toMap(constraint)));
                 }
             } else if (minValue != null) {
                 if (v.getTime() < minValue.getTime()) {
-                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed"), toMap(constraint)));
+                    val.setError(MessageUtils.interpolate(getMessage("validation.minValueFailed", contextInfo), toMap(constraint)));
                 }
             }
         }
@@ -1033,7 +1033,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
     }
 
     protected void validateString(Object value, Constraint constraint, String element,
-            List<ValidationResultInfo> results) {
+            List<ValidationResultInfo> results, ContextInfo contextInfo) {
 
         if (value == null) {
             value = "";
@@ -1045,15 +1045,15 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         Integer maxLength = tryParse(constraint.getMaxLength());
         if (maxLength != null && constraint.getMinLength() != null && constraint.getMinLength() > 0) {
             if (s.length() > maxLength || s.length() < constraint.getMinLength()) {
-                val.setError(MessageUtils.interpolate(getMessage("validation.lengthOutOfRange"), toMap(constraint)));
+                val.setError(MessageUtils.interpolate(getMessage("validation.lengthOutOfRange", contextInfo), toMap(constraint)));
             }
         } else if (maxLength != null) {
             if (s.length() > Integer.parseInt(constraint.getMaxLength())) {
-                val.setError(MessageUtils.interpolate(getMessage("validation.maxLengthFailed"), toMap(constraint)));
+                val.setError(MessageUtils.interpolate(getMessage("validation.maxLengthFailed", contextInfo), toMap(constraint)));
             }
         } else if (constraint.getMinLength() != null && constraint.getMinLength() > 0) {
             if (s.length() < constraint.getMinLength()) {
-                val.setError(MessageUtils.interpolate(getMessage("validation.minLengthFailed"), toMap(constraint)));
+                val.setError(MessageUtils.interpolate(getMessage("validation.minLengthFailed", contextInfo), toMap(constraint)));
             }
         }
 
@@ -1062,7 +1062,7 @@ public class DefaultValidatorImpl extends BaseAbstractValidator {
         }
     }
 
-    protected String getMessage(String messageId) {
+    protected String getMessage(String messageId, ContextInfo contextInfo) {
         if (null == messageService) {
             return messageId;
         }
