@@ -120,9 +120,9 @@ public class TestAtpService extends AbstractServiceTest {
 	public void TestCreateUpdateDelete(){
 		//Make an ATP
 		AtpInfo atpInfo = new AtpInfo();
-		atpInfo.setDesc(new RichTextInfo());
-		atpInfo.getDesc().setFormatted("Atp for fall 2008 semester");
-		atpInfo.getDesc().setPlain("Atp for fall 2008 semester");
+		atpInfo.setDescr(new RichTextInfo());
+		atpInfo.getDescr().setFormatted("Atp for fall 2008 semester");
+		atpInfo.getDescr().setPlain("Atp for fall 2008 semester");
 		atpInfo.setName("Fall 2008 Semester");
 		atpInfo.setStartDate(new Date());
 		atpInfo.setEndDate(new Date());
@@ -168,8 +168,8 @@ public class TestAtpService extends AbstractServiceTest {
 		
 		//Make a Milestone
 		MilestoneInfo milestoneInfo=new MilestoneInfo();
-		milestoneInfo.setDesc(new RichTextInfo());
-		milestoneInfo.getDesc().setFormatted("Milestone for fall 2008 semester last day to drop");
+		milestoneInfo.setDescr(new RichTextInfo());
+		milestoneInfo.getDescr().setFormatted("Milestone for fall 2008 semester last day to drop");
 		milestoneInfo.setName("Last Day to Drop Fall 2008 Semester");
 		milestoneInfo.setMilestoneDate(new Date());
 		milestoneInfo.setState("new");
@@ -189,12 +189,12 @@ public class TestAtpService extends AbstractServiceTest {
 		//Do some updates
 		
 		//Update Atp
-		createdAtp.getDesc().setFormatted("Updated Atp for the Fall 2008 Semester");
+		createdAtp.getDescr().setFormatted("Updated Atp for the Fall 2008 Semester");
 		try {
-			assertEquals("0",createdAtp.getMetaInfo().getVersionInd());
+			assertEquals("0",createdAtp.getMeta().getVersionInd());
 			AtpInfo updatedAtp = client.updateAtp(atp_fall2008Semester, createdAtp);
-			assertEquals("1",updatedAtp.getMetaInfo().getVersionInd());
-			assertEquals("Updated Atp for the Fall 2008 Semester", updatedAtp.getDesc().getFormatted());
+			assertEquals("1",updatedAtp.getMeta().getVersionInd());
+			assertEquals("Updated Atp for the Fall 2008 Semester", updatedAtp.getDescr().getFormatted());
 		} catch (Exception e) {
 			LOG.error(e);
 			fail();
@@ -235,12 +235,12 @@ public class TestAtpService extends AbstractServiceTest {
 		}
 		
 		//Update Milestone
-		createdMilestone.getDesc().setFormatted("Updated Milestone for fall 2008 semester last day to drop");
+		createdMilestone.getDescr().setFormatted("Updated Milestone for fall 2008 semester last day to drop");
 		try {
-			assertEquals("0",createdMilestone.getMetaInfo().getVersionInd());
+			assertEquals("0",createdMilestone.getMeta().getVersionInd());
 			MilestoneInfo updatedMilestone = client.updateMilestone(milestone_lastDateToDropFall2008, createdMilestone);
-			assertEquals("1",updatedMilestone.getMetaInfo().getVersionInd());
-			assertEquals("Updated Milestone for fall 2008 semester last day to drop", updatedMilestone.getDesc().getFormatted());
+			assertEquals("1",updatedMilestone.getMeta().getVersionInd());
+			assertEquals("Updated Milestone for fall 2008 semester last day to drop", updatedMilestone.getDescr().getFormatted());
 		} catch (Exception e) {
 			LOG.error(e);
 		}
