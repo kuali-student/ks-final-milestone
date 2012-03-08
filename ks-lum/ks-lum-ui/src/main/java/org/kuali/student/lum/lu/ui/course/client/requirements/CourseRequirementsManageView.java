@@ -316,7 +316,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                     ruleManageWidget.redraw(rule, true);
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                 }
-            }, ContextUtils.getContextInfo());
+            });
         }
     };
 
@@ -344,7 +344,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 editReqCompWidget.setReqCompList(reqComponentTypeInfoList);
                 editReqCompWidget.setCustomWidgets(getCustomWidgets(reqComponentTypeInfoList));                
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     private Map<String, Widget> getCustomWidgets(List<ReqComponentTypeInfo> reqComponentTypeInfoList) {
@@ -420,9 +420,9 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             programWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    }, ContextUtils.getContextInfo());
+                                    });
                                 }
-                            }, ContextUtils.getContextInfo());
+                            });
                         }
                     });
 
@@ -445,7 +445,7 @@ public class CourseRequirementsManageView extends VerticalSectionView {
                 public void onSuccess(final String compositionTemplate) {
                     editReqCompWidget.displayFieldsStart(compositionTemplate);
                 }
-            }, ContextUtils.getContextInfo());
+            });
         }
     };
 

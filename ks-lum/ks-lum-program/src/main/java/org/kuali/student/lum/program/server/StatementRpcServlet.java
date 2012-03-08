@@ -44,28 +44,28 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<CluService> i
 	public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(
 			String statementTypeKey,ContextInfo contextInfo) throws Exception {
 		return statmentDataService
-				.getStatementTypesForStatementTypeForCourse(statementTypeKey,ContextUtils.getContextInfo());
+				.getStatementTypesForStatementTypeForCourse(statementTypeKey, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<StatementTypeInfo> getStatementTypesForStatementType(
 			String statementTypeKey,ContextInfo contextInfo) throws Exception {
 		return statmentDataService
-				.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
+				.getStatementTypesForStatementType(statementTypeKey, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(
 			String luStatementTypeKey,ContextInfo contextInfo) throws Exception {
 		return statmentDataService
-				.getReqComponentTypesForStatementType(luStatementTypeKey,ContextUtils.getContextInfo());
+				.getReqComponentTypesForStatementType(luStatementTypeKey, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo,
 			String nlUsageTypeKey, String language,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.translateReqComponentToNL(reqComponentInfo,
-				nlUsageTypeKey, language,ContextUtils.getContextInfo());
+				nlUsageTypeKey, language, ContextUtils.getContextInfo());
 	}
 
 	@Override
@@ -73,7 +73,7 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<CluService> i
 			StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey,
 			String language,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.translateStatementTreeViewToNL(
-				statementTreeViewInfo, nlUsageTypeKey, language,ContextUtils.getContextInfo());
+				statementTreeViewInfo, nlUsageTypeKey, language, ContextUtils.getContextInfo());
 	}
 
 	@Override
@@ -81,19 +81,19 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<CluService> i
 			ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys,
 			String language,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.translateReqComponentToNLs(reqComponentInfo,
-				nlUsageTypeKeys, language,ContextUtils.getContextInfo());
+				nlUsageTypeKeys, language, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public CluInfo getClu(String cluId,ContextInfo contextInfo) throws Exception {
-		return statmentDataService.getClu(cluId,ContextUtils.getContextInfo());
+		return statmentDataService.getClu(cluId, ContextUtils.getContextInfo());
 	}
 
 	@Override
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
 			String refObjectId,ContextInfo contextInfo) throws Exception {
 		return statmentDataService.getCurrentVersion(refObjectTypeURI,
-				refObjectId,ContextUtils.getContextInfo());
+				refObjectId, ContextUtils.getContextInfo());
 	}
 
 }

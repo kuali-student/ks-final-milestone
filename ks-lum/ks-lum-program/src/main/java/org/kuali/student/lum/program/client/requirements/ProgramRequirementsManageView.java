@@ -311,7 +311,7 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                     ruleManageWidget.redraw(rule, true);
                     KSBlockingProgressIndicator.removeTask(creatingRuleTask);
                 }
-            },ContextUtils.getContextInfo());
+            });
         }
     };
 
@@ -378,9 +378,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             courseWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    },ContextUtils.getContextInfo());
+                                    });
                                 }
-                            },ContextUtils.getContextInfo());
+                            });
 
 
                         }
@@ -415,9 +415,9 @@ public class ProgramRequirementsManageView extends VerticalSectionView {
                                         public void onSuccess(CluInfo cluInfo) {
                                             programWidget.setLabelContent(cluInfo.getVersionInfo().getVersionIndId(), cluInfo.getOfficialIdentifier().getCode());
                                         }
-                                    },ContextUtils.getContextInfo());
+                                    });
                                 }
-                            },ContextUtils.getContextInfo());
+                            });
                         }
                     });
 

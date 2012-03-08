@@ -18,7 +18,7 @@ public class CluSetRetrieverImpl implements CluSetRetriever {
 
     @Override
     public void getCluSetInformation(final String cluSetId, final Callback<CluSetInformation> retrieveDoneCallback) {
-        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, ContextUtils.getContextInfo(), new AsyncCallback<CluSetInformation>() {
+        cluSetManagementRpcServiceAsync.getCluSetInformation(cluSetId, new AsyncCallback<CluSetInformation>() {
             @Override
             public void onFailure(Throwable caught) {
                 Window.alert("Failed to retrieve CluSet information for " + cluSetId);

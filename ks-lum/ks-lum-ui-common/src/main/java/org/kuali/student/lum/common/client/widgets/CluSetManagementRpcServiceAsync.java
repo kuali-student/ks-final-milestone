@@ -23,5 +23,5 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 // TODO KSCM-242
 public interface CluSetManagementRpcServiceAsync extends BaseDataOrchestrationRpcServiceAsync{
 
-    public void getCluSetInformation(String cluSetId,ContextInfo contextInfo, AsyncCallback<CluSetInformation> callback);
+    public void getCluSetInformation(String cluSetId, AsyncCallback<CluSetInformation> callback);
 }

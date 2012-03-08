@@ -106,7 +106,7 @@ public class CourseRequirementsDataModel {
                     //now retrieve the actual rules
                     retrieveRules(courseId, onReadyCallback);
                 }
-            }, ContextUtils.getContextInfo());
+            });
     }
 
     private void retrieveRules(String courseId, final Callback<Boolean> onReadyCallback) {
@@ -417,7 +417,7 @@ public class CourseRequirementsDataModel {
                 }
                 onReadyCallback.exec(stmtTypes);
             }
-        }, ContextUtils.getContextInfo());
+        });
     }
 
     public static boolean isEmpty(StatementTreeViewInfo rule) {

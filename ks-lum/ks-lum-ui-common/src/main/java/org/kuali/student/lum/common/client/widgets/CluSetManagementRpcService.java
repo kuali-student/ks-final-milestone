@@ -24,7 +24,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/CluSetManagementRpcService")
 public interface CluSetManagementRpcService extends BaseDataOrchestrationRpcService{
 //    public CluSetInfo getCluSetInfo(String cluSetId) throws OperationFailedException;
-    public CluSetInformation getCluSetInformation(String cluSetId,ContextInfo contextInfo) throws OperationFailedException;
+    public CluSetInformation getCluSetInformation(String cluSetId) throws OperationFailedException;
 //    public List<CluInformation> getCluInformation(List<String> cluIds) throws OperationFailedException;
 //    public List<CluSetInfo> getCluSetInfos(List<String> cluSetIds) throws OperationFailedException;
 }

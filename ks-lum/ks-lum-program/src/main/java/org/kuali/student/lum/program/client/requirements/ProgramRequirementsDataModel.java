@@ -130,7 +130,7 @@ public class ProgramRequirementsDataModel {
                 //now retrieve the actual rules
                 retrieveRules(programRequirementIds, onReadyCallback);
             }
-        },ContextUtils.getContextInfo());
+        });
     }
 
     private void retrieveRules(List<String> programRequirementIds, final Callback<Boolean> onReadyCallback) {

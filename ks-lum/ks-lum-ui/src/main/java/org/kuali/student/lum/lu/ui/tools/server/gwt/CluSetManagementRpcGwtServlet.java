@@ -264,7 +264,8 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     }
 
     @Override
-    public CluSetInformation getCluSetInformation(String cluSetId, ContextInfo contextInfo) throws OperationFailedException {
+    public CluSetInformation getCluSetInformation(String cluSetId) throws OperationFailedException {
+        ContextInfo contextInfo = ContextUtils.getContextInfo();
         CluSetInformation result = new CluSetInformation();
         //TODO KSCM - Correct ContextInfo parameter?
         CluSetInfo cluSetInfo = getCluSetInfo(cluSetId, contextInfo);
