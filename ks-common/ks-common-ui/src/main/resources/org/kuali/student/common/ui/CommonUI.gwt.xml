@@ -42,9 +42,9 @@
 	<inherits name="org.kuali.student.r1.common.Validator"/>
 
 	<!-- Core Inherits -->
-	<inherits name="org.kuali.student.core.comment.Comment" />
-	<inherits name="org.kuali.student.core.document.Document" />
-	<inherits name="org.kuali.student.core.statement.Statement" />
+	<inherits name="org.kuali.student.r1.core.comment.Comment" />
+	<inherits name="org.kuali.student.r1.core.document.Document" />
+	<inherits name="org.kuali.student.r1.core.statement.Statement" />
 
   	<inherits name="com.google.gwt.visualization.Visualization"/>
   	<inherits name="com.google.gwt.libideas.ImmutableResources" />
