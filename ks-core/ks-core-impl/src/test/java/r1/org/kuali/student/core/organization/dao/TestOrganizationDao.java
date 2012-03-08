@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.organization.dao;
+package r1.org.kuali.student.core.organization.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -30,38 +30,39 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import org.junit.Test;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SortDirection;
-import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.common.search.service.impl.SearchManagerImpl;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SortDirection;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.organization.dto.OrgTreeInfo;
-import org.kuali.student.core.organization.entity.Org;
-import org.kuali.student.core.organization.entity.OrgAttribute;
-import org.kuali.student.core.organization.entity.OrgHierarchy;
-import org.kuali.student.core.organization.entity.OrgOrgRelation;
-import org.kuali.student.core.organization.entity.OrgOrgRelationType;
-import org.kuali.student.core.organization.entity.OrgPersonRelation;
-import org.kuali.student.core.organization.entity.OrgPersonRelationType;
-import org.kuali.student.core.organization.entity.OrgPositionRestriction;
-import org.kuali.student.core.organization.entity.OrgType;
-import org.kuali.student.core.organizationsearch.service.impl.OrganizationHierarchySearch;
-import org.kuali.student.core.organizationsearch.service.impl.OrganizationSearch;
+import org.kuali.student.r1.core.organization.dto.OrgTreeInfo;
+import org.kuali.student.r1.core.organization.dao.OrganizationDao;
+import org.kuali.student.r1.core.organization.entity.Org;
+import org.kuali.student.r1.core.organization.entity.OrgAttribute;
+import org.kuali.student.r1.core.organization.entity.OrgHierarchy;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelation;
+import org.kuali.student.r1.core.organization.entity.OrgOrgRelationType;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelation;
+import org.kuali.student.r1.core.organization.entity.OrgPersonRelationType;
+import org.kuali.student.r1.core.organization.entity.OrgPositionRestriction;
+import org.kuali.student.r1.core.organization.entity.OrgType;
+import org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationHierarchySearch;
+import org.kuali.student.r1.core.organizationsearch.service.impl.OrganizationSearch;
 
 import edu.emory.mathcs.backport.java.util.Collections;
 
 @PersistenceFileLocation("classpath:META-INF/organization-persistence.xml")
 public class TestOrganizationDao extends AbstractTransactionalDaoTest {
-	@Dao(value = "org.kuali.student.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
+	@Dao(value = "org.kuali.student.r1.core.organization.dao.impl.OrganizationDaoImpl", testSqlFile = "classpath:ks-org.sql")
 	public OrganizationDao dao;
 	
 	@Test
