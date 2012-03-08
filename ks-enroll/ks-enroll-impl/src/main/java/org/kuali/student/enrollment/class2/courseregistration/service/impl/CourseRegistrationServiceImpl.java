@@ -73,9 +73,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private CourseService courseService;
     private PropositionBuilder propositionBuilder;
     private RulesEvaluationUtil rulesEvaluationUtil;
-
     private ProcessService processService;
-
     private LRCService lrcService;
 
     public ProcessService getProcessService() {
@@ -261,10 +259,8 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
     }
 
-   
-
     @Override
-    public  List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
+    public List<ValidationResultInfo> checkStudentEligibility(String studentId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException,
             PermissionDeniedException {
 
 //        String matchingProcessKey = null;
@@ -276,7 +272,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 //                break;
 //            }
 //        }
-   
+
         return null;
     }
 
@@ -620,16 +616,17 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     @Override
     public List<RegRequestInfo> getRegRequestsForStudentByTerm(String studentId, String termKey, List<String> requestStates, ContextInfo context) throws DoesNotExistException,
             InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        List<LprTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsByRequestingPersonAndAtp(studentId, termKey, requestStates, context);
+        List<LprTransactionInfo> retrievedLprTransactions = lprService.getLprTransactionsByRequestingPersonAndAtp(studentId, termKey, context);
         List<RegRequestInfo> regRequestInfos = new ArrayList<RegRequestInfo>();
         for (LprTransactionInfo retrievedLprTransaction : retrievedLprTransactions) {
-            try {
-                regRequestInfos.add(regRequestAssembler.assemble(retrievedLprTransaction, context));
-            } catch (AssemblyException e) {
-                throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+            if (requestStates.contains(retrievedLprTransaction.getStateKey())) {
+                try {
+                    regRequestInfos.add(regRequestAssembler.assemble(retrievedLprTransaction, context));
+                } catch (AssemblyException e) {
+                    throw new OperationFailedException("AssemblyException in assembling: " + e.getMessage());
+                }
             }
         }
-
         return regRequestInfos;
     }
 
@@ -737,7 +734,7 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
                 if (rvGroup != null) {
                     ResultScaleInfo resScale = lrcService.getResultScale(rvGroup.getResultScaleKey(), context);
                     if (resScale != null) {
-                        if (StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED , resScale.getTypeKey())) {
+                        if (StringUtils.equals(LrcServiceConstants.RESULT_VALUES_GROUP_TYPE_KEY_FIXED, resScale.getTypeKey())) {
                             courseRegistrationInfos.add(courseRegistrationAssembler.assemble(lpr, rvGroup, context));
                             break;
                         }
@@ -755,8 +752,9 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
     private List<LuiPersonRelationInfo> filterLprByState(List<LuiPersonRelationInfo> lprInfoList, String stateKey) {
         List<LuiPersonRelationInfo> filteredLprInfoList = new ArrayList<LuiPersonRelationInfo>();
         for (LuiPersonRelationInfo lprInfo : filteredLprInfoList) {
-            if (lprInfo.getStateKey().equals(stateKey))
+            if (lprInfo.getStateKey().equals(stateKey)) {
                 filteredLprInfoList.add(lprInfo);
+            }
         }
         return filteredLprInfoList;
     }
@@ -988,7 +986,4 @@ public class CourseRegistrationServiceImpl implements CourseRegistrationService 
 
         return courseRegistrationList;
     }
-
-  
-
 }

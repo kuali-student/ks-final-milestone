@@ -806,7 +806,8 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(String personId, String atpId, List<String> lprTransactionStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(String personId, 
+    String atpId, ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
 
         // TODO: Rewrite this so it searches on requesting person NOT person in item and on ATP that is now in the transaction
         List<LprTransactionItemEntity> lprTransItems = lprTransItemDao.getLprTransactionItemByPerson(personId);
@@ -823,10 +824,9 @@ public class LuiPersonRelationServiceImpl implements LuiPersonRelationService {
             if (lui.getAtpId().equals(atpId)) {
 
                 LprTransactionEntity lprTransEntity = lprTransDao.getByLprTransactionItemId(lprTransItem.getId());
-
-                if (lprTransactionStates.contains(lprTransEntity.getLprTransState()))
+//              commented out because of inconsistency with name of method -- app can do this filtering
+//                if (lprTransactionStates.contains(lprTransEntity.getLprTransState()))
                     lprTransInfos.add(lprTransEntity.toDto());
-
             }
         }
 

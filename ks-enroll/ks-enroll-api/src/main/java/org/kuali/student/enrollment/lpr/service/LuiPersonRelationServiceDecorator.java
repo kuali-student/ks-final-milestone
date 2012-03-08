@@ -335,10 +335,12 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     }
 
     @Override
-    public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(String personId, String atpId, 
-            List<String> lprStates, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+    public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(String personId,
+            String atpId,
+            ContextInfo context)
+            throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return getNextDecorator().getLprTransactionsByRequestingPersonAndAtp(personId, atpId, lprStates, context);
+        return getNextDecorator().getLprTransactionsByRequestingPersonAndAtp(personId, atpId, context);
     }
 
     @Override
@@ -425,9 +427,4 @@ public class LuiPersonRelationServiceDecorator implements LuiPersonRelationServi
     public LprRosterInfo updateLprRosterEntry(String lprRosterEntryId, LprRosterEntryInfo lprRosterEntryInfo, ContextInfo context) throws DoesNotExistException, DataValidationErrorException, InvalidParameterException, MissingParameterException, ReadOnlyException, OperationFailedException, PermissionDeniedException, VersionMismatchException {
         return getNextDecorator().updateLprRosterEntry(lprRosterEntryId, lprRosterEntryInfo, context);
     }
-
-
-    
-    
-
 }

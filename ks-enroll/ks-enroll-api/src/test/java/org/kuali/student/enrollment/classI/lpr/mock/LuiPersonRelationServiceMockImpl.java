@@ -628,7 +628,7 @@ public class LuiPersonRelationServiceMockImpl implements LuiPersonRelationServic
 
     @Override
     public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(String atpId, String personId,
-            List<String> lprTypes, ContextInfo context) throws DoesNotExistException, InvalidParameterException,
+            ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException {
         // TODO sambit - THIS METHOD NEEDS JAVADOCS
         return null;

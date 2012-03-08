@@ -1045,9 +1045,6 @@ public interface LuiPersonRelationService {
     /**
      * Retrieves LPR Transactions with an item by Person and transaction states
      * 
-     * Selects all transactions that have at least one item that matches the specified 
-     * person and either the existing or new lui.
-     * 
      * Note: this matches the person on the item not the person requesting the transaction 
      * which is on the transaction.
      * 
@@ -1057,7 +1054,6 @@ public interface LuiPersonRelationService {
      *
      * @param personId The person identifier
      * @param context
-     * @return
      * @throws DoesNotExistException     personId doesn't exist
      * @throws InvalidParameterException Invalid personId
      * @throws MissingParameterException Missing personId
@@ -1118,7 +1114,6 @@ public interface LuiPersonRelationService {
     
      * @param luiId   The LUI identifier
      * @param context
-     * @return
      * @throws DoesNotExistException     personId doesn't exist
      * @throws InvalidParameterException Invalid personId
      * @throws MissingParameterException Missing personId
@@ -1132,6 +1127,10 @@ public interface LuiPersonRelationService {
     /**
      * Retrieves transactions for the requesting person and the ATP.
      * 
+     * TODO: This method originally also additionally filtered on transaction state 
+     * but other evidence had it by lpr type consider adding back in so I took it 
+     * out.  Perhaps it should be added back in.
+     * 
      * @param requestingPersonId The person identifier
      * @param atpId   The ATP Id
      * @param context
@@ -1144,7 +1143,6 @@ public interface LuiPersonRelationService {
     public List<LprTransactionInfo> getLprTransactionsByRequestingPersonAndAtp(
             @WebParam(name = "personId") String requestingPersonId,
             @WebParam(name = "atpId") String atpId,
-            @WebParam(name = "lprTransactionStates") List<String> lprTransactionStates,
             @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException,
             MissingParameterException, OperationFailedException, PermissionDeniedException;
 
