@@ -144,6 +144,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     @Override
     public List<MessageInfo> getMessages(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         if(cachingEnabled){
+            // TODO KSCM confirm it's correct
             return (List<MessageInfo>) msgsCache.get("localeKey=" + localeInfo.getLocaleLanguage()+ ", messageGroupKey="+messageGroupKey);
         }
 
@@ -166,7 +167,7 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
         if(cachingEnabled){
             msgsCache.put("localeKey="+localeInfo.getLocaleLanguage()+", messageGroupKey="+messageGroupKey, messageList );
         }
-
+     // TODO KSCM confirm it's correct
         return (List<MessageInfo>) messageList;
     }
 

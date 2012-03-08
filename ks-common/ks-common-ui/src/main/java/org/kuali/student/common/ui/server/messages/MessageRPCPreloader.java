@@ -78,7 +78,6 @@ public class MessageRPCPreloader {
             whitelist.put(MessageList.class, true);
             whitelist.put(MessageGroupKeyList.class,true);
             whitelist.put(Message.class,true);
-            whitelist.put(MessageGroupKeyList.class,true);
             
             KSSerializationPolicy myPolicy = new KSSerializationPolicy(whitelist);
             
