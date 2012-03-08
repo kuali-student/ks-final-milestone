@@ -1,14 +1,10 @@
-package org.kuali.student.common.ui.client.widgets.table.summary;
+ package org.kuali.student.common.ui.client.widgets.table.summary;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
-import org.kuali.student.common.assembly.data.QueryPath;
-import org.kuali.student.common.assembly.data.Data.Property;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
@@ -21,12 +17,17 @@ import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSect
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.DataModel;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validation.dto.ValidationResultInfo.ErrorLevel;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Data.Property;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SummaryTableSection extends VerticalSection {
     SummaryTable summaryTable = new SummaryTable();
     SummaryTableModel summaryTableModel = new SummaryTableModel();
@@ -95,29 +96,33 @@ public class SummaryTableSection extends VerticalSection {
     }
     
     @Override
-    public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {
-    	
+    public ErrorLevel processValidationResults(List<ValidationResultInfo> results) {    	
     	//initialize condition parameters
     	ErrorLevel status= ErrorLevel.OK;
-    	isMissingFields= false;
-    	hasWarnings= false;
     	
+    	isMissingFields= false;    // Set-ness affects CourseSummaryConfigurer.resolveMissingFieldsWarnings()
+    	hasWarnings= false;    // Set-ness affects CourseSummaryConfigurer.resolveProposalSubmissionWarnings()
+    	
+    	// Process results
     	for(int i = 0; i < results.size(); i++){
+    		ValidationResultInfo resultI= results.get(i);
     		
     		if(summaryTable.containsKey(results.get(i).getElement())){
     			
-    			System.out.println(results.get(i).getElement() + " *** " + results.get(i).getErrorLevel() + " *** " + results.get(i).getMessage());
-    			if(results.get(i).getLevel().getLevel() > status.getLevel()){
+    			System.out.println(resultI.getElement() + " *** " + resultI.getErrorLevel() + " *** " + resultI.getMessage());
+    			
+    			if(resultI.getLevel().getLevel() > status.getLevel()){    				
+    				status= resultI.getLevel();
     				
-    				status= results.get(i).getLevel();
-    				
-    				if(results.get(i).getMessage().equals("Required")){	//KSLAB-1985
+    				if(resultI.getMessage().equals("Required")){	//KSLAB-1985
+    				    
     					isMissingFields= true;
     				}
     			}
     			
     			if(this.isValidationEnabled){
-        			summaryTable.highlightRow(results.get(i).getElement(), "rowHighlight");
+    			    
+        			summaryTable.highlightRow(resultI.getElement(), "rowHighlight");
         		}
     		}
     	}
@@ -126,15 +131,19 @@ public class SummaryTableSection extends VerticalSection {
     	ValidationResultInfo tempVr= new ValidationResultInfo();
     	
     	tempVr.setElement("");
-    	for(int i = 0; i < warnings.size(); i++){
-    		
+    	
+    	// Process ApplicationContext warnings
+    	for(int i = 0; i < warnings.size(); i++){    		
     		//Reformat the validation element path based on how it can be referenced in sumaryTable rowMap
-    		String element= warnings.get(i).getElement();    		
+    		String element= warnings.get(i).getElement();    
+    		
     		if (element.startsWith("/")){    		    			
+    		    
     			//Remove leading '/' since paths aren't stored this way in rowMap
     			element= element.substring(1);
     			
-    		} else if (element.matches(".*/[0-9]+")){    			
+    		} else if (element.matches(".*/[0-9]+")){ 
+    		    
     			//Validation warnings returns path to individual items of simple multiplicity, 
     			//stripping of the item index to highlight the entire field. 
     			element= element.substring(0, element.lastIndexOf("/")); 
@@ -142,12 +151,14 @@ public class SummaryTableSection extends VerticalSection {
     		
     		if(summaryTable.containsKey(element)){
     			
-        		hasWarnings= true;	//KSLAB-1985	assumed indicates warnings present
-    			if(warnings.get(i).getLevel().getLevel() > status.getLevel()){
-    				status= warnings.get(i).getLevel();
-    			}
+        		hasWarnings= true;
     			
-       			summaryTable.highlightRow(element, "warning");
+        		if(warnings.get(i).getLevel().getLevel() > status.getLevel()){
+    				
+        		    status= warnings.get(i).getLevel();
+    			}
+        		    			
+       			summaryTable.highlightRow(element, "warning");    //Highlights related warning fields in Dark Yellow
     		}
     	}
     	
@@ -156,9 +167,12 @@ public class SummaryTableSection extends VerticalSection {
     
     @Override
     public ErrorLevel processValidationResults(List<ValidationResultInfo> results, boolean clearErrors) {
+        
     	if(clearErrors){
+    	    
     		this.removeValidationHighlighting();
     	}
+    	
     	return this.processValidationResults(results);
     }
     

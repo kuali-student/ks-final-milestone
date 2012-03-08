@@ -1,12 +1,12 @@
 package org.kuali.student.lum.program.client.major.view;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.QueryPath;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
+import org.kuali.student.common.ui.client.configurable.mvc.Configurer;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptorReadOnly;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBinding;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.Section;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
-import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
@@ -15,10 +15,10 @@ import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableFiel
 import org.kuali.student.common.ui.client.widgets.table.summary.SummaryTableSection;
 import org.kuali.student.lum.common.client.configuration.AbstractSectionConfiguration;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramSections;
 import org.kuali.student.lum.program.client.major.MajorEditableHeader;
 import org.kuali.student.lum.program.client.major.proposal.MajorProposalController;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,37 +29,36 @@ public class ProposalInformationViewConfiguration extends AbstractSectionConfigu
 
     private Controller controller;
 
-	public static ProposalInformationViewConfiguration create() {
-        return new ProposalInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW,
-                ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramConstants.PROGRAM_MODEL_ID));
+	public static ProposalInformationViewConfiguration create(Configurer configurer) {
+	    return new ProposalInformationViewConfiguration(configurer);
 	}
 
-    public static ProposalInformationViewConfiguration createSpecial(Controller controller) {
-        return new ProposalInformationViewConfiguration(new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW,
-                ProgramProperties.get().program_menu_sections_proposalInformation(), ProgramConstants.PROGRAM_MODEL_ID,
-                new MajorEditableHeader(ProgramProperties.get().program_menu_sections_proposalInformation(),
-                        ProgramSections.PROGRAM_PROPOSAL_EDIT)), controller);
+    public static ProposalInformationViewConfiguration createSpecial(Configurer configurer, Controller controller) {
+        return new ProposalInformationViewConfiguration(configurer, controller);
     }
     
-
-    private ProposalInformationViewConfiguration(SectionView sectionView, Controller controller) {
-        rootSection = sectionView;
+    private ProposalInformationViewConfiguration(Configurer configurer, Controller controller) {
+        this.setConfigurer(configurer);
+        String proposalInformationLabel = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_PROPOSALINFORMATION);
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW,
+                proposalInformationLabel, ProgramConstants.PROGRAM_MODEL_ID);
         this.controller = controller;
     }
 
-    private ProposalInformationViewConfiguration(SectionView sectionView) {
-        rootSection = sectionView;
+    private ProposalInformationViewConfiguration(Configurer configurer) {
+        this.setConfigurer(configurer);
+        String proposalInformationLabel = getLabel(ProgramMsgConstants.PROGRAM_MENU_SECTIONS_PROPOSALINFORMATION);
+        rootSection = new VerticalSectionView(ProgramSections.PROGRAM_PROPOSAL_VIEW, proposalInformationLabel, ProgramConstants.PROGRAM_MODEL_ID, new MajorEditableHeader(proposalInformationLabel,
+                        ProgramSections.PROGRAM_PROPOSAL_EDIT));
     }
 
     @Override
     protected void buildLayout() {
-        Section section = null;
         if (controller instanceof MajorProposalController) {
-            section = createEditableSection();
+        	rootSection.addSection(createEditableSection());
         } else {
-            section = createReadOnlySection();
+        	rootSection.addSection(createReadOnlySection());
         }
-        rootSection.addSection(section);
     }
     
     private Section createEditableSection() {
@@ -71,11 +70,10 @@ public class ProposalInformationViewConfiguration extends AbstractSectionConfigu
     
     public SummaryTableFieldBlock createSummaryTableFieldBlock() {
         SummaryTableFieldBlock block = new SummaryTableFieldBlock();
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_TITLE_PATH, new MessageKeyInfo(ProgramProperties
-                .get().proposalInformation_cluProgramTitle())));
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluModificationType())));
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_ABSTRACT_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluAbstractType())));
-        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_RATIONALE_PATH, new MessageKeyInfo(ProgramProperties.get().proposalInformation_cluProposalRationale())));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_TITLE_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUPROGRAMTITLE)));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUMODIFICATIONTYPE)));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_ABSTRACT_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUABSTRACTTYPE)));
+        block.addSummaryTableFieldRow(getFieldRow(ProgramConstants.PROPOSAL_RATIONALE_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUPROPOSALRATIONALE)));
         return block;
     }
     
@@ -115,15 +113,10 @@ public class ProposalInformationViewConfiguration extends AbstractSectionConfigu
 
     private VerticalSection createReadOnlySection() {
         VerticalSection section = new VerticalSection();
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_TITLE_PATH, new MessageKeyInfo(ProgramProperties
-                .get().proposalInformation_cluProgramTitle()));
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, new MessageKeyInfo(
-                ProgramProperties.get().proposalInformation_cluModificationType()));
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_ABSTRACT_PATH, new MessageKeyInfo(
-                ProgramProperties.get().proposalInformation_cluAbstractType()));
-        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_RATIONALE_PATH, new MessageKeyInfo(
-                ProgramProperties.get().proposalInformation_cluProposalRationale()));
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_TITLE_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUPROGRAMTITLE));
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_TYPE_OF_MODIFICATON_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUMODIFICATIONTYPE));
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_ABSTRACT_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUABSTRACTTYPE));
+        configurer.addReadOnlyField(section, ProgramConstants.PROPOSAL_RATIONALE_PATH, generateMessageInfo(ProgramMsgConstants.PROPOSALINFORMATION_CLUPROPOSALRATIONALE));
         return section;
     }
-
 }

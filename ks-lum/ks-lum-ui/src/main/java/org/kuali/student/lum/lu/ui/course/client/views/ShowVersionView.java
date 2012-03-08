@@ -2,12 +2,12 @@ package org.kuali.student.lum.lu.ui.course.client.views;
 
 import java.util.List;
 
+import org.kuali.student.r1.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.layouts.TabMenuController;
 import org.kuali.student.common.ui.client.configurable.mvc.views.VerticalSectionView;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.core.statement.dto.StatementTypeInfo;
 import org.kuali.student.lum.lu.ui.course.client.configuration.ViewCourseConfigurer;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsController;
 import org.kuali.student.lum.lu.ui.course.client.controllers.VersionsReqController;

@@ -3,7 +3,6 @@ package org.kuali.student.common.ui.client.configurable.mvc.sections;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ApplicationContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -12,6 +11,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.FieldLayout;
 import org.kuali.student.common.ui.client.widgets.field.layout.layouts.VerticalFieldLayout;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -25,6 +25,7 @@ import com.google.gwt.user.client.ui.Widget;
  * 
  * @author SW Genis
  */
+@Deprecated
 public class RequiredContainer extends WarnContainer {
 
     final static ApplicationContext context = Application.getApplicationContext();
@@ -130,7 +131,7 @@ public class RequiredContainer extends WarnContainer {
                 hasComponents = true;
             }
         }
-
+        
         for (Section innerSection : section.getSections()) {
             if (processInnerSection(innerSection, showAll)) {
                 hasComponents = true;
@@ -177,6 +178,8 @@ public class RequiredContainer extends WarnContainer {
                 }
             }
         }
+       if(section instanceof CollapsableSection)
+    	((CollapsableSection) section).getLayout().setVisible(visibility);
     }
 
     /**

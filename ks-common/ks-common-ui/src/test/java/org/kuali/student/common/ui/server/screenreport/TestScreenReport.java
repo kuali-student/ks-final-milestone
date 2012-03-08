@@ -18,10 +18,12 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.util.ExportElement;
+import org.kuali.student.common.ui.server.screenreport.ScreenReportProcessor;
 import org.kuali.student.common.ui.server.screenreport.jasper.JasperScreenReportProcessorImpl;
+import org.kuali.student.r1.common.assembly.data.Data;
 
+@Deprecated
 public class TestScreenReport {
 
     private Data dataMap;

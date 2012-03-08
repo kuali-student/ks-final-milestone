@@ -17,7 +17,7 @@ package org.kuali.student.core.workflow.ui.client.service;
 
 import java.util.List;
 
-import org.kuali.student.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 

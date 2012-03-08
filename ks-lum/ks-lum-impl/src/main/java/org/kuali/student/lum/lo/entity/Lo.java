@@ -32,8 +32,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import org.kuali.student.common.entity.AttributeOwner;
-import org.kuali.student.common.entity.MetaEntity;
+import org.kuali.student.r1.common.entity.AttributeOwner;
+import org.kuali.student.r1.common.entity.MetaEntity;
 
 /**
  * @author Kuali Student Team
@@ -78,11 +78,6 @@ public class Lo extends MetaEntity implements AttributeOwner<LoAttribute> {
 	private List<LoAttribute> attributes;
 
 	@OneToMany(fetch=FetchType.LAZY, mappedBy="lo")
-    @JoinTable(
-    		name="KSLO_LO_JN_LOCATEGORY",
-	        joinColumns=@JoinColumn(name="LO_ID", insertable=false, updatable=false),
-	        inverseJoinColumns=@JoinColumn(name="ID", insertable=false, updatable=false)
-	)
 	private List<LoLoCategoryJoin> categories;
 	
 	@ManyToOne

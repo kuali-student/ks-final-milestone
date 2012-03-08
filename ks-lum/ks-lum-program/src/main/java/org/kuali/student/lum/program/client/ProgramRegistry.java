@@ -3,9 +3,9 @@ package org.kuali.student.lum.program.client;
 import com.google.gwt.event.shared.EventHandler;
 import com.google.gwt.event.shared.GwtEvent;
 
-import org.kuali.student.common.assembly.data.Data;
 import org.kuali.student.common.ui.client.application.Application;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;

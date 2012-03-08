@@ -22,7 +22,7 @@
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	 ">
 	<import resource="lu-dictionary-config.xml" />
 
@@ -976,6 +976,9 @@
 			<ref bean="cluset.criteria.cluAdvancedCriteria"/>
 		</search:searchCriteriaTypeInfo>
 	</search:searchType>
+	<!-- This search type is a special case, when there are query params that involve a clu -->
+	<!-- The code to handle the switching is done in the search implementation -->
+	<search:searchType id="cluset.search.genericWithClus" parent="cluset.search.generic-parent"/>
 
     <search:resultColumn id="cluset.resultColumn.cluSetId" parent="cluset.resultColumn.cluSetId-parent"/>
 	<search:resultColumn id="cluset.resultColumn.cluSetId-parent"  abstract="true">
@@ -1673,7 +1676,7 @@
 		<search:dataType>String</search:dataType>
 	</search:resultColumn>
 
-    <bean id="queryMap" class="org.springframework.beans.factory.config.MapFactoryBean">
+    <bean id="queryMap-parent" class="org.springframework.beans.factory.config.MapFactoryBean">
 		<property name="sourceMap">
 			<map>
 				<entry key="lu.search.clu.versions">
@@ -1809,12 +1812,23 @@
 
 		        <entry key="cluset.search.generic">
 		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain, cluset.type
-		            FROM Clu clu, CluSet cluset
+		            FROM CluSet cluset
 		            LEFT JOIN cluset.cluVerIndIds cluVerIndId 
 		            LEFT JOIN cluset.cluSets subcluset
 		            LEFT JOIN cluset.descr clusetDescr
 		            </value>
 		        </entry>
+		        
+		        <entry key="cluset.search.genericWithClus">
+		            <value>SELECT DISTINCT cluset.id, cluset.name, cluset.descr.plain, cluset.type
+		            FROM Clu clu, CluSet cluset
+		            LEFT JOIN cluset.cluVerIndIds cluVerIndId 
+		            LEFT JOIN cluset.cluSets subcluset
+		            LEFT JOIN cluset.descr clusetDescr
+		            WHERE clu.version.versionIndId = cluVerIndId.cluVersionIndId
+		            </value>
+		        </entry>
+		        
 				<entry key="lu.search.cluCluRelation">
 				    <value>SELECT rel.clu.id, rel.relatedClu.id FROM CluCluRelation rel</value>
 				</entry>
@@ -2026,5 +2040,7 @@
             </map>
 		</property>
 	</bean>
-
+	
+	<bean id="queryMap" parent="queryMap-parent"/>
+	
 </beans>

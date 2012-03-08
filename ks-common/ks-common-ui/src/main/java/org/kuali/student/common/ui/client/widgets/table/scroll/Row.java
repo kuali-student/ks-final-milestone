@@ -1,5 +1,6 @@
 package org.kuali.student.common.ui.client.widgets.table.scroll;
 
+@Deprecated
 public abstract class Row {
 	private boolean isSelected = false;
     private boolean highlighted = false;

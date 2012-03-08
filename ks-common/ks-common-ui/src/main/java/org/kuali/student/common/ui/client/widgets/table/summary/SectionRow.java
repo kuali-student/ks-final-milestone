@@ -2,6 +2,7 @@ package org.kuali.student.common.ui.client.widgets.table.summary;
 
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class SectionRow {
     private boolean isRequired = false;
     private String title ="";

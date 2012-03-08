@@ -12,10 +12,10 @@
 
 package org.kuali.student.common.ui.client.widgets;
 
-import org.kuali.student.common.assembly.data.Metadata;
-import org.kuali.student.common.assembly.data.MetadataInterrogator;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.configurable.mvc.DefaultWidgetFactory;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.MetadataInterrogator;
 
 import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.HasBlurHandlers;
@@ -30,6 +30,7 @@ import com.google.gwt.user.client.ui.TextBoxBase;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public class KSCharCount extends Composite implements HasText, HasInputWidget, HasBlurHandlers {
     VerticalPanel countingPanel;
     Widget inputWidget;
@@ -89,7 +90,7 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget, H
     public int getRemCount() {
         int rem = 0;
 
-        if ((this.getText() != null) && (this.getText().length() <= maxLength)) {
+        if ((this.getText() != null)) {
             rem = this.maxLength - ((TextBoxBase) (this.inputWidget)).getText().length();
         }
         if (this.getText() == null) {
@@ -101,14 +102,21 @@ public class KSCharCount extends Composite implements HasText, HasInputWidget, H
 
     public String setLabel() {
         int rem = getRemCount();
+        String message = "";
 
+        if (this.getText().length() > this.maxLength) {
+            message = "Please remove " + rem * -1 + " characters";
+        } else {
+            message = rem + " " + Application.getApplicationContext().getUILabel("common", "remainingChars");
+        }
+        
         if ((rem <= (this.maxLength * 0.1)) || (rem <= 10)) {
             countingLabel.getElement().setAttribute("style", "color: red;");
         } else {
             countingLabel.getElement().removeAttribute("style");
         }
 
-        return (rem + " " + Application.getApplicationContext().getUILabel("common", "remainingChars"));
+        return message;
     }
 
     @Override

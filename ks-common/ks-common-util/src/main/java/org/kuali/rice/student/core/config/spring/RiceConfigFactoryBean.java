@@ -32,12 +32,11 @@ package org.kuali.rice.student.core.config.spring;
  */
 
 import java.util.List;
-import java.util.Properties;
 
-import org.kuali.rice.core.config.Config;
-import org.kuali.rice.core.config.ConfigContext;
-import org.kuali.rice.core.config.ConfigurationException;
-import org.kuali.rice.core.config.JAXBConfigImpl;
+import org.kuali.rice.core.api.config.ConfigurationException;
+import org.kuali.rice.core.api.config.property.ConfigContext;
+import org.kuali.rice.core.impl.config.property.Config;
+import org.kuali.rice.core.impl.config.property.JAXBConfigImpl;
 import org.springframework.beans.factory.FactoryBean;
 
 public class RiceConfigFactoryBean implements FactoryBean {

@@ -23,6 +23,7 @@ import org.kuali.student.common.test.spring.DaoLoader;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
+@Deprecated
 public class MyDaoLoader extends DaoLoader {
 
     /**

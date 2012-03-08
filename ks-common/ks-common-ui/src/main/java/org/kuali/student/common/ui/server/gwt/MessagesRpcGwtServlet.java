@@ -15,53 +15,69 @@
 
 package org.kuali.student.common.ui.server.gwt;
 
-import org.kuali.student.common.messages.dto.LocaleKeyList;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
-import org.kuali.student.common.messages.service.MessageService;
+import org.kuali.student.common.ui.client.service.MessagesRpcService;
+import org.kuali.student.r1.common.messages.dto.LocaleKeyList;
+import org.kuali.student.r1.common.messages.dto.Message;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 
+import org.kuali.student.r2.common.dto.StatusInfo;
+import java.util.List;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.service.MessageService;
 
-public class MessagesRpcGwtServlet extends RemoteServiceServlet implements org.kuali.student.common.ui.client.service.MessagesRpcService {
+@Deprecated
+public class MessagesRpcGwtServlet extends RemoteServiceServlet implements MessagesRpcService {
 
     private static final long serialVersionUID = 1L;
 
     private MessageService serviceImpl; 
-    
+
     @Override
-    public Message addMessage(Message messageInfo) {
-        return serviceImpl.addMessage(messageInfo);
+    public StatusInfo addMessage(LocaleInfo localeInfo, String messageGroupKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        
+        return serviceImpl.addMessage(localeInfo, messageGroupKey ,messageInfo, contextInfo);
+        
     }
 
     @Override
-    public LocaleKeyList getLocales() {
-        return serviceImpl.getLocales();
+    public List<LocaleInfo> getLocales(ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        return serviceImpl.getLocales(contextInfo);
     }
 
     @Override
-    public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
-        return serviceImpl.getMessage(localeKey, messageGroupKey, messageKey);
+    public MessageInfo getMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        return serviceImpl.getMessage(localeInfo, messageGroupKey, messageKey, contextInfo);
+    }
+
+//    @Override
+//    public MessageGroupKeyList getMessageGroups() {
+//        return serviceImpl.getMessageGroups();
+//    }
+
+    @Override
+    public List<MessageInfo> getMessages(LocaleInfo localeInfo, String messageGroupKey, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        return serviceImpl.getMessages(localeInfo, messageGroupKey, contextInfo);
     }
 
     @Override
-    public MessageGroupKeyList getMessageGroups() {
-        return serviceImpl.getMessageGroups();
+    public List<MessageInfo> getMessagesByGroups(LocaleInfo localeInfo, List<String> messageGroupKeys, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException{
+        return serviceImpl.getMessagesByGroups(localeInfo, messageGroupKeys, contextInfo);
     }
 
     @Override
-    public MessageList getMessages(String localeKey, String messageGroupKey) {
-        return serviceImpl.getMessages(localeKey, messageGroupKey);
-    }
-
-    @Override
-    public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
-        return serviceImpl.getMessagesByGroups(localeKey, messageGroupKeyList);
-    }
-
-    @Override
-    public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
-        return serviceImpl.updateMessage(localeKey, messageGroupKey, messageKey, messageInfo);
+    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageKey, MessageInfo messageInfo, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException{
+        return serviceImpl.updateMessage(localeInfo, messageKey, messageInfo, contextInfo);
     }
 
     public MessageService getServiceImpl() {

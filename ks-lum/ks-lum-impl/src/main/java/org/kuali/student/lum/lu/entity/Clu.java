@@ -36,10 +36,10 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.UniqueConstraint;
 
-import org.kuali.student.common.entity.Amount;
-import org.kuali.student.common.entity.AttributeOwner;
-import org.kuali.student.common.entity.TimeAmount;
-import org.kuali.student.common.entity.VersionEntity;
+import org.kuali.student.r1.common.entity.Amount;
+import org.kuali.student.r1.common.entity.AttributeOwner;
+import org.kuali.student.r1.common.entity.TimeAmount;
+import org.kuali.student.r1.common.entity.VersionEntity;
 
 @Entity
 @Table(name = "KSLU_CLU", uniqueConstraints={@UniqueConstraint(columnNames={"VER_IND_ID", "SEQ_NUM"})} )

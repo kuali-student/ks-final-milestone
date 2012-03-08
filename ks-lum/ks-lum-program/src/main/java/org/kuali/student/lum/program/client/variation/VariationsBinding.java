@@ -2,7 +2,8 @@ package org.kuali.student.lum.program.client.variation;
 
 import java.util.List;
 
-import org.kuali.student.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.binding.ModelWidgetBindingSupport;
@@ -12,14 +13,13 @@ import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
 import org.kuali.student.lum.common.client.configuration.Configuration;
 import org.kuali.student.lum.program.client.ProgramConstants;
+import org.kuali.student.lum.program.client.ProgramMsgConstants;
 import org.kuali.student.lum.program.client.ProgramRegistry;
 import org.kuali.student.lum.program.client.ProgramUtils;
 import org.kuali.student.lum.program.client.events.UpdateEvent;
 import org.kuali.student.lum.program.client.major.MajorManager;
-import org.kuali.student.lum.program.client.properties.ProgramProperties;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -121,7 +121,7 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
                     table.setWidget(row, 0, anchor);
                 }
                 if (editable) {
-                    KSButton removeButton = new KSButton(ProgramProperties.get().common_remove());
+                    KSButton removeButton = new KSButton(getLabel(ProgramMsgConstants.COMMON_REMOVE));
                     table.setWidget(row, 1, removeButton);                                             
                     removeButton.addClickHandler(new ClickHandler() {
 
@@ -178,5 +178,9 @@ public class VariationsBinding extends ModelWidgetBindingSupport<FlexTable> {
     		}
     	}
     	return false;
+    }
+    
+    protected String getLabel(String messageKey) {
+        return Application.getApplicationContext().getUILabel(ProgramMsgConstants.PROGRAM_MSG_GROUP, messageKey);
     }
 }

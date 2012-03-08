@@ -19,11 +19,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
 import org.kuali.student.common.ui.client.configurable.mvc.sections.VerticalSection;
 import org.kuali.student.common.ui.client.theme.Theme;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.MessageKeyInfo;
+import org.kuali.student.r1.common.assembly.data.QueryPath;
 
 import com.google.gwt.event.dom.client.MouseMoveHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -180,6 +180,20 @@ public class OutlineManager extends VerticalSection implements HasValue<OutlineN
 			}
 			super.onBrowserEvent(event);
 		}
+
+        @Override
+        protected void onEnsureDebugId(String baseID) {
+            super.onEnsureDebugId(baseID);
+            toolbar.ensureDebugId(baseID);
+            if (currentNode != null) {
+                Object userObject = currentNode.getUserObject();
+                if (userObject instanceof Widget) {
+                    ((Widget) userObject).ensureDebugId(baseID);
+                }
+            }
+        }
+		
+		
 	}
 	
 	@Override

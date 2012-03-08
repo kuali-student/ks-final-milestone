@@ -3,6 +3,7 @@ package org.kuali.student.common.ui.client.widgets.table.summary;
 import java.util.ArrayList;
 import java.util.List;
 
+@Deprecated
 public class SummaryTableModel {
     List<SummaryTableBlock> sectionList = new ArrayList<SummaryTableBlock>();
     private String contentColumnHeader1;

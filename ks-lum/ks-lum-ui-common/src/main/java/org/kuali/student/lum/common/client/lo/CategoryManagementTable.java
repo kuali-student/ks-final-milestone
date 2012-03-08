@@ -16,13 +16,10 @@
 package org.kuali.student.lum.common.client.lo;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.SearchRpcService;
@@ -34,12 +31,17 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.Column;
 import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
+
 
 /**
  * This is a description of what this class does - Gary Struthers don't forget to fill this in. 
@@ -47,6 +49,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
  * @author Kuali Student Team (gstruthers@berkeley.edu)
  *
  */
+//TODO KSCM-244
 public class CategoryManagementTable extends Composite {
     static String NAME_COLUMN_HEADER = "Category";
     static String TYPE_COLUMN_HEADER = "Type";
@@ -422,6 +425,7 @@ public class CategoryManagementTable extends Composite {
                 resultRows.add(resultRow);                
             }
         }	//Correct resultRows now loaded [KSLAB-2091]
+        Collections.sort(resultRows);
         redraw();
     }
 
