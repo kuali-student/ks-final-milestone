@@ -346,7 +346,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     public DataSaveResult saveOrgProposal(Data proposal) throws AssemblyException, org.kuali.student.common.ui.client.service.exceptions.OperationFailedException {
 
         try {
-            DataSaveResult s = this.saveData(proposal, ContextUtils.getContextInfo());
+            DataSaveResult s = this.saveData(proposal);
             if (s == null) {
                 return null;
             } else {
@@ -440,7 +440,7 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     @Override
     public Data fetchOrg(String orgId) {
         try {
-            return (Data)this.getData(orgId, ContextUtils.getContextInfo());
+            return (Data)this.getData(orgId);
         }
         catch(Exception e){
         	LOG.error(e);
@@ -533,14 +533,13 @@ public class OrgRpcGwtServlet extends AbstractBaseDataOrchestrationRpcGwtServlet
     }
     
     @Override
-    public Boolean isAuthorized(PermissionType type, Map<String, String> attributes, ContextInfo contextInfo) {
+    public Boolean isAuthorized(PermissionType type, Map<String, String> attributes) {
         // TODO Auto-generated method stub
         return null;
     }
 
 	@Override
-	public List<ValidationResultInfo> validate(Data data,
-			ContextInfo contextInfo) throws OperationFailedException {
+	public List<ValidationResultInfo> validate(Data data) throws OperationFailedException {
 		// TODO Auto-generated method stub
 		return null;
 	}
