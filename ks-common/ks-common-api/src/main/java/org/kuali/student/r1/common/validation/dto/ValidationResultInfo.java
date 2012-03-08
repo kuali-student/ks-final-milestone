@@ -224,23 +224,41 @@ public class ValidationResultInfo implements Serializable {
         }
 		return false;
 	}
+	
+	
+	public static org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel convertR1toR2Level(
+			ErrorLevel levelR1) {
+
+		org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel r2Level = null;
+		r2Level = r2Level.fromInt(levelR1.getLevel());
+
+		return r2Level;
+
+	}
 
 	public static List<org.kuali.student.r2.common.dto.ValidationResultInfo> convertValidationResultInfoToR2(List<ValidationResultInfo> validationResults) {
 		// TODO KSCM-322
 	    
-	    org.kuali.student.r2.common.dto.ValidationResultInfo r2ValidationResultInfo =  new org.kuali.student.r2.common.dto.ValidationResultInfo(); //Create new type of R2
+	    org.kuali.student.r2.common.dto.ValidationResultInfo r2ValidationResultInfo =  new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
 	    
-	    List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResultInfoList = (List<org.kuali.student.r2.common.dto.ValidationResultInfo>) new org.kuali.student.r2.common.dto.ValidationResultInfo(); //Create new List of type R2
+	    List<org.kuali.student.r2.common.dto.ValidationResultInfo> r2ValidationResultInfoList = (List<org.kuali.student.r2.common.dto.ValidationResultInfo>) new org.kuali.student.r2.common.dto.ValidationResultInfo(); 
 	    
-	    for (ValidationResultInfo validationResultInfo : validationResults) //Loop list
+	    for (ValidationResultInfo validationResultInfo : validationResults) 
 	    {
-	        r2ValidationResultInfo.setElement(validationResultInfo.getElement()); //Get Element from R1 assign to R2
+	        r2ValidationResultInfo.setElement(validationResultInfo.getElement()); 
+	        r2ValidationResultInfo.setMessage(validationResultInfo.getMessage());
+	        r2ValidationResultInfo.setLevel(convertR1toR2Level(validationResultInfo.getLevel()));
+	        r2ValidationResultInfo.setInvalidData(validationResultInfo.getInvalidData());
 	        
-	        r2ValidationResultInfoList.add(r2ValidationResultInfo); //Add Element of Type R2 to List<> of type R2
+	        r2ValidationResultInfoList.add(r2ValidationResultInfo); 
 	    }
 	    
 	    return r2ValidationResultInfoList;
 	
 	}
+
+	public Object getInvalidData() {
+        return invalidData;
+    }
 	
 }
