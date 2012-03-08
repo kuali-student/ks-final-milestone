@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.atp;
+package r1.org.kuali.student.core.atp;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -27,26 +27,26 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.atp.dto.AtpInfo;
-import org.kuali.student.core.atp.dto.AtpTypeInfo;
-import org.kuali.student.core.atp.dto.DateRangeInfo;
-import org.kuali.student.core.atp.dto.DateRangeTypeInfo;
-import org.kuali.student.core.atp.dto.MilestoneInfo;
-import org.kuali.student.core.atp.dto.MilestoneTypeInfo;
-import org.kuali.student.core.atp.service.AtpService;
+import org.kuali.student.r2.core.atp.dto.AtpInfo;
+import org.kuali.student.r1.core.atp.dto.AtpTypeInfo;
+import org.kuali.student.r1.core.atp.dto.DateRangeInfo;
+import org.kuali.student.r1.core.atp.dto.DateRangeTypeInfo;
+import org.kuali.student.r2.core.atp.dto.MilestoneInfo;
+import org.kuali.student.r1.core.atp.dto.MilestoneTypeInfo;
+import org.kuali.student.r2.core.atp.service.AtpService;
 
-@Daos( { @Dao(value = "org.kuali.student.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
+@Daos( { @Dao(value = "org.kuali.student.r1.core.atp.dao.impl.AtpDaoImpl", testDataFile = "classpath:atp-test-beans.xml") })
 @PersistenceFileLocation("classpath:META-INF/atp-persistence.xml")
 public class TestAtpService extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestAtpService.class);
