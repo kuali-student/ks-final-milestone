@@ -4,22 +4,27 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.common.dto.AmountInfo;
-import org.kuali.student.common.dto.TimeAmountInfo;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.lum.lu.dto.CluIdentifierInfo;
-import org.kuali.student.lum.lu.dto.CluInfo;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r2.common.dto.AmountInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.TimeAmountInfo;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo;
+import org.kuali.student.r2.lum.clu.dto.CluInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
 
 public class TestCluInfoDictionary
 {
+	
+	
+
 
  @Test
  public void testLoadCluInfoDictionary ()
@@ -66,7 +71,9 @@ public class TestCluInfoDictionary
   CluInfo info = new CluInfo ();
   ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean (
     info.getClass ().getName ());
-  List<ValidationResultInfo> validationResults = val.validateObject (info, os);
+  
+  ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
+  List<ValidationResultInfo> validationResults = val.validateObject (info, os, contextInfo);
   System.out.println ("h3. With just a blank CluInfo");
 //  for (ValidationResultInfo vr : validationResults)
 //  {
@@ -76,7 +83,7 @@ public class TestCluInfoDictionary
 
   // test that we validate substructures
   info.setOfficialIdentifier (new CluIdentifierInfo ());
-  validationResults = val.validateObject (info, os);
+  validationResults = val.validateObject (info, os, contextInfo);
 //  for (ValidationResultInfo vr : validationResults)
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
@@ -87,7 +94,7 @@ public class TestCluInfoDictionary
 
   // test that we can put completely blank timeAmountInfo structures
   info.setStdDuration (new TimeAmountInfo ());
-  validationResults = val.validateObject (info, os);
+  validationResults = val.validateObject (info, os, contextInfo);
 //  for (ValidationResultInfo vr : validationResults)
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
@@ -97,7 +104,7 @@ public class TestCluInfoDictionary
   // test the requires constraint
   // that requires a durationType if we have a timeQuantity
   info.getStdDuration ().setTimeQuantity (1);
-  validationResults = val.validateObject (info, os);
+  validationResults = val.validateObject (info, os, contextInfo);
 //  for (ValidationResultInfo vr : validationResults)
 //  {
 //   System.out.println (vr.getElement () + " " + vr.getMessage ());
@@ -106,7 +113,7 @@ public class TestCluInfoDictionary
 
   // test that we can put completely blank timeAmountInfo structures
   info.setIntensity (new AmountInfo ());
-  validationResults = val.validateObject (info, os);
+  validationResults = val.validateObject (info, os, contextInfo);
 //  System.out.println ("validation results adding a blank CluIdentifierInfo");
 //  for (ValidationResultInfo vr : validationResults)
 //  {
@@ -117,7 +124,7 @@ public class TestCluInfoDictionary
   // test the requires constraint
   // that requires a unity if we have a unitQuantity
   info.getIntensity ().setUnitQuantity ("1");
-  validationResults = val.validateObject (info, os);
+  validationResults = val.validateObject (info, os, contextInfo);
 //  System.out.println ("validation results adding a blank CluIdentifierInfo");
 //  for (ValidationResultInfo vr : validationResults)
 //  {
