@@ -99,7 +99,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             return holidayCalendarInfoList.get(holidayCalendarInfoList.size() - 1);
         }
     }
-    
+
     public HolidayCalendarInfo copyHolidayCalendar(HolidayCalendarForm form) throws Exception {
         HolidayCalendarInfo newHCInfo =
                 getAcalService().copyHolidayCalendar( form.getHolidayCalendarInfo().getId(),
@@ -240,6 +240,34 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
         acalInfo.setDescr(rti);
         AcademicCalendarInfo newAcal = getAcalService().createAcademicCalendar(AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY, acalInfo, getContextInfo());
         return newAcal;
+    }
+
+    public AcademicCalendarInfo getLatestAcademicCalendar() throws Exception {
+        int currentYear = Calendar.getInstance().get(Calendar.YEAR);
+        List<AcademicCalendarInfo> academicCalendarInfoList =
+                getAcalService().getAcademicCalendarsByStartYear(currentYear, getContextInfo());
+        if ((null == academicCalendarInfoList) || academicCalendarInfoList.isEmpty()) {
+            academicCalendarInfoList =
+                    getAcalService().getAcademicCalendarsByStartYear((currentYear - 1), getContextInfo());
+        }
+
+        if ((null == academicCalendarInfoList) || (academicCalendarInfoList.size() == 0)) {
+            return null;
+        }
+        else {
+            //TODO - if > 1 result, find calendar with latest end date?
+            return academicCalendarInfoList.get(academicCalendarInfoList.size() - 1);
+        }
+    }
+
+    public AcademicCalendarInfo copyAcademicCalendar(AcademicCalendarForm form) throws Exception {
+        AcademicCalendarInfo newAcalInfo =
+                getAcalService().copyAcademicCalendar(form.getAcademicCalendarInfo().getId(), form.getNewCalendarStartDate(),
+                        form.getNewCalendarEndDate(), getContextInfo());
+        if (null != newAcalInfo) {
+            newAcalInfo.setName(form.getNewCalendarName());
+        }
+        return newAcalInfo;
     }
 
     public List<AcalEventWrapper> getEventsForAcademicCalendar(AcademicCalendarForm acalForm) throws Exception {
@@ -394,7 +422,9 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
 
 
     /**
-     * Make sure the start date is later than the end date
+     * Make sure
+     * 1) the eventType is not empty
+     * 2) the start date is later than the end date
      * Set IsDateRange and IsAllDay based on the input
      */
     private boolean checkEvent(AcalEventWrapper event) {
@@ -733,6 +763,7 @@ public class AcademicCalendarViewHelperServiceImpl extends ViewHelperServiceImpl
             AcademicTermWrapper newLine = (AcademicTermWrapper)addLine;
             try {
                 TypeInfo termType = getAcalService().getTermType(((AcademicTermWrapper) addLine).getTermType(),TestHelper.getContext1());
+
                 newLine.setTermNameForUI(termType.getName());
                 SimpleDateFormat simpleDateformat=new SimpleDateFormat("yyyy");
                 newLine.setName(termType.getName() + " " + simpleDateformat.format(newLine.getStartDate()));

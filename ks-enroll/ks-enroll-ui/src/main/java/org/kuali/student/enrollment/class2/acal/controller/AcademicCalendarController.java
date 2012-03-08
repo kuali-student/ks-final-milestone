@@ -27,13 +27,18 @@ import org.kuali.rice.krad.web.controller.UifControllerBase;
 import org.kuali.rice.krad.web.form.UifFormBase;
 import org.kuali.student.enrollment.acal.constants.AcademicCalendarServiceConstants;
 import org.kuali.student.enrollment.acal.dto.AcademicCalendarInfo;
+import org.kuali.student.enrollment.acal.dto.AcalEventInfo;
+import org.kuali.student.enrollment.acal.dto.HolidayCalendarInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
 import org.kuali.student.enrollment.class2.acal.dto.AcademicTermWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.AcalEventWrapper;
 import org.kuali.student.enrollment.class2.acal.dto.KeyDatesGroupWrapper;
 import org.kuali.student.enrollment.class2.acal.form.AcademicCalendarForm;
+import org.kuali.student.enrollment.class2.acal.form.HolidayCalendarForm;
 import org.kuali.student.enrollment.class2.acal.service.AcademicCalendarViewHelperService;
+import org.kuali.student.enrollment.class2.acal.util.CalendarConstants;
 import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.util.constants.AtpServiceConstants;
 import org.kuali.student.test.utilities.TestHelper;
 
 import org.springframework.stereotype.Controller;
@@ -46,10 +51,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
+import java.text.SimpleDateFormat;
 
 /**
  * This class //TODO ...
@@ -105,6 +108,93 @@ public class AcademicCalendarController extends UifControllerBase {
 
         return super.start(form, result, request, response);
     }
+
+//    @Override
+//    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=refresh")
+//    public ModelAndView refresh(@ModelAttribute("KualiForm") UifFormBase form, BindingResult result,
+//                                HttpServletRequest request, HttpServletResponse response) throws Exception {
+//        return super.refresh(form, result, request, response);
+//    }
+
+    // if acalId is not empty, use the acalInfo of that acalId as the template for copying
+    //otherwise, find the latest acal and use it as the template for copying
+    @RequestMapping(method = RequestMethod.GET, params = "methodToCall=copyForNew")
+    public ModelAndView copyForNew( @ModelAttribute("KualiForm") AcademicCalendarForm form, BindingResult result,
+                                  HttpServletRequest request, HttpServletResponse response) {
+
+        AcademicCalendarForm acalForm = (AcademicCalendarForm) form;
+        AcademicCalendarInfo acalInfo = null;
+
+        String acalId = request.getParameter("acalId");
+        if (acalId != null && !acalId.trim().isEmpty()) {
+            String pageId = request.getParameter("pageId");
+            if ("academicCalendarCopyPage".equals(pageId)) {
+                acalForm.setViewTypeName(UifConstants.ViewType.INQUIRY);
+                try {
+                    acalInfo= getAcalService().getAcademicCalendar(acalId, getContextInfo());
+                    form.setAcademicCalendarInfo(acalInfo);
+
+                } catch (Exception ex) {
+                    //TODO: handle exception properly
+                }
+            }
+            super.start(form, result, request, response);
+        }
+        else {
+            try {
+                acalInfo = getAcademicCalendarViewHelperService(form).getLatestAcademicCalendar();
+                form.setAcademicCalendarInfo(acalInfo);
+            }
+            catch (Exception x) {
+                //TODO - what to do here?
+            }
+
+            if (null != acalInfo) {
+                // do some calculations on probable values for the new calendar
+                Calendar cal=Calendar.getInstance();
+                cal.setTime(acalInfo.getStartDate());
+                cal.add(Calendar.YEAR, 1);
+                form.setNewCalendarStartDate(cal.getTime());
+                cal.setTime(acalInfo.getEndDate());
+                cal.add(Calendar.YEAR, 1);
+                form.setNewCalendarEndDate(cal.getTime());
+            }
+
+            return super.start(form, result, request, response);
+        }
+
+        return super.start(form, result, request, response);
+
+    }
+
+
+    @RequestMapping(method = RequestMethod.POST, params = "methodToCall=copy")
+    public ModelAndView copy( @ModelAttribute("KualiForm") AcademicCalendarForm form, BindingResult result,
+                              HttpServletRequest request, HttpServletResponse response) {
+        if ((null == form.getAcademicCalendarInfo()) || (null == form.getAcademicCalendarInfo().getId())) {
+            //TODO - display some kind of error
+            return getUIFModelAndView(form);
+        }
+
+        AcademicCalendarInfo newAcalInfo = null;
+        try {
+            newAcalInfo = getAcademicCalendarViewHelperService(form).copyAcademicCalendar(form);
+        }
+        catch (Exception x) {
+        }
+
+        if (null == newAcalInfo) {
+            //TODO - display some kind of error
+            return getUIFModelAndView(form);
+        }
+        else {
+            form.setAcademicCalendarInfo(newAcalInfo);
+            form.setOfficial(newAcalInfo.getStateKey().equals(AtpServiceConstants.ATP_OFFICIAL_STATE_KEY)? false : true);
+            form.setDelete(true);
+            return getUIFModelAndView(form, CalendarConstants.ACADEMICALENDAR_COPYPAGE);
+        }
+    }
+
 
     /**
      * Method used to save AcademicCalendar

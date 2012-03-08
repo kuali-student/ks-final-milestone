@@ -25,7 +25,8 @@ public class CalendarConstants {
     public static final String HOLIDAYCALENDAR_COPYPAGE = "holidayCalendarCopyPage";
     public static final String HOLIDAYCALENDAR_EDITPAGE = "holidayCalendarEditPage";
     public static final String HOLIDAYCALENDAR_VIEWPAGE = "holidayCalendarViewPage";
-
+    public static final String ACADEMICALENDAR_COPYPAGE = "academicCalendarCopyPage";
+    
     //calender types for search
     public static final String ACADEMICCALENDER= "AcademicCalendar";
     public static final String HOLIDAYCALENDER= "HolidayCalendar";
@@ -33,7 +34,7 @@ public class CalendarConstants {
 
     public static final String ACAL_EDIT_VIEW = "academicCalendarEditView";
     public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
-
+    
     public static final String HCAL_CONTROLLER_PATH = "holidayCalendar";
 
     public static final String ACAL_EDIT_METHOD = "";

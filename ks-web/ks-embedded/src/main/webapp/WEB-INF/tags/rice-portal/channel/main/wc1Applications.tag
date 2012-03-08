@@ -35,6 +35,9 @@
     <ul class="chan">
         <li><portal:portalLink displayTitle="true" title="Create Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarEditView&methodToCall=start" /></li>
         <li><portal:portalLink displayTitle="true" title="Edit Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarEditView&methodToCall=start&acalId=testAtpId1" /></li>
+        <li><portal:portalLink displayTitle="true" title="Copy Academic Calendar" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarCopyPage&methodToCall=copyForNew" /></li>
+        <li><portal:portalLink displayTitle="true" title="Copy Academic Calendar with acalId" url="${ConfigProperties.application.url}/kr-krad/academicCalendar?viewId=academicCalendarFlowView&pageId=academicCalendarCopyPage&acalId=testAtpId1&methodToCall=copyForNew" /></li>
+
     </ul>
 
     <strong>Academic Term</strong>

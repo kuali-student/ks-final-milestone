@@ -43,6 +43,15 @@ public class AcademicCalendarForm extends UifFormBase {
     private List<HolidayCalendarInfo> holidayCalendarList;
     private List<AcademicTermWrapper> termWrapperList;
 
+    //used by copy for creating a new
+    private String newCalendarName;
+    private Date newCalendarStartDate;
+    private Date newCalendarEndDate;
+
+    //used by copying
+    private boolean official;
+    private boolean delete;
+
     public AcademicCalendarForm() {
         super();
         termWrapperList = new ArrayList<AcademicTermWrapper>();
@@ -104,4 +113,44 @@ public class AcademicCalendarForm extends UifFormBase {
         this.events = events;
     }
 
+    public String getNewCalendarName() {
+        return newCalendarName;
+    }
+
+    public void setNewCalendarName(String newCalendarName) {
+        this.newCalendarName = newCalendarName;
+    }
+
+    public Date getNewCalendarStartDate() {
+        return newCalendarStartDate;
+    }
+
+    public void setNewCalendarStartDate(Date newCalendarStartDate) {
+        this.newCalendarStartDate = newCalendarStartDate;
+    }
+
+    public Date getNewCalendarEndDate() {
+        return newCalendarEndDate;
+    }
+
+    public void setNewCalendarEndDate(Date newCalendarEndDate) {
+        this.newCalendarEndDate = newCalendarEndDate;
+    }
+
+    public boolean isOfficial() {
+        return official;
+    }
+
+    public void setOfficial(boolean official) {
+        this.official = official;
+    }
+
+    public boolean isDelete() {
+        return delete;
+    }
+
+    public void setDelete(boolean delete) {
+        this.delete = delete;
+    }
+    
 }
