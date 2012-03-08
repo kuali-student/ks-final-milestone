@@ -125,22 +125,22 @@
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-rice</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-impl</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
@@ -212,27 +212,27 @@
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui</artifactId>
       <classifier>sources</classifier>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-program</artifactId>
       <classifier>sources</classifier>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-ui-common</artifactId>
       <classifier>sources</classifier>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.lum</groupId>
       <artifactId>ks-lum-api</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <classifier>sources</classifier>
       <scope>provided</scope>
     </dependency>
