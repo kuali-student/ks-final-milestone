@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.comment.service.impl;
+package r1.org.kuali.student.core.comment.service.impl;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -27,28 +27,28 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.junit.Test;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.ReferenceTypeInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DataValidationErrorException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r1.common.dto.ReferenceTypeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.Daos;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.comment.dto.CommentInfo;
-import org.kuali.student.core.comment.dto.CommentTypeInfo;
-import org.kuali.student.core.comment.dto.TagInfo;
-import org.kuali.student.core.comment.dto.TagTypeInfo;
-import org.kuali.student.core.comment.service.CommentService;
+import org.kuali.student.r2.core.comment.dto.CommentInfo;
+import org.kuali.student.r1.core.comment.dto.CommentTypeInfo;
+import org.kuali.student.r2.core.comment.dto.TagInfo;
+import org.kuali.student.r1.core.comment.dto.TagTypeInfo;
+import org.kuali.student.r2.core.comment.service.CommentService;
 
 /**
  * This is a description of what this class does - lindholm don't forget to fill this in.
@@ -56,11 +56,11 @@ import org.kuali.student.core.comment.service.CommentService;
  * @author Kuali Rice Team (kuali-rice@googlegroups.com)
  *
  */
-@Daos( { @Dao(value = "org.kuali.student.core.comment.dao.impl.CommentDaoImpl",testSqlFile="classpath:ks-comment.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
+@Daos( { @Dao(value = "org.kuali.student.r1.core.comment.dao.impl.CommentDaoImpl",testSqlFile="classpath:ks-comment.sql" /*, testDataFile = "classpath:test-beans.xml"*/) })
 @PersistenceFileLocation("classpath:META-INF/comment-persistence.xml")
 public class TestCommentServiceImpl extends AbstractServiceTest {
 	final Logger LOG = Logger.getLogger(TestCommentServiceImpl.class);
-    @Client(value = "org.kuali.student.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
+    @Client(value = "org.kuali.student.r1.core.comment.service.impl.CommentServiceImpl",additionalContextFile="classpath:comment-additional-context.xml")
     public CommentService client;
 
 
@@ -90,7 +90,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
        	assertEquals(commentInfo.getType(), commentInfo2.getType());
        	assertEquals(commentInfo.getEffectiveDate(), commentInfo2.getEffectiveDate());
        	assertEquals(commentInfo.getExpirationDate(), commentInfo2.getExpirationDate());
-       	assertNotNull(commentInfo2.getMetaInfo().getCreateTime());
+       	assertNotNull(commentInfo2.getMeta().getCreateTime());
 
     	RichTextInfo commentText2 = new RichTextInfo();
     	commentText2.setPlain("created Comment text2");
@@ -107,7 +107,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
        	assertEquals(commentInfo4.getType(), commentInfo3.getType());
 
        	StatusInfo statusInfo = client.removeComment(commentInfo4.getId(), commentInfo.getReferenceId(), commentInfo4.getReferenceTypeKey());
-       	assertTrue(statusInfo.getSuccess());
+       	assertTrue(statusInfo.getIsSuccess());
 
        	try {
 			statusInfo = client.removeComment(commentInfo4.getId(), commentInfo.getReferenceId(), commentInfo4.getReferenceTypeKey());
@@ -181,7 +181,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
 
     	try {
 			StatusInfo si = client.removeComments("REF-COMMENT-99");
-			assertTrue(si.getSuccess());
+			assertTrue(si.getIsSuccess());
 		} catch (DoesNotExistException e) {
 			assertTrue(false);
 		}
@@ -306,7 +306,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         String tagRefType = createdTagInfo.getReferenceTypeKey();
         try {
             si = client.removeTag(null, tagRefId, tagRefType);
-            assertTrue(si.getSuccess());
+            assertTrue(si.getIsSuccess());
         } catch (DoesNotExistException e) {
             fail("CommentService.removeTag() failed removing just-created Tag");
         }
@@ -347,7 +347,7 @@ public class TestCommentServiceImpl extends AbstractServiceTest {
         String tagRefType = "REF-TYPE-0";
         try {
             si = client.removeTags(tagRefId);
-            assertTrue(si.getSuccess());
+            assertTrue(si.getIsSuccess());
         } catch (DoesNotExistException e) {
             fail("CommentService.removeTags() failed removing just-created Tags");
         }
