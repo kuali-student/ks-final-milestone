@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage;
+package r1.org.kuali.student.core.statement.naturallanguage;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,9 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 
 public class ContextRegistryTest {
 

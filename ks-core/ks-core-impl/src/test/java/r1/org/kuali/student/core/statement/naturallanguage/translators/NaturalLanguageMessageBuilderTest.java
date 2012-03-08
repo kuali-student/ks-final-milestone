@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage.translators;
+package r1.org.kuali.student.core.statement.naturallanguage.translators;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -28,7 +28,7 @@ import org.kuali.student.common.messagebuilder.booleanmessage.ast.BooleanMessage
 import org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl;
 import org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder;
 import org.kuali.student.common.messagebuilder.impl.exceptions.MessageBuilderException;
-import org.kuali.student.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
 
 public class NaturalLanguageMessageBuilderTest {
 	private static Map<String, MessageBuilder> messageBuilderMap;

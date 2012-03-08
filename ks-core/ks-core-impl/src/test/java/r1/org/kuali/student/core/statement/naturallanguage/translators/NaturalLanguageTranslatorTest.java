@@ -13,7 +13,7 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage.translators;
+package r1.org.kuali.student.core.statement.naturallanguage.translators;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,23 +26,28 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
 import org.kuali.student.common.messagebuilder.MessageBuilder;
 import org.kuali.student.common.messagebuilder.MessageTreeBuilder;
 import org.kuali.student.common.messagebuilder.impl.BooleanOperators;
 import org.kuali.student.common.messagebuilder.impl.MessageBuilderImpl;
 import org.kuali.student.common.messagebuilder.impl.SuccessFailureMessageBuilder;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.naturallanguage.Context;
-import org.kuali.student.core.statement.naturallanguage.ContextRegistry;
-import org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.entity.ReqComponent;
+import org.kuali.student.r1.core.statement.entity.ReqComponentField;
+import org.kuali.student.r1.core.statement.entity.Statement;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageMessageBuilder;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.NaturalLanguageTranslatorImpl;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.ReqComponentTranslator;
+import org.kuali.student.r1.core.statement.naturallanguage.translators.StatementTranslator;
+
+import r1.org.kuali.student.core.statement.naturallanguage.NaturalLanguageUtil;
 
 public class NaturalLanguageTranslatorTest {
 

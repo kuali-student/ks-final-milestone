@@ -13,26 +13,29 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.naturallanguage;
+package r1.org.kuali.student.core.statement.naturallanguage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.kuali.student.core.statement.config.context.lu.MockCluInfo;
-import org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
-import org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
-import org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
-import org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.entity.ReqComponent;
-import org.kuali.student.core.statement.entity.ReqComponentField;
-import org.kuali.student.core.statement.entity.ReqComponentType;
-import org.kuali.student.core.statement.entity.ReqComponentTypeNLTemplate;
-import org.kuali.student.core.statement.entity.Statement;
-import org.kuali.student.core.statement.entity.StatementType;
-import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
+import r1.org.kuali.student.core.statement.config.context.lu.MockCluInfo;
+import r1.org.kuali.student.core.statement.config.context.lu.MockCluSetInfo;
+import r1.org.kuali.student.core.statement.config.context.lu.CourseListContextImpl;
+import r1.org.kuali.student.core.statement.config.context.lu.GradeCheckContextImpl;
+import r1.org.kuali.student.core.statement.config.context.lu.CreditContextImpl;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.entity.ReqComponent;
+import org.kuali.student.r1.core.statement.entity.ReqComponentField;
+import org.kuali.student.r1.core.statement.entity.ReqComponentType;
+import org.kuali.student.r1.core.statement.entity.ReqComponentTypeNLTemplate;
+import org.kuali.student.r1.core.statement.entity.Statement;
+import org.kuali.student.r1.core.statement.entity.StatementType;
+import org.kuali.student.r1.core.statement.naturallanguage.Context;
+import org.kuali.student.r1.core.statement.naturallanguage.ContextRegistry;
+
+import r1.org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 /**
  * Utility class to support testing.
