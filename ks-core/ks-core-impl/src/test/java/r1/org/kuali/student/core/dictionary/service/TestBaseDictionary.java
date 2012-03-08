@@ -1,9 +1,9 @@
-package org.kuali.student.core.dictionary.service;
+package r1.org.kuali.student.core.dictionary.service;
 
 import java.util.Map;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ValidCharsConstraint;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;

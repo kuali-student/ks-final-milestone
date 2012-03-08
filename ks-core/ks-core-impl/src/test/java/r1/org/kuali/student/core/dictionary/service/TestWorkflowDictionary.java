@@ -1,12 +1,12 @@
-package org.kuali.student.core.dictionary.service;
+package r1.org.kuali.student.core.dictionary.service;
 
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import static org.junit.Assert.fail;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.core.workflow.dto.CollaboratorInfo;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r1.core.workflow.dto.CollaboratorInfo;
 
 public class TestWorkflowDictionary {
 	@Test

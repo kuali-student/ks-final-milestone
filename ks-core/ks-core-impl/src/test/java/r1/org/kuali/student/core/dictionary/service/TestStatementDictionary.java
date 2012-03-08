@@ -1,20 +1,22 @@
-package org.kuali.student.core.dictionary.service;
+package r1.org.kuali.student.core.dictionary.service;
 
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.junit.Test;
-import org.kuali.student.common.dictionary.dto.ObjectStructureDefinition;
-import org.kuali.student.common.dictionary.service.impl.DictionaryTesterHelper;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
-import org.kuali.student.common.validator.DefaultValidatorImpl;
-import org.kuali.student.common.validator.ServerDateParser;
-import org.kuali.student.core.statement.dto.ReqCompFieldInfo;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementInfo;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
+import org.kuali.student.common.test.util.ContextInfoTestUtility;
+import org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition;
+import org.kuali.student.r1.common.dictionary.service.impl.DictionaryTesterHelper;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.validator.DefaultValidatorImpl;
+import org.kuali.student.r1.common.validator.ServerDateParser;
+import org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo;
+import org.kuali.student.r2.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r2.core.statement.dto.StatementInfo;
+import org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.*;
@@ -54,6 +56,7 @@ public class TestStatementDictionary {
 
 	@Test
 	public void testStatementInfoValidation() throws OperationFailedException {
+	    ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-statement-dictionary-context.xml");
 		System.out.println("h2. Validation Test");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
@@ -61,7 +64,7 @@ public class TestStatementDictionary {
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		StatementInfo info = new StatementInfo();
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = val.validateObject(info,	os);
+		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank StatementInfo");
 		for (ValidationResultInfo vr : validationResults)
   {
@@ -72,6 +75,7 @@ public class TestStatementDictionary {
 
  @Test
 	public void testRequirementComponentInfoValidation() throws OperationFailedException {
+     ContextInfo contextInfo = ContextInfoTestUtility.getEnglishContextInfo();
 		ApplicationContext ac = new ClassPathXmlApplicationContext("classpath:ks-statement-dictionary-context.xml");
 		System.out.println("h2. Validation Test");
 		DefaultValidatorImpl val = new DefaultValidatorImpl();
@@ -79,7 +83,7 @@ public class TestStatementDictionary {
 		val.setSearchDispatcher(new MockSearchDispatcher());
 		ReqComponentInfo info = new ReqComponentInfo();
 		ObjectStructureDefinition os = (ObjectStructureDefinition) ac.getBean(info.getClass().getName());
-		List<ValidationResultInfo> validationResults = val.validateObject(info,	os);
+		List<ValidationResultInfo> validationResults = val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank ReqComponentInfo");
 		for (ValidationResultInfo vr : validationResults)
   {
@@ -91,7 +95,7 @@ public class TestStatementDictionary {
   fieldInfo.setType ("kuali.reqComponent.field.type.gradeType.id");
   fieldInfo.setValue ("kuali.resultComponent.grade.letter");
   info.setReqCompFields (Arrays.asList (fieldInfo));
-  validationResults = val.validateObject(info,	os);
+  validationResults = val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank ReqComponentInfo");
 		for (ValidationResultInfo vr : validationResults)
   {
@@ -103,7 +107,7 @@ public class TestStatementDictionary {
   fieldInfo.setType ("kuali.reqComponent.field.type.gradeType.id");
   fieldInfo.setValue ("bad with an embedded space in value");
   info.setReqCompFields (Arrays.asList (fieldInfo));
-  validationResults = val.validateObject(info,	os);
+  validationResults = val.validateObject(info,	os, contextInfo);
 		System.out.println("h3. With just a blank ReqComponentInfo");
 		for (ValidationResultInfo vr : validationResults)
   {
