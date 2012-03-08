@@ -13,15 +13,15 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.personsearch.service.impl;
+package r1.org.kuali.student.core.personsearch.service.impl;
 
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.service.SearchService;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.service.SearchService;
 import org.kuali.student.common.test.spring.AbstractServiceTest;
 import org.kuali.student.common.test.spring.Client;
 
@@ -33,7 +33,7 @@ import org.kuali.student.common.test.spring.Client;
  *
  */
 public class TestPersonSearchServiceImpl extends AbstractServiceTest {
-    @Client(value = "org.kuali.student.core.personsearch.service.impl.PersonSearchServiceImpl")
+    @Client(value = "org.kuali.student.r1.core.personsearch.service.impl.PersonSearchServiceImpl")
     public SearchService client;
 
 
