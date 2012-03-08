@@ -13,7 +13,8 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.enumerationmanagement.service.impl;
+package r1.org.kuali.student.core.enumerationmanagement.service.impl;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
@@ -24,32 +25,34 @@ import java.util.List;
 
 import org.junit.Ignore;
 import org.junit.Test;
-import org.kuali.student.common.exceptions.AlreadyExistsException;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.exceptions.PermissionDeniedException;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchManager;
-import org.kuali.student.common.search.service.impl.SearchManagerImpl;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r1.common.search.service.SearchManager;
+import org.kuali.student.r1.common.search.service.impl.SearchManagerImpl;
 import org.kuali.student.common.test.spring.AbstractTransactionalDaoTest;
 import org.kuali.student.common.test.spring.Dao;
 import org.kuali.student.common.test.spring.PersistenceFileLocation;
-import org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl;
-import org.kuali.student.core.enumerationmanagement.dto.EnumContextValueInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumeratedValueInfo;
-import org.kuali.student.core.enumerationmanagement.dto.EnumerationInfo;
-import org.kuali.student.core.enumerationmanagement.dto.mock.DataGenerator;
-import org.kuali.student.core.enumerationmanagement.entity.ContextEntity;
-import org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue;
-import org.kuali.student.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl;
+import org.kuali.student.r1.core.enumerationmanagement.dto.EnumContextValueInfo;
+import org.kuali.student.r1.core.enumerationmanagement.dto.EnumeratedValueInfo;
+import org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo;
+import r1.org.kuali.student.core.enumerationmanagement.dto.mock.DataGenerator;
+import org.kuali.student.r1.core.enumerationmanagement.entity.ContextEntity;
+import org.kuali.student.r1.core.enumerationmanagement.entity.EnumeratedValue;
+import org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration;
+import org.kuali.student.r1.core.enumerationmanagement.service.impl.EnumerationManagementServiceImpl;
+
 @PersistenceFileLocation("classpath:META-INF/enumeration-persistence.xml")
 public class EnumerationServiceImplTest extends AbstractTransactionalDaoTest{
-    @Dao(value = "org.kuali.student.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:enumeration-test-beans.xml", testSqlFile="classpath:ks-em.sql")
+    @Dao(value = "org.kuali.student.r1.core.enumerationmanagement.dao.impl.EnumerationManagementDAOImpl", testDataFile = "classpath:enumeration-test-beans.xml", testSqlFile="classpath:ks-em.sql")
     public EnumerationManagementDAOImpl enumerationManagementDAO;
 	
     public EnumerationManagementServiceImpl enumService = new EnumerationManagementServiceImpl();
