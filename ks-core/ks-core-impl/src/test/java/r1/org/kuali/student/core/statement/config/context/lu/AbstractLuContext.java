@@ -13,18 +13,18 @@
  * permissions and limitations under the License.
  */
 
-package org.kuali.student.core.statement.config.context.lu;
+package r1.org.kuali.student.core.statement.config.context.lu;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.naturallanguage.AbstractContext;
-import org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.naturallanguage.AbstractContext;
+import r1.org.kuali.student.core.statement.naturallanguage.ReqComponentFieldTypes;
 
 public abstract class AbstractLuContext<T> extends AbstractContext<T> {
 
