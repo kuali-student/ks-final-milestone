@@ -42,58 +42,58 @@ public class StatementRpcServlet extends BaseRpcGwtServletAbstract<CluService> i
 
 	@Override
 	public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(
-			String statementTypeKey,ContextInfo contextInfo) throws Exception {
+			String statementTypeKey) throws Exception {
 		return statmentDataService
-				.getStatementTypesForStatementTypeForCourse(statementTypeKey, ContextUtils.getContextInfo());
+				.getStatementTypesForStatementTypeForCourse(statementTypeKey);
 	}
 
 	@Override
 	public List<StatementTypeInfo> getStatementTypesForStatementType(
-			String statementTypeKey,ContextInfo contextInfo) throws Exception {
+			String statementTypeKey) throws Exception {
 		return statmentDataService
-				.getStatementTypesForStatementType(statementTypeKey, ContextUtils.getContextInfo());
+				.getStatementTypesForStatementType(statementTypeKey);
 	}
 
 	@Override
 	public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(
-			String luStatementTypeKey,ContextInfo contextInfo) throws Exception {
+			String luStatementTypeKey) throws Exception {
 		return statmentDataService
-				.getReqComponentTypesForStatementType(luStatementTypeKey, ContextUtils.getContextInfo());
+				.getReqComponentTypesForStatementType(luStatementTypeKey);
 	}
 
 	@Override
 	public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo,
-			String nlUsageTypeKey, String language,ContextInfo contextInfo) throws Exception {
+			String nlUsageTypeKey, String language) throws Exception {
 		return statmentDataService.translateReqComponentToNL(reqComponentInfo,
-				nlUsageTypeKey, language, ContextUtils.getContextInfo());
+				nlUsageTypeKey, language);
 	}
 
 	@Override
 	public String translateStatementTreeViewToNL(
 			StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey,
-			String language,ContextInfo contextInfo) throws Exception {
+			String language) throws Exception {
 		return statmentDataService.translateStatementTreeViewToNL(
-				statementTreeViewInfo, nlUsageTypeKey, language, ContextUtils.getContextInfo());
+				statementTreeViewInfo, nlUsageTypeKey, language);
 	}
 
 	@Override
 	public List<String> translateReqComponentToNLs(
 			ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys,
-			String language,ContextInfo contextInfo) throws Exception {
+			String language) throws Exception {
 		return statmentDataService.translateReqComponentToNLs(reqComponentInfo,
-				nlUsageTypeKeys, language, ContextUtils.getContextInfo());
+				nlUsageTypeKeys, language);
 	}
 
 	@Override
-	public CluInfo getClu(String cluId,ContextInfo contextInfo) throws Exception {
-		return statmentDataService.getClu(cluId, ContextUtils.getContextInfo());
+	public CluInfo getClu(String cluId) throws Exception {
+		return statmentDataService.getClu(cluId);
 	}
 
 	@Override
 	public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI,
-			String refObjectId,ContextInfo contextInfo) throws Exception {
+			String refObjectId) throws Exception {
 		return statmentDataService.getCurrentVersion(refObjectTypeURI,
-				refObjectId, ContextUtils.getContextInfo());
+				refObjectId);
 	}
 
 }

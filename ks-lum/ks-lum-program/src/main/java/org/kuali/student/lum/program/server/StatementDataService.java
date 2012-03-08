@@ -35,7 +35,7 @@ public class StatementDataService implements StatementRpcService{
     private static final long serialVersionUID = 822326113643828855L;
     @Override
     @Transactional(readOnly=true)
-    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey,ContextInfo contextInfo) throws Exception {
+    public List<StatementTypeInfo> getStatementTypesForStatementTypeForCourse(String statementTypeKey) throws Exception {
     
         List<StatementTypeInfo> allStatementTypes = new ArrayList<StatementTypeInfo>();
         //TODO KSCM List Types does not match, I commented this out and did  initialize the List as ArrayList
@@ -59,7 +59,7 @@ public class StatementDataService implements StatementRpcService{
     
     @Override
     @Transactional(readOnly=true)
-    public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey,ContextInfo contextInfo) throws Exception {
+    public List<StatementTypeInfo> getStatementTypesForStatementType(String statementTypeKey) throws Exception {
     	
     	//TODO KSCM : Need to rewire this logic to fit the new List types
 //        List<String> statementTypeNames = statementService.getStatementTypesForStatementType(statementTypeKey,ContextUtils.getContextInfo());
@@ -72,7 +72,7 @@ public class StatementDataService implements StatementRpcService{
     }
     @Override
     @Transactional(readOnly=true)
-    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey,ContextInfo contextInfo) throws Exception {
+    public List<ReqComponentTypeInfo> getReqComponentTypesForStatementType(String luStatementTypeKey) throws Exception {
 
         List<ReqComponentTypeInfo> reqComponentTypeInfoList;
         try { 
@@ -89,19 +89,19 @@ public class StatementDataService implements StatementRpcService{
 
     @Override
     @Transactional(readOnly=true)
-    public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language,ContextInfo contextInfo) throws Exception {
+    public String translateStatementTreeViewToNL(StatementTreeViewInfo statementTreeViewInfo, String nlUsageTypeKey, String language) throws Exception {
         return statementService.translateStatementTreeViewToNL(statementTreeViewInfo, nlUsageTypeKey, language);
     }
 
     @Override
     @Transactional(readOnly=true)
-    public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language,ContextInfo contextInfo) throws Exception {
+    public String translateReqComponentToNL(ReqComponentInfo reqComponentInfo, String nlUsageTypeKey, String language) throws Exception {
         return statementService.translateReqComponentToNL(reqComponentInfo, nlUsageTypeKey, language);
     }
 
     @Override
     @Transactional(readOnly=true)
-    public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language,ContextInfo contextInfo) throws Exception {
+    public List<String> translateReqComponentToNLs(ReqComponentInfoUi reqComponentInfo, String[] nlUsageTypeKeys, String language) throws Exception {
     	List<String> nls = new ArrayList<String>(nlUsageTypeKeys.length);
     	for (String typeKey : nlUsageTypeKeys) {
     		// TODO KSCM nls.add(statementService.translateReqComponentToNL(reqComponentInfo, typeKey, language,contextInfo));
@@ -111,14 +111,14 @@ public class StatementDataService implements StatementRpcService{
 
     @Override
     @Transactional(readOnly=true)
-    public CluInfo getClu(String cluId,ContextInfo contextInfo) throws Exception {
-        return cluService.getClu(cluId,ContextUtils.getContextInfo());
+    public CluInfo getClu(String cluId) throws Exception {
+        return cluService.getClu(cluId, ContextUtils.getContextInfo());
     }
 
     @Override
     @Transactional(readOnly=true)
-    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId,ContextInfo contextInfo) throws Exception {
-        // TODO KSCM return cluService.getCurrentVersion(refObjectTypeURI, refObjectId,ContextUtils.getContextInfo());
+    public VersionDisplayInfo getCurrentVersion(String refObjectTypeURI, String refObjectId) throws Exception {
+        // TODO KSCM return cluService.getCurrentVersion(refObjectTypeURI, refObjectId, ContextUtils.getContextInfo());
     	return null;
     }
 
