@@ -25,6 +25,7 @@
 	<inherits name="org.kuali.student.r1.common.dictionary.Dictionary" />
 	<inherits name="org.kuali.student.r1.common.validation.Validation" />
 	<inherits name="org.kuali.student.r1.common.messages.Message"/>
+	<inherits name="org.kuali.student.r2.common.messages.Message"/>
  
   	<!-- <inherits name="com.google.gwt.user.theme.standard.Standard"/> -->
   	<inherits name="com.google.gwt.user.theme.chrome.Chrome"/>

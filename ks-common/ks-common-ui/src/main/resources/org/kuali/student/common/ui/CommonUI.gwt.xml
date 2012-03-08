@@ -38,6 +38,8 @@
 	<inherits name="org.kuali.student.r1.common.validation.Validation" />
 	<inherits name='org.kuali.student.r1.common.assembly.Assembly'/>
 	<inherits name="org.kuali.student.r1.common.messages.Message"/>
+	<inherits name="org.kuali.student.r2.common.messages.Message"/>
+	<inherits name="org.kuali.student.r1.common.Validator"/>
 
 	<!-- Core Inherits -->
 	<inherits name="org.kuali.student.core.comment.Comment" />
