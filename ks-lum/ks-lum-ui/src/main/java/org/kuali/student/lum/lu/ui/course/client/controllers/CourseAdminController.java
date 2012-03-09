@@ -2,10 +2,13 @@ package org.kuali.student.lum.lu.ui.course.client.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.assembly.data.QueryPath;
 import org.kuali.student.common.dto.DtoConstants;
+import org.kuali.student.common.rice.StudentIdentityConstants;
+import org.kuali.student.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.ViewContext;
 import org.kuali.student.common.ui.client.configurable.mvc.FieldDescriptor;
@@ -38,6 +41,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.DOM;
+import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -52,7 +56,7 @@ import com.google.gwt.user.client.ui.Widget;
 public class CourseAdminController extends CourseProposalController{
 	
 	//Need to keep track of cancel buttons, so they can be enabled when course has been saved. 
-	List<KSButton> cancelButtons = new ArrayList<KSButton>();
+	protected List<KSButton> cancelButtons = new ArrayList<KSButton>();
 	
 	/**
 	 * Override the intitailzeController method to use CourseAdminConfigurer 
@@ -69,7 +73,9 @@ public class CourseAdminController extends CourseProposalController{
    		super.setDefaultModelId(cfg.getModelId());
    		super.registerModelsAndHandlers();
    		super.addStyleName("ks-course-admin");
-   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;	   		
+   		currentDocType = LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN;	 
+   		
+        setViewContext(getViewContext());
     }
 
 	/**
@@ -282,10 +288,11 @@ public class CourseAdminController extends CourseProposalController{
         KSMenuItemData item = new KSMenuItemData(sectionName);
     	widget.getElement().setId(widgetId);
     	item.setClickHandler(new ClickHandler(){
-			public void onClick(ClickEvent event) {		
-				//FIXME: This doesn't scroll to exactly the position stuff
-				DOM.getElementById(widgetId).scrollIntoView();
-			}    		
+			@Override
+    	    public void onClick(ClickEvent event) {
+			    Element element = DOM.getElementById(widgetId);
+			    scrollToSection(element);
+			}
     	});
 
         if (parentItem != null) {
@@ -296,6 +303,10 @@ public class CourseAdminController extends CourseProposalController{
 
         menu.refresh();
     }
+
+    public native void scrollToSection(Element element) /*-{
+        element.scrollIntoView();
+    }-*/;
 
 	@Override
 	protected void configureScreens(DataModelDefinition modelDefinition, final Callback<Boolean> onReadyCallback) {
@@ -349,5 +360,50 @@ public class CourseAdminController extends CourseProposalController{
 			}
 		};
 	}
+
+    @Override
+    public void setViewContext(ViewContext viewContext) {
+        //Determine the permission type being checked
+        if (viewContext.getId() != null && !viewContext.getId().isEmpty()) {
+            if (viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID
+                    && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID) {
+                //Id provided, and not a copy id, so opening an existing proposal
+                viewContext.setPermissionType(PermissionType.OPEN);
+            } else {
+                //Copy id provided, so creating a proposal for modification
+                viewContext.setPermissionType(PermissionType.INITIATE);
+            }
+        } else {
+            //No id in view context, so creating new empty proposal
+            viewContext.setPermissionType(PermissionType.INITIATE);
+
+        }
+        
+        context = viewContext; 
+    }
+	
+	/**
+	 * This method adds any permission attributes required for checking admin permissions
+	 */
+	public void addPermissionAttributes(Map<String, String> attributes){
+		super.addPermissionAttributes(attributes);
+		
+		ViewContext viewContext = getViewContext();
+		
+		//Determine the permission type being checked
+    	if(viewContext.getId() != null && !viewContext.getId().isEmpty()){
+    		if(viewContext.getIdType() != IdType.COPY_OF_OBJECT_ID && viewContext.getIdType() != IdType.COPY_OF_KS_KEW_OBJECT_ID){
+    			//Id provided, and not a copy id, so opening an existing proposal
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);
+    		} else{
+    			//Copy id provided, so creating a proposal for modification
+    			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_MODIFY_ADMIN);
+    		}
+    	} else{
+    		//No id in view context, so creating new empty proposal
+			attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, LUConstants.PROPOSAL_TYPE_COURSE_CREATE_ADMIN);    		
+    	}    	
+	}
+	
 }
 

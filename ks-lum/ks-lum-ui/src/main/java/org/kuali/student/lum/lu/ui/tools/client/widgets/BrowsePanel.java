@@ -160,6 +160,8 @@ public class BrowsePanel extends Composite {
 		}
 		searchRequest.setParams(searchParams);
 		searchRequest.setSearchKey(lookupMetadata.getSearchTypeId());
+        searchRequest.setSortColumn(this.lookupMetadata.getResultSortKey());
+        searchRequest.setSortDirection(this.lookupMetadata.getSortDirection());
 
 		// StringBuilder builder = new StringBuilder ();
 		// builder.append ("About to invoke search: type=");

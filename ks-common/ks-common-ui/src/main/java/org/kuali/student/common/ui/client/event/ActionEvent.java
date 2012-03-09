@@ -21,7 +21,14 @@ import org.kuali.student.common.ui.client.mvc.ApplicationEventHandler;
 
 /**
  * This is an abstract action event, which provides for getting/setting of
- * an ActionCompleteCallback for any custom defined actions 
+ * an ActionCompleteCallback for any custom defined actions.  ActionEvents are
+ * used to perform some action and have a action complete call back to be invoked
+ * when the action is completed so additional steps can be take when action has
+ * completed. The standard way of doing this is as follows:
+ * 
+ *  1. Create an specific action event (eg. SaveActionEvent)
+ *  2. Register an ActionEventHandler (eg. SaveActionEventHandler) to perform some action (eg. save data)
+ *  3. Fire the action event with an ActionCompleteCall back to do some additional processing (eg. close save dialog or notify user)
  * 
  * @author Kuali Student Team
  *

@@ -38,27 +38,22 @@ public class CourseStateChangeServiceImpl {
 		CourseInfo courseInfo = courseService.getCourse(courseId);
 
 		StatusInfo ret = new StatusInfo();
-		try {
-			if (newState.equals(DtoConstants.STATE_ACTIVE)) {
-				if(courseInfo.isPilotCourse()){
-					//Pilot courses get Retired
-					//Add required fields for Retired State
-					courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
-					courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
-					courseInfo.setState(DtoConstants.STATE_ACTIVE);
-					retireCourse(courseInfo);
-				}else{
-					activateCourse(courseInfo, prevEndTermAtpId);
-				}
-			} else if (newState.equals(DtoConstants.STATE_RETIRED)) {
+		if (newState.equals(DtoConstants.STATE_ACTIVE)) {
+			if(courseInfo.isPilotCourse()){
+				//Pilot courses get Retired
+				//Add required fields for Retired State
+				courseInfo.getAttributes().put("retirementRationale", "Pilot Course");
+				courseInfo.getAttributes().put("lastTermOffered", courseInfo.getEndTerm());
+				courseInfo.setState(DtoConstants.STATE_ACTIVE);
 				retireCourse(courseInfo);
+			}else{
+				activateCourse(courseInfo, prevEndTermAtpId);
 			}
-
-			ret.setSuccess(new Boolean(true));
-		} catch (Exception e) {
-			ret.setSuccess(new Boolean(false));
-			ret.setMessage(e.getMessage());
+		} else if (newState.equals(DtoConstants.STATE_RETIRED)) {
+			retireCourse(courseInfo);
 		}
+
+		ret.setSuccess(new Boolean(true));
 
 		return ret;
 	}
@@ -252,17 +247,18 @@ public class CourseStateChangeServiceImpl {
 		List<StatementTreeViewInfo> statementTreeViewInfos = courseService
 				.getCourseStatements(courseInfo.getId(), null, null);
 
-		// Recursively update state on all requirements/statements in the tree
-		for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-				.iterator(); it.hasNext();)
-			StatementUtil.updateStatementTreeViewInfoState(courseInfo
-					.getState(), it.next());
-
-		// Call the course web service and update the requirement/statement tree
-		// with the new state
-		for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos
-				.iterator(); it.hasNext();)
-			courseService.updateCourseStatement(courseInfo.getId(), it.next());
+		if(statementTreeViewInfos != null){
+			// Recursively update state on all requirements/statements in the tree
+			for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
+				StatementUtil.updateStatementTreeViewInfoState(courseInfo.getState(), it.next());
+			}
+	
+			// Call the course web service and update the requirement/statement tree
+			// with the new state
+			for (Iterator<StatementTreeViewInfo> it = statementTreeViewInfos.iterator(); it.hasNext();){
+				courseService.updateCourseStatement(courseInfo.getId(), it.next());
+			}
+		}
 	}
 
 }

@@ -88,5 +88,17 @@ public interface CommentRpcService extends BaseRpcService {
      * user IdentityService to get user name
      * @param userId
      */
-    public String getUserRealName(String userId);
+    public String getUserRealName(String principalName);
+    
+    /**
+     * user IdentityService to get user name by principalId
+     * @param userId
+     */
+    public String getUserRealNameByPrincipalId(String principalId);
+    
+    /**
+     * user IdentityService to get PrincipalName by principalId
+     * @param PrincipalName
+     */
+    public String getPrincipalNameByPrincipalId(String principalId);
 }

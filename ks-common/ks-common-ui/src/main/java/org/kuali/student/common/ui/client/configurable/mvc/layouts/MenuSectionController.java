@@ -15,6 +15,7 @@ import org.kuali.student.common.ui.client.widgets.menus.KSMenuItemData;
 import org.kuali.student.common.ui.client.widgets.menus.impl.KSBlockMenuImpl;
 import org.kuali.student.common.ui.client.widgets.panels.collapsable.VerticalCollapsableDrawer;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Command;
@@ -51,7 +52,7 @@ public class MenuSectionController extends LayoutController implements ContentNa
     protected VerticalPanel leftPanel = new VerticalPanel();
     private SimplePanel sideBar = new SimplePanel();
     private boolean refreshMenuOnAdd = true;
-    private VerticalCollapsableDrawer collapsablePanel = new VerticalCollapsableDrawer();
+    private VerticalCollapsableDrawer collapsablePanel = GWT.create(VerticalCollapsableDrawer.class);
 
     private Callback<Boolean> showViewCallback = new Callback<Boolean>() {
 

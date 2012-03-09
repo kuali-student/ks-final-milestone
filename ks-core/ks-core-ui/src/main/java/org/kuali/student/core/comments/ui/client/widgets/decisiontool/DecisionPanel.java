@@ -206,8 +206,16 @@ public class DecisionPanel implements HasReferenceId, ToolView {
     
     				tableModel.addRow(new RationaleRow(theRow));
 			    }
-			}
-			tableModel.fireTableDataChanged();
+						}
+			// KSLAB-2569 KSCM-1644, was getting NPE here when there were comments, but
+			// no "decision rationale" (and thus null tableModel)
+			// tables was never initialize in these conditions.
+
+		 if (tableModel == null){
+			 initializeDecisionTable();
+		 }	 
+	 
+    	 tableModel.fireTableDataChanged(); 
 
 		}
 	}

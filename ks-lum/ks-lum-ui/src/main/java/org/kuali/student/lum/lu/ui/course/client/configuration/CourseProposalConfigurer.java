@@ -100,6 +100,7 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.CreditCourse
 import org.kuali.student.lum.lu.ui.course.client.controllers.CourseProposalController;
 import org.kuali.student.lum.lu.ui.course.client.requirements.CourseRequirementsViewController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -131,7 +132,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     public enum CourseSections {
         CLU_BEGIN, PEOPLE_PERMISSONS, SUMMARY, AUTHORS_RATIONALE, GOVERNANCE, COURSE_LOGISTICS, COURSE_INFO, LEARNING_OBJECTIVES,
-        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS,DECISIONS, DOCUMENTS,
+        COURSE_REQUISITES, ACTIVE_DATES, FINANCIALS, ATTACHMENTS, COMMENTS, DECISIONS, DOCUMENTS,
         PROGRAM_INFO, ASSEMBLER_TEST, WF_APPROVE_DIALOG
     }
 
@@ -174,7 +175,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, (SectionView)generateFinancialsSection(initSectionView(CourseSections.FINANCIALS, LUUIConstants.FINANCIALS_LABEL_KEY)));
             
             //Authors & Collaborators
-            layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS,COURSE_PROPOSAL_MODEL));
+            layout.addMenuItem(sections, new CollaboratorSectionView(CourseSections.PEOPLE_PERMISSONS, getLabel(LUUIConstants.SECTION_AUTHORS_AND_COLLABORATORS), COURSE_PROPOSAL_MODEL));
             
             //Documents
             documentTool = new DocumentTool(LUUIConstants.REF_DOC_RELATION_PROPOSAL_TYPE,CourseSections.DOCUMENTS, getLabel(LUUIConstants.TOOL_DOCUMENTS_LABEL_KEY));
@@ -182,7 +183,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             layout.addMenuItem(sections, documentTool);
             
             //Summary
-            summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
+            summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+            summaryConfigurer.init(type, state, groupName,(DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
             layout.addSpecialMenuItem(summaryConfigurer.generateProposalSummarySection(true), "Review and Submit");
             
             //Add common buttons to sections except for sections with specific button behavior
@@ -197,7 +199,8 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
             layout.addButtonForView(CourseSections.DOCUMENTS, getContinueButton(layout));
         }
         else{
-        	 CourseSummaryConfigurer summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
+        	 summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+        	 summaryConfigurer.init(type, state, groupName, (DataModelDefinition)modelDefinition, stmtTypes, (Controller)layout, COURSE_PROPOSAL_MODEL);
         	 layout.removeMenuNavigation();
              layout.addView(summaryConfigurer.generateProposalSummarySection(false));
         }
@@ -370,6 +373,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
                 ),
                 null,
                 null,0);
+        result.getLayout().setVisible(false);
         return result;
     }
     
@@ -763,7 +767,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     }
     
-    private void progressiveEnableAndRequireSection(boolean enableAndRequire, Section section){
+    protected void progressiveEnableAndRequireSection(boolean enableAndRequire, Section section){
         if (section != null){
             List<FieldDescriptor> fields = section.getFields(); 
             if ((fields != null) && (fields.size() > 0)){
@@ -780,7 +784,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
     protected SectionView generateLearningObjectivesSection() {
         VerticalSectionView section = initSectionView(CourseSections.LEARNING_OBJECTIVES, LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY);
-        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct"));
+        section.setInstructions(getLabel(LUUIConstants.LEARNING_OBJECTIVES_LABEL_KEY + "-instruct", QueryPath.concat(COURSE, COURSE_SPECIFIC_LOS, "*", "loInfo", "desc", "plain").toString())); 
         section.addSection(generateLearningObjectivesNestedSection());
         return section;
     }
@@ -798,7 +802,6 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 			@Override
 			public void onValueChange(ValueChangeEvent<List<OutlineNode<LOPicker>>> event) {
 				los.setIsDirty(true);
-				fd.setDirty(true);
 			}        	
         });
         
@@ -815,7 +818,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
 
         public PersonList() {
             final PersonList us = this;
-            final String userId = Application.getApplicationContext().getUserId();
+            final String userId = Application.getApplicationContext().getSecurityContext().getUserId();
 
             //FIXME: [KSCOR-225] Commented out search code to display drop down with only current user, and disable select
             people.addItem(userId, userId);
@@ -873,7 +876,7 @@ public class CourseProposalConfigurer extends AbstractCourseConfigurer {
     }
 
     protected VerticalSectionView initSectionView(Enum<?> viewEnum, String labelKey) {
-        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), COURSE_PROPOSAL_MODEL);
+        VerticalSectionView section = new VerticalSectionView(viewEnum, getLabel(labelKey), this.getModelId());
         section.addStyleName(LUUIConstants.STYLE_SECTION);
         return section;
     }

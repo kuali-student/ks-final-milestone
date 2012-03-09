@@ -100,6 +100,7 @@ public class CopyCourseServiceImpl {
 			originalProposal.getProposalReference().set(0, copiedCourse.getId());
 			originalProposal.getProposerOrg().clear();
 			originalProposal.getProposerPerson().clear();
+            originalProposal.setName(null);
 			
 			//Create the proposal
 			ProposalInfo copiedProposal = proposalService.createProposal(defaultDocumentType, originalProposal);
@@ -220,7 +221,7 @@ public class CopyCourseServiceImpl {
 		}
 	}
 
-	private void copyStatements(String originalCluId, String newCluId, String newState,
+    private void copyStatements(String originalCluId, String newCluId, String newState,
 			StatementService statementService, LuService luService, CourseService courseService) throws OperationFailedException, DoesNotExistException, InvalidParameterException, MissingParameterException, PermissionDeniedException, DataValidationErrorException {
 		//Get the course statements
 		List<StatementTreeViewInfo> statementTreeViews = courseService.getCourseStatements(originalCluId,null,null);
@@ -247,6 +248,7 @@ public class CopyCourseServiceImpl {
 		
 		originalCourse.setId(newCluId);
 		originalCourse.setState(newState);
+        originalCourse.setPilotCourse(false);
 		
 		//Loop through the ignore properties and null out the values
 		if(ignoreProperties!=null){
@@ -260,7 +262,7 @@ public class CopyCourseServiceImpl {
 		}
 		
 		CourseInfo newCourse = courseService.createCourse(originalCourse);
-		copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService);
+        copyStatements(originalCluId, newCourse.getId(), newState, statementService, luService, courseService);
 		return newCourse;
 	}
 

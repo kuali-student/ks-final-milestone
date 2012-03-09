@@ -139,7 +139,7 @@ public class SearchResultListItems implements ListItems{
     
     private int getAttrKeyNdx(List<SearchResultRow> results, String keyAttrKey) {
 
-    	if (results.size() > 0){
+    	if (results != null && !results.isEmpty()){
 	        for (int i=0; i < results.get(0).getCells().size(); i++){
 	        	if (results.get(0).getCells().get(i).getKey().equals(keyAttrKey)) {
 	        		return i;

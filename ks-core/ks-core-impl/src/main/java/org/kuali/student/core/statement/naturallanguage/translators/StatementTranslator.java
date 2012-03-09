@@ -113,7 +113,9 @@ public class StatementTranslator {
 		try {
 			String booleanExpression = this.statementParser.getBooleanExpressionAsReqComponents(statement);
 			List<ReqComponentReference> reqComponentList = this.statementParser.getLeafReqComponents(statement);
-			String message = buildMessage(language, nlUsageTypeKey, booleanExpression, reqComponentList);
+			String message = "";
+			if (booleanExpression != null && booleanExpression.length() > 0)
+				message = buildMessage(language, nlUsageTypeKey, booleanExpression, reqComponentList);
 //		String header = "";
 //		if(cluId != null && !cluId.isEmpty()) {
 //			header = getHeader(statement, nlUsageTypeKey, cluId);

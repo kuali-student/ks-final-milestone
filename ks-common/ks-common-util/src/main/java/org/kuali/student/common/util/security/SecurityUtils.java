@@ -22,29 +22,31 @@ import org.springframework.security.userdetails.UserDetails;
 public class SecurityUtils {
 	
 	/** 
-	 * This can be used to get the current user id from security context
+	 * This can be used to get the current user's principal id from security context
 	 * 
-	 * @return userId
+	 * @return principal id
 	 */
-	public static String getCurrentUserId() {
+	public static String getCurrentPrincipalId() {
         String principalID=null;
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if(auth!=null){
+		
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+		if(auth!=null){
         	Object obj = auth.getPrincipal();
         	if(obj instanceof UserWithId){
         		//This is actually the user's Principal Id
         		principalID = ((UserWithId)obj).getUserId();
         	}
-//        	else if (obj instanceof UserDetails) {
-//            	username = ((UserDetails)obj).getUsername();
-//            } else {
-//            	username = obj.toString();
-//            }
         }
 		return principalID;
 	}
 	
-	public static String getPrincipalUserName(){
+	/**
+	 * This can be used to get the current user's principal name from security context
+	 * 
+	 * @return principal name
+	 */
+	public static String getCurrentPrincipalName(){
 		String username = "unknown";
 		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();

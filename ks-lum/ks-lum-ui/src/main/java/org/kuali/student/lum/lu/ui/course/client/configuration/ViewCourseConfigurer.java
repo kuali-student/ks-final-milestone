@@ -42,6 +42,7 @@ import org.kuali.student.lum.lu.assembly.data.client.constants.orch.LearningObje
 import org.kuali.student.lum.lu.assembly.data.client.constants.orch.SingleUseLoConstants;
 import org.kuali.student.lum.lu.ui.course.client.controllers.ViewCourseController;
 
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Widget;
 
 
@@ -117,7 +118,8 @@ CreditCourseLearningResultsConstants
         groupName = LUUIConstants.COURSE_GROUP_NAME;
 
         //Summary
-        summaryConfigurer = new CourseSummaryConfigurer(type, state, groupName, modelDefinition, stmtTypes, 
+        summaryConfigurer = GWT.create(CourseSummaryConfigurer.class);
+        summaryConfigurer.init(type, state, groupName, modelDefinition, stmtTypes, 
         		(Controller)layoutController, modelId);
         layoutController.addTab(summaryConfigurer.generateCourseBriefSection(), "At a Glance");
         layoutController.addTab(summaryConfigurer.generateCourseSummarySection(), "Detailed View");

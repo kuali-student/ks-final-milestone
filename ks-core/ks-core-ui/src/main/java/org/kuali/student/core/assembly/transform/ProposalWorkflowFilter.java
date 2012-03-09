@@ -239,7 +239,7 @@ public class ProposalWorkflowFilter extends AbstractDataFilter implements Metada
 			try {
 				docDetail = workflowUtilityService.getDocumentDetail(Long.parseLong(workflowId));
 			} catch (Exception e) {
-            	throw new RuntimeException("Error found gettting document for newly created object with id " + appId);
+            	throw new RuntimeException("Error found gettting document for newly created object with id " + appId, e);
 			}			
 		}
 

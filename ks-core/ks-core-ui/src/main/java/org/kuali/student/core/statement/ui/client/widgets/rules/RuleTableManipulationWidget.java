@@ -33,6 +33,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
 
@@ -412,35 +413,42 @@ public class RuleTableManipulationWidget extends FlowPanel {
     private void createButtonsPanel() {
         final String ruleEditButton = "KS-Program-Rule-ObjectView-Button";
 
+        HorizontalPanel layout = new HorizontalPanel();
+        
         topButtonsPanel.setStyleName("KS-Program-Rule-ObjectView-ButtonPanel");
 		btnMakeAND.addStyleName(ruleEditButton);
         btnMakeAND.addStyleName("KS-Program-Rule-ObjectView-AND-Button");
-        topButtonsPanel.add(btnMakeAND);
+        layout.add(btnMakeAND);
+
         btnMakeOR.addStyleName("KS-Program-Rule-ObjectView-OR-Button");
         btnMakeOR.addStyleName(ruleEditButton);
-        topButtonsPanel.add(btnMakeOR);
-        // topButtonsPanel.add(separator1);
+        layout.add(btnMakeOR);
 
         btnAddToGroup.addStyleName("KS-Program-Rule-ObjectView-Group-Button");
         btnAddToGroup.addStyleName(ruleEditButton);
-        topButtonsPanel.add(btnAddToGroup);
+        layout.add(btnAddToGroup);
+
         btnMoveRuleUp.addStyleName("KS-Program-Rule-ObjectView-Up-Button");
         btnMoveRuleUp.addStyleName(ruleEditButton);
-        topButtonsPanel.add(btnMoveRuleUp);
+        layout.add(btnMoveRuleUp);
+
         btnMoveRuleDown.addStyleName("KS-Program-Rule-ObjectView-Down-Button");
         btnMoveRuleDown.addStyleName(ruleEditButton);
-        topButtonsPanel.add(btnMoveRuleDown);
-        // topButtonsPanel.add(separator2);
+        layout.add(btnMoveRuleDown);
 
         btnUndo.addStyleName("KS-Program-Rule-ObjectView-Undo-Button");
         btnUndo.addStyleName(ruleEditButton);
-        topButtonsPanel.add(btnUndo);
+        layout.add(btnUndo);
+
         btnRedo.addStyleName("KS-Program-Rule-ObjectView-Redo-Button");
         btnRedo.addStyleName(ruleEditButton);
-        topButtonsPanel.add(btnRedo);
+        layout.add(btnRedo);
+
         btnDelete.addStyleName("KS-Program-Rule-ObjectView-Delete-Button");
         btnDelete.addStyleName(ruleEditButton);
-        topButtonsPanel.add(btnDelete);
+        layout.add(btnDelete);
+        
+        topButtonsPanel.add(layout);
     }
 
     public RuleInfo getRule() {

@@ -15,7 +15,6 @@
 
 package org.kuali.student.common.ui.client.security;
 
-import org.kuali.student.common.rice.authorization.PermissionType;
 
 
 /**
@@ -30,5 +29,5 @@ public interface RequiresAuthorization {
     
     public void setAuthorizationRequired(boolean required);
     
-    public void checkAuthorization(PermissionType permissionType, AuthorizationCallback callback);
+    public void checkAuthorization(AuthorizationCallback callback);
 }

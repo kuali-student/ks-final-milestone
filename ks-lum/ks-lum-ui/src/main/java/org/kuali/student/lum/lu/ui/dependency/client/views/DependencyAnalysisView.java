@@ -68,6 +68,7 @@ import org.kuali.student.lum.program.dto.ProgramRequirementInfo;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.http.client.URL;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -144,7 +145,8 @@ public class DependencyAnalysisView extends ViewComposite{
         //Get search definition for dependency analysis trigger search and create trigger picker          
 		Metadata metaData = searchDefinition.getMetadata("courseId");
 		final KSPicker triggerPicker = new Picker(metaData.getInitialLookup(), metaData.getAdditionalLookups());
-        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");		
+        ((HasWatermark)triggerPicker.getInputWidget()).setWatermarkText("Enter course code");	
+        triggerPicker.getInputWidget().ensureDebugId("Dependency-Analysis-Course-Code");
 
         //Setup the "go" button for trigger picker
         KSButton goButton = new KSButton("Go", ButtonStyle.PRIMARY_SMALL);
@@ -356,7 +358,8 @@ public class DependencyAnalysisView extends ViewComposite{
 				
 				//Initialize the complex requirement panel, set it so it is not initially open (ie. not visible)
 				final FlowPanel complexContent = new FlowPanel();
-				final CollapsablePanel complexRequirement = new CollapsablePanel("", complexContent, false, false);				
+				final CollapsablePanel complexRequirement = GWT.create(CollapsablePanel.class);
+				complexRequirement.initialise("", complexContent, false, false);
 				
 				complexContent.addStyleName("KS-Dependency-Complex-Rule");
 				depDetails.addWidget(simpleRequirement);
@@ -479,9 +482,9 @@ public class DependencyAnalysisView extends ViewComposite{
 					String url =  "http://" + Window.Location.getHost() + Window.Location.getPath() +
 						"?view=" + viewLinkUrl;
 					if("kuali.lu.type.Variation".equals(cluType)){
-						url += "&docId=" + parentCluId + "&variationId=" + cluId;
+						url += "&docId=" + URL.encodeQueryString(parentCluId) + "&variationId=" + URL.encodeQueryString(cluId);
 					}else {
-						url += "&docId=" + cluId;
+						url += "&docId=" + URL.encodeQueryString(cluId);
 					}
 					String features = "height=600,width=960,dependent=0,directories=1," +
 							"fullscreen=1,location=1,menubar=1,resizable=1,scrollbars=1,status=1,toolbar=1";

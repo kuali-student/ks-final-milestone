@@ -19,7 +19,7 @@
   </parent>
   <groupId>org.kuali.student</groupId>
   <artifactId>student</artifactId>
-  <version>1.2-m1-perf-SNAPSHOT</version>
+  <version>1.2.2-M4-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Kuali Student</name>
   <url>http://${kuali.site.hostname}/student/${project.version}/</url>
@@ -97,9 +97,9 @@
     </profile>
   </profiles>
   <scm>
-    <connection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.2-perf</connection>
-    <developerConnection>scm:svn:https://test.kuali.org/svn/student/branches/ks-1.2-perf</developerConnection>
-    <url>https://test.kuali.org/svn/student/branches/ks-1.2-perf</url>
+    <connection>scm:svn:http://svn.kuali.org/repos/student/trunk</connection>
+    <developerConnection>scm:svn:http://svn.kuali.org/repos/student/trunk</developerConnection>
+    <url>http://svn.kuali.org/repos/student/trunk</url>
   </scm>
   <properties>
     <!-- Remove this property as soon as the devs are comfortable with Maven 3
@@ -127,13 +127,13 @@
     <ks.cxf.javadoc.version>2.2.8</ks.cxf.javadoc.version>
     <derby.version>10.4.2.0</derby.version>
     <eclipselink.version>1.0</eclipselink.version>
-    <gwt.version>2.0.4</gwt.version>
     <ehcache.version>2.4.6</ehcache.version>
+    <gwt.version>2.3.0</gwt.version>
     <jaxws-api.version>2.1</jaxws-api.version>
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.4</junit.version>
-    <kuali.rice.version>1.0.3.2</kuali.rice.version>
+    <kuali.rice.version>1.0.3.3</kuali.rice.version>
     <log4j.version>1.2.14</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>
@@ -151,9 +151,11 @@
     <com.lowagie.itext.version>2.1.7</com.lowagie.itext.version>
     <org.apache.poi.version>3.6</org.apache.poi.version>
     <net.sourceforge.jexcelapi.version>2.6.10</net.sourceforge.jexcelapi.version>
+    <selenium.version>2.7.0</selenium.version>
+    <httpcomponents.httpclient.version>4.1.2</httpcomponents.httpclient.version>
     
     <!-- plugin versions -->
-    <gwt.codehaus.plugin.version>1.2</gwt.codehaus.plugin.version>
+    <gwt.codehaus.plugin.version>2.3.0-1</gwt.codehaus.plugin.version>
     <tomcat.plugin.version>1.0-beta-1</tomcat.plugin.version>
 
     <!-- build properties -->
@@ -316,6 +318,21 @@
         <artifactId>openjpa</artifactId>
         <version>1.2.1</version>
       </dependency>
+      <dependency>
+		<groupId>org.seleniumhq.selenium</groupId>
+		<artifactId>selenium-java</artifactId>
+		<version>${selenium.version}</version>
+		<scope>test</scope>
+	  </dependency>
+	<!-- This httpclient dependency works with the Selenium tests, but must 
+		have compile scope. Please see ks-common/ks-common-ui/pom.xml and ks-lum/ks-lum-ui/pom.xml 
+		for more info. -->
+	<dependency>
+		<groupId>org.apache.httpcomponents</groupId>
+		<artifactId>httpclient</artifactId>
+		<version>${httpcomponents.httpclient.version}</version>
+		<scope>compile</scope>
+	</dependency>
 
       <!-- Hibernate -->
       <dependency>
@@ -774,6 +791,21 @@
         <groupId>org.apache.velocity</groupId>
         <artifactId>velocity-tools</artifactId>
         <version>${velocity.tools.version}</version>
+        <!--  Exclude versions of struts-core that conflict with rice dependencies & exclude struts-tiles & strats-taglibs, not used by ks-->
+        <exclusions>
+			<exclusion>
+	            <groupId>org.apache.struts</groupId>
+	            <artifactId>struts-core</artifactId>			
+			</exclusion>
+			<exclusion>
+	            <groupId>org.apache.struts</groupId>
+	            <artifactId>struts-tiles</artifactId>			
+			</exclusion>
+			<exclusion>
+	            <groupId>org.apache.struts</groupId>
+	            <artifactId>struts-taglib</artifactId>			
+			</exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>commons-lang</groupId>
@@ -824,7 +856,7 @@
       <dependency>
         <groupId>com.google.gwt</groupId>
         <artifactId>gwt-incubator</artifactId>
-        <version>2.0.1</version>
+        <version>2.3.0</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -861,6 +893,12 @@
         <artifactId>gwtx</artifactId>
         <version>1.5.3</version>
         <scope>provided</scope>
+        <exclusions>
+          <exclusion>
+            <artifactId>gwt-user</artifactId>
+            <groupId>com.google.gwt</groupId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.kuali.rice</groupId>

@@ -150,7 +150,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         if (checkDocumentLevelPermissions(docLevelPerm) && StringUtils.isNotBlank(id)) {
         	//If doc level permissions are enabled, lookup "Edit Document" permission for this object for this user. 
             AttributeSet qualification = getQualification(idType, id, docType);
-        	String currentUser = SecurityUtils.getCurrentUserId();
+        	String currentUser = SecurityUtils.getCurrentPrincipalId();
         	editDocumentAllowed = Boolean.valueOf(permissionService.isAuthorizedByTemplateName(currentUser, PermissionType.EDIT.getPermissionNamespace(),
 	        		PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
 			LOG.info("Permission '" + PermissionType.EDIT.getPermissionNamespace() + "/" + PermissionType.EDIT.getPermissionTemplateName() 
@@ -200,7 +200,7 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
     protected Map<String, String> getFieldAccessPermissions(String dtoName, String idType, String id, String docType) {
         try {
             //get permissions and turn into a map of fieldName=>access
-            String principalId = SecurityUtils.getCurrentUserId();
+            String principalId = SecurityUtils.getCurrentPrincipalId();
             AttributeSet qualification = getQualification(idType, id, docType);
             AttributeSet permissionDetails = new AttributeSet("dtoName", dtoName);
             
@@ -250,8 +250,9 @@ public class AuthorizationFilter extends AbstractDataFilter implements MetadataF
         AttributeSet qualification = new AttributeSet();
         qualification.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, docType);
         qualification.put(idType, id);
+        qualification.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, id);
         //Put in a random number to avoid this request from being cached. Might want to do this only for specific templates to take advantage of caching
-        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());
+        qualification.put("RAND_NO_CACHE", UUID.randomUUID().toString());        
         return qualification;
     }
 

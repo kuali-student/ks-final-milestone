@@ -6,7 +6,7 @@
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
+ * abUnless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
@@ -174,6 +174,11 @@ public class KSLogoutFilter extends SpringSecurityFilter {
 
     protected String getLogoutSuccessUrl() {
         return logoutSuccessUrl;
+    }    
+    
+    public void setLogoutSuccessUrl(String logoutSuccessUrl){
+        this.logoutSuccessUrl = logoutSuccessUrl;
+        Assert.isTrue(UrlUtils.isValidRedirectUrl(logoutSuccessUrl), logoutSuccessUrl + " isn't a valid redirect URL");    	
     }    
     
     protected String getFilterProcessesUrl() {

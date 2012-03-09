@@ -119,8 +119,7 @@ public class UploadServlet extends HttpServlet{
 			        	text.setPlain(value);
 			        	info.setDesc(text);
 			        }
-			    } 
-			    else {
+			    } else {
 			    	String fullFileName = item.getName();
 			    	if (fullFileName != null) {
 			            String filename = FilenameUtils.getName(fullFileName);
@@ -180,8 +179,7 @@ public class UploadServlet extends HttpServlet{
 			    		relationInfo.setDocumentId(createdDoc.getId());
 			    		relationInfo.setType(request.getParameter("refDocRelationTypeKey"));
 			    		documentService.createRefDocRelation(relationInfo.getRefObjectTypeKey(),relationInfo.getRefObjectId(),relationInfo.getDocumentId(),relationInfo.getType(), relationInfo);
-		    		}
-		    		catch(Exception e){
+		    		}catch(Exception e){
 		    			fileError = true;
 		    			LOG.error(e);
 		    			fileStatus.setStatus(FileTransferStatus.ERROR);

@@ -6,12 +6,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.dto.RichTextInfo;
 import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.dto.DtoConstants.DtoState;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
@@ -21,12 +22,12 @@ import org.kuali.student.common.ui.client.mvc.Controller;
 import org.kuali.student.common.ui.client.mvc.ModelRequestCallback;
 import org.kuali.student.common.ui.client.mvc.dto.ReferenceModel;
 import org.kuali.student.common.ui.client.widgets.KSButton;
+import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSLightBox;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.common.ui.client.widgets.KSButtonAbstract.ButtonStyle;
-import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumerations.OkEnum;
+import org.kuali.student.common.ui.client.widgets.buttongroups.OkGroup;
 import org.kuali.student.common.ui.client.widgets.dialog.ConfirmationDialog;
 import org.kuali.student.common.ui.client.widgets.layout.VerticalFlowPanel;
 import org.kuali.student.core.comment.dto.CommentInfo;
@@ -57,30 +58,29 @@ public class CommentTool implements HasReferenceId {
     private KSLightBox commentLightBox;
     private HTML loggedInUserNameHTML = new HTML();
     private String loggedInUserId;
-    private KSTextArea commentTextArea = new KSTextArea();
-    private KSButton cancelEditButton = new KSButton("Cancel");
+    protected KSTextArea commentTextArea = new KSTextArea();
+    protected KSButton cancelEditButton = new KSButton("Cancel");
     private KSButton submitCommentButton = new KSButton("Submit");
     private FlexTable commentsTableLayout = new FlexTable();
-    private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
+    //private static final DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
     private Controller controller;    
     private Enum<?> viewEnum;
     private String viewName;    //View name is being used as menu item label   
     VerticalFlowPanel loggedInLabelsPanel = new VerticalFlowPanel();
     VerticalFlowPanel commentEditPanel = new VerticalFlowPanel();
     KSLabel notAuthorizedToAddComments = new KSLabel("The document must be saved before Comments can be added.");
-    private EditMode editMode = EditMode.ADD_COMMENT;
+    protected EditMode editMode = EditMode.ADD_COMMENT;
     private CommentInfo selectedComment;
-    private List<Callback<EditMode>> editControlsCallbacks = new ArrayList<Callback<EditMode>>();
+    protected List<Callback<EditMode>> editControlsCallbacks = new ArrayList<Callback<EditMode>>();
     private String commentTypeKey;
     private Map<String, String> referenceAttributes;
     private KSLabel proposalTitle = new KSLabel();
     private String title;
-    private HTML htmlLabel;
-    private SectionTitle leaveACommentTitle;
-    private HorizontalPanel commentSectionPanel;
-    private final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
-    private final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
-    
+    protected HTML htmlLabel;
+    protected SectionTitle leaveACommentTitle;
+    protected HorizontalPanel commentSectionPanel;    
+    protected Map<Integer, KSButton> editButtonMap = new HashMap<Integer, KSButton>();
+    protected Map<Integer, KSButton> deleteButtonMap = new HashMap<Integer, KSButton>();
 
     public enum EditMode {
         ADD_COMMENT, UPDATE_COMMENT, VIEW_COMMENT
@@ -130,7 +130,7 @@ public class CommentTool implements HasReferenceId {
         title.setStyleName("cluProposalTitleSection");
         proposalTitle.setVisible(false);
         contentPanel.add(proposalTitle);
-        contentPanel.add(title);
+        commentLightBox.setNonCaptionHeader(title);
         contentPanel.add(htmlLabel);
         
         // comments section title
@@ -142,7 +142,7 @@ public class CommentTool implements HasReferenceId {
         // comments section
         HTML loggedInAsLabel = new HTML("<b>Logged in as:<b/>");
         loggedInLabelsPanel.add(loggedInAsLabel);
-        final String userId = Application.getApplicationContext().getUserId();
+        final String userId = Application.getApplicationContext().getSecurityContext().getUserId();
         commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -299,7 +299,7 @@ public class CommentTool implements HasReferenceId {
         });
     }
     
-    private void redrawCommentsTable(List<CommentInfo> commentInfos) {
+    protected void redrawCommentsTable(List<CommentInfo> commentInfos) {
         commentsTableLayout.clear();
         editControlsCallbacks.clear();
         
@@ -307,7 +307,9 @@ public class CommentTool implements HasReferenceId {
             int rowIndex = 0;
             int commentCounter = 0;
             for (final CommentInfo commentInfo : commentInfos) {
-                int columnIndex = 0;
+                int columnIndex = 0;                
+                final KSButton editButton = new KSButton("Edit", ButtonStyle.DEFAULT_ANCHOR);
+                final KSButton deleteButton = new KSButton("Delete", ButtonStyle.DEFAULT_ANCHOR);
                 if (commentInfo.getType() != null && 
                         commentInfo.getType().startsWith("kuali.comment.type.workflowDecisionRationale")) {
                     // do not display comments for workflow decision rationale.
@@ -331,24 +333,25 @@ public class CommentTool implements HasReferenceId {
                 }
                 VerticalFlowPanel userNameAndTime = new VerticalFlowPanel();
                 final HTML userNameLabel = new HTML();
-                // TODO use user id for now change to user name
-                final String userId = commentInfo.getMetaInfo().getUpdateId();
-                commentServiceAsync.getUserRealName(userId, new AsyncCallback<String>() {
+                final String principalId = commentInfo.getMetaInfo().getUpdateId();
+                commentServiceAsync.getUserRealNameByPrincipalId(principalId, new AsyncCallback<String>() {
                     @Override
                     public void onFailure(Throwable caught) {
-                        userNameLabel.setHTML("<b>" + userId + "</b>");
+                        userNameLabel.setHTML("<b>" + principalId + "</b>");
                     }
                     @Override
                     public void onSuccess(String result) {
                         if (result != null && !result.isEmpty()) {
                             userNameLabel.setHTML("<b>" + result + "</b>");
                         } else {
-                            userNameLabel.setHTML("<b>" + userId + "</b>");
+                            userNameLabel.setHTML("<b>" + principalId + "</b>");
                         }
                     }
-                });
+                });                               
+                
                 Date createTime = commentInfo.getMetaInfo().getCreateTime();
                 userNameAndTime.add(userNameLabel);
+                DateFormat df = new SimpleDateFormat("MMMM dd, yyyy - hh:mmaaa");
                 userNameAndTime.add(new KSLabel(df.format(createTime)));
                 userNameAndTime.getElement().getStyle().setPaddingRight(20d, Style.Unit.PX);
                 commentsTableLayout.setWidget(rowIndex, columnIndex, userNameAndTime);
@@ -430,13 +433,28 @@ public class CommentTool implements HasReferenceId {
                     }
                 });
                 commentsTableLayout.setWidget(rowIndex, columnIndex, editButton);
+                editButtonMap.put(commentCounter, editButton);
                 columnIndex++;
                 commentsTableLayout.setWidget(rowIndex, columnIndex, deleteButton);
+                deleteButtonMap.put(commentCounter, deleteButton);
                 columnIndex++;
-                if (userId == null || !userId.equals(this.loggedInUserId)) {
-                    editButton.setVisible(false);
-                    deleteButton.setVisible(false);
-                }
+               
+                commentServiceAsync.getPrincipalNameByPrincipalId(principalId, new AsyncCallback<String>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                    	// What do we do here?
+                    	String warning = "Unable to find PrincipalName via PrincipalId["+principalId+"]";                        
+                    }
+                    @Override
+                    public void onSuccess(String principalName) {
+                    	if (principalName == null || !principalName.equals(getLoggedInUserId())) {
+                            editButton.setVisible(false);
+                            deleteButton.setVisible(false);
+                        }
+                    }
+                });
+                
+                
                 
                 rowIndex++;
                 
@@ -470,8 +488,14 @@ public class CommentTool implements HasReferenceId {
                 htmlLabel.setVisible(false);
                 leaveACommentTitle.setVisible(false);
                 commentSectionPanel.setVisible(false);
-                editButton.setVisible(false);
-                deleteButton.setVisible(false);
+                
+                for (int i = 0; i < editButtonMap.size(); i++) {
+                    editButtonMap.get(i).setVisible(false);                    
+                }
+                for (int i = 0; i < deleteButtonMap.size(); i++) {
+                    deleteButtonMap.get(i).setVisible(false);                    
+                }
+
                 break;
         }
     }
@@ -599,5 +623,9 @@ public class CommentTool implements HasReferenceId {
             }
         });
     }
+
+	public String getLoggedInUserId() {
+		return loggedInUserId;
+	}
 
 }
