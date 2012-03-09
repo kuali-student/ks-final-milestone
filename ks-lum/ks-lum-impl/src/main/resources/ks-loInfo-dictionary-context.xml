@@ -5,10 +5,10 @@
  <import resource="classpath:ks-base-dictionary-context.xml" />
 
  <!-- LoDisplayInfo-->
- <bean id="org.kuali.student.lum.course.dto.LoDisplayInfo-parent"
+ <bean id="org.kuali.student.r2.lum.course.dto.LoDisplayInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+            value="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
   <property name="attributes">
    <list>
     <ref bean="loDisplayInfo.loCategoryInfoList" />
@@ -19,21 +19,21 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.course.dto.LoDisplayInfo" parent="org.kuali.student.lum.course.dto.LoDisplayInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" parent="org.kuali.student.r2.lum.course.dto.LoDisplayInfo-parent" />
 
  <bean id="loDisplayInfo.loCategoryInfoList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="loCategoryInfoList" />
 <!--  per jira KSLAB-1745
   <property name="minOccurs" value="1" />
   -->
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.lo.dto.LoCategoryInfo" />
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" />
  </bean>
  <bean id="loDisplayInfo.loCategoryInfoList" parent="loDisplayInfo.loCategoryInfoList-parent" />
 
  <bean id="loDisplayInfo.loDisplayInfoList-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="loDisplayInfoList" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+            ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
  </bean>
  <bean id="loDisplayInfo.loDisplayInfoList" parent="loDisplayInfo.loDisplayInfoList-parent" />
 
@@ -46,7 +46,7 @@
 
  <bean id="loDisplayInfo.LoInfo-parent" abstract="true"
        parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lo.dto.LoInfo" />
+  <property name="name" value="org.kuali.student.r2.lum.lo.dto.LoInfo" />
   <property name="attributes">
    <list>
     <ref bean="loInfo.desc" />
@@ -84,9 +84,9 @@
  <bean id="loDisplayInfo.parentRelType" parent="loDisplayInfo.parentRelType-parent" />
 
  <!-- LoCategoryInfo-->
- <bean id="org.kuali.student.lum.lo.dto.LoCategoryInfo-parent"
+ <bean id="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo-parent"
        abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lo.dto.LoCategoryInfo" />
+  <property name="name" value="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" />
   <property name="attributes">
    <list>
     <ref bean="loCategoryInfo.desc" />
@@ -101,7 +101,7 @@
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
- <bean id="org.kuali.student.lum.lo.dto.LoCategoryInfo" parent="org.kuali.student.lum.lo.dto.LoCategoryInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo" parent="org.kuali.student.r2.lum.lo.dto.LoCategoryInfo-parent" />
 
  <bean id="loCategoryInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc" />
@@ -109,7 +109,7 @@
  </bean>
  <bean id="loCategoryInfo.desc" parent="loCategoryInfo.desc-parent" />
 
- <bean id="loCategoryInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
+ <bean id="loCategoryInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="loCategoryInfo.desc.formatted" />
@@ -171,9 +171,9 @@
  <bean id="loCategoryInfo.type" parent="loCategoryInfo.type-parent" />
 
  <!-- LoInfo-->
- <bean id="org.kuali.student.lum.lo.dto.LoInfo-parent" abstract="true"
+ <bean id="org.kuali.student.r2.lum.lo.dto.LoInfo-parent" abstract="true"
        parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lo.dto.LoInfo" />
+  <property name="name" value="org.kuali.student.r2.lum.lo.dto.LoInfo" />
   <property name="attributes">
    <list>
     <ref bean="loInfo.desc" />
@@ -190,7 +190,7 @@
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
- <bean id="org.kuali.student.lum.lo.dto.LoInfo" parent="org.kuali.student.lum.lo.dto.LoInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.lo.dto.LoInfo" parent="org.kuali.student.r2.lum.lo.dto.LoInfo-parent" />
 
  <bean id="loInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc" />
@@ -199,7 +199,7 @@
  </bean>
  <bean id="loInfo.desc" parent="loInfo.desc-parent" />
 
- <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
+ <bean id="loInfo.desc.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
   <property name="name" value="org.kuali.student.lo.dto.RichTextInfo" />
   <property name="attributes">
    <list>
@@ -268,8 +268,8 @@
  </bean>
 
  <!-- LoLoRelationInfo-->
- <bean id="org.kuali.student.lum.lo.dto.LoLoRelationInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lo.dto.LoLoRelationInfo"/>
+ <bean id="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo"/>
   <property name="attributes">
    <list>
     <ref bean="loLoRelationInfo.effectiveDate"/>
@@ -283,7 +283,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.lum.lo.dto.LoLoRelationInfo" parent="org.kuali.student.lum.lo.dto.LoLoRelationInfo-parent"/>
+ <bean id="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo" parent="org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo-parent"/>
 
  <bean id="loLoRelationInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>
