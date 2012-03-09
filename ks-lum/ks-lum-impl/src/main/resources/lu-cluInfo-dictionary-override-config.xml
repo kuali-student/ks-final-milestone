@@ -33,7 +33,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.cluInfo -->
 <!-- *********************************** -->
 <!-- Detailed information about a single CLU. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInfo" id="object.cluInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluInfo" id="object.cluInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.cluInfo.CreditCourse"/>
 	<dict:typeRef bean="type.cluInfo.CreditCourseFormatShell"/>
 	<dict:typeRef bean="type.cluInfo.Program"/>
@@ -45,7 +45,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 	<dict:typeRef bean="type.cluInfo.WebDiscuss"/>
 	<dict:typeRef bean="type.cluInfo.Directed"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluInfo" id="object.cluInfo" parent="object.cluInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluInfo" id="object.cluInfo" parent="object.cluInfo.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse" id="type.cluInfo.CreditCourse.abstract" abstract="true">
 	<dict:name>Credit Course</dict:name>
@@ -1068,10 +1068,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.(default) -->
 <!-- ************************************************************************************ -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.CreditCourse.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse" parent="object.field.cluInfo.officialIdentifier.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse" parent="object.field.cluInfo.officialIdentifier.CreditCourse.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -1385,11 +1385,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.(default) -->
 <!-- ************************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed"/>
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.Version"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
@@ -1998,10 +1998,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.(default) -->
 <!-- ************************************************************************************* -->
 <!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2046,10 +2046,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Credit Course.(default) -->
 <!-- *********************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse" parent="object.field.cluInfo.descr.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse" parent="object.field.cluInfo.descr.CreditCourse.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2132,10 +2132,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.(default) -->
 <!-- ********************************************************************************* -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2203,10 +2203,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.(default) -->
 <!-- ***************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse" parent="object.field.cluInfo.stdDuration.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse" parent="object.field.cluInfo.stdDuration.CreditCourse.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2279,10 +2279,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.(default) -->
 <!-- ************************************************************************* -->
 <!-- Detailed information associated with this CLU related to the calculation of fees. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse" parent="object.field.cluInfo.feeInfo.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse" parent="object.field.cluInfo.feeInfo.CreditCourse.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2307,10 +2307,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.(default).cluFeeRecords.(default).(default) -->
 <!-- *********************************************************************************************************** -->
 <!-- Information about a fee related to a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords" parent="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeRecordInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords" parent="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2339,10 +2339,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.(default).cluFeeRecords.(default).(default).affiliatedOrgInfoList.(default).(default) -->
 <!-- ***************************************************************************************************************************************************** -->
 <!-- Information about an organization that is affiliated in some percentage with a learning unit. For when precision is needed to support counts or dollars. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList" parent="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList" parent="object.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.cluFeeRecords.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2640,10 +2640,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.(default) -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about accounting for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse" parent="object.field.cluInfo.accountingInfo.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse" parent="object.field.cluInfo.accountingInfo.CreditCourse.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2667,10 +2667,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.(default).affiliatedOrgInfoList.(default).(default) -->
 <!-- ************************************************************************************************************************** -->
 <!-- Information about an organization that is affiliated in some percentage with a learning unit. For when precision is needed to support counts or dollars. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList" parent="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList" parent="object.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.affiliatedOrgInfoList.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2810,10 +2810,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.(default) -->
 <!-- ************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse" parent="object.field.cluInfo.metaInfo.CreditCourse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse" parent="object.field.cluInfo.metaInfo.CreditCourse.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2956,26 +2956,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.template -->
 <!-- *********************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.template.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.template" parent="object.field.cluInfo.officialIdentifier.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.template" parent="object.field.cluInfo.officialIdentifier.CreditCourse.template.abstract"/>
 
 <!-- ************************************************************************************* -->
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.template -->
 <!-- ************************************************************************************* -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.template.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.template" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.template" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.template.abstract"/>
 
 <!-- ************************************************************************************ -->
 <!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.template -->
 <!-- ************************************************************************************ -->
 <!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -2998,10 +2998,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Credit Course.template -->
 <!-- ********************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.template" parent="object.field.cluInfo.descr.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.template" parent="object.field.cluInfo.descr.CreditCourse.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3025,10 +3025,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.template -->
 <!-- ******************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.template" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.template" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3052,10 +3052,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.template -->
 <!-- **************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.template" parent="object.field.cluInfo.stdDuration.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.template" parent="object.field.cluInfo.stdDuration.CreditCourse.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3079,10 +3079,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.template -->
 <!-- ************************************************************************ -->
 <!-- Detailed information associated with this CLU related to the calculation of fees. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.template" parent="object.field.cluInfo.feeInfo.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.template" parent="object.field.cluInfo.feeInfo.CreditCourse.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3106,10 +3106,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.template -->
 <!-- ******************************************************************************* -->
 <!-- Detailed information about accounting for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.template" parent="object.field.cluInfo.accountingInfo.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.template" parent="object.field.cluInfo.accountingInfo.CreditCourse.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3132,10 +3132,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.template -->
 <!-- ************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourse.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.template" parent="object.field.cluInfo.metaInfo.CreditCourse.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.template" parent="object.field.cluInfo.metaInfo.CreditCourse.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourse.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3163,10 +3163,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.draft -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.CreditCourse.draft.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.draft" parent="object.field.cluInfo.officialIdentifier.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.draft" parent="object.field.cluInfo.officialIdentifier.CreditCourse.draft.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.draft.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -3314,11 +3314,11 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.draft -->
 <!-- ********************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Cross-listed"/>
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Version"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.draft.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.draft.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
@@ -3534,10 +3534,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.draft -->
 <!-- ********************************************************************************* -->
 <!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3560,10 +3560,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Credit Course.draft -->
 <!-- ******************************************************************* -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.draft" parent="object.field.cluInfo.descr.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.draft" parent="object.field.cluInfo.descr.CreditCourse.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3647,10 +3647,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.draft -->
 <!-- ***************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.draft" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.draft" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3674,10 +3674,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.draft -->
 <!-- ************************************************************************* -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.draft" parent="object.field.cluInfo.stdDuration.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.draft" parent="object.field.cluInfo.stdDuration.CreditCourse.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3725,10 +3725,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.draft -->
 <!-- ********************************************************************* -->
 <!-- Detailed information associated with this CLU related to the calculation of fees. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.draft" parent="object.field.cluInfo.feeInfo.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.draft" parent="object.field.cluInfo.feeInfo.CreditCourse.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3752,10 +3752,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.draft -->
 <!-- **************************************************************************** -->
 <!-- Detailed information about accounting for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.draft" parent="object.field.cluInfo.accountingInfo.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.draft" parent="object.field.cluInfo.accountingInfo.CreditCourse.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3778,10 +3778,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.draft -->
 <!-- ********************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourse.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.draft" parent="object.field.cluInfo.metaInfo.CreditCourse.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.draft" parent="object.field.cluInfo.metaInfo.CreditCourse.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourse.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -3809,10 +3809,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.submitted -->
 <!-- ************************************************************************************ -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.CreditCourse.submitted.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.submitted" parent="object.field.cluInfo.officialIdentifier.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.submitted" parent="object.field.cluInfo.officialIdentifier.CreditCourse.submitted.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.submitted.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -3910,10 +3910,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.submitted -->
 <!-- ************************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.Cross-listed"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.submitted.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
@@ -4012,10 +4012,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.submitted -->
 <!-- ************************************************************************************* -->
 <!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4038,10 +4038,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Credit Course.submitted -->
 <!-- *********************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.submitted" parent="object.field.cluInfo.descr.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.submitted" parent="object.field.cluInfo.descr.CreditCourse.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4065,10 +4065,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.submitted -->
 <!-- ********************************************************************************* -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.submitted" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.submitted" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4092,10 +4092,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.submitted -->
 <!-- ***************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.submitted" parent="object.field.cluInfo.stdDuration.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.submitted" parent="object.field.cluInfo.stdDuration.CreditCourse.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4119,10 +4119,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.submitted -->
 <!-- ************************************************************************* -->
 <!-- Detailed information associated with this CLU related to the calculation of fees. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.submitted" parent="object.field.cluInfo.feeInfo.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.submitted" parent="object.field.cluInfo.feeInfo.CreditCourse.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4146,10 +4146,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.submitted -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about accounting for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.submitted" parent="object.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.submitted" parent="object.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4172,10 +4172,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.submitted -->
 <!-- ************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourse.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.submitted" parent="object.field.cluInfo.metaInfo.CreditCourse.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.submitted" parent="object.field.cluInfo.metaInfo.CreditCourse.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourse.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4203,10 +4203,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.withdrawn -->
 <!-- ************************************************************************************ -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn" parent="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn" parent="object.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.withdrawn.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -4304,10 +4304,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.withdrawn -->
 <!-- ************************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.Cross-listed"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.withdrawn.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
@@ -4405,10 +4405,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.withdrawn -->
 <!-- ************************************************************************************* -->
 <!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4431,10 +4431,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Credit Course.withdrawn -->
 <!-- *********************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.withdrawn" parent="object.field.cluInfo.descr.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.withdrawn" parent="object.field.cluInfo.descr.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4458,10 +4458,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.withdrawn -->
 <!-- ********************************************************************************* -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4485,10 +4485,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.withdrawn -->
 <!-- ***************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.withdrawn" parent="object.field.cluInfo.stdDuration.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.withdrawn" parent="object.field.cluInfo.stdDuration.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4512,10 +4512,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.withdrawn -->
 <!-- ************************************************************************* -->
 <!-- Detailed information associated with this CLU related to the calculation of fees. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4539,10 +4539,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.withdrawn -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about accounting for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4565,10 +4565,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.withdrawn -->
 <!-- ************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourse.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.metaInfo.CreditCourse.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.withdrawn" parent="object.field.cluInfo.metaInfo.CreditCourse.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourse.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4596,10 +4596,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.rejected -->
 <!-- *********************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.CreditCourse.rejected.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.rejected" parent="object.field.cluInfo.officialIdentifier.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.rejected" parent="object.field.cluInfo.officialIdentifier.CreditCourse.rejected.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourse.rejected.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -4697,10 +4697,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.rejected -->
 <!-- ************************************************************************************* -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.Cross-listed"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.cross-listed" id="type.field.cluInfo.alternateIdentifiers.CreditCourse.rejected.Cross-listed.abstract" abstract="true">
 	<dict:name>Cross-listed</dict:name>
@@ -4798,10 +4798,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.rejected -->
 <!-- ************************************************************************************ -->
 <!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4824,10 +4824,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Credit Course.rejected -->
 <!-- ********************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.rejected" parent="object.field.cluInfo.descr.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.rejected" parent="object.field.cluInfo.descr.CreditCourse.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4851,10 +4851,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.rejected -->
 <!-- ******************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.rejected" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.rejected" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4878,10 +4878,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.rejected -->
 <!-- **************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.rejected" parent="object.field.cluInfo.stdDuration.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.rejected" parent="object.field.cluInfo.stdDuration.CreditCourse.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4905,10 +4905,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.rejected -->
 <!-- ************************************************************************ -->
 <!-- Detailed information associated with this CLU related to the calculation of fees. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.rejected" parent="object.field.cluInfo.feeInfo.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.rejected" parent="object.field.cluInfo.feeInfo.CreditCourse.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4932,10 +4932,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.rejected -->
 <!-- ******************************************************************************* -->
 <!-- Detailed information about accounting for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.rejected" parent="object.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.rejected" parent="object.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4958,10 +4958,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.rejected -->
 <!-- ************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourse.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.rejected" parent="object.field.cluInfo.metaInfo.CreditCourse.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.rejected" parent="object.field.cluInfo.metaInfo.CreditCourse.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourse.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -4989,26 +4989,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course.retired -->
 <!-- ********************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.retired.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.retired" parent="object.field.cluInfo.officialIdentifier.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourse.retired" parent="object.field.cluInfo.officialIdentifier.CreditCourse.retired.abstract"/>
 
 <!-- ************************************************************************************ -->
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Credit Course.retired -->
 <!-- ************************************************************************************ -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired" parent="object.field.cluInfo.alternateIdentifiers.CreditCourse.retired.abstract"/>
 
 <!-- *********************************************************************************** -->
 <!-- object structure for object.field.cluInfo.academicSubjectOrgs.Credit Course.retired -->
 <!-- *********************************************************************************** -->
 <!-- Information about an organization that represents the Academic Subject for a learning unit. This often would be the same as the primaryAdminOrg. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.academicSubjectOrgs.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AcademicSubjectOrgInfo" id="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired" parent="object.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.academicSubjectOrgs.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5031,10 +5031,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Credit Course.retired -->
 <!-- ********************************************************************* -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.retired" parent="object.field.cluInfo.descr.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.CreditCourse.retired" parent="object.field.cluInfo.descr.CreditCourse.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5058,10 +5058,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Credit Course.retired -->
 <!-- ******************************************************************************* -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.retired" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.CreditCourse.retired" parent="object.field.cluInfo.primaryAdminOrg.CreditCourse.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5085,10 +5085,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course.retired -->
 <!-- *************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.retired" parent="object.field.cluInfo.stdDuration.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourse.retired" parent="object.field.cluInfo.stdDuration.CreditCourse.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5112,10 +5112,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.feeInfo.Credit Course.retired -->
 <!-- *********************************************************************** -->
 <!-- Detailed information associated with this CLU related to the calculation of fees. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.feeInfo.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.retired" parent="object.field.cluInfo.feeInfo.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluFeeInfo" id="object.field.cluInfo.feeInfo.CreditCourse.retired" parent="object.field.cluInfo.feeInfo.CreditCourse.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.feeInfo.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5139,10 +5139,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.accountingInfo.Credit Course.retired -->
 <!-- ****************************************************************************** -->
 <!-- Detailed information about accounting for a clu. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.accountingInfo.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.retired" parent="object.field.cluInfo.accountingInfo.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluAccountingInfo" id="object.field.cluInfo.accountingInfo.CreditCourse.retired" parent="object.field.cluInfo.accountingInfo.CreditCourse.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.accountingInfo.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5165,10 +5165,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course.retired -->
 <!-- ************************************************************************ -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourse.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.retired" parent="object.field.cluInfo.metaInfo.CreditCourse.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourse.retired" parent="object.field.cluInfo.metaInfo.CreditCourse.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourse.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5196,10 +5196,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Credit Course Format Shell.(default) -->
 <!-- ************************************************************************************************* -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.CreditCourseFormatShell.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell" parent="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell" parent="object.field.cluInfo.officialIdentifier.CreditCourseFormatShell.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.CreditCourseFormatShell.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -5508,10 +5508,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Credit Course Format Shell.(default) -->
 <!-- ****************************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourseFormatShell.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourseFormatShell.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.CreditCourseFormatShell"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourseFormatShell" parent="object.field.cluInfo.stdDuration.CreditCourseFormatShell.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.CreditCourseFormatShell" parent="object.field.cluInfo.stdDuration.CreditCourseFormatShell.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.CreditCourseFormatShell.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5583,10 +5583,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Credit Course Format Shell.(default) -->
 <!-- *************************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourseFormatShell.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourseFormatShell.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.CreditCourseFormatShell"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourseFormatShell" parent="object.field.cluInfo.metaInfo.CreditCourseFormatShell.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.CreditCourseFormatShell" parent="object.field.cluInfo.metaInfo.CreditCourseFormatShell.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.CreditCourseFormatShell.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -5729,10 +5729,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Program.(default) -->
 <!-- ****************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.Program.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program" parent="object.field.cluInfo.officialIdentifier.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program" parent="object.field.cluInfo.officialIdentifier.Program.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -6046,10 +6046,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Program.(default) -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.Program.Version"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program" parent="object.field.cluInfo.alternateIdentifiers.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program" parent="object.field.cluInfo.alternateIdentifiers.Program.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.Program.Version.abstract" abstract="true">
 	<dict:name>Version</dict:name>
@@ -6361,10 +6361,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Program.(default) -->
 <!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.Program"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program" parent="object.field.cluInfo.descr.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program" parent="object.field.cluInfo.descr.Program.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.Program.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6447,10 +6447,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.(default) -->
 <!-- *************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.Program"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program" parent="object.field.cluInfo.primaryAdminOrg.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program" parent="object.field.cluInfo.primaryAdminOrg.Program.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.Program.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6496,10 +6496,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.Program.(default) -->
 <!-- ********************************************************************* -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.Program"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program" parent="object.field.cluInfo.intensity.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program" parent="object.field.cluInfo.intensity.Program.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.Program.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6573,10 +6573,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Program.(default) -->
 <!-- *********************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.Program"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program" parent="object.field.cluInfo.stdDuration.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program" parent="object.field.cluInfo.stdDuration.Program.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.Program.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6649,10 +6649,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Program.(default) -->
 <!-- ******************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.Program"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program" parent="object.field.cluInfo.metaInfo.Program.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program" parent="object.field.cluInfo.metaInfo.Program.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.Program.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6795,26 +6795,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Program.template -->
 <!-- ***************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.template.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.template" parent="object.field.cluInfo.officialIdentifier.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.template" parent="object.field.cluInfo.officialIdentifier.Program.template.abstract"/>
 
 <!-- ******************************************************************************* -->
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Program.template -->
 <!-- ******************************************************************************* -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.template.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.template" parent="object.field.cluInfo.alternateIdentifiers.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.template" parent="object.field.cluInfo.alternateIdentifiers.Program.template.abstract"/>
 
 <!-- **************************************************************** -->
 <!-- object structure for object.field.cluInfo.descr.Program.template -->
 <!-- **************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.Program.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.template" parent="object.field.cluInfo.descr.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.template" parent="object.field.cluInfo.descr.Program.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.Program.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6838,10 +6838,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.template -->
 <!-- ************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.Program.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.template" parent="object.field.cluInfo.primaryAdminOrg.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.template" parent="object.field.cluInfo.primaryAdminOrg.Program.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.Program.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6864,10 +6864,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.Program.template -->
 <!-- ******************************************************************** -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.Program.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.template" parent="object.field.cluInfo.intensity.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.template" parent="object.field.cluInfo.intensity.Program.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.Program.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6891,10 +6891,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Program.template -->
 <!-- ********************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.Program.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.template" parent="object.field.cluInfo.stdDuration.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.template" parent="object.field.cluInfo.stdDuration.Program.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.Program.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6918,10 +6918,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Program.template -->
 <!-- ******************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.template.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.template.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.Program.template"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.template" parent="object.field.cluInfo.metaInfo.Program.template.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.template" parent="object.field.cluInfo.metaInfo.Program.template.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.Program.template.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -6949,10 +6949,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Program.draft -->
 <!-- ************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.Program.draft.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.draft" parent="object.field.cluInfo.officialIdentifier.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.draft" parent="object.field.cluInfo.officialIdentifier.Program.draft.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.draft.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -7077,10 +7077,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Program.draft -->
 <!-- **************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.alternateIdentifiers.Program.draft.Version"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.draft" parent="object.field.cluInfo.alternateIdentifiers.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.draft" parent="object.field.cluInfo.alternateIdentifiers.Program.draft.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.version" id="type.field.cluInfo.alternateIdentifiers.Program.draft.Version.abstract" abstract="true">
 	<dict:name>Version</dict:name>
@@ -7182,10 +7182,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.descr.Program.draft -->
 <!-- ************************************************************* -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.Program.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.draft" parent="object.field.cluInfo.descr.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.draft" parent="object.field.cluInfo.descr.Program.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.Program.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7269,10 +7269,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.draft -->
 <!-- *********************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.Program.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.draft" parent="object.field.cluInfo.primaryAdminOrg.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.draft" parent="object.field.cluInfo.primaryAdminOrg.Program.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.Program.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7295,10 +7295,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.Program.draft -->
 <!-- ***************************************************************** -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.Program.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.draft" parent="object.field.cluInfo.intensity.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.draft" parent="object.field.cluInfo.intensity.Program.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.Program.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7322,10 +7322,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Program.draft -->
 <!-- ******************************************************************* -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.Program.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.draft" parent="object.field.cluInfo.stdDuration.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.draft" parent="object.field.cluInfo.stdDuration.Program.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.Program.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7373,10 +7373,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Program.draft -->
 <!-- **************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.Program.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.draft" parent="object.field.cluInfo.metaInfo.Program.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.draft" parent="object.field.cluInfo.metaInfo.Program.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.Program.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7404,10 +7404,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Program.submitted -->
 <!-- ****************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.Program.submitted.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.submitted" parent="object.field.cluInfo.officialIdentifier.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.submitted" parent="object.field.cluInfo.officialIdentifier.Program.submitted.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.submitted.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -7482,18 +7482,18 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Program.submitted -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.submitted.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.submitted" parent="object.field.cluInfo.alternateIdentifiers.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.submitted" parent="object.field.cluInfo.alternateIdentifiers.Program.submitted.abstract"/>
 
 <!-- ***************************************************************** -->
 <!-- object structure for object.field.cluInfo.descr.Program.submitted -->
 <!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.Program.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.submitted" parent="object.field.cluInfo.descr.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.submitted" parent="object.field.cluInfo.descr.Program.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.Program.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7517,10 +7517,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.submitted -->
 <!-- *************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.Program.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.submitted" parent="object.field.cluInfo.primaryAdminOrg.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.submitted" parent="object.field.cluInfo.primaryAdminOrg.Program.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.Program.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7543,10 +7543,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.Program.submitted -->
 <!-- ********************************************************************* -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.Program.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.submitted" parent="object.field.cluInfo.intensity.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.submitted" parent="object.field.cluInfo.intensity.Program.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.Program.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7570,10 +7570,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Program.submitted -->
 <!-- *********************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.Program.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.submitted" parent="object.field.cluInfo.stdDuration.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.submitted" parent="object.field.cluInfo.stdDuration.Program.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.Program.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7597,10 +7597,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Program.submitted -->
 <!-- ******************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.submitted.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.submitted.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.Program.submitted"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.submitted" parent="object.field.cluInfo.metaInfo.Program.submitted.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.submitted" parent="object.field.cluInfo.metaInfo.Program.submitted.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.Program.submitted.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7628,10 +7628,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Program.withdrawn -->
 <!-- ****************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.Program.withdrawn.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.withdrawn" parent="object.field.cluInfo.officialIdentifier.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.withdrawn" parent="object.field.cluInfo.officialIdentifier.Program.withdrawn.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.withdrawn.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -7706,18 +7706,18 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Program.withdrawn -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.withdrawn.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.withdrawn" parent="object.field.cluInfo.alternateIdentifiers.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.withdrawn" parent="object.field.cluInfo.alternateIdentifiers.Program.withdrawn.abstract"/>
 
 <!-- ***************************************************************** -->
 <!-- object structure for object.field.cluInfo.descr.Program.withdrawn -->
 <!-- ***************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.Program.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.withdrawn" parent="object.field.cluInfo.descr.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.withdrawn" parent="object.field.cluInfo.descr.Program.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.Program.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7741,10 +7741,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.withdrawn -->
 <!-- *************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.Program.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.withdrawn" parent="object.field.cluInfo.primaryAdminOrg.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.withdrawn" parent="object.field.cluInfo.primaryAdminOrg.Program.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.Program.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7767,10 +7767,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.Program.withdrawn -->
 <!-- ********************************************************************* -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.Program.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.withdrawn" parent="object.field.cluInfo.intensity.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.withdrawn" parent="object.field.cluInfo.intensity.Program.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.Program.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7794,10 +7794,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Program.withdrawn -->
 <!-- *********************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.Program.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.withdrawn" parent="object.field.cluInfo.stdDuration.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.withdrawn" parent="object.field.cluInfo.stdDuration.Program.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.Program.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7821,10 +7821,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Program.withdrawn -->
 <!-- ******************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.withdrawn.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.withdrawn.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.Program.withdrawn"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.withdrawn" parent="object.field.cluInfo.metaInfo.Program.withdrawn.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.withdrawn" parent="object.field.cluInfo.metaInfo.Program.withdrawn.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.Program.withdrawn.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7852,10 +7852,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Program.rejected -->
 <!-- ***************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.Program.rejected.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.rejected" parent="object.field.cluInfo.officialIdentifier.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.rejected" parent="object.field.cluInfo.officialIdentifier.Program.rejected.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.Program.rejected.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -7930,18 +7930,18 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Program.rejected -->
 <!-- ******************************************************************************* -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.rejected.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.rejected" parent="object.field.cluInfo.alternateIdentifiers.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.rejected" parent="object.field.cluInfo.alternateIdentifiers.Program.rejected.abstract"/>
 
 <!-- **************************************************************** -->
 <!-- object structure for object.field.cluInfo.descr.Program.rejected -->
 <!-- **************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.Program.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.rejected" parent="object.field.cluInfo.descr.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.rejected" parent="object.field.cluInfo.descr.Program.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.Program.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7965,10 +7965,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.rejected -->
 <!-- ************************************************************************** -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.Program.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.rejected" parent="object.field.cluInfo.primaryAdminOrg.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.rejected" parent="object.field.cluInfo.primaryAdminOrg.Program.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.Program.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -7991,10 +7991,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.Program.rejected -->
 <!-- ******************************************************************** -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.Program.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.rejected" parent="object.field.cluInfo.intensity.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.rejected" parent="object.field.cluInfo.intensity.Program.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.Program.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8018,10 +8018,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Program.rejected -->
 <!-- ********************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.Program.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.rejected" parent="object.field.cluInfo.stdDuration.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.rejected" parent="object.field.cluInfo.stdDuration.Program.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.Program.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8045,10 +8045,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Program.rejected -->
 <!-- ******************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.rejected.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.rejected.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.Program.rejected"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.rejected" parent="object.field.cluInfo.metaInfo.Program.rejected.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.rejected" parent="object.field.cluInfo.metaInfo.Program.rejected.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.Program.rejected.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8076,26 +8076,26 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.Program.retired -->
 <!-- **************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.retired.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.retired" parent="object.field.cluInfo.officialIdentifier.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.Program.retired" parent="object.field.cluInfo.officialIdentifier.Program.retired.abstract"/>
 
 <!-- ****************************************************************************** -->
 <!-- object structure for object.field.cluInfo.alternateIdentifiers.Program.retired -->
 <!-- ****************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.retired.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.retired" parent="object.field.cluInfo.alternateIdentifiers.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.alternateIdentifiers.Program.retired" parent="object.field.cluInfo.alternateIdentifiers.Program.retired.abstract"/>
 
 <!-- *************************************************************** -->
 <!-- object structure for object.field.cluInfo.descr.Program.retired -->
 <!-- *************************************************************** -->
 <!-- Complex type supporting both a plain text and formatted version of a string. -->
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.descr.Program.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.retired" parent="object.field.cluInfo.descr.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.RichTextInfo" id="object.field.cluInfo.descr.Program.retired" parent="object.field.cluInfo.descr.Program.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.descr.Program.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8119,10 +8119,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.primaryAdminOrg.Program.retired -->
 <!-- ************************************************************************* -->
 <!-- Information about an organization acting in administrative capacity for a learning unit. -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.primaryAdminOrg.Program.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.retired" parent="object.field.cluInfo.primaryAdminOrg.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.AdminOrgInfo" id="object.field.cluInfo.primaryAdminOrg.Program.retired" parent="object.field.cluInfo.primaryAdminOrg.Program.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.primaryAdminOrg.Program.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8145,10 +8145,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.Program.retired -->
 <!-- ******************************************************************* -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.Program.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.retired" parent="object.field.cluInfo.intensity.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.Program.retired" parent="object.field.cluInfo.intensity.Program.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.Program.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8172,10 +8172,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.Program.retired -->
 <!-- ********************************************************************* -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.Program.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.retired" parent="object.field.cluInfo.stdDuration.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.Program.retired" parent="object.field.cluInfo.stdDuration.Program.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.Program.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8199,10 +8199,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.Program.retired -->
 <!-- ****************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.retired.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.retired.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.Program.retired"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.retired" parent="object.field.cluInfo.metaInfo.Program.retired.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.Program.retired" parent="object.field.cluInfo.metaInfo.Program.retired.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.Program.retired.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8230,10 +8230,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.All Activity Types.(default) -->
 <!-- ***************************************************************************************** -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.officialIdentifier.AllActivityTypes.Official"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes" parent="object.field.cluInfo.officialIdentifier.AllActivityTypes.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes" parent="object.field.cluInfo.officialIdentifier.AllActivityTypes.abstract"/>
 
 <dict:type key="kuali.lu.type.CreditCourse.identifier.official" id="type.field.cluInfo.officialIdentifier.AllActivityTypes.Official.abstract" abstract="true">
 	<dict:name>Official</dict:name>
@@ -8542,10 +8542,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.intensity.All Activity Types.(default) -->
 <!-- ******************************************************************************** -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.AllActivityTypes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes" parent="object.field.cluInfo.intensity.AllActivityTypes.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes" parent="object.field.cluInfo.intensity.AllActivityTypes.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.AllActivityTypes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8619,10 +8619,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.All Activity Types.(default) -->
 <!-- ********************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.AllActivityTypes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes" parent="object.field.cluInfo.stdDuration.AllActivityTypes.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes" parent="object.field.cluInfo.stdDuration.AllActivityTypes.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.AllActivityTypes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8694,10 +8694,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.All Activity Types.(default) -->
 <!-- ******************************************************************************* -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.AllActivityTypes"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes" parent="object.field.cluInfo.metaInfo.AllActivityTypes.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes" parent="object.field.cluInfo.metaInfo.AllActivityTypes.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.AllActivityTypes.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8840,18 +8840,18 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.officialIdentifier.All Activity Types.draft -->
 <!-- ************************************************************************************* -->
 <!-- Detailed information about the human readable form of a CLU Identifier -->
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes.draft.abstract" abstract="true">
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes.draft" parent="object.field.cluInfo.officialIdentifier.AllActivityTypes.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.clu.dto.CluIdentifierInfo" id="object.field.cluInfo.officialIdentifier.AllActivityTypes.draft" parent="object.field.cluInfo.officialIdentifier.AllActivityTypes.draft.abstract"/>
 
 <!-- **************************************************************************** -->
 <!-- object structure for object.field.cluInfo.intensity.All Activity Types.draft -->
 <!-- **************************************************************************** -->
 <!-- Detailed information about an amount including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.intensity.AllActivityTypes.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes.draft" parent="object.field.cluInfo.intensity.AllActivityTypes.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.AmountInfo" id="object.field.cluInfo.intensity.AllActivityTypes.draft" parent="object.field.cluInfo.intensity.AllActivityTypes.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.intensity.AllActivityTypes.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8925,10 +8925,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.stdDuration.All Activity Types.draft -->
 <!-- ****************************************************************************** -->
 <!-- Detailed information about an amount of time including both the type of units and the quantity. -->
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.stdDuration.AllActivityTypes.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes.draft" parent="object.field.cluInfo.stdDuration.AllActivityTypes.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.TimeAmountInfo" id="object.field.cluInfo.stdDuration.AllActivityTypes.draft" parent="object.field.cluInfo.stdDuration.AllActivityTypes.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.stdDuration.AllActivityTypes.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
@@ -8952,10 +8952,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.field.cluInfo.metaInfo.All Activity Types.draft -->
 <!-- *************************************************************************** -->
 <!-- Create and last update info for the structure. This is optional and treated as read only since the data is set by the internals of the service during maintenance operations. -->
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes.draft.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes.draft.abstract" abstract="true">
 	<dict:typeRef bean="type.field.cluInfo.metaInfo.AllActivityTypes.draft"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes.draft" parent="object.field.cluInfo.metaInfo.AllActivityTypes.draft.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.cluInfo.metaInfo.AllActivityTypes.draft" parent="object.field.cluInfo.metaInfo.AllActivityTypes.draft.abstract"/>
 
 <dict:type key="*" id="type.field.cluInfo.metaInfo.AllActivityTypes.draft.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
