@@ -7,6 +7,7 @@ import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 
 import java.util.List;
+import java.util.Properties;
 
 public interface CalendarSearchViewHelperService  extends ViewHelperService {
 
@@ -16,10 +17,10 @@ public interface CalendarSearchViewHelperService  extends ViewHelperService {
 
     public List<AcademicCalendarInfo> searchForAcademicCalendars(String name, String year,ContextInfo context)throws Exception;
 
-    public String buildTermURL(TermInfo term,String methodToCall,ContextInfo context);
+    public Properties buildTermURLParameters(TermInfo term,String methodToCall,ContextInfo context);
 
-    public String buildACalURL(AcademicCalendarInfo acal,String methodToCall,ContextInfo context) ;
+    public Properties buildACalURLParameters(AcademicCalendarInfo acal,String methodToCall,ContextInfo context) ;
 
-    public String buildHCalURL(HolidayCalendarInfo hcInfo,String methodToCall,ContextInfo context) ;
+    public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo,String methodToCall,ContextInfo context) ;
 
 }

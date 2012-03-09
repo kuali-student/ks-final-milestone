@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Properties;
 
 import static org.kuali.rice.core.api.criteria.PredicateFactory.*;
+import static org.kuali.rice.core.api.criteria.PredicateFactory.greaterThanOrEqual;
 
 public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl implements CalendarSearchViewHelperService {
 
@@ -38,47 +39,17 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     	List<TermInfo> termInfoList = new ArrayList<TermInfo>();
 
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        List<Predicate> pList = new ArrayList<Predicate>();
-        Predicate p;
+        QueryByCriteria.Builder query = buildQueryByCriteria(name,year);
 
-        qBuilder.setPredicates();
-        if (StringUtils.isNotBlank(name)){
-            p = like(NAME, name);
-    		pList.add(p);
-        }
-
-        if (StringUtils.isNotBlank(year)){
-            try {
-                p = greaterThanOrEqual(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("00/00/" + year));
-                pList.add(p);
-
-                p = lessThan(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("00/00/" + Integer.parseInt(year) + 1));
-                pList.add(p);
-
-                p = greaterThan(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("00/00/" + year));
-                pList.add(p);
-
-                p = lessThan(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("00/00/" + Integer.parseInt(year) + 1));
-                pList.add(p);
-
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-
-        }
-
-        if (!pList.isEmpty()){
-            Predicate[] preds = new Predicate[pList.size()];
-            pList.toArray(preds);
-            qBuilder.setPredicates(and(preds));
-        }
-
-        List<TermInfo> terms = getAcademicCalendarService().searchForTerms(qBuilder.build(),context);
+        List<TermInfo> terms = getAcademicCalendarService().searchForTerms(query.build(),context);
         for (TermInfo term : terms) {
             if (!StringUtils.equals(term.getTypeKey(),AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY) &&
                 !StringUtils.equals(term.getTypeKey(),AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY)){
-                termInfoList.add(term);
+                //Just make sure it has associated Acal (with some test data, acal would be missing for a term)
+                List<AcademicCalendarInfo> atps = getAcademicCalendarService().getAcademicCalendarsForTerm(term.getId(), context);
+                if (!atps.isEmpty()){
+                    termInfoList.add(term);
+                }
             }
         }
 
@@ -91,23 +62,9 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         List<AcademicCalendarInfo> acalInfoList = new ArrayList<AcademicCalendarInfo>();
 
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        List<Predicate> pList = new ArrayList<Predicate>();
-        Predicate p;
+        QueryByCriteria.Builder query = buildQueryByCriteria(name,year);
 
-        qBuilder.setPredicates();
-        if (StringUtils.isNotBlank(name)){
-            p = like(NAME, name);
-    		pList.add(p);
-        }
-
-        if (!pList.isEmpty()){
-            Predicate[] preds = new Predicate[pList.size()];
-            pList.toArray(preds);
-            qBuilder.setPredicates(and(preds));
-        }
-
-        List<AcademicCalendarInfo> acals = getAcademicCalendarService().searchForAcademicCalendars(qBuilder.build(), context);
+        List<AcademicCalendarInfo> acals = getAcademicCalendarService().searchForAcademicCalendars(query.build(), context);
         for (AcademicCalendarInfo acal : acals) {
             if (StringUtils.equals(acal.getTypeKey(),AcademicCalendarServiceConstants.ACADEMIC_CALENDAR_TYPE_KEY)){
                 acalInfoList.add(acal);
@@ -123,23 +80,9 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
         List<HolidayCalendarInfo> hCals = new ArrayList<HolidayCalendarInfo>();
 
-        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
-        List<Predicate> pList = new ArrayList<Predicate>();
-        Predicate p;
+        QueryByCriteria.Builder query = buildQueryByCriteria(name,year);
 
-        qBuilder.setPredicates();
-        if (StringUtils.isNotBlank(name)){
-            p = like(NAME, name);
-    		pList.add(p);
-        }
-
-        if (!pList.isEmpty()){
-            Predicate[] preds = new Predicate[pList.size()];
-            pList.toArray(preds);
-            qBuilder.setPredicates(and(preds));
-        }
-
-        List<HolidayCalendarInfo> hcs = getAcademicCalendarService().searchForHolidayCalendars(qBuilder.build(), context);
+        List<HolidayCalendarInfo> hcs = getAcademicCalendarService().searchForHolidayCalendars(query.build(), context);
         for (HolidayCalendarInfo hc : hcs) {
             if (StringUtils.equals(hc.getTypeKey(),AcademicCalendarServiceConstants.HOLIDAY_CALENDAR_TYPE_KEY)){
                 hCals.add(hc);
@@ -151,7 +94,45 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
 
     }
 
-    public String buildTermURL(TermInfo term,String methodToCall,ContextInfo context){
+    private QueryByCriteria.Builder buildQueryByCriteria(String name, String year){
+
+        QueryByCriteria.Builder qBuilder = QueryByCriteria.Builder.create();
+        List<Predicate> pList = new ArrayList<Predicate>();
+        Predicate p;
+
+        qBuilder.setPredicates();
+        if (StringUtils.isNotBlank(name)){
+            p = like(NAME, name);
+    		pList.add(p);
+        }
+
+        if (StringUtils.isNotBlank(year)){
+            try {
+                //FIXME: Find some better option to check the year
+                Predicate startDatePredicate = and(greaterThanOrEqual(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("01/01/" + year)),
+                                                   lessThanOrEqual(START_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("12/31/" + year)));
+
+
+                Predicate endDatePredicate = and(greaterThanOrEqual(END_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("01/01/" + year)),
+                                                lessThanOrEqual(END_DATE, new SimpleDateFormat("MM/dd/yyyy").parse("12/31/" + year)));
+
+                pList.add(or(startDatePredicate, endDatePredicate));
+
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+
+        if (!pList.isEmpty()){
+            Predicate[] preds = new Predicate[pList.size()];
+            pList.toArray(preds);
+            qBuilder.setPredicates(and(preds));
+        }
+        return qBuilder;
+    }
+
+    public Properties buildTermURLParameters(TermInfo term,String methodToCall,ContextInfo context){
 
         String acalId = null;
         try {
@@ -163,46 +144,34 @@ public class CalendarSearchViewHelperServiceImpl extends ViewHelperServiceImpl i
             throw new RuntimeException(e);
         }
 
-        if (StringUtils.isBlank(acalId)){
-           return StringUtils.EMPTY;
-        }
-
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("id",acalId);
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_EDIT_VIEW);
 
-        return UrlFactory.parameterizeUrl(CalendarConstants.ACAL_CONTROLLER_PATH, props);
+        return props;
 
     }
 
-    public String buildACalURL(AcademicCalendarInfo acal,String methodToCall,ContextInfo context){
-
-        if (acal == null || StringUtils.isEmpty(acal.getId())){
-           return StringUtils.EMPTY;
-        }
+    public Properties buildACalURLParameters(AcademicCalendarInfo acal,String methodToCall,ContextInfo context){
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("id",acal.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.ACAL_EDIT_VIEW);
 
-        return UrlFactory.parameterizeUrl(CalendarConstants.ACAL_CONTROLLER_PATH, props);
+        return props;
 
     }
 
-    public String buildHCalURL(HolidayCalendarInfo hcInfo,String methodToCall,ContextInfo context){
-
-        if (hcInfo == null || StringUtils.isEmpty(hcInfo.getId())){
-           return StringUtils.EMPTY;
-        }
+    public Properties buildHCalURLParameters(HolidayCalendarInfo hcInfo,String methodToCall,ContextInfo context){
 
         Properties props = new Properties();
         props.put(KRADConstants.DISPATCH_REQUEST_PARAMETER, methodToCall);
         props.put("id",hcInfo.getId());
         props.put(UifParameters.VIEW_ID, CalendarConstants.HOLIDAYCALENDAR_EDITPAGE);
 
-        return UrlFactory.parameterizeUrl(CalendarConstants.HCAL_CONTROLLER_PATH, props);
+        return props;
 
     }
 

@@ -35,8 +35,9 @@ public class CalendarConstants {
     public static final String TERM= "AcademicTerm";
 
     public static final String ACAL_EDIT_VIEW = "academicCalendarEditView";
+    public static final String HCAL_EDIT_VIEW = "holidayCalendarFlowView";
+
     public static final String ACAL_CONTROLLER_PATH = "academicCalendar";
-    
     public static final String HCAL_CONTROLLER_PATH = "holidayCalendar";
 
     public static final String ACAL_EDIT_METHOD = "";
