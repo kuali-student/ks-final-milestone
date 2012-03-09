@@ -93,5 +93,8 @@ public class MockAttributeValueReader implements AttributeValueReader
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-
+    @Override
+    public AttributeValueReader clone() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

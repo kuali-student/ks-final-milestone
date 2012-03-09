@@ -118,7 +118,7 @@
     <kuali.javadoc.link.9>http://ws.apache.org/wss4j/apidocs/</kuali.javadoc.link.9>
 
     <!-- artifact versions -->
-    <aspectj.version>1.5.4</aspectj.version>
+    <aspectj.version>1.6.8</aspectj.version>
     <atomikos.version>3.4.1</atomikos.version>
     <cxf.version>2.3.8</cxf.version>
     <!-- For some reason the 2.2.9 javadocs for CXF weren't published -->
@@ -132,7 +132,7 @@
     <jaxws.version>2.1.5</jaxws.version>
     <jetty.version>6.1.6</jetty.version>
     <junit.version>4.10</junit.version>
-    <kuali.rice.version>2.0.0-rc1</kuali.rice.version>
+    <kuali.rice.version>2.0.0</kuali.rice.version>
     <log4j.version>1.2.16</log4j.version>
     <log4j.javadoc.version>1.2</log4j.javadoc.version>
     <metro.version>1.4</metro.version>

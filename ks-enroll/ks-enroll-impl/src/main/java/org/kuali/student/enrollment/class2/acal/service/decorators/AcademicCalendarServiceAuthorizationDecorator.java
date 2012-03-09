@@ -57,7 +57,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarType", null)) {
             return getNextDecorator().getAcademicCalendarType(academicCalendarTypeKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -70,7 +70,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarTypes", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarTypes", null)) {
             return getNextDecorator().getAcademicCalendarTypes(context);
         } else {
             throw new PermissionDeniedException ();
@@ -84,7 +84,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarState", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarState", null)) {
             return getNextDecorator().getAcademicCalendarState(academicCalendarStateKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -97,7 +97,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarStates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarStates", null)) {
             return getNextDecorator().getAcademicCalendarStates(context);
         } else {
             throw new PermissionDeniedException ();
@@ -111,7 +111,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendar", null)) {
             return getNextDecorator().getAcademicCalendar(academicCalendarKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -125,7 +125,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarsByKeyList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarsByKeyList", null)) {
             return getNextDecorator().getAcademicCalendarsByIds(academicCalendarKeyList, context);
         } else {
             throw new PermissionDeniedException();
@@ -139,7 +139,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarIdsByType", null)) {
             return getNextDecorator().getAcademicCalendarIdsByType(academicCalendarTypeKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -153,7 +153,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarsByStartYear", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarsByStartYear", null)) {
             return getNextDecorator().getAcademicCalendarsByStartYear(year, context);
         } else {
             throw new PermissionDeniedException();
@@ -167,7 +167,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAcademicCalendarIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAcademicCalendarIds", null)) {
             return getNextDecorator().searchForAcademicCalendarIds(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -181,7 +181,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAcademicCalendars", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForAcademicCalendars", null)) {
             return getNextDecorator().searchForAcademicCalendars(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -195,7 +195,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createAcademicCalendar", null)) {
             return getNextDecorator().createAcademicCalendar(academicCalendarTypeKey, academicCalendarInfo, contextInfo);
         } else {
             throw new PermissionDeniedException();
@@ -210,7 +210,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateAcademicCalendar", null)) {
             return getNextDecorator().updateAcademicCalendar(academicCalendarId, academicCalendarInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -224,7 +224,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteAcademicCalendar", null)) {
             return getNextDecorator().deleteAcademicCalendar(academicCalendarKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -239,7 +239,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "copyAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "copyAcademicCalendar", null)) {
             return getNextDecorator().copyAcademicCalendar(academicCalendarId, startDate, endDate, contextInfo);
         } else {
             throw new PermissionDeniedException();
@@ -253,7 +253,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarData", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAcademicCalendarData", null)) {
             return getNextDecorator().getAcademicCalendarData(academicCalendarKey, calendarDataFormatTypeKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -267,7 +267,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarType", null)) {
             return getNextDecorator().getHolidayCalendarType(holidayCalendarTypeKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -280,7 +280,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarTypes", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarTypes", null)) {
             return getNextDecorator().getHolidayCalendarTypes(context);
         } else {
             throw new PermissionDeniedException();
@@ -294,7 +294,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarState", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarState", null)) {
             return getNextDecorator().getHolidayCalendarState(holidayCalendarStateKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -307,7 +307,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarStates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarStates", null)) {
             return getNextDecorator().getHolidayCalendarStates(context);
         } else {
             throw new PermissionDeniedException ();
@@ -321,7 +321,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendar", null)) {
             return getNextDecorator().getHolidayCalendar(holidayCalendarId, context);
         } else {
             throw new PermissionDeniedException();
@@ -335,7 +335,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarsByKeyList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarsByKeyList", null)) {
             return getNextDecorator().getHolidayCalendarsByIds(holidayCalendarIdList, context);
         } else {
             throw new PermissionDeniedException();
@@ -349,7 +349,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarIdsByType", null)) {
             return getNextDecorator().getHolidayCalendarIdsByType(holidayCalendarTypeKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -363,7 +363,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarsByStartYear", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayCalendarsByStartYear", null)) {
             return getNextDecorator().getHolidayCalendarsByStartYear(year, context);
         } else {
             throw new PermissionDeniedException();
@@ -377,7 +377,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidayCalendarIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidayCalendarIds", null)) {
             return getNextDecorator().searchForHolidayCalendarIds(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -391,7 +391,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidayCalendars", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidayCalendars", null)) {
             return getNextDecorator().searchForHolidayCalendars(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -405,7 +405,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateHolidayCalendar", null, null)) {
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateHolidayCalendar", null)) {
             return getNextDecorator().validateHolidayCalendar(validationTypeKey, holidayCalendarTypeKey, holidayCalendarInfo, contextInfo);
         } else {
             throw new PermissionDeniedException ();
@@ -419,7 +419,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createHolidayCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createHolidayCalendar", null)) {
             return getNextDecorator().createHolidayCalendar(holidayCalendarTypeKey, holidayCalendarInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -433,7 +433,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateHolidayCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateHolidayCalendar", null)) {
             return getNextDecorator().updateHolidayCalendar(holidayCalendarTypeKey, holidayCalendarInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -447,7 +447,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHolidayCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHolidayCalendar", null)) {
             return getNextDecorator().deleteHolidayCalendar(holidayCalendarId, context);
         } else {
             throw new PermissionDeniedException();
@@ -461,7 +461,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermType", null)) {
             return getNextDecorator().getTermType(termTypeKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -475,7 +475,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermTypes", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermTypes", null)) {
             return getNextDecorator().getTermTypes(context);
         } else {
             throw new PermissionDeniedException ();
@@ -490,7 +490,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermTypesForAcademicCalendarType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermTypesForAcademicCalendarType", null)) {
             return getNextDecorator().getTermTypesForAcademicCalendarType(academicCalendarTypeKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -505,7 +505,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermTypesForTermType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermTypesForTermType", null)) {
             return getNextDecorator().getTermTypesForTermType(termTypeKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -520,7 +520,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermState", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermState", null)) {
             return getNextDecorator().getTermState(termStateKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -534,7 +534,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermStates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermStates", null)) {
             return getNextDecorator().getTermStates(context);
         } else {
             throw new PermissionDeniedException ();
@@ -548,7 +548,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTerm", null)) {
             return getNextDecorator().getTerm(termId, context);
         } else {
             throw new PermissionDeniedException();
@@ -563,7 +563,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermsByKeyList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermsByKeyList", null)) {
             return getNextDecorator().getTermsByIds(termIdList, context);
         } else {
             throw new PermissionDeniedException();
@@ -576,7 +576,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermIdsByType", null)) {
             return getNextDecorator().getTermIdsByType(termTypeKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -591,7 +591,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermsForAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getTermsForAcademicCalendar", null)) {
             return getNextDecorator().getTermsForAcademicCalendar(academicCalendarKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -606,7 +606,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCurrentTerms", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCurrentTerms", null)) {
             return getNextDecorator().getCurrentTerms(processKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -621,7 +621,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIncludedTermsInTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getIncludedTermsInTerm", null)) {
             return getNextDecorator().getIncludedTermsInTerm(termId, context);
         } else {
             throw new PermissionDeniedException();
@@ -635,7 +635,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getContainingTerms", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getContainingTerms", null)) {
             return getNextDecorator().getContainingTerms(termId, context);
         } else {
             throw new PermissionDeniedException();
@@ -649,7 +649,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForTermIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForTermIds", null)) {
             return getNextDecorator().searchForTermIds(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -663,7 +663,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForTerms", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForTerms", null)) {
             return getNextDecorator().searchForTerms(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -677,7 +677,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createTerm", null)) {
             return getNextDecorator().createTerm(termTypeKey, termInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -691,7 +691,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateTerm", null)) {
             return getNextDecorator().updateTerm(termId, termInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -705,7 +705,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteTerm", null)) {
             return getNextDecorator().deleteTerm(termId, context);
         } else {
             throw new PermissionDeniedException();
@@ -719,7 +719,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "addTermToAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "addTermToAcademicCalendar", null)) {
             return getNextDecorator().addTermToAcademicCalendar(academicCalendarKey, termId, context);
         } else {
             throw new PermissionDeniedException();
@@ -733,7 +733,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "removeTermFromAcademicCalendar", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "removeTermFromAcademicCalendar", null)) {
             return getNextDecorator().removeTermFromAcademicCalendar(academicCalendarKey, termId, context);
         } else {
             throw new PermissionDeniedException();
@@ -747,7 +747,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "addTermToTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "addTermToTerm", null)) {
             return getNextDecorator().addTermToTerm(termId, includedTermId, context);
         } else {
             throw new PermissionDeniedException();
@@ -761,7 +761,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "removeTermFromTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "removeTermFromTerm", null)) {
             return getNextDecorator().removeTermFromTerm(termId, includedTermId, context);
         } else {
             throw new PermissionDeniedException();
@@ -775,7 +775,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDateType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDateType", null)) {
             return getNextDecorator().getKeyDateType(keyDateTypeKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -789,7 +789,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDateTypesForTermType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDateTypesForTermType", null)) {
             return getNextDecorator().getKeyDateTypesForTermType(termTypeKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -803,7 +803,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDate", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDate", null)) {
             return getNextDecorator().getKeyDate(keyDateId, context);
         } else {
             throw new PermissionDeniedException();
@@ -817,7 +817,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDatesByKeyList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDatesByKeyList", null)) {
             return getNextDecorator().getKeyDatesByIds(keyDateIdList, context);
         } else {
             throw new PermissionDeniedException();
@@ -831,7 +831,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDateIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDateIdsByType", null)) {
             return getNextDecorator().getKeyDateIdsByType(keyDateTypeKey, context);
         } else {
             throw new PermissionDeniedException();
@@ -845,7 +845,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDatesForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDatesForTerm", null)) {
             return getNextDecorator().getKeyDatesForTerm(termId, context);
         } else {
             throw new PermissionDeniedException();
@@ -859,7 +859,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDatesForTermByDate", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getKeyDatesForTermByDate", null)) {
             return getNextDecorator().getKeyDatesForTermByDate(termId, startDate, endDate, context);
         } else {
             throw new PermissionDeniedException();
@@ -873,7 +873,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForKeyDateIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForKeyDateIds", null)) {
             return getNextDecorator().searchForKeyDateIds(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -887,7 +887,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForKeyDates", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForKeyDates", null)) {
             return getNextDecorator().searchForKeyDates(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -901,7 +901,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateKeyDate", null, null)) {
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateKeyDate", null)) {
             return getNextDecorator().validateKeyDate(validationTypeKey, termId, keyDateTypeKey, keyDateInfo, contextInfo);
         } else {
             throw new PermissionDeniedException ();
@@ -915,7 +915,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateKeyDate", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateKeyDate", null)) {
             return getNextDecorator().updateKeyDate(keyDateId, keyDateInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -929,7 +929,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteKeyDate", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteKeyDate", null)) {
             return getNextDecorator().deleteKeyDate(keyDateId, context);
         } else {
             throw new PermissionDeniedException();
@@ -943,7 +943,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getHolidayType", null)) {
             return getNextDecorator().getHolidayType(holidayTypeKey, context);
         } else {
             throw new PermissionDeniedException ();
@@ -957,7 +957,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidayKeys", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidayKeys", null)) {
             return getNextDecorator().searchForHolidayIds(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -971,7 +971,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidays", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForHolidays", null)) {
             return getNextDecorator().searchForHolidays(criteria, context);
         } else {
             throw new PermissionDeniedException();
@@ -985,7 +985,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateHoliday", null, null)) {
+        if (permissionService.isAuthorized(contextInfo.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateHoliday", null)) {
             return getNextDecorator().validateHoliday(validationTypeKey, holidayCalendarId, holidayTypeKey, holidayInfo, contextInfo);
         } else {
             throw new PermissionDeniedException ();
@@ -999,7 +999,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateHoliday", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateHoliday", null)) {
             return getNextDecorator().updateHoliday(holidayId, holidayInfo, context);
         } else {
             throw new PermissionDeniedException();
@@ -1013,7 +1013,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHoliday", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteHoliday", null)) {
             return getNextDecorator().deleteHoliday(holidayId, context);
         } else {
             throw new PermissionDeniedException();
@@ -1027,7 +1027,7 @@ public class AcademicCalendarServiceAuthorizationDecorator
             throw new MissingParameterException();
         }
 
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getInstructionalDaysForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getInstructionalDaysForTerm", null)) {
             return getNextDecorator().getInstructionalDaysForTerm(termId, context);
         } else {
             throw new PermissionDeniedException();

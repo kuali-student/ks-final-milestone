@@ -143,7 +143,7 @@ public class GroupServiceMockImpl implements GroupService {
     }
 
     @Override
-    public Group getGroupByNameAndNamespaceCode(String namespaceCode, String groupName) {
+    public Group getGroupByNamespaceCodeAndName(String namespaceCode, String groupName) {
         for (Group group : this.groupCache.values()) {
             if (namespaceCode.equals(group.getNamespaceCode())) {
                 if (groupName.equals(group.getName())) {
@@ -344,7 +344,7 @@ public class GroupServiceMockImpl implements GroupService {
         } else {
             Group.Builder.create(group) .setId(UUID.randomUUID().toString());
         }
-        if (this.getGroupByNameAndNamespaceCode(copy.getNamespaceCode(), copy.getName()) != null) {
+        if (this.getGroupByNamespaceCodeAndName(copy.getNamespaceCode(), copy.getName()) != null) {
             throw new IllegalArgumentException("name in use");
         }
         this.groupCache.put(copy.getId(), copy);
@@ -408,7 +408,7 @@ public class GroupServiceMockImpl implements GroupService {
         if (existing == null) {
             throw new IllegalArgumentException("group id not found");
         }
-        Group matching = this.getGroupByNameAndNamespaceCode(Group.getNamespaceCode(), Group.getName());
+        Group matching = this.getGroupByNamespaceCodeAndName(Group.getNamespaceCode(), Group.getName());
         if (matching != null) {
             if (matching != existing) {
                 throw new IllegalArgumentException("name in use");

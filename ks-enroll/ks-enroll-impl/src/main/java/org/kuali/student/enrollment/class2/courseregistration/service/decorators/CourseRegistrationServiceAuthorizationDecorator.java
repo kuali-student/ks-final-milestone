@@ -54,7 +54,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibility", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibility", null)) {
 	        return getNextDecorator().checkStudentEligibility(studentId, context);
         }
         else {
@@ -71,7 +71,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibilityForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibilityForTerm", null)) {
 	        return getNextDecorator().checkStudentEligibilityForTerm(studentId, termId, context);
         }
         else {
@@ -88,7 +88,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAppointmentWindows", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAppointmentWindows", null)) {
 	        return getNextDecorator().getAppointmentWindows(studentId, termId, context);
         }
         else {
@@ -105,7 +105,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibiltyForCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibiltyForCourseOffering", null)) {
 	        return getNextDecorator().checkStudentEligibiltyForCourseOffering(studentId, courseOfferingId, context);
         }
         else {
@@ -122,7 +122,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibiltyForRegGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "checkStudentEligibiltyForRegGroup", null)) {
 	        return getNextDecorator().checkStudentEligibiltyForRegGroup(studentId, regGroupId, context);
         }
         else {
@@ -139,7 +139,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getEligibleRegGroupsForStudentInCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getEligibleRegGroupsForStudentInCourseOffering", null)) {
 	        return getNextDecorator().getEligibleRegGroupsForStudentInCourseOffering(studentId, courseOfferingId, context);
         }
         else {
@@ -156,7 +156,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateCreditLoadForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateCreditLoadForTerm", null)) {
 	        return getNextDecorator().calculateCreditLoadForTerm(studentId, termId, context);
         }
         else {
@@ -173,7 +173,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateCreditLoadForRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateCreditLoadForRegRequest", null)) {
 	        return getNextDecorator().calculateCreditLoadForRegRequest(studentId, regRequestInfo, context);
         }
         else {
@@ -190,7 +190,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsForCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsForCourseOffering", null)) {
 	        return getNextDecorator().getAvailableSeatsForCourseOffering(courseOfferingId, context);
         }
         else {
@@ -207,7 +207,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsForRegGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsForRegGroup", null)) {
 	        return getNextDecorator().getAvailableSeatsForRegGroup(regGroupId, context);
         }
         else {
@@ -224,7 +224,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsForStudentInRegGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsForStudentInRegGroup", null)) {
 	        return getNextDecorator().getAvailableSeatsForStudentInRegGroup(studentId, regGroupId, context);
         }
         else {
@@ -241,7 +241,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsInSeatpool", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAvailableSeatsInSeatpool", null)) {
 	        return getNextDecorator().getAvailableSeatsInSeatpool(seatpoolId, context);
         }
         else {
@@ -259,7 +259,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createRegRequest", null)) {
 	        return getNextDecorator().createRegRequest(regRequestInfo, context);
         }
         else {
@@ -278,7 +278,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateRegRequest", null)) {
 	        return getNextDecorator().updateRegRequest(regRequestId, regRequestInfo, context);
         }
         else {
@@ -295,7 +295,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteRegRequest", null)) {
 	        return getNextDecorator().deleteRegRequest(regRequestId, context);
         }
         else {
@@ -313,7 +313,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateRegRequest", null)) {
 	        return getNextDecorator().validateRegRequest(regRequestInfo, context);
         }
         else {
@@ -331,7 +331,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "verifyRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "verifyRegRequest", null)) {
 	        return getNextDecorator().verifyRegRequest(regRequestInfo, context);
         }
         else {
@@ -348,7 +348,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "verifySavedReqRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "verifySavedReqRequest", null)) {
 	        return getNextDecorator().verifySavedReqRequest(regRequestId, context);
         }
         else {
@@ -366,7 +366,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createRegRequestFromExisting", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createRegRequestFromExisting", null)) {
 	        return getNextDecorator().createRegRequestFromExisting(existingRegRequestId, context);
         }
         else {
@@ -384,7 +384,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "submitRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "submitRegRequest", null)) {
 	        return getNextDecorator().submitRegRequest(regRequestId, context);
         }
         else {
@@ -402,7 +402,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "dropStudentsFromRegGroups", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "dropStudentsFromRegGroups", null)) {
 	        return getNextDecorator().dropStudentsFromRegGroups(regGroupIdList, context);
         }
         else {
@@ -420,7 +420,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "moveStudentsBetweenRegGroups", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "moveStudentsBetweenRegGroups", null)) {
 	        return getNextDecorator().moveStudentsBetweenRegGroups(sourceRegGroupId, destinationRegGroupId, context);
         }
         else {
@@ -437,7 +437,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "cancelRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "cancelRegRequest", null)) {
 	        return getNextDecorator().cancelRegRequest(regRequestId, context);
         }
         else {
@@ -454,7 +454,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequest", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequest", null)) {
 	        return getNextDecorator().getRegRequest(regRequestId, context);
         }
         else {
@@ -472,7 +472,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsByIdList", null)) {
 	        return getNextDecorator().getRegRequestsByIdList(regRequestIds, context);
         }
         else {
@@ -490,7 +490,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForStudentByTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForStudentByTerm", null)) {
 	        return getNextDecorator().getRegRequestsForStudentByTerm(studentId, termId, requestStates, context);
         }
         else {
@@ -508,7 +508,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntry", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntry", null)) {
 	        return getNextDecorator().getCourseWaitlistEntry(courseWaitlistEntryId, context);
         }
         else {
@@ -526,7 +526,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseWaitlistEntry", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseWaitlistEntry", null)) {
 	        return getNextDecorator().updateCourseWaitlistEntry(courseWaitlistEntryId, courseWaitlistEntryInfo, context);
         }
         else {
@@ -544,7 +544,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "reorderCourseWaitlistEntries", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "reorderCourseWaitlistEntries", null)) {
 	        return getNextDecorator().reorderCourseWaitlistEntries(courseWaitlistEntryIds, context);
         }
         else {
@@ -562,7 +562,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "insertCourseWaitlistEntryAtPosition", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "insertCourseWaitlistEntryAtPosition", null)) {
 	        return getNextDecorator().insertCourseWaitlistEntryAtPosition(courseWaitlistEntryId, position, context);
         }
         else {
@@ -579,7 +579,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "removeCourseWaitlistEntry", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "removeCourseWaitlistEntry", null)) {
 	        return getNextDecorator().removeCourseWaitlistEntry(courseWaitlistEntryId, context);
         }
         else {
@@ -596,7 +596,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteCourseWaitlistEntry", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteCourseWaitlistEntry", null)) {
 	        return getNextDecorator().deleteCourseWaitlistEntry(courseWaitlistEntryId, context);
         }
         else {
@@ -614,7 +614,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateCourseWaitlistEntry", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateCourseWaitlistEntry", null)) {
 	        return getNextDecorator().validateCourseWaitlistEntry(validateTypeKey, courseWaitlistEntryInfo, context);
         }
         else {
@@ -632,7 +632,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "registerStudentFromWaitlist", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "registerStudentFromWaitlist", null)) {
 	        return getNextDecorator().registerStudentFromWaitlist(courseWaitlistEntryId, context);
         }
         else {
@@ -650,7 +650,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForCourseOffering", null)) {
 	        return getNextDecorator().getCourseWaitlistEntriesForCourseOffering(courseOfferingId, context);
         }
         else {
@@ -668,7 +668,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForRegGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForRegGroup", null)) {
 	        return getNextDecorator().getCourseWaitlistEntriesForRegGroup(regGroupId, context);
         }
         else {
@@ -686,7 +686,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
 	            throw new MissingParameterException();
 	        }
 	           
-	        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForStudentInCourseOffering", null, null)) {
+	        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForStudentInCourseOffering", null)) {
 		        return getNextDecorator().getCourseWaitlistEntriesForStudentInCourseOffering(courseOfferingId, studentId, context);
 	        }
 	        else {
@@ -704,7 +704,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntryForStudentInRegGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntryForStudentInRegGroup", null)) {
 	        return getNextDecorator().getCourseWaitlistEntryForStudentInRegGroup(regGroupId, studentId, context);
         }
         else {
@@ -722,7 +722,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForStudentByTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseWaitlistEntriesForStudentByTerm", null)) {
 	        return getNextDecorator().getCourseWaitlistEntriesForStudentByTerm(studentId, termId, context);
         }
         else {
@@ -740,7 +740,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistration", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistration", null)) {
 	        return getNextDecorator().getCourseRegistration(courseRegistrationId, context);
         }
         else {
@@ -758,7 +758,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsByIdList", null)) {
 	        return getNextDecorator().getCourseRegistrationsByIdList(courseRegistrationIds, context);
         }
         else {
@@ -776,7 +776,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActiveCourseRegistrationForStudentByCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActiveCourseRegistrationForStudentByCourseOffering", null)) {
 	        return getNextDecorator().getActiveCourseRegistrationForStudentByCourseOffering(studentId, courseOfferingId, context);
         }
         else {
@@ -794,7 +794,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudent", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudent", null)) {
 	        return getNextDecorator().getCourseRegistrationsForStudent(studentId, context);
         }
         else {
@@ -812,7 +812,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudentByCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudentByCourseOffering", null)) {
 	        return getNextDecorator().getCourseRegistrationsForStudentByCourseOffering(studentId, courseOfferingId, context);
         }
         else {
@@ -830,7 +830,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudentByTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseRegistrationsForStudentByTerm", null)) {
 	        return getNextDecorator().getCourseRegistrationsForStudentByTerm(studentId, termId, context);
         }
         else {
@@ -848,7 +848,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActiveCourseRegistrationsByCourseOfferingId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActiveCourseRegistrationsByCourseOfferingId", null)) {
 	        return getNextDecorator().getActiveCourseRegistrationsByCourseOfferingId(courseOfferingId, context);
         }
         else {
@@ -866,7 +866,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDroppedCourseRegistrationsByCourseOfferingId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getDroppedCourseRegistrationsByCourseOfferingId", null)) {
 	        return getNextDecorator().getDroppedCourseRegistrationsByCourseOfferingId(courseOfferingId, context);
         }
         else {
@@ -884,7 +884,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForCourseRegistration", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForCourseRegistration", null)) {
 	        return getNextDecorator().getRegRequestsForCourseRegistration(courseRegistrationId, context);
         }
         else {
@@ -902,7 +902,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForCourseOffering", null)) {
 	        return getNextDecorator().getRegRequestsForCourseOffering(courseOfferingId, context);
         }
         else {
@@ -920,7 +920,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForCourseOfferingByStudent", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegRequestsForCourseOfferingByStudent", null)) {
 	        return getNextDecorator().getRegRequestsForCourseOfferingByStudent(courseOfferingId, studentId, context);
         }
         else {
@@ -937,7 +937,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseRegistrations", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseRegistrations", null)) {
 	        return getNextDecorator().searchForCourseRegistrations(criteria, context);
         }
         else {
@@ -954,7 +954,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseOfferingRegistrationIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseOfferingRegistrationIds", null)) {
 	        return getNextDecorator().searchForCourseOfferingRegistrationIds(criteria, context);
         }
         else {
@@ -971,7 +971,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityRegistrations", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityRegistrations", null)) {
 	        return getNextDecorator().searchForActivityRegistrations(criteria, context);
         }
         else {
@@ -988,7 +988,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityRegistrationIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityRegistrationIds", null)) {
 	        return getNextDecorator().searchForActivityRegistrationIds(criteria, context);
         }
         else {
@@ -1005,7 +1005,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegGroupRegistrations", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegGroupRegistrations", null)) {
 	        return getNextDecorator().searchForRegGroupRegistrations(criteria, context);
         }
         else {
@@ -1022,7 +1022,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegGroupRegistrationIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegGroupRegistrationIds", null)) {
 	        return getNextDecorator().searchForRegGroupRegistrationIds(criteria, context);
         }
         else {
@@ -1039,7 +1039,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseWaitlistEntries", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseWaitlistEntries", null)) {
 	        return getNextDecorator().searchForCourseWaitlistEntries(criteria, context);
         }
         else {
@@ -1056,7 +1056,7 @@ public class CourseRegistrationServiceAuthorizationDecorator extends CourseRegis
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseWaitlistEntryIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseWaitlistEntryIds", null)) {
 	        return getNextDecorator().searchForCourseWaitlistEntryIds(criteria, context);
         }
         else {

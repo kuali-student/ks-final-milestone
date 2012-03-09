@@ -54,17 +54,14 @@ public class PermissionServiceMockImpl implements PermissionService {
     public List<Permission> getAuthorizedPermissions(String principalId,
             String namespaceCode,
             String permissionName,
-            Map<String,String> permissionDetails,
             Map<String,String> qualification) {
         List<Permission> list = new ArrayList<Permission>();
         for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
-                    if (matchesPermissionDetails(permission, permissionDetails)) {
-                        if (matchesQualification(permission, qualification)) {
-                            if (matchesPrincipalId(permission, principalId)) {
-                                list.add(permission);
-                            }
+                    if (matchesQualification(permission, qualification)) {
+                        if (matchesPrincipalId(permission, principalId)) {
+                            list.add(permission);
                         }
                     }
                 }
@@ -89,7 +86,7 @@ public class PermissionServiceMockImpl implements PermissionService {
     }
 
     @Override
-    public List<Permission> getAuthorizedPermissionsByTemplateName(String principalId,
+    public List<Permission> getAuthorizedPermissionsByTemplate(String principalId,
             String namespaceCode,
             String permissionTemplateName,
             Map<String,String> permissionDetails,
@@ -121,16 +118,13 @@ public class PermissionServiceMockImpl implements PermissionService {
     @Override
     public List<Assignee> getPermissionAssignees(String namespaceCode,
             String permissionName,
-            Map<String,String> permissionDetails,
             Map<String,String> qualification) {
         List<Assignee> list = new ArrayList<Assignee>();
         for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
-                    if (matchesPermissionDetails(permission, permissionDetails)) {
-                        if (matchesQualification(permission, qualification)) {
-                            list.addAll(getPermissionAssignees(permission));
-                        }
+                    if (matchesQualification(permission, qualification)) {
+                        list.addAll(getPermissionAssignees(permission));
                     }
                 }
             }
@@ -145,7 +139,7 @@ public class PermissionServiceMockImpl implements PermissionService {
     }
 
     @Override
-    public List<Assignee> getPermissionAssigneesByTemplateName(String namespaceCode,
+    public List<Assignee> getPermissionAssigneesByTemplate(String namespaceCode,
             String permissionTemplateName,
             Map<String,String> permissionDetails,
             Map<String,String> qualification) {
@@ -223,9 +217,9 @@ public class PermissionServiceMockImpl implements PermissionService {
     }
     */
 
-    
+
     @Override
-    public List<Permission> findPermsByNamespaceCodeTemplateName(String namespaceCode,
+    public List<Permission> findPermissionsByTemplate(String namespaceCode,
             String permissionTemplateName) {
         List<Permission> list = new ArrayList<Permission>();
         for (Permission permission : this.permissionCache.values()) {
@@ -242,20 +236,18 @@ public class PermissionServiceMockImpl implements PermissionService {
 
     @Override
     public List<String> getRoleIdsForPermission(String namespaceCode,
-            String permissionName,
-            Map<String,String> permissionDetails) {
+            String permissionName) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public boolean hasPermission(String principalId, String namespaceCode,
-            String permissionName,
-            Map<String,String> permissionDetails) {
+            String permissionName) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public boolean hasPermissionByTemplateName(String principalId,
+    public boolean hasPermissionByTemplate(String principalId,
             String namespaceCode,
             String permissionTemplateName,
             Map<String,String> permissionDetails) {
@@ -265,7 +257,6 @@ public class PermissionServiceMockImpl implements PermissionService {
     @Override
     public boolean isAuthorized(String principalId, String namespaceCode,
             String permissionName,
-            Map<String,String> permissionDetails,
             Map<String,String> qualification) {
     	if(principalId != null){
 	    	if(principalId.equals("123"))
@@ -278,7 +269,7 @@ public class PermissionServiceMockImpl implements PermissionService {
     }
 
     @Override
-    public boolean isAuthorizedByTemplateName(String principalId,
+    public boolean isAuthorizedByTemplate(String principalId,
             String namespaceCode,
             String permissionTemplateName,
             Map<String,String> permissionDetails,
@@ -287,14 +278,11 @@ public class PermissionServiceMockImpl implements PermissionService {
     }
 
     @Override
-    public boolean isPermissionDefined(String namespaceCode, String permissionName,
-            Map<String,String> permissionDetails) {
+    public boolean isPermissionDefined(String namespaceCode, String permissionName) {
         for (Permission permission : this.permissionCache.values()) {
             if (namespaceCode.equals(permission.getNamespaceCode())) {
                 if (permissionName.equals(permission.getName())) {
-                    if (matchesPermissionDetails(permission, permissionDetails)) {
-                        return true;
-                    }
+                    return true;
                 }
             }
         }
@@ -303,7 +291,7 @@ public class PermissionServiceMockImpl implements PermissionService {
     }
 
     @Override
-    public boolean isPermissionDefinedByTemplateName(String namespaceCode,
+    public boolean isPermissionDefinedByTemplate(String namespaceCode,
             String permissionTemplateName,
             Map<String,String> permissionDetails) {
         for (Permission permission : this.permissionCache.values()) {

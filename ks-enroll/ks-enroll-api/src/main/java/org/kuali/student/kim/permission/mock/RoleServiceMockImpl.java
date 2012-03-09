@@ -92,7 +92,7 @@ public class RoleServiceMockImpl implements RoleService {
      * If any parameter is blank, this method returns <code>null</code>.
      */
     @Override
-    public Role getRoleByNameAndNamespaceCode(String namespaceCode, String roleName) {
+    public Role getRoleByNamespaceCodeAndName(String namespaceCode, String roleName) {
         for (Role role : this.roleCache.values()) {
             if (namespaceCode.equals(role.getNamespaceCode())) {
                 if (roleName.equals(role.getName())) {
@@ -108,7 +108,7 @@ public class RoleServiceMockImpl implements RoleService {
      * component and role name.
      */
     @Override
-    public String getRoleIdByNameAndNamespaceCode(String namespaceCode, String roleName) {
+    public String getRoleIdByNamespaceCodeAndName(String namespaceCode, String roleName) {
         for (Role role : this.roleCache.values()) {
             if (namespaceCode.equals(role.getNamespaceCode())) {
                 if (roleName.equals(role.getName())) {
@@ -215,7 +215,7 @@ public class RoleServiceMockImpl implements RoleService {
      */
     @Override
     public Collection<String> getRoleMemberPrincipalIds(String namespaceCode, String roleName, Map<String,String> qualification) {
-        Role roleInfo = this.getRoleByNameAndNamespaceCode(namespaceCode, roleName);
+        Role roleInfo = this.getRoleByNamespaceCodeAndName(namespaceCode, roleName);
         if (roleInfo == null) {
             throw new IllegalArgumentException("role name not found");
         }
@@ -247,7 +247,7 @@ public class RoleServiceMockImpl implements RoleService {
     public List<String> getPrincipalIdSubListWithRole(List<String> principalIds,
             String roleNamespaceCode, String roleName, Map<String,String> qualification) {
         List<String> subList = new ArrayList<String>();
-        Role role = getRoleByNameAndNamespaceCode(roleNamespaceCode, roleName);
+        Role role = getRoleByNamespaceCodeAndName(roleNamespaceCode, roleName);
         for (String principalId : principalIds) {
             if (principalHasThisRole(principalId, role.getId(), qualification)) {
                 subList.add(principalId);
@@ -444,7 +444,7 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     @Override
-    public void assignGroupToRole(String groupId, String namespaceCode,
+    public RoleMember assignGroupToRole(String groupId, String namespaceCode,
             String roleName, Map<String,String> qualifications)
             throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -456,7 +456,7 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     @Override
-    public void assignPrincipalToRole(String principalId, String namespaceCode,
+    public RoleMember assignPrincipalToRole(String principalId, String namespaceCode,
             String roleName, Map<String,String> qualifications)
             throws UnsupportedOperationException {
         Role roleInfo = null;
@@ -491,7 +491,7 @@ public class RoleServiceMockImpl implements RoleService {
     }
 
     @Override
-    public void assignRoleToRole(String roleId, String namespaceCode,
+    public RoleMember assignRoleToRole(String roleId, String namespaceCode,
             String roleName, Map<String,String> qualifications)
             throws UnsupportedOperationException {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -616,6 +616,9 @@ public class RoleServiceMockImpl implements RoleService {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
-
+    @Override
+    public void revokePermissionFromRole(String permissionId, String roleId) throws RiceIllegalArgumentException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
 

@@ -52,7 +52,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOffering", null)) {
 	        return getNextDecorator().getCourseOffering(courseOfferingId, context);
         }
         else {
@@ -70,7 +70,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingsByIdList", null)) {
 	        return getNextDecorator().getCourseOfferingsByIdList(courseOfferingIds, context);
         }
         else {
@@ -88,7 +88,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingsForCourseAndTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingsForCourseAndTerm", null)) {
 	        return getNextDecorator().getCourseOfferingsForCourseAndTerm(courseId, termId, context);
         }
         else {
@@ -106,7 +106,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsForTerm", null)) {
 	        return getNextDecorator().getCourseOfferingIdsForTerm(termId, useIncludedTerm, context);
         }
         else {
@@ -124,7 +124,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsByTermAndSubjectArea", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsByTermAndSubjectArea", null)) {
 	        return getNextDecorator().getCourseOfferingIdsByTermAndSubjectArea(termId, subjectArea, context);
         }
         else {
@@ -142,7 +142,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsByTermAndInstructorId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsByTermAndInstructorId", null)) {
 	        return getNextDecorator().getCourseOfferingIdsByTermAndInstructorId(termId, instructorId, context);
         }
         else {
@@ -160,7 +160,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsByTermAndUnitContentOwner", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingIdsByTermAndUnitContentOwner", null)) {
 	        return getNextDecorator().getCourseOfferingIdsByTermAndUnitContentOwner(termId, unitOwnerId, context);
         }
         else {
@@ -179,7 +179,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createCourseOfferingFromCanonical", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createCourseOfferingFromCanonical", null)) {
 	        return getNextDecorator().createCourseOfferingFromCanonical(courseId, termId, formatIdList, context);
         }
         else {
@@ -198,7 +198,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseOffering", null)) {
 	        return getNextDecorator().updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
         }
         else {
@@ -217,7 +217,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseOfferingFromCanonical", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseOfferingFromCanonical", null)) {
 	        return getNextDecorator().updateCourseOfferingFromCanonical(courseOfferingId, context);
         }
         else {
@@ -234,7 +234,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteCourseOffering", null)) {
 	        return getNextDecorator().deleteCourseOffering(courseOfferingId, context);
         }
         else {
@@ -252,7 +252,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateCourseOffering", null)) {
 	        return getNextDecorator().validateCourseOffering(validationType, courseOfferingInfo, context);
         }
         else {
@@ -270,7 +270,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingRestrictions", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getCourseOfferingRestrictions", null)) {
 	        return getNextDecorator().getCourseOfferingRestrictions(courseOfferingId, nlUsageTypeKey, language, context);
         }
         else {
@@ -289,7 +289,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createCourseOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createCourseOfferingRestriction", null)) {
 	        return getNextDecorator().createCourseOfferingRestriction(courseOfferingId, restrictionInfo, context);
         }
         else {
@@ -309,7 +309,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateCourseOfferingRestriction", null)) {
 	        return getNextDecorator().updateCourseOfferingRestriction(courseOfferingId, restrictionInfo, context);
         }
         else {
@@ -327,7 +327,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteCourseOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteCourseOfferingRestriction", null)) {
 	        return getNextDecorator().deleteCourseOfferingRestriction(courseOfferingId, restrictionId, context);
         }
         else {
@@ -345,7 +345,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateCourseOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateCourseOfferingRestriction", null)) {
 	        return getNextDecorator().validateCourseOfferingRestriction(validationType, restrictionInfo, context);
         }
         else {
@@ -362,7 +362,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingType", null)) {
 	        return getNextDecorator().getActivityOfferingType(activityOfferingTypeKey, context);
         }
         else {
@@ -378,7 +378,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAllActivityOfferingTypes", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getAllActivityOfferingTypes", null)) {
 	        return getNextDecorator().getAllActivityOfferingTypes(context);
         }
         else {
@@ -395,7 +395,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingTypesForActivityType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingTypesForActivityType", null)) {
 	        return getNextDecorator().getActivityOfferingTypesForActivityType(activityTypeKey, context);
         }
         else {
@@ -412,7 +412,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOffering", null)) {
 	        return getNextDecorator().getActivityOffering(activityOfferingId, context);
         }
         else {
@@ -430,7 +430,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingsByIdList", null)) {
 	        return getNextDecorator().getActivityOfferingsByIdList(activityOfferingIds, context);
         }
         else {
@@ -448,7 +448,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivitiesForCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivitiesForCourseOffering", null)) {
 	        return getNextDecorator().getActivitiesForCourseOffering(courseOfferingId, context);
         }
         else {
@@ -467,7 +467,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createActivityOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createActivityOffering", null)) {
 	        return getNextDecorator().createActivityOffering(courseOfferingIdList, activityOfferingInfo, context);
         }
         else {
@@ -486,7 +486,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "assignActivityToCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "assignActivityToCourseOffering", null)) {
 	        return getNextDecorator().assignActivityToCourseOffering(activityOfferingId, courseOfferingIdList, context);
         }
         else {
@@ -506,7 +506,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateActivityOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateActivityOffering", null)) {
 	        return getNextDecorator().updateActivityOffering(activityOfferingId, activityOfferingInfo, context);
         }
         else {
@@ -523,7 +523,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteActivityOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteActivityOffering", null)) {
 	        return getNextDecorator().deleteActivityOffering(activityOfferingId, context);
         }
         else {
@@ -541,7 +541,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateActivityOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateActivityOffering", null)) {
 	        return getNextDecorator().validateActivityOffering(validationType, activityOfferingInfo, context);
         }
         else {
@@ -559,7 +559,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingRestrictions", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getActivityOfferingRestrictions", null)) {
 	        return getNextDecorator().getActivityOfferingRestrictions(activityOfferingId, nlUsageTypeKey, language, context);
         }
         else {
@@ -578,7 +578,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createActivityOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createActivityOfferingRestriction", null)) {
 	        return getNextDecorator().createActivityOfferingRestriction(activityOfferingId, restrictionInfo, context);
         }
         else {
@@ -598,7 +598,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateActivityOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateActivityOfferingRestriction", null)) {
 	        return getNextDecorator().updateActivityOfferingRestriction(activityOfferingId, restrictionInfo, context);
         }
         else {
@@ -616,7 +616,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteActivityOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteActivityOfferingRestriction", null)) {
 	        return getNextDecorator().deleteActivityOfferingRestriction(activityOfferingId, restrictionId, context);
         }
         else {
@@ -634,7 +634,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateActivityOfferingRestriction", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateActivityOfferingRestriction", null)) {
 	        return getNextDecorator().validateActivityOfferingRestriction(validationType, restrictionInfo, context);
         }
         else {
@@ -651,7 +651,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateInClassContactHoursForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateInClassContactHoursForTerm", null)) {
 	        return getNextDecorator().calculateInClassContactHoursForTerm(activityOfferingId, context);
         }
         else {
@@ -669,7 +669,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateOutofClassContactHoursForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateOutofClassContactHoursForTerm", null)) {
 	        return getNextDecorator().calculateOutofClassContactHoursForTerm(activityOfferingId, context);
         }
         else {
@@ -686,7 +686,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateTotalContactHoursForTerm", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "calculateTotalContactHoursForTerm", null)) {
 	        return getNextDecorator().calculateTotalContactHoursForTerm(activityOfferingId, context);
         }
         else {
@@ -704,7 +704,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
 	            throw new MissingParameterException();
 	        }
 	           
-	        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "copyActivityOffering", null, null)) {
+	        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "copyActivityOffering", null)) {
 		        return getNextDecorator().copyActivityOffering(activityOfferingId, numberOfCopies, copyContextTypeKey, context);
 	        }
 	        else {
@@ -722,7 +722,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationGroup", null)) {
 	        return getNextDecorator().getRegistrationGroup(registrationGroupId, context);
         }
         else {
@@ -740,7 +740,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationGroupsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegistrationGroupsByIdList", null)) {
 	        return getNextDecorator().getRegistrationGroupsByIdList(registrationGroupIds, context);
         }
         else {
@@ -758,7 +758,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegGroupsForCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegGroupsForCourseOffering", null)) {
 	        return getNextDecorator().getRegGroupsForCourseOffering(courseOfferingId, context);
         }
         else {
@@ -776,7 +776,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegGroupsByFormatForCourse", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRegGroupsByFormatForCourse", null)) {
 	        return getNextDecorator().getRegGroupsByFormatForCourse(courseOfferingId, formatTypeKey, context);
         }
         else {
@@ -796,7 +796,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createRegistrationGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createRegistrationGroup", null)) {
 	        return getNextDecorator().createRegistrationGroup(courseOfferingId, registrationGroupInfo, context);
         }
         else {
@@ -816,7 +816,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateRegistrationGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateRegistrationGroup", null)) {
 	        return getNextDecorator().updateRegistrationGroup(registrationGroupId, registrationGroupInfo, context);
         }
         else {
@@ -833,7 +833,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteRegistrationGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteRegistrationGroup", null)) {
 	        return getNextDecorator().deleteRegistrationGroup(registrationGroupId, context);
         }
         else {
@@ -851,7 +851,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateRegistrationGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateRegistrationGroup", null)) {
 	        return getNextDecorator().validateRegistrationGroup(validationType, registrationGroupInfo, context);
         }
         else {
@@ -869,7 +869,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getSeatPoolDefinition", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getSeatPoolDefinition", null)) {
 	        return getNextDecorator().getSeatPoolDefinition(seatPoolDefinitionId, context);
         }
         else {
@@ -887,7 +887,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getSeatPoolsForCourseOffering", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getSeatPoolsForCourseOffering", null)) {
 	        return getNextDecorator().getSeatPoolsForCourseOffering(courseOfferingId, context);
         }
         else {
@@ -905,7 +905,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getSeatPoolsForRegGroup", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getSeatPoolsForRegGroup", null)) {
 	        return getNextDecorator().getSeatPoolsForRegGroup(registrationGroupId, context);
         }
         else {
@@ -923,7 +923,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createSeatPoolDefinition", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createSeatPoolDefinition", null)) {
 	        return getNextDecorator().createSeatPoolDefinition(seatPoolDefinitionInfo, context);
         }
         else {
@@ -943,7 +943,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateSeatPoolDefinition", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateSeatPoolDefinition", null)) {
 	        return getNextDecorator().updateSeatPoolDefinition(seatPoolDefinitionId, seatPoolDefinitionInfo, context);
         }
         else {
@@ -960,7 +960,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteSeatPoolDefinition", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteSeatPoolDefinition", null)) {
 	        return getNextDecorator().deleteSeatPoolDefinition(seatPoolDefinitionId, context);
         }
         else {
@@ -977,7 +977,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseOfferings", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseOfferings", null)) {
 	        return getNextDecorator().searchForCourseOfferings(criteria, context);
         }
         else {
@@ -994,7 +994,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseOfferingIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForCourseOfferingIds", null)) {
 	        return getNextDecorator().searchForCourseOfferingIds(criteria, context);
         }
         else {
@@ -1011,7 +1011,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityOfferings", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityOfferings", null)) {
 	        return getNextDecorator().searchForActivityOfferings(criteria, context);
         }
         else {
@@ -1028,7 +1028,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityOfferingIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForActivityOfferingIds", null)) {
 	        return getNextDecorator().searchForActivityOfferingIds(criteria, context);
         }
         else {
@@ -1045,7 +1045,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegistrationGroups", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegistrationGroups", null)) {
 	        return getNextDecorator().searchForRegistrationGroups(criteria, context);
         }
         else {
@@ -1062,7 +1062,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegistrationGroupIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForRegistrationGroupIds", null)) {
 	        return getNextDecorator().searchForRegistrationGroupIds(criteria, context);
         }
         else {
@@ -1079,7 +1079,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForSeatpoolDefintions", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForSeatpoolDefintions", null)) {
 	        return getNextDecorator().searchForSeatpoolDefintions(criteria, context);
         }
         else {
@@ -1096,7 +1096,7 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForSeatpoolDefintionIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForSeatpoolDefintionIds", null)) {
 	        return getNextDecorator().searchForSeatpoolDefintionIds(criteria, context);
         }
         else {

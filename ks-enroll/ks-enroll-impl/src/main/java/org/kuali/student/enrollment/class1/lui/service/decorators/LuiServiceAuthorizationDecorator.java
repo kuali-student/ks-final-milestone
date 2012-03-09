@@ -47,7 +47,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLui", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLui", null)) {
 	        return getNextDecorator().getLui(luiId, context);
         }
         else {
@@ -64,7 +64,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisByIdList", null)) {
 	        return getNextDecorator().getLuisByIdList(luiIdList, context);
         }
         else {
@@ -80,7 +80,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsByType", null)) {
 	        return getNextDecorator().getLuiIdsByType(luiTypeKey, context);
         }
         else {
@@ -96,7 +96,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsByCluId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsByCluId", null)) {
 	        return getNextDecorator().getLuiIdsByCluId(cluId, context);
         }
         else {
@@ -113,7 +113,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsInAtpByCluId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsInAtpByCluId", null)) {
 	        return getNextDecorator().getLuiIdsInAtpByCluId(cluId, atpId, context);
         }
         else {
@@ -130,7 +130,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisInAtpByCluId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisInAtpByCluId", null)) {
 	        return getNextDecorator().getLuisInAtpByCluId(cluId, atpId, context);
         }
         else {
@@ -147,7 +147,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsByRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiIdsByRelation", null)) {
 	        return getNextDecorator().getLuiIdsByRelation(relatedLuiId, luLuRelationTypeKey, context);
         }
         else {
@@ -164,7 +164,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisByRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuisByRelation", null)) {
 	        return getNextDecorator().getLuisByRelation(relatedLuiId, luLuRelationTypeKey, context);
         }
         else {
@@ -181,7 +181,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRelatedLuiIdsByLuiId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRelatedLuiIdsByLuiId", null)) {
 	        return getNextDecorator().getRelatedLuiIdsByLuiId(luiId, luLuRelationTypeKey, context);
         }
         else {
@@ -198,7 +198,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRelatedLuisByLuiId", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getRelatedLuisByLuiId", null)) {
 	        return getNextDecorator().getRelatedLuisByLuiId(luiId, luLuRelationTypeKey, context);
         }
         else {
@@ -215,7 +215,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiIds", null)) {
 	        return getNextDecorator().searchForLuiIds(criteria, context);
         }
         else {
@@ -232,7 +232,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuis", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuis", null)) {
 	        return getNextDecorator().searchForLuis(criteria, context);
         }
         else {
@@ -249,7 +249,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateLui", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateLui", null)) {
 	        return getNextDecorator().validateLui(validationType, luiInfo, context);
         }
         else {
@@ -267,7 +267,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLui", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLui", null)) {
 	        return getNextDecorator().createLui(cluId, atpId, luiInfo, context);
         }
         else {
@@ -285,7 +285,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLui", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLui", null)) {
 	        return getNextDecorator().updateLui(luiId, luiInfo, context);
         }
         else {
@@ -302,7 +302,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteLui", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteLui", null)) {
 	        return getNextDecorator().deleteLui(luiId, context);
         }
         else {
@@ -320,7 +320,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLuiState", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLuiState", null)) {
 	        return getNextDecorator().updateLuiState(luiId, luState, context);
         }
         else {
@@ -337,7 +337,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelation", null)) {
 	        return getNextDecorator().getLuiLuiRelation(luiLuiRelationId, context);
         }
         else {
@@ -354,7 +354,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationsByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationsByIdList", null)) {
 	        return getNextDecorator().getLuiLuiRelationsByIdList(luiLuiRelationIdList, context);
         }
         else {
@@ -371,7 +371,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationIdsByType", null)) {
 	        return getNextDecorator().getLuiLuiRelationIdsByType(luiLuiRelationTypeKey, context);
         }
         else {
@@ -388,7 +388,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationsByLui", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiLuiRelationsByLui", null)) {
 	        return getNextDecorator().getLuiLuiRelationsByLui(luiId, context);
         }
         else {
@@ -405,7 +405,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiLuiRelationIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiLuiRelationIds", null)) {
 	        return getNextDecorator().searchForLuiLuiRelationIds(criteria, context);
         }
         else {
@@ -422,7 +422,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiLuiRelations", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiLuiRelations", null)) {
 	        return getNextDecorator().searchForLuiLuiRelations(criteria, context);
         }
         else {
@@ -440,7 +440,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateLuiLuiRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateLuiLuiRelation", null)) {
 	        return getNextDecorator().validateLuiLuiRelation(validationType, luiLuiRelationInfo, context);
         }
         else {
@@ -460,7 +460,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLuiLuiRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLuiLuiRelation", null)) {
 	        return getNextDecorator().createLuiLuiRelation(luiId, relatedLuiId, luLuRelationTypeKey, luiLuiRelationInfo, context);
         }
         else {
@@ -479,7 +479,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLuiLuiRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLuiLuiRelation", null)) {
 	        return getNextDecorator().updateLuiLuiRelation(luiLuiRelationId, luiLuiRelationInfo, context);
         }
         else {
@@ -496,7 +496,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteLuiLuiRelation", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteLuiLuiRelation", null)) {
 	        return getNextDecorator().deleteLuiLuiRelation(luiLuiRelationId, context);
         }
         else {
@@ -513,7 +513,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacity", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacity", null)) {
 	        return getNextDecorator().getLuiCapacity(luiCapacityId, context);
         }
         else {
@@ -530,7 +530,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacitiesByIdList", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacitiesByIdList", null)) {
 	        return getNextDecorator().getLuiCapacitiesByIdList(luiCapacityIdList, context);
         }
         else {
@@ -547,7 +547,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacityIdsByType", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "getLuiCapacityIdsByType", null)) {
 	        return getNextDecorator().getLuiCapacityIdsByType(luiCapacityTypeKey, context);
         }
         else {
@@ -564,7 +564,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiCapacityIds", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiCapacityIds", null)) {
 	        return getNextDecorator().searchForLuiCapacityIds(criteria, context);
         }
         else {
@@ -581,7 +581,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiCapacities", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForLuiCapacities", null)) {
 	        return getNextDecorator().searchForLuiCapacities(criteria, context);
         }
         else {
@@ -599,7 +599,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateLuiCapacity", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "validateLuiCapacity", null)) {
 	        return getNextDecorator().validateLuiCapacity(validationType, luiCapacityInfo, context);
         }
         else {
@@ -617,7 +617,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLuiCapacity", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "createLuiCapacity", null)) {
 	        return getNextDecorator().createLuiCapacity(luiCapacityInfo, context);
         }
         else {
@@ -636,7 +636,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLuiCapacity", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "updateLuiCapacity", null)) {
 	        return getNextDecorator().updateLuiCapacity(luiCapacityId, luiCapacityInfo, context);
         }
         else {
@@ -654,7 +654,7 @@ public class LuiServiceAuthorizationDecorator extends LuiServiceDecorator implem
             throw new MissingParameterException();
         }
            
-        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteLuiCapacity", null, null)) {
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "deleteLuiCapacity", null)) {
 	        return getNextDecorator().deleteLuiCapacity(luiCapacityId, context);
         }
         else {
