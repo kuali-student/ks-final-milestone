@@ -215,9 +215,9 @@ public class TestAppointmentServiceImpl {
             appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
                     apptSlotInfo, contextInfo);
             // Now try to get it back
-//            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
-//            assertNotNull(info);
-//            assertEquals(slotId, info.getId());
+            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
+            assertNotNull(info);
+            assertEquals(slotId, info.getId());
         } catch (Exception e) {
             System.err.println("Exception");
             assert(false);
@@ -235,14 +235,14 @@ public class TestAppointmentServiceImpl {
                     apptWindowInfo, contextInfo);
             appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
                     apptSlotInfo, contextInfo);
-//            // Now try to get it back
-//            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
-//            assertNotNull(info);
-//            // Now try to delete it
-//            System.err.println("Getting ready to delete");
-//            appointmentService.deleteAppointmentSlot(slotId, contextInfo);
-//            shouldExist = false;
-//            appointmentService.getAppointmentSlot(slotId, contextInfo); // should throw DoesNotExistException
+            // Now try to get it back
+            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
+            assertNotNull(info);
+            // Now try to delete it
+            System.err.println("Getting ready to delete");
+            appointmentService.deleteAppointmentSlot(slotId, contextInfo);
+            shouldExist = false;
+            appointmentService.getAppointmentSlot(slotId, contextInfo); // should throw DoesNotExistException
         } catch  (DoesNotExistException e) {
             System.err.println("DoesNotExistException caught ==========================");
             assert(!shouldExist); // We expect this exception if shouldExist is false
@@ -262,20 +262,20 @@ public class TestAppointmentServiceImpl {
                     apptWindowInfo, contextInfo);
             appointmentService.createAppointmentSlot(apptWinId, AppointmentServiceConstants.APPOINTMENT_SLOT_TYPE_OPEN_KEY,
                     apptSlotInfo, contextInfo);
-//            // Now try to get it back
-//            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
-//            // Check if the date in the retrieved data is the same
-//            assertEquals(startDate, info.getStartDate());
-//            Date newStartDate = createDate(2011, 3, 1, 10, 0); // Change start date to 10 AM
-//            // Update it
-//            info.setStartDate(newStartDate);
-//            assertEquals(apptWinId, info.getAppointmentWindowId());
-//            System.err.println("Getting ready to call: updateAppointmentSlot");
-//            appointmentService.updateAppointmentSlot(slotId, info, contextInfo);
-//            // Fetch it again
-//            AppointmentSlotInfo retrieved = appointmentService.getAppointmentSlot(slotId, contextInfo);
-//            // Check that date matches the new start date
-//            assertEquals(newStartDate, retrieved.getStartDate());
+            // Now try to get it back
+            AppointmentSlotInfo info = appointmentService.getAppointmentSlot(slotId, contextInfo);
+            // Check if the date in the retrieved data is the same
+            assertEquals(startDate, info.getStartDate());
+            Date newStartDate = createDate(2011, 3, 1, 10, 0); // Change start date to 10 AM
+            // Update it
+            info.setStartDate(newStartDate);
+            assertEquals(apptWinId, info.getAppointmentWindowId());
+            System.err.println("Getting ready to call: updateAppointmentSlot");
+            appointmentService.updateAppointmentSlot(slotId, info, contextInfo);
+            // Fetch it again
+            AppointmentSlotInfo retrieved = appointmentService.getAppointmentSlot(slotId, contextInfo);
+            // Check that date matches the new start date
+            assertEquals(newStartDate, retrieved.getStartDate());
         } catch (Exception e) {
             System.err.println("Exception");
             e.printStackTrace();

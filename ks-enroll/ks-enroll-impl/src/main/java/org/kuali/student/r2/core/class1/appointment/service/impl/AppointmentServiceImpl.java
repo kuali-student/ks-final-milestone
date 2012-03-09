@@ -130,7 +130,6 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-
     public StatusInfo deleteAppointment(String appointmentId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -262,6 +261,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @Override
     public AppointmentSlotInfo getAppointmentSlot(String appointmentSlotId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
         if (null == apptSlot) {

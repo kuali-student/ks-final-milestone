@@ -582,6 +582,23 @@ public interface AppointmentService {
     public StatusInfo deleteAppointmentWindow(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
 
     /**
+     * Retrieves an AppointmentSlot
+     *
+     * @param appointmentSlotId a unique Id of an AppointmentSlot
+     * @param contextInfo         Context information containing the principalId
+     *                            and locale information about the caller of
+     *                            service operation
+     * @return an AppointmentWindow
+     * @throws DoesNotExistException     appointmentWindowId not found
+     * @throws InvalidParameterException invalid contextInfo
+     * @throws MissingParameterException appointmentWindowId or contextInfo is
+     *                                   missing or null
+     * @throws OperationFailedException  unable to complete request
+     * @throws PermissionDeniedException an authorization failure occurred
+     */
+    public AppointmentSlotInfo getAppointmentSlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException;
+
+    /**
      * Retrieves all AppointmentWindows belonging to the person and period
      *
      * @param personId          the identifier for the Person
