@@ -16,7 +16,9 @@
  */
 package org.kuali.student.r2.core.class1.appointment.model;
 
+import org.kuali.student.common.entity.KSEntityConstants;
 import org.kuali.student.r2.common.dto.AttributeInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
 import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.common.dto.TimeOfDayInfo;
 import org.kuali.student.r2.common.entity.AttributeOwner;
@@ -26,8 +28,6 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentSlotRuleInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.infc.AppointmentSlotRule;
 import org.kuali.student.r2.core.appointment.infc.AppointmentWindow;
-import org.kuali.student.r2.core.class1.atp.model.AtpAttributeEntity;
-import org.omg.CORBA.StringHolder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -61,7 +61,7 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
     @Column(name = "MAX_APPT_PER_SLOT")
     private Integer maxAppointmentsPerSlot;
     // ---------------------------------------------------------------------
-    // Fields for AppointmentSlotRule
+    // Fields for AppointmentSlotRule (flattened out)
     @Column(name = "SR_WEEKDAYS")
     private String weekdays; // Comma delimited "days of week" when appointments can occur
 
@@ -90,16 +90,18 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
     // IdEntity is what AppointmentWindow extends (Meta fields are included by inheritance from MetaIdentity)
     @Column(name = "NAME")
     private String name;
-    
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "RT_DESCR_ID")
-    private AppointmentWindowRichTextEntity descr;
 
-    @Column(name = "ATP_TYPE_ID")
-    private String apptWinType;
+    @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String formatted;
 
-    @Column(name = "ATP_STATE_ID")
-    private String apptWinState;
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
+    private String plain;
+
+    @Column(name = "APPT_WINDOW_TYPE_ID")
+    private String apptWindowType;
+
+    @Column(name = "APPT_WINDOW_STATE_ID")
+    private String apptWindowState;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "owner")
     private List<AppointmentWindowAttributeEntity> attributes = new ArrayList<AppointmentWindowAttributeEntity>();
@@ -147,10 +149,12 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         // --- These getters/setters are for inherited fields
         this.setName(apptWin.getName());
         if (apptWin.getDescr() != null) {
-            this.setDescr(new AppointmentWindowRichTextEntity(apptWin.getDescr()));
+            this.setDescrPlain(apptWin.getDescr().getPlain());
+            this.setDescrFormatted(apptWin.getDescr().getFormatted());
         }
-        this.setApptWinState(apptWin.getStateKey());
-        this.setApptWinType(apptWin.getTypeKey());
+        // The state/type keys are in every entity, but are not explicitly inherited
+        this.setApptWindowState(apptWin.getStateKey());
+        this.setApptWindowType(apptWin.getTypeKey());
         // Add attributes individually
         this.setAttributes(new ArrayList<AppointmentWindowAttributeEntity>());
         if (null != apptWin.getAttributes()) {
@@ -158,6 +162,22 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
                 this.getAttributes().add(new AppointmentWindowAttributeEntity(att, this));
             }
         }
+    }
+
+    public String getDescrFormatted() {
+        return formatted;
+    }
+
+    public void setDescrFormatted(String formatted) {
+        this.formatted = formatted;
+    }
+
+    public String getDescrPlain() {
+        return plain;
+    }
+
+    public void setDescrPlain(String plain) {
+        this.plain = plain;
     }
 
     public Date getStartDate() {
@@ -275,28 +295,20 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         this.name = name;
     }
 
-    public AppointmentWindowRichTextEntity getDescr() {
-        return descr;
+    public String getApptWindowType() {
+        return apptWindowType;
     }
 
-    public void setDescr(AppointmentWindowRichTextEntity descr) {
-        this.descr = descr;
+    public void setApptWindowType(String apptWinType) {
+        this.apptWindowType = apptWinType;
     }
 
-    public String getApptWinType() {
-        return apptWinType;
+    public String getApptWindowState() {
+        return apptWindowState;
     }
 
-    public void setApptWinType(String apptWinType) {
-        this.apptWinType = apptWinType;
-    }
-
-    public String getApptWinState() {
-        return apptWinState;
-    }
-
-    public void setApptWinState(String apptWinState) {
-        this.apptWinState = apptWinState;
+    public void setApptWindowState(String apptWinState) {
+        this.apptWindowState = apptWinState;
     }
 
     @Override
@@ -365,15 +377,18 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         // -------------------------------------------------
         // Stuff that is updated for nearly all entities
         info.setId(getId());
-        if (apptWinType != null) {
-            info.setTypeKey(apptWinType);
+        if (apptWindowType != null) {
+            info.setTypeKey(apptWindowType);
         }
-        if (apptWinState != null) {
-            info.setStateKey(apptWinState);
+        if (apptWindowState != null) {
+            info.setStateKey(apptWindowState);
         }
         info.setMeta(super.toDTO());
-        if (descr != null) {
-            info.setDescr(descr.toDto());
+        if (getDescrPlain() != null) { // assume if this is not null, formatted also not null
+            RichTextInfo textInfo = new RichTextInfo();
+            textInfo.setFormatted(formatted);
+            textInfo.setPlain(plain);
+            info.setDescr(textInfo);
         }
 
         List<AttributeInfo> attrs = new ArrayList<AttributeInfo>();

@@ -25,7 +25,9 @@ import org.kuali.student.r2.core.appointment.dto.AppointmentInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentSlotInfo;
 import org.kuali.student.r2.core.appointment.dto.AppointmentWindowInfo;
 import org.kuali.student.r2.core.appointment.service.AppointmentService;
+import org.kuali.student.r2.core.class1.appointment.dao.AppointmentSlotDao;
 import org.kuali.student.r2.core.class1.appointment.dao.AppointmentWindowDao;
+import org.kuali.student.r2.core.class1.appointment.model.AppointmentSlotEntity;
 import org.kuali.student.r2.core.class1.appointment.model.AppointmentWindowEntity;
 
 import java.util.List;
@@ -48,13 +50,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class AppointmentServiceImpl implements AppointmentService {
     @Resource
     private AppointmentWindowDao appointmentWindowDao;
+    @Resource
+    private AppointmentSlotDao appointmentSlotDao;
+
     public AppointmentWindowDao getAppointmentWindowDao() {
         return appointmentWindowDao;
     }
 
     public void setAppointmentWindowDao(AppointmentWindowDao appointmentWindowDao) {
         this.appointmentWindowDao = appointmentWindowDao;
-        this.appointmentWindowDao = appointmentWindowDao;
+    }
+
+    public AppointmentSlotDao getAppointmentSlotDao() {
+        return appointmentSlotDao;
+    }
+
+    public void setAppointmentSlotDao(AppointmentSlotDao appointmentSlotDao) {
+        this.appointmentSlotDao = appointmentSlotDao;
     }
 
     @Override
@@ -88,12 +100,12 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public List<String> searchForAppointmentIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<String> searchForAppointmentIds(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public List<AppointmentInfo> searchForAppointments(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+    public List<AppointmentInfo> searchForAppointments(QueryByCriteria criteria, ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
@@ -250,9 +262,32 @@ public class AppointmentServiceImpl implements AppointmentService {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    public AppointmentSlotInfo getAppointmentSlot(String appointmentSlotId, ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
+        if (null == apptSlot) {
+            throw new DoesNotExistException(appointmentSlotId);
+        }
+        return apptSlot.toDto();
+    }
+
     @Override
-    public AppointmentSlotInfo createAppointmentSlot(@WebParam(name = "appointmentWindowId") String appointmentWindowId, @WebParam(name = "appointmentSlotTypeKey") String appointmentSlotTypeKey, @WebParam(name = "appointmentSlotInfo") AppointmentSlotInfo appointmentSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    @Transactional
+    public AppointmentSlotInfo createAppointmentSlot(String appointmentWindowId, String appointmentSlotTypeKey, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException {
+        AppointmentSlotEntity apptSlot = new AppointmentSlotEntity(appointmentSlotInfo);
+        // Need to manually set the entity since appointmentSlotInfo only has an id for its corresponding AppointmentWindow
+        AppointmentWindowEntity windowEntity = appointmentWindowDao.find(appointmentWindowId);
+        apptSlot.setApptWinEntity(windowEntity); // This completes the initialization of apptSlot
+        appointmentSlotDao.persist(apptSlot);
+
+        AppointmentSlotEntity retrieved = appointmentSlotDao.find(apptSlot.getId());
+        AppointmentSlotInfo info = null;
+        if (retrieved != null) {
+            info = retrieved.toDto();
+        } else {
+            throw new OperationFailedException("Appointment Window not found after persisted. apptSlotId: " + apptSlot.getId());
+        }
+
+        return info;
     }
 
     @Override
@@ -261,13 +296,41 @@ public class AppointmentServiceImpl implements AppointmentService {
     }
 
     @Override
-    public AppointmentSlotInfo updateAppointmentSlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "appointmentSlotInfo") AppointmentSlotInfo appointmentSlotInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public AppointmentSlotInfo updateAppointmentSlot(String appointmentSlotId, AppointmentSlotInfo appointmentSlotInfo, ContextInfo contextInfo) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
+
+        if (null != apptSlot) {
+            String apptWinId = apptSlot.getApptWinEntity().getId();
+            AppointmentWindowEntity apptWin = appointmentWindowDao.find(apptWinId);
+            if (null != apptWin) {
+                AppointmentSlotEntity modifiedApptSlot = new AppointmentSlotEntity(appointmentSlotInfo);
+                // Need to manually set appointment window entity (without it, an exception is thrown)
+                modifiedApptSlot.setApptWinEntity(apptWin);
+                appointmentSlotDao.merge(modifiedApptSlot);
+                return appointmentSlotDao.find(modifiedApptSlot.getId()).toDto();
+            } else {
+                // Prefixing this since this refers to an appointment window
+                throw new DoesNotExistException("apptWinId:" + apptWinId);
+            }
+        } else {
+            throw new DoesNotExistException(appointmentSlotId);
+        }
     }
 
     @Override
-    public StatusInfo deleteAppointmentSlot(@WebParam(name = "appointmentSlotId") String appointmentSlotId, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    @Transactional
+    public StatusInfo deleteAppointmentSlot(String appointmentSlotId, ContextInfo contextInfo) throws DependentObjectsExistException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        StatusInfo status = new StatusInfo();
+        status.setSuccess(Boolean.TRUE);
+
+        AppointmentSlotEntity apptSlot = appointmentSlotDao.find(appointmentSlotId);
+        if (null != apptSlot) {
+            appointmentSlotDao.remove(apptSlot);
+        } else {
+            status.setSuccess(Boolean.FALSE);
+        }
+
+        return status;
     }
 
     @Override
