@@ -87,7 +87,7 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-hibernate</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <type>pom</type>
     </dependency>
     <dependency>
