@@ -33,10 +33,10 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <!-- object structure for object.loInfo -->
 <!-- ********************************** -->
 <!-- Detailed information about a learning objective -->
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoInfo" id="object.loInfo.abstract" abstract="true">
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoInfo" id="object.loInfo.abstract" abstract="true">
 	<dict:typeRef bean="type.loInfo.singleUse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.lum.lo.dto.LoInfo" id="object.loInfo" parent="object.loInfo.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.lum.lo.dto.LoInfo" id="object.loInfo" parent="object.loInfo.abstract"/>
 
 <dict:type key="kuali.lo.type.singleUse" id="type.loInfo.singleUse.abstract" abstract="true">
 	<dict:name>singleUse</dict:name>
@@ -179,7 +179,7 @@ Using:Excel Spreadsheet src/test/resources/type-state configuration.xls, Excel S
 <dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
 	<dict:typeRef bean="type.field.loInfo.metaInfo.singleUse"/>
 </dict:objectStructure>
-<dict:objectStructure key="org.kuali.student.common.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse" parent="object.field.loInfo.metaInfo.singleUse.abstract"/>
+<dict:objectStructure key="org.kuali.student.r2.common.dto.MetaInfo" id="object.field.loInfo.metaInfo.singleUse" parent="object.field.loInfo.metaInfo.singleUse.abstract"/>
 
 <dict:type key="*" id="type.field.loInfo.metaInfo.singleUse.abstract" abstract="true">
 	<dict:name>(default)</dict:name>
