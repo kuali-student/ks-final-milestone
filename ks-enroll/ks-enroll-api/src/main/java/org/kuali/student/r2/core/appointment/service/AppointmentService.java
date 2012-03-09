@@ -588,10 +588,10 @@ public interface AppointmentService {
      * @param contextInfo         Context information containing the principalId
      *                            and locale information about the caller of
      *                            service operation
-     * @return an AppointmentWindow
-     * @throws DoesNotExistException     appointmentWindowId not found
+     * @return an AppointmentSlot
+     * @throws DoesNotExistException     appointmentSlotId not found
      * @throws InvalidParameterException invalid contextInfo
-     * @throws MissingParameterException appointmentWindowId or contextInfo is
+     * @throws MissingParameterException appointmentSlotId or contextInfo is
      *                                   missing or null
      * @throws OperationFailedException  unable to complete request
      * @throws PermissionDeniedException an authorization failure occurred
