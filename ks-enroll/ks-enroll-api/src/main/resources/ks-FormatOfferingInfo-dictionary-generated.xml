@@ -38,14 +38,14 @@ plus any of its dependencies -->
 	<!-- ********************************************************************************************************** -->
 	<import resource="classpath:ks-base-dictionary.xml"/>
 
-	<!-- LuiCapacityInfo-->
-	<bean id="LuiCapacityInfo-generated" abstract="true" parent="DataObjectEntry">
-		<property name="name" value="luiCapacityInfo"/>
-		<property name="dataObjectClass" value="org.kuali.student.enrollment.lui.dto.LuiCapacityInfo"/>
-		<property name="objectLabel" value="Lui Capacity"/>
+	<!-- FormatOfferingInfo-->
+	<bean id="FormatOfferingInfo-generated" abstract="true" parent="DataObjectEntry">
+		<property name="name" value="formatOfferingInfo"/>
+		<property name="dataObjectClass" value="org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo"/>
+		<property name="objectLabel" value="Format Offering"/>
 		<property name="objectDescription">
 			<value>
-Detailed information about a single LUI.
+DTO for the FormatOffering.
 			</value>
 		</property>
 		<property name="titleAttribute" value="name"/>
@@ -57,21 +57,19 @@ Detailed information about a single LUI.
 
 		<property name="attributes">
 			<list>
-				<ref bean="LuiCapacityInfo.id"/>
-				<ref bean="LuiCapacityInfo.typeKey"/>
-				<ref bean="LuiCapacityInfo.stateKey"/>
-				<ref bean="LuiCapacityInfo.name"/>
-				<ref bean="LuiCapacityInfo.maximumSeatCount"/>
-				<ref bean="LuiCapacityInfo.processingOrder"/>
-				<ref bean="LuiCapacityInfo.effectiveDate"/>
-				<ref bean="LuiCapacityInfo.expirationDate"/>
+				<ref bean="FormatOfferingInfo.id"/>
+				<ref bean="FormatOfferingInfo.typeKey"/>
+				<ref bean="FormatOfferingInfo.stateKey"/>
+				<ref bean="FormatOfferingInfo.name"/>
+				<ref bean="FormatOfferingInfo.courseOfferingId"/>
+				<ref bean="FormatOfferingInfo.formatId"/>
 			</list>
 		</property>
 
 		<property name="complexAttributes">
 			<list>
-				<ref bean="LuiCapacityInfo.descr"/>
-				<ref bean="LuiCapacityInfo.meta"/>
+				<ref bean="FormatOfferingInfo.descr"/>
+				<ref bean="FormatOfferingInfo.meta"/>
 			</list>
 		</property>
 
@@ -81,23 +79,23 @@ Detailed information about a single LUI.
 		</property>
 	</bean>
 
-	<bean id="LuiCapacityInfo.id-generated" abstract="true" parent="BaseKuali.id">
+	<bean id="FormatOfferingInfo.id-generated" abstract="true" parent="BaseKuali.id">
 		<property name="name" value="id"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
+	<bean id="FormatOfferingInfo.typeKey-generated" abstract="true" parent="BaseKuali.typeKey">
 		<property name="name" value="typeKey"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
+	<bean id="FormatOfferingInfo.stateKey-generated" abstract="true" parent="BaseKuali.stateKey">
 		<property name="name" value="stateKey"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.name-generated" abstract="true" parent="BaseKuali.name">
+	<bean id="FormatOfferingInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="FormatOfferingInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="descr"/>
 		<property name="shortLabel" value="Descr"/>
 		<property name="summary">
@@ -125,8 +123,8 @@ A description of the entity.
 
 				<property name="attributes">
 					<list>
-						<ref bean="LuiCapacityInfo.descr.plain"/>
-						<ref bean="LuiCapacityInfo.descr.formatted"/>
+						<ref bean="FormatOfferingInfo.descr.plain"/>
+						<ref bean="FormatOfferingInfo.descr.formatted"/>
 					</list>
 				</property>
 
@@ -143,84 +141,78 @@ A description of the entity.
 		</property>
 	</bean>
 
-	<bean id="LuiCapacityInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
+	<bean id="FormatOfferingInfo.descr.plain-generated" abstract="true" parent="BaseKuali.descr.plain">
 		<property name="name" value="plain"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
+	<bean id="FormatOfferingInfo.descr.formatted-generated" abstract="true" parent="BaseKuali.descr.formatted">
 		<property name="name" value="formatted"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.luiIds-generated" abstract="true" parent="CollectionDefinition">
-		<property name="name" value="luiIds"/>
-		<property name="shortLabel" value="Lui Ids"/>
+	<bean id="FormatOfferingInfo.courseOfferingId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="courseOfferingId"/>
+		<property name="shortLabel" value="Course Offering Id"/>
 		<property name="summary">
 			<value>
-A list of LUI identifiers to which this capacity definition
-applies.
+The Course Offering Id to which this Format Offering belongs.
 			</value>
 		</property>
-		<property name="label" value="Lui Ids"/>
-		<property name="elementLabel" value="Lui Id"/>
+		<property name="label" value="Course Offering Id"/>
 		<property name="description">
 			<value>
-A list of LUI identifiers to which this capacity definition
-applies.
+The Course Offering Id to which this Format Offering belongs.
+			</value>
+		</property>
+		<!-- commented out until KRAD bug gets fixed that requires mask to also be entered
+		<property name="attributeSecurity">
+		<ref bean="BaseKuali.readOnlyAttributeSecurity"/>
+		</property>
+		-->
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="FormatOfferingInfo.formatId-generated" abstract="true" parent="BaseKuali.string">
+		<property name="name" value="formatId"/>
+		<property name="shortLabel" value="Format Id"/>
+		<property name="summary">
+			<value>
+Canonical Format this Format Offering corresponds
+to. 
+			</value>
+		</property>
+		<property name="label" value="Format Id"/>
+		<property name="description">
+			<value>
+Canonical Format this Format Offering corresponds
+to. Currently, this is optional and Format Offerings may not
+directly map to any canonical Format.
+			</value>
+		</property>
+		<property name="required" value="false"/>
+	</bean>
+
+	<bean id="FormatOfferingInfo.activityOfferingTypeKeys-generated" abstract="true" parent="CollectionDefinition">
+		<property name="name" value="activityOfferingTypeKeys"/>
+		<property name="shortLabel" value="Activity Offering Type Keys"/>
+		<property name="summary">
+			<value>
+Gets a list of Activity Offering Types within this Format
+Offering.
+			</value>
+		</property>
+		<property name="label" value="Activity Offering Types"/>
+		<property name="elementLabel" value="Activity Offering Type Key"/>
+		<property name="description">
+			<value>
+Gets a list of Activity Offering Types within this Format
+Offering.
 			</value>
 		</property>
 		<property name="minOccurs" value="0"/>
 		<property name="dataObjectClass" value="java.lang.String"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.maximumSeatCount-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="maximumSeatCount"/>
-		<property name="shortLabel" value="Maximum Seat Count"/>
-		<property name="summary">
-			<value>
-Maximum number of &quot;seats&quot; that the LUI will hold for
-registration.
-			</value>
-		</property>
-		<property name="label" value="Maximum Seat Count"/>
-		<property name="description">
-			<value>
-Maximum number of &quot;seats&quot; that the LUI will hold for
-registration.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="LuiCapacityInfo.processingOrder-generated" abstract="true" parent="BaseKuali.integer">
-		<property name="name" value="processingOrder"/>
-		<property name="shortLabel" value="Processing Order"/>
-		<property name="summary">
-			<value>
-The order in which this capacity definition should be applied
-when there are multiple capacity definitions for the primary
-LUI.
-			</value>
-		</property>
-		<property name="label" value="Processing Order"/>
-		<property name="description">
-			<value>
-The order in which this capacity definition should be applied
-when there are multiple capacity definitions for the primary
-LUI.
-			</value>
-		</property>
-		<property name="required" value="false"/>
-	</bean>
-
-	<bean id="LuiCapacityInfo.effectiveDate-generated" abstract="true" parent="BaseKuali.effectiveDate">
-		<property name="name" value="effectiveDate"/>
-	</bean>
-
-	<bean id="LuiCapacityInfo.expirationDate-generated" abstract="true" parent="BaseKuali.expirationDate">
-		<property name="name" value="expirationDate"/>
-	</bean>
-
-	<bean id="LuiCapacityInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
+	<bean id="FormatOfferingInfo.meta-generated" abstract="true" parent="ComplexAttributeDefinition">
 		<property name="name" value="meta"/>
 		<property name="shortLabel" value="Meta"/>
 		<property name="summary">
@@ -266,11 +258,11 @@ being thrown.
 
 				<property name="attributes">
 					<list>
-						<ref bean="LuiCapacityInfo.meta.versionInd"/>
-						<ref bean="LuiCapacityInfo.meta.createTime"/>
-						<ref bean="LuiCapacityInfo.meta.createId"/>
-						<ref bean="LuiCapacityInfo.meta.updateTime"/>
-						<ref bean="LuiCapacityInfo.meta.updateId"/>
+						<ref bean="FormatOfferingInfo.meta.versionInd"/>
+						<ref bean="FormatOfferingInfo.meta.createTime"/>
+						<ref bean="FormatOfferingInfo.meta.createId"/>
+						<ref bean="FormatOfferingInfo.meta.updateTime"/>
+						<ref bean="FormatOfferingInfo.meta.updateId"/>
 					</list>
 				</property>
 
@@ -287,23 +279,23 @@ being thrown.
 		</property>
 	</bean>
 
-	<bean id="LuiCapacityInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
+	<bean id="FormatOfferingInfo.meta.versionInd-generated" abstract="true" parent="BaseKuali.meta.versionInd">
 		<property name="name" value="versionInd"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
+	<bean id="FormatOfferingInfo.meta.createTime-generated" abstract="true" parent="BaseKuali.meta.createTime">
 		<property name="name" value="createTime"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
+	<bean id="FormatOfferingInfo.meta.createId-generated" abstract="true" parent="BaseKuali.meta.createId">
 		<property name="name" value="createId"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
+	<bean id="FormatOfferingInfo.meta.updateTime-generated" abstract="true" parent="BaseKuali.meta.updateTime">
 		<property name="name" value="updateTime"/>
 	</bean>
 
-	<bean id="LuiCapacityInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
+	<bean id="FormatOfferingInfo.meta.updateId-generated" abstract="true" parent="BaseKuali.meta.updateId">
 		<property name="name" value="updateId"/>
 	</bean>
 </beans>

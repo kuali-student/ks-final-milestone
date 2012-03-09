@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 22:30:33 EST 2012
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -102,13 +102,13 @@ Unique identifier for a person record.
 		<property name="shortLabel" value="Percentage Effort"/>
 		<property name="summary">
 			<value>
-Percentage involvement of the instructor in the
+Percentage involvement of the instructor in the activity.
 			</value>
 		</property>
 		<property name="label" value="Percentage Effort"/>
 		<property name="description">
 			<value>
-Percentage involvement of the instructor in the
+Percentage involvement of the instructor in the activity.
 			</value>
 		</property>
 		<property name="required" value="false"/>

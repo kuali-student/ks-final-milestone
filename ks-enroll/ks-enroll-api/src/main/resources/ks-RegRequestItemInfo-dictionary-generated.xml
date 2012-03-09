@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 22:30:33 EST 2012
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -61,7 +61,7 @@ course - {@link RegRequestItem} Type is ADD , newRegGroupId is the reg group
 to be registered for 2. Register for course but waitlist if seat not
 available OR waitlist for course - same as above and okToWaitlist is true 3.
 Swap between reg group within same course offering - Type is swap, both new
-and existing reg group ids populated. new is to be the one replaced with the
+and existing reg group Ids populated. new is to be the one replaced with the
 old one. Reg groups are in the same course offering. 4.Save reg request -
 Type is UPDATE and newRegGroupId is populated
 			</value>

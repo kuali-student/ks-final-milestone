@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 22:30:33 EST 2012
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -97,7 +97,7 @@ Space code where the meeting is going to take place.
 
 	<bean id="MeetingScheduleInfo.scheduleId-generated" abstract="true" parent="BaseKuali.string">
 		<property name="name" value="scheduleId"/>
-		<property name="shortLabel" value="Time Periods"/>
+		<property name="shortLabel" value="Schedule Id"/>
 		<property name="summary">
 			<value>
 Date and Time The date and time values for all vCalendar properties are
@@ -105,7 +105,7 @@ formatted as a string consistent with the ISO 8601 representation for
 combinations of dates and times. 
 			</value>
 		</property>
-		<property name="label" value="Time Periods"/>
+		<property name="label" value="Schedule Id"/>
 		<property name="description">
 			<value>
 Date and Time The date and time values for all vCalendar properties are

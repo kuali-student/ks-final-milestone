@@ -21,7 +21,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 	<!-- ********************************************************
 		                       WARNING 
 		             DO NOT UPDATE THIS FILE MANUALLY
-		This dictionary file was automatically generated on Thu Feb 02 22:30:33 EST 2012
+		This dictionary file was automatically generated on Fri Mar 09 09:47:46 EST 2012
 		The DictionaryGeneratorMojo reads the service contract 
 		and creates these ks-XXXX-dictionary-generated.xml files.
 
@@ -65,6 +65,7 @@ overall request. There are multiple transaction items,
 				<ref bean="LprTransactionInfo.stateKey"/>
 				<ref bean="LprTransactionInfo.name"/>
 				<ref bean="LprTransactionInfo.requestingPersonId"/>
+				<ref bean="LprTransactionInfo.atpId"/>
 			</list>
 		</property>
 
@@ -96,25 +97,6 @@ overall request. There are multiple transaction items,
 
 	<bean id="LprTransactionInfo.name-generated" abstract="true" parent="BaseKuali.name">
 		<property name="name" value="name"/>
-	</bean>
-
-	<bean id="LprTransactionInfo.requestingPersonId-generated" abstract="true" parent="BaseKuali.personId">
-		<property name="name" value="requestingPersonId"/>
-		<property name="shortLabel" value="Requesting Person Id"/>
-		<property name="summary">
-			<value>
-The person who requested for this LPR - differenet from the person on the
-relation.
-			</value>
-		</property>
-		<property name="label" value="Requesting Person Id"/>
-		<property name="description">
-			<value>
-The person who requested for this LPR - differenet from the person on the
-relation.
-			</value>
-		</property>
-		<property name="required" value="false"/>
 	</bean>
 
 	<bean id="LprTransactionInfo.descr-generated" abstract="true" parent="ComplexAttributeDefinition">
@@ -171,6 +153,52 @@ A description of the entity.
 		<property name="name" value="formatted"/>
 	</bean>
 
+	<bean id="LprTransactionInfo.requestingPersonId-generated" abstract="true" parent="BaseKuali.personId">
+		<property name="name" value="requestingPersonId"/>
+		<property name="shortLabel" value="Requesting Person Id"/>
+		<property name="summary">
+			<value>
+The person who requested for this transaction
+
+Note this does not have to be the same as the person on the transaction 
+item. 
+			</value>
+		</property>
+		<property name="label" value="Requesting Person Id"/>
+		<property name="description">
+			<value>
+The person who requested for this transaction
+
+Note this does not have to be the same as the person on the transaction 
+item. It could be, for example, an administrator creating registrations 
+on behalf of the student.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
+	<bean id="LprTransactionInfo.atpId-generated" abstract="true" parent="BaseKuali.atpId">
+		<property name="name" value="atpId"/>
+		<property name="shortLabel" value="Atp Id"/>
+		<property name="summary">
+			<value>
+The ATP for which this transaction applies.
+
+
+			</value>
+		</property>
+		<property name="label" value="ATP Id"/>
+		<property name="description">
+			<value>
+The ATP for which this transaction applies.
+
+This constrains which lui's can be manipulated by this transaction's items. 
+The items may only refer to this ATP or nested ATPs.
+			</value>
+		</property>
+		<property name="required" value="true"/>
+	</bean>
+
 	<bean id="LprTransactionInfo.lprTransactionItems-generated" abstract="true" parent="CollectionDefinition">
 		<property name="name" value="lprTransactionItems"/>
 		<property name="shortLabel" value="Lpr Transaction Items"/>
@@ -179,7 +207,7 @@ A description of the entity.
 Transaction item for this
 			</value>
 		</property>
-		<property name="label" value="Lpr Transaction Items"/>
+		<property name="label" value="LPR Transaction Items"/>
 		<property name="elementLabel" value="Lpr Transaction Item"/>
 		<property name="description">
 			<value>
