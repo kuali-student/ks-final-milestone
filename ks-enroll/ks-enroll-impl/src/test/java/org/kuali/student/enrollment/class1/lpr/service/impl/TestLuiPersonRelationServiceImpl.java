@@ -80,7 +80,7 @@ public class TestLuiPersonRelationServiceImpl {
     // LPR Roster Constants
     private final static String ATP_DURATION_KEY = "semester1";
     private final static String LPR_TRANSACTION_NAME = "NEW TRANSACTION TEST";
-    private final static int TIME_QTY = 1;
+    private final static String TIME_QTY = "1";
     private final static String LPR_ROSTER_NAME = "LPR_ROSTER_TEST";
     private final static String LPR_ROSTER_DESC = "LPR ROSTER DESC";
     private final static String ATTRIBUTE_KEY = "Key";
@@ -304,7 +304,7 @@ public class TestLuiPersonRelationServiceImpl {
         assertEquals(info.getStateKey(), STATE_KEY);
         assertEquals(info.getDescr().getPlain(), LPR_ROSTER_DESC);
         assertEquals(info.getCheckInFrequency().getAtpDurationTypeKey(), ATP_DURATION_KEY);
-        assertEquals(info.getCheckInFrequency().getTimeQuantity().intValue(), TIME_QTY);
+        assertEquals(info.getCheckInFrequency().getTimeQuantity(), TIME_QTY);
         assertEquals(info.getName(), LPR_ROSTER_NAME);
         assertEquals(info.getAssociatedLuiIds().size(), 1);
         assertEquals(info.getAssociatedLuiIds().get(0), LUI_ID);

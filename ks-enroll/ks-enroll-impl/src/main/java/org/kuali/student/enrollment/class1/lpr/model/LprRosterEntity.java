@@ -72,7 +72,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
 
         if (dto.getCheckInFrequency() != null) {
             this.setAtpDurationTypeKey(dto.getCheckInFrequency().getAtpDurationTypeKey());
-            this.setTimeQuantity(dto.getCheckInFrequency().getTimeQuantity());
+            this.setTimeQuantity(Integer.parseInt(dto.getCheckInFrequency().getTimeQuantity()));
         }
         this.setName(dto.getName());
         if (dto.getDescr() != null) {
@@ -180,7 +180,7 @@ public class LprRosterEntity extends MetaEntity implements AttributeOwner<LprRos
         info.setId(this.getId());
         TimeAmountInfo timeAmountInfo = new TimeAmountInfo();
         timeAmountInfo.setAtpDurationTypeKey(this.getAtpDurationTypeKey());
-        timeAmountInfo.setTimeQuantity(this.getTimeQuantity());
+        timeAmountInfo.setTimeQuantity("" + this.getTimeQuantity());
         info.setCheckInFrequency(timeAmountInfo);
         info.setCheckInRequired(this.getCheckInRequired());
         info.setMaximumCapacity(this.getMaximumCapacity());

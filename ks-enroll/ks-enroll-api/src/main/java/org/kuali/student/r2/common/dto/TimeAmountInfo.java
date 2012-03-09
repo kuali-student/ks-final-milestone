@@ -47,7 +47,7 @@ public class TimeAmountInfo
     private String atpDurationTypeKey; 
     
     @XmlElement
-    private Integer timeQuantity; 
+    private String timeQuantity; 
     
     @XmlAnyElement
     private List<Element> _futureElements;    
@@ -82,11 +82,11 @@ public class TimeAmountInfo
     }
     	
     @Override
-    public Integer getTimeQuantity(){
+    public String getTimeQuantity(){
         return timeQuantity;
     }
 
-    public void setTimeQuantity(Integer timeQuantity) {
+    public void setTimeQuantity(String timeQuantity) {
         this.timeQuantity = timeQuantity;
     }
 }

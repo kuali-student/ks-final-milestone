@@ -137,12 +137,12 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         // start interval could be null, duration
         if (slotRule.getSlotStartInterval() != null) {
             this.setStartIntervalDurationType(slotRule.getSlotStartInterval().getAtpDurationTypeKey());
-            this.setStartIntervalTimeQuantity(slotRule.getSlotStartInterval().getTimeQuantity());
+            this.setStartIntervalTimeQuantity(Integer.parseInt(slotRule.getSlotStartInterval().getTimeQuantity()));
         }
         // slot duration could be null
         if (slotRule.getSlotDuration() != null) {
             this.setDurationType(slotRule.getSlotDuration().getAtpDurationTypeKey());
-            this.setDurationTimeQuantity(slotRule.getSlotDuration().getTimeQuantity());
+            this.setDurationTimeQuantity(Integer.parseInt(slotRule.getSlotDuration().getTimeQuantity()));
         }
         // --- These getters/setters are for inherited fields
         this.setName(apptWin.getName());
@@ -315,7 +315,7 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         return info;
     }
     
-    private TimeAmountInfo convertToTimeAmountInfo(String typeKey, Integer quantity) {
+    private TimeAmountInfo convertToTimeAmountInfo(String typeKey, String quantity) {
         TimeAmountInfo info = new TimeAmountInfo();
         info.setAtpDurationTypeKey(typeKey);
         info.setTimeQuantity(quantity);
@@ -349,14 +349,14 @@ public class AppointmentWindowEntity extends MetaEntity implements AttributeOwne
         if (durType != null) {
             // Assume duration also not null
             Integer quantity = getStartIntervalTimeQuantity();
-            rule.setSlotStartInterval(convertToTimeAmountInfo(durType, quantity));
+            rule.setSlotStartInterval(convertToTimeAmountInfo(durType, "" + quantity));
         }
         // slot interval duration (could be null)
         durType = getDurationType();
         if (durType != null) {
             // Assume duration also not null
             Integer quantity = getDurationTimeQuantity();
-            rule.setSlotStartInterval(convertToTimeAmountInfo(durType, quantity));
+            rule.setSlotStartInterval(convertToTimeAmountInfo(durType, "" + quantity));
         }
         info.setPeriodMilestoneId(getPeriodMilestoneId());
         info.setAssignedPopulationId(getAssignedPopulationId());
