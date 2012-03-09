@@ -73,7 +73,7 @@
                 <bean parent="Uif-HorizontalFieldGroup" p:label="actions" p:labelField.render="false">
                     <property name="items">
                         <list>
-                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="searchCalendar"/>
+                            <bean parent="Uif-SecondaryActionButton" p:actionLabel="Search" p:methodToCall="search"/>
                             <bean parent="Uif-ActionLink" p:actionLabel="Cancel" p:methodToCall="close"/>
                         </list>
                     </property>
