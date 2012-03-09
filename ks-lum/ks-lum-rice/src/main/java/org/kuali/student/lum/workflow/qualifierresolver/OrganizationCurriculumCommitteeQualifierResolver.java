@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
@@ -11,15 +11,15 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.core.organization.dto.OrgInfo;
-import org.kuali.student.core.organization.dto.OrgOrgRelationInfo;
-import org.kuali.student.core.organization.service.OrganizationService;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo;
+import org.kuali.student.r2.core.organization.service.OrganizationService;
 import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
 
 /**
  * A qualifier resolver class that is used by the hierarchy routing node {@link OrganizationDynamicNode}.
- * 
+ *
  * This qualifier resolver will get the organization id value from inside the current route node instance and use the
  * {@link OrganizationService#getOrgOrgRelationsByOrg(String)} method to find all relations to it. From those relations
  * this class will select the ones that are both active and of the relation type matching
@@ -28,11 +28,11 @@ import org.kuali.student.lum.workflow.node.OrganizationDynamicNode;
  * also only organizations that are of the type {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_COC}. Those
  * organizations will be returned as qualifications with the details being the organization id and the organization
  * short name fields.
- * 
+ *
  * If no relation is found that is both active and of the relation type matching
  * {@link AbstractOrganizationServiceQualifierResolver.KUALI_ORG_TYPE_CURRICULUM_PARENT} then this class will use the organization
  * found on the current route node instance as the qualification returned.
- * 
+ *
  */
 public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     protected static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(OrganizationCurriculumCommitteeQualifierResolver.class);
@@ -51,7 +51,7 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
         try {
             List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
             // find the OrgOrgRelationInfo objects associated with the org from the route node instance
-            List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue);
+            List<OrgOrgRelationInfo> orgRelationInfos = getOrganizationService().getOrgOrgRelationsByOrg(orgIdValue, null);	// TODO KSCM-267
             for (OrgOrgRelationInfo orgOrgRelationInfo : orgRelationInfos) {
                 // check that the relationship is active
                 if (StringUtils.equals("Active", orgOrgRelationInfo.getState())) {
@@ -85,12 +85,14 @@ public class OrganizationCurriculumCommitteeQualifierResolver extends AbstractOr
     }
 
     protected OrgInfo getOrganization(String orgId) throws Exception {
-        try {
-            return getOrganizationService().getOrganization(orgId);
-        } catch (DoesNotExistException e) {
-            LOG.error("No valid organization found for id '" + orgId + "'", e);
-            throw e;
-        }
+//        try {
+        	OrgInfo orgInfo = null;
+        	// TODO KSCM orgInfo = getOrganizationService().getOrganization(orgId, null);	// TODO KSCM-267
+            return orgInfo;
+//        } catch (DoesNotExistException e) {
+//            LOG.error("No valid organization found for id '" + orgId + "'", e);
+//            throw e;
+//        }
     }
 
 }

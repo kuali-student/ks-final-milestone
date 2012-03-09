@@ -1,6 +1,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd">
  <import resource="classpath:ks-cluInfo-dictionary-context.xml" />
  <import resource="classpath:ks-loInfo-dictionary-context.xml" />
@@ -10,9 +10,9 @@
  <import resource="classpath:ks-lu-search-dictionary-context.xml" />
 
  <!-- CourseInfo-->
- <bean id="org.kuali.student.lum.course.dto.CourseInfo-parent"
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseInfo-parent"
        abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.course.dto.CourseInfo" />
+  <property name="name" value="org.kuali.student.r2.lum.course.dto.CourseInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseInfo.unitsContentOwner" />
@@ -72,7 +72,7 @@
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
- <bean id="org.kuali.student.lum.course.dto.CourseInfo" parent="org.kuali.student.lum.course.dto.CourseInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseInfo" parent="org.kuali.student.r2.lum.course.dto.CourseInfo-parent" />
 
  <bean id="courseInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsContentOwner" />
@@ -172,43 +172,44 @@
  </bean>
  <bean id="courseInfo.code" parent="courseInfo.code-parent" />
 
- <bean id="courseInfo.courseNumberSuffix-parent" abstract="true"	parent="cluIdentifierInfo.suffixCode-parent">
-  <property name="name" value="courseNumberSuffix" />
-  <property name="minLength" value="3" />
-  <property name="maxLength" value="3" />
-  <property name="validChars" ref="digits" />
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-         <value>SUBMITTED</value>
-         <value>APPROVED</value>
-         <value>ACTIVE</value>
-         <value>RETIRED</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
-        <bean parent="cluIdentifierInfo.suffixCode-parent">
-         <property name="minOccurs" value="1" />
-         <property name="minLength" value="3" />
-         <property name="maxLength" value="3" />
-         <property name="validChars" ref="digits" />
-         <!--<property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator"/>-->
-        </bean>
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>
- </bean>
+ <bean id="courseInfo.courseNumberSuffix-parent" abstract="true"
+	parent="cluIdentifierInfo.suffixCode-parent">
+	<property name="name" value="courseNumberSuffix" />
+	<property name="minLength" value="3" />
+	<property name="maxLength" value="3" />
+	<property name="validChars" ref="digits" />
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>SUBMITTED</value>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
+							<bean parent="cluIdentifierInfo.suffixCode-parent">
+								<property name="minOccurs" value="1" />
+								<property name="minLength" value="3" />
+								<property name="maxLength" value="3" />
+								<property name="validChars" ref="digits" />
+								<!--<property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RepeatableCreditValidator"/> -->
+							</bean>
+						</property>
+					</bean>
+				</list>
+			</property>
+		</bean>
+	</property>
+</bean>
  <bean id="courseInfo.courseNumberSuffix" parent="courseInfo.courseNumberSuffix-parent" />
 
  <bean id="courseInfo.level-parent" abstract="true" parent="cluIdentifierInfo.level-parent">
@@ -246,7 +247,7 @@
  <bean id="courseInfo.courseSpecificLOs-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="courseSpecificLOs" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.course.dto.LoDisplayInfo" />
+            ref="org.kuali.student.r2.lum.course.dto.LoDisplayInfo" />
  </bean>
  <bean id="courseInfo.courseSpecificLOs" parent="courseInfo.courseSpecificLOs-parent" />
 
@@ -300,7 +301,7 @@
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
-      <bean parent="whenConstraint">
+           <bean parent="whenConstraint">
        <property name="values">
         <list>
          <value>SUBMITTED</value>
@@ -345,7 +346,7 @@
  <bean id="courseInfo.crossListings-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
   <property name="name" value="crossListings" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.course.dto.CourseCrossListingInfo" />
+            ref="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo" />
  </bean>
  <bean id="courseInfo.crossListings" parent="courseInfo.crossListings-parent" />
 
@@ -363,7 +364,7 @@
     <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
-     <list>
+     <list>      
       <bean parent="whenConstraint">
        <property name="values">
         <list>
@@ -385,7 +386,7 @@
  <bean id="courseInfo.descr" parent="courseInfo.descr-parent" />
 
  <!-- courseInfo.descr.RichTextInfo-parent-->
- <bean id="courseInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
+ <bean id="courseInfo.descr.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="courseInfo.descr.formatted" />
@@ -401,37 +402,38 @@
  </bean>
  <bean id="courseInfo.descr.formatted" parent="courseInfo.descr.formatted-parent" />
 
- <bean id="courseInfo.descr.plain-parent" abstract="true" parent="richTextInfo.formatted-parent">
-  <property name="name" value="plain" />
-  <property name="maxLength" value="1000" />
-  <property name="caseConstraint">
-   <bean parent="caseConstraint">
-    <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="state"/>
-    <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
-       <property name="values">
-        <list>
-		 <value>SUBMITTED</value>
-         <value>APPROVED</value>
-         <value>ACTIVE</value>
-         <value>RETIRED</value>
-        </list>
-       </property>
-       <property name="constraint">
-        <!--Copy all the properties from above adding minOccurs = 1-->
+ <bean id="courseInfo.descr.plain-parent" abstract="true"
+	parent="richTextInfo.formatted-parent">
+	<property name="name" value="plain" />
+	<property name="maxLength" value="1000" />
+	<property name="caseConstraint">
+		<bean parent="caseConstraint">
+			<property name="operator" value="EQUALS" />
+			<property name="fieldPath" value="state" />
+			<property name="caseSensitive" value="false" />
+			<property name="whenConstraint">
+				<list>
+					<bean parent="whenConstraint">
+						<property name="values">
+							<list>
+								<value>SUBMITTED</value>
+								<value>APPROVED</value>
+								<value>ACTIVE</value>
+								<value>RETIRED</value>
+							</list>
+						</property>
+						<property name="constraint">
+							<!--Copy all the properties from above adding minOccurs = 1 -->
         <bean parent="richTextInfo.plain-parent">
          <property name="minOccurs" value="1" />
          <property name="minLength" value="1" />
-        </bean>
-       </property>
-      </bean>
-     </list>
-    </property>
-   </bean>
-  </property>  
+		</bean>
+	</property>
+ </bean>
+				</list>
+			</property>
+		</bean>
+	</property>
  </bean>
  <bean id="courseInfo.descr.plain" parent="courseInfo.descr.plain-parent" />
 
@@ -486,8 +488,8 @@
 
  <!-- course TimeAmountInfo-->
  <bean id="courseInfo.duration.TimeAmountInfo-parent"
-       abstract="true" parent="org.kuali.student.common.dto.TimeAmountInfo">
-  <property name="name" value="org.kuali.student.common.dto.TimeAmountInfo" />
+       abstract="true" parent="org.kuali.student.r2.common.dto.TimeAmountInfo">
+  <property name="name" value="org.kuali.student.r2.common.dto.TimeAmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseInfo.duration.atpDurationTypeKey" />
@@ -513,7 +515,7 @@
 
 
  <!-- courseInfo.feeJustification.RichTextInfo-parent-->
- <bean id="courseInfo.feeJustification.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.common.dto.RichTextInfo-parent">
+ <bean id="courseInfo.feeJustification.RichTextInfo-parent"  abstract="true" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent">
   <property name="attributes">
    <list>
     <ref bean="courseInfo.feeJustification.formatted" />
@@ -563,14 +565,14 @@
  <bean id="courseInfo.fees-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="fees" />
   <property name="maxOccurs" value="unbounded" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseFeeInfo" />
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.CourseFeeInfo" />
  </bean>
  <bean id="courseInfo.fees" parent="courseInfo.fees-parent" />
 
  <bean id="courseInfo.revenues-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="revenues" />
   <property name="maxOccurs" value="unbounded" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseRevenueInfo" />
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.CourseRevenueInfo" />
  </bean>
  <bean id="courseInfo.revenues" parent="courseInfo.revenues-parent" >
    <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.RevenuePercentValidator"/>
@@ -580,7 +582,7 @@
   <property name="name" value="expenditure" />
   <!--  needs to be unbounded here otherwise the check would fail for multiplicity when it tries to update model -->
   <property name="maxOccurs" value="1" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.CourseExpenditureInfo" />
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo" />
  </bean>
  <bean id="courseInfo.expenditure" parent="courseInfo.expenditure-parent" >
  <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ExpenditurePercentValidator"/>
@@ -622,7 +624,7 @@
   <property name="name" value="endTerm" />
   <property name="customValidatorClass" value="org.kuali.student.lum.course.service.utils.ActiveDatesValidator"/>
   <property name="lookupDefinition" ref="constraint.lookup.course.endTerm"/>
- </bean>
+   </bean>
 <bean id="courseInfo.endTerm" parent="courseInfo.endTerm-parent" />
 
 <bean id="constraint.lookup.course.endTerm-parent" parent="constraint.lookup.atp">
@@ -643,7 +645,7 @@
 
  <bean id="courseInfo.formats-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="formats" />
-  <property name="dataObjectStructure" ref="org.kuali.student.lum.course.dto.FormatInfo" />
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.lum.course.dto.FormatInfo" />
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
@@ -682,21 +684,21 @@
  <bean id="courseInfo.joints-parent" abstract="true"	parent="baseComplexRepeating">
   <property name="name" value="joints" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.course.dto.CourseJointInfo" />
+            ref="org.kuali.student.r2.lum.course.dto.CourseJointInfo" />
  </bean>
  <bean id="courseInfo.joints" parent="courseInfo.joints-parent" />
 
  <bean id="courseInfo.primaryInstructor-parent" abstract="true"	parent="cluInfo.primaryInstructor-parent">
   <property name="name" value="primaryInstructor" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
+            ref="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo" />
  </bean>
  <bean id="courseInfo.primaryInstructor" parent="courseInfo.primaryInstructor-parent" />
 
  <bean id="courseInfo.instructors-parent" abstract="true"	parent="cluInfo.instructors-parent">
   <property name="name" value="instructors" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.lu.dto.CluInstructorInfo" />
+            ref="org.kuali.student.r2.lum.clu.dto.CluInstructorInfo" />
  </bean>
  <bean id="courseInfo.instructors" parent="courseInfo.instructors-parent" />
 
@@ -722,9 +724,9 @@
     <property name="operator" value="EQUALS"/>
     <property name="fieldPath" value="state"/>
     <property name="caseSensitive" value="false"/>
-    <property name="whenConstraint">
-     <list>
-      <bean parent="whenConstraint">
+		        <property name="whenConstraint">
+					<list>
+						<bean parent="whenConstraint">
        <property name="values">
         <list>
          <value>SUBMITTED</value>
@@ -765,7 +767,7 @@
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
-      <bean parent="whenConstraint">
+     <bean parent="whenConstraint">
        <property name="values">
         <list>
          <value>SUBMITTED</value>
@@ -797,20 +799,20 @@
 
  <bean id="courseInfo.versionInfo-parent" abstract="true" parent="baseComplex">
   <property name="name" value="versionInfo"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
  </bean>
  <bean id="courseInfo.versionInfo" parent="courseInfo.versionInfo-parent"/>
 
  <bean id="courseInfo.variations-parent" abstract="true" parent="cluInfo.alternateIdentifiers-parent">
   <property name="name" value="variations" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.course.dto.CourseVariationInfo" />
+            ref="org.kuali.student.r2.lum.course.dto.CourseVariationInfo" />
  </bean>
  <bean id="courseInfo.variations" parent="courseInfo.variations-parent" />
 
  <!-- CourseFeeInfo-->
- <bean id="org.kuali.student.lum.course.dto.CourseFeeInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.course.dto.CourseFeeInfo"/>
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseFeeInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.course.dto.CourseFeeInfo"/>
   <property name="attributes">
    <list>
     <ref bean="courseFeeInfo.descr"/>
@@ -822,11 +824,11 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.lum.course.dto.CourseFeeInfo" parent="org.kuali.student.lum.course.dto.CourseFeeInfo-parent"/>
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseFeeInfo" parent="org.kuali.student.r2.lum.course.dto.CourseFeeInfo-parent"/>
 
  <bean id="courseFeeInfo.descr-parent" abstract="true" parent="cluFeeRecordInfo.descr">
   <property name="name" value="descr"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
  <bean id="courseFeeInfo.descr" parent="courseFeeInfo.descr-parent"/>
 
@@ -852,8 +854,8 @@
  <bean id="courseFeeInfo.rateType" parent="courseFeeInfo.rateType-parent"/>
 
  <!-- CourseRevenueInfo-->
- <bean id="org.kuali.student.lum.course.dto.CourseRevenueInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.course.dto.CourseRevenueInfo"/>
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseRevenueInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.course.dto.CourseRevenueInfo"/>
   <property name="attributes">
    <list>
     <ref bean="courseRevenueInfo.feeType"/>
@@ -863,7 +865,7 @@
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.lum.course.dto.CourseRevenueInfo" parent="org.kuali.student.lum.course.dto.CourseRevenueInfo-parent"/>
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseRevenueInfo" parent="org.kuali.student.r2.lum.course.dto.CourseRevenueInfo-parent"/>
 
  <bean id="courseRevenueInfo.feeType-parent" abstract="true" parent="cluFeeRecordInfo.feeType">
   <property name="name" value="feeType"/>
@@ -875,7 +877,7 @@
  <bean id="courseRevenueInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="affiliatedOrgs"/>
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" />
+            ref="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo" />
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="courseRevenueInfo.affiliatedOrgs" parent="courseRevenueInfo.affiliatedOrgs-parent"/>
@@ -886,28 +888,28 @@
  <bean id="courseRevenueInfo.id" parent="courseRevenueInfo.id-parent"/>
 
  <!-- CourseExpenditureInfo-->
- <bean id="org.kuali.student.lum.course.dto.CourseExpenditureInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.course.dto.CourseExpenditureInfo"/>
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo"/>
   <property name="attributes">
    <list>
     <ref bean="courseExpenditureInfo.affiliatedOrgs"/>
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.course.dto.CourseExpenditureInfo" parent="org.kuali.student.lum.course.dto.CourseExpenditureInfo-parent"/>
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo" parent="org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo-parent"/>
 
  <bean id="courseExpenditureInfo.affiliatedOrgs-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="affiliatedOrgs"/>
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.lu.dto.AffiliatedOrgInfo" />
+            ref="org.kuali.student.r2.lum.clu.dto.AffiliatedOrgInfo" />
  </bean>
  <bean id="courseExpenditureInfo.affiliatedOrgs" parent="courseExpenditureInfo.affiliatedOrgs-parent"/>
 
  <!-- CourseVariationInfo-->
- <bean id="org.kuali.student.lum.course.dto.CourseVariationInfo-parent"
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseVariationInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.lum.course.dto.CourseVariationInfo" />
+            value="org.kuali.student.r2.lum.course.dto.CourseVariationInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseVariationInfo.courseNumberSuffix" />
@@ -919,8 +921,8 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.course.dto.CourseVariationInfo"
-       parent="org.kuali.student.lum.course.dto.CourseVariationInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseVariationInfo"
+       parent="org.kuali.student.r2.lum.course.dto.CourseVariationInfo-parent" />
 
  <bean id="courseVariationInfo.courseNumberSuffix-parent" abstract="true" parent="courseInfo.courseNumberSuffix-parent">
   <property name="name" value="courseNumberSuffix" />
@@ -957,10 +959,10 @@
  <bean id="courseVariationInfo.variationTitle" parent="courseVariationInfo.variationTitle-parent" />
 
  <!-- CourseCrossListingInfo-->
- <bean id="org.kuali.student.lum.course.dto.CourseCrossListingInfo-parent"
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.lum.course.dto.CourseCrossListingInfo" />
+            value="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo" />
   <property name="attributes">
    <list>   
     <ref bean="courseCrossListingInfo.courseNumberSuffix" />
@@ -975,8 +977,8 @@
  
   <bean id="courseCrossListingInfo.code" parent="courseInfo.code-parent" /> 
  
- <bean id="org.kuali.student.lum.course.dto.CourseCrossListingInfo"
-       parent="org.kuali.student.lum.course.dto.CourseCrossListingInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo"
+       parent="org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo-parent" />
 
  <bean id="courseCrossListingInfo.courseNumberSuffix-parent" abstract="true" parent="courseInfo.courseNumberSuffix">
   <property name="name" value="courseNumberSuffix" />
@@ -1007,10 +1009,10 @@
 
 
  <!-- CourseJointInfo-->
- <bean id="org.kuali.student.lum.course.dto.CourseJointInfo-parent"
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseJointInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.lum.course.dto.CourseJointInfo" />
+            value="org.kuali.student.r2.lum.course.dto.CourseJointInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseJointInfo.courseId" />
@@ -1022,8 +1024,8 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.course.dto.CourseJointInfo"
-       parent="org.kuali.student.lum.course.dto.CourseJointInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.course.dto.CourseJointInfo"
+       parent="org.kuali.student.r2.lum.course.dto.CourseJointInfo-parent" />
 
  <bean id="courseJointInfo.courseId-parent" abstract="true" parent="cluInfo.id-parent">
   <property name="name" value="courseId" />
@@ -1066,9 +1068,9 @@
  <bean id="courseJointInfo.type" parent="courseJointInfo.type-parent" />
 
  <!-- FormatInfo-->
- <bean id="org.kuali.student.lum.course.dto.FormatInfo-parent"
+ <bean id="org.kuali.student.r2.lum.course.dto.FormatInfo-parent"
        abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.course.dto.FormatInfo" />
+  <property name="name" value="org.kuali.student.r2.lum.course.dto.FormatInfo" />
   <property name="attributes">
    <list>
     <ref bean="formatInfo.activities" />
@@ -1081,12 +1083,12 @@
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
- <bean id="org.kuali.student.lum.course.dto.FormatInfo" parent="org.kuali.student.lum.course.dto.FormatInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.course.dto.FormatInfo" parent="org.kuali.student.r2.lum.course.dto.FormatInfo-parent" />
 
  <bean id="formatInfo.activities-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="activities" />
   <property name="dataObjectStructure"
-            ref="org.kuali.student.lum.course.dto.ActivityInfo" />
+            ref="org.kuali.student.r2.lum.course.dto.ActivityInfo" />
  </bean>
  <bean id="formatInfo.activities" parent="formatInfo.activities-parent" />
 
@@ -1117,10 +1119,10 @@
  <bean id="formatInfo.termsOffered" parent="courseInfo.termsOffered-parent" />
  
  <!-- ActivityInfo-->
- <bean id="org.kuali.student.lum.course.dto.ActivityInfo-parent"
+ <bean id="org.kuali.student.r2.lum.course.dto.ActivityInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.lum.course.dto.ActivityInfo" />
+            value="org.kuali.student.r2.lum.course.dto.ActivityInfo" />
   <property name="attributes">
    <list>
     <ref bean="activityInfo.unitsContentOwner" />
@@ -1135,7 +1137,7 @@
   </property>
   <property name="hasMetaData" value="true" />
  </bean>
- <bean id="org.kuali.student.lum.course.dto.ActivityInfo" parent="org.kuali.student.lum.course.dto.ActivityInfo-parent" />
+ <bean id="org.kuali.student.r2.lum.course.dto.ActivityInfo" parent="org.kuali.student.r2.lum.course.dto.ActivityInfo-parent" />
 
  <bean id="activityInfo.unitsContentOwner-parent" abstract="true" parent="baseKualiOrgIdRepeating">
   <property name="name" value="unitsContentOwner" />
@@ -1145,7 +1147,7 @@
  <bean id="activityInfo.activityType-parent" abstract="true"
        parent="cluInfo.type-parent">
   <property name="name" value="activityType" />
- </bean>
+		                </bean>
  <bean id="activityInfo.activityType" parent="activityInfo.activityType-parent" />
 
  <bean id="activityInfo.contactHours-parent" abstract="true" parent="baseComplex">
@@ -1156,7 +1158,7 @@
  <bean id="activityInfo.contactHours" parent="activityInfo.contactHours-parent" />
 
  <bean id="activityInfo.contactHours-structure-parent" abstract="true" parent="org.kuali.student.common.dto.AmountInfo-parent">
-  <property name="name" value="org.kuali.student.common.dto.AmountInfo" />
+  <property name="name" value="org.kuali.student.r2.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="activityInfo.contactHours.unitType" />
@@ -1267,8 +1269,8 @@
  </bean>
  <bean id="courseInfo.outOfClassHours" parent="courseInfo.outOfClassHours-parent" />
 
- <bean id="courseInfo.outOfClassHours-structure-parent" abstract="true" parent="org.kuali.student.common.dto.AmountInfo-parent">
-  <property name="name" value="org.kuali.student.common.dto.AmountInfo" />
+ <bean id="courseInfo.outOfClassHours-structure-parent" abstract="true" parent="org.kuali.student.r2.common.dto.AmountInfo-parent">
+  <property name="name" value="org.kuali.student.r2.common.dto.AmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseInfo.outOfClassHours.unitType" />
@@ -1336,7 +1338,7 @@
  <bean id="courseFeeInfo.feeAmounts.CurrencyAmountInfo-parent"
        abstract="true" parent="objectStructureDefinition">
   <property name="name"
-            value="org.kuali.student.common.dto.CurrencyAmountInfo" />
+            value="org.kuali.student.r2.common.dto.CurrencyAmountInfo" />
   <property name="attributes">
    <list>
     <ref bean="courseFeeInfo.feeAmounts.currencyAmountInfo.currencyQuantity" />
@@ -1395,9 +1397,9 @@
  <bean id="resultComponentInfo.resultValuesNumeric-parent" abstract="true" parent="baseNumericString">
   <property name="name" value="resultValues" />
   <property name="maxOccurs" value="unbounded" />
- </bean>
+      </bean>
  <bean id="resultComponentInfo.resultValuesNumeric" parent="resultComponentInfo.resultValuesNumeric-parent" />
-
+ 
  <bean id="resultComponentInfo.minCreditValue" parent="baseNumericString" >
   <property name="name" value="minCreditValue"/>
   <property name="dynamic" value="true"/>
@@ -1409,10 +1411,10 @@
  <bean id="resultComponentInfo.fixedCreditValue" parent="baseNumericString">
   <property name="name" value="fixedCreditValue"/>
   <property name="dynamic" value="true"/>
- </bean>
+   </bean>
  <!-- VersionInfo-->
  <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
+  <property name="name" value="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>
@@ -1424,7 +1426,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.common.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>

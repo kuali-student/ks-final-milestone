@@ -27,6 +27,7 @@ import org.kuali.rice.test.MethodAware;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  * @since 0.9
  */
+@Deprecated
 public class RiceUnitTestClassRunner extends JUnit4ClassRunner {
     //private PerTestDataLoaderLifecycle perTestDataLoaderLifecycle;
     private Method currentMethod;

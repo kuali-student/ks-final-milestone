@@ -1,27 +1,38 @@
 package org.kuali.student.core.rice.authorization;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.apache.log4j.Logger;
-import org.kuali.rice.kew.api.action.*;
+import org.kuali.rice.kew.api.KewApiConstants;
+import org.kuali.rice.kew.api.action.ActionRequest;
+import org.kuali.rice.kew.api.action.ActionRequestStatus;
+import org.kuali.rice.kew.api.action.ActionRequestType;
+import org.kuali.rice.kew.api.action.AdHocToPrincipal;
+import org.kuali.rice.kew.api.action.DocumentActionParameters;
+import org.kuali.rice.kew.api.action.DocumentActionResult;
+import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
 import org.kuali.rice.kew.api.document.DocumentDetail;
 import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.entity.EntityDefault;
 import org.kuali.rice.kim.api.identity.name.EntityName;
 import org.kuali.rice.kim.api.permission.PermissionService;
 import org.kuali.rice.kim.api.role.RoleService;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.StudentWorkflowConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.exceptions.OperationFailedException;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.util.security.SecurityUtils;
-import org.kuali.student.core.workflow.dto.WorkflowPersonInfo;
-
-import java.io.Serializable;
-import java.util.*;
+import org.kuali.student.r1.core.workflow.dto.WorkflowPersonInfo;
 
 public class CollaboratorHelper implements Serializable {
 	protected IdentityService identityService;
@@ -42,34 +53,40 @@ public class CollaboratorHelper implements Serializable {
 		//get a user name
         String currentUserPrincipalId = SecurityUtils.getCurrentUserId();
 
-        // TODO: combine actionRequestEnum and ActionRequestType.  Too similar.  Only thing we need the enum for is human readable exceptions
-        StudentWorkflowConstants.ActionRequestEnum actionRequestEnum = StudentWorkflowConstants.ActionRequestEnum.getByCode(actionRequestTypeCode);
+        StudentWorkflowConstants.ActionRequestType actionRequestEnum = StudentWorkflowConstants.ActionRequestType.getByCode(actionRequestTypeCode);
         if (actionRequestEnum == null) {
         	throw new OperationFailedException("No valid action request type found for code: " + actionRequestTypeCode);
         }
-
+        
         DocumentActionParameters docActionParams = DocumentActionParameters.Builder.create(docId, currentUserPrincipalId).build();
         ActionRequestType actionRequestType = ActionRequestType.fromCode(actionRequestTypeCode);
         AdHocToPrincipal.Builder ahtpBuilder = AdHocToPrincipal.Builder.create(actionRequestType, null, recipientPrincipalId);
         ahtpBuilder.setForceAction(true);
 
         DocumentActionResult stdResp = null;
-        if (StudentWorkflowConstants.ActionRequestEnum.APPROVE.equals(actionRequestEnum)) {
+        if (StudentWorkflowConstants.ActionRequestType.APPROVE.equals(actionRequestEnum)) {
             ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_APPROVE_REQ_LABEL);
             stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
-        else if (StudentWorkflowConstants.ActionRequestEnum.ACKNOWLEDGE.equals(actionRequestEnum)) {
+        else if (StudentWorkflowConstants.ActionRequestType.ACKNOWLEDGE.equals(actionRequestEnum)) {
             ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_ACKNOWLEDGE_REQ_LABEL);
             stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
-        else if (StudentWorkflowConstants.ActionRequestEnum.FYI.equals(actionRequestType)) {
+        else if (StudentWorkflowConstants.ActionRequestType.FYI.equals(actionRequestEnum)) {
             ahtpBuilder.setResponsibilityDescription(KewApiConstants.ACTION_REQUEST_FYI_REQ_LABEL);
             stdResp = workflowDocumentActionsService.adHocToPrincipal(docActionParams, ahtpBuilder.build());
         }
         else {
         	throw new OperationFailedException("Invalid action request type '" + actionRequestEnum.getActionRequestLabel() + "'");
         }
-
+        //TODO KSCM-277
+//        if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+//            if(stdResp==null){
+//            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + ")");
+//            }else{
+//            	throw new OperationFailedException("Error found in Collab Adhoc Request (" + actionRequestType.getActionRequestLabel() + "): " + stdResp.getErrorMessage());
+//            }
+//        }
 
         PermissionType selectedPermType = PermissionType.getByCode(selectedPermissionCode);
         if (selectedPermType == null) {
@@ -112,8 +129,11 @@ public class CollaboratorHelper implements Serializable {
             }
             DocumentActionParameters docActionParams = DocumentActionParameters.Builder.create(docId, currentUserPrincipalId).build();
             DocumentActionResult stdResp = getWorkflowDocumentActionsService().revokeAdHocRequestById(docActionParams, actionRequestId);
-
-             // remove principal from edit permission
+            //TODO KSCM-277
+//            if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+//                throw new OperationFailedException("Error found trying to remove collaborator");
+//            }
+            // remove principal from edit permission
             removeRoleMemberIfNeccesary(StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_EDIT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
             // remove principal from comment permission
             removeRoleMemberIfNeccesary(StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAMESPACE, StudentWorkflowConstants.ROLE_NAME_ADHOC_ADD_COMMENT_PERMISSIONS_ROLE_NAME, docId, dataId, recipientPrincipalId);
@@ -125,7 +145,11 @@ public class CollaboratorHelper implements Serializable {
     }
     
     public List<WorkflowPersonInfo> getCollaborators(String docId) throws OperationFailedException{
-		try{
+		//Check if there is no doc id
+    	if(docId==null){
+			return Collections.<WorkflowPersonInfo>emptyList();
+		}
+    	try{
 			LOG.info("Getting collaborators for docId: "+docId);
 
 	        if(getWorkflowDocumentService()==null){
@@ -145,7 +169,7 @@ public class CollaboratorHelper implements Serializable {
 	                    if (actionRequest.isDone() && (actionRequest.getActionTaken() != null) && KewApiConstants.ACTION_TAKEN_ADHOC_REVOKED_CD.equals(actionRequest.getActionTaken().getActionTaken())) {
 	                        continue;
 	                    }
-
+	                    
 	        			WorkflowPersonInfo person = new WorkflowPersonInfo();
 	        			person.setPrincipalId(actionRequest.getPrincipalId());
 
@@ -156,7 +180,7 @@ public class CollaboratorHelper implements Serializable {
 	        				person.setFirstName(name.getFirstName());
 	        				person.setLastName(name.getLastName());
 	        			}
-
+	        			
 	        			boolean editAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.EDIT.getPermissionNamespace(),
 	        					PermissionType.EDIT.getPermissionTemplateName(), null, qualification));
 	        			boolean openAuthorized = Boolean.valueOf(getPermissionService().isAuthorizedByTemplateName(actionRequest.getPrincipalId(), PermissionType.OPEN.getPermissionNamespace(),
@@ -202,7 +226,7 @@ public class CollaboratorHelper implements Serializable {
         return newArStatusLabels.get(key);
     }
 	
-	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
+	private void addRoleMember(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
     	DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
     	DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
     	Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();
@@ -211,7 +235,7 @@ public class CollaboratorHelper implements Serializable {
     	getRoleService().assignPrincipalToRole(recipientPrincipalId, roleNamespace, roleName, roleMemberQuals);
 	}
 
-	private void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, WorkflowException {
+	private void removeRoleMemberIfNeccesary(String roleNamespace, String roleName, String docId, String dataId, String recipientPrincipalId) throws OperationFailedException, org.kuali.rice.kew.api.exception.WorkflowException {
         DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(docId);
         DocumentType docType = getDocumentTypeService().getDocumentTypeById(docDetail.getDocument().getDocumentTypeId());
         Map<String,String> roleMemberQuals = new LinkedHashMap<String,String>();

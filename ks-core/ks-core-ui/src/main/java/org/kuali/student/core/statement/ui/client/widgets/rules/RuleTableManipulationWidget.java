@@ -17,15 +17,14 @@ package org.kuali.student.core.statement.ui.client.widgets.rules;
 
 import java.util.List;
 
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.StatementOperatorTypeKey;
+import org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
-import org.kuali.student.common.ui.client.widgets.KSPlaceholder;
 import org.kuali.student.common.ui.client.widgets.KSProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.field.layout.element.SpanPanel;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
-import org.kuali.student.core.statement.dto.StatementOperatorTypeKey;
-import org.kuali.student.core.statement.dto.StatementTreeViewInfo;
 import org.kuali.student.core.statement.ui.client.widgets.table.Node;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -33,8 +32,8 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class RuleTableManipulationWidget extends FlowPanel {
 
@@ -351,7 +350,7 @@ public class RuleTableManipulationWidget extends FlowPanel {
             }
         };
         simplifyingTimer.schedule(1000);
-    }
+      }
 
     public void setEnabledView(boolean enabled) {
         setEnableButtons(enabled);

@@ -22,7 +22,7 @@ import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.KSLabel;
 import org.kuali.student.common.ui.client.widgets.KSTextArea;
-import org.kuali.student.core.statement.dto.ReqComponentInfo;
+import org.kuali.student.r1.core.statement.dto.ReqComponentInfo;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -62,6 +62,7 @@ public class RuleExpressionEditor extends FlowPanel {
         FlowPanel expressionBox = new FlowPanel();
         HorizontalPanel expressionAndMsg = new HorizontalPanel();
         expressionBox.setStyleName("KS-Program-Rule-LogicView-ExpressionPanel");
+        expressionTextBox.ensureDebugId("Expression Text Area");
         expressionTextBox.addStyleName("KS-Program-Rule-LogicView-ExpressionText");
         expressionAndMsg.add(expressionTextBox);
         expressionAndMsg.add(htmlErrorMessage);

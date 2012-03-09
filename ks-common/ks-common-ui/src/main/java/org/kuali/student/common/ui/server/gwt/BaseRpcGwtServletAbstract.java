@@ -18,18 +18,21 @@ package org.kuali.student.common.ui.server.gwt;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.kuali.student.common.dictionary.old.dto.ObjectStructure;
-import org.kuali.student.common.dictionary.service.old.DictionaryService;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.exceptions.InvalidParameterException;
-import org.kuali.student.common.exceptions.MissingParameterException;
-import org.kuali.student.common.exceptions.OperationFailedException;
-import org.kuali.student.common.search.dto.SearchCriteriaTypeInfo;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultTypeInfo;
-import org.kuali.student.common.search.dto.SearchTypeInfo;
-import org.kuali.student.common.search.service.SearchService;
+import org.kuali.student.r1.common.dictionary.old.dto.ObjectStructure;
+import org.kuali.student.r1.common.dictionary.service.old.DictionaryService;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+
+import org.kuali.student.r2.common.search.service.SearchService;
+import org.kuali.student.r1.common.search.dto.SearchCriteriaTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultTypeInfo;
+import org.kuali.student.r1.common.search.dto.SearchTypeInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+
 import org.kuali.student.common.ui.client.service.BaseRpcService;
 import org.kuali.student.common.util.security.SecurityUtils;
 
@@ -89,17 +92,17 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey);
-        } catch (DoesNotExistException e) {
-        	LOG.error(e);
-        } catch (InvalidParameterException e) {
-        	LOG.error(e);
-        } catch (MissingParameterException e) {
-        	LOG.error(e);
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+//        try {
+// TODO KSCM            return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey, context);
+//        } catch (DoesNotExistException e) {
+//        	LOG.error(e);
+//        } catch (InvalidParameterException e) {
+//        	LOG.error(e);
+//        } catch (MissingParameterException e) {
+//        	LOG.error(e);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         
         return null;
     }
@@ -110,11 +113,12 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(){
-        try {
-            return ((SearchService)getService()).getSearchCriteriaTypes();
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+  // TODO KSCM
+//    	try {
+//            return ((SearchService)getService()).getSearchCriteriaTypes(context);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         return null;
     }
     
@@ -123,107 +127,115 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchResultType(searchResultTypeKey);
-        } catch (DoesNotExistException e) {
-        	LOG.error(e);
-        } catch (InvalidParameterException e) {
-        	LOG.error(e);
-        } catch (MissingParameterException e) {
-        	LOG.error(e);
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+        // TODO KSCM
+//    	try {
+//            return ((SearchService)getService()).getSearchResultType(searchResultTypeKey, context);
+//        } catch (DoesNotExistException e) {
+//        	LOG.error(e);
+//        } catch (InvalidParameterException e) {
+//        	LOG.error(e);
+//        } catch (MissingParameterException e) {
+//        	LOG.error(e);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         return null;
     }
     
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchResultTypes()
      */
+
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes(){
-        try {
-            return ((SearchService)getService()).getSearchResultTypes();
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+    // TODO KSCM NINA to FIX
+    //        try {
+//            return ((SearchService)getService()).getSearchResultTypes(context);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         return null;
     }
     
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
      */
+ // TODO KSCM NINA to FIX
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchType(searchTypeKey);
-        } catch (DoesNotExistException e) {
-        	LOG.error(e);
-        } catch (InvalidParameterException e) {
-        	LOG.error(e);
-        } catch (MissingParameterException e) {
-        	LOG.error(e);
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+//        try {
+//            return ((SearchService)getService()).getSearchType(searchTypeKey, context);
+//        } catch (DoesNotExistException e) {
+//        	LOG.error(e);
+//        } catch (InvalidParameterException e) {
+//        	LOG.error(e);
+//        } catch (MissingParameterException e) {
+//        	LOG.error(e);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         return null;
     }
     
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
      */
+ // TODO KSCM NINA to FIX
     @Override
     public List<SearchTypeInfo> getSearchTypes(){
-        try {
-            return ((SearchService)getService()).getSearchTypes();
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+//        try {
+//            return ((SearchService)getService()).getSearchTypes(context);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         return null;
     }
     
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
      */
+ // TODO KSCM NINA to FIX
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchTypes();
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+//        try {
+//            return ((SearchService)getService()).getSearchTypes(context);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         return null;
     }
     
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
      */
+ // TODO KSCM NINA to FIX
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey){
-        try {
-            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey);
-        } catch (DoesNotExistException e) {
-        	LOG.error(e);
-        } catch (InvalidParameterException e) {
-        	LOG.error(e);
-        } catch (MissingParameterException e) {
-        	LOG.error(e);
-        } catch (OperationFailedException e) {
-        	LOG.error(e);
-        }
+//        try {
+//            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey, context);
+//        } catch (DoesNotExistException e) {
+//        	LOG.error(e);
+//        } catch (InvalidParameterException e) {
+//        	LOG.error(e);
+//        } catch (MissingParameterException e) {
+//        	LOG.error(e);
+//        } catch (OperationFailedException e) {
+//        	LOG.error(e);
+//        }
         return null;
     }
     
     /**
      * @see org.kuali.student.common.search.service.SearchService#search(org.kuali.student.common.search.dto.SearchRequest)
      */
+ // TODO KSCM NINA to FIX
     @Override
     public SearchResult search(SearchRequest searchRequest) {                
-        try {
-			return ((SearchService)getService()).search(searchRequest);
-		} catch (MissingParameterException e) {
-			LOG.error(e);
-		} 
+//        try {
+//			return ((SearchService)getService()).search(searchRequest, context);
+//		} catch (MissingParameterException e) {
+//			LOG.error(e);
+//		} 
 		return null;
     }        
 

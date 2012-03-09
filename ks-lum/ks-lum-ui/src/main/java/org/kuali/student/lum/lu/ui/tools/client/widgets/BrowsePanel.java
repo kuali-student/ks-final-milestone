@@ -16,23 +16,25 @@
 package org.kuali.student.lum.lu.ui.tools.client.widgets;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.LookupParamMetadata;
-import org.kuali.student.common.search.dto.SearchParam;
-import org.kuali.student.common.search.dto.SearchRequest;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.widgets.KSButton;
 import org.kuali.student.common.ui.client.widgets.search.SelectedResults;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.LookupParamMetadata;
+import org.kuali.student.r1.common.search.dto.SearchParam;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FlowPanel;
 
@@ -132,6 +134,8 @@ public class BrowsePanel extends Composite {
 		// layout.addStyleName (Style.BROWSE.getStyle ());
 		searchBackedTable = new SearchBackedTable(tableHeight);
 		searchBackedTable.addStyleName("KS-Advanced-Search-Results-Table");
+		searchBackedTable.setTableStyleName("gwt-PagingScrollTable");
+		searchBackedTable.setSelectionPolicy(SelectionPolicy.ONE_ROW);
 		KSButton selectButton = new KSButton("Select",
 				new SelectButtonClickHandler(this.onSelectectedCallback,
 						this.searchBackedTable));
@@ -156,6 +160,8 @@ public class BrowsePanel extends Composite {
 		}
 		searchRequest.setParams(searchParams);
 		searchRequest.setSearchKey(lookupMetadata.getSearchTypeId());
+        searchRequest.setSortColumn(this.lookupMetadata.getResultSortKey());
+        searchRequest.setSortDirection(this.lookupMetadata.getSortDirection());
 
 		// StringBuilder builder = new StringBuilder ();
 		// builder.append ("About to invoke search: type=");
@@ -178,6 +184,55 @@ public class BrowsePanel extends Composite {
 				lookupMetadata.getResultReturnKey(), callback);
 		tablePanel.setVisible(true);
 		layout.setVisible(true);
+	}
+	/*
+	 * Parameter is a list of column names from backed table.
+	 * Method checks the values of these columns names and tabulates the
+	 * number of occurrences of each value.
+	 * Returns a map of each value and it's occurrence count
+	 */
+	public Map<String,Integer> getFilterCount()
+	{
+		Map<String,Integer> filterCount=new HashMap<String,Integer>();
+		for(ResultRow resultRow:getAllResultRows())
+		{
+			for(String columnName:resultRow.getColumnValues().keySet())
+			{
+					String columnValue=resultRow.getValue(columnName);
+					/*
+					 * Some values are a string separated by </br> statements.
+					 * The loop removes the </br> statements so values are stored correctly.
+					 * Ex:Campus Location is "NO</br>SO"
+					 */
+
+					while(columnValue!=null&&columnValue.indexOf("<br/>")!=-1)
+					{
+						int f=columnValue.indexOf("<br/>");
+						if(!filterCount.containsKey(columnValue.substring(0,f)))
+						{
+							filterCount.put(columnValue.substring(0,f), 1);
+						}
+						else{
+							int a=filterCount.get(columnValue.substring(0,f)).intValue();
+							a++;
+							filterCount.put(columnValue.substring(0,f), a);
+						}
+						columnValue=columnValue.substring(f+5);
+					}
+
+
+					if(!filterCount.containsKey(columnValue))
+					{
+						filterCount.put(columnValue, 1);
+					}
+					else{
+						int a=filterCount.get(columnValue).intValue();
+						a++;
+						filterCount.put(columnValue, a);
+					}
+			}
+		}
+		return filterCount;
 	}
 
 	public List<String> getSelectedIds() {

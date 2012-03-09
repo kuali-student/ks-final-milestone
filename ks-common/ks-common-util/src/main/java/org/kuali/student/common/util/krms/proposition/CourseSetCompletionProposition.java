@@ -20,6 +20,7 @@ import java.util.Collections;
 
 import org.kuali.rice.krms.api.engine.ExecutionEnvironment;
 import org.kuali.rice.krms.api.engine.Term;
+import org.kuali.rice.krms.api.engine.TermResolutionException;
 import org.kuali.student.common.util.krms.RulesExecutionConstants;
 
 /**
@@ -48,7 +49,7 @@ public class CourseSetCompletionProposition extends CourseCompletionProposition 
         
         if(courseIds == null) {
             
-            Term term = new Term(RulesExecutionConstants.COURSE_SET_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY, courseSetId));
+            Term term = new Term(RulesExecutionConstants.courseSetTermSpec, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
 
             courseIds = environment.resolveTerm(term, this);
         }

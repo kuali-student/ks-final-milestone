@@ -22,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
 
+@Deprecated
 @XmlRootElement(name = "echoResponse", namespace = "http://student.kuali.org/poc/wsdl/test/my")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "echoResponse", namespace = "http://student.kuali.org/poc/wsdl/test/my")

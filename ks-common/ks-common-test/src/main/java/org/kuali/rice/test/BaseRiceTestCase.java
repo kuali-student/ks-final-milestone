@@ -37,6 +37,7 @@ import org.kuali.rice.test.runners.RiceUnitTestClassRunner;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  * @since 0.9
  */
+@Deprecated
 @RunWith(RiceUnitTestClassRunner.class)
 public abstract class BaseRiceTestCase extends Assert implements MethodAware {
 

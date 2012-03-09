@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.kuali.student.r1.core.comment.dto.CommentInfo;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.configurable.mvc.HasReferenceId;
@@ -24,7 +25,6 @@ import org.kuali.student.common.ui.client.widgets.table.scroll.DefaultTableModel
 import org.kuali.student.common.ui.client.widgets.table.scroll.Row;
 import org.kuali.student.common.ui.client.widgets.table.scroll.RowComparator;
 import org.kuali.student.common.ui.client.widgets.table.scroll.Table;
-import org.kuali.student.core.comment.dto.CommentInfo;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcService;
 import org.kuali.student.core.comments.ui.client.service.CommentRpcServiceAsync;
 import org.kuali.student.core.organization.ui.client.mvc.model.MembershipInfo;
@@ -427,6 +427,12 @@ public class DecisionPanel implements HasReferenceId, ToolView {
     public boolean isExportButtonActive() {
         return false;
     }
+    
+	@Override
+	public void showExport(boolean show) {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 class FieldAscendingRowComparator extends RowComparator {

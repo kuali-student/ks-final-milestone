@@ -1,24 +1,24 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
  <import resource="classpath:common-lookup-context.xml"/>
  <bean id="objectStructureDefinition"
-       class="org.kuali.student.common.dictionary.dto.ObjectStructureDefinition"
+       class="org.kuali.student.r1.common.dictionary.dto.ObjectStructureDefinition"
        abstract="true" />
  <bean id="constraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.Constraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.Constraint" />
  <bean id="caseConstraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.CaseConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.CaseConstraint" />
  <bean id="whenConstraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.WhenConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.WhenConstraint" />
  <!--TODO: rename the java dto to be requiresConstraint-->
  <bean id="requiresConstraint" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.RequiredConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.RequiredConstraint" />
 
 
  <bean id="ValidCharDefinition" abstract="true"
-       class="org.kuali.student.common.dictionary.dto.ValidCharsConstraint" />
+       class="org.kuali.student.r1.common.dictionary.dto.ValidCharsConstraint" />
 
  <bean id="alphanumericHyphenPeriod" parent="ValidCharDefinition">
   <property name="value" value="regex:[A-Za-z0-9.\-]*" />
@@ -86,11 +86,11 @@
        class="org.springframework.beans.factory.config.CustomEditorConfigurer">
   <property name="customEditors">
    <map>
-    <entry key="org.kuali.student.common.dictionary.dto.DataType">
+    <entry key="org.kuali.student.r1.common.dictionary.dto.DataType">
      <bean
       class="org.kuali.student.common.util.spring.SimpleEnumPropertyEditor">
       <constructor-arg
-       value="org.kuali.student.common.dictionary.dto.DataType" />
+       value="org.kuali.student.r1.common.dictionary.dto.DataType" />
      </bean>
     </entry>
    </map>
@@ -98,7 +98,7 @@
  </bean>
 
  <bean id="baseFieldDefinition"
-       class="org.kuali.student.common.dictionary.dto.FieldDefinition"
+       class="org.kuali.student.r1.common.dictionary.dto.FieldDefinition"
        abstract="true">
   <property name="maxOccurs" value="1" />
  </bean>
@@ -112,7 +112,7 @@
  </bean>
 
  <bean id="baseFieldDefinitionRepeatingRequired" parent="baseFieldDefinitionRepeating"
-       class="org.kuali.student.common.dictionary.dto.FieldDefinition"
+       class="org.kuali.student.r1.common.dictionary.dto.FieldDefinition"
        abstract="true">
   <property name="minOccurs" value="1" />
  </bean>
@@ -188,6 +188,15 @@
   <property name="dataType" value="STRING" />
   <property name="maxLength" value="255" />
  </bean>
+ <bean id="baseKualiAuth" parent="baseFieldDefinition"
+       abstract="true">
+  <property name="dataType" value="STRING" />
+  <property name="maxLength" value="22" />
+ </bean>
+ <bean id="baseStringRequired" parent="baseString"
+       abstract="true">
+  <property name="minOccurs" value="1" />
+ </bean>
  <bean id="baseStringLong" parent="baseFieldDefinition"
        abstract="true">
   <property name="dataType" value="STRING" />
@@ -205,6 +214,10 @@
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseComplexRepeating" parent="baseComplex" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseComplexRepeatingRequired" parent="baseComplexRepeating">
+  <property name="minOccurs" value="1" />
   <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="baseKualiId" parent="baseString" abstract="true">
@@ -254,6 +267,9 @@
   <property name="minOccurs" value="1" />
  </bean>
  <bean id="baseKualiOrgIdRepeating" parent="baseKualiOrgId" abstract="true">
+  <property name="maxOccurs" value="unbounded" />
+ </bean>
+ <bean id="baseKualiOrgIdRepeatingRequired" parent="baseKualiOrgIdRequired" abstract="true">
   <property name="maxOccurs" value="unbounded" />
  </bean>
  <bean id="baseKualiCluIdRepeating" parent="baseKualiCluId" abstract="true">
@@ -335,8 +351,8 @@
   <property name="validChars" ref="gpa4.0"/>
  </bean>
  <!-- RichTextInfo-->
- <bean id="org.kuali.student.common.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.dto.RichTextInfo" />
+ <bean id="org.kuali.student.r2.common.dto.RichTextInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.common.dto.RichTextInfo" />
   <property name="attributes">
    <list>
     <ref bean="richTextInfo.formatted" />
@@ -344,7 +360,7 @@
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.common.dto.RichTextInfo" parent="org.kuali.student.common.dto.RichTextInfo-parent" />
+ <bean id="org.kuali.student.r2.common.dto.RichTextInfo" parent="org.kuali.student.r2.common.dto.RichTextInfo-parent" />
 
  <bean id="richTextInfo.formatted-parent" abstract="true" parent="baseKualiRichText">
   <property name="name" value="formatted" />
@@ -365,8 +381,8 @@
  </bean>
 
  <!-- VersionInfo-->
- <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.common.versionmanagement.dto.VersionInfo"/>
+ <bean id="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>
@@ -379,7 +395,7 @@
   </property>
   <property name="hasMetaData" value="false"/>
  </bean>
- <bean id="org.kuali.student.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.common.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>

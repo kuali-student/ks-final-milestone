@@ -10,7 +10,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.engine.node.RouteNodeUtils;
-import org.kuali.student.common.search.dto.SearchResultRow;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 /**
  * A QualifierResolver class that will use configuration elements from the Route Node xml configuration to get a list of
@@ -48,7 +48,6 @@ import org.kuali.student.common.search.dto.SearchResultRow;
  * 
  */
 public class CocOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
-    private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(CocOrganizationQualifierResolver.class);
 
     protected static final String ROUTE_NODE_XML_ORG_ID_QUALIFIER_KEY = "organizationIdQualifierKey";
     protected static final String ROUTE_NODE_XML_USE_NON_DERIVED_ROLES = "useNonDerivedRoles";

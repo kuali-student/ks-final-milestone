@@ -33,9 +33,9 @@ public class CollaboratorRequestCustomActionListAttribute implements
 		DEFAULT_LEGAL_ACTIONS.addApprove();
 		DEFAULT_LEGAL_ACTIONS.addDisapprove();
 	}
-	
+
 	public CollaboratorRequestCustomActionListAttribute() {}
-    
+
 	@Override
 	public ActionSet getLegalActions(String principalId, ActionItem actionItem) throws Exception{
 	    return DEFAULT_LEGAL_ACTIONS;
@@ -45,7 +45,4 @@ public class CollaboratorRequestCustomActionListAttribute implements
     public DisplayParameters getDocHandlerDisplayParameters(String principalId, ActionItem actionItem) throws Exception{
         return null;
     }
-
-
-
 }

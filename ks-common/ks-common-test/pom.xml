@@ -6,13 +6,23 @@
   <parent>
     <groupId>org.kuali.student.common</groupId>
     <artifactId>ks-common</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
   </parent>
   <dependencies>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+              <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
+    </dependency>
+    <!-- KSCM-264 Added for ContextInfo change -->
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-api</artifactId>
+              <version>${ks.service.version}</version>
+<!--       <version>${project.version}</version> -->
+
     </dependency>
     <dependency>
       <groupId>org.apache.derby</groupId>
@@ -87,12 +97,13 @@
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-jta</artifactId>
+      <version>${project.version}</version>
       <type>pom</type>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-rice-lessdep</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <type>pom</type>
     </dependency>
 

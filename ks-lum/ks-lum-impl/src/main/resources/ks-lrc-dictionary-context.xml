@@ -1,11 +1,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
  <import resource="classpath:ks-base-dictionary-context.xml"/>
 
  <!-- ResultComponentInfo-->
- <bean id="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lrc.dto.ResultComponentInfo"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo"/>
   <property name="attributes">
    <list>
     <ref bean="resultComponentInfo.desc"/>
@@ -20,11 +20,11 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
- <bean id="org.kuali.student.lum.lrc.dto.ResultComponentInfo" parent="org.kuali.student.lum.lrc.dto.ResultComponentInfo-parent"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo" parent="org.kuali.student.r1.lum.lrc.dto.ResultComponentInfo-parent"/>
 
  <bean id="resultComponentInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
-  <property name="dataObjectStructure" ref="org.kuali.student.common.dto.RichTextInfo"/>
+  <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
  <bean id="resultComponentInfo.desc" parent="resultComponentInfo.desc-parent"/>
 
@@ -66,8 +66,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  <bean id="resultComponentInfo.type" parent="resultComponentInfo.type-parent"/>
 
  <!-- CredentialInfo-->
- <bean id="org.kuali.student.lum.lrc.dto.CredentialInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lrc.dto.CredentialInfo"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.CredentialInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r1.lum.lrc.dto.CredentialInfo"/>
   <property name="attributes">
    <list>
     <ref bean="credentialInfo.desc"/>
@@ -80,7 +80,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.lrc.dto.CredentialInfo" parent="org.kuali.student.lum.lrc.dto.CredentialInfo-parent"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.CredentialInfo" parent="org.kuali.student.r1.lum.lrc.dto.CredentialInfo-parent"/>
 
  <bean id="credentialInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
@@ -119,8 +119,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  <bean id="credentialInfo.value" parent="credentialInfo.value-parent"/>
 
  <!-- CreditInfo-->
- <bean id="org.kuali.student.lum.lrc.dto.CreditInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lrc.dto.CreditInfo"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.CreditInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r1.lum.lrc.dto.CreditInfo"/>
   <property name="attributes">
    <list>
     <ref bean="creditInfo.desc"/>
@@ -133,7 +133,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.lrc.dto.CreditInfo" parent="org.kuali.student.lum.lrc.dto.CreditInfo-parent"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.CreditInfo" parent="org.kuali.student.r1.lum.lrc.dto.CreditInfo-parent"/>
 
  <bean id="creditInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>
@@ -172,8 +172,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  <bean id="creditInfo.value" parent="creditInfo.value-parent"/>
 
  <!-- GradeInfo-->
- <bean id="org.kuali.student.lum.lrc.dto.GradeInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lrc.dto.GradeInfo"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.GradeInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r1.lum.lrc.dto.GradeInfo"/>
   <property name="attributes">
    <list>
     <ref bean="gradeInfo.effectiveDate"/>
@@ -187,7 +187,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.lrc.dto.GradeInfo" parent="org.kuali.student.lum.lrc.dto.GradeInfo-parent"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.GradeInfo" parent="org.kuali.student.r1.lum.lrc.dto.GradeInfo-parent"/>
 
  <bean id="gradeInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>
@@ -230,8 +230,8 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
  <bean id="gradeInfo.value" parent="gradeInfo.value-parent"/>
 
  <!-- ScaleInfo-->
- <bean id="org.kuali.student.lum.lrc.dto.ScaleInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.lum.lrc.dto.ScaleInfo"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.ScaleInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r1.lum.lrc.dto.ScaleInfo"/>
   <property name="attributes">
    <list>
     <ref bean="scaleInfo.desc"/>
@@ -242,7 +242,7 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
    </list>
   </property>
  </bean>
- <bean id="org.kuali.student.lum.lrc.dto.ScaleInfo" parent="org.kuali.student.lum.lrc.dto.ScaleInfo-parent"/>
+ <bean id="org.kuali.student.r1.lum.lrc.dto.ScaleInfo" parent="org.kuali.student.r1.lum.lrc.dto.ScaleInfo-parent"/>
 
  <bean id="scaleInfo.desc-parent" abstract="true" parent="baseComplex">
   <property name="name" value="desc"/>

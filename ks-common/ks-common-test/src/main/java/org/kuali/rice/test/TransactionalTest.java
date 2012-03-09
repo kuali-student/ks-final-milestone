@@ -24,6 +24,7 @@ import java.lang.annotation.Target;
 /**
  * This annotates a KEW test telling it to run each test method inside a transaction.
  */
+@Deprecated
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface TransactionalTest {

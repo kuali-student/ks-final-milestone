@@ -19,7 +19,7 @@
   <parent>
     <groupId>org.kuali.student</groupId>
     <artifactId>student</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>2.0.0-cm-SNAPSHOT</version>
   </parent>
   <groupId>org.kuali.student.admin</groupId>
   <artifactId>ks-admin</artifactId>
@@ -106,38 +106,38 @@
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-impl</artifactId>
-      <exclusions>
-        <exclusion>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-cas-client</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.kuali.rice</groupId>
       <artifactId>rice-krad-app-framework</artifactId>
       <version>${kuali.rice.version}</version>
-    </dependency>    
+    </dependency>
+
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-api</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.kuali.student.common</groupId>
+      <artifactId>ks-common-impl</artifactId>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-util</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.common</groupId>
       <artifactId>ks-common-test</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.kuali.student.core</groupId>
       <artifactId>ks-core-api</artifactId>
-      <version>${project.version}</version>
+      <version>${ks.service.version}</version>
     </dependency>
 
     <!-- required to compile the test case -->

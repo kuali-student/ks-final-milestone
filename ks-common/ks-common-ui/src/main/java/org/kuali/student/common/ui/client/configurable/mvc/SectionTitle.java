@@ -26,9 +26,10 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team (kuali-student@googlegroups.com)
  *
  */
+@Deprecated
 public class SectionTitle extends ComplexPanel {
 
-
+    private String reportText;
 
     private SectionTitle(Element e) {
         this.setElement(e);
@@ -91,22 +92,35 @@ public class SectionTitle extends ComplexPanel {
 
     public void setText(String text){
     	this.getElement().setInnerText(text);
-    	
+    	this.reportText = text;
     }
     
     public void setHTML(String html){
     	this.getElement().setInnerHTML(html);
+    	this.reportText = html;
     }
     
-	  /**
-	   * Adds a new child widget to the panel.
-	   * 
-	   * @param w the widget to be added
-	   */
-	  @Override
-	  public void add(Widget w) {
+    /**
+	 * Adds a new child widget to the panel.
+	 * 
+	 * @param w the widget to be added
+	 */
+	@Override
+	public void add(Widget w) {
 	    add(w, getElement());
-	  }
+	}
+	  
+	/**
+	 * Returns a text value of the title for the export report.
+	 * 
+	 * @return
+	 */
+	public String getExportFieldValue() {
+	    if ((this.reportText != null) && (this.reportText.length() > 0)){
+	        return this.reportText;
+	    }
+	    return this.getElement().getInnerText();
+	}
 }
 
 

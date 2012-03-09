@@ -29,6 +29,7 @@ import org.kuali.student.common.ui.client.widgets.buttonlayout.ButtonLayout;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 
+@Deprecated
 public abstract class ButtonGroup<T extends ButtonEnum> extends Composite{
     private List<Callback<T>> callbacks = new ArrayList<Callback<T>>();
     protected Map<T, KSButton> buttonMap = new HashMap<T, KSButton>();

@@ -1,79 +1,122 @@
 package org.kuali.student.admin.messages.service.impl;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
-import org.kuali.rice.krad.service.BusinessObjectService;
-import org.kuali.rice.krad.service.KRADServiceLocator;
-import org.kuali.student.common.messages.dto.LocaleKeyList;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
-import org.kuali.student.common.messages.service.MessageService;
-import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
-import org.kuali.student.core.messages.bo.MessageEntity;
-import org.springframework.beans.factory.InitializingBean;
-
-import javax.jws.WebService;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
+import javax.jws.WebParam;
+import javax.jws.WebService;
+import javax.jws.soap.SOAPBinding;
+
+import com.google.common.collect.MapMaker;
+import org.kuali.rice.krad.service.BusinessObjectService;
+import org.kuali.rice.krad.service.KRADServiceLocator;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.common.dto.LocaleInfo;
+import org.kuali.student.r2.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
+import org.kuali.student.r2.common.messages.dto.MessageInfo;
+import org.kuali.student.r2.common.messages.infc.Message;
+import org.kuali.student.r2.common.messages.service.MessageService;
+import org.kuali.student.core.enumerationmanagement.bo.EnumeratedValue;
+import org.kuali.student.core.messages.bo.MessageEntity;
+import org.springframework.beans.factory.InitializingBean;
 
 @WebService(endpointInterface = "org.kuali.student.common.messages.service.MessageService", serviceName = "MessageService", portName = "MessageService", targetNamespace = "http://student.kuali.org/wsdl/messages")
-// TODO: RICE-M7 UPGRADE figure out why this soap binding stuff was here in the first place
-//@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
+@SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL, parameterStyle = SOAPBinding.ParameterStyle.WRAPPED)
 public class MessageServiceImpl implements MessageService, InitializingBean {
 
 	protected boolean cachingEnabled = false;
 	protected int msgsCacheMaxSize = 20;
 	protected int msgsCacheMaxAgeSeconds = 90;
-    protected Cache<String, MessageList> msgsCache;
-	
+	//protected Map<String,MaxAgeSoftReference<MessageList>> msgsCache;
+	protected Map<String,MessageList> msgsCache;
+
     private BusinessObjectService businessObjectService;
 
-    public Message addMessage(Message messageInfo) {
+    @Override
+    public StatusInfo addMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO KSCM-211
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+//    @Override
+//    public MessageInfo updateMessage(LocaleInfo localeKey, String messageGroupKey, String messageKey, MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) {
+//        return null;  //To change body of implemented methods use File | Settings | File Templates.
+//    }
+
+    public MessageInfo addMessage(Message messageInfo) {
         MessageEntity entity = toMessageEntity(messageInfo);
         getBusinessObjectService().save(entity);
 
         return toMessage(entity);
     }
 
-	@SuppressWarnings("unchecked")
-    public LocaleKeyList getLocales() {
-	    List<String> keyList = new ArrayList<String>();
-	    Map<String, Object> criteria = new HashMap<String,Object>();
-        
+
+
+    @Override
+    public List<LocaleInfo> getLocales(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        List<String> keyList = new ArrayList<String>();
+        LocaleInfo tempLocalInfo;
+        List<LocaleInfo> localeKeyList = new ArrayList<LocaleInfo>();
+        Map<String, Object> criteria = new HashMap<String,Object>();
+
         criteria.put(EnumeratedValue.ENUMERATION_KEY, MessageEntity.LOCALE_ENUMERATION);
         BusinessObjectService boService = KRADServiceLocator.getBusinessObjectService();
         Collection<EnumeratedValue> values = boService.findMatching(EnumeratedValue.class, criteria);
-        
-        Iterator<EnumeratedValue> iterator = values.iterator(); 
+
+        Iterator<EnumeratedValue> iterator = values.iterator();
         while(iterator.hasNext()) {
             EnumeratedValue value = iterator.next();
-            keyList.add(value.getCode());
+            tempLocalInfo = new LocaleInfo();
+            tempLocalInfo.setLocaleLanguage(value.getCode());
+            localeKeyList.add(tempLocalInfo);
         }
-    	
-    	LocaleKeyList localeKeyList = new LocaleKeyList();
-    	localeKeyList.setLocales(keyList);
-    	
+
         return localeKeyList;
     }
 
-    public Message getMessage(String localeKey, String messageGroupKey, String messageKey) {
+
+
+    @Override
+    public MessageInfo getMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
         Map<String, Object> queryMap = new HashMap<String, Object>();
-        queryMap.put("locale", localeKey);
+        queryMap.put("locale", localeInfo.getLocaleLanguage());
         queryMap.put("groupName", messageGroupKey);
         queryMap.put("messageId", messageKey);
         
         MessageEntity entity = (MessageEntity) getBusinessObjectService().findByPrimaryKey(MessageEntity.class, queryMap);
         
         return toMessage(entity);
+    }
+
+
+
+
+
+    @Override
+    public StatusInfo deleteMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        // TODO KSCM-211
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+
+    @Override
+    public List<String> getMessageGroupKeys(@WebParam(name = "contextInfo") ContextInfo contextInfo) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        //TODO KSCM-211
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @SuppressWarnings("unchecked")
@@ -97,70 +140,72 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
         return messageGroupKeyList;
     }
 
-    @SuppressWarnings("unchecked")
-    public MessageList getMessages(final String localeKey, final String messageGroupKey) {
-        
-    	if(cachingEnabled){
-            try {
-                return msgsCache.get("localeKey="+localeKey+", messageGroupKey="+messageGroupKey, new Callable<MessageList>() {
-                    @Override
-                    public MessageList call() throws Exception {
-                        return getMessagesHelper(localeKey, messageGroupKey);
-                    }
-                });
-            } catch (ExecutionException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            return getMessagesHelper(localeKey, messageGroupKey);
-        }
-    }
 
-    private MessageList getMessagesHelper(String localeKey, String messageGroupKey) {
-        Map<String, String> fieldValues = new HashMap<String, String>();
-        fieldValues.put("locale", localeKey);
+    @Override
+    public List<MessageInfo> getMessages(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKey") String messageGroupKey, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
+        if(cachingEnabled){
+            // TODO KSCM confirm it's correct
+            return (List<MessageInfo>) msgsCache.get("localeKey=" + localeInfo.getLocaleLanguage()+ ", messageGroupKey="+messageGroupKey);
+        }
+
+        Map<String,String> fieldValues = new HashMap<String,String>();
+        fieldValues.put("locale", localeInfo.getLocaleLanguage());
         fieldValues.put("groupName", messageGroupKey);
 
         List<MessageEntity> messageEntityList = (List<MessageEntity>) getBusinessObjectService().findMatching(MessageEntity.class, fieldValues);
 
-        List<Message> messages = new ArrayList<Message>();
+        List<MessageInfo> messages = new ArrayList<MessageInfo>();
 
-        for (MessageEntity messageEntity : messageEntityList) {
-            messages.add(toMessage(messageEntity));
+        for(MessageEntity messageEntity: messageEntityList){
+         messages.add(toMessage(messageEntity));
         }
 
         MessageList messageList = new MessageList();
-        messageList.setMessages(messages);
+     // TODO fix this merge.
+        //messageList.setMessages(messages);
 
-        return messageList;
+        if(cachingEnabled){
+            msgsCache.put("localeKey="+localeInfo.getLocaleLanguage()+", messageGroupKey="+messageGroupKey, messageList );
+        }
+     // TODO KSCM confirm it's correct
+        return (List<MessageInfo>) messageList;
     }
 
-    public MessageList getMessagesByGroups(String localeKey, MessageGroupKeyList messageGroupKeyList) {
+    @Override
+    public List<MessageInfo> getMessagesByGroups(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageGroupKeys") List<String> messageGroupKeys, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException {
     	
-    	List<Message> messages = new ArrayList<Message>();
+    	List<MessageInfo> messages = new ArrayList<MessageInfo>();
     	
-    	for(String messageGroupKey: messageGroupKeyList.getMessageGroupKeys()){
-    		messages.addAll(getMessages(localeKey, messageGroupKey).getMessages());
+    	for(String messageGroupKey: messageGroupKeys){
+    		messages.addAll(getMessages(localeInfo, messageGroupKey, contextInfo));
     	}
     	
     	MessageList messageList = new MessageList();
-    	messageList.setMessages(messages);
+    	// TODO fix this merge.
+    	//messageList.setMessages(messages);
     	
-    	return messageList;
+    	return (List<MessageInfo>) messageList;
 
     }
 
-    public Message updateMessage(String localeKey, String messageGroupKey, String messageKey, Message messageInfo) {
+    @Override
+    public MessageInfo updateMessage(@WebParam(name = "localeInfo") LocaleInfo localeInfo, @WebParam(name = "messageKey") String messageKey, @WebParam(name = "messageInfo") MessageInfo messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, ReadOnlyException, VersionMismatchException {
+        // TODO KSCM-211
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public MessageInfo updateMessage(LocaleInfo localeInfo, String messageGroupKey, String messageKey, Message messageInfo, @WebParam(name = "contextInfo") ContextInfo contextInfo) {
         
     	Map<String,String> primaryKeys = new HashMap<String,String>();
-    	primaryKeys.put("locale", localeKey);
+    	primaryKeys.put("locale", localeInfo.getLocaleLanguage());
     	primaryKeys.put("groupName", messageGroupKey);
     	primaryKeys.put("messageId", messageKey);
     	
     	MessageEntity entity = (MessageEntity) getBusinessObjectService().findByPrimaryKey(MessageEntity.class, primaryKeys);
     	
-    	entity.setMessageId(messageInfo.getId());
-    	entity.setLocale(messageInfo.getLocale());
+    	// TODO fix this merge.
+    	//entity.setMessageId(messageInfo.getId());
+    	//entity.setLocale(messageInfo.getLocale());
     	entity.setGroupName(messageInfo.getGroupName());
     	entity.setValue(messageInfo.getValue());
     	
@@ -173,20 +218,21 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
     protected MessageEntity toMessageEntity(Message message) {
         MessageEntity result = new MessageEntity();
 
-        result.setMessageId(message.getId());
-        result.setLocale(message.getLocale());
+        // TODO fix this merge.
+        //result.setMessageId(message.getId());
+        //result.setLocale(message.getLocale());
         result.setGroupName(message.getGroupName());
         result.setValue(message.getValue());
 
         return result;
     }
 
-    protected Message toMessage(MessageEntity entity) {
-        Message result = new Message();
+    protected MessageInfo toMessage(MessageEntity entity) {
+        MessageInfo result = new MessageInfo();
 
         result.setGroupName(entity.getGroupName());
-        result.setId(entity.getMessageId());
-        result.setLocale(entity.getLocale());
+        result.setKey(entity.getId());
+     // TODO fix this merge. result.setLocale(entity.getLocale());
         result.setValue(entity.getValue());
 
         return result;
@@ -202,16 +248,29 @@ public class MessageServiceImpl implements MessageService, InitializingBean {
 	@Override
 	public void afterPropertiesSet() throws Exception {
 		if(cachingEnabled){
-            msgsCache = CacheBuilder.newBuilder()
-                    .expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS)
-                    .maximumSize(msgsCacheMaxSize)
-                    .softValues()
-                    .build();
+			msgsCache = new MapMaker().expireAfterAccess(msgsCacheMaxAgeSeconds, TimeUnit.SECONDS).maximumSize(msgsCacheMaxSize).softValues().makeMap();
 		}
 	}
 
 	public void setCachingEnabled(boolean cachingEnabled) {
 		this.cachingEnabled = cachingEnabled;
 	}
-	
+
+	// TODO KSCM-211
+//	@Override
+//	public MessageList getMessagesByGroups(String locale,
+//			MessageGroupKeyList messageGroupKeyList, ContextInfo contextInfo) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+	// TODO KSCM-211
+//	@Override
+//	public Message addMessage(Message messageInfo, ContextInfo contextInfo) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
+
+
+
 }

@@ -1,13 +1,14 @@
 package org.kuali.student.lum.common.client.lo;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Data.StringKey;
-import org.kuali.student.common.dto.MetaInfo;
-import org.kuali.student.common.dto.RichTextInfo;
-import org.kuali.student.lum.lo.dto.LoCategoryInfo;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Data.StringKey;
+import org.kuali.student.r2.common.dto.MetaInfo;
+import org.kuali.student.r2.common.dto.RichTextInfo;
+import org.kuali.student.r2.lum.lo.dto.LoCategoryInfo;
 
 import java.util.Date;
 
+// TODO KSCM-244
 public class CategoryDataUtil {
     
     public static Data toData(LoCategoryInfo loCategoryInfo) {

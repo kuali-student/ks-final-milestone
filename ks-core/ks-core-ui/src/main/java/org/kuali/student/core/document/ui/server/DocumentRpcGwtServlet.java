@@ -19,21 +19,28 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.dto.StatusInfo;
-import org.kuali.student.common.exceptions.DoesNotExistException;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.dto.StatusInfo;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.core.document.dto.DocumentInfo;
+import org.kuali.student.r1.core.document.dto.DocumentTypeInfo;
+import org.kuali.student.r1.core.document.dto.RefDocRelationInfo;
+import org.kuali.student.r1.core.document.service.DocumentService;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.document.dto.DocumentInfo;
-import org.kuali.student.core.document.dto.RefDocRelationInfo;
-import org.kuali.student.core.document.service.DocumentService;
 import org.kuali.student.core.document.ui.client.service.DocumentRpcService;
 
 public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentService> implements DocumentRpcService{
 	private static final long serialVersionUID = 1L;
 	
+	@Override
+    public List<DocumentTypeInfo> getDocumentTypes() throws Exception {
+        return service.getDocumentTypes();
+    }
+	
 	public DocumentInfo getDocument(String documentId) throws Exception{
 		return service.getDocument(documentId);
+		
 	}
 	
 	public List<DocumentInfo> getDocumentsByIdList(List<String> documentIdList)throws Exception{
@@ -45,7 +52,7 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 	}
 	
     public DocumentInfo updateDocument(String documentId, DocumentInfo documentInfo) throws Exception{
-    	return service.updateDocument(documentId, documentInfo);
+		return service.updateDocument(documentId, documentInfo);
     }
 	
 	public StatusInfo addDocumentCategoryToDocument(String documentId, String documentCategoryKey) throws Exception{
@@ -53,7 +60,7 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 	}
 	
     public StatusInfo removeDocumentCategoryFromDocument(String documentId, String documentCategoryKey) throws Exception{
-    	return service.removeDocumentCategoryFromDocument(documentId, documentCategoryKey);
+		return service.removeDocumentCategoryFromDocument(documentId, documentCategoryKey);
     }
 
 	@Override
@@ -89,7 +96,8 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 		
 		//Also delete the document if there are no more relations to it
 		try{
-			List<RefDocRelationInfo> allRelations = service.getRefDocRelationsByDoc(documentId);
+			List<RefDocRelationInfo> allRelations = null;
+			service.getRefDocRelationsByDoc(documentId);
 			if(allRelations == null || allRelations.isEmpty()){
 				service.deleteDocument(documentId);
 			}
@@ -97,5 +105,5 @@ public class DocumentRpcGwtServlet extends BaseRpcGwtServletAbstract<DocumentSer
 			service.deleteDocument(documentId);
 		}
 		return new StatusInfo();
-	}
+	}   
 }

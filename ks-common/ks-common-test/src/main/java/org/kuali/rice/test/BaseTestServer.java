@@ -25,6 +25,7 @@ import org.mortbay.jetty.Server;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  * @since 0.9
  */
+@Deprecated
 public abstract class BaseTestServer implements Lifecycle {
 
     private Server server;

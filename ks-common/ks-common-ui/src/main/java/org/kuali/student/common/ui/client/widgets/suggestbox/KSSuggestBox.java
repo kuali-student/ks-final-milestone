@@ -35,6 +35,7 @@ import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.ui.SuggestBox;
 import com.google.gwt.user.client.ui.SuggestOracle;
 
+@Deprecated
 // TODO implement some form of focus handling for SuggestBox
 public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandlers, TranslatableValueWidget, HasWatermark{
     
@@ -125,7 +126,7 @@ public class KSSuggestBox extends SuggestBox implements HasSelectionChangeHandle
         if(currentSuggestion != null){
             id = currentSuggestion.getId();
         }
-        if(!currentId.isEmpty() && id.isEmpty()){
+        if(currentId!=null && !currentId.isEmpty() && (id==null || id.isEmpty())){
             id = UtilConstants.IMPOSSIBLE_CHARACTERS;
         }
         return id;

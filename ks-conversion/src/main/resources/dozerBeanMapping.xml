@@ -1,0 +1,1010 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns="http://dozer.sourceforge.net" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://dozer.sourceforge.net http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+	<!-- ********************************************************************* -->
+	<!-- KS-COMMON-API -->
+	<!-- ********************************************************************* -->
+	<!-- ks-common-api: org.kuali.student.common.versionmanagement.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.common.versionmanagement.dto.VersionInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.versionmanagement.dto.VersionInfo
+		</class-b>
+	</mapping>
+
+	<!-- ks-common-api: org.kuali.student.r*.common.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.AmountInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.AmountInfo</class-b>
+		<field>
+			<a>unitType</a>
+			<b>unitTypeKey</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.CurrencyAmountInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.CurrencyAmountInfo</class-b>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.MetaInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.MetaInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.RichTextInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.RichTextInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.StatusInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.StatusInfo</class-b>
+		<field>
+			<a>success</a>
+			<b>isSuccess</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.TimeAmountInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.TimeAmountInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.dto.TypeInfo</class-a>
+		<class-b>org.kuali.student.r2.common.dto.TypeInfo</class-b>
+		<field>
+			<a>id</a>
+			<b>key</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+	</mapping>
+
+	<!-- ks-common-api: org.kuali.student.r*.common.exceptions mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.AlreadyExistsException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.AlreadyExistsException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.CircularReferenceException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.CircularReferenceException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.CircularRelationshipException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.CircularRelationshipException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DataValidationErrorException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DataValidationErrorException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DependentObjectsExistException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DependentObjectsExistException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DisabledIdentifierException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DisabledIdentifierException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.DoesNotExistException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.DoesNotExistException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.IllegalVersionSequencingException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.IllegalVersionSequencingException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.InvalidParameterException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.InvalidParameterException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.MissingParameterException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.MissingParameterException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.OperationFailedException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.OperationFailedException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.PermissionDeniedException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.PermissionDeniedException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.ReadOnlyException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.ReadOnlyException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.UnsupportedActionException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.UnsupportedActionException
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.exceptions.VersionMismatchException
+		</class-a>
+		<class-b>org.kuali.student.r2.common.exceptions.VersionMismatchException
+		</class-b>
+	</mapping>
+
+	<!-- ks-common-api: org.kuali.student.r*.common.messages.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.common.messages.dto.Message</class-a>
+		<class-b>org.kuali.student.r2.common.messages.dto.MessageInfo
+		</class-b>
+		<field>
+			<a>id</a>
+			<b>key</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.LocaleInfoConverter">
+			<a>locale</a>
+			<b>locale</b>
+		</field>
+	</mapping>
+
+	<!-- ks-common-api: org.kuali.student.r*.common.search.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchParam</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchParamInfo
+		</class-b>
+		<field>
+			<a get-method="getValue" set-method="setValue">listValue</a>
+			<b>value</b>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchRequest
+		</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchRequestInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchResultCell
+		</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchResultCellInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchResult</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchResultInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.common.search.dto.SearchResultRow
+		</class-a>
+		<class-b>org.kuali.student.r2.common.search.dto.SearchResultRowInfo
+		</class-b>
+	</mapping>
+
+	<!-- ********************************************************************* -->
+	<!-- KS-CORE-API -->
+	<!-- ********************************************************************* -->
+	<!-- ks-core-api: org.kuali.student.r*.core.atp.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.atp.dto.AtpInfo</class-a>
+		<class-b>org.kuali.student.r2.core.atp.dto.AtpInfo</class-b>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">metaInfo</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.atp.dto.MilestoneInfo</class-a>
+		<class-b>org.kuali.student.r2.core.atp.dto.MilestoneInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r*.core.comment.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.comment.dto.CommentInfo</class-a>
+		<class-b>org.kuali.student.r2.core.comment.dto.CommentInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>commentText</a>
+			<b get-method="getCommentText" set-method="setCommentText">commentText</b>
+		</field>
+	</mapping>
+
+	<mapping>
+		<class-a>org.kuali.student.r1.core.comment.dto.TagInfo</class-a>
+		<class-b>org.kuali.student.r2.core.comment.dto.TagInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r*.core.document.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.DocumentBinaryInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.DocumentBinaryInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.DocumentCategoryInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.DocumentCategoryInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.DocumentInfo</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.DocumentInfo</class-b>
+		<field>
+			<a>documentBinaryInfo</a>
+			<b>documentBinary</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.document.dto.RefDocRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.document.dto.RefDocRelationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b set-method="setMeta" get-method="getMeta">meta</b>
+		</field>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r*.core.enumerationmanagement.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumContextValueInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumContextValueInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumeratedValueInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumeratedValueInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.enumerationmanagement.dto.EnumerationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.enumerationmanagement.dto.EnumerationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>descr</a><!-- This is a String -->
+			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
+		</field>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r*.core.organization.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgCodeInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgCodeInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>desc</a><!-- This is a String -->
+			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgHierarchyInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgHierarchyInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a get-method="getAttributes" set-method="setAttributes">attributes</a>
+			<b get-method="getAttributes" set-method="setAttributes">attributes</b>
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>descr</a><!-- This is a String -->
+			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgInfo</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>shortDesc</a>
+			<b get-method="getShortDescr" set-method="setShortDescr">shortDescr</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>longDesc</a>
+			<b set-method="setLongDescr" get-method="getLongDescr">longDescr</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgOrgRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgOrgRelationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgPersonRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgPersonRelationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgPositionRestrictionInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgPositionRestrictionInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>desc</a><!-- This is a String -->
+			<b get-method="getDescr" set-method="setDescr">descr</b><!-- This is a RichTextInfo -->
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>stdDuration</a>
+			<b get-method="getStdDuration" set-method="setStdDuration">stdDuration</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.organization.dto.OrgTreeInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.organization.dto.OrgTreeInfo
+		</class-b>
+		<field>
+			<a>relationType</a>
+			<b>relationTypeKey</b>
+		</field>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r*.core.proposal.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.proposal.dto.ProposalDocRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.proposal.dto.ProposalDocRelationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.proposal.dto.ProposalInfo</class-a>
+		<class-b>org.kuali.student.r2.core.proposal.dto.ProposalInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.DescToRichTextConverter">
+			<a>detailDesc</a><!-- This is a String -->
+			<b get-method="getDetailDesc" set-method="setDetailDesc">detailDesc</b><!-- This is 
+				a RichTextInfo -->
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+
+	<!-- ks-core-api: org.kuali.student.r*.core.statement.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.RefStatementRelationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.RefStatementRelationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqCompFieldInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.ReqComponentInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.ReqComponentInfo
+		</class-b>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.core.statement.dto.StatementTreeViewInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+
+	<!-- ********************************************************************* -->
+	<!-- KS-LUM-API -->
+	<!-- ********************************************************************* -->
+	<!-- org.kuali.student.r*.lum.course.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.ActivityInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.ActivityInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>activityType</a>
+			<b get-method="getTypeKey" set-method="setTypeKey">typeKey</b>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>contactHours</a>
+			<b get-method="getContactHours" set-method="setContactHours">contactHours</b>
+		</field>
+		<field>
+			<a>duration</a>
+			<b get-method="getDuration" set-method="setDuration">duration</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.CourseCrossListingInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.CourseCrossListingInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.CourseExpenditureInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.CourseExpenditureInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.CourseFeeInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.CourseFeeInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.CourseInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.CourseInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.CourseJointInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.CourseJointInfo</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.CourseRevenueInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.CourseRevenueInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.CourseVariationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.CourseVariationInfo
+		</class-b>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.FormatInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.FormatInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.course.dto.LoDisplayInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.course.dto.LoDisplayInfo</class-b>
+	</mapping>
+
+	<!-- org.kuali.student.r*.lum.lo.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lo.dto.LoCategoryInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.lo.dto.LoCategoryInfo</class-b>
+		<field>
+			<a>loRepository</a>
+			<b>loRepositoryKey</b>
+		</field>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lo.dto.LoInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.lo.dto.LoInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>desc</a>
+			<b get-method="getDescr" set-method="setDescr">descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lo.dto.LoLoRelationInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.lo.dto.LoLoRelationInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.lo.dto.LoRepositoryInfo</class-a>
+		<class-b>org.kuali.student.r2.lum.lo.dto.LoRepositoryInfo</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>desc</a>
+			<b set-method="setDescr" get-method="getDescr">descr</b>
+		</field>
+	</mapping>
+
+	<!-- org.kuali.student.r*.lum.program.dto mappings -->
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.program.dto.CoreProgramInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.program.dto.CoreProgramInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>catalogDescr</a>
+			<b get-method="getCatalogDescr" set-method="setCatalogDescr">catalogDescr</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b set-method="setDescr" get-method="getDescr">descr</b>
+		</field>
+		<field>
+			<a>versionInfo</a>
+			<b get-method="getVersion" set-method="setVersion">versionInfo</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.program.dto.CredentialProgramInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.program.dto.CredentialProgramInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>versionInfo</a>
+			<b get-method="getVersion" set-method="setVersion">version</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b set-method="setDescr" get-method="getDescr">descr</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.program.dto.HonorsProgramInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.program.dto.HonorsProgramInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.program.dto.MajorDisciplineInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.program.dto.MajorDisciplineInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>catalogDescr</a>
+			<b get-method="getCatalogDescr" set-method="setCatalogDescr">catalogDescr</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b set-method="setDescr" get-method="getDescr">descr</b>
+		</field>
+		<field>
+			<a>versionInfo</a>
+			<b get-method="getVersion" set-method="setVersion">version</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.program.dto.MinorDisciplineInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.program.dto.MinorDisciplineInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.program.dto.ProgramRequirementInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.program.dto.ProgramRequirementInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>descr</a>
+			<b set-method="setDescr(org.kuali.student.r2.common.dto.RichTextInfo)"
+				get-method="getDescr">descr</b>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+	</mapping>
+	<mapping>
+		<class-a>org.kuali.student.r1.lum.program.dto.ProgramVariationInfo
+		</class-a>
+		<class-b>org.kuali.student.r2.lum.program.dto.ProgramVariationInfo
+		</class-b>
+		<field
+			custom-converter="org.kuali.student.conversion.util.converter.AttributeInfoConverter">
+			<a>attributes</a><!-- This is a Map<String, String> -->
+			<b>attributes</b><!-- This is a List<AttributeInfo> -->
+			<a-hint>java.util.HashMap</a-hint>
+			<b-hint>java.util.ArrayList</b-hint>
+		</field>
+		<field>
+			<a>catalogDescr</a>
+			<b get-method="getCatalogDescr" set-method="setCatalogDescr">catalogDescr</b>
+		</field>
+		<field>
+			<a>descr</a>
+			<b set-method="setDescr" get-method="getDescr">descr</b>
+		</field>
+		<field>
+			<a>metaInfo</a>
+			<b get-method="getMeta" set-method="setMeta">meta</b>
+		</field>
+		<field>
+			<a>versionInfo</a>
+			<b get-method="getVersion" set-method="setVersion">version</b>
+		</field>
+	</mapping>
+
+</mappings>

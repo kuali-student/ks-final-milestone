@@ -24,6 +24,7 @@ import org.kuali.rice.test.SQLDataLoader;
  * @author Kuali Rice Team (rice.collab@kuali.org)
  *
  */
+@Deprecated
 public class UnitTestDataUtils {
 
     public static void executeDataLoader(UnitTestData[] data) throws Exception {

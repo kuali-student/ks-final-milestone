@@ -25,6 +25,7 @@ import org.kuali.rice.test.data.UnitTestDataUtils;
  * 
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public class PerSuiteDataLoaderLifecycle implements Lifecycle {
 	private boolean started;
 

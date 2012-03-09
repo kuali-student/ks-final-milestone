@@ -18,7 +18,7 @@ package org.kuali.student.common.ui.client.configurable.mvc.layouts;
 import java.util.List;
 
 import org.kuali.student.common.ui.client.configurable.mvc.views.SectionView;
-import org.kuali.student.common.validation.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
 
 public interface ConfigurableLayout {
 	public void addStartSection(SectionView section);

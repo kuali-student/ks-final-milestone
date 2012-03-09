@@ -48,7 +48,7 @@ public class MessageEntity extends KsBusinessObjectBase {
     @Transient
     private transient EnumeratedValue groupNameEnumValue;
 
-// now handled with reflection    
+    // now handled with reflection
 //    @Override
 //    protected LinkedHashMap<String, Object> toStringMapper() {
 //

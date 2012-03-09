@@ -6,6 +6,7 @@ import org.kuali.student.common.ui.client.widgets.buttongroups.ButtonEnumeration
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 
+@Deprecated
 public class YesNoCancelGroup extends ButtonGroup<YesNoCancelEnum>{
 	public YesNoCancelGroup(){
 		super();

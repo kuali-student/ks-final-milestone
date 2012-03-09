@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.kuali.student.common.assembly.data.LookupMetadata;
-import org.kuali.student.common.assembly.data.Metadata;
+import org.kuali.student.r1.common.assembly.data.LookupMetadata;
+import org.kuali.student.r1.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.application.Application;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.application.ViewContext;
@@ -24,15 +24,16 @@ import org.kuali.student.common.ui.client.widgets.filter.FilterEventHandler;
 import org.kuali.student.common.ui.client.widgets.filter.FilterResetEventHandler;
 import org.kuali.student.common.ui.client.widgets.filter.KSFilterOptions;
 import org.kuali.student.common.ui.client.widgets.headers.KSDocumentHeader;
-import org.kuali.student.common.ui.client.widgets.layout.HorizontalBlockFlowPanel;
 import org.kuali.student.common.ui.client.widgets.progress.BlockingTask;
 import org.kuali.student.common.ui.client.widgets.progress.KSBlockingProgressIndicator;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.shared.IdAttributes.IdType;
+import org.kuali.student.lum.lu.ui.main.client.configuration.CurriculumHomeConstants;
 import org.kuali.student.lum.lu.ui.tools.client.widgets.BrowsePanel;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 
 
 public class BrowseProgramView extends ViewComposite {
@@ -41,7 +42,7 @@ public class BrowseProgramView extends ViewComposite {
     protected MetadataRpcServiceAsync metadataServiceAsync = GWT.create(MetadataRpcService.class);
 	
     private VerticalFieldLayout container = new VerticalFieldLayout();
-	private HorizontalBlockFlowPanel layout = new HorizontalBlockFlowPanel();
+	private HorizontalPanel layout = new HorizontalPanel();
 	protected KSFilterOptions dependencyFilter;
 	protected DataModelDefinition searchDefinition;
 	protected boolean initialized = false;
@@ -57,48 +58,49 @@ public class BrowseProgramView extends ViewComposite {
 		Metadata metaData;
 		
 		KSDocumentHeader header = new KSDocumentHeader();
-        header.setTitle("Browse Majors and Specializations");
+        header.setTitle(Application.getApplicationContext().getMessage(CurriculumHomeConstants.BROWSE_PROGRAM));
         
         container.setTitleWidget(header);
-        
-        List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
-        metaData = searchDefinition.getMetadata("filter");
-        lookups.add(metaData.getInitialLookup());
-        
-        dependencyFilter = new KSFilterOptions(metaData.getAdditionalLookups());
-        dependencyFilter.addFilterEventHandler(new FilterEventHandler(){
-			@Override
-			public void onDeselect(FilterEvent e) {
-				handleSelections(e.getSelections());
-			}
-			@Override
-			public void onSelect(FilterEvent e) {
-				handleSelections(e.getSelections());
-			}
-       	
-        });
-        
-        dependencyFilter.addFilterResetEventHandler(new FilterResetEventHandler(){
-			@Override
-			public void onReset() {
-				handleSelections(null);				
-			}        	
-        });
-		
-        layout.add(dependencyFilter);
         
 		metaData = searchDefinition.getMetadata("search");
 		
 		browsePanel = new BrowsePanel(metaData.getInitialLookup(),400);
-		
-		browsePanel.setOnSelectectedCallback(new ViewCourseCallback());
-		layout.add(browsePanel);
 
-		container.add(layout);
+		browsePanel.setOnSelectectedCallback(new ViewCourseCallback());
 		
 		browsePanel.executeSearch(new Callback<Boolean>(){
 			@Override
 			public void exec(Boolean result) {
+				Metadata metaData;
+				List<LookupMetadata> lookups = new ArrayList<LookupMetadata>();
+		        metaData = searchDefinition.getMetadata("filter");
+		        lookups.add(metaData.getInitialLookup());
+		        dependencyFilter = new KSFilterOptions(metaData.getAdditionalLookups(),
+		        		browsePanel.getFilterCount());
+		        dependencyFilter.addFilterEventHandler(new FilterEventHandler(){
+					@Override
+					public void onDeselect(FilterEvent e) {
+						handleSelections(e.getSelections());
+					}
+					@Override
+					public void onSelect(FilterEvent e) {
+						handleSelections(e.getSelections());
+					}
+		       	
+		        });
+		        
+		        dependencyFilter.addFilterResetEventHandler(new FilterResetEventHandler(){
+					@Override
+					public void onReset() {
+						handleSelections(null);				
+					}        	
+		        });
+				
+		        layout.add(dependencyFilter);
+		        
+		        layout.add(browsePanel);
+		        
+				container.add(layout);
 			}
 		});
 

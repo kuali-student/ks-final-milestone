@@ -15,17 +15,18 @@
 
 package org.kuali.student.common.ui.client.service;
 
-import org.kuali.student.common.messages.dto.LocaleKeyList;
-import org.kuali.student.common.messages.dto.Message;
-import org.kuali.student.common.messages.dto.MessageGroupKeyList;
-import org.kuali.student.common.messages.dto.MessageList;
+import org.kuali.student.r1.common.messages.dto.LocaleKeyList;
+import org.kuali.student.r1.common.messages.dto.Message;
+import org.kuali.student.r1.common.messages.dto.MessageGroupKeyList;
+import org.kuali.student.r1.common.messages.dto.MessageList;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 public interface MessagesRpcServiceAsync {
     public void getLocales(AsyncCallback<LocaleKeyList> callback);
 
-    public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);
+ // TODO fix merge
+    //public void getMessageGroups(AsyncCallback<MessageGroupKeyList> callback);
 
     public void getMessage(
             String localeKey, 

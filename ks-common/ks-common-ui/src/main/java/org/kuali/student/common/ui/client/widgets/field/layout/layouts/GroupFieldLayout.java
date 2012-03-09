@@ -39,6 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Kuali Student Team
  *
  */
+@Deprecated
 public class GroupFieldLayout extends FieldLayout{
 	private SpanPanel top = new SpanPanel();
 	private FlowPanel layout = new FlowPanel();

@@ -6,7 +6,7 @@
  *
  * http://www.osedu.org/licenses/ECL-2.0
  *
- * Unless required by applicable law or agreed to in writing,
+ * abUnless required by applicable law or agreed to in writing,
  * software distributed under the License is distributed on an "AS IS"
  * BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
  * or implied. See the License for the specific language governing
@@ -45,6 +45,7 @@ public class KSLogoutFilter extends GenericFilterBean {
     private String filterProcessesUrl = "/j_spring_security_logout";
     private String logoutSuccessUrl = "/";
     private LogoutHandler[] handlers;
+    private boolean useRelativeContext;
     String invalidateSession = "true";
     
     public KSLogoutFilter(){
@@ -74,7 +75,7 @@ public class KSLogoutFilter extends GenericFilterBean {
 			// TODO: handle this
 		}
 	}
-    
+
     public void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException,
             ServletException {
 
@@ -174,7 +175,6 @@ public class KSLogoutFilter extends GenericFilterBean {
             throws IOException {
 
         new DefaultRedirectStrategy().sendRedirect(request, response, url);
-        
     }
 
     public void setFilterProcessesUrl(String filterProcessesUrl) {
@@ -187,18 +187,21 @@ public class KSLogoutFilter extends GenericFilterBean {
         return logoutSuccessUrl;
     }    
     
+    public void setLogoutSuccessUrl(String logoutSuccessUrl){
+        this.logoutSuccessUrl = logoutSuccessUrl;
+        Assert.isTrue(UrlUtils.isValidRedirectUrl(logoutSuccessUrl), logoutSuccessUrl + " isn't a valid redirect URL");    	
+    }    
+    
     protected String getFilterProcessesUrl() {
         return filterProcessesUrl;
     }
 
-    /* We can't do this unless we create a new Redirect Strategy.  Thanks Spring!
     public void setUseRelativeContext(boolean useRelativeContext) {
         this.useRelativeContext = useRelativeContext;
-    }*/
+    }
 
-    /* I don't think we need this
-    public int getOrder() {
-        return FilterChainOrder.LOGOUT_FILTER;
-    } */
+//    public int getOrder() {
+//        return FilterChainOrder.LOGOUT_FILTER;
+//    }
 
 }

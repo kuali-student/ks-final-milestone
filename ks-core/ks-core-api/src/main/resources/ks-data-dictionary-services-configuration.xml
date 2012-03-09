@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+
+    <import resource="classpath:ks-dictionary-file-locations.xml"/>
+
+    <!--LPR Service-->
+    <!--bean id="dataDictionaryServiceForLpr" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="luiPersonRelation" />
+        <property name="dictionaryLocations" ref="luiPersonRelationServiceDictionaryLocations" />
+    </bean-->
+    <!--ATP Service-->
+    <!--bean id="dataDictionaryServiceForAtp" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="atp" />
+        <property name="dictionaryLocations" ref="atpServiceDictionaryLocations" />
+    </bean-->
+    <!-- ACAL Service-->
+    <!--bean id="dataDictionaryServiceForAcal" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="acal" />
+        <property name="dictionaryLocations" ref="acalServiceDictionaryLocations" />
+    </bean-->   
+   <!-- Hold Service-->
+    <!--bean id="dataDictionaryServiceForHold" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="hold" />
+        <property name="dictionaryLocations" ref="holdServiceDictionaryLocations" />
+   </bean-->  
+   <!-- Lui Service -->
+   <!--bean id="dataDictionaryServiceForLui" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="lui" />
+        <property name="dictionaryLocations" ref="luiServiceDictionaryLocations" />
+   </bean--> 
+   <!-- CourseOffering Service -->
+   <!--bean id="dataDictionaryServiceForCourseOffering" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="courseOffering" />
+        <property name="dictionaryLocations" ref="courseOfferingServiceDictionaryLocations" />
+   </bean--> 
+   
+    <!--All Objects Data Dictionary Service used by Rice-->
+    <bean id="dataDictionaryServiceForAllUsedByRice" class="org.kuali.student.r2.common.datadictionary.DataDictionaryServiceImpl">
+        <property name="serviceNamespaceSuffix" value="shouldNotMatter" />
+        <property name="dictionaryLocations" ref="allDictionaryFileLocations" />
+    </bean>
+</beans>

@@ -19,21 +19,24 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.kuali.student.common.assembly.data.LookupResultMetadata;
-import org.kuali.student.common.search.dto.SearchRequest;
-import org.kuali.student.common.search.dto.SearchResult;
-import org.kuali.student.common.search.dto.SearchResultCell;
-import org.kuali.student.common.search.dto.SearchResultRow;
 import org.kuali.student.common.ui.client.application.KSAsyncCallback;
 import org.kuali.student.common.ui.client.mvc.Callback;
 import org.kuali.student.common.ui.client.service.CachingSearchService;
+import org.kuali.student.common.ui.client.service.SearchRpcServiceAsync;
+import org.kuali.student.common.ui.client.service.SearchServiceFactory;
 import org.kuali.student.common.ui.client.widgets.pagetable.GenericTableModel;
 import org.kuali.student.common.ui.client.widgets.pagetable.PagingScrollTableBuilder;
 import org.kuali.student.common.ui.client.widgets.searchtable.ResultRow;
 import org.kuali.student.common.ui.client.widgets.searchtable.SearchColumnDefinition;
+import org.kuali.student.r1.common.assembly.data.LookupResultMetadata;
+import org.kuali.student.r1.common.search.dto.SearchRequest;
+import org.kuali.student.r1.common.search.dto.SearchResult;
+import org.kuali.student.r1.common.search.dto.SearchResultCell;
+import org.kuali.student.r1.common.search.dto.SearchResultRow;
 
 import com.google.gwt.gen2.table.client.AbstractColumnDefinition;
 import com.google.gwt.gen2.table.client.AbstractScrollTable.ResizePolicy;
+import com.google.gwt.gen2.table.client.SelectionGrid.SelectionPolicy;
 import com.google.gwt.gen2.table.client.PagingScrollTable;
 import com.google.gwt.gen2.table.event.client.RowSelectionHandler;
 import com.google.gwt.user.client.ui.Composite;
@@ -52,9 +55,12 @@ public class SearchBackedTable extends Composite {
 	protected PagingScrollTable<ResultRow> pagingScrollTable;
 	private VerticalPanel layout = new VerticalPanel();
 
-	private CachingSearchService searchRpcServiceAsync = CachingSearchService
-			.getSearchService();
+	private SearchRpcServiceAsync searchRpcServiceAsync = SearchServiceFactory.getSearchService();
+	
 	private int defaultHeight = 200;
+
+	private SelectionPolicy selectionPolicy = SelectionPolicy.MULTI_ROW;
+	private String tableStyleName = "";
 
 	public SearchBackedTable() {
 		super();
@@ -79,7 +85,7 @@ public class SearchBackedTable extends Composite {
 		}
 		this.redraw();
 	}
-
+	
 	public void performSearch(SearchRequest searchRequest,
 			List<LookupResultMetadata> listResultMetadata, String resultIdKey,
 			final Callback<Boolean> callback) {
@@ -92,7 +98,7 @@ public class SearchBackedTable extends Composite {
 			pagingScrollTable.setEmptyTableWidget(new Label(
 					"Processing Search..."));
 		}
-
+		
 		// Window.alert ("About to invoke asynch search...");
 		searchRpcServiceAsync.search(searchRequest,
 				new KSAsyncCallback<SearchResult>() {
@@ -128,7 +134,7 @@ public class SearchBackedTable extends Composite {
 
 				});
 	}
-
+	
 	private void initializeTable(List<LookupResultMetadata> listResultMetadata,
 			String resultIdKey) {
 		clearTable();
@@ -136,6 +142,7 @@ public class SearchBackedTable extends Composite {
 		this.resultIdColumnKey = resultIdKey;
 		builder = new PagingScrollTableBuilder<ResultRow>();
 		builder.tablePixelSize(900, defaultHeight); // width, height
+		builder.setSelectionPolicy(selectionPolicy);
 
 		columnDefs = new ArrayList<AbstractColumnDefinition<ResultRow, ?>>();
 		for (LookupResultMetadata r : listResultMetadata) {
@@ -159,7 +166,9 @@ public class SearchBackedTable extends Composite {
 	public void redraw() {
 		tableModel.setRows(resultRows);
 		pagingScrollTable = builder.build(tableModel);
-		pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);
+		pagingScrollTable.setResizePolicy(ResizePolicy.FILL_WIDTH);		
+		if(tableStyleName != "")
+			pagingScrollTable.setStyleName(tableStyleName);
 		layout.clear();
 		layout.add(pagingScrollTable);
 		pagingScrollTable.fillWidth();
@@ -219,4 +228,11 @@ public class SearchBackedTable extends Composite {
 		this.defaultHeight = defaultHeight;
 	}
 
+    public void setSelectionPolicy(SelectionPolicy selectionPolicy){
+    	this.selectionPolicy = selectionPolicy;
+    }
+
+    public void setTableStyleName(String tableStyleName){
+    	this.tableStyleName = tableStyleName;
+    }
 }

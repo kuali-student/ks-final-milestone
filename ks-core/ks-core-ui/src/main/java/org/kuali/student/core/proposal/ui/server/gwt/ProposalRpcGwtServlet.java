@@ -15,8 +15,10 @@
 
 package org.kuali.student.core.proposal.ui.server.gwt;
 
+import org.apache.log4j.Logger;
 import org.kuali.student.common.ui.server.gwt.BaseRpcGwtServletAbstract;
-import org.kuali.student.core.proposal.service.ProposalService;
+import org.kuali.student.r1.core.proposal.dto.ProposalInfo;
+import org.kuali.student.r1.core.proposal.service.ProposalService;
 import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 
 /**
@@ -28,5 +30,17 @@ import org.kuali.student.core.proposal.ui.client.service.ProposalRpcService;
 public class ProposalRpcGwtServlet extends BaseRpcGwtServletAbstract<ProposalService> implements ProposalRpcService{
 
     private static final long serialVersionUID = 1L;
+
+    private final static Logger LOGGER = Logger.getLogger(ProposalRpcGwtServlet.class);
+
+    @Override
+    public ProposalInfo getProposalByWorkflowId(String workflowId) throws Exception {
+        try {
+            return service.getProposalByWorkflowId(workflowId);
+        } catch (Exception e) {
+            LOGGER.error(e);
+            throw e;
+        }
+    }
 
 }

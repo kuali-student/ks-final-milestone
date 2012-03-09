@@ -55,7 +55,7 @@ public class MaxCourseCompletionProposition extends AbstractLeafProposition {
         Collection<String> coursesToCheck;
 
         if(singleCourseId == null) {
-            Term term = new Term(RulesExecutionConstants.COURSE_SET_TERM_NAME, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY, courseSetId));
+            Term term = new Term(RulesExecutionConstants.courseSetTermSpec, Collections.singletonMap(RulesExecutionConstants.COURSE_SET_ID_TERM_PROPERTY_NAME, courseSetId));
             coursesToCheck = environment.resolveTerm(term, this);
         }
         else {
@@ -65,7 +65,7 @@ public class MaxCourseCompletionProposition extends AbstractLeafProposition {
 
         PropositionResult result = new PropositionResult(CollectionUtils.intersection(completedCourses, coursesToCheck).size() <= maxCoursesCompleted);
 
-        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PROPOSITION_EVALUATED, this, environment, result.getResult()));
+        environment.getEngineResults().addResult(new BasicResult(ResultEvent.PropositionEvaluated, this, environment, result.getResult()));
 
         return result;
     }

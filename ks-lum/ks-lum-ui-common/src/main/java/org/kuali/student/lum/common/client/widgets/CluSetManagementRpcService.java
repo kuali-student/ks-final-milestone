@@ -15,8 +15,10 @@
 
 package org.kuali.student.lum.common.client.widgets;
 
+// TODO KSCM-242
 import org.kuali.student.common.ui.client.service.BaseDataOrchestrationRpcService;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("rpcservices/CluSetManagementRpcService")

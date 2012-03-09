@@ -22,6 +22,7 @@ import java.lang.reflect.Method;
  * run.  
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public interface MethodAware {
     public void setTestMethod(Method testMethod);
 }

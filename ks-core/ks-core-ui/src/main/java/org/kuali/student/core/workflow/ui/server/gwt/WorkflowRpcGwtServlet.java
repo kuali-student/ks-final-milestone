@@ -1,29 +1,40 @@
 package org.kuali.student.core.workflow.ui.server.gwt;
 
-import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Level;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kew.api.action.DocumentActionParameters;
 import org.kuali.rice.kew.api.action.ReturnPoint;
 import org.kuali.rice.kew.api.action.WorkflowDocumentActionsService;
 import org.kuali.rice.kew.api.doctype.DocumentType;
 import org.kuali.rice.kew.api.doctype.DocumentTypeService;
-import org.kuali.rice.kew.api.document.*;
+import org.kuali.rice.kew.api.document.Document;
+import org.kuali.rice.kew.api.document.DocumentContent;
+import org.kuali.rice.kew.api.document.DocumentContentUpdate;
+import org.kuali.rice.kew.api.document.DocumentDetail;
+import org.kuali.rice.kew.api.document.DocumentUpdate;
+import org.kuali.rice.kew.api.document.WorkflowDocumentService;
 import org.kuali.rice.kew.api.document.node.RouteNodeInstance;
 import org.kuali.rice.kew.api.exception.WorkflowException;
-import org.kuali.rice.kew.api.KewApiConstants;
 import org.kuali.rice.kim.api.identity.IdentityService;
 import org.kuali.rice.kim.api.identity.principal.Principal;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.common.rice.StudentIdentityConstants;
-import org.kuali.student.common.rice.authorization.PermissionType;
+import org.kuali.student.r1.common.rice.StudentIdentityConstants;
+import org.kuali.student.r1.common.rice.StudentWorkflowConstants.ActionRequestType;
+import org.kuali.student.r1.common.rice.authorization.PermissionType;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
 import org.kuali.student.common.util.security.SecurityUtils;
 import org.kuali.student.core.rice.authorization.CollaboratorHelper;
 import org.kuali.student.core.workflow.ui.client.service.WorkflowRpcService;
 
-import java.util.*;
-import java.util.logging.Level;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements WorkflowRpcService {
 
@@ -388,6 +399,43 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
 	        throw new OperationFailedException("Unable to get document information from Workflow for doc id " + docId);
 	    }
 	}
+	
+	@Override
+    public Boolean adhocRequest(String docId, String recipientPrincipalId, ActionRequestType requestType,
+            String annotation) throws OperationFailedException {
+	    try {
+            //Get a user name
+            String username = SecurityUtils.getCurrentUserId();
+
+            String fyiAnnotation = "";
+            String approveAnnotation = "";
+            String ackAnnotation = "";
+//TODO KSCM: Entire commented section
+//            if (ActionRequestType.FYI.equals(requestType)) {
+//                StandardResponse stdResp = getSimpleDocService().requestAdHocFyiToPrincipal(workflowId,recipientPrincipalId, username, fyiAnnotation);
+//                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+//                    throw new OperationFailedException("Error found in Adhoc FYI: " + stdResp.getErrorMessage());
+//                }
+//            }
+//            if (ActionRequestType.APPROVE.equals(requestType)) {
+//                StandardResponse stdResp = getSimpleDocService().requestAdHocApproveToPrincipal(workflowId, recipientPrincipalId,username, approveAnnotation);
+//                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+//                    throw new OperationFailedException("Error found in Adhoc Approve: " + stdResp.getErrorMessage());
+//                }
+//            }
+//            if (ActionRequestType.ACKNOWLEDGE.equals(requestType)) {
+//                StandardResponse stdResp = getSimpleDocService().requestAdHocAckToPrincipal(workflowId,recipientPrincipalId,username, ackAnnotation);
+//                if (stdResp == null || StringUtils.isNotBlank(stdResp.getErrorMessage())) {
+//                    throw new OperationFailedException("Error found in Adhoc Ack: " + stdResp.getErrorMessage());
+//                }
+//            }
+
+        } catch (Exception e) {
+            LOG.error("Error adhoc routing",e);
+            throw new OperationFailedException("Could not adhoc route");
+        }
+        return  Boolean.valueOf(true);
+    }
 
 	public void setWorkflowDocumentActionsService(WorkflowDocumentActionsService workflowDocumentActionsService) {
 		this.workflowDocumentActionsService = workflowDocumentActionsService;
@@ -461,4 +509,6 @@ public class WorkflowRpcGwtServlet extends RemoteServiceServlet implements Workf
         }
         return collaboratorHelper;
     }
+
+    
 }

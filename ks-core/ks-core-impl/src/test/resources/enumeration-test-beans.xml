@@ -17,7 +17,7 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 	
 
 	<bean id="persistList"
@@ -29,7 +29,7 @@
 		</property>
 	</bean>
    <bean id="enumerationMetaEntity1"
-	      class="org.kuali.student.core.enumerationmanagement.entity.Enumeration">
+	      class="org.kuali.student.r1.core.enumerationmanagement.entity.Enumeration">
 		<property name="descr" value="desc 1" />
 		<property name="id"         value="key 1" />
 		<property name="name"                   value="name 1" />

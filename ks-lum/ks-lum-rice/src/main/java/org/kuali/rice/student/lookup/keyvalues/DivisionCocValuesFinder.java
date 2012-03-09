@@ -16,8 +16,8 @@
 package org.kuali.rice.student.lookup.keyvalues;
 
 import java.util.List;
-import org.kuali.rice.core.api.util.KeyValue;
 
+import org.kuali.rice.core.api.util.KeyValue;
 
 public class DivisionCocValuesFinder extends CocValuesFinder {
 

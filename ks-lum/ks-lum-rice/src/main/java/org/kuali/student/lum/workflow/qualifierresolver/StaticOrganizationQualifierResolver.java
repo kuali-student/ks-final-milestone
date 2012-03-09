@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.kuali.student.lum.workflow.qualifierresolver;
 
@@ -17,7 +17,8 @@ import javax.xml.xpath.XPathConstants;
 import org.kuali.rice.kew.engine.RouteContext;
 import org.kuali.rice.kew.rule.xmlrouting.XPathHelper;
 import org.kuali.rice.student.bo.KualiStudentKimAttributes;
-import org.kuali.student.core.organization.dto.OrgInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
+import org.kuali.student.r2.core.organization.dto.OrgInfo;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -27,11 +28,11 @@ import org.xml.sax.InputSource;
 /**
  * A QualifierResolver class that takes one or more organization ids from the Route Node configuration XML on the
  * document type and uses those organizations as the qualifiers.
- * 
+ *
  * <p>
  * A sample of the Route Node configuration:
  * <p>
- * 
+ *
  * <pre>
  * {@code
  * <role name="Senate Review">
@@ -41,7 +42,7 @@ import org.xml.sax.InputSource;
  * </role>
  * }
  * </pre>
- * 
+ *
  */
 public class StaticOrganizationQualifierResolver extends AbstractOrganizationServiceQualifierResolver {
     private static final org.apache.log4j.Logger LOG = org.apache.log4j.Logger.getLogger(StaticOrganizationQualifierResolver.class);
@@ -51,8 +52,7 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
     /**
      * @see org.kuali.rice.kew.role.QualifierResolver#resolve(org.kuali.rice.kew.engine.RouteContext)
      */
-    @Override
-    public List<Map<String,String>> resolve(RouteContext context) {
+    public List<Map<String,String>> resolve(RouteContext context, ContextInfo contextInfo) {
         List<Map<String,String>> attributeSets = new ArrayList<Map<String,String>>();
         XPath xPath = XPathHelper.newXPath();
         NodeList organizationElements;
@@ -74,7 +74,8 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
                 Node organizationElement = organizationElements.item(i);
                 orgId = "";
                 orgId = organizationElement.getTextContent();
-                OrgInfo orgInfo = getOrganizationService().getOrganization(orgId);
+                OrgInfo orgInfo = null;
+                // TODO KSCM orgInfo = getOrganizationService().getOrganization(orgId, contextInfo);
                 Map<String,String> attrSet = new LinkedHashMap<String,String>();
                 attrSet.put(KualiStudentKimAttributes.QUALIFICATION_ORG_ID, orgInfo.getId());
                 attributeSets.add(attrSet);
@@ -91,5 +92,11 @@ public class StaticOrganizationQualifierResolver extends AbstractOrganizationSer
 
     protected String getOrganizationIdXmlTagName() {
         return ROUTE_NODE_ORGANIZATION_ID_XML_TAG_NAME;
+    }
+
+    @Override
+    // TODO KSCM
+    public List<Map<String, String>> resolve(RouteContext routeContext) {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

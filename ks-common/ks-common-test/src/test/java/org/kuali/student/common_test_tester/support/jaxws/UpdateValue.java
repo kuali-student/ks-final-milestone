@@ -27,6 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * 
  */
 
+@Deprecated
 @XmlRootElement(name = "updateValue", namespace = "http://student.kuali.org/poc/wsdl/test/my")
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "updateValue", namespace = "http://student.kuali.org/poc/wsdl/test/my")

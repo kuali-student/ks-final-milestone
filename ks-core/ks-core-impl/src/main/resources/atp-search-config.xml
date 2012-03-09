@@ -22,7 +22,7 @@
 	xsi:schemaLocation="
 	http://student.kuali.org/xsd/search-extension http://student.kuali.org/xsd/search-extension/search-extension.xsd
 	http://student.kuali.org/xsd/dictionary-extension http://student.kuali.org/xsd/dictionary-extension/dictionary-extension.xsd
-	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
 	 ">
 
 	<!-- Search Types -->
@@ -129,6 +129,13 @@
 		optional="true" abstract="true">
 		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
+	
+	<search:queryParam id="atp.advancedAtpSearchParam.optionalAtpIds"
+		parent="atp.advancedAtpSearchParam.optionalAtpIds-parent" />
+	<search:queryParam id="atp.advancedAtpSearchParam.optionalAtpIds-parent"
+		optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.id" />
+	</search:queryParam>
 
 	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDate"
 		parent="atp.advancedAtpSearchParam.atpStartDate-parent" />
@@ -161,6 +168,20 @@
 	<search:queryParam id="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId"
 		parent="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId-parent" />
 	<search:queryParam id="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId-parent"
+		optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.id" />
+	</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive"
+		parent="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive-parent" />
+	<search:queryParam id="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive-parent"
+		optional="true" abstract="true">
+		<ref bean="atp.fieldDescriptor.id" />
+	</search:queryParam>
+
+	<search:queryParam id="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive"
+		parent="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive-parent" />
+	<search:queryParam id="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive-parent"
 		optional="true" abstract="true">
 		<ref bean="atp.fieldDescriptor.id" />
 	</search:queryParam>
@@ -542,6 +563,9 @@
 			<ref bean="atp.advancedAtpSearchParam.atpType" />	
 			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId" />
 			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId" />
+			<ref bean="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive" />
+			<ref bean="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive" />
+			<ref bean="atp.advancedAtpSearchParam.optionalAtpIds" />
 		</search:queryParams>
 	</search:searchCriteriaTypeInfo>
 
@@ -644,6 +668,9 @@
 				<entry key="atp.advancedAtpSearchParam.atpId">
 					<value>atp.id = :atp_advancedAtpSearchParam_atpId</value>
 				</entry>
+				<entry key="atp.advancedAtpSearchParam.optionalAtpIds">
+					<value>atp.id IN (:atp_advancedAtpSearchParam_optionalAtpIds)</value>
+				</entry>
 				<entry key="atp.advancedAtpSearchParam.atpStartDate">
 					<value>atp.startDate = :atp_advancedAtpSearchParam_atpStartDate</value>
 				</entry>
@@ -677,10 +704,19 @@
 				    This will not be a problem in oracle/mysql, but may cause problems with our tests that use derby embedded.
 				-->
 				<entry  key="atp.advancedAtpSearchParam.atpStartDateAtpConstraintId">
-					<value>(:atp_advancedAtpSearchParam_atpStartDateAtpConstraintId IS NULL OR (atp.startDate >= (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintId)))</value>
+					<value>((:atp_advancedAtpSearchParam_atpStartDateAtpConstraintId IS NULL OR (atp.startDate >= (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintId))) AND 
+					        (:atp_advancedAtpSearchParam_atpStartDateAtpConstraintId IS NULL OR (atp.endDate >= (SELECT MAX(startAtp.endDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintId))))</value>
 				</entry>
 				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintId">
 					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintId IS NULL OR (atp.endDate &lt;= (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintId)))</value>
+				</entry>
+				
+				<entry  key="atp.advancedAtpSearchParam.atpStartDateAtpConstraintIdExclusive">
+					<value>((:atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive IS NULL OR (atp.startDate > (SELECT MAX(startAtp.startDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive))) AND
+					        (:atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive IS NULL OR (atp.endDate > (SELECT MAX(startAtp.endDate) FROM Atp startAtp WHERE startAtp.id = :atp_advancedAtpSearchParam_atpStartDateAtpConstraintIdExclusive))))</value>
+				</entry>
+				<entry  key="atp.advancedAtpSearchParam.atpEndDateAtpConstraintIdExclusive">
+					<value>(:atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive IS NULL OR (atp.endDate &lt; (SELECT MAX(endAtp.endDate) FROM Atp endAtp WHERE endAtp.id = :atp_advancedAtpSearchParam_atpEndDateAtpConstraintIdExclusive)))</value>
 				</entry>
 			</map>
 		</property>

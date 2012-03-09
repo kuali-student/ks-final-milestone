@@ -16,7 +16,6 @@ package org.kuali.student.lum.kim.role.type;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.kim.api.KimConstants;
-//import org.kuali.rice.kim.api.role.Role;
 import org.kuali.rice.kim.api.role.RoleMembership;
 import org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase;
 
@@ -26,17 +25,17 @@ import java.util.Map;
 
 /**
  * Dummy class to test Hierarchy Node Test
- * 
+ *
  * @author delyea
  *
  */
 public class HierarchyNodeTestRoleTypeServiceBase extends DerivedRoleTypeServiceBase {
 
     /* (non-Javadoc)
-     * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromDerivedRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
+     * @see org.kuali.rice.kns.kim.role.DerivedRoleTypeServiceBase#getRoleMembersFromApplicationRole(java.lang.String, java.lang.String, org.kuali.rice.kim.bo.types.dto.Map<String,String>)
      */
     @Override
-    public List<RoleMembership> getRoleMembersFromDerivedRole(String namespaceCode, String roleName, Map<String, String> qualification) {
+    public List<RoleMembership> getRoleMembersFromApplicationRole(String namespaceCode, String roleName, Map<String, String> qualification) {
         List<RoleMembership> roleMembers = new ArrayList<RoleMembership>();
         roleMembers.add(RoleMembership.Builder.create(null, null, "eric", KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, null).build());
         roleMembers.add(RoleMembership.Builder.create(null, null, "fran", KimConstants.KimGroupMemberTypes.PRINCIPAL_MEMBER_TYPE, null).build());

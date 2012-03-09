@@ -35,6 +35,7 @@ import org.mortbay.jetty.webapp.WebAppClassLoader;
  * A lifecycle for running a jetty web server.
  * @author Kuali Rice Team (rice.collab@kuali.org)
  */
+@Deprecated
 public class JettyServerLifecycle implements Lifecycle {
     private static final Logger LOG = Logger.getLogger(JettyServerLifecycle.class);
 

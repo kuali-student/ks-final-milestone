@@ -15,11 +15,15 @@
 
 package org.kuali.student.common.ui.client.service;
 
+import java.util.List;
 import java.util.Map;
 
-import org.kuali.student.common.assembly.data.Data;
-import org.kuali.student.common.assembly.data.Metadata;
 import org.kuali.student.common.ui.client.service.exceptions.OperationFailedException;
+import org.kuali.student.common.ui.client.service.exceptions.VersionMismatchClientException;
+import org.kuali.student.r1.common.assembly.data.Data;
+import org.kuali.student.r1.common.assembly.data.Metadata;
+import org.kuali.student.r2.common.dto.ValidationResultInfo;
+import org.kuali.student.r2.common.dto.ContextInfo;
 
 public interface AssemblerRpcService {
 	//Data operations
@@ -27,6 +31,8 @@ public interface AssemblerRpcService {
 	
 	public Metadata getMetadata(String id, Map<String,String> idAttributes) throws OperationFailedException;
 
-	public DataSaveResult saveData(Data data) throws OperationFailedException;
+	public DataSaveResult saveData(Data data) throws OperationFailedException, VersionMismatchClientException;
+	
+	public List<ValidationResultInfo> validate(Data data) throws OperationFailedException;
 
 }
