@@ -215,7 +215,7 @@ public class LuServiceAssembler extends BaseAssembler {
                 .getOfficialIdentifier()));
         dto.setAlternateIdentifiers(toCluIdentifierInfos(entity
                 .getAlternateIdentifiers()));
-        // TODO KSCM 
+
         dto.setDescr(toRichTextInfo(entity.getDescr()));
 
         // accreditingOrg Deprecated in v 1.0-rc2 Replaced by Primary and
@@ -281,10 +281,10 @@ public class LuServiceAssembler extends BaseAssembler {
 
         BeanUtils.copyProperties(cluSetInfo, cluSet, new String[]{"id",
                 "descr", "attributes", "metaInfo", "membershipQuery"});
-        // TODO KSCM 
+
         cluSet.setAttributes(toGenericAttributes(CluSetAttribute.class, cluSetInfo.getAttributes(), cluSet, luDao));
         cluSet.setType(cluSetInfo.getType());
-        // TODO KSCM 
+
         cluSet.setDescr(toRichText(LuRichText.class, cluSetInfo.getDescr()));
 
         for (String cluId : cluSetInfo.getCluIds()) {
@@ -314,7 +314,7 @@ public class LuServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(entity, dto, new String[]{"descr",
                 "cluCriteria", "cluSets", "clus", "attributes", "metaInfo", "membershipQuery"});
 
-        // TODO KSCM 
+
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         // TODO dto.setCluCriteria();
         if (entity.getCluSets() != null) {
@@ -991,7 +991,7 @@ public class LuServiceAssembler extends BaseAssembler {
             fee.setDescr(null);
         }
 
-        // TODO KSCM 
+
         fee.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeAttribute.class, feeInfo.getAttributes(), fee,
                 dao));
         toCluFeeRecords(isUpdate, fee, feeInfo.getCluFeeRecords(), dao);
@@ -1014,11 +1014,11 @@ public class LuServiceAssembler extends BaseAssembler {
                         feeRecordInfo.getAffiliatedOrgs(), dao));
                 feeRec.setFeeType(feeRecordInfo.getFeeType());
                 feeRec.setRateType(feeRecordInfo.getRateType());
-                // TODO KSCM 
+
                 feeRec.setDescr(toRichText(LuRichText.class, feeRecordInfo.getDescr()));
-                // TODO KSCM 
+
                 feeRec.setFeeAmounts(toFeeAmounts(isUpdate, feeRec.getFeeAmounts(), feeRecordInfo.getFeeAmounts(), dao));
-                // TODO KSCM 
+
                 feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(CluFeeRecordAttribute.class,
                         feeRecordInfo.getAttributes(), feeRec, dao));
                 if (cluFee.getCluFeeRecords() == null) {
@@ -1048,11 +1048,11 @@ public class LuServiceAssembler extends BaseAssembler {
                         feeRecordInfo.getAffiliatedOrgs(), dao));
                 feeRec.setFeeType(feeRecordInfo.getFeeType());
                 feeRec.setRateType(feeRecordInfo.getRateType());
-                // TODO KSCM 
+
                 feeRec.setDescr(toRichText(LuRichText.class, feeRecordInfo.getDescr()));
-                // TODO KSCM 
+
                 feeRec.setFeeAmounts(toFeeAmounts(isUpdate, feeRec.getFeeAmounts(), feeRecordInfo.getFeeAmounts(), dao));
-                // TODO KSCM 
+
                 feeRec.setAttributes(LuServiceAssembler.toGenericAttributes(
                         CluFeeRecordAttribute.class, feeRecordInfo
                                 .getAttributes(), feeRec, dao));
@@ -1155,7 +1155,7 @@ public class LuServiceAssembler extends BaseAssembler {
         CluIdentifier officialIdentifier = new CluIdentifier();
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(),
                 officialIdentifier, new String[]{"attributes"});
-        // TODO KSCM 
+
         officialIdentifier.setAttributes(LuServiceAssembler.toGenericAttributes(
                 CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier()
                         .getAttributes(), officialIdentifier, dao));
@@ -1170,7 +1170,7 @@ public class LuServiceAssembler extends BaseAssembler {
         BeanUtils.copyProperties(cluInfo.getOfficialIdentifier(), clu
                 .getOfficialIdentifier(), new String[]{"id", "attributes"});
 
-        // TODO KSCM 
+
         clu.getOfficialIdentifier().setAttributes(LuServiceAssembler.toGenericAttributes(
                 CluIdentifierAttribute.class, cluInfo.getOfficialIdentifier()
                         .getAttributes(), clu.getOfficialIdentifier(), dao));
@@ -1184,7 +1184,7 @@ public class LuServiceAssembler extends BaseAssembler {
             CluIdentifier identifier = new CluIdentifier();
             BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"attributes"});
 
-            // TODO KSCM 
+
             identifier.setAttributes(LuServiceAssembler.toGenericAttributes(
                     CluIdentifierAttribute.class, cluIdInfo.getAttributes(), identifier, dao));
 
@@ -1211,7 +1211,7 @@ public class LuServiceAssembler extends BaseAssembler {
             // Do Copy
             BeanUtils.copyProperties(cluIdInfo, identifier, new String[]{"attributes"});
 
-            // TODO KSCM 
+
             identifier.setAttributes(LuServiceAssembler.toGenericAttributes(
                     CluIdentifierAttribute.class, cluIdInfo.getAttributes(), identifier, dao));
 
