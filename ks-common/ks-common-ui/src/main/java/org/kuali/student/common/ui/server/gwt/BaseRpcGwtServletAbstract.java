@@ -92,8 +92,9 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey){
+     // TODO KSCM-371:  
 //        try {
-// TODO KSCM-371:            return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey, context);
+//          return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey, context);
 //        } catch (DoesNotExistException e) {
 //        	LOG.error(e);
 //        } catch (InvalidParameterException e) {
@@ -160,9 +161,10 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchType(java.lang.String)
      */
- // TODO KSCM-371:
+ 
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey){
+     // TODO KSCM-371:
 //        try {
 //            return ((SearchService)getService()).getSearchType(searchTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -180,9 +182,10 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypes()
      */
- // TODO KSCM-371:
+
     @Override
     public List<SearchTypeInfo> getSearchTypes(){
+        // TODO KSCM-371:
 //        try {
 //            return ((SearchService)getService()).getSearchTypes(context);
 //        } catch (OperationFailedException e) {
@@ -194,9 +197,10 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByCriteria(java.lang.String)
      */
- // TODO KSCM-371:
+
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey){
+        // TODO KSCM-371:
 //        try {
 //            return ((SearchService)getService()).getSearchTypes(context);
 //        } catch (OperationFailedException e) {
@@ -208,9 +212,10 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     /**
      * @see org.kuali.student.common.search.service.SearchService#getSearchTypesByResult(java.lang.String)
      */
- // TODO KSCM-371:
+ 
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey){
+     // TODO KSCM-371:
 //        try {
 //            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -228,9 +233,10 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
     /**
      * @see org.kuali.student.common.search.service.SearchService#search(org.kuali.student.common.search.dto.SearchRequest)
      */
- // TODO KSCM-371:
+ 
     @Override
-    public SearchResult search(SearchRequest searchRequest) {                
+    public SearchResult search(SearchRequest searchRequest) {   
+     // TODO KSCM-371:
 //        try {
 //			return ((SearchService)getService()).search(searchRequest, context);
 //		} catch (MissingParameterException e) {
