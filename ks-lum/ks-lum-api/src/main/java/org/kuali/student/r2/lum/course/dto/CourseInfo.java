@@ -151,7 +151,7 @@ public class CourseInfo extends IdEntityInfo implements Course, Serializable {
     private Date expirationDate;
     @XmlElement
     private VersionInfo versionInfo;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

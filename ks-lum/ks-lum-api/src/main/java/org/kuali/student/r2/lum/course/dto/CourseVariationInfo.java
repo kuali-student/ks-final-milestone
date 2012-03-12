@@ -42,7 +42,7 @@ public class CourseVariationInfo extends IdNamelessEntityInfo implements CourseV
     @XmlElement
     private String variationCode;
 
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

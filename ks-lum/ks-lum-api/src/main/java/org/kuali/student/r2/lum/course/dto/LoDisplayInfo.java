@@ -58,7 +58,7 @@ public class LoDisplayInfo extends IdEntityInfo implements LoDisplay, Serializab
     @XmlElement
     private List<LoCategoryInfo> loCategoryInfoList;
 
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 
