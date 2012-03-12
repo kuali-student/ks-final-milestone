@@ -92,7 +92,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public SearchCriteriaTypeInfo getSearchCriteriaType(String searchCriteriaTypeKey){
-     // TODO KSCM-371:  
+     // TODO KSCM-165:  
 //        try {
 //          return ((SearchService)getService()).getSearchCriteriaType(searchCriteriaTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -114,7 +114,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes(){
-  // TODO KSCM-371:
+  // TODO KSCM-165:
 //    	try {
 //            return ((SearchService)getService()).getSearchCriteriaTypes(context);
 //        } catch (OperationFailedException e) {
@@ -128,7 +128,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
      */
     @Override
     public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey){
-        // TODO KSCM-371:
+        // TODO KSCM-165:
 //    	try {
 //            return ((SearchService)getService()).getSearchResultType(searchResultTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -149,7 +149,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
 
     @Override
     public List<SearchResultTypeInfo> getSearchResultTypes(){
-    // TODO KSCM-371:
+    // TODO KSCM-165:
     //        try {
 //            return ((SearchService)getService()).getSearchResultTypes(context);
 //        } catch (OperationFailedException e) {
@@ -164,7 +164,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
  
     @Override
     public SearchTypeInfo getSearchType(String searchTypeKey){
-     // TODO KSCM-371:
+     // TODO KSCM-165:
 //        try {
 //            return ((SearchService)getService()).getSearchType(searchTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -185,7 +185,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
 
     @Override
     public List<SearchTypeInfo> getSearchTypes(){
-        // TODO KSCM-371:
+        // TODO KSCM-165:
 //        try {
 //            return ((SearchService)getService()).getSearchTypes(context);
 //        } catch (OperationFailedException e) {
@@ -200,7 +200,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
 
     @Override
     public List<SearchTypeInfo> getSearchTypesByCriteria(String searchCriteriaTypeKey){
-        // TODO KSCM-371:
+        // TODO KSCM-165:
 //        try {
 //            return ((SearchService)getService()).getSearchTypes(context);
 //        } catch (OperationFailedException e) {
@@ -215,7 +215,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
  
     @Override
     public List<SearchTypeInfo> getSearchTypesByResult(String searchResultTypeKey){
-     // TODO KSCM-371:
+     // TODO KSCM-165:
 //        try {
 //            return ((SearchService)getService()).getSearchTypesByResult(searchResultTypeKey, context);
 //        } catch (DoesNotExistException e) {
@@ -236,7 +236,7 @@ public abstract class BaseRpcGwtServletAbstract<SEI> extends RemoteServiceServle
  
     @Override
     public SearchResult search(SearchRequest searchRequest) {   
-     // TODO KSCM-371:
+     // TODO KSCM-165:
 //        try {
 //			return ((SearchService)getService()).search(searchRequest, context);
 //		} catch (MissingParameterException e) {
