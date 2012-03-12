@@ -46,12 +46,22 @@ public class Dictionary2BeanComparer
                                ObjectStructureDefinition osBean)
  {
   List<String> discrepancies = new ArrayList ();
+  if (osDict == null && osBean != null) {
+	discrepancies.add("osDict is null " + osBean.getName());
+}
+  if (osBean == null && osDict != null) {
+	discrepancies.add("osBean is null " + osDict.getName());
+}
+  if (discrepancies.size() > 0) {
+	return discrepancies;
+}
   compareAddDiscrepancy (discrepancies, "Java class name", osDict.getName (), osBean.getName ());
   compareAddDiscrepancy (discrepancies, "Has meta data?", osDict.isHasMetaData (), osBean.isHasMetaData ());
   compareAddDiscrepancy (discrepancies, "Business object class", osDict.getBusinessObjectClass (), osBean.getBusinessObjectClass ());
   for (FieldDefinition fdDict : osDict.getAttributes ())
   {
    FieldDefinition fdBean = findField (fdDict.getName (), osBean);
+   System.out.println(fdDict.getName());
    if (fdBean == null)
    {
     if ( ! fdDict.isDynamic ())
