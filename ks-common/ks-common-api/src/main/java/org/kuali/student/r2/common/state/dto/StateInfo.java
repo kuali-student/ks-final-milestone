@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.state.infc.State;
 @XmlType(name = "StateInfo", propOrder = {
                 "key", "name", "descr", "lifecycleKey",
                 "effectiveDate", "expirationDate", 
-                "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372 Non-GWT translatable code})
 
 public class StateInfo 
     extends HasAttributesAndMetaInfo 
