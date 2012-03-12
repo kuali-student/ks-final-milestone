@@ -397,6 +397,12 @@ public class CourseOfferingServiceDecorator implements CourseOfferingService {
         }
 
     @Override
+    public List<ValidationResultInfo> validateFormatOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+        {
+            return getNextDecorator().validateFormatOffering(validationType,formatOfferingInfo, context);
+        }
+
+    @Override
     public org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo createFormatOffering( String courseOfferingId, String formatId, String formatOfferingType, @WebParam(name = "formatOfferingInfo") org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") org.kuali.student.r2.common.dto.ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.

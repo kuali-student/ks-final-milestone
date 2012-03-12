@@ -417,6 +417,25 @@ public interface CourseOfferingService {
     ;
 
     /**
+        * Validates a format offering. Depending on the value of validationType,
+        * this validation could be limited to tests on just the current object and
+        * its directly contained sub-objects or expanded to perform all tests
+        * related to this object.
+        *
+        * @param validationType     Identifier of the extent of validation
+        * @param formatOfferingInfo the format offering information to be tested.
+        * @param context            Context information containing the principalId and locale
+        *                           information about the caller of service operation
+        * @return the results from performing the validation
+        * @throws DoesNotExistException     validationTypeKey not found
+        * @throws InvalidParameterException invalid validationTypeKey, formatOfferingInfo
+        * @throws MissingParameterException missing validationTypeKey, formatOfferingInfo
+        * @throws OperationFailedException  unable to complete request
+        */
+       public List<ValidationResultInfo> validateFormatOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException;
+
+
+    /**
      * Deletes an activity offering template
      *
      * @param formatOfferingId  The  Id formatOffering to be deleted

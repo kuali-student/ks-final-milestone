@@ -35,16 +35,13 @@
 		<class>org.kuali.student.r2.core.class1.state.model.StateAttributeEntity</class>
 		<class>org.kuali.student.r2.core.class1.state.model.LifecycleEntity</class>
 		<class>org.kuali.student.r2.core.class1.state.model.StateLifecycleRelationEntity</class>
-		<class>org.kuali.student.r2.core.class1.type.entity.AtpTypeEntity</class>
-		<class>org.kuali.student.r2.core.class1.type.entity.AtpTypeAttributeEntity</class>
-		<class>org.kuali.student.r2.core.class1.type.entity.TypeEntity</class>
-		<class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationEntity</class>
-		<class>org.kuali.student.r2.core.class1.type.entity.TypeTypeRelationAttributeEntity</class>
+		<class>org.kuali.student.r2.core.class1.type.model.TypeEntity</class>
+        <class>org.kuali.student.r2.core.class1.type.model.TypeAttributeEntity</class>
+		<class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationEntity</class>
+		<class>org.kuali.student.r2.core.class1.type.model.TypeTypeRelationAttributeEntity</class>
 
 		<class>org.kuali.student.enrollment.class1.hold.model.RestrictionEntity</class>
 		<class>org.kuali.student.enrollment.class1.hold.model.RestrictionAttributeEntity</class>
-		<class>org.kuali.student.enrollment.class1.hold.model.HoldTypeEntity</class>
-		<class>org.kuali.student.enrollment.class1.hold.model.HoldTypeAttributeEntity</class>
 		<class>org.kuali.student.enrollment.class1.hold.model.HoldRichTextEntity</class>
 		<class>org.kuali.student.enrollment.class1.hold.model.IssueEntity</class>
 		<class>org.kuali.student.enrollment.class1.hold.model.IssueAttributeEntity</class>
@@ -87,7 +84,6 @@
 		<class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupAttributeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrc.model.ResultValuesGroupRichTextEntity</class>
-		<class>org.kuali.student.enrollment.class1.lrc.model.LrcTypeEntity</class>
 
 		<class>org.kuali.student.core.enumerationmanagement.entity.EnumeratedValue</class>
 		<class>org.kuali.student.core.enumerationmanagement.entity.ContextEntity</class>
@@ -267,12 +263,10 @@
 		<class>org.kuali.student.core.atp.entity.MilestoneTypeAttribute</class>
 
 		<class>org.kuali.student.enrollment.class1.lrr.model.LearningResultRecordEntity</class>
-		<class>org.kuali.student.enrollment.class1.lrr.model.LrrTypeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrr.model.LrrAttributeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrr.model.LrrRichTextEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceRichTextEntity</class>
-		<class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceTypeEntity</class>
 		<class>org.kuali.student.enrollment.class1.lrr.model.ResultSourceAttributeEntity</class>
 		<exclude-unlisted-classes>true</exclude-unlisted-classes>
 

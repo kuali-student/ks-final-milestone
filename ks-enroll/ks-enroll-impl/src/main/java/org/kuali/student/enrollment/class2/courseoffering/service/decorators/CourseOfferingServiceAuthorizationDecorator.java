@@ -5,10 +5,7 @@ import java.util.List;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
 //import org.kuali.rice.kim.service.PermissionService;
 import org.kuali.rice.kim.api.permission.PermissionService;
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
-import org.kuali.student.enrollment.courseoffering.dto.SeatPoolDefinitionInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseregistration.dto.CourseRegistrationInfo;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -844,4 +841,20 @@ public class CourseOfferingServiceAuthorizationDecorator extends CourseOfferingS
            throw new PermissionDeniedException();
         }
 	}
+
+    @Override
+    public FormatOfferingInfo createFormatOffering(String courseOfferingId, String formatId, String formatOfferingType,
+            FormatOfferingInfo formatOfferingInfo, ContextInfo context) throws DataValidationErrorException, InvalidParameterException,
+            MissingParameterException, OperationFailedException, PermissionDeniedException {
+              if (null == context) {
+            throw new MissingParameterException();
+        }
+
+        if (permissionService.isAuthorized(context.getPrincipalId(), ENRLLMENT_NAMESPACE, SERVICE_NAME + "searchForSeatpoolDefintionIds", null, null)) {
+	        return getNextDecorator().createFormatOffering(courseOfferingId,formatId,formatOfferingType, formatOfferingInfo, context);
+        }
+        else {
+           throw new PermissionDeniedException();
+        }
+     }
 }

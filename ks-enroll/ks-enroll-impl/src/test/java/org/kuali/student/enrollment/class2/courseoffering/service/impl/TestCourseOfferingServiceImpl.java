@@ -10,13 +10,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import org.kuali.student.enrollment.courseoffering.dto.ActivityOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
-import org.kuali.student.enrollment.courseoffering.dto.OfferingInstructorInfo;
-import org.kuali.student.enrollment.courseoffering.dto.RegistrationGroupInfo;
+import org.kuali.student.enrollment.courseoffering.dto.*;
 import org.kuali.student.enrollment.courseoffering.service.CourseOfferingService;
 import org.kuali.student.enrollment.grading.dto.GradeRosterInfo;
 import org.kuali.student.enrollment.grading.service.GradingService;
+import org.kuali.student.enrollment.lui.service.LuiService;
 import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.MeetingScheduleInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
@@ -92,6 +90,44 @@ public class TestCourseOfferingServiceImpl {
     		fail(ex.getMessage());
     	}    	
     }
+
+    @Test
+    public void testCreateFormatOffering() throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+    	try {
+
+            FormatOfferingInfo newFO = new FormatOfferingInfo();
+            newFO.setActivityOfferingTypeKeys(Arrays.asList( LuiServiceConstants.ALL_ACTIVITY_TYPES));
+            newFO.setName("TEST FORMAT OFFERING");
+            newFO.setCourseOfferingId("Lui-1");
+    		FormatOfferingInfo fo = coServiceAuthDecorator.createFormatOffering("Lui-1","format1", LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY,  newFO,  callContext);
+    		assertNotNull(fo);
+            assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, fo.getStateKey());
+            assertEquals(LuiServiceConstants.FORMAT_OFFERING_TYPE_KEY, fo.getTypeKey());
+            assertEquals("Lui Desc 101", fo.getDescr().getPlain());
+    	} catch (Exception ex) {
+    		fail(ex.getMessage());
+    	}
+    }
+
+    @Test
+    public void testGetFormatOffering() throws DoesNotExistException,
+			InvalidParameterException, MissingParameterException,
+			OperationFailedException, PermissionDeniedException {
+    	try {
+
+
+    		FormatOfferingInfo fo = coServiceAuthDecorator.getFormatOffering("luiFormat-1", callContext );
+    		assertNotNull(fo);
+            assertEquals(LuiServiceConstants.LUI_DRAFT_STATE_KEY, fo.getStateKey());
+            assertEquals(LuiServiceConstants.COURSE_OFFERING_TYPE_KEY, fo.getTypeKey());
+            assertEquals("Lui Desc 101", fo.getDescr().getPlain());
+    	} catch (Exception ex) {
+    		fail(ex.getMessage());
+    	}
+    }
+
 
     @Test
     public void testCreateCourseOfferingFromCanonical() throws AlreadyExistsException,

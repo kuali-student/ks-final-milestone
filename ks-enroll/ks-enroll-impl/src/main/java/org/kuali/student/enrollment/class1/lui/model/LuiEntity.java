@@ -36,7 +36,7 @@ public class LuiEntity extends MetaEntity implements AttributeOwner<LuiAttribute
     @Column(name = "DESCR_FORMATTED", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String formatted;
 
-    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH, nullable = false)
+    @Column(name = "DESCR_PLAIN", length = KSEntityConstants.EXTRA_LONG_TEXT_LENGTH)
     private String plain;
 
     @Column(name = "LUI_TYPE")

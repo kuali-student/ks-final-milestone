@@ -3,6 +3,8 @@ package org.kuali.student.enrollment.class2.courseoffering.service.decorators;
 import java.util.List;
 
 import org.kuali.student.enrollment.courseoffering.dto.CourseOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo;
+import org.kuali.student.enrollment.courseoffering.infc.FormatOffering;
 import org.kuali.student.r2.common.datadictionary.DataDictionaryValidator;
 import org.kuali.student.r2.common.datadictionary.service.DataDictionaryService;
 import org.kuali.student.r2.common.dto.ContextInfo;
@@ -17,6 +19,8 @@ import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.infc.HoldsDataDictionaryService;
 import org.kuali.student.r2.common.infc.HoldsValidator;
 import org.kuali.student.r2.core.class1.util.ValidationUtils;
+
+import javax.jws.WebParam;
 
 public class CourseOfferingServiceValidationDecorator extends CourseOfferingServiceDecorator  implements HoldsValidator, HoldsDataDictionaryService{
 	private DataDictionaryValidator validator;
@@ -76,8 +80,38 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
 		    throw new OperationFailedException("Error validating course offering", ex);
 		}
     }
- 
-	
+
+   private void _formatOfferingFullValidation(FormatOfferingInfo formatOfferingInfo, ContextInfo context)
+	 		throws DataValidationErrorException, OperationFailedException, InvalidParameterException, MissingParameterException {
+		try {
+		    List<ValidationResultInfo> errors =
+                    this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(), formatOfferingInfo, context);
+		    if (!errors.isEmpty()) {
+		        throw new DataValidationErrorException("Error(s) validating course offering", errors);
+		    }
+		} catch (DoesNotExistException ex) {
+		    throw new OperationFailedException("Error validating course offering", ex);
+		}
+    }
+
+    @Override
+    public FormatOfferingInfo updateFormatOffering( String formatOfferingId, FormatOfferingInfo formatOfferingInfo, ContextInfo context)
+            throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+        {
+            try {
+                    List<ValidationResultInfo> errors =  this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),formatOfferingInfo,context );
+                          if (errors!=null){
+                              throw new DataValidationErrorException("Update method failed due to validation errors",errors);
+                          }
+                       } catch (DoesNotExistException e) {
+                           throw new OperationFailedException(e.getMessage());
+                       }
+                       return getNextDecorator().updateFormatOffering(formatOfferingId, formatOfferingInfo, context);
+
+        }
+
+
+
 	@Override
 	public CourseOfferingInfo updateCourseOffering(String courseOfferingId,
 			CourseOfferingInfo courseOfferingInfo, ContextInfo context)
@@ -88,5 +122,44 @@ public class CourseOfferingServiceValidationDecorator extends CourseOfferingServ
 		_courseOfferingFullValidation(courseOfferingInfo, context);
 		return getNextDecorator().updateCourseOffering(courseOfferingId, courseOfferingInfo, context);
 	}
+
+
+     @Override
+    public List<ValidationResultInfo> validateFormatOffering(
+    		String validationType, FormatOfferingInfo formatOfferingInfo,
+    		ContextInfo context) throws DoesNotExistException,
+    		InvalidParameterException, MissingParameterException,
+    		OperationFailedException {
+    	List<ValidationResultInfo> errors;
+    	try {
+    		errors = ValidationUtils.validateInfo(validator, validationType, formatOfferingInfo, context);
+    		List<ValidationResultInfo> nextDecoratorErrors =
+    				getNextDecorator().validateFormatOffering(validationType, formatOfferingInfo, context);
+    		if (null != nextDecoratorErrors) {
+    			errors.addAll(nextDecoratorErrors);
+    		}
+    	}
+    	catch (DoesNotExistException ex) {
+    		throw new OperationFailedException("Error trying to validate course offering", ex);
+    	}
+    	return errors;
+    }
+
+     @Override
+    public FormatOfferingInfo createFormatOffering(
+             String courseOfferingId, String formatId, String formatOfferingType, FormatOfferingInfo formatOfferingInfo,
+             ContextInfo context) throws DataValidationErrorException, InvalidParameterException, MissingParameterException,
+             OperationFailedException, PermissionDeniedException{
+
+            try {
+               List<ValidationResultInfo> errors =  this.validateFormatOffering(DataDictionaryValidator.ValidationType.FULL_VALIDATION.toString(),formatOfferingInfo,context );
+               if (errors!=null){
+                   throw new DataValidationErrorException("Create method failed due to validation errors",errors);
+               }
+            } catch (DoesNotExistException e) {
+                throw new OperationFailedException(e.getMessage());
+            }
+            return getNextDecorator().createFormatOffering(courseOfferingId, formatId, formatOfferingType, formatOfferingInfo, context);
+        }
 
 }

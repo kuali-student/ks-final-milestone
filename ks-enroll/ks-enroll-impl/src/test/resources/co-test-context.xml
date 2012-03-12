@@ -130,13 +130,14 @@
 
   <bean id="atpService" class="org.kuali.student.r2.core.class1.atp.service.impl.AtpServiceImpl">
     <property name="atpDao" ref="atpDao" />
-    <property name="atpStateDao" ref="atpStateDao" />
     <property name="atpRichTextDao" ref="atpRichTextDao" />
     <property name="atpRelDao" ref="atpAtpRelationDao" />
     <property name="milestoneDao" ref="milestoneDao" />
     <property name="atpMilestoneRelationDao" ref="atpMilestoneRelationDao" />
     <property name="typeTypeRelationDao" ref="typeTypeRelationDao" />
     <property name="stateService" ref="stateService" />
+      <property name="typeService" ref="typeService" />
+
     <property name="dataDictionaryService" ref="dataDictionaryServiceForAtp" />
   </bean>
 
@@ -236,7 +237,6 @@
 
   <bean id="lprPersistenceService" class="org.kuali.student.enrollment.class1.lpr.service.impl.LuiPersonRelationServiceImpl">
     <property name="lprDao" ref="lprDao" />
-    <property name="lprStateDao" ref="stateDao" />
     <property name="lprRosterDao" ref="lprRosterDao" />
     <property name="lprRosterEntryDao" ref="lprRosterEntryDao" />
     <property name="luiDao" ref="luiDao" />

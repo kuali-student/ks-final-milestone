@@ -2,6 +2,7 @@ package org.kuali.student.enrollment.class2.courseoffering.service.impl;
 
 import org.apache.commons.lang.StringUtils;
 import org.kuali.rice.core.api.criteria.QueryByCriteria;
+import org.kuali.student.common.exceptions.*;
 import org.kuali.student.common.util.UUIDHelper;
 import org.kuali.student.enrollment.acal.dto.TermInfo;
 import org.kuali.student.enrollment.acal.service.AcademicCalendarService;
@@ -35,6 +36,18 @@ import org.kuali.student.r2.common.dto.ContextInfo;
 import org.kuali.student.r2.common.dto.StatusInfo;
 import org.kuali.student.r2.common.dto.ValidationResultInfo;
 import org.kuali.student.r2.common.exceptions.*;
+import org.kuali.student.r2.common.exceptions.AlreadyExistsException;
+import org.kuali.student.r2.common.exceptions.CircularRelationshipException;
+import org.kuali.student.r2.common.exceptions.DataValidationErrorException;
+import org.kuali.student.r2.common.exceptions.DependentObjectsExistException;
+import org.kuali.student.r2.common.exceptions.DisabledIdentifierException;
+import org.kuali.student.r2.common.exceptions.DoesNotExistException;
+import org.kuali.student.r2.common.exceptions.InvalidParameterException;
+import org.kuali.student.r2.common.exceptions.MissingParameterException;
+import org.kuali.student.r2.common.exceptions.OperationFailedException;
+import org.kuali.student.r2.common.exceptions.PermissionDeniedException;
+import org.kuali.student.r2.common.exceptions.ReadOnlyException;
+import org.kuali.student.r2.common.exceptions.VersionMismatchException;
 import org.kuali.student.r2.common.util.constants.CourseOfferingServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiPersonRelationServiceConstants;
 import org.kuali.student.r2.common.util.constants.LuiServiceConstants;
@@ -44,6 +57,7 @@ import org.kuali.student.r2.core.type.service.TypeService;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.jws.WebParam;
+import javax.naming.OperationNotSupportedException;
 import java.util.*;
 
 public  class CourseOfferingServiceImpl implements CourseOfferingService{
@@ -566,7 +580,7 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
         }
 
     @Override
-    public org.kuali.student.enrollment.courseoffering.dto.FormatOfferingInfo getFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
+    public FormatOfferingInfo getFormatOffering( String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
             return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
@@ -604,6 +618,12 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
                 throw new OperationFailedException(e.getMessage());
             }
 
+        }
+
+    @Override
+    public List<ValidationResultInfo> validateFormatOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "formatOfferingInfo") FormatOfferingInfo formatOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
+        {
+            return null;  //To change body of implemented methods use File | Settings | File Templates.
         }
 
     @Override
@@ -688,26 +708,27 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<ActivityOfferingInfo> getActivityOfferingsByCourseOfferingWithoutRegGroup(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
 
     @Override
     public List<ActivityOfferingInfo> getUnscheduledActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
+
         }
 
     @Override
     public List<ActivityOfferingInfo> getUnpublishedActivityOfferingsBySoc(@WebParam(name = "socId") String socId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
 
@@ -879,19 +900,19 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<ValidationResultInfo> validateActivityOffering(@WebParam(name = "validationType") String validationType, @WebParam(name = "activityOfferingInfo") ActivityOfferingInfo activityOfferingInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public Float calculateInClassContactHoursForTerm(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public Float calculateOutofClassContactHoursForTerm(@WebParam(name = "activityOfferingId") String activityOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
@@ -921,7 +942,7 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByIds(@WebParam(name = "registrationGroupIds") List<String> strings, @WebParam(name = "context") ContextInfo contextInfo) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
 
@@ -957,13 +978,13 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsWithActivityOfferings(@WebParam(name = "activityOfferingIds") List<String> activityOfferingIds, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<RegistrationGroupInfo> getRegistrationGroupsByFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
 
@@ -1023,7 +1044,7 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<RegistrationGroupInfo> generateRegistrationGroupsForFormatOffering(@WebParam(name = "formatOfferingId") String formatOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
 
@@ -1114,117 +1135,115 @@ public  class CourseOfferingServiceImpl implements CourseOfferingService{
     @Override
     public List<ValidationResultInfo> validateRegistrationGroup(@WebParam(name = "validationType") String validationType, @WebParam(name = "registrationGroupInfo") RegistrationGroupInfo registrationGroupInfo, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public RegistrationGroupTemplateInfo getRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public RegistrationGroupTemplateInfo updateRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "registrationGroupTemplateInfo") RegistrationGroupTemplateInfo registrationGroupTemplateInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public StatusInfo deleteRegistrationGroupTemplate(@WebParam(name = "registrationGroupTemplateId") String registrationGroupTemplateId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public SeatPoolDefinitionInfo getSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForCourseOffering(@WebParam(name = "courseOfferingId") String courseOfferingId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<SeatPoolDefinitionInfo> getSeatPoolDefinitionsForRegGroup(@WebParam(name = "registrationGroupId") String registrationGroupId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public SeatPoolDefinitionInfo createSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws AlreadyExistsException, DataValidationErrorException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public SeatPoolDefinitionInfo updateSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<ValidationResultInfo> validateSeatPoolDefinition(@WebParam(name = "validationTypeKey") String validationTypeKey, @WebParam(name = "seatPoolDefinitionInfo") SeatPoolDefinitionInfo seatPoolDefinitionInfo, @WebParam(name = "context") ContextInfo context) throws DataValidationErrorException, DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException, VersionMismatchException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public StatusInfo deleteSeatPoolDefinition(@WebParam(name = "seatPoolDefinitionId") String seatPoolDefinitionId, @WebParam(name = "context") ContextInfo context) throws DoesNotExistException, InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<CourseOfferingInfo> searchForCourseOfferings(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<String> searchForCourseOfferingIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<ActivityOfferingInfo> searchForActivityOfferings(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<String> searchForActivityOfferingIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<RegistrationGroupInfo> searchForRegistrationGroups(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<String> searchForRegistrationGroupIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<SeatPoolDefinitionInfo> searchForSeatpoolDefintions(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
 
     @Override
     public List<String> searchForSeatpoolDefintionIds(@WebParam(name = "criteria") QueryByCriteria criteria, @WebParam(name = "context") ContextInfo context) throws InvalidParameterException, MissingParameterException, OperationFailedException, PermissionDeniedException
         {
-            return null;  //To change body of implemented methods use File | Settings | File Templates.
+            throw new UnsupportedOperationException() ;
         }
-
-
 
 }
