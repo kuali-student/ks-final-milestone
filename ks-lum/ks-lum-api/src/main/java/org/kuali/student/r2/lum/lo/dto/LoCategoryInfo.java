@@ -32,7 +32,7 @@ import java.util.List;
  * 
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "LoCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "LoCategoryInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "loRepositoryKey", "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializable {
 
