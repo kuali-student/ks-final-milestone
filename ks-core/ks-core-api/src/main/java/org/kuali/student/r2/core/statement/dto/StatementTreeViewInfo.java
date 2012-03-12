@@ -43,7 +43,7 @@ public class StatementTreeViewInfo extends IdEntityInfo implements StatementTree
     private List<StatementTreeViewInfo> statements;
     @XmlElement
     private List<ReqComponentInfo> reqComponents;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

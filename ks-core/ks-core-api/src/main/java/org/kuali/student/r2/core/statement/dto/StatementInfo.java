@@ -43,7 +43,7 @@ public class StatementInfo extends IdEntityInfo implements Statement, Serializab
     private List<String> statementIds;
     @XmlElement
     private List<String> reqComponentIds;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

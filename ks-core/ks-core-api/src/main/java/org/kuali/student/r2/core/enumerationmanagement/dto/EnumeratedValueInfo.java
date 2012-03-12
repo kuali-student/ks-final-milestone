@@ -61,7 +61,7 @@ public class EnumeratedValueInfo implements EnumeratedValue, Serializable {
     private Date expirationDate;
     @XmlElement
     private MetaInfo meta;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

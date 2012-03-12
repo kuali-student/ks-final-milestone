@@ -38,7 +38,7 @@ public class ProcessCategoryInfo extends IdEntityInfo
 
     private static final long serialVersionUID = 1L;
     
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
     

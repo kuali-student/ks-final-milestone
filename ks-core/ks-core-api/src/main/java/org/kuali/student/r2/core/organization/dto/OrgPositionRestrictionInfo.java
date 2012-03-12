@@ -66,7 +66,7 @@ public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
     private Integer minNumRelations;
     @XmlElement
     private String maxNumRelations;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

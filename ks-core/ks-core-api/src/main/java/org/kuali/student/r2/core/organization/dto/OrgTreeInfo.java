@@ -63,7 +63,7 @@ public class OrgTreeInfo
     @XmlElement
     private String relationTypeKey;
 	
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

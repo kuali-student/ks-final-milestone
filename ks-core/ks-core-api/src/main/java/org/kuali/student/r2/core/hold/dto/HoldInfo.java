@@ -48,7 +48,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
     private Date effectiveDate;
     @XmlElement
     private Date releasedDate;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

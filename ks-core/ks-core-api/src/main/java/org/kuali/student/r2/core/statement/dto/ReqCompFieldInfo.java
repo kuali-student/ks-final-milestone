@@ -36,7 +36,7 @@ public class ReqCompFieldInfo extends IdNamelessEntityInfo implements ReqCompFie
 
     @XmlElement
     private String value;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

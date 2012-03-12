@@ -58,7 +58,7 @@ public class PopulationRuleInfo extends IdEntityInfo
     @XmlElement
     private List<String> populationKeys;
 
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
     
