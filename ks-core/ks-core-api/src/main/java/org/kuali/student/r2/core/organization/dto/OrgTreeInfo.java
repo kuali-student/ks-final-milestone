@@ -32,7 +32,7 @@ import org.kuali.student.r2.core.organization.infc.OrgTree;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgTreeInfo", propOrder = {
                 "displayName", "orgHierarchyId", "orgId", "parentId",
-                "positions", "positionId", "personId", "relationTypeKey"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "positions", "positionId", "personId", "relationTypeKey"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class OrgTreeInfo 
     implements OrgTree, Serializable {

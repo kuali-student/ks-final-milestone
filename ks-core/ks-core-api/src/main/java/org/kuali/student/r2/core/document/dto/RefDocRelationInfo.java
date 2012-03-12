@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
 @XmlType(name = "RefDocRelationInfo", propOrder = { "id", "typeKey",
 		"stateKey", "refObjectTypeKey", "refObjectId", "documentId", "title", "descr", 
         "effectiveDate", "expirationDate", 
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 public class RefDocRelationInfo extends RelationshipInfo implements RefDocRelation, Serializable {
 
     private static final long serialVersionUID = 1L;

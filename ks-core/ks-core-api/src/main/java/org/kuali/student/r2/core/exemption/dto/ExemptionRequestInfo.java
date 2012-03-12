@@ -36,7 +36,7 @@ import org.kuali.student.r2.core.exemption.infc.ExemptionRequest;
     "requesterId", "requestDate",
     "approvedByPersonId", "approvedDate",
     "dateOverride", "milestoneOverride",
-    "learningResultOverride", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+    "learningResultOverride", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionRequest, Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -98,7 +98,7 @@ public class ExemptionRequestInfo extends IdEntityInfo implements ExemptionReque
             }
         }
 
-//      TODO KSCM Non-GWT translatable code
+//      TODO KSCM-372: Non-GWT translatable code
 //        _futureElements = null;
     }
 

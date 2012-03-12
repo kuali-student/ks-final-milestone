@@ -41,7 +41,7 @@ import org.kuali.student.r2.core.proposal.infc.ProposalDocRelation;
  * 
  * @author KS Team(sambitpa@kuali.org)
  */
-@XmlType(name = "ProposalDocRelationInfo", propOrder = {"id", "typeKey", "stateKey", "proposalId", "documentId", "title", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "ProposalDocRelationInfo", propOrder = {"id", "typeKey", "stateKey", "proposalId", "documentId", "title", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalDocRelationInfo extends RelationshipInfo implements ProposalDocRelation, Serializable {
 

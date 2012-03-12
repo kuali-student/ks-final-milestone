@@ -42,7 +42,7 @@ import org.kuali.student.r2.core.organization.infc.OrgCode;
     "id", "typeKey", "stateKey", "longName", "longDescr",
     "shortName", "sortName", "shortDescr", "orgCodes",
     "effectiveDate", "expirationDate",
-    "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+    "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class OrgInfo
         extends IdNamelessEntityInfo
         implements Org, Serializable {

@@ -28,17 +28,17 @@ import org.kuali.student.r2.common.dto.KeyEntityInfo;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RestrictionInfo", propOrder = { "key", "typeKey", "stateKey",
-		"name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+		"name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 public class RestrictionInfo extends KeyEntityInfo implements Restriction,
 		Serializable {
 	private static final long serialVersionUID = 1L;
 
-//  TODO KSCM Non-GWT translatable code
+//  TODO KSCM-372: Non-GWT translatable code
 //	@XmlAnyElement
 //	private final List<Element> _futureElements;
 
 	public RestrictionInfo() {
-//	    TODO KSCM Non-GWT translatable code
+//	    TODO KSCM-372: Non-GWT translatable code
 //		_futureElements = null;
 	}
 
@@ -50,7 +50,7 @@ public class RestrictionInfo extends KeyEntityInfo implements Restriction,
 	 */
 	public RestrictionInfo(Restriction restriction) {
 		super(restriction);
-//	    TODO KSCM Non-GWT translatable code
+//	    TODO KSCM-372: Non-GWT translatable code
 //		_futureElements = null;
 	}
 }

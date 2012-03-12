@@ -45,7 +45,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
     "title", "descr",
     "stdDuration",
     "minNumRelations", "maxNumRelations",
-    "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+    "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class OrgPositionRestrictionInfo extends HasAttributesAndMetaInfo
         implements OrgPositionRestriction, Serializable {
 

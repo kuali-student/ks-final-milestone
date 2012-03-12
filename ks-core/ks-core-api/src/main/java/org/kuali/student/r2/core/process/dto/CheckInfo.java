@@ -32,7 +32,7 @@ import org.kuali.student.r2.core.process.infc.Check;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CheckInfo", propOrder = { "key", "typeKey", "stateKey", "name",
                 "descr", "issueKey", "milestoneTypeKey", 
-                "agendaId", "processKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "agendaId", "processKey", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class CheckInfo extends KeyEntityInfo 
     implements Check, Serializable {

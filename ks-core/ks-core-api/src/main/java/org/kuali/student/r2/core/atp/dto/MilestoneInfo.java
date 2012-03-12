@@ -34,7 +34,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
                 "isAllDay", "isInstructionalDay", 
                 "isRelative", "relativeAnchorMilestoneId",
                 "isDateRange", "startDate", "endDate",
-		"meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+		"meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class MilestoneInfo 
     extends IdEntityInfo 

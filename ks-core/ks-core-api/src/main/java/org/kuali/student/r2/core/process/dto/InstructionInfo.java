@@ -38,7 +38,7 @@ import org.kuali.student.r2.core.process.infc.Instruction;
                 "appliedPopulationKeys", "appliedAtpTypeKeys",
                 "message", "position", "isWarning", 
                 "continueOnFail", "isExemptable", 
-                "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class InstructionInfo extends RelationshipInfo 
     implements Instruction, Serializable {

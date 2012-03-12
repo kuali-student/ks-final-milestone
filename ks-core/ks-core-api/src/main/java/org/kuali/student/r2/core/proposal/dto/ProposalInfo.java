@@ -34,7 +34,7 @@ import org.kuali.student.r2.core.proposal.infc.Proposal;
     "proposalReference", "rationale", "detailDesc", "effectiveDate",
         "expirationDate", 
         "workflowId",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ProposalInfo extends IdEntityInfo implements Proposal, Serializable {
 

@@ -31,7 +31,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "HoldInfo", propOrder = {"id", "typeKey", "stateKey", "name",
     "descr", "issueKey", "personId", "isWarning", "isOverridable",
-    "effectiveDate", "releasedDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    "effectiveDate", "releasedDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
 public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
 
@@ -61,7 +61,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
         effectiveDate = null;
         releasedDate = null;
         
-//      TODO KSCM Non-GWT translatable code
+//      TODO KSCM-372: Non-GWT translatable code
 //        _futureElements = null;
     }
 
@@ -80,7 +80,7 @@ public class HoldInfo extends IdEntityInfo implements Hold, Serializable {
             }
         }
 
-//      TODO KSCM Non-GWT translatable code
+//      TODO KSCM-372: Non-GWT translatable code
 //        _futureElements = null;
     }
 

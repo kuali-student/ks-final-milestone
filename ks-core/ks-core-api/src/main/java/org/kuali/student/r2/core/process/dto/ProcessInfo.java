@@ -31,7 +31,7 @@ import org.kuali.student.r2.core.process.infc.Process;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessInfo", propOrder = { "key", "typeKey", "stateKey",
-                "name", "descr", "ownerOrgId", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "name", "descr", "ownerOrgId", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class ProcessInfo extends KeyEntityInfo 
     implements Process, Serializable {

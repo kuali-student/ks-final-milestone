@@ -33,7 +33,7 @@ import org.kuali.student.r2.core.search.infc.SearchResultRow;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchResultInfo", propOrder = {
                 "startAt", "totalResults", "rows", "sortColumn",
-                "sortDirection"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+                "sortDirection"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class SearchResultInfo 
     implements SearchResult, Serializable {

@@ -35,7 +35,7 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "DocumentCategoryInfo", propOrder = { "key", "typeKey", "stateKey",
-        "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+        "name", "descr", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 public class DocumentCategoryInfo extends KeyEntityInfo implements DocumentCategory, Serializable {
 
     private static final long serialVersionUID = 1L;

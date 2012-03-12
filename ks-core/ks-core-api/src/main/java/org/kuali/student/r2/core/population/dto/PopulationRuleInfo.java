@@ -36,7 +36,7 @@ import org.kuali.rice.core.api.criteria.QueryByCriteria;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationRuleInfo", propOrder = { "id", "typeKey", 
                 "stateKey", "name", "descr", "searchCriteria", "statementIds", 
-                "groupIds", "personIds", "populationKeys", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "groupIds", "personIds", "populationKeys", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class PopulationRuleInfo extends IdEntityInfo 
     implements PopulationRule, Serializable {

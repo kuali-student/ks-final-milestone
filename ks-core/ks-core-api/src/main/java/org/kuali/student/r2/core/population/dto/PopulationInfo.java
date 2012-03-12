@@ -30,7 +30,7 @@ import org.kuali.student.r2.core.population.infc.Population;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "PopulationInfo", propOrder = { "key", "typeKey", "stateKey", 
-                "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class PopulationInfo extends KeyEntityInfo 
     implements Population, Serializable {

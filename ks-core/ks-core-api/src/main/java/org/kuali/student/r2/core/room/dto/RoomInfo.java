@@ -38,7 +38,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RoomInfo", propOrder = {"id", "typeKey", "stateKey",
         "name", "descr", "roomCode", "buildingId", "floor", "roomFixedResources", "roomUsages", "accessibilityTypeKeys",
-        "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+        "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class RoomInfo extends IdEntityInfo implements Room, Serializable {
 

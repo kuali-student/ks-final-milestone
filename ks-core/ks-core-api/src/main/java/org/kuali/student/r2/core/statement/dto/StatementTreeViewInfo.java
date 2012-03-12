@@ -32,7 +32,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "StatementTreeViewInfo", propOrder = {"id", "typeKey", "stateKey",
-        "name", "descr", "operator", "statements", "reqComponents", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+        "name", "descr", "operator", "statements", "reqComponents", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class StatementTreeViewInfo extends IdEntityInfo implements StatementTreeView {
 
     private static final long serialVersionUID = 1L;

@@ -32,7 +32,7 @@ import org.kuali.student.r2.core.search.infc.SearchResultCell;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchResultRowInfo", propOrder = {
-                "cells"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+                "cells"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class SearchResultRowInfo 
     implements SearchResultRow, Serializable {

@@ -31,7 +31,7 @@ import org.kuali.student.r2.core.process.infc.ProcessCategory;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ProcessCategoryInfo", propOrder = { "id", "typeKey", 
-                "stateKey", "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "stateKey", "name", "descr", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class ProcessCategoryInfo extends IdEntityInfo 
     implements ProcessCategory, Serializable {

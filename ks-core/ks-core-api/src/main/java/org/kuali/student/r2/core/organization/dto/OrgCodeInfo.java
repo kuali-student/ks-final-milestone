@@ -36,7 +36,7 @@ import org.kuali.student.r2.core.organization.infc.OrgCode;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "OrgCodeInfo", propOrder = {
     "key", "value", "descr",
-    "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+    "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class OrgCodeInfo
         extends KeyNamelessEntityInfo
         implements OrgCode, Serializable {

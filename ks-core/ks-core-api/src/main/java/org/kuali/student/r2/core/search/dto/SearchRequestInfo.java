@@ -33,7 +33,7 @@ import org.kuali.student.r2.core.search.infc.SearchParam;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "SearchRequestInfo", propOrder = {
                 "searchKey", "params", "sortColumn", "sortDirection",
-                "startAt", "maxResults", "neededTotalResults"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "startAt", "maxResults", "neededTotalResults"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class SearchRequestInfo 
     implements SearchRequest, Serializable {

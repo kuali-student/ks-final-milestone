@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.messages.infc.Message;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MessageInfo", propOrder = { 
-                "key", "locale", "groupName", "value" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "key", "locale", "groupName", "value" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class MessageInfo 
     implements Message, Serializable {

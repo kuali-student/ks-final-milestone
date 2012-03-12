@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.dto.IdEntityInfo;
     "rootOrgId",
     "effectiveDate",
     "expirationDate",
-    "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+    "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class OrgHierarchyInfo
         extends IdEntityInfo
         implements OrgHierarchy, Serializable {

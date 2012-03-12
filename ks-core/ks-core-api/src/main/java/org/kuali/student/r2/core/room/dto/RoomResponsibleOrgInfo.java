@@ -33,7 +33,7 @@ import java.util.List;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "RoomResponsibleOrgInfo", propOrder = {"id", "typeKey", "stateKey", "roomId", "orgId", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "RoomResponsibleOrgInfo", propOrder = {"id", "typeKey", "stateKey", "roomId", "orgId", "effectiveDate", "expirationDate", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class RoomResponsibleOrgInfo extends RelationshipInfo implements RoomResponsibleOrg, Serializable {
 
     private static final long serialVersionUID = 1L;

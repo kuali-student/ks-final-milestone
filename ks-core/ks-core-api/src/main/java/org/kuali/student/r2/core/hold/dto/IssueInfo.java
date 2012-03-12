@@ -31,7 +31,7 @@ import org.kuali.student.r2.core.hold.infc.Issue;
 @XmlType(name = "IssueInfo", propOrder = { 
                 "key", "typeKey", "stateKey", "name",
 		"descr", "organizationId", "meta", 
-                "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+                "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class IssueInfo extends KeyEntityInfo implements Issue, Serializable {
     private static final long serialVersionUID = 1L;
