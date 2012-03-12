@@ -131,7 +131,7 @@ public abstract class AbstractOrganizationServiceQualifierResolver implements Qu
             searchRequest.setParams(queryParamValues);
             try {
                 SearchResult result = null;
-             // TODO KSCM-267 result = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
+             // TODO KSCM-371 result = getOrganizationService().search(searchRequest, null);
                 results = result.getRows();
             } catch (Exception e) {
                 LOG.error("Error calling org service");
