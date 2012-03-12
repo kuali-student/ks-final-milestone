@@ -319,127 +319,116 @@ public class ProgramServiceDecorator implements ProgramService {
     }
 
 
-    // TODO KSCM
+    // TODO KSCM-392
 	@Override
 	@Deprecated
 	public VersionDisplayInfo getCurrentVersion(
 			String programNamespaceMajorDisciplineUri,
 			String majorVersionIndId, ContextInfo contextInfo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	// TODO KSCM
+	// TODO KSCM-392
 	@Override
 	@Deprecated
 	public List<VersionDisplayInfo> getVersions(
 			String programNamespaceMajorDisciplineUri, String versionIndId,
 			ContextInfo contextInfo) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	// TODO KSCM
+	// TODO KSCM-392
 		@Override
 		@Deprecated
 	public List<SearchTypeInfo> getSearchTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public SearchTypeInfo getSearchType(String searchTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByResult(
 			String searchResultTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public List<SearchTypeInfo> getSearchTypesByCriteria(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public List<SearchResultTypeInfo> getSearchResultTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public SearchResultTypeInfo getSearchResultType(String searchResultTypeKey)
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public List<SearchCriteriaTypeInfo> getSearchCriteriaTypes()
 			throws OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public SearchCriteriaTypeInfo getSearchCriteriaType(
 			String searchCriteriaTypeKey) throws DoesNotExistException,
 			InvalidParameterException, MissingParameterException,
 			OperationFailedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public SearchResult search(SearchRequest searchRequest)
 			throws MissingParameterException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getFirstVersion(String refObjectUri,
@@ -447,12 +436,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getLatestVersion(String refObjectUri,
@@ -460,12 +448,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getVersionBySequenceNumber(String refObjectUri,
@@ -473,12 +460,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public VersionDisplayInfo getCurrentVersionOnDate(String refObjectUri,
@@ -486,12 +472,11 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 		@Override
 		@Deprecated
 	public List<VersionDisplayInfo> getVersionsInDateRange(String refObjectUri,
@@ -499,42 +484,38 @@ public class ProgramServiceDecorator implements ProgramService {
 			throws DoesNotExistException, InvalidParameterException,
 			MissingParameterException, OperationFailedException,
 			PermissionDeniedException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-		// TODO KSCM
+		// TODO KSCM-392
 				@Override
 				@Deprecated
 		public List<String> getObjectTypes() {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 
-				// TODO KSCM
+				// TODO KSCM-392
 				@Override
 				@Deprecated
 		public ObjectStructureDefinition getObjectStructure(String objectTypeKey) {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 
-				// TODO KSCM
+				// TODO KSCM-392
 				@Override
 				@Deprecated
 		public List<ProgramVariationInfo> getVariationsByMajorDisciplineId(
 				String majorDisciplineId, ContextInfo contextInfo)
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 
-				// TODO KSCM
+				// TODO KSCM-392
 				@Override
 				@Deprecated
 		public ProgramRequirementInfo getProgramRequirement(
@@ -543,12 +524,11 @@ public class ProgramServiceDecorator implements ProgramService {
 				throws DoesNotExistException, InvalidParameterException,
 				MissingParameterException, OperationFailedException,
 				PermissionDeniedException {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 
-				// TODO KSCM
+				// TODO KSCM-392
 				@Override
 				@Deprecated
 		public CredentialProgramInfo updateCredentialProgram(
@@ -557,12 +537,11 @@ public class ProgramServiceDecorator implements ProgramService {
 				DoesNotExistException, InvalidParameterException,
 				MissingParameterException, VersionMismatchException,
 				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 
-				// TODO KSCM
+				// TODO KSCM-392
 				@Override
 				@Deprecated
 		public MajorDisciplineInfo updateMajorDiscipline(
@@ -571,12 +550,11 @@ public class ProgramServiceDecorator implements ProgramService {
 				InvalidParameterException, MissingParameterException,
 				VersionMismatchException, OperationFailedException,
 				PermissionDeniedException {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
 
-				// TODO KSCM
+				// TODO KSCM-392
 				@Override
 				@Deprecated
 		public ProgramRequirementInfo updateProgramRequirement(
@@ -585,7 +563,6 @@ public class ProgramServiceDecorator implements ProgramService {
 				DoesNotExistException, InvalidParameterException,
 				MissingParameterException, VersionMismatchException,
 				OperationFailedException, PermissionDeniedException {
-			// TODO Auto-generated method stub
 			return null;
 		}
 
