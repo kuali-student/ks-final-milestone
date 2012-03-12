@@ -63,7 +63,7 @@ public abstract class AbstractDataService implements DataService{
         //TODO: Igor : Why do we check for this when getting the data for programs?
 		try{
 			if (proposalService != null){
-// TODO KSCM				ProposalInfo proposalInfo = proposalService.getProposal(dtoId, contextInfo);
+// TODO KSCM-369				ProposalInfo proposalInfo = proposalService.getProposal(dtoId, contextInfo);
 				ProposalInfo proposalInfo = proposalService.getProposal(dtoId, contextInfo);
 				filterProperties.put(ProposalWorkflowFilter.PROPOSAL_INFO, proposalInfo);
 				dtoId = proposalInfo.getProposalReference().get(0);
@@ -204,16 +204,16 @@ public abstract class AbstractDataService implements DataService{
                     try {
                         //Retrieve the proposal info provided the proposal id (passed in as KS_JEW_OBJECT_ID) or the workflow id
                         if (attributes.containsKey(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString())){
-// TODO KSCM                             proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()), contextInfo);
+// TODO KSCM-369                             proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()), contextInfo);
                             proposalInfo = proposalService.getProposal(attributes.get(IdAttributes.IdType.KS_KEW_OBJECT_ID.toString()), contextInfo);
                         } else if (attributes.containsKey(IdAttributes.IdType.DOCUMENT_ID.toString())){
-// TODO KSCM                             proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()), contextInfo);
+// TODO KSCM-369                             proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()), contextInfo);
                             proposalInfo = proposalService.getProposalByWorkflowId(attributes.get(IdAttributes.IdType.DOCUMENT_ID.toString()), contextInfo);
                         }
                         
                         //Check if the route status is in the list of allowed statuses
                         DocumentDetail docDetail = getWorkflowDocumentService().getDocumentDetail(proposalInfo.getWorkflowId());
-                        //TODO KSCM String routeStatusCode = docDetail.getDocRouteStatus(); 
+                        //TODO KSCM-370 String routeStatusCode = docDetail.getDocRouteStatus(); 
 
                         //Populate attributes with additional attributes required for permission check
                         if (proposalInfo != null){
@@ -221,7 +221,7 @@ public abstract class AbstractDataService implements DataService{
                             attributes.put(StudentIdentityConstants.QUALIFICATION_DATA_ID, proposalInfo.getId()); // this is what most of the permissions/roles check
                             attributes.put(IdAttributes.IdType.DOCUMENT_ID.toString(), proposalInfo.getWorkflowId());
                             attributes.put(StudentIdentityConstants.DOCUMENT_TYPE_NAME, proposalInfo.getType());
-                            //TODO KSCM attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, routeStatusCode);
+                            //TODO KSCM-370 attributes.put(StudentIdentityConstants.ROUTE_STATUS_CODE, routeStatusCode);
                         }
                     } catch (Exception e){
                         LOG.error("Could not retrieve proposal to determine permission qualifiers:" + e.toString());
