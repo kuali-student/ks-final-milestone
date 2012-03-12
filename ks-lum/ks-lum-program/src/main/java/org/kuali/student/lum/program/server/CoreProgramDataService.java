@@ -101,7 +101,7 @@ public class CoreProgramDataService extends AbstractDataService {
         request.setParams(searchParams);
 
         SearchResult searchResult = null;
-     // TODO KSCM searchResult = cluService.search(request,ContextUtils.getContextInfo());
+     // TODO KSCM-165 searchResult = cluService.search(request,ContextUtils.getContextInfo());
         if (searchResult.getRows().size() > 0) {
             for(SearchResultRow srrow : searchResult.getRows()){
                 List<SearchResultCell> srCells = srrow.getCells();
