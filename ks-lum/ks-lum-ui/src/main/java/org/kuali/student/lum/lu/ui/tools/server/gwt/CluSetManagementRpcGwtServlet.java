@@ -73,7 +73,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     @Override
     public Data getData(String id) throws OperationFailedException {
         try{
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             return getDataService().getData(id, ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error("Could not get Data ", e);
@@ -84,7 +84,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     @Override
     public DataSaveResult saveData(Data data) throws OperationFailedException {
         try{
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             return getDataService().saveData(data, ContextUtils.getContextInfo());
         } catch (Exception e) {
             LOG.error("Could not save data ", e);
@@ -99,13 +99,13 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             // note: the cluIds returned by cluService.getCluSetInfo also contains the clus
             //       that are the result of query parameter search.  Set to null here and
             //       retrieve the clus that are direct members.
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             cluSetInfo = cluService.getCluSet(cluSetId, ContextUtils.getContextInfo());
             cluSetInfo.setCluIds(null);
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             cluIds = cluService.getCluIdsFromCluSet(cluSetId, contextInfo);
             cluSetInfo.setCluIds(cluIds);
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             upWrap(cluSetInfo, contextInfo);
         } catch (Exception e) {
             throw new OperationFailedException("Failed to retrieve cluset info for " + cluSetId, e);
@@ -118,7 +118,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         if (cluSetIds != null) {
             for (String cluSetId : cluSetIds) {
                 clusetInfos = (clusetInfos == null)? new ArrayList<CluSetInfo>() : clusetInfos;
-                //TODO KSCM - Correct ContextInfo parameter?
+                //TODO KSCM-390 - Correct ContextInfo parameter?
                 clusetInfos.add(getCluSetInfo(cluSetId, contextInfo));
             }
         }
@@ -133,7 +133,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
 
         try {
             if (cluSetIds != null && !cluSetIds.isEmpty()) {
-                //TODO KSCM - Correct ContextInfo parameter?
+                //TODO KSCM-390 - Correct ContextInfo parameter?
                 subCluSets = cluService.getCluSetsByIds(cluSetIds, contextInfo);
             }
         } catch (Exception e) {
@@ -174,16 +174,16 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
         if (cluIds != null) {
             for (String cluId : cluIds) {
                 try {
-                    //TODO KSCM - Correct ContextInfo parameter?
+                    //TODO KSCM-390 - Correct ContextInfo parameter?
                 	VersionDisplayInfo versionInfo = cluService.getCurrentVersion(CluServiceConstants.CLU_NAMESPACE_URI, cluId, contextInfo);
-                	//TODO KSCM - Correct ContextInfo parameter?
+                	//TODO KSCM-390 - Correct ContextInfo parameter?
                 	CluInfo cluInfo = null;
                 	//TODO KSCM Version cluService.getClu(versionInfo.getId(), contextInfo);
                     if (cluInfo != null) {
 
                         //retrieve credits
                         String credits = "";
-                        //TODO KSCM - Correct ContextInfo parameter?
+                        //TODO KSCM-390 - Correct ContextInfo parameter?
                         List<CluResultInfo> cluResultInfos = null;
                       //TODO KSCM Version cluREsultInfos = cluService.getCluResultByClu(versionInfo.getId(), contextInfo);
                         if (cluResultInfos != null) {
@@ -202,7 +202,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                                 if (cluResultInfo.getResultOptions() != null) {
                                     for (ResultOptionInfo resultOption : cluResultInfo.getResultOptions()) {
                                         if (resultOption.getResultComponentId() != null) {
-                                            //TODO KSCM - Correct ContextInfo parameter?
+                                            //TODO KSCM-390 - Correct ContextInfo parameter?
                                             resultComponentInfo = lrcService.getResultComponent(resultOption.getResultComponentId());
                                             resultValues = resultComponentInfo.getResultValues();
                                             creditType = resultComponentInfo.getType();
@@ -242,7 +242,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
                         cluInformation.setType(cluInfo.getType());
                         //If the clu type is variation, get the parent clu id. 
                         if ("kuali.lu.type.Variation".equals(cluInfo.getType())){
-                            //TODO KSCM - Correct ContextInfo parameter?
+                            //TODO KSCM-390 - Correct ContextInfo parameter?
                             List<String> clus = cluService.getCluIdsByRelatedCluAndRelationType(cluInfo.getId(), "kuali.lu.lu.relation.type.hasVariationProgram", contextInfo);
                             if (clus == null || clus.size() == 0){ 
                                 throw new RuntimeException("Statement Dependency clu found, but no parent Program exists"); 
@@ -267,7 +267,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
     public CluSetInformation getCluSetInformation(String cluSetId) throws OperationFailedException {
         ContextInfo contextInfo = ContextUtils.getContextInfo();
         CluSetInformation result = new CluSetInformation();
-        //TODO KSCM - Correct ContextInfo parameter?
+        //TODO KSCM-390 - Correct ContextInfo parameter?
         CluSetInfo cluSetInfo = getCluSetInfo(cluSetId, contextInfo);
         List<String> allCluIds = cluSetInfo.getCluIds();
         List<String> cluSetIds =  cluSetInfo.getCluSetIds();
@@ -278,7 +278,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             result.setClus(clus);
         }
         if (cluSetIds != null) {
-            //TODO KSCM - Correct ContextInfo parameter?
+            //TODO KSCM-390 - Correct ContextInfo parameter?
             List<CluSetInfo> cluSetInfos = getCluSetInfos(cluSetIds, contextInfo);
             result.setCluSets(cluSetInfos);
         }
@@ -288,7 +288,7 @@ public class CluSetManagementRpcGwtServlet extends DataGwtServlet implements
             searchRequest.setParams(membershipQueryInfo.getQueryParamValueList());
             SearchResult searchResult = null;
             try {
-                //TODO KSCM - Correct ContextInfo parameter?
+                //TODO KSCM-390 - Correct ContextInfo parameter?
                 searchResult = cluService.search(searchRequest);
             } catch (Exception e) {
                 throw new OperationFailedException("Failed to search for clus in clu range", e);
