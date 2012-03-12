@@ -27,7 +27,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValue;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ResultValueInfo", propOrder = {"key", "typeKey", "stateKey",
         "name", "descr", "resultScaleKey", "numericValue", "value",
-        "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+        "effectiveDate", "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
         
 public class ResultValueInfo extends KeyEntityInfo implements ResultValue,
         Serializable {

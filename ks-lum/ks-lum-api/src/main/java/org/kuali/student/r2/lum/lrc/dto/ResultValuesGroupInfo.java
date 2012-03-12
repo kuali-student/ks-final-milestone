@@ -49,7 +49,7 @@ import org.kuali.student.r2.lum.lrc.infc.ResultValuesGroup;
 @XmlType(name = "GradeValuesGroupInfo", propOrder = { 
         "key", "typeKey", "stateKey", "name", "descr", "resultScaleKey", 
         "resultValueKeys", "resultValueRange", "effectiveDate",
-        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class ResultValuesGroupInfo 
         extends KeyEntityInfo 
