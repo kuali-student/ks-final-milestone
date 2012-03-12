@@ -47,7 +47,7 @@ public class LoCategoryInfo extends IdEntityInfo implements LoCategory, Serializ
     @XmlElement
     private Date expirationDate;
 
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

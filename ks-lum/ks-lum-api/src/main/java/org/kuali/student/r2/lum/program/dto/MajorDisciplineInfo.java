@@ -108,7 +108,7 @@ public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implemen
     private List<ProgramVariationInfo> variations;
     @XmlElement
     private CoreProgramInfo orgCoreProgram;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 
