@@ -381,8 +381,8 @@
  </bean>
 
  <!-- VersionInfo-->
- <bean id="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
-  <property name="name" value="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo"/>
+ <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent" abstract="true" parent="objectStructureDefinition">
+  <property name="name" value="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo"/>
   <property name="attributes">
    <list>
     <ref bean="versionInfo.currentVersionEnd"/>
@@ -395,7 +395,7 @@
   </property>
   <property name="hasMetaData" value="false"/>
  </bean>
- <bean id="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r1.common.versionmanagement.dto.VersionInfo-parent"/>
+ <bean id="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo" parent="org.kuali.student.r2.core.versionmanagement.dto.VersionInfo-parent"/>
 
  <bean id="versionInfo.currentVersionEnd-parent" abstract="true" parent="baseDate">
   <property name="name" value="currentVersionEnd"/>
