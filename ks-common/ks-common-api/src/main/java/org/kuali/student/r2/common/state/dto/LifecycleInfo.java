@@ -36,7 +36,7 @@ import org.kuali.student.r2.common.state.infc.Lifecycle;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LifecycleInfo", propOrder = {
                 "key", "name", "descr", "refObjectUri",
-                "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class LifecycleInfo 
     extends HasAttributesAndMetaInfo
