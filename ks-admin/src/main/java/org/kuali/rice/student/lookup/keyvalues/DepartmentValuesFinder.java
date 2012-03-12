@@ -42,8 +42,8 @@ public class DepartmentValuesFinder extends KeyValuesBase {
 		searchRequest.addParam("org.queryParam.orgOptionalType", orgTypes);
 		searchRequest.setSortColumn("org.resultColumn.orgOptionalLongName");
 		try {
-// TODO KSCM-165			SearchResult results = getOrganizationService().search(searchRequest);
-            SearchResult results = null;  // TODO KSCM-165
+// TODO KSCM-371			SearchResult results = getOrganizationService().search(searchRequest);
+            SearchResult results = null;  // TODO KSCM-371
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = null;
 				String orgLongName = null;
