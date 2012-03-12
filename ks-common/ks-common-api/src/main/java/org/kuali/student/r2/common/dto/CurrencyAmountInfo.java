@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.infc.CurrencyAmount;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CurrencyAmountInfo", propOrder = {
                 "id", "currencyTypeKey", "currencyQuantity",
-                "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class CurrencyAmountInfo 
     implements CurrencyAmount, Serializable {

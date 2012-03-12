@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.infc.Type;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TypeInfo", propOrder = {
                  "key", "name", "descr", "effectiveDate", "expirationDate", 
-                 "refObjectUri", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                 "refObjectUri", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class TypeInfo 
     extends HasAttributesAndMetaInfo 

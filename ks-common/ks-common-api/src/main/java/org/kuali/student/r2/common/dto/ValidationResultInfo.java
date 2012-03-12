@@ -35,7 +35,7 @@ import org.kuali.student.r2.common.infc.ValidationResult.ErrorLevel;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ValidationResultInfo", propOrder = {
-    "element", "level", "message" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    "element", "level", "message" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
 public class ValidationResultInfo
         implements ValidationResult, Serializable {

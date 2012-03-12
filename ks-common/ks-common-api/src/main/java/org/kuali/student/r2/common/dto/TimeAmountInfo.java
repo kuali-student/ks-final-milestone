@@ -36,7 +36,7 @@ import org.kuali.student.r2.common.infc.TimeAmount;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "TimeAmountInfo", propOrder = {
-                 "atpDurationTypeKey", "timeQuantity" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                 "atpDurationTypeKey", "timeQuantity" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class TimeAmountInfo 
     implements TimeAmount, Serializable {

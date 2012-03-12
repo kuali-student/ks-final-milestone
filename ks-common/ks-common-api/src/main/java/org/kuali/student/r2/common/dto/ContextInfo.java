@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.infc.Locale;
 @XmlType(name = "ContextInfo", propOrder = {
                 "authenticatedPrincipalId", "principalId",
                 "currentDate", "locale", "timeZone",
-                "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class ContextInfo
         extends HasAttributesInfo

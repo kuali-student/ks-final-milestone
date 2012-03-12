@@ -38,7 +38,7 @@ import org.kuali.student.r2.common.infc.Meta;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "MetaInfo", propOrder = {
                 "versionInd", "createTime", "createId", 
-                "updateTime", "updateId" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                "updateTime", "updateId" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class MetaInfo 
     implements Meta, Serializable {

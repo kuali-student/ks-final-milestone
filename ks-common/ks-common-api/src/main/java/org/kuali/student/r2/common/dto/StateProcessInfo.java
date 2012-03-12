@@ -28,7 +28,7 @@ import org.kuali.student.r2.common.infc.Type;
 
 @SuppressWarnings("serial")
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "StateProcessInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "StateProcessInfo", propOrder = {"key", "name", "descr", "effectiveDate", "expirationDate", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class StateProcessInfo extends HasAttributesInfo implements StateProcess, Serializable {
 
     @XmlAttribute
@@ -64,7 +64,7 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
         descr = null;
         effectiveDate = null;
         expirationDate = null;
-//      TODO KSCM Non-GWT translatable code
+//      TODO KSCM-372: Non-GWT translatable code
 //        _futureElements = null;
     }
 
@@ -75,7 +75,7 @@ public class StateProcessInfo extends HasAttributesInfo implements StateProcess,
         this.descr = new RichTextInfo(type.getDescr());
         this.effectiveDate = null != type.getEffectiveDate() ? new Date(type.getEffectiveDate().getTime()) : null;
         this.expirationDate = null != type.getExpirationDate() ? new Date(type.getExpirationDate().getTime()) : null;
-//      TODO KSCM Non-GWT translatable code
+//      TODO KSCM-372: Non-GWT translatable code
 //        this._futureElements = null;
     }
 

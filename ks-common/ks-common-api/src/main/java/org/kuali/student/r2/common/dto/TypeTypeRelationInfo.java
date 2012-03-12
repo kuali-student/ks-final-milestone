@@ -37,7 +37,7 @@ import org.kuali.student.r2.common.infc.TypeTypeRelation;
                 "id", "typeKey", "stateKey",
                 "effectiveDate", "expirationDate", "ownerTypeKey", 
                 "relatedTypeKey", "rank", 
-                "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                "attributes", "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public class TypeTypeRelationInfo 
     extends RelationshipInfo

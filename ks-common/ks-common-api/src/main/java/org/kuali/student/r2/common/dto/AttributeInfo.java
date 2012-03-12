@@ -36,7 +36,7 @@ import org.kuali.student.r2.common.infc.Attribute;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AttributeInfo", propOrder = {
-                "id", "key", "value" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+                "id", "key", "value" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 
 public final class AttributeInfo 
     implements Attribute, Serializable {

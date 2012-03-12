@@ -42,7 +42,7 @@ import org.kuali.student.r2.common.infc.Criteria;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CriteriaInfo", propOrder = { 
-                "comparisons", "maxResults" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "comparisons", "maxResults" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class CriteriaInfo 
     implements Criteria, Serializable {

@@ -39,7 +39,7 @@ import org.kuali.student.r2.common.infc.Locale;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "LocaleInfo", propOrder = {
                 "localeLanguage", "localeVariant",
-                "localeRegion", "localeScript" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "localeRegion", "localeScript" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class LocaleInfo 
     implements Locale, Serializable {

@@ -30,7 +30,7 @@ import org.kuali.student.r2.common.infc.RichText;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RichTextInfo", propOrder = { 
-                "plain", "formatted" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+                "plain", "formatted" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class RichTextInfo 
     implements RichText, Serializable {

@@ -38,7 +38,7 @@ import org.kuali.student.r2.common.infc.Amount;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "AmountInfo", propOrder = {
-                "unitTypeKey", "unitQuantity" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code })
+                "unitTypeKey", "unitQuantity" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code })
 
 public class AmountInfo 
     implements Amount, Serializable {

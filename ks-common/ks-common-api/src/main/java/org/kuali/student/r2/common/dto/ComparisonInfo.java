@@ -33,7 +33,7 @@ import org.kuali.student.r2.common.infc.Comparison;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ComparisonInfo", propOrder = {
-                "fieldKey", "operator", "values", "isIgnoreCase" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+                "fieldKey", "operator", "values", "isIgnoreCase" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 public class ComparisonInfo 
     implements Comparison, Serializable {
