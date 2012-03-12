@@ -43,7 +43,7 @@ public class CluAccountingInfo extends HasAttributesInfo implements CluAccountin
     private RichTextInfo descr;
     @XmlElement
     private List<AffiliatedOrgInfo> affiliatedOrgs;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

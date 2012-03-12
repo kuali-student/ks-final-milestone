@@ -53,7 +53,7 @@ public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Seri
     private String value;
     @XmlElement
     private RichTextInfo descr;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

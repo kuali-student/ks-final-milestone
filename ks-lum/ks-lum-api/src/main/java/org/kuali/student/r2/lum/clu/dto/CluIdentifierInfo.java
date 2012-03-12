@@ -61,7 +61,7 @@ public class CluIdentifierInfo extends IdNamelessEntityInfo implements CluIdenti
     @XmlElement
     private String orgId;
 
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

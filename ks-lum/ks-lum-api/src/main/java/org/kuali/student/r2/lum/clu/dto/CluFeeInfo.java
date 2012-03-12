@@ -48,7 +48,7 @@ public class CluFeeInfo extends HasAttributesAndMetaInfo implements CluFee, Seri
     @XmlElement
     private List<CluFeeRecordInfo> cluFeeRecords;
 
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

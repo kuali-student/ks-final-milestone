@@ -64,7 +64,7 @@ public class CluCreditInfo implements Serializable, CluCredit {
     @XmlElement
     private TimeAmountInfo maxTimeResultsRecognized;
 
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 
