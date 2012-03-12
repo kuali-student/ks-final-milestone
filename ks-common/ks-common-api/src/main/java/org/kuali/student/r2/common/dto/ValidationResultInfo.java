@@ -50,7 +50,7 @@ public class ValidationResultInfo
 //  used to hold debugging information 
 //  not intended to be sent over the wire          
     private transient Object invalidData;
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 

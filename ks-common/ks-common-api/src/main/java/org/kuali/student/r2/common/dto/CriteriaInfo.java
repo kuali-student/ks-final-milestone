@@ -56,7 +56,7 @@ public class CriteriaInfo
     @XmlElement
     private Integer maxResults;
     
-//    TODO KSCM Non-GWT translatable code
+//    TODO KSCM-372: Non-GWT translatable code
 //    @XmlAnyElement
 //    private List<Element> _futureElements;
 
