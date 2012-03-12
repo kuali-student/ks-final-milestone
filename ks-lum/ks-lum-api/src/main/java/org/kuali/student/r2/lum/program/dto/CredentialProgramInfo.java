@@ -59,7 +59,7 @@ import org.kuali.student.r2.lum.program.infc.CredentialProgram;
     "programLevel",
     "coreProgramIds",
     "meta",
-    "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CredentialProgramInfo extends CommonWithCredentialProgramInfo implements CredentialProgram,

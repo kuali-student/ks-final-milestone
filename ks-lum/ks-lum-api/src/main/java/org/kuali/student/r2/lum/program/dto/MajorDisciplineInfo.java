@@ -81,7 +81,7 @@ import org.kuali.student.r2.lum.program.infc.ProgramVariation;
     "variations",
     "orgCoreProgram",
     "attributes",
-    "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
 @XmlAccessorType(XmlAccessType.FIELD)
 public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implements MajorDiscipline,
