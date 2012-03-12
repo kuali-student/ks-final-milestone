@@ -15,7 +15,7 @@
  */
 package org.kuali.student.lum.course.service.assembler;
 
-// TODO KSCM  import static org.kuali.student.r1.common.service.impl.BaseAssembler.toGenericMap;
+
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -88,7 +88,7 @@ import org.springframework.util.StringUtils;
 // xyz.getStateKey(...) -> xyz.getState(...)
 // xyz.setMeta(...) -> xyz.setMetaInfo(...);
 
-// TODO KSCM-226
+
 public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
     final static Logger LOG = Logger.getLogger(CourseAssembler.class);
@@ -106,11 +106,6 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 	public CourseInfo assemble(CluInfo clu, CourseInfo courseInfo,
 			boolean shallowBuild,ContextInfo contextInfo) throws AssemblyException {
 
-	    // TODO KSCM Is this corect : CourseInfo(), CourseInfo has constructor    
-	    // public CourseInfo(Course courseInfo) {
-	    // in "old" code and r2
-//	    CourseInfo course = (null != courseInfo) ? courseInfo
-//	                : new CourseInfo(null);
 		CourseInfo course = (null != courseInfo) ? courseInfo
 				: new CourseInfo();
 
@@ -276,20 +271,13 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 				List<CluResultInfo> cluResults = R1R2ConverterUtil.convertLists(cluService.getCluResultByClu(course.getId(),contextInfo), CluResultInfo.class);
 
 				List<ResultComponentInfo> creditOptions = assembleCreditOptions(cluResults);
-//TODO KSCM --> This was the orignal problem                course.setCreditOptions(creditOptions);
-                //Down below I traverse through the list and combined all the ResultComponent Names
-                //into one big list. The uncertainty here is ground in the fact that I am unsure what is
-                //suppose to be passed to setCreditOptions from ResultCompenent.
-                List<String> listOfCreditOptions = new ArrayList<String>();
-                for (ResultComponentInfo r : creditOptions){
-                    
-                    
-				    //listOfCreditOptions.addAll(r.getResultValues());
-                    listOfCreditOptions.add(r.getName());
-                }
+               
+				course.setCreditOptions(creditOptions);
 
-                //TODO KSCM method takes List<ResultComponentInfo> in r1 as parameter and List<String> in r2
-//                course.setCreditOptions(listOfCreditOptions);
+
+
+
+                
 				List<String> gradingOptions = assembleGradingOptions(cluResults);
 				
 				course.setGradingOptions(gradingOptions);
@@ -393,8 +381,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluIdentifier.setDivision(crossListing.getSubjectArea());
 			cluIdentifier.setState(course.getState());
 			cluIdentifier.setOrgId(crossListing.getDepartment());
-			// TODO KSCM
-//			cluIdentifier.setAttributes(toGenericMap(crossListing.getAttributes()));
+			cluIdentifier.setAttributes(crossListing.getAttributes());
             cluIdentifier.setCode(crossListing.getCode());	        			
 			clu.getAlternateIdentifiers().add(cluIdentifier);
 		}
@@ -417,8 +404,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		clu.getAdminOrgs().addAll(subjectOrgs);
 
-		// TODO KSCM
-//		clu.setAttributes(toGenericMap(course.getAttributes()));
+ 
+		clu.setAttributes(course.getAttributes());
 		clu.setCampusLocations(course.getCampusLocations());
 		clu.setDescr(course.getDescr());
 		clu.setStdDuration(course.getDuration());
@@ -479,7 +466,7 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 
 		//Disassemble the CluResults (grading and credit options)
 		//Special code to take audit from attributes and put into options
-//TODO KSCM	 --> This if statement needs work	if(course.getAttributes().containskey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)&&"true".equals(course.getAttributes(). .get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
+//TODO KSCM-388 --> This if statement needs work		if(course.getAttributes().containskey(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT)&&"true".equals(course.getAttributes(). .get(CourseAssemblerConstants.COURSE_RESULT_COMP_ATTR_AUDIT))){
         if (true){
 			if(!course.getGradingOptions().contains(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT)){
 				course.getGradingOptions().add(CourseAssemblerConstants.COURSE_RESULT_COMP_GRADE_AUDIT);
@@ -557,8 +544,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			CluFeeRecordInfo cluFeeRecord  = new CluFeeRecordInfo();
 			cluFeeRecord.setFeeType(CourseAssemblerConstants.COURSE_FINANCIALS_REVENUE_TYPE);
 			cluFeeRecord.setRateType(CourseAssemblerConstants.COURSE_FINANCIALS_REVENUE_TYPE);
-			// TODO KSCM
-//			cluFeeRecord.setAttributes(toGenericMap(courseRevenue.getAttributes()));
+
+			cluFeeRecord.setAttributes(courseRevenue.getAttributes());
 			cluFeeRecord.setAffiliatedOrgs(courseRevenue.getAffiliatedOrgs());
 			cluFeeRecord.setId(courseRevenue.getId());
 			cluFeeRecord.setMetaInfo(courseRevenue.getMetaInfo());
@@ -572,8 +559,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			cluFeeRecord.setMetaInfo(courseFee.getMetaInfo());
 			cluFeeRecord.setId(courseFee.getId());
 			cluFeeRecord.setFeeAmounts(courseFee.getFeeAmounts());
-			// TODO KSCM
-//			cluFeeRecord.setAttributes(toGenericMap(courseFee.getAttributes()));
+			
+			cluFeeRecord.setAttributes(courseFee.getAttributes());
 			clu.getFeeInfo().getCluFeeRecords().add(cluFeeRecord);
 		}
 		if(clu.getAccountingInfo() == null || course.getExpenditure()== null){
@@ -581,8 +568,8 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 		}
 		if(course.getExpenditure() != null){
 			clu.getAccountingInfo().setAffiliatedOrgs(course.getExpenditure().getAffiliatedOrgs());
-			// TODO KSCM
-//			clu.getAccountingInfo().setAttributes(toGenericMap(course.getExpenditure().getAttributes()));
+			
+			clu.getAccountingInfo().setAttributes(course.getExpenditure().getAttributes());
 		}
 		
 		return result;
@@ -600,19 +587,19 @@ public class CourseAssembler implements BOAssembler<CourseInfo, CluInfo> {
 			Set<String> rsltComps = new HashSet<String>();
 			
 			try{
-//				try {
-// TODO KSCM 
-// LrcService only exists in r1, Without ContextInfo
-// rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED, context));
-//				} catch (DoesNotExistException e) {}
-//				try {
-//					// TODO KSCM
-//					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE, context));
-//				} catch (DoesNotExistException e) {}
-//				try {
-//					// TODO KSCM
-//					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE, context));
-//				} catch (DoesNotExistException e) {}
+				try {
+// TODO KSCM NEED CONTEXTINFO
+
+ rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_FIXED));
+				} catch (DoesNotExistException e) {}
+				try {
+					// TODO KSCM NEED CONTEXTINFO
+					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_MULTIPLE));
+				} catch (DoesNotExistException e) {}
+				try {
+					// TODO KSCM NEED CONTEXTINFO
+					 rsltComps.addAll(lrcService.getResultComponentIdsByResultComponentType(CourseAssemblerConstants.COURSE_RESULT_COMP_TYPE_CREDIT_VARIABLE));
+				} catch (DoesNotExistException e) {}
 
 				//Create any LRCs that do not yet exist
 				for(ResultComponentInfo creditOption:course.getCreditOptions()){			
