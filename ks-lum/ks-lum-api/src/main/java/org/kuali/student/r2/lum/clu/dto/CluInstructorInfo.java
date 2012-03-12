@@ -29,7 +29,7 @@ import java.util.Map;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluInstructorInfo", propOrder = {"id", "orgId", "personId",
-        "personInfoOverride", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+        "personInfoOverride", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class CluInstructorInfo extends HasAttributesInfo implements CluInstructor, Serializable {
 
     private static final long serialVersionUID = 1L;

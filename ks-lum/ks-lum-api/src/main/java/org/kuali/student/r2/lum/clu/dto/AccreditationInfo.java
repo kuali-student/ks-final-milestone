@@ -36,7 +36,7 @@ import java.util.Map;
  * @Author Sri komandur@uw.edu
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AccreditationInfo", propOrder = {"id", "orgId", "effectiveDate", "expirationDate", "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "AccreditationInfo", propOrder = {"id", "orgId", "effectiveDate", "expirationDate", "attributes", "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class AccreditationInfo extends HasAttributesAndMetaInfo implements Accreditation, Serializable {
 
     private static final long serialVersionUID = 1L;

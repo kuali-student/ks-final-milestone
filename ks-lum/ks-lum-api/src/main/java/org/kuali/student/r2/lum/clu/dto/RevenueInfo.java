@@ -33,7 +33,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "RevenueInfo", propOrder = {"id", "feeType", "affiliatedOrgs",
-        "attributes", "meta" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+        "attributes", "meta" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class RevenueInfo extends HasAttributesAndMetaInfo implements Revenue, Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -40,7 +40,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
     "descr",
     "value",
     "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
     
 public class LuCodeInfo extends HasAttributesAndMetaInfo implements LuCode, Serializable {
 

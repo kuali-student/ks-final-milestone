@@ -74,7 +74,7 @@ import org.kuali.student.r2.common.dto.RichTextInfo;
     "effectiveDate",
     "expirationDate",
     "meta",
-    "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+    "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 public class CluInfo extends IdNamelessEntityInfo implements Serializable, Clu {
 
     private static final long serialVersionUID = 1L;

@@ -35,7 +35,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "FeeInfo", propOrder = {"feeType", "rateType", "feeAmounts",
-        "descr", "key", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+        "descr", "key", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class FeeInfo extends HasAttributesAndMetaInfo implements Fee, Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -34,7 +34,7 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "CluResultInfo", propOrder = {"id", "descr", "typeKey", "stateKey", "cluId", "resultOptions", "effectiveDate",
-        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+        "expirationDate", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class CluResultInfo extends IdNamelessEntityInfo implements Serializable, CluResult {
 
     private static final long serialVersionUID = 1L;

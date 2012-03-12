@@ -29,7 +29,7 @@ import java.util.List;
 
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "CluCreditInfo", propOrder = {"repeatCount", "repeatTime", "repeatUnits", "minTotalUnits", "maxTotalUnits", "instructorUnits", "minTimeToComplete", "maxTimeToComplete", "maxAllowableInactivity", "maxTimeResultsRecognized" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "CluCreditInfo", propOrder = {"repeatCount", "repeatTime", "repeatUnits", "minTotalUnits", "maxTotalUnits", "instructorUnits", "minTimeToComplete", "maxTimeToComplete", "maxAllowableInactivity", "maxTimeResultsRecognized" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class CluCreditInfo implements Serializable, CluCredit {
 
     private static final long serialVersionUID = 1L;

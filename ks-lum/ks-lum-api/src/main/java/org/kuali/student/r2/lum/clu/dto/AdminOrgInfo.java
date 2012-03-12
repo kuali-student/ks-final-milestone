@@ -27,7 +27,7 @@ import java.util.Map;
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "isPrimary", "orgId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "AdminOrgInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "isPrimary", "orgId", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 public class AdminOrgInfo extends IdEntityInfo implements AdminOrg, Serializable {
 
     private static final long serialVersionUID = 1L;
