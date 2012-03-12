@@ -29,7 +29,7 @@ import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
 /**
  * @author Kuali Student Team (sambitpa@kuali.org)
  */
-@XmlType(name = "CourseExpenditureInfo", propOrder = {"affiliatedOrgs", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "CourseExpenditureInfo", propOrder = {"affiliatedOrgs", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseExpenditureInfo extends HasAttributesInfo implements CourseExpenditure, Serializable {
 

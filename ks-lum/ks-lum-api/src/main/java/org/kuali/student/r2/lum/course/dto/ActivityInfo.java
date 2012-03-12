@@ -27,7 +27,7 @@ import org.kuali.student.r2.common.dto.TimeAmountInfo;
 import org.kuali.student.r2.lum.course.infc.Activity;
 //import org.w3c.dom.Element;
 
-@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes"})//, "_futureElements" }) TODO KSCM Non-GWT translatable code
+@XmlType(name = "ActivityInfo", propOrder = {"id", "typeKey", "stateKey", "name", "descr", "duration", "unitsContentOwner", "defaultEnrollmentEstimate", "contactHours", "meta", "attributes"})//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code
 
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ActivityInfo extends IdEntityInfo implements Activity, Serializable {

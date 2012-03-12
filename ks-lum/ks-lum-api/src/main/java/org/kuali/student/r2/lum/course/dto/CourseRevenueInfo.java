@@ -37,7 +37,7 @@ import org.kuali.student.r2.lum.clu.infc.AffiliatedOrg;
  *      >CourseReenueInfo</>
  */
 
-@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "affiliatedOrgs", "feeType", "meta", "attributes" })//, "_futureElements" }) TODO KSCM Non-GWT translatable code})
+@XmlType(name = "CourseRevenueInfo", propOrder = {"id", "typeKey", "stateKey", "affiliatedOrgs", "feeType", "meta", "attributes" })//, "_futureElements" }) TODO KSCM-372: Non-GWT translatable code})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CourseRevenueInfo extends IdNamelessEntityInfo implements CourseRevenue, Serializable {
 
