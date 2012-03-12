@@ -355,7 +355,6 @@ public class LuServiceAssembler extends BaseAssembler {
             SearchParam sp = toSearchParam(param);
             list.add(sp);
         }
-        // TODO KSCM 
         dto.setQueryParamValueList(list);
 
         return dto;
@@ -382,7 +381,6 @@ public class LuServiceAssembler extends BaseAssembler {
         MembershipQuery entity = new MembershipQuery();
         entity.setSearchTypeKey(dto.getSearchTypeKey());
         List<SearchParameter> list = new ArrayList<SearchParameter>();
-        // TODO KSCM
         for (SearchParam param : dto.getQueryParamValueList()) {
             SearchParameter sp = toSearchParameterEntity(param);
             list.add(sp);
@@ -485,7 +483,7 @@ public class LuServiceAssembler extends BaseAssembler {
 
         List<ResultOptionInfo> resultOptions = toResultOptionInfos(entity.getResultOptions());
         dto.setResultOptions(resultOptions);
-        // TODO KSCM
+
         dto.setDesc(toRichTextInfo(entity.getDesc()));
         dto.setCluId(entity.getClu().getId());
         CluResultTypeInfo type = toCluResultTypeInfo(entity.getCluResultType());
@@ -529,7 +527,7 @@ public class LuServiceAssembler extends BaseAssembler {
         if (entity.getResultUsageType() != null) {
             dto.setResultUsageTypeKey(entity.getResultUsageType().getId());
         }
-        // TODO KSCM 
+
         dto.setDesc(toRichTextInfo(entity.getDesc()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
@@ -793,7 +791,7 @@ public class LuServiceAssembler extends BaseAssembler {
         dto.setCluFeeRecords(toCluFeeRecordInfos(entity.getCluFeeRecords()));
         dto.setId(entity.getId());
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
-        // TODO KSCM 
+
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
 
@@ -822,9 +820,9 @@ public class LuServiceAssembler extends BaseAssembler {
                 new String[]{"affiliatedOrgs", "currencyAmount", "attributes", "descr"});
 
         dto.setAffiliatedOrgs(toAffiliatedOrgInfos(entity.getAffiliatedOrgs()));
-        // TODO KSCM 
+
         dto.setFeeAmounts(toFeeAmounts(entity.getFeeAmounts()));
-        // TODO KSCM 
+
         dto.setDescr(toRichTextInfo(entity.getDescr()));
         dto.setAttributes(toAttributeMap(entity.getAttributes()));
         dto.setMetaInfo(toMetaInfo(entity.getMeta(), entity.getVersionNumber()));
