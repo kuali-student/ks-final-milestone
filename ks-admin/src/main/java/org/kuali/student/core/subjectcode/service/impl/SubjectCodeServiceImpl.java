@@ -55,7 +55,7 @@ public class SubjectCodeServiceImpl implements SubjectCodeService, InitializingB
 	protected boolean cachingEnabled = false;
 	protected int searchCacheMaxSize = 20;
 	protected int searchCacheMaxAgeSeconds = 90;
-	//protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
+	//TODO KSCM-165 protected Map<String,MaxAgeSoftReference<SearchResult>> searchCache;
 	protected Map<String,SearchResult> searchCache;
 	@Override
 	public List<SearchTypeInfo> getSearchTypes()
