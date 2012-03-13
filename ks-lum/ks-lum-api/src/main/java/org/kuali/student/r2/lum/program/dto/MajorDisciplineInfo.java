@@ -205,13 +205,13 @@ public class MajorDisciplineInfo extends CommonWithProgramVariationInfo implemen
         this.orgCoreProgram = orgCoreProgram;
     }
 
-    // TODO KSCM what to replace this with NINA
+    // TODO KSCM-392 what to replace this with NINA
 	@Deprecated
     public org.kuali.student.r1.common.versionmanagement.dto.VersionInfo getVersionInfo()  {
 		return null;
 	}
 	
-	// TODO KSCM how to imple
+	// TODO KSCM-392 how to imple
 	@Deprecated
 	public String getEndProgramEntryTermId() {
 		return this.getId();
