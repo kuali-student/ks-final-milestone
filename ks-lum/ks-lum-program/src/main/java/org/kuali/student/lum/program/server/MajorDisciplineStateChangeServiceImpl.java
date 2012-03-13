@@ -136,12 +136,12 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
         // Check if this is the current version before trying to make it current
         // (the web service will error if you try to make a version current that is already current)
         VersionDisplayInfo currentVersion = null;
-     // TODO KSCM currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
+        currentVersion = programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, majorDisciplineInfo.getVersionInfo().getVersionIndId(),ContextUtils.getContextInfo());
 
         // If this is not the current version, then make it current
-     // TODO KSCM if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
-     // TODO KSCM             programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo());
-     // TODO KSCM         }
+        if (!currentVersion.getSequenceNumber().equals(majorDisciplineInfo.getVersionInfo().getSequenceNumber())) {
+            programService.setCurrentMajorDisciplineVersion(majorDisciplineInfo.getId(), null,ContextUtils.getContextInfo());
+        }
     }
 
     /**
@@ -214,8 +214,8 @@ public class MajorDisciplineStateChangeServiceImpl implements StateChangeService
 
 		// Get id of current version of program given the version independent id
 		VersionDisplayInfo curVerDisplayInfo = null;
-		// TODO KSCM 				curVerDisplayInfo =  programService.getCurrentVersion(
-		// TODO KSCM ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
+		curVerDisplayInfo =  programService.getCurrentVersion(ProgramServiceConstants.PROGRAM_NAMESPACE_MAJOR_DISCIPLINE_URI, verIndId,ContextUtils.getContextInfo());
+
 		String curVerId = curVerDisplayInfo.getId();
 
 		// Return the current version of the course
