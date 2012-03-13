@@ -56,7 +56,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         
         if (!shallowBuild) {
 	        programAssemblerUtils.assembleRequirements(baseDTO, (ProgramRequirementAssembly) cpInfo, contextInfo);
-	        cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo));
+	        /* TODO KSCM-429 cpInfo.setLearningObjectives(cluAssemblerUtils.assembleLos(baseDTO.getId(), shallowBuild,contextInfo)); */
 	        cpInfo.setResultOptions(programAssemblerUtils.assembleResultOptions(baseDTO.getId(),contextInfo));
         }
         
@@ -138,7 +138,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
     }
 
     private void disassembleLearningObjectives(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result,ContextInfo contextInfo) throws AssemblyException {
-        try {
+    	/* TODO KSCM-429  try {
             List<BaseDTOAssemblyNode<?, ?>> loResults = cluAssemblerUtils.disassembleLos(credential.getId(), credential.getState(), (List<LoDisplayInfo>) credential.getLearningObjectives(), operation,contextInfo);
             if (loResults != null) {
                 result.getChildNodes().addAll(loResults);
@@ -146,7 +146,7 @@ public class CredentialProgramAssembler implements BOAssembler<CredentialProgram
         } catch (DoesNotExistException e) {
         } catch (Exception e) {
             throw new AssemblyException("Error while disassembling los", e);
-        }
+        } */
     }
 
     private void disassembleCorePrograms(CredentialProgramInfo credential, NodeOperation operation, BaseDTOAssemblyNode<CredentialProgramInfo, CluInfo> result, ContextInfo contextInfo) throws AssemblyException {
