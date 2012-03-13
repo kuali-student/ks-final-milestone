@@ -8,25 +8,26 @@
   <property name="name" value="org.kuali.student.r2.core.statement.dto.StatementInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="statementInfo.desc"/>
+    <ref bean="statementInfo.descr"/>
     <ref bean="statementInfo.id"/>
     <ref bean="statementInfo.name"/>
     <ref bean="statementInfo.operator"/>
     <ref bean="statementInfo.reqComponentIds"/>
-    <ref bean="statementInfo.state"/>
+    <ref bean="statementInfo.stateKey"/>
     <ref bean="statementInfo.statementIds"/>
-    <ref bean="statementInfo.type"/>
+    <ref bean="statementInfo.typeKey"/>
    </list>
   </property>
+ 
   <property name="hasMetaData" value="true"/>
  </bean>
  <bean id="org.kuali.student.r2.core.statement.dto.StatementInfo" parent="org.kuali.student.r2.core.statement.dto.StatementInfo-parent"/>
 
- <bean id="statementInfo.desc-parent" abstract="true" parent="baseComplex">
+ <bean id="statementInfo.descr-parent" abstract="true" parent="baseComplex">
   <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
- <bean id="statementInfo.desc" parent="statementInfo.desc-parent"/>
+ <bean id="statementInfo.descr" parent="statementInfo.descr-parent"/>
 
  <bean id="statementInfo.id-parent" abstract="true" parent="baseKualiId">
   <property name="name" value="id"/>
@@ -57,45 +58,45 @@
  </bean>
  <bean id="statementInfo.reqComponentIds" parent="statementInfo.reqComponentIds-parent"/>
 
- <bean id="statementInfo.state-parent" abstract="true" parent="baseKualiState">
-  <property name="name" value="state"/>
+ <bean id="statementInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="statementInfo.state" parent="statementInfo.state-parent"/>
+ <bean id="statementInfo.stateKey" parent="statementInfo.stateKey-parent"/>
 
  <bean id="statementInfo.statementIds-parent" abstract="true" parent="baseKualiStatementIdRepeating">
   <property name="name" value="statementIds"/>
  </bean>
  <bean id="statementInfo.statementIds" parent="statementInfo.statementIds-parent"/>
 
- <bean id="statementInfo.type-parent" abstract="true" parent="baseKualiType">
-  <property name="name" value="type"/>
+ <bean id="statementInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="statementInfo.type" parent="statementInfo.type-parent"/>
+ <bean id="statementInfo.typeKey" parent="statementInfo.typeKey-parent"/>
 
  <!-- ReqComponentInfo-->
  <bean id="org.kuali.student.r2.core.statement.dto.ReqComponentInfo-parent" abstract="true" parent="objectStructureDefinition">
   <property name="name" value="org.kuali.student.r2.core.statement.dto.ReqComponentInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="reqComponentInfo.desc"/>
+    <ref bean="reqComponentInfo.descr"/>
     <ref bean="reqComponentInfo.effectiveDate"/>
     <ref bean="reqComponentInfo.expirationDate"/>
     <ref bean="reqComponentInfo.id"/>
     <ref bean="reqComponentInfo.naturalLanguageTranslation"/>
     <ref bean="reqComponentInfo.reqCompFields"/>
-    <ref bean="reqComponentInfo.state"/>
-    <ref bean="reqComponentInfo.type"/>
+    <ref bean="reqComponentInfo.stateKey"/>
+    <ref bean="reqComponentInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
  <bean id="org.kuali.student.r2.core.statement.dto.ReqComponentInfo" parent="org.kuali.student.r2.core.statement.dto.ReqComponentInfo-parent"/>
 
- <bean id="reqComponentInfo.desc-parent" abstract="true" parent="baseComplex">
-  <property name="name" value="desc"/>
+ <bean id="reqComponentInfo.descr-parent" abstract="true" parent="baseComplex">
+  <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
- <bean id="reqComponentInfo.desc" parent="reqComponentInfo.desc-parent"/>
+ <bean id="reqComponentInfo.descr" parent="reqComponentInfo.descr-parent"/>
 
  <bean id="reqComponentInfo.effectiveDate-parent" abstract="true" parent="baseKualiEffectiveDate">
   <property name="name" value="effectiveDate"/>
@@ -176,15 +177,15 @@
  </bean>
  <bean id="reqComponentInfo.reqCompFields.positive.integer.cluSet.id" parent="reqComponentInfo.reqCompFields.positive.integer.cluSet.id-parent"/>
 
- <bean id="reqComponentInfo.state-parent" abstract="true" parent="baseKualiState">
-  <property name="name" value="state"/>
+ <bean id="reqComponentInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="reqComponentInfo.state" parent="reqComponentInfo.state-parent"/>
+ <bean id="reqComponentInfo.stateKey" parent="reqComponentInfo.stateKey-parent"/>
 
- <bean id="reqComponentInfo.type-parent" abstract="true" parent="baseKualiType">
-  <property name="name" value="type"/>
+ <bean id="reqComponentInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="reqComponentInfo.type" parent="reqComponentInfo.type-parent"/>
+ <bean id="reqComponentInfo.typeKey" parent="reqComponentInfo.typeKey-parent"/>
 
  <!-- ReqCompFieldInfo-->
  <bean id="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo-parent" abstract="true" parent="objectStructureDefinition">
@@ -192,7 +193,7 @@
   <property name="attributes">
    <list>
     <ref bean="reqCompFieldInfo.id"/>
-    <ref bean="reqCompFieldInfo.type"/>
+    <ref bean="reqCompFieldInfo.typeKey"/>
     <ref bean="reqCompFieldInfo.value"/>
    </list>
   </property>
@@ -204,17 +205,17 @@
  </bean>
  <bean id="reqCompFieldInfo.id" parent="reqCompFieldInfo.id-parent"/>
 
- <bean id="reqCompFieldInfo.type-parent" abstract="true" parent="baseKualiType">
-  <property name="name" value="type"/>
+ <bean id="reqCompFieldInfo.typeKey-parent" abstract="true" parent="baseKualiType">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="reqCompFieldInfo.type" parent="reqCompFieldInfo.type-parent"/>
+ <bean id="reqCompFieldInfo.typeKey" parent="reqCompFieldInfo.typeKey-parent"/>
 
  <bean id="reqCompFieldInfo.value-parent" abstract="true" parent="baseStringLong">
   <property name="name" value="value"/>
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="type"/>
+    <property name="fieldPath" value="typeKey"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -424,25 +425,25 @@
   <property name="name" value="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo"/>
   <property name="attributes">
    <list>
-    <ref bean="statementTreeViewInfo.desc"/>
+    <ref bean="statementTreeViewInfo.descr"/>
     <ref bean="statementTreeViewInfo.id"/>
     <ref bean="statementTreeViewInfo.name"/>
     <ref bean="statementTreeViewInfo.operator"/>
     <ref bean="statementTreeViewInfo.reqComponents"/>
-    <ref bean="statementTreeViewInfo.state"/>
+    <ref bean="statementTreeViewInfo.stateKey"/>
     <ref bean="statementTreeViewInfo.statements"/>
-    <ref bean="statementTreeViewInfo.type"/>
+    <ref bean="statementTreeViewInfo.typeKey"/>
    </list>
   </property>
   <property name="hasMetaData" value="true"/>
  </bean>
  <bean id="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo" parent="org.kuali.student.r2.core.statement.dto.StatementTreeViewInfo-parent"/>
 
- <bean id="statementTreeViewInfo.desc-parent" abstract="true" parent="statementInfo.desc-parent">
-  <property name="name" value="desc"/>
+ <bean id="statementTreeViewInfo.descr-parent" abstract="true" parent="statementInfo.descr-parent">
+  <property name="name" value="descr"/>
   <property name="dataObjectStructure" ref="org.kuali.student.r2.common.dto.RichTextInfo"/>
  </bean>
- <bean id="statementTreeViewInfo.desc" parent="statementTreeViewInfo.desc-parent"/>
+ <bean id="statementTreeViewInfo.descr" parent="statementTreeViewInfo.descr-parent"/>
 
  <bean id="statementTreeViewInfo.id-parent" abstract="true" parent="statementInfo.id-parent">
   <property name="name" value="id"/>
@@ -465,10 +466,10 @@
  </bean>
  <bean id="statementTreeViewInfo.reqComponents" parent="statementTreeViewInfo.reqComponents-parent"/>
 
- <bean id="statementTreeViewInfo.state-parent" abstract="true" parent="statementInfo.state-parent">
-  <property name="name" value="state"/>
+ <bean id="statementTreeViewInfo.stateKey-parent" abstract="true" parent="statementInfo.stateKey-parent">
+  <property name="name" value="stateKey"/>
  </bean>
- <bean id="statementTreeViewInfo.state" parent="statementTreeViewInfo.state-parent"/>
+ <bean id="statementTreeViewInfo.stateKey" parent="statementTreeViewInfo.stateKey-parent"/>
 
  <bean id="statementTreeViewInfo.statements-parent" abstract="true" parent="baseComplexRepeating">
   <property name="name" value="statements"/>
@@ -476,9 +477,9 @@
  </bean>
  <bean id="statementTreeViewInfo.statements" parent="statementTreeViewInfo.statements-parent"/>
 
- <bean id="statementTreeViewInfo.type-parent" abstract="true" parent="statementInfo.type-parent">
-  <property name="name" value="type"/>
+ <bean id="statementTreeViewInfo.typeKey-parent" abstract="true" parent="statementInfo.typeKey-parent">
+  <property name="name" value="typeKey"/>
  </bean>
- <bean id="statementTreeViewInfo.type" parent="statementTreeViewInfo.type-parent"/>
+ <bean id="statementTreeViewInfo.typeKey" parent="statementTreeViewInfo.typeKey-parent"/>
 
 </beans>

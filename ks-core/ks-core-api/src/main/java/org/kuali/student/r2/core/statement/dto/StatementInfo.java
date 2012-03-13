@@ -104,15 +104,15 @@ public class StatementInfo extends IdEntityInfo implements Statement, Serializab
 		
 	}
 
-    @Deprecated
-	public RichTextInfo getDesc() {
-		return this.getDescr();
-	}
-
-    @Deprecated
-	public void setDesc(RichTextInfo desc) {
-		this.setDescr(desc);
-		
-	}
+//    @Deprecated
+//	public RichTextInfo getDesc() {
+//		return this.getDescr();
+//	}
+//
+//    @Deprecated
+//	public void setDesc(RichTextInfo desc) {
+//		this.setDescr(desc);
+//		
+//	}
 
 }
