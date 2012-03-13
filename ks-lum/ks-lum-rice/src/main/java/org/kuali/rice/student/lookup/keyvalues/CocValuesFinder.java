@@ -46,7 +46,7 @@ public abstract class CocValuesFinder extends StudentKeyValuesBase {
 
 		try {
 			SearchResult results = null;
-			// TODO KSCM-165 results = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
+			// TODO KSCM-371 results = getOrganizationService().search(searchRequest, null);		// TODO KSCM-267
 
 			for (SearchResultRow result : results.getRows()) {
 				String orgId = "";
