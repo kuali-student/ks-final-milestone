@@ -254,7 +254,7 @@ public class MajorDisciplineRpcServlet extends DataGwtServlet implements MajorDi
        
         // Ask the proposal service to return a list of proposals with this reference id    
         List<ProposalInfo> proposals = null;
-        // TODO KSCM proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
+        // TODO KSCM-369 proposals = proposalService.getProposalsByReference(referenceTypeKey, referenceId,ContextUtils.getContextInfo());
         
         // If at least one proposal is returned, this is a proposal, so return true
         if (proposals != null && proposals.size() >= 1){
