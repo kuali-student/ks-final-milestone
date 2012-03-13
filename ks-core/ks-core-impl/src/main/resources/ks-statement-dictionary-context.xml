@@ -124,7 +124,7 @@
   <property name="caseConstraint">
    <bean parent="caseConstraint">
     <property name="operator" value="EQUALS"/>
-    <property name="fieldPath" value="type"/>
+    <property name="fieldPath" value="typeKey"/>
     <property name="caseSensitive" value="false"/>
     <property name="whenConstraint">
      <list>
@@ -195,8 +195,10 @@
     <ref bean="reqCompFieldInfo.id"/>
     <ref bean="reqCompFieldInfo.typeKey"/>
     <ref bean="reqCompFieldInfo.value"/>
+    <ref bean="reqCompFieldInfo.stateKey"/>
    </list>
   </property>
+  <property name="hasMetaData" value="true"/>
  </bean>
  <bean id="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo" parent="org.kuali.student.r2.core.statement.dto.ReqCompFieldInfo-parent"/>
 
@@ -209,6 +211,11 @@
   <property name="name" value="typeKey"/>
  </bean>
  <bean id="reqCompFieldInfo.typeKey" parent="reqCompFieldInfo.typeKey-parent"/>
+
+ <bean id="reqCompFieldInfo.stateKey-parent" abstract="true" parent="baseKualiState">
+  <property name="name" value="stateKey"/>
+ </bean>
+ <bean id="reqCompFieldInfo.stateKey" parent="reqCompFieldInfo.stateKey-parent"/>
 
  <bean id="reqCompFieldInfo.value-parent" abstract="true" parent="baseStringLong">
   <property name="name" value="value"/>
