@@ -61,7 +61,7 @@ public class CredentialProgramDataService extends AbstractDataService {
             } else if (cpInfo.getId() == null) {
                 cpInfo = programService.createCredentialProgram(cpInfo.getId(),cpInfo,ContextUtils.getContextInfo());
             } else {
-            	// TODO KSCM cpInfo = programService.updateCredentialProgram(cpInfo,ContextUtils.getContextInfo());
+            	cpInfo = programService.updateCredentialProgram(cpInfo,ContextUtils.getContextInfo());
             }
             return cpInfo;
         } else {
